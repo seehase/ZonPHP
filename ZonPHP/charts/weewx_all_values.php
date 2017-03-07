@@ -23,7 +23,7 @@ if (isset($_GET['title'])) {
 
 //-----------------------------------------------------------------------------------------
 // select last values for each sensor
-if (isset($use_weewx)) {
+if (isset($use_weewx) && $use_weewx == true) {
 
     $sql_sensor =
         "SELECT *,                        
@@ -60,57 +60,55 @@ if (isset($use_weewx)) {
             $value['luminosity'] = number_format($row["luminosity"], 2);
 
         }
+
+
+        // convert units
+        $value['inTemp'] = number_format(($value['inTemp'] - 32) * 5 / 9, 1); // F --> °C
+        $value['outTemp'] = number_format(($value['outTemp'] - 32) * 5 / 9, 1); // F --> °C
+        $value['pressure'] = number_format(($value['pressure'] / 0.0295299830714), 1);  // inHG --> mBar
+        $value['barometer'] = number_format(($value['barometer'] / 0.0295299830714), 1);// inHG --> mBar
+        $value['altimeter'] = number_format(($value['altimeter'] / 0.0295299830714), 1);// inHG --> mBar
+        $value['windSpeed'] = number_format(($value['windSpeed'] * 1.60934), 1);  // miles --> km
+        $value['luminosity'] = number_format(($value['luminosity'] / 126.7), 1);  // lux --> radiation
     }
-}
-
-// temp because simulator stores Fahrenheit
-$value['inTemp'] = number_format(($value['inTemp'] - 32) * 5 / 9, 1); // F --> °C
-$value['outTemp'] = number_format(($value['outTemp'] - 32) * 5 / 9, 1); // F --> °C
-$value['pressure'] = number_format(($value['pressure'] / 0.0295299830714), 1);  // inHG --> mBar
-$value['barometer'] = number_format(($value['barometer'] / 0.0295299830714), 1);// inHG --> mBar
-$value['altimeter'] = number_format(($value['altimeter'] / 0.0295299830714), 1);// inHG --> mBar
-$value['windSpeed'] = number_format(($value['windSpeed'] * 1.60934), 1);  // miles --> km
-$value['luminosity'] = number_format(($value['luminosity'] / 126.7), 1);  // lux --> radiation
-
 
 //-----------------------------------------------------------------------------------------
 
-echo '
-<div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Indoor</strong><br />' . strftime("%H:%M:%S", strtotime($logtime)) . ' </div>
-    <div id="weewxGaugeContainer1" style="float: none; margin-left: 11px;"></div>
-    <div style="float: none; text-align:center; font-size:10px;">' . $value['inTemp'] . '°C</div>
-</div>
+    echo '
+        <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
+            <div style="float: none"><strong>Indoor</strong><br />' . strftime("%H:%M:%S", strtotime($logtime)) . ' </div>
+            <div id="weewxGaugeContainer1" style="float: none; margin-left: 11px;"></div>
+            <div style="float: none; text-align:center; font-size:10px;">' . $value['inTemp'] . '°C</div>
+        </div>
+        
+        <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
+            <div style="float: none"><strong>Outdoor</strong> <br />' . strftime("%H:%M:%S", strtotime($logtime)) . ' </div>
+            <div id="weewxGaugeContainer2" style="margin-left: 3px;"></div>
+            <div style="float: none; text-align:center; font-size:10px;">' . $value['outTemp'] . '°C</div>
+        </div>
+        
+        <div class="sensorgauge" id="wewwx-container-inHumidity" style="width: 140px; height: 100px; float: left; ">indoor</div>
+        <div class="sensorgauge" id="wewwx-container-outHumidity" style="width: 140px; height: 100px; float: left; ">outdoor</div>
+        
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">pressure : ' . $value['pressure'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">barometer : ' . $value['barometer'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">altimeter : ' . $value['altimeter'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">windSpeed : ' . $value['windSpeed'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">windDir : ' . $value['windDir'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">rainRate : ' . $value['rainRate'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">rain : ' . $value['rain'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">rain_total : ' . $value['rain_total'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">UV : ' . $value['UV'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">uv_raw : ' . $value['uv_raw'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">dewpoint : ' . $value['dewpoint'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">windchill : ' . $value['windchill'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">heatindex : ' . $value['heatindex'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">ET : ' . $value['ET'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">radiation : ' . $value['radiation'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">luminosity : ' . $value['luminosity'] . ' </div>
 
-<div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Outdoor</strong> <br />' . strftime("%H:%M:%S", strtotime($logtime)) . ' </div>
-    <div id="weewxGaugeContainer2" style="margin-left: 3px;"></div>
-    <div style="float: none; text-align:center; font-size:10px;">' . $value['outTemp'] . '°C</div>
-</div>
-
-<div class="sensorgauge" id="wewwx-container-inHumidity" style="width: 140px; height: 100px; float: left; ">indoor</div>
-<div class="sensorgauge" id="wewwx-container-outHumidity" style="width: 140px; height: 100px; float: left; ">outdoor</div>
-
-<div class="sensorgauge"  style="width: 200px;  float: left; ">pressure : ' . $value['pressure'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">barometer : ' . $value['barometer'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">altimeter : ' . $value['altimeter'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">windSpeed : ' . $value['windSpeed'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">windDir : ' . $value['windDir'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">rainRate : ' . $value['rainRate'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">rain : ' . $value['rain'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">rain_total : ' . $value['rain_total'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">UV : ' . $value['UV'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">uv_raw : ' . $value['uv_raw'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">dewpoint : ' . $value['dewpoint'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">windchill : ' . $value['windchill'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">heatindex : ' . $value['heatindex'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">ET : ' . $value['ET'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">radiation : ' . $value['radiation'] . ' </div>
-<div class="sensorgauge"  style="width: 200px;  float: left; ">luminosity : ' . $value['luminosity'] . ' </div>
-
-
-
-';
+    ';
+}
 
 ?>
 
