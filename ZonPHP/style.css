@@ -1,0 +1,593 @@
+
+#footer {
+    float: left;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 35px;
+    margin-top: -45px;
+    padding-left: 20px;
+    border: 2px;
+}
+
+#menus {
+    position: fixed;
+    width: 100%;
+    height: 35px;
+    margin-left: 0;
+    padding-bottom: 1px;
+    padding-left: 0px;
+    font-size: 12px;
+    display: block;
+    z-index: 600;
+    top: 0;
+}
+
+#content {
+    float: none;
+    /*margin: 0 0 0 0;*/
+    width: auto;
+    height: auto;
+    position: relative;
+}
+
+.smallCharts {
+    width: 440px;
+    min-width: 440px;
+    height: 420px;
+    float: left;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 8pt;
+    margin: 3px;
+}
+
+.bigCharts {
+    float: left;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 8pt;
+    margin-bottom: 15px;
+    width: 98%;
+}
+
+.eenblad {
+    width: 400px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+
+.highcharts-container {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.sbutton {
+    width: 33px;
+}
+
+.sbuttonmaxmin {
+    width: 100px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+}
+
+#bodytextnew {
+    float: none;
+    margin-top: 10px;
+    padding-left: 0;
+    padding-top: 1px;
+    border: 2px solid #C00000;
+    border-radius: 10px;
+    background: none repeat scroll 0 0 #EFEFEF;
+    top: 42px;
+    width: 680px;
+}
+
+#bodyfloat {
+    float: left;
+    position: absolute;
+    width: 90%;
+    padding-left: 0;
+    padding-top: 10px;
+}
+
+#tabelgegevens {
+    float: none;
+    padding-left: 10px;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 14px;
+    color: #000000;
+    width: 500px;
+    height: auto;
+}
+
+#tabelgeg {
+    float: none;
+    margin-top: 5px;
+    padding-bottom: 50px;
+}
+
+#kalender {
+    margin-top: 5px;
+}
+
+.inside {
+    background: #EFEFEF; /* YCC: background-color of the inside */
+    color: #000000; /* YCC: default text-color of the inside */
+    padding-top: 10px;
+    padding-left: 10px; /* YCC: all texts at some distance of the left border */
+    padding-right: 0; /* YCC: all texts at some distance of the right border */
+    margin-top: 10px;
+    height: 50px;
+    border: 2px solid #C00000;
+    border-radius: 10px;
+}
+
+.notopgap {
+    margin-top: 0;
+}
+
+/* DNC: to avoid splitting of the box */
+
+.nobottomgap {
+    margin-bottom: -36px;
+    padding-bottom: 1px;
+}
+
+TABLE {
+    border-collapse: collapse;
+    font-family: Verdana, Arial, sans-serif;
+    background-color: #F0F8FF;
+    text-align: center;
+    font-size: 10pt;
+    empty-cells: hide;
+    color: #000000;
+}
+
+TABLE.count {
+    border-collapse: collapse;
+    font-family: Verdana, Arial, sans-serif;
+    text-align: left;
+    background: transparent;
+}
+
+TD {
+    border: 1px solid #000000;
+    padding: 0;
+}
+
+TH {
+    border: 1px solid #000000;
+    padding: 0;
+}
+
+TD a {
+    color: #000000;
+    text-decoration: none;
+    display: block;
+}
+
+TD:hover a {
+    text-align: center;
+    font-weight: bold;
+    width: auto;
+    background: #F0F8FF 50% 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+#resize {
+    float: none;
+    height: inherit;
+    height: 480px;
+    padding: 0 1px 1px 0;
+    margin-top: 10px;
+    height: 100%;
+}
+
+/*noinspection CssUnusedSymbol*/
+.tickLabel {
+    font-size: 6pt;
+}
+
+.headerbox {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.index_chart {
+    width: 435px;
+    height: 380px;
+    margin-top: 1px;
+    float: left;
+}
+
+/*noinspection CssUnusedSymbol*/
+.myButton {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+    font-weight: normal;
+}
+
+/* --------------- boot straps ---------------------*/
+.collapse {
+    display: none;
+}
+
+.collapse.in {
+    display: block;
+}
+
+.collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    -webkit-transition-timing-function: ease;
+    -o-transition-timing-function: ease;
+    transition-timing-function: ease;
+    -webkit-transition-duration: .35s;
+    -o-transition-duration: .35s;
+    transition-duration: .35s;
+    -webkit-transition-property: height, visibility;
+    -o-transition-property: height, visibility;
+    transition-property: height, visibility;
+}
+
+#tblChart {
+    background-color: inherit;
+    border: none #8bd83b;
+}
+
+#tblChart TD {
+    border: 0 solid #000000;
+}
+
+#toggeldiv {
+    display: none;
+    float: none;
+}
+
+blink, .blink {
+    -webkit-animation: blink 1s step-end infinite;
+    -moz-animation: blink 1s step-end infinite;
+    -o-animation: blink 1s step-end infinite;
+    animation: blink 1s step-end infinite;
+}
+
+@-webkit-keyframes blink {
+    67% {
+        opacity: 0
+    }
+}
+
+@-moz-keyframes blink {
+    67% {
+        opacity: 0
+    }
+}
+
+@-o-keyframes blink {
+    67% {
+        opacity: 0
+    }
+}
+
+@keyframes blink {
+    67% {
+        opacity: 0
+    }
+}
+
+/*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    position: relative;
+    font: 1em/1.75 Verdana, Arial, Helvetica, sans-serif
+}
+
+body {
+    overflow-x: hidden;
+    -webkit-animation: androidbugfix infinite 1s
+}
+
+/* http://timpietrusky.com/advanced-checkbox-hack */
+@-webkit-keyframes androidbugfix {
+    from {
+        padding: 0
+    }
+    to {
+        padding: 0
+    }
+}
+
+/* http://timpietrusky.com/advanced-checkbox-hack */
+#header {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    background: #222
+}
+
+#header label {
+    padding: 0 0.125em;
+    font: 2.875em/1.4375em Arial
+}
+
+#menu label {
+    padding: 0 0.25em;
+    font: 3.125em/1.375em Arial
+}
+
+#menu .sub-nav .toggle {
+    padding: 0 0.3125em;
+    font: 2em/2em Arial;
+    top: 0;
+    -webkit-transform: scale(-1, 1);
+    -ms-transform: scale(-1, 1);
+    transform: scale(-1, 1)
+}
+
+#header label:hover, #menu label:hover {
+    color: #ccc
+}
+
+#main-nav-check, #menu .sub-nav-check {
+    position: absolute;
+    top: -9999px;
+    left: -9999px
+}
+
+.toggle {
+    position: absolute;
+    left: 4px;
+    cursor: pointer;
+    color: #fff
+}
+
+.container {
+    /*min-height: 100%;*/
+    height: 100%;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+
+#menu, #menu .sub-nav {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 13.75em;
+    background: #222;
+    z-index: 500;
+    left: -13.75em
+}
+
+.container, #menu, #menu .sub-nav {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+    -webkit-transition: -webkit-transform .25s ease;
+    transition: transform .25s ease
+}
+
+#menu ul {
+    background: #5aff49;
+    line-height: 2.75em;
+    text-decoration: none;
+    padding: 0;
+    list-style: none;
+    margin-top: 55px;
+    border-top: 1px solid #444
+}
+
+#menu li {
+    border-bottom: 1px solid #444
+}
+
+#menu li a {
+    background: #000000;
+    display: block;
+    font-size: 0.875em;
+    padding-left: 1.5em;
+    color: #fff;
+    text-decoration: none
+}
+
+#menu li a:hover, #menu .toggle-sub:hover {
+    background: #333
+}
+
+#menu .sub-nav {
+    margin-top: -1px
+}
+
+#menu .sub-heading {
+    margin-top: 55px;
+    padding-left: 1.3125em;
+    color: #ffffff;
+    background-color: #000000;
+}
+
+#menu .sub-heading:before {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 13.75em;
+    margin-left: -1.3125em;
+    background: #000000;
+}
+
+#menu .toggle-sub {
+    font: bold 1em/2.75em Arial;
+    color: #fff;
+    background: #222;
+    float: right;
+    margin-top: -2.75em;
+    width: 13.25em;
+    border-left: 1px solid #444;
+    cursor: pointer;
+    text-align: left;
+}
+
+.container, #menu, #menu .sub-nav, .close-all {
+    -webkit-transform: translate3d(0, 0, 0)
+}
+
+.close-all {
+    left: 1px;
+}
+
+/* http://davidwalsh.name/translate3d */
+
+/* #### - extra css for js enhancement - #### */
+#menu .close-all {
+    display: none
+}
+
+.js #menu .close-all {
+    display: inline
+}
+
+.js #menu .toggle {
+    top: 0;
+    z-index: 9999
+}
+
+.js #menu .sub-nav .toggle {
+    left: 160px;
+    width: 1em
+}
+
+/* #### - define ids of animated container, menu and sub-menus here - #### */
+#main-nav-check:checked ~ .container,
+#main-nav-check:checked ~ #menu,
+#menu .sub-nav-check:checked ~ [id$="-sub"] /* matches all elements with id ending "-sub" */
+{
+    -webkit-transform: translate(13.75em, 0);
+    -ms-transform: translate(13.75em, 0);
+    transform: translate(13.75em, 0)
+}
+
+.page-content {
+    padding: 0 1em 1em;
+    max-width: 64em;
+    margin: auto;
+    float: left;
+    top: 40px;
+    width: 100%;
+    margin-left: 0px;
+    height: auto;
+    overflow: hidden;
+    background-color: #C00000;
+}
+
+.page-content:after {
+    display: block;
+    content: "";
+    height: 1px
+}
+
+/* fixes bottom padding issue in IE10 */
+.breadcrumbs {
+    font-size: .75em;
+    border-bottom: 7px solid #eee;
+    margin: 0 -1.25em 1.5em;
+    padding: 1em 1.25em
+}
+
+.breadcrumbs span {
+    display: none
+}
+
+@media (min-width: 30em) {
+    .breadcrumbs {
+        line-height: 3.75;
+        padding: 0 1.25em
+    }
+}
+
+@media (min-width: 60em) {
+    .breadcrumbs span {
+        display: inline-block
+    }
+}
+
+a, a:active, a:visited {
+    color: #c30
+}
+
+a:visited {
+    color: #c90
+}
+
+a:hover, a:focus {
+    color: #000000;
+    text-decoration: none
+}
+
+code {
+    display: block;
+    background: #ebebeb;
+    font-size: 0.875em;
+    padding: 1em 2em;
+    overflow-x: scroll;
+    white-space: nowrap
+}
+/* -------------------------*/
+/*!
+ * Generated with CSS Flag Sprite generator (https://www.flag-sprites.com/)
+ */
+
+.flag {
+    display: inline-block;
+    width: 16px;
+    height: 11px;
+    margin-bottom: 7px;
+    margin-top: 26px;
+    background: url('inc/image/flags.png') no-repeat;
+}
+
+
+.flag.flag-fr {
+    background-position: 0 -11px;
+}
+
+.flag.flag-gb {
+    background-position: -16px -11px;
+}
+
+.flag.flag-be {
+    background-position: -16px 0;
+}
+
+.flag.flag-nl {
+    background-position: -32px -11px;
+}
+
+.flag.flag-at {
+    background-position: 0 0;
+}
+
+.flag.flag-de {
+    background-position: -32px 0;
+}

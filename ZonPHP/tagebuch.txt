@@ -1,0 +1,16 @@
+  <b>      
+<br />Hier k&ouml;nnt ihr eure PV anlage beschreiben , wann sie errichtet wurde
+<br />oder besondere Ereignisse schreiben
+<br />nimmt bitte ein Editor der Umlaute konvertieren kann dann wird der Text richtig angezeigt
+<br />also auch &auml; &ouml;  sind dann keine Fragezeichen
+<br />Fragen und alles was ihr braucht findet ihr im ZonPHP Forum
+
+<br />In dies version von ZonPHP sind einige &auml;nderungen
+
+<br />1. iOS also iPhone sollte es jetzt anzeigen werden , da ja das vorrige ZonPHP nur  Flash  unterst&uuml;tzte
+<br />2. PV-Log und .... im ZonPHP eingebettet also keine Weiterleitung
+
+<br />Fragen Bitte im Forum stellen , dann mal schauen ob es eine L&ouml;sung f&uuml;r deine Prbleme  finden
+
+<br />bis dann  Ralf / Rally
+  </b>      
