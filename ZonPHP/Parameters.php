@@ -28,33 +28,33 @@ include_once "inc/version_info.php";
  ******************************************************************************/
 
 /*****************************************************************************/
-// Database configuration
-
+/* Database configuration                                                    */
+/*****************************************************************************/
 $sserver = "localhost";                     /*  Database server   --> default: "localhost"   */
 $susername = "root";                        /*  Database user     --> default: "root"        */
 $spassword = "";                            /*  Database password --> default: ""            */
-$sdatabase_name = "solar";                  /*  Database name     --> default: "slaper_be"   */
+$sdatabase_name = "paul";                  /*  Database name     --> default: "slaper_be"   */
 
 $table_prefix = "tgeg";                     /*  table name prefix --> default: "tgeg"        */
 
 $default_language = "de";                   /*  preferred language --> values: en, de, fr, nl, at */
 $use_utf8 = false;                          /*  set this to true if your server is configured using UTF8 */
 
-$datalogger_password = "secret";            /*  password used for datalogger                 */
-$datalogger_offset = "-1";                  /*  time offset in hours e.g.  +1  or -2       */
 
+
+/*****************************************************************************/
+/* datalogger configuration          OPTIONAL                                */
+/*****************************************************************************/
+$datalogger_password = "secret";            /*  password used for datalogger                 */
+$datalogger_offset = "-1";                  /*  time offset in hours e.g.  +1  or -2         */
 
 /*****************************************************************************/
 /* weatherstation weewx configuration          OPTIONAL                      */
 /*****************************************************************************/
-
 $use_weewx = false;
-$weewx_server = "192.168.0.20";           /*  weewx Database server   --> default: "localhost"   */
+$weewx_server = "localhost";              /*  weewx Database server   --> default: "localhost"   */
 $weewx_username = "weewx";                /*  weewx Database user     --> default: "weewx"       */
 $weewx_password = "weewx";                /*  weewx Database password --> default: "weewx"       */
 $weewx_database_name = "weewx";           /*  weewx Database name     --> default: "weewx"       */
-// $use_weewx_for_daychart = true;           /*  use temperature values from weewx                  */
-
-
 
 ?>

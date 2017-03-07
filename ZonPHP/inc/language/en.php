@@ -250,6 +250,10 @@ $txt["available_languages"] = "define languages which the user can choose";
 $txt["google_tracking"] = "Enter your google tracking ID here if you want to uses google analytics";
 $txt["chart_weewx"] = "chart weewx";
 $txt["weewx"] = "weewx";
+$txt["weatherstation_config"] = "Weatherstation configuration";
+$txt["wunderground_stationID"] = "Your wunderground Station ID e.g. IINGOLST156";
+$txt["inverter"] = "Inverter";
+$txt['back_to_today'] = "goto today";
 $txt["1"] = "1";
 
 

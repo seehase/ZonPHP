@@ -27,6 +27,8 @@ $prevdatestring = strftime("%Y-%m-%d", $prevdate);
 if ($prevdate >= $date_minimum) {
     $prevdatevisible = true;
 }
+$chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
+
 
 ?>
 
@@ -124,6 +126,7 @@ if ($prevdate >= $date_minimum) {
 
     <div style="float: unset; margin-top: 5px;">
         <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
+				<a href="<?php echo "day_overview.php?jaar=".$chartdaydatestring ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button></a>
     </div>
 
     <div id="tabelgeg">

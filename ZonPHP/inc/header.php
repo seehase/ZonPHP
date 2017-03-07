@@ -92,6 +92,10 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
             background-color: #<?php echo $colors['color_background'] ?>;
         }
 
+        #headerinverter {
+            color: #<?php echo $colors['color_menubackground'] ?>;
+        }
+
     </style>
 
 

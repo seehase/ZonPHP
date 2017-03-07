@@ -151,6 +151,7 @@ $val_max = -500;
 
 if ($sensor_available) {
     $val_avg = 0;
+    $sensor_success = false;
     if (isset($param['external_sensors_for_daychart'])) {
         // use external arexx sensors
         $sql_sensor =
@@ -162,7 +163,8 @@ if ($sensor_available) {
                 WHERE logtime  LIKE '" . $chartdatestring . "%' AND sensorid= $sensorid AND sensortype = $sensortype
                 GROUP BY nicedate ORDER BY nicedate ASC";
         $result_sensor = mysqli_query($con, $sql_sensor) or die("Query failed. dag " . mysqli_error($con));
-    } else {
+        $sensor_success = true;
+    } else if ($use_weewx == true) {
         // use weewx connection and table
         $sql_sensor =
             "   SELECT 
@@ -174,9 +176,10 @@ if ($sensor_available) {
                 WHERE from_unixtime(dateTime)  LIKE '" . $chartdatestring . "%'
                 GROUP BY nicedate ORDER BY nicedate ASC";
         $result_sensor = mysqli_query($con_weewx, $sql_sensor) or die("Query failed. dag " . mysqli_error($con));
+        $sensor_success = true;
     }
 
-    if (mysqli_num_rows($result_sensor) != 0) {
+    if ($sensor_success == true && mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // array time = value
             $val = number_format(($row['val'] - 32) * 5 / 9, 1); // F --> °C
@@ -185,14 +188,16 @@ if ($sensor_available) {
             if ($val > $val_max) $val_max = $val;
             if ($val < $val_min) $val_min = $val;
         }
+
+        // enlarge y-axis if needed
+        $val_dif = abs($val_max - $val_min);
+        if ($val_dif < 5) {
+            $val_min = $val_min - 3;
+            $val_max = $val_max + 3;
+        };
     }
 
-    // enlarge y-axis if needed
-    $val_dif = abs($val_max - $val_min);
-    if ($val_dif < 5) {
-        $val_min = $val_min - 3;
-        $val_max = $val_max + 3;
-    };
+
 
 
 // ---SENSOR -----------------------------------------------------------------------------------------------------------

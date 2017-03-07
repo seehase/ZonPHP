@@ -34,7 +34,7 @@ if ($Tag == 31 && $Monat == 12) {
 }
 
 $directory = "" . $_SESSION['Wie'] . '/';
-$directoryImport = "../" . $_SESSION['Wie'] . '/' . $Jahr . '/';
+$directoryImport = "" . $_SESSION['Wie'] . '/' . $Jahr . '/';
 //echo "directory=".$directory."<br />";
 //echo "directoryimport=".$directoryImport."<br />";
 

@@ -40,7 +40,7 @@ include_once "par_header.php";
                 $txt["watverkeerd"] = "";
                 foreach ($_POST as $key => $waarden) {
                     if (strlen($waarden) == 0 || ($_POST[$key] == $txt["verkeerd"])) {
-                        if ($key == 'plantname' || $key == 'google_tracking') {
+                        if ($key == 'plantname' || $key == 'google_tracking' || $key == 'wunderground_stationID') {
                             // plantname, google_tracking ... could be empty
                         } else {
                             $_POST[$key] = $txt["verkeerd"];
@@ -363,6 +363,7 @@ include_once "par_header.php";
                 <br/>
 
                 <hr>
+                <?php echo $txt["weatherstation_config"]; ?>:<br>
                 <?php echo $txt["external_sensors"]; ?>?
                 <input type='checkbox' name='external_sensors'
                        size='5' <?php if (isset($_POST['external_sensors'])) echo "checked"; ?> >
@@ -371,6 +372,12 @@ include_once "par_header.php";
                 <input type='checkbox' name='external_sensors_for_daychart'
                        size='5' <?php if (isset($_POST['external_sensors_for_daychart'])) echo "checked"; ?> >
                 <br/>
+
+                <?php echo $txt["wunderground_stationID"]; ?>:
+                <input type='text' name='wunderground_stationID'
+                           value='<?php if (!empty($_POST['wunderground_stationID'])) echo $_POST['wunderground_stationID']; ?>'
+                           size='30'>
+
 
                 <hr>
                 <?php echo $txt["choose_charts"]; ?><br/>

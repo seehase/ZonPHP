@@ -33,8 +33,8 @@ include_once "inc/header.php";
                 eingeflossen.<br/>
                 <br/>
                 Ich würde mich sehr über Feedback freuen oder Anregungen zur Weiterentwicklung<br/>
-                Fragen oder Anregungen gerne per Mail an <a href="mailto:solar@seehausen.org?Subject=ZonPHP"
-                                                            target="_top">solar@seehausen.org</a>
+                Fragen oder Anregungen gerne per Mail an <a href="mailto:zonphp@seehausen.org?Subject=ZonPHP"
+                                                            target="_top">zonphp@seehausen.org</a>
                 <br/><br/>
                 Versionshistorie: <br/>
                 <strong>ZonPHP.12.12:</strong> (2013-12-13)

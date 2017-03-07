@@ -98,11 +98,24 @@ if (intval($param['flyout']) > 0) {
             <li><a href="#" style="display: flex">&nbsp;</a> <label for="weewx" class="toggle-sub" onclick="">&nbsp;weewx&nbsp;&nbsp;&#9658;</label>
             <input type="checkbox" name="nav" id="weewx" class="sub-nav-check"/>
             <ul id="weewx-sub" class="sub-nav">
-                <li class="sub-heading">Themes<label for="weewx" class="toggle" onclick="" title="Back">&#9658;</label>
+                <li class="sub-heading">weewx<label for="weewx" class="toggle" onclick="" title="Back">&#9658;</label>
                 </li>
                 <li><a href="weewx_overview.php">' . $txt["weewx"] . '-overview</a></li>
-                <li><a href="/weewx/index.html">' . $txt["weewx"] . '-website</a></li>
-                <li><a href="https://www.wunderground.com/personal-weather-station/dashboard?ID=IINGOLST156">' . 'Weather Underground</a></li>
+                <li><a href="/weewx/index.html">' . $txt["weewx"] . '-website</a></li>                
+            </ul>
+        </li> ';
+        ?>
+
+        <?php if (isset($param['wunderground_stationID']) && strlen($param['wunderground_stationID']) > 0)
+            echo '
+            <li><a href="#" style="display: flex">&nbsp;</a> <label for="wunderground" class="toggle-sub" onclick="">&nbsp;wunderground&nbsp;&nbsp;&#9658;</label>
+            <input type="checkbox" name="nav" id="wunderground" class="sub-nav-check"/>
+            <ul id="wunderground-sub" class="sub-nav">
+                <li class="sub-heading">wounderground<label for="wunderground" class="toggle" onclick="" title="Back">&#9658;</label>
+                </li>
+                <li><a href="https://www.wunderground.com" onclick="target=\'_blank\'">' . 'wounderground</a></li>
+                <li><a href="https://www.wunderground.com/personal-weather-station/dashboard?ID=' . $param['wunderground_stationID'] .
+                '" onclick="target=\'_blank\'">' . 'Your PWS</a></li>
             </ul>
         </li> ';
         ?>
@@ -165,15 +178,15 @@ if (intval($param['flyout']) > 0) {
                 <li class="sub-heading"><?= $version ?><label for="info" class="toggle" onclick="" title="Back">
                         &#9658;</label>
                 </li>
+                <li><a href="install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
                 <li><a href="about.php">About</a></li>
                 <li><a href="installation.php"><?php echo $txt["installatie"]; ?></a></li>
-                <li><a href="http://solar.seehausen.org/downloads">download ZonPHP</a></li>
-                <li><a href="install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
+                <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
+                <li><a href="https://github.com/seehase/ZonPHP/archive/master.zip">download ZonPHP</a></li>
                 <li><a href="inc/destroy.php"><?php echo $txt["clearsession"]; ?> </a></li>
 
             </ul>
         </li>
-
 
     </ul>
     <label class="toggle close-all" onclick="uncheckboxes('nav')">&times;</label>
@@ -198,6 +211,16 @@ if (intval($param['flyout']) === 2) {
         <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'/></a>" ?>
         <?php if (isset($param['lang_at'])) echo "<a href='?taal=at' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-at' alt='österreichisch' title='österreichisch'/></a>" ?>
 
+        <?php
+
+        if ($iveromvormers == 1) {
+            echo '<span id="headerinverter">
+                     <span style="margin-center: 530px;">&nbsp;</span> ' .
+                $txt["inverter"] . ' - ' . $_SESSION['Wie'] .
+                '</span>';
+        }
+
+        ?>
 
     </div><!-- closing "#header" -->
 
