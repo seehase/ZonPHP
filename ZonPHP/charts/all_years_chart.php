@@ -126,8 +126,9 @@ foreach ($sum_per_year as $ijaar => $fkw) {
     }
 
     // expected bars char
-    $val = round($averwacht[$ijaar], 2);
+    $val = 0;
     if (isset ($averwacht[$ijaar])) {
+        $val = round($averwacht[$ijaar], 2);
         $expected_bars .= "                
                     { 
                       y: $val, 

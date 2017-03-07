@@ -40,10 +40,10 @@ switch ($param['sInvullen_gegevens']) {
         include "importer/sunny_webbox_csv_thorsten.php";
         break;
     case "Import_von_Hyperion":
-        include "Import_von_Hyperion.php";
+        include "importer/Import_von_Hyperion.php";
         break;
     case "Import_von_Hyperion_christian":
-        include "stromzaehler.php";
+        include "importer/stromzaehler.php";
         break;
     default:
         echo 'Verkeerd';
