@@ -25,7 +25,7 @@ if ($nargs < 6) {
 }
 
 if (!isset($datalogger_password)) {
-    error_log("no \$datalogger_password defined in Parameter.php " );
+    error_log("no \$datalogger_password defined in Parameter.php ");
     die();
 }
 
@@ -48,17 +48,23 @@ $value = str_replace("'", " ", $value);
 $datetime = $date . " " . $time;
 $mtime = strtotime($datetime);  // used to create ID
 
-if (isset($datalogger_offset))
-{
-    logger (" -- offest is set -------------------------------");
-    logger ("added offset: " . $datalogger_offset) + " hour";
+if (isset($datalogger_offset)) {
+    $isDaylight = date('I');
+    logger(" -- offest is set -------------------------------");
+    logger("system day light saving option: " + $isDaylight);
+    logger("added offset: " . $datalogger_offset) + " hour";
     logger("Datetime original  : " . $datetime);
     logger("timestamp original : " . $mtime);
-    $mtime = strtotime("$datalogger_offset hour", $mtime);
-    $datetime = strftime("%Y-%m-%d %H:%M:%S", $mtime);
+    if ($isDaylight == 0) {
+        // only correct value if there is noch dayligt saving
+        logger("correcting time");
+        $mtime = strtotime("$datalogger_offset hour", $mtime);
+        $datetime = strftime("%Y-%m-%d %H:%M:%S", $mtime);
+    }
+
     logger("Datetime new : " . $datetime);
     logger("timestamp new: " . $mtime);
-    logger (" -- offest is set -------------------------------");
+    logger(" -- offest is set -------------------------------");
 }
 
 $id = $device . "-" . $sensortype . "-" . $mtime;
