@@ -30,6 +30,9 @@ switch ($param['sInvullen_gegevens']) {
     case "sunny_explorer_utf16":
         include "importer/Invullen_gegevens_sunny_explorer_utf16.php";
         break;
+    case "sunny_explorer_thomas":
+        include "importer/Invullen_gegevens_sunny_explorer_thomas.php";
+        break;
     case "sunny_explorer_manuel":
         include "importer/Invullen_gegevens_sunny_explorer_manuel.php";
         break;

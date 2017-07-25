@@ -36,9 +36,16 @@ $directory = "" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-
 
 $adag = array();
 for ($tel = 0; $tel <= 160; $tel++) {
-    $num = (date("Ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));
-    $fn = $directory . $param['plantname'] . "-" . $num . '.csv';
-    $fn = mb_convert_encoding($directory . $param['plantname'] . "-" . $num . '.csv', "UTF-8");
+    $currentdate = (date("Ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));
+    if ($currentdate < "20170517") {
+        $num = (date("Y-m-d", strtotime("+" . $tel . " day", strtotime($dateTime))));
+        $fn = $directory . "Energie_und_Leistung_Tag_" . $num . '.csv';
+    } else {
+        $num = (date("Ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));
+        $fn = $directory . $param['plantname'] . "-" . $num . '.csv';
+    }
+
+    $fn = mb_convert_encoding($fn, "UTF-8");
     if (file_exists($fn)) {
         $adag[] = $fn;
     }
@@ -46,7 +53,9 @@ for ($tel = 0; $tel <= 160; $tel++) {
 
 if (!empty($adag)) {
     foreach ($adag as $v) {
+        $isoldformat = strpos($v, "Energie") > 0;
         $teller = 1;
+        if ($isoldformat) $teller = 10;
         $string1 = "";
         $start = 0;
         $startend = 0;
@@ -58,17 +67,28 @@ if (!empty($adag)) {
         $fileraw = ReadUnicodeFile($v);
         $filecontent = explode("\n", $fileraw);
 
+        $GridMsTotW = 0.0;
         foreach ($filecontent as $geg_suo) {
             $geg_suo = trim($geg_suo);
             // skip first 10 lines of CSV file
+
             if ($teller > 10) {
                 if (!empty($geg_suo)) {
-
-                    $p = explode(";", $geg_suo);
-                    list($TimeStamp, $GridMsTotW, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
+                    if ($isoldformat) {
+                        list($mytime, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
+                        $startpos = strpos($v, "Tag_");
+                        $myDateStr = substr($v, $startpos + 4, 10);
+                        $myDate = strtotime($myDateStr);
+                        $myDateStr = strftime("%d.%m.%Y", $myDate);
+                        $TimeStamp = $myDateStr . " " . $mytime;
+                        $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
+                        $GridMsTotW = $GridMsTotW + ($MeteringDykWh/60*15);
+                    } else {
+                        list($TimeStamp, $GridMsTotW, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
+                        $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
+                        $GridMsTotW = str_replace(array(','), '.', $GridMsTotW);
+                    }
                     $oTimeStamp = omzetdatum($TimeStamp);      //date("Y-m-d H:i:s",strtotime($TimeStamp));
-                    $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
-                    $GridMsTotW = str_replace(array(','), '.', $GridMsTotW);
                     if ($start == 0) {
                         $startkw = $GridMsTotW;
                         $start = 1;

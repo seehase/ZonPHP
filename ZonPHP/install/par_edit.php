@@ -227,6 +227,9 @@ include_once "par_header.php";
                     <option <?php if ($selectedInverter == "sunny_explorer_utf16") echo "selected "; ?>>
                         sunny_explorer_utf16
                     </option>
+                    <option <?php if ($selectedInverter == "sunny_explorer_thomas") echo "selected "; ?>>
+                        sunny_explorer_thomas
+                    </option>
                     <option <?php if ($selectedInverter == "Invullen_gegevens_sunnybeam_bt") echo "selected "; ?>>
                         Invullen_gegevens_sunnybeam_bt
                     </option>
