@@ -84,9 +84,16 @@ if (!empty($adag)) {
                         $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
                         $GridMsTotW = $GridMsTotW + ($MeteringDykWh/60*15);
                     } else {
-                        list($TimeStamp, $GridMsTotW, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
-                        $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
-                        $GridMsTotW = str_replace(array(','), '.', $GridMsTotW);
+                        list($TimeStamp, $GridMsTotW1, $MeteringDykWh1, $GridMsTotW2, $MeteringDykWh2) = explode(";", $geg_suo);    //,$rest
+
+                        $MeteringDykWh1 = str_replace(array(','), '.', $MeteringDykWh1);
+                        $GridMsTotW1 = str_replace(array(','), '.', $GridMsTotW1);
+                        $MeteringDykWh2 = str_replace(array(','), '.', $MeteringDykWh2);
+                        $GridMsTotW2 = str_replace(array(','), '.', $GridMsTotW2);
+
+                        $MeteringDykWh = $MeteringDykWh1 + $MeteringDykWh2;
+                        $GridMsTotW = $GridMsTotW1 +  $GridMsTotW2;
+
                     }
                     $oTimeStamp = omzetdatum($TimeStamp);      //date("Y-m-d H:i:s",strtotime($TimeStamp));
                     if ($start == 0) {
