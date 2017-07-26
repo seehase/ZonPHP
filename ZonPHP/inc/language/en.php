@@ -8,6 +8,7 @@ $txt["absoluteopbrengstkwh"] = "Absolute yield [kWh] ";
 $txt["achtergrondflash"] = "Background color of the graphs";
 $txt["actueel"] = "News";
 $txt["chart_allyearoverview"] = "All years View";
+$txt["chart_totalmonthoverview"] = "Month all Inverters";
 $txt["allejarentotoverzicht"] = "All years Up Overview";
 $txt["behaaldeuro"] = "Title of [Euro]";
 $txt["behaaldeuro"] = "Title of [Euro]";

@@ -88,6 +88,7 @@ $txt["linksonnerertrag"] = "Ihr Link zu Sonnenertrag";
 $txt["maand"] = "Monat";
 $txt["maanden"] = "Monate";
 $txt["chart_monthoverview"] = "Monatsansicht";
+$txt["chart_totalmonthoverview"] = "Monatsansicht alle WR";
 $txt["maandtotoverzicht"] = "Monat anzeigen";
 $txt["mail1"] = ", Ihre Sonnenkollektoren haben ";
 $txt["mail2"] = "kWh erreicht.";

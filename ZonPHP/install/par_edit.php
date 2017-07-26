@@ -411,6 +411,11 @@ include_once "par_header.php";
                                    size='5' <?php if (isset($_POST['chart_monthoverview'])) echo "checked"; ?> ></td>
                     </tr>
                     <tr>
+                        <td><?php echo $txt["chart_totalmonthoverview"]; ?></td>
+                        <td><input type='checkbox' name='chart_totalmonthoverview'
+                                   size='5' <?php if (isset($_POST['chart_totalmonthoverview'])) echo "checked"; ?> ></td>
+                    </tr>
+                    <tr>
                         <td><?php echo $txt["chart_indoor"]; ?></td>
                         <td><input type='checkbox' name='chart_indoor'
                                    size='5' <?php if (isset($_POST['chart_indoor'])) echo "checked"; ?> ></td>
