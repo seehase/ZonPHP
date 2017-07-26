@@ -82,17 +82,29 @@ if (!empty($adag)) {
                         $myDateStr = strftime("%d.%m.%Y", $myDate);
                         $TimeStamp = $myDateStr . " " . $mytime;
                         $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
-                        $GridMsTotW = $GridMsTotW + ($MeteringDykWh/60*15);
+                        $GridMsTotW = $GridMsTotW + ($MeteringDykWh / 60 * 15);
                     } else {
                         list($TimeStamp, $GridMsTotW1, $MeteringDykWh1, $GridMsTotW2, $MeteringDykWh2) = explode(";", $geg_suo);    //,$rest
 
                         $MeteringDykWh1 = str_replace(array(','), '.', $MeteringDykWh1);
+                        if (strlen($MeteringDykWh1) == 0) {
+                            $MeteringDykWh1 = 0.0;
+                        }
                         $GridMsTotW1 = str_replace(array(','), '.', $GridMsTotW1);
+                        if (strlen($GridMsTotW1) == 0) {
+                            $GridMsTotW1 = 0.0;
+                        }
                         $MeteringDykWh2 = str_replace(array(','), '.', $MeteringDykWh2);
+                        if (strlen($MeteringDykWh2) == 0) {
+                            $MeteringDykWh2 = 0.0;
+                        }
                         $GridMsTotW2 = str_replace(array(','), '.', $GridMsTotW2);
+                        if (strlen($GridMsTotW2) == 0) {
+                            $GridMsTotW2 = 0.0;
+                        }
 
                         $MeteringDykWh = $MeteringDykWh1 + $MeteringDykWh2;
-                        $GridMsTotW = $GridMsTotW1 +  $GridMsTotW2;
+                        $GridMsTotW = $GridMsTotW1 + $GridMsTotW2;
 
                     }
                     $oTimeStamp = omzetdatum($TimeStamp);      //date("Y-m-d H:i:s",strtotime($TimeStamp));
@@ -100,6 +112,11 @@ if (!empty($adag)) {
                         $startkw = $GridMsTotW;
                         $start = 1;
                     }
+                    if ($GridMsTotW < $startkw)
+                    {
+                        $GridMsTotW =  $startkw;
+                    }
+
                     if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
                         if ($MeteringDykWh != 0) {
                             if ($MeteringDykWh == 0) {
