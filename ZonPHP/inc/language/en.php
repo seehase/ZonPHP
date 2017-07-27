@@ -193,6 +193,7 @@ $txt["chart_solar_temp"] = "Solar &amp; Temp today";
 $txt["chart_indoor"] = "Indoor Temp&amp;Humidity";
 $txt["chart_all_temp"] = "All Temp Sensors";
 $txt["chart_all_humidity"] = "All Humidity Sensors";
+$txt["chart_dayoverview"] = "Day overview";
 $txt["undefined"] = "undefined";
 $txt["YES"] = "Yes";
 $txt["NO"] = "No";

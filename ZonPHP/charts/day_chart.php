@@ -319,7 +319,7 @@ include_once "chart_styles.php";
 
 $show_temp_axis = "false";
 $show_cum_axis = "true";
-if (strlen($str_dataserie) == 0) {
+if (strlen($str_temp_vals) > 0) {
     $show_temp_axis = "true";
     $show_cum_axis = "false";
 }
@@ -394,6 +394,7 @@ if (strlen($str_dataserie) == 0) {
         var temp_serie = [<?php echo $str_temp_vals ?>];
         var temp_max = <?php echo $val_max ?>;
         var temp_min = <?php echo $val_min ?>;
+
 
         var col1 = '#<?php echo $colors['color_chartbar1'] ?>';
         var col2 = '#<?php echo $colors['color_chartbar2'] ?>';

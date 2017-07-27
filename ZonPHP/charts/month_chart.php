@@ -28,7 +28,6 @@ if (isset($_GET['maand'])) {
 }
 
 
-
 // -----------------------------  get data from DB -----------------------------------------------------------------
 
 $current_year = date('Y', $chartdate);
@@ -73,26 +72,19 @@ if (mysqli_num_rows($result) == 0) {
     $geengevmaand = 1;
     $adatum = array();
     $agegevens = array();
+    // fill empty days
+    for ($i = 1; $i <= $DaysPerMonth; $i++) {
+        $agegevens[$i] = 0;
+    }
     while ($row = mysqli_fetch_array($result)) {
         $adatum[] = date("j", strtotime($row['Datum_Maand']));
         $agegevens[date("j", strtotime($row['Datum_Maand']))] = $row['Geg_Maand'];
         $dmaandjaar[] = $row['Datum_Maand'];
     }
-    $datum = strftime("%B-%Y",$chartdate);
+    $datum = strftime("%B-%Y", $chartdate);
     $fgemiddelde = array_sum($agegevens) / count($agegevens);
     $iyasaanpassen = round(0.5 + max($agegevens) / 5) * 5;
 
-    // fill empty days
-    $ilaatstedag = end($adatum);
-    while ($ilaatstedag < $DaysPerMonth) {
-        $ilaatstedag++;
-        $agegevens[$ilaatstedag] = 0;
-    }
-    $ieerstedag = $adatum[0];
-    while ($ieerstedag > 1) {
-        $ieerstedag--;
-        $agegevens[$ieerstedag] = 0;
-    }
 }
 ?>
 
@@ -202,8 +194,9 @@ include_once "chart_styles.php";
             }],
             tooltip: {
                 formatter: function () {
-                    if (this.series.name == 'Reference' || this.series.name == 'Avarage')
-                    { return this.series.name + ' ' + this.y.toFixed(2) + 'kWh';}
+                    if (this.series.name == 'Reference' || this.series.name == 'Avarage') {
+                        return this.series.name + ' ' + this.y.toFixed(2) + 'kWh';
+                    }
                     else {
                         return this.x + ': ' + this.y.toFixed(2) + 'kWh';
                     }
@@ -222,7 +215,7 @@ include_once "chart_styles.php";
                     color: '#<?php echo $colors['color_chart_reference_line'] ?>',
                     data: [
                         {x: 0, y: ref},
-                        {x: daycount-1, y: ref}
+                        {x: daycount - 1, y: ref}
                     ]
                 }, {
                     name: 'Avarage',
@@ -230,7 +223,7 @@ include_once "chart_styles.php";
                     color: '#<?php echo $colors['color_chart_avarage_line'] ?>',
                     data: [
                         {x: 0, y: avg},
-                        {x: daycount-1, y: avg}
+                        {x: daycount - 1, y: avg}
                     ]
                 }
             ]

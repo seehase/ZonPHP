@@ -16,6 +16,10 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
+$daytext =  $txt['chart_dayoverview'];
+if (isset($use_weewx) && $use_weewx==true){
+    $daytext =  $txt['chart_solar_temp'];
+}
 ?>
 
 <script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxcore.js"></script>
@@ -51,7 +55,7 @@ if (isset($_POST['inverter'])) {
     <div id='jqxwindow_chart_solar_temp' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_solar_temp'])) echo ' display: none;'; ?> ">
         <a href="day_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_solar_temp'] . " - " . $inverter?></div>
+            <div class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - " . $inverter?></div>
         </a>
 
         <div id='day_chart_id1' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
