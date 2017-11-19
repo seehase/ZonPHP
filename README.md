@@ -1,9 +1,9 @@
 # ZonPHP
 ## PHP Solar Logger
 
-base on the version from slaper (http://www.slaper.be) and Rally (http://www.rallyhammer.be/RallyForum) 
+based on the version from slaper (http://www.slaper.be) and Rally (http://www.rallyhammer.be/RallyForum) 
 I decided to build an new version without Adobe FLASH so it can be uses 
-on mobile and tablets as well.
+on mobiles and tablets as well.
 
 So I replaced all charts with a new JavaScript charts using http://www.highcharts.com/ 
 and refactored the PHP code.
