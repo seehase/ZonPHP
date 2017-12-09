@@ -70,7 +70,7 @@ if (isset($use_weewx) && $use_weewx==true){
     </div>
 
     <div id='jqxwindow_total_month_overview' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_monthoverview'])) echo ' display: none;'; ?> ">
+         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_totalmonthoverview'])) echo ' display: none;'; ?> ">
         <a href="month_overview.php">
             <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalmonthoverview'] ?></div>
         </a>
