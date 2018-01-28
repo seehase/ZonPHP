@@ -1,4 +1,6 @@
 #Changelog
+###2018.01.01
+* smaller bugfixes and improvments from last year
 ###2017.02.01.01
 * configurable Wounderground station ID in parameters
 * adapt menu to github

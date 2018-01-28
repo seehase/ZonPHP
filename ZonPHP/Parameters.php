@@ -33,7 +33,7 @@ include_once "inc/version_info.php";
 $sserver = "localhost";                     /*  Database server   --> default: "localhost"   */
 $susername = "root";                        /*  Database user     --> default: "root"        */
 $spassword = "";                            /*  Database password --> default: ""            */
-$sdatabase_name = "paul";                  /*  Database name     --> default: "slaper_be"   */
+$sdatabase_name = "solar";                  /*  Database name     --> default: "slaper_be"   */
 
 $table_prefix = "tgeg";                     /*  table name prefix --> default: "tgeg"        */
 
