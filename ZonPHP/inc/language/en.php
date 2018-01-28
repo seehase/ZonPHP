@@ -8,6 +8,7 @@ $txt["absoluteopbrengstkwh"] = "Absolute yield [kWh] ";
 $txt["achtergrondflash"] = "Background color of the graphs";
 $txt["actueel"] = "News";
 $txt["chart_allyearoverview"] = "All years View";
+$txt["chart_totalmonthoverview"] = "Month all Inverters";
 $txt["allejarentotoverzicht"] = "All years Up Overview";
 $txt["behaaldeuro"] = "Title of [Euro]";
 $txt["behaaldeuro"] = "Title of [Euro]";
@@ -192,6 +193,7 @@ $txt["chart_solar_temp"] = "Solar &amp; Temp today";
 $txt["chart_indoor"] = "Indoor Temp&amp;Humidity";
 $txt["chart_all_temp"] = "All Temp Sensors";
 $txt["chart_all_humidity"] = "All Humidity Sensors";
+$txt["chart_dayoverview"] = "Day overview";
 $txt["undefined"] = "undefined";
 $txt["YES"] = "Yes";
 $txt["NO"] = "No";
@@ -250,6 +252,10 @@ $txt["available_languages"] = "define languages which the user can choose";
 $txt["google_tracking"] = "Enter your google tracking ID here if you want to uses google analytics";
 $txt["chart_weewx"] = "chart weewx";
 $txt["weewx"] = "weewx";
+$txt["weatherstation_config"] = "Weatherstation configuration";
+$txt["wunderground_stationID"] = "Your wunderground Station ID e.g. IINGOLST156";
+$txt["inverter"] = "Inverter";
+$txt['back_to_today'] = "goto today";
 $txt["1"] = "1";
 
 

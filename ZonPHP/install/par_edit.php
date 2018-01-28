@@ -40,7 +40,7 @@ include_once "par_header.php";
                 $txt["watverkeerd"] = "";
                 foreach ($_POST as $key => $waarden) {
                     if (strlen($waarden) == 0 || ($_POST[$key] == $txt["verkeerd"])) {
-                        if ($key == 'plantname' || $key == 'google_tracking') {
+                        if ($key == 'plantname' || $key == 'google_tracking' || $key == 'wunderground_stationID') {
                             // plantname, google_tracking ... could be empty
                         } else {
                             $_POST[$key] = $txt["verkeerd"];
@@ -224,6 +224,12 @@ include_once "par_header.php";
                     <option <?php if ($selectedInverter == "sunny_explorer_seehase") echo "selected "; ?>>
                         sunny_explorer_seehase
                     </option>
+                    <option <?php if ($selectedInverter == "sunny_explorer_utf16") echo "selected "; ?>>
+                        sunny_explorer_utf16
+                    </option>
+                    <option <?php if ($selectedInverter == "sunny_explorer_thomas") echo "selected "; ?>>
+                        sunny_explorer_thomas
+                    </option>
                     <option <?php if ($selectedInverter == "Invullen_gegevens_sunnybeam_bt") echo "selected "; ?>>
                         Invullen_gegevens_sunnybeam_bt
                     </option>
@@ -363,6 +369,7 @@ include_once "par_header.php";
                 <br/>
 
                 <hr>
+                <?php echo $txt["weatherstation_config"]; ?>:<br>
                 <?php echo $txt["external_sensors"]; ?>?
                 <input type='checkbox' name='external_sensors'
                        size='5' <?php if (isset($_POST['external_sensors'])) echo "checked"; ?> >
@@ -371,6 +378,12 @@ include_once "par_header.php";
                 <input type='checkbox' name='external_sensors_for_daychart'
                        size='5' <?php if (isset($_POST['external_sensors_for_daychart'])) echo "checked"; ?> >
                 <br/>
+
+                <?php echo $txt["wunderground_stationID"]; ?>:
+                <input type='text' name='wunderground_stationID'
+                           value='<?php if (!empty($_POST['wunderground_stationID'])) echo $_POST['wunderground_stationID']; ?>'
+                           size='30'>
+
 
                 <hr>
                 <?php echo $txt["choose_charts"]; ?><br/>
@@ -396,6 +409,11 @@ include_once "par_header.php";
                         <td><?php echo $txt["chart_monthoverview"]; ?></td>
                         <td><input type='checkbox' name='chart_monthoverview'
                                    size='5' <?php if (isset($_POST['chart_monthoverview'])) echo "checked"; ?> ></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["chart_totalmonthoverview"]; ?></td>
+                        <td><input type='checkbox' name='chart_totalmonthoverview'
+                                   size='5' <?php if (isset($_POST['chart_totalmonthoverview'])) echo "checked"; ?> ></td>
                     </tr>
                     <tr>
                         <td><?php echo $txt["chart_indoor"]; ?></td>

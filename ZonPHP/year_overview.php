@@ -14,8 +14,24 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
-$nextyear = strftime("%Y-%m-%d", strtotime("+1 year", $chartdate));
-$prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
+$nextyearvisible = false;
+$nextyear = strtotime("+1 year", $chartdate);
+$nextyearstring = strftime("%Y-01-01", strtotime("+1 year", $chartdate));
+if ($nextyear <= $date_maximum) {
+    $nextyearvisible = true;
+}
+$prevyear = strtotime("-1 year", $chartdate);
+$prevyearstring = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
+
+$date_minimum1=strtotime("-1 year", $date_minimum);
+
+if ($prevyear >= $date_minimum1) {
+    $prevyearvisible = true;
+}else{
+	$prevyearvisible = false;
+}
+$chartyeardatestring = strftime("%Y-01-01", strtotime("+0 year", $date_maximum));
+#$prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
 
 ?>
 
@@ -26,18 +42,24 @@ $prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2 align="center">
                 <?php
-                echo '<a class="myButton" href="year_overview.php?jaar=' . $prevyear . '"> < </a>';
-                echo " " . $datum . " ";
-                echo '<a class="myButton" href="year_overview.php?jaar=' . $nextyear . '"> > </a>';
+				if ($prevyearvisible) {
+                echo '<a class="myButton" href="year_overview.php?jaar=' . $prevyearstring . '"> < </a>';
+				}
+                echo $txt["jaar"]." " . $datum . " ";
+				if ($nextyearvisible) {
+                echo '<a class="myButton" href="year_overview.php?jaar=' . $nextyearstring . '"> > </a>';
+				}
                 ?>
             </h2>
         </div>
 
         <div id="year_chart_<?php echo $inverter ?>" style=":width100%; height:100%;"></div>
     </div>
-
+	
     <div style="float: unset; margin-top: 5px;">
         <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
+		<a href="<?php echo "year_overview.php?jaar=".$chartyeardatestring ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button>
+		</a>
     </div>
 
     <div id="tabelgeg">

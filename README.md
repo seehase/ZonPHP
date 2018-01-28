@@ -18,9 +18,3 @@ If you have any feedback or questions, please contact me at <solar@seehausen.org
 ### download
 * last stable version [download](https://github.com/seehase/ZonPHP/archive/master.zip)
 * current development version: [download](https://github.com/seehase/ZonPHP/archive/development.zip)
- 
-
-
-
-
-

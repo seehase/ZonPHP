@@ -16,6 +16,10 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
+$daytext =  $txt['chart_dayoverview'];
+if (isset($use_weewx) && $use_weewx==true){
+    $daytext =  $txt['chart_solar_temp'];
+}
 ?>
 
 <script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxcore.js"></script>
@@ -51,7 +55,7 @@ if (isset($_POST['inverter'])) {
     <div id='jqxwindow_chart_solar_temp' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_solar_temp'])) echo ' display: none;'; ?> ">
         <a href="day_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_solar_temp'] ?></div>
+            <div class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - " . $inverter?></div>
         </a>
 
         <div id='day_chart_id1' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
@@ -60,9 +64,17 @@ if (isset($_POST['inverter'])) {
     <div id='jqxwindow_month_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_monthoverview'])) echo ' display: none;'; ?> ">
         <a href="month_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_monthoverview'] ?></div>
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_monthoverview'] . " - " . $inverter ?></div>
         </a>
         <div id='month_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
+    </div>
+
+    <div id='jqxwindow_total_month_overview' class="smallCharts"
+         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_totalmonthoverview'])) echo ' display: none;'; ?> ">
+        <a href="month_overview.php">
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalmonthoverview'] ?></div>
+        </a>
+        <div id='total_month_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
     <div id='jqxwindow_chart_indoor' class="smallCharts"
@@ -74,7 +86,7 @@ if (isset($_POST['inverter'])) {
     <div id='jqxwindow_year_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_yearoverview'])) echo ' display: none;'; ?> ">
         <a href="year_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_yearoverview'] ?>
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_yearoverview'] . " - " . $inverter?>
             </div>
         </a>
         <div id='year_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
@@ -82,7 +94,7 @@ if (isset($_POST['inverter'])) {
     <div id='jqxwindow_all_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_allyearoverview'])) echo ' display: none;'; ?> ">
         <a href="all_years_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_allyearoverview'] ?>
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_allyearoverview'] . " - " . $inverter?>
             </div>
         </a>
         <div id='all_years_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
@@ -90,14 +102,14 @@ if (isset($_POST['inverter'])) {
     <div id='jqxwindow_last_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_lastyearoverview'])) echo ' display: none;'; ?> ">
         <a href="last_years_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_lastyearoverview'] ?></div>
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_lastyearoverview'] . " - " . $inverter?></div>
         </a>
         <div id='last_years_chart_id' class="<?= CONTENT_CLASS ?> " style="<?= CHART_STYLE ?>"></div>
     </div>
     <div id='jqxwindow_week_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_weekoverview'])) echo ' display: none;'; ?> ">
         <a href="week_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_weekoverview'] ?>
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_weekoverview'] . " - " . $inverter?>
             </div>
         </a>
         <div id='week_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
@@ -105,15 +117,15 @@ if (isset($_POST['inverter'])) {
 
     <div id='jqxwindow_flop31_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_31days'])) echo ' display: none;'; ?> ">
-        <a href="top31_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['slechtste'] ?></div>
+        <a href="top31_overview.php?Max_Min=flop">
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['slechtste'] . " - " . $inverter?></div>
         </a>
         <div id='top31_chart_id' class="<?= CONTENT_CLASS ?> " style="<?= CHART_STYLE ?>"></div>
     </div>
     <div id='jqxwindow_top31_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_31days'])) echo ' display: none;'; ?> ">
-        <a href="top31_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['beste'] ?></div>
+        <a href="top31_overview.php?Max_Min=top">
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['beste'] . " - " . $inverter?></div>
         </a>
         <div id='flop31_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
@@ -139,6 +151,7 @@ if (isset($_POST['inverter'])) {
             $("#jqxwindow_chart_all_temp").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_chart_all_humidity").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_month_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
+            $("#jqxwindow_total_month_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_last_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
@@ -286,6 +299,21 @@ if (isset($_POST['inverter'])) {
                 cache: false,
                 success: function (chart) {
                     $(container_month).append(chart);
+                },
+                error: function (xhr, desc, err) {
+                    console.log(xhr + '\\n' + err);
+                }
+            });
+" ?>
+            <?php if (isset($charts['chart_totalmonthoverview'])) echo "                    
+            var container_total_month = $('#total_month_chart_id');
+            $.ajax({
+                url: 'charts/total_month_chart.php',
+                type: 'post',
+                data: {'action': 'indexpage'},
+                cache: false,
+                success: function (chart) {
+                    $(container_total_month).append(chart);
                 },
                 error: function (xhr, desc, err) {
                     console.log(xhr + '\\n' + err);

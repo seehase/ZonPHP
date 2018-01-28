@@ -88,6 +88,8 @@ $txt["linksonnerertrag"] = "Ihr Link zu Sonnenertrag";
 $txt["maand"] = "Monat";
 $txt["maanden"] = "Monate";
 $txt["chart_monthoverview"] = "Monatsansicht";
+$txt["chart_dayoverview"] = "Tagesansicht";
+$txt["chart_totalmonthoverview"] = "Monatsansicht alle WR";
 $txt["maandtotoverzicht"] = "Monat anzeigen";
 $txt["mail1"] = ", Ihre Sonnenkollektoren haben ";
 $txt["mail2"] = "kWh erreicht.";
@@ -233,7 +235,7 @@ $txt["color_chart_title_yaxis1"] = "Farbe Chart Titel Y-Achse";
 $txt["color_chart_cum_line"] = "Farbe Chart Cumulative Line";
 $txt["color_chart_temp_line"] = "Farbe Chart Temeratur Line";
 $txt['color_chart_gridline_yaxis1'] = "Farbe Chart Gridline Y-Achse";
-$txt["choose_charts"] = "W&auml;hle die Charts aus, die du auf der Startseite sehen willst, ist nichts ausgewählt werden alle Charts angezeigt";
+$txt["choose_charts"] = "W&auml;hle die Charts aus, die du auf der Startseite sehen willst, ist nichts ausgew&auml;hlt werden alle Charts angezeigt";
 $txt["name"] = "Name";
 $txt["show"] = "Anzeigen";
 $txt["chart_lastyearoverview"] = "&Uuml;bersicht letzten 5 Jahre";
@@ -253,6 +255,11 @@ $txt["available_languages"] = "Definiere welchen Sprachen der Benutzer zur Auswa
 $txt["google_tracking"] = "Gib dein Goolge Tracking ID an, wenn du Google Analytics nutzen willst";
 $txt["chart_weewx"] = "chart weewx";
 $txt["weewx"] = "weewx";
+$txt["weatherstation_config"] = "Einstellungen f&uuml;r Wetterstationen";
+$txt["wunderground_stationID"] = "Deine wunderground Station ID z.B. IINGOLST156";
+$txt["inverter"] = "Wechselrichter";
+$txt['back_to_today'] = "Zur&uuml;ck zu heute";
+
 $txt["1"] = "1";
 
 ?>

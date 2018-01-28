@@ -423,7 +423,8 @@ body {
 
 #menu .sub-heading {
     margin-top: 55px;
-    padding-left: 1.3125em;
+    /*padding-left: 1.3125em; */
+    padding-left: 5px;
     color: #ffffff;
     background-color: #000000;
 }
@@ -537,7 +538,7 @@ a, a:active, a:visited {
 }
 
 a:visited {
-    color: #c90
+    color: inherit;
 }
 
 a:hover, a:focus {
@@ -553,6 +554,8 @@ code {
     overflow-x: scroll;
     white-space: nowrap
 }
+
+
 /* -------------------------*/
 /*!
  * Generated with CSS Flag Sprite generator (https://www.flag-sprites.com/)
@@ -562,7 +565,7 @@ code {
     display: inline-block;
     width: 16px;
     height: 11px;
-    margin-bottom: 7px;
+    margin-bottom: 0px;
     margin-top: 26px;
     background: url('inc/image/flags.png') no-repeat;
 }

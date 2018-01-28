@@ -250,6 +250,7 @@ $txt["show_footer"] = "Anzeige Fusszeile";
 $txt["use_utf8"] = "Server ist mit UFT8 konfiguriert, pr&uuml;fe vorher die locale auf deinem Server";
 $txt["available_languages"] = "Definiere welchen Sprachen der Benutzer zur Auswahl haben soll";
 $txt["google_tracking"] = "Gib dein Goolge Tracking ID an, wenn du Google Analytics nutzen willst";
+$txt['back_to_today'] = "Zur&uuml;ck zu heute";
 $txt["1"] = "1";
 
 ?>
