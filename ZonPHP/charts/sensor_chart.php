@@ -49,7 +49,7 @@ if (strlen($params) == 0) {
     echo 'window.location.href="index.php";';
     echo '</script>';
     echo '<noscript>';
-    echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
+    echo '<meta http-equiv="refresh" content="0;url=' . $url . '" />';
     echo '</noscript>';
     exit();
 }
@@ -108,6 +108,7 @@ while ($row = mysqli_fetch_array($resultminmax)) {
 
 foreach ($allsensors as &$sensor) {
     $sensor_values = array();
+    $temp_vals = array();
     // init array for the hole day
     for ($i = 0; $i < 24; $i++) {
         for ($j = 0; $j < 12; $j++) {
@@ -137,6 +138,17 @@ foreach ($allsensors as &$sensor) {
         }
         $geengevdag = 1;
 
+        $last_val = $sensor_values[date("H:i", strtotime(0 . ":" . 0))];
+        foreach ($sensor_values as $time => $val) {
+            if ($val == "") {
+                $sensor_values[$time] = $last_val;
+            }
+            if ($val != "") {
+                $last_val = $val;
+            }
+        }
+
+
         $sensor["values"] = $sensor_values;
         $str_temp_vals = "";
         foreach ($temp_vals as $time => $val) {
@@ -145,6 +157,7 @@ foreach ($allsensors as &$sensor) {
         $str_temp_vals = substr($str_temp_vals, 0, -1);
         $sensor["newvaluestring"] = $str_temp_vals;
     }
+
 
 }
 unset($sensor);
