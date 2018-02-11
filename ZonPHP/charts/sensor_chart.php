@@ -112,7 +112,13 @@ foreach ($allsensors as &$sensor) {
     // init array for the hole day
     for ($i = 0; $i < 24; $i++) {
         for ($j = 0; $j < 12; $j++) {
-            $sensor_values[date("H:i", strtotime($i . ":" . $j * 5))] = "";
+            $unixtime = strtotime($chartdatestring . " " . $i . ":" . $j * 5);
+            $timestamp = date("Y-m-d H:i", strtotime($unixtime));
+            $value = array();
+            $value["val"] = "";
+            $value["timestamp"] = $timestamp;
+            $value["unixtime"] = $unixtime;
+            $sensor_values[date("H:i", strtotime($i . ":" . $j * 5))] = $value;
         }
     }
     $sensorid = $sensor["id"];
@@ -133,26 +139,35 @@ foreach ($allsensors as &$sensor) {
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // array time = value
-            $sensor_values[date("H:i", strtotime($row['nicedate']))] = $row['val'];
-            $temp_vals[strtotime($row['nicedate'])] = $row['val'];
+            $key = date("H:i", strtotime($row['nicedate']));
+            $sensor_values[$key]['val'] = $row['val'];
+            // $temp_vals[strtotime($row['nicedate'])] = $row['val'];
         }
         $geengevdag = 1;
 
-        $last_val = $sensor_values[date("H:i", strtotime(0 . ":" . 0))];
-        foreach ($sensor_values as $time => $val) {
-            if ($val == "") {
-                $sensor_values[$time] = $last_val;
-            }
-            if ($val != "") {
-                $last_val = $val;
+        $last_val = $sensor_values[date("H:i", strtotime(0 . ":" . 0))]['val'];
+        $now = time();
+        foreach ($sensor_values as $time => $value) {
+            if ( $value['unixtime'] < $now) {
+                $val = $value['val'];
+                if ($val == "") {
+                    $sensor_values[$time]['val'] = $last_val;
+                }
+                if ($val != "") {
+                    $last_val = $val;
+                }
             }
         }
 
 
         $sensor["values"] = $sensor_values;
         $str_temp_vals = "";
-        foreach ($temp_vals as $time => $val) {
-            $str_temp_vals .= "[" . $time * 1000 . ", " . number_format($val, 1, '.', '') . " ],";
+        foreach ($sensor_values as $value) {
+            $time = $value['unixtime'];
+            $val = $value['val'];
+            if ($val != "") {
+                $str_temp_vals .= "[" . $time * 1000 . ", " . number_format($val, 1, '.', '') . " ],";
+            }
         }
         $str_temp_vals = substr($str_temp_vals, 0, -1);
         $sensor["newvaluestring"] = $str_temp_vals;
@@ -191,8 +206,9 @@ foreach ($allsensors as &$sensor) {
         $str_current_vals = "";
         $cnt = 0;
         $avg_cnt = 0;
-        foreach ($currentval as $time => $val) {
+        foreach ($currentval as $time => $value) {
             $cnt++;
+            $val = $value['val'];
             $str_current_vals .= "[" . $cnt . ", " . $val . " ], ";
 
             if (strlen($val) > 0) {
