@@ -288,6 +288,7 @@ foreach ($allsensors as $sensor) {
         {
             type: 'spline',
             name: \"$label\",
+            color: \"#$color\",
             data: [$valuestring],
             yAxis: $yaxis,
         },     

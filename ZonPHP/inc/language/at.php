@@ -87,6 +87,7 @@ $txt["link"] = "Link Ihrer Website";
 $txt["linksonnerertrag"] = "Ihr Link zu Sonnenertrag";
 $txt["maand"] = "Monat";
 $txt["maanden"] = "Monate";
+$txt["chart_dayoverview"] = "Tagesansicht";
 $txt["chart_monthoverview"] = "Monatsansicht";
 $txt["maandtotoverzicht"] = "Monat anzeigen";
 $txt["mail1"] = ", Ihre Sonnenkollektoren haben ";

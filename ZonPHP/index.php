@@ -236,7 +236,7 @@ if (isset($use_weewx) && $use_weewx==true){
                 type: 'post',
                 data: {
                     'action': 'indexpage',
-                    'sensors': '197086:1:Indoor °C:33cc33,197086:3:Indoor %RH:FD3C00',
+                    'sensors': '197086:1:Indxoor °C:ffa200,197086:3:Indoor %RH:001570',
                     'id': 'indoor',
                     'title': '" . $txt['onlinevandaag'] . "'
                 },
@@ -257,7 +257,7 @@ if (isset($use_weewx) && $use_weewx==true){
                 type: 'post',
                 data: {
                     'action': 'indexpage',
-                    'sensors': '197190:1:Outdoor °C:323232,196692:1:Cellar °C:1919B7,197086:1:Indoor °C:33cc33',
+                    'sensors': '197190:1:Outdoor °C:ffa200,196692:1:Cellar °C:1919B7,197086:1:Indoor °C:33cc33',
                     'id': 'all_temp'
                 },
                 cache: false,
@@ -277,7 +277,7 @@ if (isset($use_weewx) && $use_weewx==true){
                 type: 'post',
                 data: {
                     'action': 'indexpage',
-                    'sensors': '197190:3:Outdoor %RH:323232,196692:3:Cellar %RH:1919B7,197086:3:Indoor %RH:FD3C00',
+                    'sensors': '197190:3:Outdoor %RH:ffa200,196692:3:Cellar %RH:1919B7,197086:3:Indoor %RH:33cc33',
                     'id': 'all_humidity'
                 },
                 cache: false,
