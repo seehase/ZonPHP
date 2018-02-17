@@ -241,6 +241,10 @@ foreach ($allsensors as &$sensor) {
             if ($sensor["val_max"] > $val_c_max) {
                 $val_c_max = $sensor["val_max"];
             }
+            if ($sensor["val_dif"] < 5) {
+                $val_c_min = $val_c_min - 2;
+                $val_c_max = $val_c_max + 2;
+            };
         }
         if ($sensor["type"] == 3) {
             if ($sensor["val_dif"] < $val_rh_dif) {
@@ -252,6 +256,10 @@ foreach ($allsensors as &$sensor) {
             if ($sensor["val_max"] > $val_rh_max) {
                 $val_rh_max = $sensor["val_max"];
             }
+            if ($sensor["val_dif"] < 5) {
+                $val_rh_min = $val_rh_min - 4;
+                $val_rh_max = $val_rh_max + 4;
+            };
         }
     }
 }
@@ -303,6 +311,12 @@ foreach ($allsensors as $sensor) {
 
     $(function () {
 
+        var hum_max = <?php echo $val_rh_max ?>;
+        var hum_min = <?php echo $val_rh_min ?>;
+
+        var temp_max = <?php echo $val_c_max ?>;
+        var temp_min = <?php echo $val_c_min ?>;
+
         var mychart = new Highcharts.chart('sensor_chart_<?php echo $id ?>', {
             chart: {
                 zoomType: 'x',
@@ -350,6 +364,8 @@ foreach ($allsensors as $sensor) {
                     },
                     steps: 5,
                     gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+                    min: temp_min,
+                    max: temp_max,
                 },
                 { // Humidity
                     title: {
@@ -359,7 +375,7 @@ foreach ($allsensors as $sensor) {
                         },
                     },
                     labels: {
-                        format: '{value} kWh',
+                        format: '{value} %RH',
                         style: {
                             color: '#<?php echo $colors['color_chart_labels_yaxis2'] ?>',
                         },
@@ -370,6 +386,8 @@ foreach ($allsensors as $sensor) {
                     },
                     opposite: true,
                     gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis2'] ?>',
+                    min: hum_min,
+                    max: hum_max,
                 },
             ],
             legend: {
