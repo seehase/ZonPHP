@@ -44,7 +44,7 @@ if (isset($use_weewx) && $use_weewx==true){
     </div>
 
     <div id='jqxwindow_chart_weewx' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_gauge'])) echo ' display: none;'; ?> ">
+         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_weewx'])) echo ' display: none;'; ?> ">
         <a href="/weewx/index.html">
         <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_weewx'] . "-Experimental" ?></div>
         </a>
