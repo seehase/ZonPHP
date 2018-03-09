@@ -88,6 +88,7 @@ $txt["link"] = "Link from your website";
 $txt["linksonnerertrag"] = "Your link to Solar-Yield";
 $txt["maand"] = "Month";
 $txt["maanden"] = "months";
+
 $txt["chart_monthoverview"] = "Month View";
 $txt["maandtotoverzicht"] = "Month To View";
 $txt["mail1"] = ", Your solar panels have reached ";

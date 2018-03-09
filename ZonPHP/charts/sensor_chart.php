@@ -49,7 +49,7 @@ if (strlen($params) == 0) {
     echo 'window.location.href="index.php";';
     echo '</script>';
     echo '<noscript>';
-    echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
+    echo '<meta http-equiv="refresh" content="0;url=' . $url . '" />';
     echo '</noscript>';
     exit();
 }
@@ -108,10 +108,17 @@ while ($row = mysqli_fetch_array($resultminmax)) {
 
 foreach ($allsensors as &$sensor) {
     $sensor_values = array();
+    $temp_vals = array();
     // init array for the hole day
     for ($i = 0; $i < 24; $i++) {
         for ($j = 0; $j < 12; $j++) {
-            $sensor_values[date("H:i", strtotime($i . ":" . $j * 5))] = "";
+            $unixtime = strtotime($chartdatestring . " " . $i . ":" . $j * 5);
+            $timestamp = date("Y-m-d H:i", strtotime($unixtime));
+            $value = array();
+            $value["val"] = "";
+            $value["timestamp"] = $timestamp;
+            $value["unixtime"] = $unixtime;
+            $sensor_values[date("H:i", strtotime($i . ":" . $j * 5))] = $value;
         }
     }
     $sensorid = $sensor["id"];
@@ -132,19 +139,40 @@ foreach ($allsensors as &$sensor) {
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // array time = value
-            $sensor_values[date("H:i", strtotime($row['nicedate']))] = $row['val'];
-            $temp_vals[strtotime($row['nicedate'])] = $row['val'];
+            $key = date("H:i", strtotime($row['nicedate']));
+            $sensor_values[$key]['val'] = $row['val'];
+            // $temp_vals[strtotime($row['nicedate'])] = $row['val'];
         }
         $geengevdag = 1;
 
+        $last_val = $sensor_values[date("H:i", strtotime(0 . ":" . 0))]['val'];
+        $now = time();
+        foreach ($sensor_values as $time => $value) {
+            if ( $value['unixtime'] < $now) {
+                $val = $value['val'];
+                if ($val == "") {
+                    $sensor_values[$time]['val'] = $last_val;
+                }
+                if ($val != "") {
+                    $last_val = $val;
+                }
+            }
+        }
+
+
         $sensor["values"] = $sensor_values;
         $str_temp_vals = "";
-        foreach ($temp_vals as $time => $val) {
-            $str_temp_vals .= "[" . $time * 1000 . ", " . number_format($val, 1, '.', '') . " ],";
+        foreach ($sensor_values as $value) {
+            $time = $value['unixtime'];
+            $val = $value['val'];
+            if ($val != "") {
+                $str_temp_vals .= "[" . $time * 1000 . ", " . number_format($val, 1, '.', '') . " ],";
+            }
         }
         $str_temp_vals = substr($str_temp_vals, 0, -1);
         $sensor["newvaluestring"] = $str_temp_vals;
     }
+
 
 }
 unset($sensor);
@@ -178,8 +206,9 @@ foreach ($allsensors as &$sensor) {
         $str_current_vals = "";
         $cnt = 0;
         $avg_cnt = 0;
-        foreach ($currentval as $time => $val) {
+        foreach ($currentval as $time => $value) {
             $cnt++;
+            $val = $value['val'];
             $str_current_vals .= "[" . $cnt . ", " . $val . " ], ";
 
             if (strlen($val) > 0) {
@@ -212,6 +241,10 @@ foreach ($allsensors as &$sensor) {
             if ($sensor["val_max"] > $val_c_max) {
                 $val_c_max = $sensor["val_max"];
             }
+            if ($sensor["val_dif"] < 5) {
+                $val_c_min = $val_c_min - 2;
+                $val_c_max = $val_c_max + 2;
+            };
         }
         if ($sensor["type"] == 3) {
             if ($sensor["val_dif"] < $val_rh_dif) {
@@ -223,6 +256,10 @@ foreach ($allsensors as &$sensor) {
             if ($sensor["val_max"] > $val_rh_max) {
                 $val_rh_max = $sensor["val_max"];
             }
+            if ($sensor["val_dif"] < 5) {
+                $val_rh_min = $val_rh_min - 4;
+                $val_rh_max = $val_rh_max + 4;
+            };
         }
     }
 }
@@ -259,6 +296,7 @@ foreach ($allsensors as $sensor) {
         {
             type: 'spline',
             name: \"$label\",
+            color: \"#$color\",
             data: [$valuestring],
             yAxis: $yaxis,
         },     
@@ -272,6 +310,12 @@ foreach ($allsensors as $sensor) {
 <script type="text/javascript">
 
     $(function () {
+
+        var hum_max = <?php echo $val_rh_max ?>;
+        var hum_min = <?php echo $val_rh_min ?>;
+
+        var temp_max = <?php echo $val_c_max ?>;
+        var temp_min = <?php echo $val_c_min ?>;
 
         var mychart = new Highcharts.chart('sensor_chart_<?php echo $id ?>', {
             chart: {
@@ -320,6 +364,8 @@ foreach ($allsensors as $sensor) {
                     },
                     steps: 5,
                     gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+                    min: temp_min,
+                    max: temp_max,
                 },
                 { // Humidity
                     title: {
@@ -329,7 +375,7 @@ foreach ($allsensors as $sensor) {
                         },
                     },
                     labels: {
-                        format: '{value} kWh',
+                        format: '{value} %RH',
                         style: {
                             color: '#<?php echo $colors['color_chart_labels_yaxis2'] ?>',
                         },
@@ -340,6 +386,8 @@ foreach ($allsensors as $sensor) {
                     },
                     opposite: true,
                     gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis2'] ?>',
+                    min: hum_min,
+                    max: hum_max,
                 },
             ],
             legend: {
