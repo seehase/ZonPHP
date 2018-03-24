@@ -16,6 +16,17 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
+$showAllInverters = false;
+$inverter_id = $inverter;
+$inverter_clause1 = " AND Naam='" . $inverter . "' ";
+$inverter_clause2 = " WHERE Naam='" . $inverter . "' ";
+if (isset($_POST['type']) && ($_POST['type'] == "all")) {
+    $showAllInverters = true;
+    $inverter_id = "all";
+    $inverter_clause1 = " ";
+    $inverter_clause2 = " ";
+}
+
 $chartdate = time();
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
 
@@ -67,7 +78,7 @@ if (mysqli_num_rows($resultref) == 0) {
 
 $sql = "SELECT MAX( Datum_Maand ) AS maxi, SUM( Geg_Maand ) AS som,COUNT(Geg_Maand) AS aantal
 	FROM " . $table_prefix . "_maand
-	where DATE_FORMAT(Datum_Maand,'%y')='" . date('y', $chartdate) . "'AND Naam='" . $inverter . "'
+	where DATE_FORMAT(Datum_Maand,'%y')='" . date('y', $chartdate) . "'"  . $inverter_clause1 . "
 	GROUP BY month(Datum_Maand)
 	ORDER BY 1 ASC";
 
@@ -91,8 +102,8 @@ if (mysqli_num_rows($result) == 0) {
 
 $sqlmax = "SELECT maand,jaar,som
         FROM (SELECT month(Datum_Maand) AS maand,year(Datum_Maand) AS jaar,sum(Geg_Maand) AS som
-                FROM " . $table_prefix . "_maand
-				WHERE Naam='" . $inverter . "'
+                FROM " . $table_prefix . "_maand "
+                . $inverter_clause2. "				
                 GROUP BY maand,jaar
 		) AS somquery
         JOIN (SELECT maand as tmaand, max( som ) AS maxgeg
@@ -100,8 +111,8 @@ $sqlmax = "SELECT maand,jaar,som
                         SELECT maand, jaar, som
                         FROM (
                                 SELECT month( Datum_Maand ) AS maand, year( Datum_Maand ) AS jaar, sum( Geg_Maand ) AS som
-                                FROM " . $table_prefix . "_maand
-								WHERE Naam='" . $inverter . "'
+                                FROM " . $table_prefix . "_maand "
+                                . $inverter_clause2. "								
                                 GROUP BY maand, jaar
                         ) AS somqjoin
                 ) AS maxqjoin
@@ -242,7 +253,7 @@ if ($datum != date("Y", $chartdate) . " geen data.") {
 
 $show_legende = "true";
 if ($isIndexPage == true) {
-    echo '<div class = "index_chart" id="year_chart_' . $inverter . '"></div>';
+    echo '<div class = "index_chart" id="year_chart_' . $inverter_id . '"></div>';
     $show_legende = "false";
 };
 
@@ -256,7 +267,7 @@ include_once "chart_styles.php";
         var avrg =<?php echo round($fgemiddelde, 2) ?>;
         var myoptions = <?php echo $chart_options ?>;
 
-        var mychart = new Highcharts.Chart('year_chart_<?php echo $inverter ?>', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.Chart('year_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
 
             subtitle: {
                 text: sub_title,

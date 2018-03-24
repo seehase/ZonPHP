@@ -91,6 +91,14 @@ if (isset($use_weewx) && $use_weewx==true){
         </a>
         <div id='year_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
+    <div id='jqxwindow_total_year_overview' class="smallCharts"
+         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_yearoverview'])) echo ' display: none;'; ?> ">
+        <a href="year_overview.php">
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalyearoverview']?>
+            </div>
+        </a>
+        <div id='total_year_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
+    </div>
     <div id='jqxwindow_all_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_allyearoverview'])) echo ' display: none;'; ?> ">
         <a href="all_years_overview.php">
@@ -153,6 +161,7 @@ if (isset($use_weewx) && $use_weewx==true){
             $("#jqxwindow_month_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_total_month_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
+            $("#jqxwindow_total_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_last_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_week_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
@@ -308,9 +317,9 @@ if (isset($use_weewx) && $use_weewx==true){
             <?php if (isset($charts['chart_totalmonthoverview'])) echo "                    
             var container_total_month = $('#total_month_chart_id');
             $.ajax({
-                url: 'charts/total_month_chart.php',
+                url: 'charts/month_chart.php',
                 type: 'post',
-                data: {'action': 'indexpage'},
+                data: {'action': 'indexpage', 'type': 'all'},
                 cache: false,
                 success: function (chart) {
                     $(container_total_month).append(chart);
@@ -330,6 +339,21 @@ if (isset($use_weewx) && $use_weewx==true){
                 cache: false,
                 success: function (chart) {
                     $(container_year).append(chart);
+                },
+                error: function (xhr, desc, err) {
+                    console.log(xhr + '\\n' + err);
+                }
+            });
+" ?>
+            <?php if (isset($charts['chart_totalyearoverview'])) echo "            
+            var container_total_year = $('#total_year_chart_id');
+            $.ajax({
+                url: 'charts/year_chart.php',
+                type: 'post',
+                data: {'action': 'indexpage', 'type': 'all'},
+                cache: false,
+                success: function (chart) {
+                    $(container_total_year).append(chart);
                 },
                 error: function (xhr, desc, err) {
                     console.log(xhr + '\\n' + err);
