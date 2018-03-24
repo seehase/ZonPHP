@@ -71,17 +71,12 @@ if (isset($use_weewx) && $use_weewx==true){
 
     <div id='jqxwindow_total_month_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_totalmonthoverview'])) echo ' display: none;'; ?> ">
-        <a href="month_overview.php">
+        <a href="month_overview.php?type=all">
             <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalmonthoverview'] ?></div>
         </a>
         <div id='total_month_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
-    <div id='jqxwindow_chart_indoor' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_indoor'])) echo ' display: none;'; ?> ">
-        <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_indoor'] ?></div>
-        <div id='sensor_chart_id1' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
 
     <div id='jqxwindow_year_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_yearoverview'])) echo ' display: none;'; ?> ">
@@ -93,12 +88,13 @@ if (isset($use_weewx) && $use_weewx==true){
     </div>
     <div id='jqxwindow_total_year_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_yearoverview'])) echo ' display: none;'; ?> ">
-        <a href="year_overview.php">
+        <a href="year_overview.php?type=all">
             <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalyearoverview']?>
             </div>
         </a>
         <div id='total_year_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
+
     <div id='jqxwindow_all_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_allyearoverview'])) echo ' display: none;'; ?> ">
         <a href="all_years_overview.php">
@@ -107,6 +103,15 @@ if (isset($use_weewx) && $use_weewx==true){
         </a>
         <div id='all_years_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
+    <div id='jqxwindow_total_all_years_overview' class="smallCharts"
+         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_allyearoverview'])) echo ' display: none;'; ?> ">
+        <a href="all_years_overview.php?type=all">
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalallyearoverview']?>
+            </div>
+        </a>
+        <div id='total_all_years_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
+    </div>
+
     <div id='jqxwindow_last_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_lastyearoverview'])) echo ' display: none;'; ?> ">
         <a href="last_years_overview.php">
@@ -122,7 +127,6 @@ if (isset($use_weewx) && $use_weewx==true){
         </a>
         <div id='week_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
-
     <div id='jqxwindow_flop31_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_31days'])) echo ' display: none;'; ?> ">
         <a href="top31_overview.php?Max_Min=flop">
@@ -136,6 +140,12 @@ if (isset($use_weewx) && $use_weewx==true){
             <div class="<?= HEADER_CLASS ?>"><?php echo $txt['beste'] . " - " . $inverter?></div>
         </a>
         <div id='flop31_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
+    </div>
+
+    <div id='jqxwindow_chart_indoor' class="smallCharts"
+         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_indoor'])) echo ' display: none;'; ?> ">
+        <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_indoor'] ?></div>
+        <div id='sensor_chart_id1' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
     <div id='jqxwindow_chart_all_temp' class="smallCharts"
@@ -163,6 +173,7 @@ if (isset($use_weewx) && $use_weewx==true){
             $("#jqxwindow_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_total_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
+            $("#jqxwindow_total_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_last_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_week_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_top31_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
@@ -362,14 +373,14 @@ if (isset($use_weewx) && $use_weewx==true){
 " ?>
 
             <?php if (isset($charts['chart_allyearoverview'])) echo "            
-            var container_total = $('#all_years_chart_id');
+            var container_all_years = $('#all_years_chart_id');
             $.ajax({
                 url: 'charts/all_years_chart.php',
                 type: 'post',
                 data: {'action': 'indexpage'},
                 cache: false,
                 success: function (chart) {
-                    $(container_total).append(chart);
+                    $(container_all_years).append(chart);
                 },
                 error: function (xhr, desc, err) {
                     console.log(xhr + '\\n' + err);
@@ -377,6 +388,21 @@ if (isset($use_weewx) && $use_weewx==true){
             });
 " ?>
 
+            <?php if (isset($charts['chart_totalallyearoverview'])) echo "            
+            var container_total_all_years = $('#total_all_years_chart_id');
+            $.ajax({
+                url: 'charts/all_years_chart.php',
+                type: 'post',
+                data: {'action': 'indexpage', 'type': 'all'},
+                cache: false,
+                success: function (chart) {
+                    $(container_total_all_years).append(chart);
+                },
+                error: function (xhr, desc, err) {
+                    console.log(xhr + '\\n' + err);
+                }
+            });
+" ?>
             <?php if (isset($charts['chart_lastyearoverview'])) echo "                
             var container_last_years = $('#last_years_chart_id');
             $.ajax({

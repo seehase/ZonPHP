@@ -20,7 +20,8 @@ $showAllInverters = false;
 $inverter_id = $inverter;
 $inverter_clause1 = " AND Naam='" . $inverter . "' ";
 $inverter_clause2 = " WHERE Naam='" . $inverter . "' ";
-if (isset($_POST['type']) && ($_POST['type'] == "all")) {
+if ((isset($_POST['type']) && ($_POST['type'] == "all"))  ||
+   (isset($_GET['type']) && ($_GET['type'] == "all"))) {
     $showAllInverters = true;
     $inverter_id = "all";
     $inverter_clause1 = " ";
