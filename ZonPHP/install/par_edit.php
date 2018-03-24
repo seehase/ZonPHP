@@ -188,6 +188,9 @@ include_once "par_header.php";
                 ?>:
 
                 <select NAME="sInvullen_gegevens">
+                    <option <?php if ($selectedInverter == "none") echo "selected "; ?> >
+                        none
+                    </option>
                     <option <?php if ($selectedInverter == "Invullen_gegevens_suo") echo "selected "; ?> >
                         Invullen_gegevens_suo
                     </option>
