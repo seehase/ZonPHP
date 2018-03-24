@@ -72,7 +72,7 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
 		<a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring . $add_params ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button>
 		</a>
 
-        <a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring ?>" target="_self"><button><?php echo $txt['inverters'] ?></button>
+        <a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring ?>" target="_self"><button><?php echo $txt['inverter'] ?></button>
         </a>
         <a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring."&type=all" ?>" target="_self"><button><?php echo $txt['all_inverters'] ?></button>
         </a>
