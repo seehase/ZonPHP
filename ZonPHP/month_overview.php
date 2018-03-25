@@ -14,6 +14,15 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
+$inverter_id = $inverter;
+$add_params = "";
+if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
+    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
+    $inverter_id = "all";
+    $add_params = "&type=all";
+}
+
+//  $chartdate = time();
 $nextmonthvisible = false;
 $nextmonth = strtotime("+1 month", $chartdate);
 $nextmonthstring = strftime("%Y-%m-%d", strtotime("+1 month", $chartdate));
@@ -45,23 +54,28 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
             <h2 align="center">
                 <?php
                 if ($prevmonthvisible) {
-                echo '<a class="myButton" href="month_overview.php?maand=' . $prevmonthstring . '"> < </a>';
+                echo '<a class="myButton" href="month_overview.php?maand=' . $prevmonthstring . $add_params . '"> < </a>';
 				}
                 echo " " . $datum . " ";
                 if ($nextmonthvisible) {
-                echo '<a class="myButton" href="month_overview.php?maand=' . $nextmonthstring . '"> > </a>';
+                echo '<a class="myButton" href="month_overview.php?maand=' . $nextmonthstring . $add_params . '"> > </a>';
 				}
                 ?>
             </h2>
         </div>
 
-        <div id="month_chart_<?php echo $inverter ?>" style="width:100%; height:100%;"></div>
+        <div id="month_chart_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
     </div>
 
     <div style="float: unset; margin-top: 5px;">
         <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
-		<a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button>
+		<a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring . $add_params ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button>
 		</a>
+
+        <a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring ?>" target="_self"><button><?php echo $txt['inverter'] ?></button>
+        </a>
+        <a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring."&type=all" ?>" target="_self"><button><?php echo $txt['all_inverters'] ?></button>
+        </a>
 
     </div>
 

@@ -13,7 +13,14 @@ $inverter = $_SESSION['Wie'];
 if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
-
+$inverter_id = $inverter;
+$add_params = "";
+if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
+    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
+    $inverter_id = "all";
+    $add_params = "&type=all";
+}
+$chartdate = time();
 $nextyearvisible = false;
 $nextyear = strtotime("+1 year", $chartdate);
 $nextyearstring = strftime("%Y-01-01", strtotime("+1 year", $chartdate));
@@ -43,23 +50,27 @@ $chartyeardatestring = strftime("%Y-01-01", strtotime("+0 year", $date_maximum))
             <h2 align="center">
                 <?php
 				if ($prevyearvisible) {
-                echo '<a class="myButton" href="year_overview.php?jaar=' . $prevyearstring . '"> < </a>';
+                echo '<a class="myButton" href="year_overview.php?jaar=' . $prevyearstring . $add_params . '"> < </a>';
 				}
                 echo $txt["jaar"]." " . $datum . " ";
 				if ($nextyearvisible) {
-                echo '<a class="myButton" href="year_overview.php?jaar=' . $nextyearstring . '"> > </a>';
+                echo '<a class="myButton" href="year_overview.php?jaar=' . $nextyearstring . $add_params . '"> > </a>';
 				}
                 ?>
             </h2>
         </div>
 
-        <div id="year_chart_<?php echo $inverter ?>" style=":width100%; height:100%;"></div>
+        <div id="year_chart_<?php echo $inverter_id ?>" style=":width100%; height:100%;"></div>
     </div>
 	
     <div style="float: unset; margin-top: 5px;">
         <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
-		<a href="<?php echo "year_overview.php?jaar=".$chartyeardatestring ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button>
+		<a href="<?php echo "year_overview.php?jaar=".$chartyeardatestring . $add_params ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button>
 		</a>
+        <a href="<?php echo "year_overview.php?jaar=".$chartyeardatestring ?>" target="_self"><button><?php echo $txt['inverter'] ?></button>
+        </a>
+        <a href="<?php echo "year_overview.php?jaar=".$chartyeardatestring."&type=all" ?>" target="_self"><button><?php echo $txt['all_inverters'] ?></button>
+        </a>
     </div>
 
     <div id="tabelgeg">

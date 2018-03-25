@@ -90,6 +90,8 @@ $txt["maanden"] = "Monate";
 $txt["chart_monthoverview"] = "Monatsansicht";
 $txt["chart_dayoverview"] = "Tagesansicht";
 $txt["chart_totalmonthoverview"] = "Monatsansicht alle WR";
+$txt["chart_totalyearoverview"] = "Jahresansicht alle WR";
+$txt["chart_totalallyearoverview"] = "Alle Jahre alle WR";
 $txt["maandtotoverzicht"] = "Monat anzeigen";
 $txt["mail1"] = ", Ihre Sonnenkollektoren haben ";
 $txt["mail2"] = "kWh erreicht.";
@@ -259,6 +261,7 @@ $txt["weatherstation_config"] = "Einstellungen f&uuml;r Wetterstationen";
 $txt["wunderground_stationID"] = "Deine wunderground Station ID z.B. IINGOLST156";
 $txt["inverter"] = "Wechselrichter";
 $txt['back_to_today'] = "Zur&uuml;ck zu heute";
+$txt['all_inverters'] = "Alle WR";
 
 $txt["1"] = "1";
 

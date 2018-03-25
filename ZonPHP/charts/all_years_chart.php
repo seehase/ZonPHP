@@ -15,6 +15,20 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
+$showAllInverters = false;
+$inverter_id = $inverter;
+$temp_sum_per_year = $sum_per_year;
+$temp_avarage_per_month = $avarage_per_month;
+$inverter_clause = " WHERE Naam='" . $inverter . "' ";
+if ((isset($_POST['type']) && ($_POST['type'] == "all"))  ||
+   (isset($_GET['type']) && ($_GET['type'] == "all"))) {
+    $showAllInverters = true;
+    $inverter_id = "all";
+    $inverter_clause = " ";
+    $temp_sum_per_year = $all_inverters_sum_per_year;
+    $temp_avarage_per_month = $all_inverters_avarage_per_month;
+}
+
 // -----------------------------  get data from DB -----------------------------------------------------------------
 $datum = "";
 
@@ -25,8 +39,9 @@ if (isset($year_euro[$current_year])) {
     $current_euro = 0.25;
 }
 $sqlref = "SELECT month( Datum_Refer ) AS maand, Geg_Refer, Dag_Refer
-        FROM " . $table_prefix . "_refer
-        WHERE Naam = '" . $inverter . "'";
+        FROM " . $table_prefix . "_refer "
+        . $inverter_clause;
+
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. totaal-ref " . mysqli_error($con));
 $frefjaar = 0;
 $arefjaar = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -39,8 +54,8 @@ if (mysqli_num_rows($resultref) != 0) {
     $frefjaar = 1;
 
 $sqlgem = "SELECT month( Datum_Maand ) AS maand, AVG( Geg_Maand ) AS gem
-        FROM " . $table_prefix . "_maand
-        WHERE Naam = '" . $inverter . "'
+        FROM " . $table_prefix . "_maand "
+        . $inverter_clause . "
         GROUP BY maand";
 $resultgem = mysqli_query($con, $sqlgem) or die("Query failed. totaal-ref " . mysqli_error($con));
 while ($row = mysqli_fetch_array($resultgem)) {
@@ -49,8 +64,8 @@ while ($row = mysqli_fetch_array($resultgem)) {
 
 $sqlverbruik = "SELECT sum( Geg_Verbruik_Dag ) AS verdag, sum( Geg_Verbruik_Nacht ) AS vernacht,
         year( Datum_Verbruik ) AS jaar
-        FROM " . $table_prefix . "_verbruik
-        WHERE Naam = '" . $inverter . "'
+        FROM " . $table_prefix . "_verbruik "
+        . $inverter_clause . "
         GROUP BY jaar";
 
 $resultverbruik = mysqli_query($con, $sqlverbruik) or die("Query failed. jaar-verbruik " . mysqli_error($con));
@@ -80,7 +95,7 @@ foreach ($missing_days_month_year as $ijaar => $months) {
                 $averwacht[$ijaar] += $arefjaar[$i] * $iaantaldagen;
         }
     }
-    $averwacht[$ijaar] += $sum_per_year[$ijaar];
+    $averwacht[$ijaar] += $temp_sum_per_year[$ijaar];
 }
 
 ?>
@@ -103,12 +118,12 @@ $astrverbruikdag = "";
 
 $first_year = 0;
 
-$yearcount = count($sum_per_year);
+$yearcount = count($temp_sum_per_year);
 $expected_bars = "";
 $current_bars = "";
 $categories = "";
 
-foreach ($sum_per_year as $ijaar => $fkw) {
+foreach ($temp_sum_per_year as $ijaar => $fkw) {
 
 
     // get month names in current locale
@@ -121,8 +136,8 @@ foreach ($sum_per_year as $ijaar => $fkw) {
             $stoon .= '<br />' . $txt["dagverbruik"] . ': ' . number_format($ajaarverbruikdag[$ijaar], 0, ',', '.') . ' kWh';
         if (isset($ajaarverbruiknacht[$ijaar]))
             $stoon .= '<br />' . $txt["nachtverbruik"] . ': ' . number_format($ajaarverbruiknacht[$ijaar], 0, ',', '.') . ' kWh';
-        if (array_key_exists($ijaar, $sum_per_year) && isset($ajaarverbruikdag[$ijaar]) && isset($ajaarverbruiknacht[$ijaar]))
-            $stoon .= '<br />' . $txt["totaalverbruik"] . ': ' . number_format($ajaarverbruikdag[$ijaar] + $ajaarverbruiknacht[$ijaar] + $sum_per_year[$ijaar], 0, ',', '.') . ' kWh';
+        if (array_key_exists($ijaar, $temp_sum_per_year) && isset($ajaarverbruikdag[$ijaar]) && isset($ajaarverbruiknacht[$ijaar]))
+            $stoon .= '<br />' . $txt["totaalverbruik"] . ': ' . number_format($ajaarverbruikdag[$ijaar] + $ajaarverbruiknacht[$ijaar] + $temp_sum_per_year[$ijaar], 0, ',', '.') . ' kWh';
     }
 
     // expected bars char
@@ -139,7 +154,7 @@ foreach ($sum_per_year as $ijaar => $fkw) {
     }
     $myColor1 = $colors['color_chartbar1'];
     $myColor2 = $colors['color_chartbar2'];
-    if ($fkw >= max($sum_per_year)) {
+    if ($fkw >= max($temp_sum_per_year)) {
         $myColor1 = $colors['color_chartbar_piek1'];
         $myColor2 = $colors['color_chartbar_piek2'];
     }
@@ -174,8 +189,8 @@ foreach ($sum_per_year as $ijaar => $fkw) {
     if ($param['iTonendagnacht'] == 1) {
         if (array_key_exists($ijaar, $ajaarverbruikdag)) {
             if (!isset($ajaarverbruiknacht[$ijaar])) $ajaarverbruiknacht[$ijaar] = 0;
-            if (array_key_exists($ijaar, $sum_per_year)) {
-                $ftotaalverbruik = $ajaarverbruikdag[$ijaar] + $ajaarverbruiknacht[$ijaar] + $sum_per_year[$ijaar];
+            if (array_key_exists($ijaar, $temp_sum_per_year)) {
+                $ftotaalverbruik = $ajaarverbruikdag[$ijaar] + $ajaarverbruiknacht[$ijaar] + $temp_sum_per_year[$ijaar];
                 $astrverbruikdag .= '
                 },';
             }
@@ -203,24 +218,24 @@ foreach ($astrref as $ijaar => $fkw) {
 }
 $strref = substr($strref, 0, -1);
 
-$myKeys = array_keys($sum_per_year);
+$myKeys = array_keys($temp_sum_per_year);
 
 
 $sub_title = "";
 $sub_title .= ("<b>" . $txt["totaal"] . ": <\/b>"
-    . number_format(array_sum($sum_per_year), 0, ',', '.') . " kWh = "
+    . number_format(array_sum($temp_sum_per_year), 0, ',', '.') . " kWh = "
     . number_format($fsomeuro, 0, ',', '.') . "€ = "
-    . number_format(1000 * array_sum($sum_per_year) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br />");
+    . number_format(1000 * array_sum($temp_sum_per_year) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br />");
 $sub_title .= ("<b>" . $txt["max"] . ": <\/b>"
-    . number_format(max($sum_per_year), 0, ',', '.') . " kWh = "
-    . number_format(1000 * max($sum_per_year) / $ieffectiefkwpiek, 0, ',', '.') . " kWh = "
-    . number_format(100 * max($sum_per_year) / $frefjaar, 0, ',', '.') . "%<br />");
-$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($avarage_per_month, 0, ',', '.') . " kWh");
+    . number_format(max($temp_sum_per_year), 0, ',', '.') . " kWh = "
+    . number_format(1000 * max($temp_sum_per_year) / $ieffectiefkwpiek, 0, ',', '.') . " kWh = "
+    . number_format(100 * max($temp_sum_per_year) / $frefjaar, 0, ',', '.') . "%<br />");
+$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($temp_avarage_per_month, 0, ',', '.') . " kWh");
 $sub_title .= ("<b>" . $txt["ref"] . ": <\/b>" . number_format($frefjaar, 0, ',', '.') . " kWh");
 
 $show_legende = "true";
 if ($isIndexPage == true) {
-    echo ' <div class = "index_chart" id="total_chart_' . $inverter . '"></div>';
+    echo ' <div class = "index_chart" id="total_chart_' . $inverter_id . '"></div>';
     $show_legende = "false";
 }
 
@@ -231,12 +246,12 @@ include_once "chart_styles.php";
 
     $(function () {
         var sub_title = '<?php echo $sub_title ?>';
-        var avrg = <?php echo round($avarage_per_month,0); ?>;
+        var avrg = <?php echo round($temp_avarage_per_month,0); ?>;
         var ref = <?php echo round($frefjaar, 0); ?>;
         var years = <?php echo $yearcount ?>;
         var myoptions = <?php echo $chart_options ?>;
 
-        var mychart = new Highcharts.Chart('total_chart_<?php echo $inverter ?>', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.Chart('total_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
 
             subtitle: {
                 text: sub_title,

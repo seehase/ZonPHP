@@ -11,11 +11,21 @@ $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-
 $inverter = $_SESSION['Wie'];
 if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
+
+$showAllInverters = false;
+$inverter_id = $inverter;
+$inverter_clause = " AND Naam='" . $inverter . "' ";
+if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
+   (isset($_GET['type']) && ($_GET['type'] == "all"))) {
+    $showAllInverters = true;
+    $inverter_id = "all";
+    $inverter_clause = " ";
+}
+
 
 $chartdate = time();
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
@@ -43,7 +53,7 @@ if (isset($year_euro[$current_year])) {
 
 $sqlref = "SELECT *
         FROM " . $table_prefix . "_refer
-        WHERE DATE_FORMAT(Datum_Refer,'%m')='" . $current_month . "'" . " AND Naam='" . $inverter . "'
+        WHERE DATE_FORMAT(Datum_Refer,'%m')='" . $current_month . "'" . $inverter_clause . "
         ORDER BY Datum_Refer ASC";
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. maand-ref " . mysqli_error($con));
 if (mysqli_num_rows($resultref) == 0) {
@@ -56,9 +66,10 @@ if (mysqli_num_rows($resultref) == 0) {
 
 $DaysPerMonth = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
 
-$sql = "SELECT Datum_Maand,Geg_Maand
+$sql = "SELECT Datum_Maand, sum(Geg_Maand) as Geg_Maand
         FROM " . $table_prefix . "_maand
-        where Datum_Maand like '" . $current_year_month . "%'" . " AND Naam='" . $inverter . "'
+        where Datum_Maand like '" . $current_year_month . "%'" .  $inverter_clause . "
+        GROUP BY Datum_Maand
         ORDER BY Datum_Maand ASC";
 $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
@@ -139,7 +150,7 @@ if ($geengevmaand != 0) {
 
 $show_legende = "true";
 if ($isIndexPage == true) {
-    echo '<div class = "index_chart" id="month_chart_' . $inverter . '"></div>';
+    echo '<div class = "index_chart" id="month_chart_' . $inverter_id . '"></div>';
     $show_legende = "false";
 }
 
@@ -156,7 +167,7 @@ include_once "chart_styles.php";
         var sub_title = '<?php echo $sub_title ?>';
         var myoptions = <?php echo $chart_options ?>;
 
-        var mychart = new Highcharts.Chart('month_chart_<?php echo $inverter ?>', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.Chart('month_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
 
             subtitle: {
                 text: sub_title,

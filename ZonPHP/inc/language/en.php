@@ -9,6 +9,8 @@ $txt["achtergrondflash"] = "Background color of the graphs";
 $txt["actueel"] = "News";
 $txt["chart_allyearoverview"] = "All years View";
 $txt["chart_totalmonthoverview"] = "Month all Inverters";
+$txt["chart_totalyearoverview"] = "Year all Inverters";
+$txt["chart_totalallyearoverview"] = "All years all Inverters";
 $txt["allejarentotoverzicht"] = "All years Up Overview";
 $txt["behaaldeuro"] = "Title of [Euro]";
 $txt["behaaldeuro"] = "Title of [Euro]";
@@ -257,6 +259,7 @@ $txt["weatherstation_config"] = "Weatherstation configuration";
 $txt["wunderground_stationID"] = "Your wunderground Station ID e.g. IINGOLST156";
 $txt["inverter"] = "Inverter";
 $txt['back_to_today'] = "goto today";
+$txt['all_inverters'] = "all inverters";
 $txt["1"] = "1";
 
 

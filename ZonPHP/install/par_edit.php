@@ -188,6 +188,9 @@ include_once "par_header.php";
                 ?>:
 
                 <select NAME="sInvullen_gegevens">
+                    <option <?php if ($selectedInverter == "none") echo "selected "; ?> >
+                        none
+                    </option>
                     <option <?php if ($selectedInverter == "Invullen_gegevens_suo") echo "selected "; ?> >
                         Invullen_gegevens_suo
                     </option>
@@ -416,19 +419,24 @@ include_once "par_header.php";
                                    size='5' <?php if (isset($_POST['chart_totalmonthoverview'])) echo "checked"; ?> ></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["chart_indoor"]; ?></td>
-                        <td><input type='checkbox' name='chart_indoor'
-                                   size='5' <?php if (isset($_POST['chart_indoor'])) echo "checked"; ?> ></td>
-                    </tr>
-                    <tr>
                         <td><?php echo $txt["chart_yearoverview"]; ?></td>
                         <td><input type='checkbox' name='chart_yearoverview'
                                    size='5' <?php if (isset($_POST['chart_yearoverview'])) echo "checked"; ?> ></td>
                     </tr>
                     <tr>
+                        <td><?php echo $txt["chart_totalyearoverview"]; ?></td>
+                        <td><input type='checkbox' name='chart_totalyearoverview'
+                                   size='5' <?php if (isset($_POST['chart_totalyearoverview'])) echo "checked"; ?> ></td>
+                    </tr>
+                    <tr>
                         <td><?php echo $txt["chart_allyearoverview"]; ?></td>
                         <td><input type='checkbox' name='chart_allyearoverview'
                                    size='5' <?php if (isset($_POST['chart_allyearoverview'])) echo "checked"; ?> ></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["chart_totalallyearoverview"]; ?></td>
+                        <td><input type='checkbox' name='chart_totalallyearoverview'
+                                   size='5' <?php if (isset($_POST['chart_totalallyearoverview'])) echo "checked"; ?> ></td>
                     </tr>
                     <tr>
                         <td><?php echo $txt["chart_lastyearoverview"]; ?></td>
@@ -444,6 +452,11 @@ include_once "par_header.php";
                         <td><?php echo $txt["chart_31days"]; ?></td>
                         <td><input type='checkbox' name='chart_31days'
                                    size='5' <?php if (isset($_POST['chart_31days'])) echo "checked"; ?> ></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["chart_indoor"]; ?></td>
+                        <td><input type='checkbox' name='chart_indoor'
+                                   size='5' <?php if (isset($_POST['chart_indoor'])) echo "checked"; ?> ></td>
                     </tr>
                     <tr>
                         <td><?php echo $txt["chart_all_temp"]; ?></td>

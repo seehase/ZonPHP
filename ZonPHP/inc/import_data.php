@@ -1,5 +1,7 @@
 <?php
 switch ($param['sInvullen_gegevens']) {
+    case "none":
+        break;
     case "Invullen_gegevens_xls":
         include "importer/Invullen_gegevens_xls.php";
         break;

@@ -14,6 +14,15 @@ $inverter = $_SESSION['Wie'];
 if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
+
+$inverter_id = $inverter;
+$add_params = "";
+if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
+    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
+    $inverter_id = "all";
+    $add_params = "&type=all";
+}
+
 ?>
 
 
@@ -26,11 +35,15 @@ if (isset($_POST['inverter'])) {
                 <h2 align="center"><?php echo $txt["totaaloverzicht"] . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
             </div>
 
-            <div id="total_chart_<?php echo $inverter ?>" style="width:100%; height:100%;"></div>
+            <div id="total_chart_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
         </div>
 
         <div style="float: unset; margin-top: 5px;">
             <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
+            <a href="<?php echo "all_years_overview.php" ?>" target="_self"><button><?php echo $txt['inverter'] ?></button>
+            </a>
+            <a href="<?php echo "all_years_overview.php?type=all" ?>" target="_self"><button><?php echo $txt['all_inverters'] ?></button>
+            </a>
         </div>
 
 

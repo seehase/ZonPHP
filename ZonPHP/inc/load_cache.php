@@ -37,8 +37,15 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     $sum_per_year = $_SESSION['sum_per_year'];
     $total_sum_for_all_years = $_SESSION['total_sum_for_all_years'];
     $max_month = $_SESSION['max_month'];
-    $txt = $_SESSION['txt'];
     $missing_days_month_year = $_SESSION['missing_days_month_year'];
+
+    $all_inverters_avarage_per_month = $_SESSION['all_inverters_avarage_per_month'];
+    $all_inverters_sum_per_year = $_SESSION['all_inverters_sum_per_year'];
+    $all_inverters_total_sum_for_all_years = $_SESSION['all_inverters_total_sum_for_all_years'];
+    $all_inverters_max_month = $_SESSION['all_inverters_max_month'];
+    $all_inverters_missing_days_month_year = $_SESSION['all_inverters_missing_days_month_year'];
+
+    $txt = $_SESSION['txt'];
     $year_euro = $_SESSION['year_euro'];
     $short_weekdays = $_SESSION['short_weekdays'];
     $weekdays = $_SESSION['weekdays'];
@@ -126,6 +133,43 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     $_SESSION['max_month'] = $max_month;
     $_SESSION['missing_days_month_year'] = $missing_days_month_year;
 
+    // load sum per month for all years and all interters ----------------------------------------------------------------------------
+    $sql = "SELECT SUM( Geg_Maand ) AS sum_month, year( Datum_Maand ) AS year, month( Datum_Maand ) AS month,
+            count( Datum_Maand ) AS tdag_maand
+        FROM " . $table_prefix . "_maand        
+        GROUP BY year, month";
+
+    $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
+    $all_inverters_sum_per_year = array();
+    $all_inverters_total_sum_for_all_years = 0;
+    $all_inverters_avarage_per_month = 0;
+    $all_inverters_max_month = 0;
+    $all_inverters_missing_days_month_year = array();
+    if (mysqli_num_rows($result) == 0) {
+        $all_inverters_sum_per_year[date('Y-m-d', time())] = 0;
+    } else {
+        while ($row = mysqli_fetch_array($result)) {
+            if (!isset($all_inverters_sum_per_year[$row['year']])) {
+                $all_inverters_sum_per_year[$row['year']] = 0;
+            }
+            $all_inverters_sum_per_year[$row['year']] += $row['sum_month'];
+
+            $all_inverters_days_per_month = cal_days_in_month(CAL_GREGORIAN, $row['month'], $row['year']);
+            $all_inverters_missingdays = $all_inverters_days_per_month - $row['tdag_maand'];
+
+            $all_inverters_missing_days_month_year[$row['year']][$row['month']] = $all_inverters_missingdays;
+        }
+        $all_inverters_avarage_per_month = array_sum($all_inverters_sum_per_year) / count($all_inverters_sum_per_year);
+        $all_inverters_total_sum_for_all_years = array_sum($all_inverters_sum_per_year);
+        $all_inverters_max_month = max($all_inverters_sum_per_year);
+    }
+
+    $_SESSION['all_inverters_avarage_per_month'] = $all_inverters_avarage_per_month;
+    $_SESSION['all_inverters_sum_per_year'] = $all_inverters_sum_per_year;
+    $_SESSION['all_inverters_total_sum_for_all_years'] = $all_inverters_total_sum_for_all_years;
+    $_SESSION['all_inverters_max_month'] = $all_inverters_max_month;
+    $_SESSION['all_inverters_missing_days_month_year'] = $all_inverters_missing_days_month_year;
+
 
     // load euro -------------------------------------------------------------------------------------------------------
     $sqleuro = "SELECT DATE_FORMAT(Datum_Euro,'%Y') as year, Geg_Euro as euro_val
@@ -149,16 +193,37 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
                FROM " . $table_prefix . "_dag
                WHERE Naam='" . $_SESSION['Wie'] . "'";
     $resultminmax = mysqli_query($con, $sqlminmax) or die("Query failed. dag-minmax " . mysqli_error($con));
+
     $date_minimum = strtotime('2038-01-01 00:00:00');
     $date_maximum = strtotime('1990-01-01 00:00:00');
     $_SESSION['date_minimum'] = $date_minimum;
     $_SESSION['date_maximum'] = $date_maximum;
+    $values_found = true;
     while ($row = mysqli_fetch_array($resultminmax)) {
+        if ($row['mini'] == null){
+            $values_found = false;
+        }
         $date_minimum = strtotime($row['mini']);
         $date_maximum = strtotime($row['maxi']);
         $_SESSION['date_minimum'] = $date_minimum;
         $_SESSION['date_maximum'] = $date_maximum;
     }
+    // fallback if only data in maand table
+    if (!$values_found){
+        $sqlminmax = "SELECT   
+                    DATE_FORMAT(MAX(Datum_maand), '%Y-%m-%d') AS maxi,
+                    DATE_FORMAT(MIN(Datum_maand), '%Y-%m-%d') AS mini
+               FROM " . $table_prefix . "_maand
+               WHERE Naam='" . $_SESSION['Wie'] . "'";
+        $resultminmax = mysqli_query($con, $sqlminmax) or die("Query failed. maand-minmax " . mysqli_error($con));
+        while ($row = mysqli_fetch_array($resultminmax)) {
+            $date_minimum = strtotime($row['mini']);
+            $date_maximum = strtotime($row['maxi']);
+            $_SESSION['date_minimum'] = $date_minimum;
+            $_SESSION['date_maximum'] = $date_maximum;
+        }
+    }
+
 
     // -----------------------------------------------------------------------------------------------------------------
     $_SESSION['lastupdate'] = time();
