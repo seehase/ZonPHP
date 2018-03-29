@@ -404,9 +404,14 @@ include_once "par_header.php";
                                    size='5' <?php if (isset($_POST['chart_gauge'])) echo "checked"; ?> ></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["chart_solar_temp"]; ?></td>
-                        <td><input type='checkbox' name='chart_solar_temp'
-                                   size='5' <?php if (isset($_POST['chart_solar_temp'])) echo "checked"; ?> ></td>
+                        <td><?php echo $txt["chart_dayoverview"]; ?></td>
+                        <td><input type='checkbox' name='chart_dayoverview'
+                                   size='5' <?php if (isset($_POST['chart_dayoverview'])) echo "checked"; ?> ></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["chart_totaldayoverview"]; ?></td>
+                        <td><input type='checkbox' name='chart_totaldayoverview'
+                                   size='5' <?php if (isset($_POST['chart_totaldayoverview'])) echo "checked"; ?> ></td>
                     </tr>
                     <tr>
                         <td><?php echo $txt["chart_monthoverview"]; ?></td>
