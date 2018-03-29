@@ -54,7 +54,24 @@ $demo = true;
              style="<?= CHART_STYLE ?>; height: 373px; "></div>
     </div>
 
-<!--
+
+    <?php
+    foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
+
+        $out =  '<div id="jqxwindow_chart_dayoverview_' . $sdbnaam . '" class="smallCharts" style="' . WINDOW_STYLE ;
+        if (!isset($charts['chart_dayoverview'])) $out = $out . ' display: none;';
+        $out = $out . '" ';
+        $out = $out . ' <a href="day_overview.php">' .
+            '    <div class="' . HEADER_CLASS . '">' . $daytext . " - " . $sdbnaam . '</div> ' .
+            ' </a>' .
+            '<div id="day_chart_id_' . $sdbnaam . '" class="' . CONTENT_CLASS .'" style="' . CHART_STYLE . '"></div>
+                 </div>';
+        echo $out;
+    }
+    ?>
+
+    <!--
+
     <div id='jqxwindow_chart_dayoverview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_dayoverview'])) echo ' display: none;'; ?> ">
         <a href="day_overview.php">
@@ -65,7 +82,7 @@ $demo = true;
     </div>
 -->
 
-<!--  JHS only -->
+<!--  JHS only
     <div id='jqxwindow_chart_dayoverview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_dayoverview'])) echo ' display: none;'; ?> ">
         <a href="day_overview.php">
@@ -211,10 +228,16 @@ $demo = true;
             $("#jqxwindow_week_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_top31_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_flop31_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
-            $("#jqxwindow_chart_dayoverview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
-            $("#jqxwindow_chart_dayoverview2").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_chart_totaldayoverview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_chart_weewx").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
+
+            <?php
+            foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
+                echo '$("#jqxwindow_chart_dayoverview_'. $sdbnaam . '").jqxPanel({height: 410, width: 440, theme: "zonphp"});';
+            }
+            ?>
+
+
         });
 
 
@@ -268,54 +291,24 @@ $demo = true;
                 });
             " ?>
 
-            <?php if ((isset($charts['chart_dayoverview'])) && ($demo == false)) echo "
-                var container_day1 = $('#day_chart_id1');
-                $.ajax({
-                    url: 'charts/day_chart.php',
-                    type: 'post',
-                    data: {'action': 'indexpage', 'inverter': '" . $inverter . "'},
-                    cache: false,
-                    success: function (chart) {
-                        $(container_day1).append(chart);
-                    },
-                    error: function (xhr, desc, err) {
-                        console.log(xhr + '\\n' + err);
-                    }
-                }); "
-            ?>
-
-
-            <?php if ($demo == true) echo "
-                    var container_day1 = $('#day_chart_id1');
+            <?php if (isset($charts['chart_dayoverview'])) {
+            foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
+                echo "
+                    var container_day_" . $sdbnaam . " = $('#day_chart_id_" . $sdbnaam . "');
                     $.ajax({
                         url: 'charts/day_chart.php',
                         type: 'post',
-                        data: {'action': 'indexpage', 'inverter': 'SEEHASE'},
+                        data: {'action': 'indexpage', 'inverter': '" . $sdbnaam . "'},
                         cache: false,
                         success: function (chart) {
-                            $(container_day1).append(chart);
+                            $(container_day_" . $sdbnaam . ").append(chart);
                         },
                         error: function (xhr, desc, err) {
                             console.log(xhr + '\\n' + err);
                         }
-                    });            
-                    
-                    var container_day2 = $('#day_chart_id2');
-                    $.ajax({
-                        url: 'charts/day_chart.php',
-                        type: 'post',
-                        data: {'action': 'indexpage', 'inverter': 'TILLY'},
-                        cache: false,
-                        success: function (chart) {
-                            $(container_day2).append(chart);
-                        },
-                        error: function (xhr, desc, err) {
-                            console.log(xhr + '\\n' + err);
-                        }
-                    }); "
+                    }); ";
+            }}
             ?>
-
-
 
             <?php if (isset($charts['chart_totaldayoverview'])) echo "
             var container_totalday = $('#totalday_chart_id');
@@ -567,6 +560,3 @@ $demo = true;
 
 </body>
 </html>
-
-
-
