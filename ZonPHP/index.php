@@ -21,7 +21,6 @@ if (isset($use_weewx) && $use_weewx==true){
     $daytext =  $txt['chart_solar_temp'];
 }
 
-$demo = true;
 ?>
 
 <script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxcore.js"></script>
@@ -69,37 +68,6 @@ $demo = true;
         echo $out;
     }
     ?>
-
-    <!--
-
-    <div id='jqxwindow_chart_dayoverview' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_dayoverview'])) echo ' display: none;'; ?> ">
-        <a href="day_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - " . $inverter?></div>
-        </a>
-
-        <div id='day_chart_id1' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
--->
-
-<!--  JHS only
-    <div id='jqxwindow_chart_dayoverview' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_dayoverview'])) echo ' display: none;'; ?> ">
-        <a href="day_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - Seehase" ?></div>
-        </a>
-
-        <div id='day_chart_id1' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
-    <div id='jqxwindow_chart_dayoverview2' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_dayoverview'])) echo ' display: none;'; ?> ">
-        <a href="day_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - Tilly" ?></div>
-        </a>
-
-        <div id='day_chart_id2' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
-<!--  JHS only -->
 
 
     <div id='jqxwindow_chart_totaldayoverview' class="smallCharts"
