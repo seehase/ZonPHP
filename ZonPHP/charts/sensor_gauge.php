@@ -35,6 +35,8 @@ foreach ($tmp as $val) {
     $sensor["type"] = $tmparry[1];
     $sensor["label"] = $tmparry[2];
     $sensor["color"] = $tmparry[3];
+    $sensor["minvalue"] = 0.0;
+    $sensor["maxvalue"] = 0.0;
     $allsensors[$cnt] = $sensor;
     $cnt++;
 }
@@ -69,12 +71,15 @@ foreach ($allsensors as &$sensor) {
 
     $sensor["value"] = 0.0;
     $sensor["logtime"] = time();
+
     $result_sensor = mysqli_query($con, $sql_sensor) or die("Query failed. dag " . mysqli_error($con));
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // fetch latest value only one result
             $sensor["value"] = $row["val"];
             $sensor["logtime"] = $row["logtime"];
+            $sensor["minvalue"] = $row["val"];
+            $sensor["maxvalue"] = $row["val"];
         }
     }
 
@@ -90,8 +95,8 @@ foreach ($allsensors as &$sensor) {
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // only one result
-            $sensor["minvalue"] = $row["min"];
-            $sensor["maxvalue"] = $row["max"];
+            if ($row["min"] != null) $sensor["minvalue"] = $row["min"];
+            if ($row["max"] != null) $sensor["maxvalue"] = $row["max"];
         }
     }
 
