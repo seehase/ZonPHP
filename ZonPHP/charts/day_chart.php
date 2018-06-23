@@ -37,10 +37,20 @@ if (isset($_GET['naam'])) {
     $inverter = $_GET['naam'];
 }
 
+$showAllInverters = false;
+$inverter_id = $inverter;
+$inverter_clause = " AND Naam='" . $inverter . "' ";
+if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
+    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
+    $showAllInverters = true;
+    $inverter_id = "all";
+    $inverter_clause = " ";
+}
+
 
 $sqlref = "SELECT *
 	FROM " . $table_prefix . "_refer
-	WHERE Month(Datum_Refer)='" . date("m", $chartdate) . "' AND Naam='" . $inverter . "'";
+	WHERE Month(Datum_Refer)='" . date("m", $chartdate) . "'" . $inverter_clause;
 
 
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. dag-ref " . mysqli_error($con));
@@ -53,9 +63,9 @@ else {
 }
 
 $valarray = array();
-$sql = "SELECT AVG( Geg_Dag ) AS gem,
+$sql = "SELECT SUM( Geg_Dag ) AS gem,
 	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd FROM " .
-    $table_prefix . "_dag where Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' AND Naam='" . $inverter . "' GROUP BY datumtijd ORDER BY datumtijd ASC";
+    $table_prefix . "_dag where Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' ". $inverter_clause . " GROUP BY datumtijd ORDER BY datumtijd ASC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
@@ -92,8 +102,8 @@ if (mysqli_num_rows($result) == 0) {
 // get best day for current month (max value over all years for current month
 $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
 	 FROM " . $table_prefix . "_maand
-	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . $table_prefix . "_maand WHERE Naam='" . $inverter .
-    "' AND DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' GROUP BY maand )AS maandelijks ON (month(" .
+	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . $table_prefix . "_maand WHERE 
+     DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' ".  $inverter_clause . " GROUP BY maand )AS maandelijks ON (month(" .
     $table_prefix . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . $table_prefix . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
 
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
@@ -113,7 +123,7 @@ $nice_max_date = date("Y-m-d", strtotime($maxdag));
 $sqlmd = "SELECT AVG( Geg_Dag ) AS gem,
 	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" .
     $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd FROM " . $table_prefix . "_dag where Datum_Dag LIKE '" .
-    date("Y-m-d", strtotime($maxdag)) . "%' AND Naam='" . $inverter . "' GROUP BY datumtijd ORDER BY datumtijd ASC";
+    date("Y-m-d", strtotime($maxdag)) . "%' " . $inverter_clause . " GROUP BY datumtijd ORDER BY datumtijd ASC";
 
 $resultmd = mysqli_query($con, $sqlmd) or die("Query failed. dag-max-dag " . mysqli_error($con));
 if (mysqli_num_rows($resultmd) == 0) {
@@ -295,7 +305,7 @@ else $aoplopendkwdag1 = round((max($aoplopendkwdag) + 0.5), 0);
 
 $show_legende = "true";
 if ($isIndexPage == true) {
-    echo '<div class = "index_chart" id="mycontainer"></div>';
+    echo '<div class = "index_chart" id="mycontainer_' . $inverter_id . '"></div>';
     $show_legende = "false";
 }
 
@@ -401,7 +411,7 @@ if (strlen($str_temp_vals) > 0) {
 
         Highcharts.setOptions({<?php echo $chart_lang ?>});
 
-        var mychart = new Highcharts.chart('mycontainer', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
                 title: {
                     text: '',
                     style: {

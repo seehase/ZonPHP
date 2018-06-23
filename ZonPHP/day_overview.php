@@ -14,6 +14,15 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
+$inverter_id = $inverter;
+$add_params = "";
+if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
+    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
+    $inverter_id = "all";
+    $add_params = "&type=all";
+}
+
+
 $nextdatevisible = false;
 $nextdate = strtotime("+1 day", $chartdate);
 $nextdatestring = strftime("%Y-%m-%d", $nextdate);
@@ -69,11 +78,11 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
             <h2 align="center">
                 <?php
                 if ($prevdatevisible) {
-                    echo '<a class="myButton" href="day_overview.php?dag=' . $prevdatestring . '"> < </a>';
+                    echo '<a class="myButton" href="day_overview.php?dag=' . $prevdatestring . $add_params . '"> < </a>';
                 }
                 echo " " . $datum . " " . '  <input type="hidden" id="startdate" value="' . strftime("%d-%m-%Y", time()) . '" readonly>  ';
                 if ($nextdatevisible) {
-                    echo '<a class="myButton" href="day_overview.php?dag=' . $nextdatestring . '"> > </a>';
+                    echo '<a class="myButton" href="day_overview.php?dag=' . $nextdatestring . $add_params . '"> > </a>';
                 }
                 ?>
             </h2>
@@ -88,7 +97,8 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
 
         </div>
 
-        <div id="mycontainer" style="width:100%; height:100%;"></div>
+        <div id="mycontainer_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
+
     </div>
 
     <div id="kalender">
