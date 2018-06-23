@@ -14,14 +14,6 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
-$inverter_id = $inverter;
-$add_params = "";
-if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
-    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
-    $inverter_id = "all";
-    $add_params = "&type=all";
-}
-
 $nextdatevisible = false;
 $nextdate = strtotime("+1 day", $chartdate);
 $nextdatestring = strftime("%Y-%m-%d", $nextdate);
@@ -77,11 +69,11 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
             <h2 align="center">
                 <?php
                 if ($prevdatevisible) {
-                    echo '<a class="myButton" href="day_overview.php?dag=' . $prevdatestring . $add_params . '"> < </a>';
+                    echo '<a class="myButton" href="day_overview.php?dag=' . $prevdatestring . '"> < </a>';
                 }
                 echo " " . $datum . " " . '  <input type="hidden" id="startdate" value="' . strftime("%d-%m-%Y", time()) . '" readonly>  ';
                 if ($nextdatevisible) {
-                    echo '<a class="myButton" href="day_overview.php?dag=' . $nextdatestring . $add_params . '"> > </a>';
+                    echo '<a class="myButton" href="day_overview.php?dag=' . $nextdatestring . '"> > </a>';
                 }
                 ?>
             </h2>
@@ -96,7 +88,7 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
 
         </div>
 
-        <div id="mycontainer_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
+        <div id="mycontainer" style="width:100%; height:100%;"></div>
     </div>
 
     <div id="kalender">
@@ -134,12 +126,7 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
 
     <div style="float: unset; margin-top: 5px;">
         <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
-        <a href="<?php echo "day_overview.php?jaar=".$chartdaydatestring . $add_params ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button></a>
-        <a href="<?php echo "day_overview.php?jaar=".$chartdaydatestring ?>" target="_self"><button><?php echo $txt['inverter'] ?></button>
-        </a>
-        <a href="<?php echo "day_overview.php?jaar=".$chartdaydatestring."&type=all" ?>" target="_self"><button><?php echo $txt['all_inverters'] ?></button>
-        </a>
-
+				<a href="<?php echo "day_overview.php?jaar=".$chartdaydatestring ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button></a>
     </div>
 
     <div id="tabelgeg">

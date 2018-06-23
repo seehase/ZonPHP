@@ -21,6 +21,7 @@ if (isset($use_weewx) && $use_weewx==true){
     $daytext =  $txt['chart_solar_temp'];
 }
 
+$demo = true;
 ?>
 
 <script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxcore.js"></script>
@@ -53,21 +54,35 @@ if (isset($use_weewx) && $use_weewx==true){
              style="<?= CHART_STYLE ?>; height: 373px; "></div>
     </div>
 
+<!--
+    <div id='jqxwindow_chart_dayoverview' class="smallCharts"
+         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_dayoverview'])) echo ' display: none;'; ?> ">
+        <a href="day_overview.php">
+            <div class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - " . $inverter?></div>
+        </a>
 
-    <?php
-    foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
+        <div id='day_chart_id1' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
+    </div>
+-->
 
-        $out =  '<div id="jqxwindow_chart_dayoverview_' . $sdbnaam . '" class="smallCharts" style="' . WINDOW_STYLE ;
-        if (!isset($charts['chart_dayoverview'])) $out = $out . ' display: none;';
-        $out = $out . '" ';
-        $out = $out . ' <a href="day_overview.php">' .
-            '    <div class="' . HEADER_CLASS . '">' . $daytext . " - " . $sdbnaam . '</div> ' .
-            ' </a>' .
-            '<div id="day_chart_id_' . $sdbnaam . '" class="' . CONTENT_CLASS .'" style="' . CHART_STYLE . '"></div>
-                 </div>';
-        echo $out;
-    }
-    ?>
+<!--  JHS only -->
+    <div id='jqxwindow_chart_dayoverview' class="smallCharts"
+         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_dayoverview'])) echo ' display: none;'; ?> ">
+        <a href="day_overview.php">
+            <div class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - Seehase" ?></div>
+        </a>
+
+        <div id='day_chart_id1' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
+    </div>
+    <div id='jqxwindow_chart_dayoverview2' class="smallCharts"
+         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_dayoverview'])) echo ' display: none;'; ?> ">
+        <a href="day_overview.php">
+            <div class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - Tilly" ?></div>
+        </a>
+
+        <div id='day_chart_id2' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
+    </div>
+<!--  JHS only -->
 
 
     <div id='jqxwindow_chart_totaldayoverview' class="smallCharts"
@@ -196,16 +211,10 @@ if (isset($use_weewx) && $use_weewx==true){
             $("#jqxwindow_week_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_top31_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_flop31_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
+            $("#jqxwindow_chart_dayoverview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
+            $("#jqxwindow_chart_dayoverview2").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_chart_totaldayoverview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_chart_weewx").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
-
-            <?php
-            foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
-                echo '$("#jqxwindow_chart_dayoverview_'. $sdbnaam . '").jqxPanel({height: 410, width: 440, theme: "zonphp"});';
-            }
-            ?>
-
-
         });
 
 
@@ -218,12 +227,12 @@ if (isset($use_weewx) && $use_weewx==true){
                     url: 'charts/sensor_gauge.php',
                     type: 'post',
                     data: {
-                        'action': 'indexpage', 'sensors': '197086:1:Indoor:FFF, ' +
+                        'action': 'indexpage', 'sensors': '197086:1:Sleep:FFF, ' +
                         '196692:1:Cellar:FFF, ' +
-                        '197190:1:Outdoor:FFF, ' +
-                        '197086:3:Indoor:3B77DB, ' +
+                        '18974:1:Loft:FFF, ' +
+                        '197086:3:Sleep:3B77DB, ' +
                         '196692:3:Cellar:3B77DB, ' +
-                        '197190:3:Outdoor:3B77DB', 'id': 'Current'
+                        '18974:3:Loft:3B77DB', 'id': 'Current'
                     },
     
                     cache: false,
@@ -259,24 +268,54 @@ if (isset($use_weewx) && $use_weewx==true){
                 });
             " ?>
 
-            <?php if (isset($charts['chart_dayoverview'])) {
-            foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
-                echo "
-                    var container_day_" . $sdbnaam . " = $('#day_chart_id_" . $sdbnaam . "');
+            <?php if ((isset($charts['chart_dayoverview'])) && ($demo == false)) echo "
+                var container_day1 = $('#day_chart_id1');
+                $.ajax({
+                    url: 'charts/day_chart.php',
+                    type: 'post',
+                    data: {'action': 'indexpage', 'inverter': '" . $inverter . "'},
+                    cache: false,
+                    success: function (chart) {
+                        $(container_day1).append(chart);
+                    },
+                    error: function (xhr, desc, err) {
+                        console.log(xhr + '\\n' + err);
+                    }
+                }); "
+            ?>
+
+
+            <?php if ($demo == true) echo "
+                    var container_day1 = $('#day_chart_id1');
                     $.ajax({
                         url: 'charts/day_chart.php',
                         type: 'post',
-                        data: {'action': 'indexpage', 'inverter': '" . $sdbnaam . "'},
+                        data: {'action': 'indexpage', 'inverter': 'SEEHASE'},
                         cache: false,
                         success: function (chart) {
-                            $(container_day_" . $sdbnaam . ").append(chart);
+                            $(container_day1).append(chart);
                         },
                         error: function (xhr, desc, err) {
                             console.log(xhr + '\\n' + err);
                         }
-                    }); ";
-            }}
+                    });            
+                    
+                    var container_day2 = $('#day_chart_id2');
+                    $.ajax({
+                        url: 'charts/day_chart.php',
+                        type: 'post',
+                        data: {'action': 'indexpage', 'inverter': 'TILLY'},
+                        cache: false,
+                        success: function (chart) {
+                            $(container_day2).append(chart);
+                        },
+                        error: function (xhr, desc, err) {
+                            console.log(xhr + '\\n' + err);
+                        }
+                    }); "
             ?>
+
+
 
             <?php if (isset($charts['chart_totaldayoverview'])) echo "
             var container_totalday = $('#totalday_chart_id');
@@ -302,7 +341,7 @@ if (isset($use_weewx) && $use_weewx==true){
                 type: 'post',
                 data: {
                     'action': 'indexpage',
-                    'sensors': '197086:1:Indxoor °C:ffa200,197086:3:Indoor %RH:001570',
+                    'sensors': '197086:1:Sleep °C:ffa200,197086:3:Sleep %RH:001570',
                     'id': 'indoor',
                     'title': '" . $txt['onlinevandaag'] . "'
                 },
@@ -323,7 +362,7 @@ if (isset($use_weewx) && $use_weewx==true){
                 type: 'post',
                 data: {
                     'action': 'indexpage',
-                    'sensors': '197190:1:Outdoor °C:ffa200,196692:1:Cellar °C:1919B7,197086:1:Indoor °C:33cc33',
+                    'sensors': '197190:1:Outdoor °C:ffa200,196692:1:Cellar °C:1919B7,197086:1:Sleep °C:33cc33, 18974:1:°C %RH:FA58F4',
                     'id': 'all_temp'
                 },
                 cache: false,
@@ -343,7 +382,7 @@ if (isset($use_weewx) && $use_weewx==true){
                 type: 'post',
                 data: {
                     'action': 'indexpage',
-                    'sensors': '197190:3:Outdoor %RH:ffa200,196692:3:Cellar %RH:1919B7,197086:3:Indoor %RH:33cc33',
+                    'sensors': '197190:3:Outdoor %RH:ffa200,196692:3:Cellar %RH:1919B7,197086:3:Sleep %RH:33cc33, 18974:3:Loft %RH:FA58F4',
                     'id': 'all_humidity'
                 },
                 cache: false,
@@ -528,3 +567,6 @@ if (isset($use_weewx) && $use_weewx==true){
 
 </body>
 </html>
+
+
+

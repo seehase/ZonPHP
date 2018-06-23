@@ -35,8 +35,6 @@ foreach ($tmp as $val) {
     $sensor["type"] = $tmparry[1];
     $sensor["label"] = $tmparry[2];
     $sensor["color"] = $tmparry[3];
-    $sensor["minvalue"] = 0.0;
-    $sensor["maxvalue"] = 0.0;
     $allsensors[$cnt] = $sensor;
     $cnt++;
 }
@@ -71,15 +69,12 @@ foreach ($allsensors as &$sensor) {
 
     $sensor["value"] = 0.0;
     $sensor["logtime"] = time();
-
     $result_sensor = mysqli_query($con, $sql_sensor) or die("Query failed. dag " . mysqli_error($con));
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // fetch latest value only one result
             $sensor["value"] = $row["val"];
             $sensor["logtime"] = $row["logtime"];
-            $sensor["minvalue"] = $row["val"];
-            $sensor["maxvalue"] = $row["val"];
         }
     }
 
@@ -95,8 +90,8 @@ foreach ($allsensors as &$sensor) {
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // only one result
-            if ($row["min"] != null) $sensor["minvalue"] = $row["min"];
-            if ($row["max"] != null) $sensor["maxvalue"] = $row["max"];
+            $sensor["minvalue"] = $row["min"];
+            $sensor["maxvalue"] = $row["max"];
         }
     }
 
@@ -122,7 +117,7 @@ $outdoorrh = $allsensors[5]["value"];
 echo '
 
 <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Indoor</strong><br />' . strftime("%H:%M:%S", strtotime($allsensors[0]["logtime"])) . ' </div>
+    <div style="float: none"><strong>Sleep</strong><br />' . strftime("%H:%M:%S", strtotime($allsensors[0]["logtime"])) . ' </div>
     <div id="gaugeContainer1" style="float: none; margin-left: 11px;"></div>
     <div style="float: none; text-align:center; font-size:10px;">' . $indoor . '°C</div>
 </div>
@@ -133,14 +128,14 @@ echo '
     <div style="float: none; text-align:center; font-size:10px;">' . $cellar . '°C</div>
 </div>
 <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Outdoor</strong> <br />' . strftime("%H:%M:%S", strtotime($allsensors[2]["logtime"])) . ' </div>
+    <div style="float: none"><strong>Loft</strong> <br />' . strftime("%H:%M:%S", strtotime($allsensors[2]["logtime"])) . ' </div>    
     <div id="gaugeContainer3" style="margin-left: 3px;"></div>
     <div style="float: none; text-align:center; font-size:10px;">' . $outdoor . '°C</div>
 </div>
 
-<div class="sensorgauge" id="container-speed" style="width: 200px; height: 120px; float: left; ">indoor</div>
-<div class="sensorgauge" id="container-cellar" style="width: 200px; height: 120px; float: left; ">cellar</div>
-<div class="sensorgauge" id="container-rpm" style="width: 200px; height: 120px; float: left; ">outdoor</div>
+<div class="sensorgauge" id="container-speed" style="width: 200px; height: 120px; float: left; ">Sleep</div>
+<div class="sensorgauge" id="container-cellar" style="width: 200px; height: 120px; float: left; ">Cellar</div>
+<div class="sensorgauge" id="container-rpm" style="width: 200px; height: 120px; float: left; ">Loft</div>
 
 ';
 
@@ -289,7 +284,7 @@ echo '
                 min: 0,
                 max: 100,
                 title: {
-                    text: 'Indoor',
+                    text: 'Sleep',
                     style: {color: '#<?php echo $colors['color_chart_text_subtitle'] ?>'},
                 },
                 visible: true,
@@ -345,7 +340,7 @@ echo '
                 min: 0,
                 max: 100,
                 title: {
-                    text: 'Outdoor',
+                    text: 'Loft',
                     style: {color: '#<?php echo $colors['color_chart_text_subtitle'] ?>'},
                 }
             },
