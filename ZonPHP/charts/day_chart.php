@@ -560,7 +560,7 @@ if (strlen($str_temp_vals) > 0) {
             }))
             ;
 
-        $("#mycontainer").resize(function () {
+        $("#mycontainer_<?php echo $inverter_id ?>").resize(function () {
             mychart.reflow();
         });
 
