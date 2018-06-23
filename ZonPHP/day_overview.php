@@ -94,11 +94,16 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
                 . number_format(100 * end($aoplopendkwdag) / $frefmaand, 0, ',', '.') . "%"); ?>
             <?php echo("<b>" . $txt["max"] . ": </b>" . number_format(max($agegevens), 0, ",", ".") . "W="
                 . number_format(100 * max($agegevens) / $ieffectiefkwpiek, 0, ",", ".") . "%"); ?>
-
         </div>
 
         <div id="mycontainer_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
 
+    </div>
+
+    <div style="float: unset; margin-top: 5px;">
+        <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
+        <a href="<?php echo "day_overview.php?jaar=".$chartdaydatestring ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button>
+        </a>
     </div>
 
     <div id="kalender">
@@ -132,11 +137,6 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
         echo '</tbody>
 		</table>';
         ?>
-    </div>
-
-    <div style="float: unset; margin-top: 5px;">
-        <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
-				<a href="<?php echo "day_overview.php?jaar=".$chartdaydatestring ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button></a>
     </div>
 
     <div id="tabelgeg">
@@ -191,13 +191,13 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
             </table>
         </div>
     </div>
+</div>
 
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#resize ").height(500);
-        });
-    </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#resize ").height(<?php echo $big_chart_height ?>);
+    });
+</script>
 
 </div><!-- closing ".page-content" -->
 
