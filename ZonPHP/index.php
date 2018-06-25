@@ -368,7 +368,7 @@ if (isset($use_weewx) && $use_weewx==true){
                 type: 'post',
                 data: {
                     'action': 'indexpage',
-                    'sensors': '197190:1:Outdoor °C:ffa200,196692:1:Cellar °C:1919B7,197086:1:Sleep °C:33cc33, 18974:1:°C %RH:FA58F4',
+                    'sensors': '197190:1:Outdoor °C:ffa200,196692:1:Cellar °C:1919B7,197086:1:Sleep °C:33cc33, 18974:1:Loft °C:FA58F4',
                     'id': 'all_temp'
                 },
                 cache: false,
