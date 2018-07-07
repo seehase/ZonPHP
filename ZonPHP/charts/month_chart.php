@@ -93,7 +93,17 @@ if (mysqli_num_rows($result) == 0) {
         $dmaandjaar[] = $row['Datum_Maand'];
     }
     $datum = strftime("%B-%Y", $chartdate);
-    $fgemiddelde = array_sum($agegevens) / count($agegevens);
+
+    $daycount=0;
+    for ($i = 1; $i <= $DaysPerMonth; $i++) {
+        if ($agegevens[$i] > 0) {
+            $daycount++;
+        }
+    }
+    if ($daycount == 0) {
+        $daycount=1;
+    }
+    $fgemiddelde = array_sum($agegevens) / $daycount;
     $iyasaanpassen = round(0.5 + max($agegevens) / 5) * 5;
 
 }
