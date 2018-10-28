@@ -148,7 +148,7 @@ $strdata = substr($strdata, 0, -1);
 
 $sub_title = "";
 if ($geengevmaand != 0) {
-    $sub_title .= "<b>" . strftime("%B", time()) . ": <\/b>" . number_format(array_sum($agegevens), 2, ',', '.') . "kWh="
+    $sub_title .= "<b>" . strftime("%B", $chartdate) . ": <\/b>" . number_format(array_sum($agegevens), 2, ',', '.') . "kWh="
         . number_format(1000 * array_sum($agegevens) / $ieffectiefkwpiek, 1, ',', '.') . "kWhp="
         . number_format(100 * array_sum($agegevens) / ($frefmaand * $DaysPerMonth), 0, ',', '.') . "%<br />";
     $sub_title .= "<b>" . $txt["max"] . ": <\/b>" . number_format(max($agegevens), 2, ',', '.') . "kWh="
