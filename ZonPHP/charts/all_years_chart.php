@@ -230,7 +230,7 @@ $sub_title .= ("<b>" . $txt["max"] . ": <\/b>"
     . number_format(max($temp_sum_per_year), 0, ',', '.') . " kWh = "
     . number_format(1000 * max($temp_sum_per_year) / $ieffectiefkwpiek, 0, ',', '.') . " kWh = "
     . number_format(100 * max($temp_sum_per_year) / $frefjaar, 0, ',', '.') . "%<br />");
-$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($temp_avarage_per_month, 0, ',', '.') . " kWh");
+$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($temp_avarage_per_month, 0, ',', '.') . " kWh   ");
 $sub_title .= ("<b>" . $txt["ref"] . ": <\/b>" . number_format($frefjaar, 0, ',', '.') . " kWh");
 
 $show_legende = "true";
