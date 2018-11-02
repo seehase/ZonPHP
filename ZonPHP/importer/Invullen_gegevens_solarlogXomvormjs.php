@@ -79,7 +79,7 @@ foreach ($adag as $v) {
 								// Get the useful values
 								$Pac=$omdata[0];
 								$DaySum=$omdata[2];
-								$DaySum=$DaySum*$param['coefficient'];
+								$DaySum=floatval($DaySum)*$param['coefficient'];
 								//echo "------------------------------>".$Datum."XXX".$Uhrzeit."XXX".$Pac."XXX".$DaySum."XXX".$sNaamSaveDatabase[$i];echo"<br />";
 								//Prepare the SQL queries
 								$string.="('".$oDatumTijd.$sNaamSaveDatabase[$i]."','".$oDatumTijd."',".$Pac.",".($DaySum/1000).",'".$sNaamSaveDatabase[$i]."'),";
@@ -95,7 +95,7 @@ foreach ($adag as $v) {
 								$omdata=explode(";",$alist[$i+1]);
 								$Pac=$omdata[0];
 								$DaySum=$omdata[2];
-								$DaySum=$DaySum*$param['coefficient'];
+								$DaySum=floatval($DaySum)*$param['coefficient'];
 								$string.="('".$oDatumTijd.$sNaamSaveDatabase[$i]."','".$oDatumTijd."',".$Pac.",".($DaySum/1000).",'".$sNaamSaveDatabase[$i]."'),";			
 								//echo "------------------------------>".$Datum."XXX".$Uhrzeit."XXX".$Pac."XXX".$DaySum."XXX".$sNaamSaveDatabase[$i];echo"<br />";
 							}
