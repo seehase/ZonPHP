@@ -64,7 +64,7 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
             </h2>
         </div>
 
-        <div id="month_chart_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
+        <div id="month_chart_<?php echo $inverter_id ?>" style="width:100%; !important; height:100%; !important;"></div>
     </div>
 
     <div style="float: unset; margin-top: 5px;">
