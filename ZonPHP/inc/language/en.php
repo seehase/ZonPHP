@@ -261,6 +261,8 @@ $txt["wunderground_stationID"] = "Your wunderground Station ID e.g. IINGOLST156"
 $txt["inverter"] = "Inverter";
 $txt['back_to_today'] = "goto today";
 $txt['all_inverters'] = "all inverters";
+$txt['choose_inverter'] = "Choose Inverter";
+
 $txt["1"] = "1";
 
 

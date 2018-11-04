@@ -71,11 +71,73 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
     });
 </script>
 
+
+<?php
+    # -----------------------------------------------     test for later use
+    $choose_inverter_dropdown = "";
+    $multiple_inverters = false;
+    $choose_inverter_items = "";
+    foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
+        $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . "?naam=" . $sdbnaam .
+            "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
+    }
+
+    if (strlen($choose_inverter_items) > 0){
+        $choose_inverter_dropdown = '
+                <div style="position: absolute;">
+
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">' . $txt['choose_inverter'] . '
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu"> ' .
+                        $choose_inverter_items . '
+                    </ul>
+            </div>
+        
+        ';
+        $multiple_inverters = true;
+    }
+    # -----------------------------------------------     test for later use
+?>
+
+
+<?php
+    $choose_inverter_dropdown = "";
+    $multiple_inverters = false;
+    $choose_inverter_items = "";
+    foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
+        $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . "?naam=" . $sdbnaam .
+            "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
+    }
+
+    if (strlen($choose_inverter_items) > 0){
+        $choose_inverter_dropdown = '
+                   <div class="dropdown" style="position: absolute; z-index: 50; top: 74px; left: 12px">
+                        <button onclick="myFunction()" class="dropbtn">' . $txt['choose_inverter'] . '</button>
+                        <div id="myDropdown" class="dropdown-content">' .
+                            $choose_inverter_items . '
+                        </div>
+                    </div>
+            
+            ';
+        $multiple_inverters = true;
+    }
+?>
+
+
+
+
 <div id="page-content">
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 72px; ">
+        
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
-            <h2 align="center">
+
+            <?php
+                if ($multiple_inverters) echo $choose_inverter_dropdown;
+            ?>
+
+            <h2>
                 <?php
                 if ($prevdatevisible) {
                     echo '<a class="myButton" href="day_overview.php?dag=' . $prevdatestring . $add_params . '"> < </a>';
@@ -94,7 +156,11 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
                 . number_format(100 * end($aoplopendkwdag) / $frefmaand, 0, ',', '.') . "%"); ?>
             <?php echo("<b>" . $txt["max"] . ": </b>" . number_format(max($agegevens), 0, ",", ".") . "W="
                 . number_format(100 * max($agegevens) / $ieffectiefkwpiek, 0, ",", ".") . "%"); ?>
+
+
         </div>
+
+
 
         <div id="mycontainer_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
 

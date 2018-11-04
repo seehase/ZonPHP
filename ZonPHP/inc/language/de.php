@@ -263,6 +263,7 @@ $txt["wunderground_stationID"] = "Deine wunderground Station ID z.B. IINGOLST156
 $txt["inverter"] = "Wechselrichter";
 $txt['back_to_today'] = "Zur&uuml;ck zu heute";
 $txt['all_inverters'] = "Alle WR";
+$txt['choose_inverter'] = "Wähle Wechselrichter";
 
 $txt["1"] = "1";
 

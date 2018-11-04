@@ -32,6 +32,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <script type="text/javascript"
             src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 
 
     <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
@@ -43,6 +44,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <script language="javascript" type="text/javascript" src="inc/js/jquery.flot.resize.min.js"></script>
     <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.base.css">
     <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.zonphp.css">
+
 
     <!-- read default styles (static) -->
     <link rel="stylesheet" type="text/css" href="style.css">
