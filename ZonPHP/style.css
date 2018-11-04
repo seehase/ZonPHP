@@ -645,3 +645,12 @@ code {
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #3a5b8e;}
+
+.h1, h1 {
+    font-size: 16px !important;
+    font-weight: bolder;
+}
+.h2, h2 {
+    font-size: 12pt; !important;
+    font-weight: bolder;
+}

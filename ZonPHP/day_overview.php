@@ -116,12 +116,13 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
         $paramstr_choose = '?';
         $paramstr_day = '?';
         foreach ($_GET as $key => $value) {
-            if ($key != "naam") {
+            if ( !(($key == "naam") || ($key == "type")) ) {
                 $paramstr_choose .=  $key . "=" . $value . "&";
             }
-            if ($key != "dag") {
-                $paramstr_day .=  $key . "=" . $value . "&";
+            if ( $key != "dag") {
+                    $paramstr_day .= $key . "=" . $value . "&";
             }
+
         }
     }
     foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
@@ -134,10 +135,11 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
                    <div class="dropdown" style="position: absolute; z-index: 50; top: 62px; left: 12px">
                         <button onclick="myFunction()" class="dropbtn">' . $txt['choose_inverter'] . '</button>
                         <div id="myDropdown" class="dropdown-content">' .
-                            $choose_inverter_items . '
+                            $choose_inverter_items .
+                            "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "type=all" .
+                            "' onclick=\"target='_self'\">" . $txt['all_inverters'] . "</a></li>" . '
                         </div>
-                    </div>
-            
+                    </div>            
             ';
         $multiple_inverters = true;
     }
