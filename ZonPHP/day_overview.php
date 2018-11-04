@@ -142,6 +142,12 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
                     </div>            
             ';
         $multiple_inverters = true;
+        if (strpos($paramstr_day, "?") == 0) {
+            $paramstr_day = '?' . $paramstr_day;
+        }
+        if (strpos($paramstr_choose, "?") == 0) {
+            $paramstr_choose = '?' . $paramstr_choose;
+        }
     }
 ?>
 
