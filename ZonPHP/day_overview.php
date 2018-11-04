@@ -14,6 +14,10 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
+if (isset($_GET['naam'])) {
+    $inverter = $_GET['naam'];
+}
+
 $inverter_id = $inverter;
 $add_params = "";
 if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
@@ -105,14 +109,29 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
     $choose_inverter_dropdown = "";
     $multiple_inverters = false;
     $choose_inverter_items = "";
+    $paramstr_choose = '';
+    $paramstr_day = '';
+    # remove naam parameter
+    if (sizeof($_GET) > 0){
+        $paramstr_choose = '?';
+        $paramstr_day = '?';
+        foreach ($_GET as $key => $value) {
+            if ($key != "naam") {
+                $paramstr_choose .=  $key . "=" . $value . "&";
+            }
+            if ($key != "dag") {
+                $paramstr_day .=  $key . "=" . $value . "&";
+            }
+        }
+    }
     foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
-        $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . "?naam=" . $sdbnaam .
+        $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "naam=" . $sdbnaam .
             "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
     }
 
     if (strlen($choose_inverter_items) > 0){
         $choose_inverter_dropdown = '
-                   <div class="dropdown" style="position: absolute; z-index: 50; top: 74px; left: 12px">
+                   <div class="dropdown" style="position: absolute; z-index: 50; top: 62px; left: 12px">
                         <button onclick="myFunction()" class="dropbtn">' . $txt['choose_inverter'] . '</button>
                         <div id="myDropdown" class="dropdown-content">' .
                             $choose_inverter_items . '
@@ -130,7 +149,7 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
 <div id="page-content">
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 72px; ">
-        
+
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
 
             <?php
@@ -140,23 +159,14 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
             <h2>
                 <?php
                 if ($prevdatevisible) {
-                    echo '<a class="myButton" href="day_overview.php?dag=' . $prevdatestring . $add_params . '"> < </a>';
+                    echo '<a class="myButton" href="day_overview.php' . $paramstr_day .'dag=' .  $prevdatestring .  '"> < </a>';
                 }
                 echo " " . $datum . " " . '  <input type="hidden" id="startdate" value="' . strftime("%d-%m-%Y", time()) . '" readonly>  ';
                 if ($nextdatevisible) {
-                    echo '<a class="myButton" href="day_overview.php?dag=' . $nextdatestring . $add_params . '"> > </a>';
+                    echo '<a class="myButton" href="day_overview.php' . $paramstr_day .'dag=' .  $nextdatestring . '"> > </a>';
                 }
                 ?>
             </h2>
-
-            <?php echo("<b>" . $txt["actueel"] . " " . date("H:i", $tlaatstetijd) . " : " . number_format(end($agegevens), 0, ',', '.') . "W="
-                . number_format(100 * end($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . "%</b>"); ?>
-            <?php echo("<b>" . $txt["totaal"] . ": </b>" . number_format(end($aoplopendkwdag), 2, ',', '.') . "kWh="
-                . number_format(end($aoplopendkwdag) / ($ieffectiefkwpiek / 1000), 1, ',', '.') . "kWhp="
-                . number_format(100 * end($aoplopendkwdag) / $frefmaand, 0, ',', '.') . "%"); ?>
-            <?php echo("<b>" . $txt["max"] . ": </b>" . number_format(max($agegevens), 0, ",", ".") . "W="
-                . number_format(100 * max($agegevens) / $ieffectiefkwpiek, 0, ",", ".") . "%"); ?>
-
 
         </div>
 

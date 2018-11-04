@@ -64,7 +64,7 @@ if (isset($use_weewx) && $use_weewx==true){
             $out = $out . '" ';
             $out = $out . '>' .
                 ' 
-        <a href="day_overview.php">' .
+        <a href="day_overview.php?naam=' . $sdbnaam . '">' .
                 '    
              <div class="' . HEADER_CLASS . '">' . $daytext . " - " . $sdbnaam . '</div> 
         </a>
