@@ -113,8 +113,6 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
     $paramstr_day = '';
     # remove naam parameter
     if (sizeof($_GET) > 0){
-        $paramstr_choose = '?';
-        $paramstr_day = '?';
         foreach ($_GET as $key => $value) {
             if ( !(($key == "naam") || ($key == "type")) ) {
                 $paramstr_choose .=  $key . "=" . $value . "&";
