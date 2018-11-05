@@ -54,11 +54,11 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
             <h2 align="center">
                 <?php
                 if ($prevmonthvisible) {
-                echo '<a class="myButton" href="month_overview.php?maand=' . $prevmonthstring . $add_params . '"> < </a>';
+                echo '<a class="btn btn-primary" href="month_overview.php?maand=' . $prevmonthstring . $add_params . '"> < </a>';
 				}
                 echo " " . $datum . " ";
                 if ($nextmonthvisible) {
-                echo '<a class="myButton" href="month_overview.php?maand=' . $nextmonthstring . $add_params . '"> > </a>';
+                echo '<a class="btn btn-primary" href="month_overview.php?maand=' . $nextmonthstring . $add_params . '"> > </a>';
 				}
                 ?>
             </h2>

@@ -32,16 +32,16 @@ $prevday = strftime("%Y-%m-%d", strtotime("-1 day", $chartdate));
                 <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
                     <?php
                     if ($dminimum < $chartdate) {
-                        echo '<a class="myButton" href="sensor_overview.php?dag=' . $prevday . $urlparams . '"><</a>';
+                        echo '<a class="btn btn-primary" href="sensor_overview.php?dag=' . $prevday . $urlparams . '"><</a>';
                     }
                     echo " " . $title . " - " . $datum . " ";
                     if ($dmaximum > $chartdate) {
-                        echo '<a class="myButton" href="sensor_overview.php?dag=' . $nextday . $urlparams . '">></a>';
+                        echo '<a class="btn btn-primary" href="sensor_overview.php?dag=' . $nextday . $urlparams . '">></a>';
                     }
                     ?>
                     </h2> <br/><br/>
                     <?php
-                    echo '<a class="myButton" href="sensor_overview.php?' . $urlparams . '"> ' . $txt["terugnaarvandaag"] . ' </a>';
+                    echo '<a class="btn btn-primary" href="sensor_overview.php?' . $urlparams . '"> ' . $txt["terugnaarvandaag"] . ' </a>';
                     ?>
                 </div>
 

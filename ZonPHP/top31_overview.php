@@ -39,8 +39,8 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2 align="center"><?php echo $myLabel; ?></h2>
             <?php
-            echo '<a class="myButton" href="top31_overview.php?Max_Min=flop">' . $txt['slechtste'] . "-" . $txt["chart_31days"] . ' </a> &nbsp;';
-            echo '<a class="myButton" href="top31_overview.php?Max_Min=top">' . $txt['beste'] . "-" . $txt["chart_31days"] . ' </a>';
+            echo '<a class="btn btn-primary" href="top31_overview.php?Max_Min=flop">' . $txt['slechtste'] . "-" . $txt["chart_31days"] . ' </a> &nbsp;';
+            echo '<a class="btn btn-primary" href="top31_overview.php?Max_Min=top">' . $txt['beste'] . "-" . $txt["chart_31days"] . ' </a>';
             ?>
 
         </div>

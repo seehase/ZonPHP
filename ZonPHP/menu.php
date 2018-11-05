@@ -214,10 +214,9 @@ if (intval($param['flyout']) === 2) {
         <?php
 
         if ($iveromvormers == 1) {
-            echo '<span id="headerinverter">
-                     <span style="margin-center: 530px;">&nbsp;</span> ' .
-                $txt["inverter"] . ' - ' . $_SESSION['Wie'] .
-                '</span>';
+            echo '<p id="headerinverter" style="margin: -20px 460px 10px">' .
+                    $txt["inverter"] . ' - ' . $_SESSION['Wie'] .
+                '</p>';
         }
 
         ?>

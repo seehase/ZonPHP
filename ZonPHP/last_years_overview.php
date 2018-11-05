@@ -26,9 +26,9 @@ $prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2 align="center">
                 <?php
-                echo '<a class="myButton" href="all_years_overview.php?jaar=' . $prevyear . '"> < </a>';
+                echo '<a class="btn btn-primary" href="all_years_overview.php?jaar=' . $prevyear . '"> < </a>';
                 echo ($param['jaar'] - 4) . " - " . $param['jaar'];
-                echo '<a class="myButton" href="all_years_overview.php?jaar=' . $nextyear . '"> > </a>';
+                echo '<a class="btn btn-primary" href="all_years_overview.php?jaar=' . $nextyear . '"> > </a>';
                 ?>
             </h2>
         </div>

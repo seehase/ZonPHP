@@ -50,11 +50,11 @@ $chartyeardatestring = strftime("%Y-01-01", strtotime("+0 year", $date_maximum))
             <h2 align="center">
                 <?php
 				if ($prevyearvisible) {
-                echo '<a class="myButton" href="year_overview.php?jaar=' . $prevyearstring . $add_params . '"> < </a>';
+                echo '<a class="btn btn-primary" href="year_overview.php?jaar=' . $prevyearstring . $add_params . '"> < </a>';
 				}
                 echo $txt["jaar"]." " . $datum . " ";
 				if ($nextyearvisible) {
-                echo '<a class="myButton" href="year_overview.php?jaar=' . $nextyearstring . $add_params . '"> > </a>';
+                echo '<a class="btn btn-primary" href="year_overview.php?jaar=' . $nextyearstring . $add_params . '"> > </a>';
 				}
                 ?>
             </h2>

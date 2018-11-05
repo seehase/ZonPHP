@@ -77,35 +77,7 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
 
 
 <?php
-    # -----------------------------------------------     test for later use
-    $choose_inverter_dropdown = "";
-    $multiple_inverters = false;
-    $choose_inverter_items = "";
-    foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
-        $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . "?naam=" . $sdbnaam .
-            "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
-    }
-
-    if (strlen($choose_inverter_items) > 0){
-        $choose_inverter_dropdown = '
-                <div style="position: absolute;">
-
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">' . $txt['choose_inverter'] . '
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu"> ' .
-                        $choose_inverter_items . '
-                    </ul>
-            </div>
-        
-        ';
-        $multiple_inverters = true;
-    }
-    # -----------------------------------------------     test for later use
-?>
-
-
-<?php
+# -----------------------------------------------     test for later use
     $choose_inverter_dropdown = "";
     $multiple_inverters = false;
     $choose_inverter_items = "";
@@ -118,10 +90,15 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
                 $paramstr_choose .=  $key . "=" . $value . "&";
             }
             if ( $key != "dag") {
-                    $paramstr_day .= $key . "=" . $value . "&";
+                $paramstr_day .= $key . "=" . $value . "&";
             }
-
         }
+    }
+    if (strpos($paramstr_day, "?") == 0) {
+        $paramstr_day = '?' . $paramstr_day;
+    }
+    if (strpos($paramstr_choose, "?") == 0) {
+        $paramstr_choose = '?' . $paramstr_choose;
     }
     foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
         $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "naam=" . $sdbnaam .
@@ -130,24 +107,23 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
 
     if (strlen($choose_inverter_items) > 0){
         $choose_inverter_dropdown = '
-                   <div class="dropdown" style="position: absolute; z-index: 50; top: 62px; left: 12px">
-                        <button onclick="myFunction()" class="dropbtn">' . $txt['choose_inverter'] . '</button>
-                        <div id="myDropdown" class="dropdown-content">' .
-                            $choose_inverter_items .
-                            "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "type=all" .
-                            "' onclick=\"target='_self'\">" . $txt['all_inverters'] . "</a></li>" . '
-                        </div>
-                    </div>            
+                    <div style="position: absolute; z-index: 50">
+    
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 15px;margin-left: 20px;">' .
+                            $txt['choose_inverter'] . '
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu"> ' .
+                            $choose_inverter_items . '
+                        </ul>
+                    </div>
+            
             ';
         $multiple_inverters = true;
-        if (strpos($paramstr_day, "?") == 0) {
-            $paramstr_day = '?' . $paramstr_day;
-        }
-        if (strpos($paramstr_choose, "?") == 0) {
-            $paramstr_choose = '?' . $paramstr_choose;
-        }
     }
+# -----------------------------------------------     test for later use
 ?>
+
 
 
 
@@ -165,11 +141,11 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
             <h2>
                 <?php
                 if ($prevdatevisible) {
-                    echo '<a class="myButton" href="day_overview.php' . $paramstr_day .'dag=' .  $prevdatestring .  '"> < </a>';
+                    echo '<a class="btn btn-primary" href="day_overview.php' . $paramstr_day .'dag=' .  $prevdatestring .  '"> < </a>';
                 }
                 echo " " . $datum . " " . '  <input type="hidden" id="startdate" value="' . strftime("%d-%m-%Y", time()) . '" readonly>  ';
                 if ($nextdatevisible) {
-                    echo '<a class="myButton" href="day_overview.php' . $paramstr_day .'dag=' .  $nextdatestring . '"> > </a>';
+                    echo '<a class="btn btn-primary" href="day_overview.php' . $paramstr_day .'dag=' .  $nextdatestring . '"> > </a>';
                 }
                 ?>
             </h2>

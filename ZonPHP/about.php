@@ -132,7 +132,7 @@ include_once "inc/header.php";
             <br/>
             <hr>
             <div style="height: auto;">
-                <a class="myButtona" href="https://github.com/seehase/ZonPHP/archive/master.zip"><b>Download current
+                <a class="btn btn-primary" href="https://github.com/seehase/ZonPHP/archive/master.zip"><b>Download current
                         Version
                         ZonPHP from github</b></a>
                 <hr>
