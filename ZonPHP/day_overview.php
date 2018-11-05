@@ -159,8 +159,8 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
     </div>
 
     <div style="float: unset; margin-top: 5px;">
-        <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
-        <a href="<?php echo "day_overview.php?jaar=".$chartdaydatestring ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button>
+        <button class="btn btn-primary" id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
+        <a  href="<?php echo "day_overview.php?dag=".$chartdaydatestring ?>" target="_self"><button class="btn btn-primary"><?php echo $txt['back_to_today'] ?></button>
         </a>
     </div>
 
