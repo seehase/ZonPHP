@@ -46,20 +46,73 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
 
 ?>
 
+
+<?php
+$choose_inverter_dropdown = "";
+$multiple_inverters = false;
+$choose_inverter_items = "";
+$paramstr_choose = '';
+$paramstr_day = '';
+# remove naam parameter
+if (sizeof($_GET) > 0){
+    foreach ($_GET as $key => $value) {
+        if ( !(($key == "naam") || ($key == "type")) ) {
+            $paramstr_choose .=  $key . "=" . $value . "&";
+        }
+        if ( $key != "maand") {
+            $paramstr_day .= $key . "=" . $value . "&";
+        }
+    }
+}
+if (strpos($paramstr_day, "?") == 0) {
+    $paramstr_day = '?' . $paramstr_day;
+}
+if (strpos($paramstr_choose, "?") == 0) {
+    $paramstr_choose = '?' . $paramstr_choose;
+}
+foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
+    $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "naam=" . $sdbnaam .
+        "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
+}
+
+if (strlen($choose_inverter_items) > 0){
+    $choose_inverter_dropdown = '
+                        <div style="position: absolute; z-index: 50">
+        
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 15px;margin-left: 20px;">' .
+        $txt['choose_inverter'] . '
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu"> ' .
+        $choose_inverter_items .
+        "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "type=all" .
+        "' onclick=\"target='_self'\">" . $txt['all_inverters'] . "</a></li>" . '
+                            </ul>
+                        </div>
+                
+                ';
+    $multiple_inverters = true;
+}
+?>
+
+
 <?php include "menu.php"; ?>
 <div id="page-content">
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 59px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
+            <?php
+            if ($multiple_inverters) echo $choose_inverter_dropdown;
+            ?>
             <h2 align="center">
                 <?php
                 if ($prevmonthvisible) {
-                echo '<a class="btn btn-primary" href="month_overview.php?maand=' . $prevmonthstring . $add_params . '"> < </a>';
-				}
+                    echo '<a class="btn btn-primary" href="month_overview.php' . $paramstr_day .'maand=' . $prevmonthstring . '"> < </a>';
+                }
                 echo " " . $datum . " ";
                 if ($nextmonthvisible) {
-                echo '<a class="btn btn-primary" href="month_overview.php?maand=' . $nextmonthstring . $add_params . '"> > </a>';
-				}
+                    echo '<a class="btn btn-primary" href="month_overview.php' . $paramstr_day .'maand=' . $nextmonthstring . '"> > </a>';
+                }
                 ?>
             </h2>
         </div>
@@ -68,13 +121,9 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
     </div>
 
     <div style="float: unset; margin-top: 5px;">
-        <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
-		<a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring . $add_params ?>" target="_self"><button><?php echo $txt['back_to_today'] ?></button>
-		</a>
-
-        <a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring ?>" target="_self"><button><?php echo $txt['inverter'] ?></button>
-        </a>
-        <a href="<?php echo "month_overview.php?jaar=".$chartmonthdatestring."&type=all" ?>" target="_self"><button><?php echo $txt['all_inverters'] ?></button>
+        <button class="btn btn-primary"id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
+        <a href="<?php echo "month_overview.php".$paramstr_day."jaar=".$chartmonthdatestring ?>" target="_self">
+            <button class="btn btn-primary"><?php echo $txt['back_to_today'] ?></button>
         </a>
 
     </div>
@@ -87,34 +136,34 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
         echo '<td width=40><a href="month_overview.php?maand=' . date("Y-01-1", strtotime("-1 year", $chartdate)) . '"><b>' .
             (strftime("%Y", strtotime("-1 year", $chartdate))) . '</b></a></td>';
         $dstartjaar = strtotime(date("Y-01-01", $chartdate));
-		$dstartmon = strtotime(date("Y-m-01", $chartdate));
+        $dstartmon = strtotime(date("Y-m-01", $chartdate));
 
         for ($i = 0; $i <= 11; $i++) {
             #echo '<td width=50><a href="month_overview.php?maand=' . date("Y-m-1", strtotime("+" . $i . " months", $dstartjaar)) . '">' .
-             #   strftime("%b", strtotime("+" . $i . " months", $dstartjaar)) . '</a></td>';
-				
-			$dstartmon = strtotime("+" . $i . " months", $dstartjaar);
-			
-            
-			if ($dstartmon <= $date_maximum) {
-				#echo "kleiner";
-				#echo $dstartmon." <= ".$date_maximum;
-            echo '<td width=50><a href="month_overview.php?maand=' . date("Y-m-1", strtotime("+" . $i . " months", $dstartjaar)) . '">' .
-                strftime("%b", strtotime("+" . $i . " months", $dstartjaar)) . '</a></td>';
-				$nextyearview = true;
-				
+            #   strftime("%b", strtotime("+" . $i . " months", $dstartjaar)) . '</a></td>';
+
+            $dstartmon = strtotime("+" . $i . " months", $dstartjaar);
+
+
+            if ($dstartmon <= $date_maximum) {
+                #echo "kleiner";
+                #echo $dstartmon." <= ".$date_maximum;
+                echo '<td width=50><a href="month_overview.php?maand=' . date("Y-m-1", strtotime("+" . $i . " months", $dstartjaar)) . '">' .
+                    strftime("%b", strtotime("+" . $i . " months", $dstartjaar)) . '</a></td>';
+                $nextyearview = true;
+
             } else {
                 echo '<td width=50><span style="color: #C00000;"> ' . strftime("%b", strtotime("+" . $i . " months", $dstartjaar)) . '</span></td>';
-				$nextyearview = false;
+                $nextyearview = false;
             }
-				
+
         }
-		if ($nextyearview ) {
-			echo '<td width=40><a href="month_overview.php?maand=' . date("Y-01-1", strtotime("+1 year", $chartdate)) .
-				'"><b>' . strftime("%Y", strtotime("+1 year", $chartdate)) . '</b></a></td>';
-		}else{
-			echo '<td width=50><span style="color: #C00000;"> ' .  strftime("%Y", strtotime("+1 year", $chartdate)) . '</span></td>';
-		}
+        if ($nextyearview ) {
+            echo '<td width=40><a href="month_overview.php?maand=' . date("Y-01-1", strtotime("+1 year", $chartdate)) .
+                '"><b>' . strftime("%Y", strtotime("+1 year", $chartdate)) . '</b></a></td>';
+        }else{
+            echo '<td width=50><span style="color: #C00000;"> ' .  strftime("%Y", strtotime("+1 year", $chartdate)) . '</span></td>';
+        }
         echo '</tr>';
         echo '</tbody>
 		</table>';
@@ -149,20 +198,20 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
                 $iaantaldagen = cal_days_in_month(CAL_GREGORIAN, date("m", $chartdate), date("Y", $chartdate));
                 if ($geengevmaand != 0) {
                     for ($i = 1; $i <= $iaantaldagen; $i++) {
-						
-						$currentdatestring = date("Y-m-", $chartdate) . $i;
-						$currentdate = strtotime($currentdatestring);
-						if ($currentdate <= $date_maximum) {
-							if ($param['izonphpse'] == 0) {
-								$slinkseversiekl = "<a href='day_overview.php?dag=" . $i . date("-m-Y", $chartdate) . "'><b>" . $i . date("-m-Y", $chartdate) . "</b></a>";
-								$slinkseversie = "<a href='day_overview.php?dag=" . $i . date("-m-Y", $chartdate) . "'>" . $i . date("-m-Y", $chartdate) . "</a>";
-							} else {
-								$slinkseversiekl = "<b>" . $i . date("-m-Y", $chartdate) . "</b>";
-								$slinkseversie = "" . $i . date("-m-Y", $chartdate) . "";
-							}
-							if (!isset($agegevens[$i])) $agegevens[$i] = 0;
-							if ($agegevens[$i] == max($agegevens)) {
-								echo("<tr>
+
+                        $currentdatestring = date("Y-m-", $chartdate) . $i;
+                        $currentdate = strtotime($currentdatestring);
+                        if ($currentdate <= $date_maximum) {
+                            if ($param['izonphpse'] == 0) {
+                                $slinkseversiekl = "<a href='day_overview.php?dag=" . $i . date("-m-Y", $chartdate) . "'><b>" . $i . date("-m-Y", $chartdate) . "</b></a>";
+                                $slinkseversie = "<a href='day_overview.php?dag=" . $i . date("-m-Y", $chartdate) . "'>" . $i . date("-m-Y", $chartdate) . "</a>";
+                            } else {
+                                $slinkseversiekl = "<b>" . $i . date("-m-Y", $chartdate) . "</b>";
+                                $slinkseversie = "" . $i . date("-m-Y", $chartdate) . "";
+                            }
+                            if (!isset($agegevens[$i])) $agegevens[$i] = 0;
+                            if ($agegevens[$i] == max($agegevens)) {
+                                echo("<tr>
 									<td>" . $slinkseversiekl . "</td>
 									<td><b>" . number_format($agegevens[$i], 2, ',', '.') . "</b></td>
 									<td><b>" . number_format($agegevens[$i] * $current_euroval, 2, ',', '.') . " &euro;</b></td>
@@ -170,8 +219,8 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
 									<td><b>" . number_format($agegevens[$i] / array_sum($agegevens) * 100, 1, ',', '.') . "</b></td>
 									<td><b>" . number_format(1000 * $agegevens[$i] / $ieffectiefkwpiek, 2, ',', '.') . "</b></td>
 									</tr>");
-							} else {
-								echo("<tr>
+                            } else {
+                                echo("<tr>
 									<td>" . $slinkseversie . "</td>
 									<td>" . number_format($agegevens[$i], 2, ',', '.') . "</td>
 									<td>" . number_format($agegevens[$i] * $current_euroval, 2, ',', '.') . " &euro;</td>
@@ -179,8 +228,8 @@ $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum
 									<td>" . number_format($agegevens[$i] / array_sum($agegevens) * 100, 1, ',', '.') . "</td>
 									<td>" . number_format(1000 * $agegevens[$i] / $ieffectiefkwpiek, 2, ',', '.') . "</td>
 									</tr>");
-							}
-						}
+                            }
+                        }
                     }
                 }
                 ?>

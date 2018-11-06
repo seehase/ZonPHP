@@ -26,12 +26,66 @@ if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
 ?>
 
 
-    <?php include "menu.php"; ?>
+<?php include "menu.php"; ?>
+
+<?php
+    $choose_inverter_dropdown = "";
+    $multiple_inverters = false;
+    $choose_inverter_items = "";
+    $paramstr_choose = '';
+    $paramstr_day = '';
+    # remove naam parameter
+    if (sizeof($_GET) > 0){
+        foreach ($_GET as $key => $value) {
+            if ( !(($key == "naam") || ($key == "type")) ) {
+                $paramstr_choose .=  $key . "=" . $value . "&";
+            }
+            if ( $key != "dag") {
+                $paramstr_day .= $key . "=" . $value . "&";
+            }
+        }
+    }
+    if (strpos($paramstr_day, "?") == 0) {
+        $paramstr_day = '?' . $paramstr_day;
+    }
+    if (strpos($paramstr_choose, "?") == 0) {
+        $paramstr_choose = '?' . $paramstr_choose;
+    }
+    foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
+        $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "naam=" . $sdbnaam .
+            "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
+    }
+
+    if (strlen($choose_inverter_items) > 0){
+        $choose_inverter_dropdown = '
+                        <div style="position: absolute; z-index: 50">
+        
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 2px;margin-left: 20px;">' .
+            $txt['choose_inverter'] . '
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu"> ' .
+            $choose_inverter_items .
+            "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "type=all" .
+            "' onclick=\"target='_self'\">" . $txt['all_inverters'] . "</a></li>" . '
+                            </ul>
+                        </div>
+                
+                ';
+        $multiple_inverters = true;
+    }
+?>
+
 <div id="page-content">
         <?php $myKeys = array_keys($sum_per_year); ?>
 
         <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 59px;">
             <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
+
+                <?php
+                    if ($multiple_inverters) echo $choose_inverter_dropdown;
+                ?>
+
                 <h2 align="center"><?php echo $txt["totaaloverzicht"] . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
             </div>
 
@@ -39,11 +93,7 @@ if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
         </div>
 
         <div style="float: unset; margin-top: 5px;">
-            <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
-            <a href="<?php echo "all_years_overview.php" ?>" target="_self"><button><?php echo $txt['inverter'] ?></button>
-            </a>
-            <a href="<?php echo "all_years_overview.php?type=all" ?>" target="_self"><button><?php echo $txt['all_inverters'] ?></button>
-            </a>
+            <button class="btn btn-primary" id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
         </div>
 
 

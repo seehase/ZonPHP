@@ -77,7 +77,6 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
 
 
 <?php
-# -----------------------------------------------     test for later use
     $choose_inverter_dropdown = "";
     $multiple_inverters = false;
     $choose_inverter_items = "";
@@ -114,18 +113,16 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu"> ' .
-                            $choose_inverter_items . '
+                            $choose_inverter_items .
+                            "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "type=all" .
+                            "' onclick=\"target='_self'\">" . $txt['all_inverters'] . "</a></li>" . '
                         </ul>
                     </div>
             
             ';
         $multiple_inverters = true;
     }
-# -----------------------------------------------     test for later use
 ?>
-
-
-
 
 
 <div id="page-content">
@@ -160,7 +157,8 @@ $chartdaydatestring = strftime("%Y-%m-%d", strtotime("+0 day", $date_maximum));
 
     <div style="float: unset; margin-top: 5px;">
         <button class="btn btn-primary" id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
-        <a  href="<?php echo "day_overview.php?dag=".$chartdaydatestring ?>" target="_self"><button class="btn btn-primary"><?php echo $txt['back_to_today'] ?></button>
+        <a  href="<?php echo "day_overview.php".$paramstr_day."dag=".$chartdaydatestring ?>" target="_self">
+            <button class="btn btn-primary"><?php echo $txt['back_to_today'] ?> </button>
         </a>
     </div>
 
