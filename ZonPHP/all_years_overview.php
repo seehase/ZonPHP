@@ -23,6 +23,11 @@ if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
     $add_params = "&type=all";
 }
 
+// force reload caches
+if (isset($_SESSION['lastupdate'])) {
+    $_SESSION['lastupdate'] = 0;
+}
+
 ?>
 
 
