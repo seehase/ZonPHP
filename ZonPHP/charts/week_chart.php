@@ -100,8 +100,8 @@ for ($i = 1; $i <= 7; $i++) {
                         ]}                                                       
                     },";
 }
-$avgr = number_format(($sum / 7), 0);
-$maximum = number_format(($maximum / 7), 0);
+$avgr = number_format(($sum / 7), 2);
+$maximum = number_format(($maximum / 7), 2);
 
 $sub_title = ("<b>" . $txt["totaal"] . ": <\/b>"
     . number_format($total_sum_for_all_years, 1, ',', '') . " kWh = "
@@ -125,7 +125,6 @@ include_once "chart_styles.php";
     $(function () {
         var sub_title = '<?php echo $sub_title ?>';
         var avrg =<?php echo $avgr ?>;
-        var maximum =<?php echo $maximum ?>;
         var myoptions = <?php echo $chart_options ?>;
 
         var mychart = new Highcharts.Chart('week_chart_<?php echo $inverter ?>', Highcharts.merge(myoptions, {
@@ -184,12 +183,6 @@ include_once "chart_styles.php";
                     type: 'column',
                     color: '#<?php echo $colors['color_chartbar1'] ?>',
                     data: [<?php echo $current_bars; ?>],
-                },
-                {
-                    name: "Maximum",
-                    type: "line",
-                    color: '#<?php echo $colors['color_chart_max_line'] ?>',
-                    data: [{x: -0.4, y: maximum}, {x: 6.4, y: maximum}],
                 },
                 {
                     name: "Average",
