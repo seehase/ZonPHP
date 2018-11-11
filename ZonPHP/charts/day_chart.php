@@ -313,6 +313,21 @@ if ($isIndexPage == true) {
     $show_legende = "false";
 }
 
+$paramstr_day = "";
+if (sizeof($_GET) > 0){
+    foreach ($_GET as $key => $value) {
+        if ( $key != "dag") {
+            $paramstr_day .= $key . "=" . $value . "&";
+        }
+    }
+}
+if (strpos($paramstr_day, "?") == 0) {
+    $paramstr_day = '?' . $paramstr_day;
+}
+
+$maxlink = '<a href=\"day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '\">' . $nice_max_date . '</a>';
+
+// $maxlink = '<a href=\"https://html.com/attributes/a-href/\">Learn about the a href attribute</a>';
 // --------------
 $subtitle = '"<b>' . $txt['actueel'] . ": <\/b> " . date("H:i", $tlaatstetijd) . "  " . number_format(end($agegevens), 0, ',', '.') . "W="
     . number_format(100 * end($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . "%  "
@@ -326,8 +341,10 @@ $subtitle .= "<b> " . $txt['totaal'] . ": <\/b>" . number_format((end($aoplopend
 if ($isIndexPage) {
     $subtitle .= "<br >";
 }
-$subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$nice_max_date. " --> ". $maxkwh. "kWh ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".")
-    . "W"  . '"';
+$subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$maxlink. " --> ". $maxkwh. "kWh ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".")
+    . "W" .'' . '"';
+
+
 
 //--------------------
 include_once "chart_styles.php";
