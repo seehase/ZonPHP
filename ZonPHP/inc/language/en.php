@@ -206,7 +206,7 @@ $txt["color_chart_reference_line"] = "Color for reference line in chart";
 $txt["color_chart_max_bar"] = "Color for maximum bar in chart";
 $txt["color_chart_max_line"] = "Color for maximum line in chart";
 $txt["color_chart_expected_bar"] = "Color for expected bar in chart";
-$txt["color_chart_avarage_line"] = "Color for avarage line in chart";
+$txt["color_chart_average_line"] = "Color for average line in chart";
 $txt["cleartables"] = "Clear value tables '_dag' and '_maand' <br /> data will be imported again from your .csv files by calling index page";
 $txt["deletevalues"] = "Delete solar values";
 $txt["showvalues"] = "Show Value Table";
@@ -262,7 +262,7 @@ $txt["inverter"] = "Inverter";
 $txt['back_to_today'] = "goto today";
 $txt['all_inverters'] = "all inverters";
 $txt['choose_inverter'] = "Choose Inverter";
-
+$txt['peak'] = "Peak";
 $txt["1"] = "1";
 
 

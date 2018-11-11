@@ -18,7 +18,7 @@ if (isset($_POST['inverter'])) {
 $showAllInverters = false;
 $inverter_id = $inverter;
 $temp_sum_per_year = $sum_per_year;
-$temp_avarage_per_month = $avarage_per_month;
+$temp_average_per_month = $average_per_month;
 $inverter_clause = " WHERE Naam='" . $inverter . "' ";
 if ((isset($_POST['type']) && ($_POST['type'] == "all"))  ||
    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
@@ -26,7 +26,7 @@ if ((isset($_POST['type']) && ($_POST['type'] == "all"))  ||
     $inverter_id = "all";
     $inverter_clause = " ";
     $temp_sum_per_year = $all_inverters_sum_per_year;
-    $temp_avarage_per_month = $all_inverters_avarage_per_month;
+    $temp_average_per_month = $all_inverters_average_per_month;
 }
 
 // -----------------------------  get data from DB -----------------------------------------------------------------
@@ -230,7 +230,7 @@ $sub_title .= ("<b>" . $txt["max"] . ": <\/b>"
     . number_format(max($temp_sum_per_year), 0, ',', '.') . " kWh = "
     . number_format(1000 * max($temp_sum_per_year) / $ieffectiefkwpiek, 0, ',', '.') . " kWh = "
     . number_format(100 * max($temp_sum_per_year) / $frefjaar, 0, ',', '.') . "%<br />");
-$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($temp_avarage_per_month, 0, ',', '.') . " kWh   ");
+$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($temp_average_per_month, 0, ',', '.') . " kWh   ");
 $sub_title .= ("<b>" . $txt["ref"] . ": <\/b>" . number_format($frefjaar, 0, ',', '.') . " kWh");
 
 $show_legende = "true";
@@ -246,7 +246,7 @@ include_once "chart_styles.php";
 
     $(function () {
         var sub_title = '<?php echo $sub_title ?>';
-        var avrg = <?php echo round($temp_avarage_per_month,0); ?>;
+        var avrg = <?php echo round($temp_average_per_month,0); ?>;
         var ref = <?php echo round($frefjaar, 0); ?>;
         var years = <?php echo $yearcount ?>;
         var myoptions = <?php echo $chart_options ?>;
@@ -315,9 +315,9 @@ include_once "chart_styles.php";
                     data: [<?php echo $current_bars; ?>],
                 },
                 {
-                    name: "Avarage",
+                    name: "Average",
                     type: "line",
-                    color: '#<?php echo $colors['color_chart_avarage_line'] ?>',
+                    color: '#<?php echo $colors['color_chart_average_line'] ?>',
                     data: [{x: -0.4, y: avrg}, {x: years - 0.6, y: avrg}],
                 },
                 {

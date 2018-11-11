@@ -127,13 +127,17 @@ $sqlmd = "SELECT AVG( Geg_Dag ) AS gem,
 
 $resultmd = mysqli_query($con, $sqlmd) or die("Query failed. dag-max-dag " . mysqli_error($con));
 if (mysqli_num_rows($resultmd) == 0) {
-    $geenmax = 0;
+    $maxdagpeak = 0;
     $agegevensdag_max[] = 0;
+
 } else {
-    $geenmax = 1;
+    $maxdagpeak = 0;
     while ($row = mysqli_fetch_array($resultmd)) {
         $adatum_max[] = $row['datumtijd'];
         $agegevensdag_max[strtotime($row['datumtijd'])] = $row['gem'];
+        if ($row['gem'] > $maxdagpeak) {
+            $maxdagpeak =  $row['gem'];
+        };
     }
 }
 //--------------------------------------------------------------------------------------------------
@@ -311,18 +315,19 @@ if ($isIndexPage == true) {
 
 // --------------
 $subtitle = '"<b>' . $txt['actueel'] . ": <\/b> " . date("H:i", $tlaatstetijd) . "  " . number_format(end($agegevens), 0, ',', '.') . "W="
-    . number_format(100 * end($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . "%  ";
+    . number_format(100 * end($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . "%  "
+    . $txt['peak'] . ": ". number_format(max($agegevens));
 if ($isIndexPage) {
     $subtitle .= "<br >";
 }
-$subtitle .= "<b>" . $txt['totaal'] . ": <\/b>" . number_format((end($aoplopendkwdag) / 1000), 2, ',', '.') . "kWh="
+$subtitle .= "<b> " . $txt['totaal'] . ": <\/b>" . number_format((end($aoplopendkwdag) / 1000), 2, ',', '.') . "kWh="
     . number_format(end($aoplopendkwdag) / ($ieffectiefkwpiek / 1000), 1, ',', '.') . "kWhp="
     . number_format((100 * end($aoplopendkwdag) / $frefmaand / 1000), 0, ',', '.') . "% ";
 if ($isIndexPage) {
     $subtitle .= "<br >";
 }
-$subtitle .= "<b>" . $txt['max'] . ": <\/b>" . number_format(max($agegevens), 0, ",", ".") . "W="
-    . number_format(100 * max($agegevens) / $ieffectiefkwpiek, 0, ",", ".") . "%" . '"';
+$subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$nice_max_date. " --> ". $maxkwh. "kWh ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".")
+    . "W"  . '"';
 
 //--------------------
 include_once "chart_styles.php";

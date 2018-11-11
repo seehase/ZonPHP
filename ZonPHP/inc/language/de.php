@@ -216,7 +216,7 @@ $txt["color_chart_reference_line"] = "Farbe Referenz Linie in Chart";
 $txt["color_chart_max_bar"] = "Farbe Maximum Bar in Chart";
 $txt["color_chart_max_line"] = "Farbe Maximum Line in Chart";
 $txt["color_chart_expected_bar"] = "Farbe erwartere Werte Bar in Cchart";
-$txt["color_chart_avarage_line"] = "Farbe Durchschintsline in Chart";
+$txt["color_chart_average_line"] = "Farbe Durchschintsline in Chart";
 $txt["color_background"] = "Hintergrund Farbe";
 $txt["color_footerbackground"] = "Footer Hintergrund Farbe";
 $txt["color_menubackground"] = "Menu Hintergrund Farbe";
@@ -264,6 +264,7 @@ $txt["inverter"] = "Wechselrichter";
 $txt['back_to_today'] = "Zur&uuml;ck zu heute";
 $txt['all_inverters'] = "Alle WR";
 $txt['choose_inverter'] = "Wähle Wechselrichter";
+$txt['peak'] = "Peak";
 
 $txt["1"] = "1";
 

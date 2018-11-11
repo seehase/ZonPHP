@@ -49,7 +49,7 @@ if (mysqli_num_rows($result) == 0) {
     }
 }
 
-$avarage = array_sum($aTotaaljaar) / count($aTotaaljaar) / 12;
+$average = array_sum($aTotaaljaar) / count($aTotaaljaar) / 12;
 
 $sqlref = "SELECT Geg_Refer,Datum_Refer
 		FROM " . $table_prefix . "_refer
@@ -211,8 +211,8 @@ for ($i = 1; $i <= 12; $i++) {
 
     $gridlines .= '{xaxis: {from:  ' . ($i - 1 + 0.5) . ', to: ' . ($i - 1 + 1.5) . '}, yaxis: {from: ' . $cursum . ', to: ' . $cursum . '}, color: "#34F02F", lineWidth: 1.5},';
 
-    // avarage lines
-    $lines_per_month .= "{ name: 'ref_avg[$i]', type: 'line', color: '#" . $colors['color_chart_avarage_line']. "', data: [{ x: ($i -1.3), y: $cursum}, { x: ($i - 0.7), y: $cursum }], showInLegend: false},";
+    // average lines
+    $lines_per_month .= "{ name: 'ref_avg[$i]', type: 'line', color: '#" . $colors['color_chart_average_line']. "', data: [{ x: ($i -1.3), y: $cursum}, { x: ($i - 0.7), y: $cursum }], showInLegend: false},";
     // reflines
     $lines_per_month .= "{ name: 'ref_avg[$i]', type: 'line', color: '#" . $colors['color_chart_reference_line']. "', data: [{ x: ($i -1.3), y: $frefmaand[$i]}, { x: ($i - 0.7), y: $frefmaand[$i] }], showInLegend: false},";
 }
@@ -237,7 +237,7 @@ $sub_title .= ("<b>" . $txt["max"] . ": <\/b>"
     . number_format($max_month, 0, ',', '.') . " kWh = "
     . number_format(1000 * $max_month / $ieffectiefkwpiek, 0, ',', '.') . " kWh = "
     . number_format(100 * $max_month / $frefjaar, 0, ',', '.') . "%<br />");
-$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($avarage, 0, ',', '.') . " kWh");
+$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($average, 0, ',', '.') . " kWh");
 $sub_title .= ("<b>" . $txt["ref"] . ": <\/b>" . number_format($frefjaar, 0, ',', '.') . " kWh");
 
 $sub_title = "";
@@ -255,7 +255,7 @@ include_once "chart_styles.php";
 
     $(function () {
 
-        var avg = <?php echo $avarage ?>;
+        var avg = <?php echo $average ?>;
         var ref = <?php echo $frefjaar ?>;
         var sub_title = '<?php echo $sub_title ?>';
         var myoptions = <?php echo $chart_options ?>;
@@ -304,7 +304,7 @@ include_once "chart_styles.php";
             }],
             tooltip: {
                 formatter: function () {
-                    if (this.series.name == 'Maximum' || this.series.name == 'Reference' || this.series.name == 'Avarage') {
+                    if (this.series.name == 'Maximum' || this.series.name == 'Reference' || this.series.name == 'Average') {
                         return this.series.name + ' ' + this.y.toFixed(0) + 'kWh';
                     }
                     else {
@@ -337,9 +337,9 @@ include_once "chart_styles.php";
                         {x: 11.4, y: ref}
                     ]
                 }, {
-                    name: 'Avarage',
+                    name: 'Average',
                     type: 'line',
-                    color: '#<?php echo $colors['color_chart_avarage_line'] ?>',
+                    color: '#<?php echo $colors['color_chart_average_line'] ?>',
                     data: [
                         {x: -0.6, y: avg},
                         {x: 11.4, y: avg}

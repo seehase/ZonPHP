@@ -215,7 +215,7 @@ include_once "chart_styles.php";
             }],
             tooltip: {
                 formatter: function () {
-                    if (this.series.name == 'Reference' || this.series.name == 'Avarage') {
+                    if (this.series.name == 'Reference' || this.series.name == 'Average') {
                         return this.series.name + ' ' + this.y.toFixed(2) + 'kWh';
                     }
                     else {
@@ -239,9 +239,9 @@ include_once "chart_styles.php";
                         {x: daycount - 1, y: ref}
                     ]
                 }, {
-                    name: 'Avarage',
+                    name: 'Average',
                     type: 'line',
-                    color: '#<?php echo $colors['color_chart_avarage_line'] ?>',
+                    color: '#<?php echo $colors['color_chart_average_line'] ?>',
                     data: [
                         {x: 0, y: avg},
                         {x: daycount - 1, y: avg}

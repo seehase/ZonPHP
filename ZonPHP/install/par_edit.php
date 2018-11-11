@@ -689,17 +689,17 @@ include_once "par_header.php";
                         </td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["color_chart_avarage_line"]; ?>:</td>
+                        <td><?php echo $txt["color_chart_average_line"]; ?>:</td>
                         <td>
-                            <input class="jscolor" type="text" name="color_chart_avarage_line"
-                                   id="color_chart_avarage_line" size="6"
+                            <input class="jscolor" type="text" name="color_chart_average_line"
+                                   id="color_chart_average_line" size="6"
                                    maxlength="6" value="
 				<?php
-                            if (!empty($_POST['color_chart_avarage_line']))
-                                echo $_POST['color_chart_avarage_line'];
+                            if (!empty($_POST['color_chart_average_line']))
+                                echo $_POST['color_chart_average_line'];
                             else {
-                                $_POST['color_chart_avarage_line'] = "#0AF02F";
-                                echo $_POST['color_chart_avarage_line'];
+                                $_POST['color_chart_average_line'] = "#0AF02F";
+                                echo $_POST['color_chart_average_line'];
                             }
                             ?>">
                         </td>
@@ -1075,7 +1075,7 @@ include_once "par_header.php";
         document.getElementById("color_chartbar2").jscolor.fromString("3366AA");
         document.getElementById("color_chartbar_piek1").jscolor.fromString("F8F804");
         document.getElementById("color_chartbar_piek2").jscolor.fromString("FF00FF");
-        document.getElementById("color_chart_avarage_line").jscolor.fromString("0AF02F");
+        document.getElementById("color_chart_average_line").jscolor.fromString("0AF02F");
         document.getElementById("color_chart_reference_line").jscolor.fromString("FF0055");
         document.getElementById("color_chart_cum_line").jscolor.fromString("212121");
         document.getElementById("color_chart_max_line").jscolor.fromString("777777");
@@ -1116,7 +1116,7 @@ include_once "par_header.php";
         document.getElementById("color_chartbar2").jscolor.fromString("FFFF0D");
         document.getElementById("color_chartbar_piek1").jscolor.fromString("55FF33");
         document.getElementById("color_chartbar_piek2").jscolor.fromString("127029");
-        document.getElementById("color_chart_avarage_line").jscolor.fromString("0AF02F");
+        document.getElementById("color_chart_average_line").jscolor.fromString("0AF02F");
         document.getElementById("color_chart_reference_line").jscolor.fromString("FF0055");
         document.getElementById("color_chart_max_line").jscolor.fromString("777777");
         document.getElementById("color_chart_max_bar").jscolor.fromString("777777");
@@ -1155,7 +1155,7 @@ include_once "par_header.php";
         document.getElementById("color_chartbar2").jscolor.fromString("700000");
         document.getElementById("color_chartbar_piek1").jscolor.fromString("FFE100");
         document.getElementById("color_chartbar_piek2").jscolor.fromString("FF7E38");
-        document.getElementById("color_chart_avarage_line").jscolor.fromString("B88686");
+        document.getElementById("color_chart_average_line").jscolor.fromString("B88686");
         document.getElementById("color_chart_reference_line").jscolor.fromString("4B3636");
         document.getElementById("color_chart_max_line").jscolor.fromString("805E5E");
         document.getElementById("color_chart_max_bar").jscolor.fromString("B88686");

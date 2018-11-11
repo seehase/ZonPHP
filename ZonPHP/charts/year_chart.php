@@ -345,9 +345,9 @@ include_once "chart_styles.php";
                     data: [<?php echo $current_bars; ?>],
                 },
                 {
-                    name: "Avarage",
+                    name: "Average",
                     type: "line",
-                    color: '#<?php echo $colors['color_chart_avarage_line'] ?>',
+                    color: '#<?php echo $colors['color_chart_average_line'] ?>',
                     data: [{x: -0.4, y: avrg}, {x: 11.4, y: avrg}],
                 },
                 <?php echo $reflines; ?>

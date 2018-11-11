@@ -33,13 +33,13 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     // cache still valid --> do not reload cache
     if ($debugmode) error_log("cache hit --> ");
     // copy data from session into variabls
-    $avarage_per_month = $_SESSION['avarage_per_month'];
+    $average_per_month = $_SESSION['average_per_month'];
     $sum_per_year = $_SESSION['sum_per_year'];
     $total_sum_for_all_years = $_SESSION['total_sum_for_all_years'];
     $max_month = $_SESSION['max_month'];
     $missing_days_month_year = $_SESSION['missing_days_month_year'];
 
-    $all_inverters_avarage_per_month = $_SESSION['all_inverters_avarage_per_month'];
+    $all_inverters_average_per_month = $_SESSION['all_inverters_average_per_month'];
     $all_inverters_sum_per_year = $_SESSION['all_inverters_sum_per_year'];
     $all_inverters_total_sum_for_all_years = $_SESSION['all_inverters_total_sum_for_all_years'];
     $all_inverters_max_month = $_SESSION['all_inverters_max_month'];
@@ -105,7 +105,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
     $sum_per_year = array();
     $total_sum_for_all_years = 0;
-    $avarage_per_month = 0;
+    $average_per_month = 0;
     $max_month = 0;
     $missing_days_month_year = array();
     if (mysqli_num_rows($result) == 0) {
@@ -122,12 +122,12 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
             $missing_days_month_year[$row['year']][$row['month']] = $missingdays;
         }
-        $avarage_per_month = array_sum($sum_per_year) / count($sum_per_year);
+        $average_per_month = array_sum($sum_per_year) / count($sum_per_year);
         $total_sum_for_all_years = array_sum($sum_per_year);
         $max_month = max($sum_per_year);
     }
 
-    $_SESSION['avarage_per_month'] = $avarage_per_month;
+    $_SESSION['average_per_month'] = $average_per_month;
     $_SESSION['sum_per_year'] = $sum_per_year;
     $_SESSION['total_sum_for_all_years'] = $total_sum_for_all_years;
     $_SESSION['max_month'] = $max_month;
@@ -142,7 +142,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
     $all_inverters_sum_per_year = array();
     $all_inverters_total_sum_for_all_years = 0;
-    $all_inverters_avarage_per_month = 0;
+    $all_inverters_average_per_month = 0;
     $all_inverters_max_month = 0;
     $all_inverters_missing_days_month_year = array();
     if (mysqli_num_rows($result) == 0) {
@@ -159,12 +159,12 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
             $all_inverters_missing_days_month_year[$row['year']][$row['month']] = $all_inverters_missingdays;
         }
-        $all_inverters_avarage_per_month = array_sum($all_inverters_sum_per_year) / count($all_inverters_sum_per_year);
+        $all_inverters_average_per_month = array_sum($all_inverters_sum_per_year) / count($all_inverters_sum_per_year);
         $all_inverters_total_sum_for_all_years = array_sum($all_inverters_sum_per_year);
         $all_inverters_max_month = max($all_inverters_sum_per_year);
     }
 
-    $_SESSION['all_inverters_avarage_per_month'] = $all_inverters_avarage_per_month;
+    $_SESSION['all_inverters_average_per_month'] = $all_inverters_average_per_month;
     $_SESSION['all_inverters_sum_per_year'] = $all_inverters_sum_per_year;
     $_SESSION['all_inverters_total_sum_for_all_years'] = $all_inverters_total_sum_for_all_years;
     $_SESSION['all_inverters_max_month'] = $all_inverters_max_month;

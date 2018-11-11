@@ -169,7 +169,7 @@ include_once "chart_styles.php";
             }],
             tooltip: {
                 formatter: function () {
-                    if (this.series.name == 'Maximum' || this.series.name == 'Avarage') {
+                    if (this.series.name == 'Maximum' || this.series.name == 'Average') {
                         return this.series.name + ' ' + this.y.toFixed(2) + 'kWh';
                     }
                     else {
@@ -192,9 +192,9 @@ include_once "chart_styles.php";
                     data: [{x: -0.4, y: maximum}, {x: 6.4, y: maximum}],
                 },
                 {
-                    name: "Avarage",
+                    name: "Average",
                     type: "line",
-                    color: '#<?php echo $colors['color_chart_avarage_line'] ?>',
+                    color: '#<?php echo $colors['color_chart_average_line'] ?>',
                     data: [{x: -0.4, y: avrg}, {x: 6.4, y: avrg}],
                 },
             ]

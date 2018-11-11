@@ -39,7 +39,7 @@ if (!isset ($colors['color_chart_max_line'])) $colors['color_chart_max_line'] = 
 if (!isset ($colors['color_chart_cum_line'])) $colors['color_chart_cum_line'] = "06990B";
 if (!isset ($colors['color_chart_temp_line'])) $colors['color_chart_temp_line'] = "0E669E";
 if (!isset ($colors['color_chart_expected_bar'])) $colors['color_chart_expected_bar'] = "AAAAAA";
-if (!isset ($colors['color_chart_avarage_line'])) $colors['color_chart_avarage_line'] = "0AF02F";
+if (!isset ($colors['color_chart_average_line'])) $colors['color_chart_average_line'] = "0AF02F";
 if (!isset ($colors['color_chartbar1'])) $colors['color_chartbar1'] = "003399";
 if (!isset ($colors['color_chartbar2'])) $colors['color_chartbar2'] = "3366AA";
 if (!isset ($colors['color_chartbar_piek1'])) $colors['color_chartbar_piek1'] = "730073";
@@ -79,7 +79,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbar2'] = "3366AA";
     $colors['color_chartbar_piek1'] = "F8F804";
     $colors['color_chartbar_piek2'] = "FF00FF";
-    $colors['color_chart_avarage_line'] = "0AF02F";
+    $colors['color_chart_average_line'] = "0AF02F";
     $colors['color_chart_reference_line'] = "FF0055";
     $colors['color_chart_cum_line'] = "212121";
     $colors['color_chart_max_line'] = "777777";
@@ -118,7 +118,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbar2'] = "FF000D";
     $colors['color_chartbar_piek1'] = "ff000D";
     $colors['color_chartbar_piek2'] = "A80000";
-    $colors['color_chart_avarage_line'] = "15ff24";
+    $colors['color_chart_average_line'] = "15ff24";
     $colors['color_chart_reference_line'] = "ff000d";
     $colors['color_chart_cum_line'] = "212121";
     $colors['color_chart_max_line'] = "454545";
@@ -157,7 +157,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbar2'] = "700000";
     $colors['color_chartbar_piek1'] = "FFE100";
     $colors['color_chartbar_piek2'] = "FF7E38";
-    $colors['color_chart_avarage_line'] = "B88686";
+    $colors['color_chart_average_line'] = "B88686";
     $colors['color_chart_reference_line'] = "4B3636";
     $colors['color_chart_cum_line'] = "212121";
     $colors['color_chart_max_line'] = "805E5E";
@@ -196,7 +196,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbar2'] = "ff000d";
     $colors['color_chartbar_piek1'] = "ff000d";
     $colors['color_chartbar_piek2'] = "a80000";
-    $colors['color_chart_avarage_line'] = "15ff24";
+    $colors['color_chart_average_line'] = "15ff24";
     $colors['color_chart_reference_line'] = "ff000d";
     $colors['color_chart_cum_line'] = "0d0bb0";
     $colors['color_chart_max_line'] = "454545";
@@ -235,7 +235,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbar2'] = "0003a6";
     $colors['color_chartbar_piek1'] = "f3ff15";
     $colors['color_chartbar_piek2'] = "a80000";
-    $colors['color_chart_avarage_line'] = "0003a6";
+    $colors['color_chart_average_line'] = "0003a6";
     $colors['color_chart_reference_line'] = "ff000d";
     $colors['color_chart_cum_line'] = "f3ff15";
     $colors['color_chart_max_line'] = "15ff24";
