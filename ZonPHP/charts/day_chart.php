@@ -163,6 +163,11 @@ $sensor_available = ($result->num_rows == 1) || ($use_weewx == true);
 $val_min = 500;
 $val_max = -500;
 
+if (!isset($weewx_table_name)) $weewx_table_name = "archive";
+if (!isset($weewx_temp_column)) $weewx_temp_column = "outTemp";
+if (!isset($weewx_timestamp_columns)) $weewx_timestamp_columns = "dateTime";
+if (!isset($weewx_temp_is_farenheit)) $weewx_temp_is_farenheit = true;
+
 if ($sensor_available) {
     $val_avg = 0;
     $sensor_success = false;
@@ -182,12 +187,12 @@ if ($sensor_available) {
         // use weewx connection and table
         $sql_sensor =
             "   SELECT 
-                   AVG( outTemp ) AS val,
-                   STR_TO_DATE( CONCAT( DATE( from_unixtime(dateTime) ) ,  ' ',HOUR( from_unixtime(dateTime) ) , ':', 
-                   LPAD( FLOOR( MINUTE( from_unixtime(dateTime) ) /5 ) *5, 2, '0' ) , ':00' ) ,
+                   AVG( $weewx_temp_column ) AS val,
+                   STR_TO_DATE( CONCAT( DATE( from_unixtime($weewx_timestamp_columns) ) ,  ' ' ,HOUR( from_unixtime($weewx_timestamp_columns) ) , ':', 
+                   LPAD( FLOOR( MINUTE( from_unixtime($weewx_timestamp_columns) ) /5 ) *5, 2, '0' ) , ':00' ) ,
                        '%Y-%m-%d %H:%i:%s' ) AS nicedate 
-                FROM archive 
-                WHERE from_unixtime(dateTime)  LIKE '" . $chartdatestring . "%'
+                FROM $weewx_table_name 
+                WHERE from_unixtime($weewx_timestamp_columns)  LIKE '" . $chartdatestring . "%'
                 GROUP BY nicedate ORDER BY nicedate ASC";
         $result_sensor = mysqli_query($con_weewx, $sql_sensor) or die("Query failed. dag " . mysqli_error($con));
         $sensor_success = true;
@@ -196,7 +201,13 @@ if ($sensor_available) {
     if ($sensor_success == true && mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // array time = value
-            $val = number_format(($row['val'] - 32) * 5 / 9, 1); // F --> °C
+            if ($weewx_temp_is_farenheit) {
+                $val = number_format(($row['val'] - 32) * 5 / 9, 1); // F --> °C
+                $temp_unit = "°C";
+            } else {
+                $val = number_format($row['val'] , 1); // temp is already in °C
+                $temp_unit = "°F";
+            }
             $sensor_values[date("H:i", strtotime($row['nicedate']))] = $val;
             $temp_vals[strtotime($row['nicedate'])] = $val;
             if ($val > $val_max) $val_max = $val;
@@ -210,9 +221,6 @@ if ($sensor_available) {
             $val_max = $val_max + 3;
         };
     }
-
-
-
 
 // ---SENSOR -----------------------------------------------------------------------------------------------------------
 }
@@ -274,7 +282,7 @@ if ($sensor_available) {
             if (isset($param['no_units'])) {
                 $str_temp_vals .= "[" . $time * 1000 . "," . number_format($val, 1, '.', '') . "],";
             } else {
-                $str_temp_vals .= "{x:" . $time * 1000 . ", y:" . number_format($val, 1, '.', '') . ", unit: '°C' },";
+                $str_temp_vals .= "{x:" . $time * 1000 . ", y:" . number_format($val, 1, '.', '') . ", unit: '".$temp_unit."' },";
             }
         }
     }
@@ -503,12 +511,12 @@ if (strlen($str_temp_vals) > 0) {
                             },
                         },
                         labels: {
-                            format: '{value}°C',
+                            format: '{value}<?php echo $temp_unit ?>',
                             style: {
                                 color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
                             },
                             formatter: function () {
-                                return this.value + "°C";
+                                return this.value + "<?php echo $temp_unit ?>";
                             },
                         },
                         gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis3'] ?>',
