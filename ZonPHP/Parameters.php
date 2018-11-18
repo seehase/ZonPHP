@@ -58,7 +58,8 @@ $weewx_password = "weewx";                /*  weewx Database password --> defaul
 $weewx_database_name = "weewx";           /*  weewx Database name     --> default: "weewx"             */
 $weewx_table_name = "archive";            /*  weewx table name     --> default: "archive"              */
 $weewx_temp_column = "outTemp";           /*  weewx temp column name     --> default: "outTemp"        */
-$weewx_timestamp_columns = "dateTime";    /*  weewx timestamp column name     --> default: "dateTime"  */
+$weewx_timestamp_column = "dateTime";     /*  weewx timestamp column name     --> default: "dateTime"  */
 $weewx_temp_is_farenheit = true           /*  weewx temp is in farenheit     --> default: "true"       */
+
 
 ?>

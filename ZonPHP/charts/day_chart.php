@@ -165,7 +165,7 @@ $val_max = -500;
 
 if (!isset($weewx_table_name)) $weewx_table_name = "archive";
 if (!isset($weewx_temp_column)) $weewx_temp_column = "outTemp";
-if (!isset($weewx_timestamp_columns)) $weewx_timestamp_columns = "dateTime";
+if (!isset($weewx_timestamp_column)) $weewx_timestamp_column = "dateTime";
 if (!isset($weewx_temp_is_farenheit)) $weewx_temp_is_farenheit = true;
 
 if ($sensor_available) {
@@ -188,11 +188,11 @@ if ($sensor_available) {
         $sql_sensor =
             "   SELECT 
                    AVG( $weewx_temp_column ) AS val,
-                   STR_TO_DATE( CONCAT( DATE( from_unixtime($weewx_timestamp_columns) ) ,  ' ' ,HOUR( from_unixtime($weewx_timestamp_columns) ) , ':', 
-                   LPAD( FLOOR( MINUTE( from_unixtime($weewx_timestamp_columns) ) /5 ) *5, 2, '0' ) , ':00' ) ,
+                   STR_TO_DATE( CONCAT( DATE( from_unixtime($weewx_timestamp_column )) ,  ' ' ,HOUR( from_unixtime($weewx_timestamp_column) ) , ':', 
+                   LPAD( FLOOR( MINUTE( from_unixtime($weewx_timestamp_column) ) /5 ) *5, 2, '0' ) , ':00' ) ,
                        '%Y-%m-%d %H:%i:%s' ) AS nicedate 
                 FROM $weewx_table_name 
-                WHERE from_unixtime($weewx_timestamp_columns)  LIKE '" . $chartdatestring . "%'
+                WHERE from_unixtime($weewx_timestamp_column)  LIKE '" . $chartdatestring . "%'
                 GROUP BY nicedate ORDER BY nicedate ASC";
         $result_sensor = mysqli_query($con_weewx, $sql_sensor) or die("Query failed. dag " . mysqli_error($con));
         $sensor_success = true;
