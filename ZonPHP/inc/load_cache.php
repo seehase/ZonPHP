@@ -29,6 +29,9 @@ if ($taal == "en")
 date_default_timezone_set("UTC");
 
 
+$github_version = "unknown";
+$new_version_label = "";
+
 if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout) > (time())) {
     // cache still valid --> do not reload cache
     if ($debugmode) error_log("cache hit --> ");
@@ -224,6 +227,24 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
         }
     }
 
+    // get latest Version from github
+    if (strpos($version, "(dev)") > 0)
+    {
+        $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/development/ZonPHP/inc/version_info.php');
+    }
+    else
+    {
+        $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/master/ZonPHP/inc/version_info.php');
+    }
+    $pos_start = strpos($homepage, '"v');
+    $pos_end = strpos($homepage, '";', $pos_start + 2);
+    if ($pos_start > 0) {
+        $github_version = substr($homepage, $pos_start+1, $pos_end-$pos_start-1 );
+    }
+
+    if ($github_version > $version) {
+        $new_version_label = "new version available!!!! -> " . $github_version;
+    }
 
     // -----------------------------------------------------------------------------------------------------------------
     $_SESSION['lastupdate'] = time();
