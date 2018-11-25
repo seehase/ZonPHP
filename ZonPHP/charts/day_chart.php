@@ -156,9 +156,16 @@ $sensortype = 1;
 
 $temp_vals = array();
 
-$tablename = $table_prefix . "_sensordata";
-$result = mysqli_query($con, "SHOW TABLES LIKE '" . $tablename . "'");
-$sensor_available = ($result->num_rows == 1) || ($use_weewx == true);
+$external_sensors = isset($param['external_sensors']);
+
+if ($external_sensors) {
+    $tablename = $table_prefix . "_sensordata";
+    $result = mysqli_query($con, "SHOW TABLES LIKE '" . $tablename . "'");
+    if ($result->num_rows == 0) {
+        $external_sensors = false;
+    }
+}
+$sensor_available = ($external_sensors == true) || ($use_weewx == true);
 
 $val_min = 500;
 $val_max = -500;
@@ -168,9 +175,11 @@ if (!isset($weewx_temp_column)) $weewx_temp_column = "outTemp";
 if (!isset($weewx_timestamp_column)) $weewx_timestamp_column = "dateTime";
 if (!isset($weewx_temp_is_farenheit)) $weewx_temp_is_farenheit = true;
 
+$sensor_success = false;
+$temp_unit = "°C";
+
 if ($sensor_available) {
     $val_avg = 0;
-    $sensor_success = false;
     if (isset($param['external_sensors_for_daychart'])) {
         // use external arexx sensors
         $sql_sensor =
@@ -275,7 +284,7 @@ $strgegmax = substr($strgegmax, 0, -1);
 
 // temp line --------------------------------------------------------------
 $str_temp_vals = "";
-if ($sensor_available) {
+if ($sensor_success) {
     $str_temp_vals = "";
     foreach ($temp_vals as $time => $val) {
         if (($time > $max_first_val) && ($time < $max_last_val)) {
@@ -350,7 +359,6 @@ if ($isIndexPage) {
 }
 $subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$maxlink. " --> ". $maxkwh. "kWh ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".")
     . "W" .'' . '"';
-
 
 
 //--------------------

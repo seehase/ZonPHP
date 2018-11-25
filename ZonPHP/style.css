@@ -613,3 +613,22 @@ code {
     margin-bottom: 0;
     font-size: 12px;
 }
+
+#menu .toggle-sub {
+    width: 14.25em;
+}
+
+#menu ul {
+    border-top-width: 5px;
+}
+
+.js #menu .sub-nav .toggle {
+    width: 1.5em;
+}
+#menu .sub-heading {
+    background-color: #444;
+}
+
+#menu li a {
+    background-color: #444;
+}
