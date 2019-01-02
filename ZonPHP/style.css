@@ -398,11 +398,11 @@ body {
     padding: 0;
     list-style: none;
     margin-top: 55px;
-    border-top: 1px solid #444
+    border-top: 1px solid #ccc
 }
 
 #menu li {
-    border-bottom: 1px solid #444
+    border-bottom: 1px solid #000
 }
 
 #menu li a {
@@ -631,4 +631,11 @@ code {
 
 #menu li a {
     background-color: #444;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-left-width: 5px;
+    border-left-style: solid;
+    border-color: #000;
 }
