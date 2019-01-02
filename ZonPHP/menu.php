@@ -26,7 +26,7 @@ if (intval($param['flyout']) > 0) {
         <?php
 
         if ($iveromvormers == 1) {
-            echo "<li><a href='#'>&nbsp;</a> <label for='inverter' class='toggle-sub' onclick=''>&nbsp;" . $_SESSION['Wie'] . "&nbsp;&nbsp;&nbsp;&#9658;</label>";
+            echo "<li><a href='#' style='display: flex'>&nbsp;</a> <label for='inverter' class='toggle-sub' onclick=''>&nbsp;" . $_SESSION['Wie'] . "&nbsp;&nbsp;&nbsp;&#9658;</label>";
             echo "<input type='checkbox' name='nav' id='inverter' class='sub-nav-check'/>";
             echo "<ul id='inverter-sub' class='sub-nav'>";
             echo "  <li class='sub-heading'>inverter<label for='inverter' class='toggle' onclick='' title='Back'>&#9658;</label></li>";
@@ -38,7 +38,7 @@ if (intval($param['flyout']) > 0) {
         }
         ?>
 
-        <li><a href="#">&nbsp;</a> <label for="fof" class="toggle-sub" onclick="">
+        <li><a href="#" style="display: flex">&nbsp;</a> <label for="fof" class="toggle-sub" onclick="">
                 &nbsp;<?php echo $txt["grafiekoverzicht"]; ?>&nbsp;&nbsp;&nbsp;&#9658;</label>
             <input type="checkbox" name="nav" id="fof" class="sub-nav-check"/>
             <ul id="fof-sub" class="sub-nav">
@@ -125,7 +125,7 @@ if (intval($param['flyout']) > 0) {
         ?>
 
 
-        <li><a href="#">&nbsp;</a> <label for="links" class="toggle-sub" onclick="">
+        <li><a href="#" style="display: flex">&nbsp;</a> <label for="links" class="toggle-sub" onclick="">
                 &nbsp;Links&nbsp;&nbsp;&nbsp;&#9658;</label>
             <input type="checkbox" name="nav" id="links" class="sub-nav-check"/>
             <ul id="links-sub" class="sub-nav">
@@ -141,9 +141,9 @@ if (intval($param['flyout']) > 0) {
                 </li>
 
                 <li><a href="#">&nbsp;</a> <label for="samples" class="toggle-sub" onclick="">&nbsp;samples&nbsp;&nbsp;&#9658;</label>
-                    <input type="checkbox" name="nav" id="samples" class="sub-nav-check"/>
+                    <input type="checkbox"  name="nav" id="samples" class="sub-nav-check"/>
                     <ul id="samples-sub" class="sub-nav">
-                        <li class="sub-heading">samples<label for="samples" class="toggle" onclick="" title="Back">
+                        <li class="sub-heading" >samples<label style="margin-top: -5px;" for="samples" class="toggle" onclick="" title="Back">
                                 &#9658;</label></li>
                         <li><a href="http://craeghs-syen.be/WEILLEN/index.php" onclick="target='_blank'">WEILLEN</a>
                         </li>
@@ -172,7 +172,7 @@ if (intval($param['flyout']) > 0) {
             </ul>
         </li>
 
-        <li><a href="#">&nbsp;</a> <label for="info" class="toggle-sub" onclick=""><span style="text-align: right">&nbsp;Info&nbsp;&nbsp;&nbsp;&#9658;</span></label>
+        <li><a href="#" style="display: flex">&nbsp;</a> <label for="info" class="toggle-sub" onclick=""><span style="text-align: right">&nbsp;Info&nbsp;&nbsp;&nbsp;&#9658;</span></label>
             <input type="checkbox" name="nav" id="info" class="sub-nav-check"/>
             <ul id="info-sub" class="sub-nav">
                 <li class="sub-heading"><?= $version ?><label for="info" class="toggle" onclick="" title="Back">
