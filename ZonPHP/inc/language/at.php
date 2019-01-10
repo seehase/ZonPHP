@@ -89,11 +89,11 @@ $txt["maand"] = "Monat";
 $txt["maanden"] = "Monate";
 $txt["chart_dayoverview"] = "Tagesansicht";
 $txt["chart_monthoverview"] = "Monatsansicht";
-$txt["maandtotoverzicht"] = "Monat anzeigen";
 $txt["chart_totaldayoverview"] = "Tagesansicht alle WR";
 $txt["chart_totalmonthoverview"] = "Monatsansicht alle WR";
 $txt["chart_totalyearoverview"] = "Jahresansicht alle WR";
 $txt["chart_totalallyearoverview"] = "Alle Jahre alle WR";
+$txt["maandtotoverzicht"] = "Monat anzeigen";
 $txt["mail1"] = ", Ihre Sonnenkollektoren haben ";
 $txt["mail2"] = "kWh erreicht.";
 $txt["mail3"] = "Besuchen Sie Ihre ZonPHP Webseite f&uuml;r mehr Details.";
@@ -120,6 +120,32 @@ $txt["parameters"] = "Parameter";
 $txt["pareuro"] = "Euro";
 $txt["parref"] = "Referenz";
 $txt["parverbruik"] = "Eingabe Verbrauch";
+
+$txt["parloschen"] = "Werte l&ouml;schen";
+$txt["parloschenjahr"] = "Jahr welches gel&ouml;scht werden soll (2015): ";
+$txt["parloschenmonat"] = "Monat welches gel&ouml;scht werden soll (01-12): ";
+$txt["parloschentag"] = "Tag der gel&ouml;scht werden soll (01-31): ";
+
+$txt["parloschenfehler"] = "Fehler -- Bitte geben Sie ein Datum und einen Wechselrichter an um etwas zu l&ouml;schen!";
+$txt["parloscheninput1"] = "Datum welches eingegeben wurde jjjj-mm-dd  =  ";
+$txt["parloscheninput2"] = "Wechselrichter welcher angegeben wurde = ";
+$txt["parloschentag"] = "Tag der gel&ouml;scht werden soll (01-31): ";
+$txt["parloschenready"] = "Folgende Werte wurden Gelöscht: ";
+
+$txt["parinverter"] = "Bei welchem Wechselrichter: ";
+$txt["parupdate"] = "Werte &auml;ndern";
+$txt["parupdatetag"] = "Datum vom Tag der ge&auml;ndert werden soll (2015-01-31): ";
+$txt["parupdatezeit"] = "Zeit welche ge&auml;ndert werden soll (20:10): ";
+$txt["parupdatezeitinfo"] = "Wenn keine Zeit angegeben wird, werden nur die Monatsdaten ge&auml;ndert!!";
+$txt["parupdatewert"] = "Wert der eingetragen werden soll (3576): ";
+$txt["parupdateertraginfo"] = "Tagesertrag der zu derjenigen Uhrzeit eingetragen werden soll (3576) ";
+$txt["parupdateertrag"] = "- Wenn leer dann wird 0 eingetragen. : ";
+
+$txt["parupdatefehler"] = "Fehler -- Bitte geben Sie ein Datum und einen Wechselrichter an um etwas zu &auml;ndern!";
+$txt["parupdatezeitinfo1"] = "Es wurde keine Zeit angegeben, es werden nur die Monatsdaten geändert!";
+$txt["parupdateready"] = "Folgende Werte wurden ge&auml;ndert: ";
+$txt["parupdatetime"] = "Zeit";
+
 $txt["pdaweergave"] = "PDA";
 $txt["periode"] = "Ums&auml;tze f&uuml;r Zeitraum von ";
 $txt["periode2"] = " bis einschlie&szlig;lich ";
@@ -260,12 +286,13 @@ $txt["chart_weewx"] = "chart weewx";
 $txt["weewx"] = "weewx";
 $txt["weatherstation_config"] = "Einstellungen f&uuml;r Wetterstationen";
 $txt["wunderground_stationID"] = "Deine wunderground Station ID z.B. IINGOLST156";
-$txt["inverter"] = "Wechselrichter - ";
+$txt["inverter"] = "";
 //$txt["inverter"] = "Wechselrichter";
 $txt['back_to_today'] = "Zur&uuml;ck zu heute";
 $txt['all_inverters'] = "Alle WR";
 $txt['choose_inverter'] = "Wähle Wechselrichter";
 $txt['peak'] = "Peak";
+
 $txt["1"] = "1";
 
 ?>
