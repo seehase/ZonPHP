@@ -14,6 +14,8 @@
 					<li><a href="par_powerusage.php">&raquo;&nbsp;' . $txt["parverbruik"] . '</a></li>
 					<li><a href="debug.php">&raquo;&nbsp;Debug</a></li> 
 					<li><a href="../inc/destroy.php">&raquo;&nbsp;' . $txt["clearsession"] . '</a></li>
+					<li><a href="loschen.php">&raquo;&nbsp;' . $txt["parloschen"] . '</a></li>
+					<li><a href="update.php">&raquo;&nbsp;' . $txt["parupdate"] . '</a></li>
 					
 					';
                 } else if (isset($con) && $con) {
@@ -33,7 +35,10 @@
                 <a href='?taal=fr' TARGET='_self'><img src='../inc/image/fr.png' alt='fr' border='0' width='16'
                                                        height='11'></a>
                 <a href='?taal=de' TARGET='_self'><img src='../inc/image/de.png' alt='de' border='0' width='16'
+                                                       height='11'></a> 
+				<a href='?taal=at' TARGET='_self'><img src='../inc/image/at.png' alt='at' border='0' width='16'
                                                        height='11'></a> ";
+
             }
             ?>
             <br/>
