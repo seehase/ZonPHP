@@ -9,7 +9,7 @@
 			met data en veel interessante info over Belgische zonnepanelen">
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 
-    <title>Zonneinstallatie</title>
+    <title>ZonPHP Installation</title>
     <link rel="stylesheet" type="text/css" href="par_style.css">
     <script type="text/javascript" src="../inc/js/jscolor/jscolor.min.js"></script>
     <script type="text/javascript">

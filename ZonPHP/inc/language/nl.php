@@ -114,6 +114,32 @@ $txt["parameters"] = "Parameters";
 $txt["pareuro"] = "Euro";
 $txt["parref"] = "Referentie";
 $txt["parverbruik"] = "Ingave verbruik";
+
+$txt["pardelete"] = "Delete values";
+$txt["pardeletejahr"] = "Year to be deleted (2015): ";
+$txt["pardeletemonat"] = "Month to be deleted (01-12): ";
+$txt["pardeletetag"] = "Day to be deleted (01-31): ";
+$txt["pardeleteerror"] = "Error - Please enter a date and an inverter to delete something!";
+$txt["pardeleteinput1"] = "Date which was entered jjjj-mm-dd  =  ";
+$txt["pardeleteinput2"] = "Inverter which has been specified = ";
+
+$txt["pardeleteready"] = "The following values ​​have been deleted: ";
+$txt["parinverter"] = "In which inverter ";
+$txt["parupdate"] = "Change values";
+$txt["parupdatedag"] = "Date of the day to be changed (2015-01-31): ";
+$txt["parupdatetimee"] = "Time to change (20:10): ";
+$txt["parupdatetimeinfo"] = "If no time is specified, only the month data will be changed!!";
+$txt["parupdatevalue"] = "Value to be entered (3576): ";
+$txt["parupdateearningsinfo"] = "Daily income to be entered at the time of day (3576) ";
+$txt["pardeletesqlerror"] = "Entry tag could not be deleted!! -> ";
+$txt["parback"] = "Back";
+$txt["parupdateearnings"] = "- If empty then 0 is entered. : ";
+$txt["parupdatedayearnings"] = "Tagesertrag :";
+$txt["parupdateerror"] = "Error - Please enter a date and an inverter to change something!";
+$txt["parupdatetimeinfo1"] = "No time was specified, only the monthly data is changed!";
+$txt["parupdateready"] = "The following values ​​have been changed: ";
+$txt["parupdatetime"] = "time";
+
 $txt["pdaweergave"] = "PDA Weergave";
 $txt["periode"] = "Opbrengsten voor periode van ";
 $txt["periode2"] = " tot en met ";
