@@ -14,7 +14,7 @@
 					<li><a href="par_powerusage.php">&raquo;&nbsp;' . $txt["parverbruik"] . '</a></li>
 					<li><a href="debug.php">&raquo;&nbsp;Debug</a></li> 
 					<li><a href="../inc/destroy.php">&raquo;&nbsp;' . $txt["clearsession"] . '</a></li>
-					<li><a href="loschen.php">&raquo;&nbsp;' . $txt["parloschen"] . '</a></li>
+					<li><a href="delete.php">&raquo;&nbsp;' . $txt["pardelete"] . '</a></li>
 					<li><a href="update.php">&raquo;&nbsp;' . $txt["parupdate"] . '</a></li>
 					
 					';

@@ -44,14 +44,15 @@ if (isset($_GET['naam'])) {
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><u><?php echo $txt["parupdate"];?></u></h2>
+            <h2 class="notopgap" align="center"><u><?php echo $txt["pardelete"];?></u></h2>
 
-  <div id="bodytextloschen">	
-	<form action="actionupdate.php" method="get">
+  <div id="bodytextdelete">	
+	<form action="actiondelete.php" method="get">
 
   <p> </p>
   <br>
   <?php echo $txt["parinverter"]; ?>
+  
            <label>
              <select name="wr">
 					<option  SELECTED>
@@ -62,49 +63,40 @@ if (isset($_GET['naam'])) {
                 
 				?>
 			        </select>
-
             
             <br/>
             <br/>
-                <label><?php echo $txt["parupdatedag"]; ?> </label>
+                <label><?php echo $txt["pardeletetag"]; ?> :</label>
+                <select name="day">
+                    <option SELECTED><?php if (!empty($_POST['dag'])) echo $_POST['dag']; ?>
+                        <?php
+                        for ($i = 1; $i <= 31; $i++) {
+                            echo '<option value="' . $i . '">' . $i . '</option>';
+                        }
+                        ?>
+                </select><br/><br/>
+                <label><?php echo $txt["pardeletemonat"]; ?> :</label>
+                <select name="month">
+                    <option SELECTED><?php if (!empty($_POST['maand'])) echo $_POST['maand']; ?>
+                        <?php
+                        for ($i = 1; $i <= 12; $i++) {
+                            echo '<option value="' . $i . '">' . $i . '</option>';
+                        }
+                        ?>
+                </select><br/><br/>
+                <label><?php echo $txt["pardeletejahr"]; ?> :</label>
                 <select name="year">
-                    <option SELECTED><?php if (!empty($_POST['year'])) echo $_POST['year']; ?>
+                    <option SELECTED><?php if (!empty($_POST['jaar'])) echo $_POST['jaar']; ?>
                         <?php
                         for ($i = date('Y'); $i >= 2006; $i--) {
                             echo '<option value="' . $i . '">' . $i . '</option>';
                         }
                         ?>
                 </select>
-
-                <select name="month">
-                    <option SELECTED><?php if (!empty($_POST['month'])) echo $_POST['month']; ?>
-                        <?php
-                        for ($i = 1; $i <= 12; $i++) {
-                            echo '<option value="' . $i . '">' . $i . '</option>';
-                        }
-                        ?>
-                </select>
-                <select name="day">
-                    <option SELECTED><?php if (!empty($_POST['day'])) echo $_POST['day']; ?>
-                        <?php
-                        for ($i = 1; $i <= 31; $i++) {
-                            echo '<option value="' . $i . '">' . $i . '</option>';
-                        }
-                        ?>
-                </select>
             
+            <br/>
+            <br/>
 
-
- <p><?php echo $txt["parupdatetimee"];?><input type="text" name="time" /></p>
- <p><?php echo $txt["parupdatetimeinfo"]?></p>
- 
- <p><?php echo $txt["parupdatevalue"]?><input type="text" name="value" /></p>
- 
- <p><?php echo $txt["parupdateearningsinfo"]?></p>
- <p><?php echo $txt["parupdateearnings"]?><input type="text" name="earnings" /></p>
-
-  
- 
  
  <p><input type="submit" VALUE="<?php echo $txt["save"]; ?>" /></p>  
 </form>
@@ -114,4 +106,5 @@ if (isset($_GET['naam'])) {
         </div>
     </div>
 </div>
+
 
