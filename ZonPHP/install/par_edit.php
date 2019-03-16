@@ -1051,6 +1051,28 @@ include_once "par_header.php";
                 </select>
 
                 <hr>
+                <?php echo $txt["CustomFields"]; ?>:<br>
+                <?php echo $txt["EMU_Offset"]; ?>: <input type='text' name='EMU_Offset'
+                       value='<?php if (!empty($_POST['EMU_Offset'])) echo $_POST['EMU_Offset']; else echo "0" ?>'
+                       size='5'><br/>
+                <?php echo $txt["Path_EMU"]; ?>: <input type='text' name='Path_EMU'
+                       value='<?php if (!empty($_POST['Path_EMU'])) echo $_POST['Path_EMU']; else echo "" ?>'
+                       size='60'><br/>
+                <?php echo $txt["Path_Webroot"]; ?>: <input type='text' name='Path_Webroot'
+                       value='<?php if (!empty($_POST['Path_Webroot'])) echo $_POST['Path_Webroot']; else echo "" ?>'
+                       size='60'><br/>
+                <?php echo $txt["Path_Zonphp"]; ?>: <input type='text' name='Path_Zonphp'
+                       value='<?php if (!empty($_POST['Path_Zonphp'])) echo $_POST['Path_Zonphp']; else echo "" ?>'
+                       size='60'><br/>
+                <?php echo $txt["PVO_API"]; ?>: <input type='text' name='PVO_API'
+                       value='<?php if (!empty($_POST['PVO_API'])) echo $_POST['PVO_API']; else echo "" ?>'
+                       size='60'><br/>
+                <?php echo $txt["PVO_SYS_ID"]; ?>: <input type='text' name='PVO_SYS_ID'
+                       value='<?php if (!empty($_POST['PVO_SYS_ID'])) echo $_POST['PVO_SYS_ID']; else echo "" ?>'
+                       size='60'><br/>
+
+
+                <hr>
 
                 <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo $txt["save"]; ?>"
                        onClick="return confirmSubmit()">

@@ -289,6 +289,16 @@ $txt['peak'] = "Peak";
 $txt["1"] = "1";
 
 
+$txt["CustomFields"] = "custom fields";
+$txt["EMU_Offset"] = "EMU_Offset";
+$txt["Path_EMU"] = "Path_EMU";
+$txt["Path_Webroot"] = "Path_Webroot";
+$txt["Path_Zonphp"] = "Path_Zonphp";
+$txt["PVO_API"] = "PVO_API";
+$txt["PVO_SYS_ID"] = "PVO_SYS_ID";
+
+
+
 
 
 
