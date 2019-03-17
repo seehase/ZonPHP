@@ -642,7 +642,7 @@ include_once "par_header.php";
                         <td>
                             <input class="jscolor" type="text" name="color_chartbar1" id="color_chartbar1" size="6"
                                    maxlength="6" value="
-				<?php
+                    <?php
                             if (!empty($_POST['color_chartbar1']))
                                 echo $_POST['color_chartbar1'];
                             else {
@@ -652,7 +652,7 @@ include_once "par_header.php";
                             ?>">
                             <input class="jscolor" type="text" name="color_chartbar2" id="color_chartbar2" size="6"
                                    maxlength="6" value="
-				<?php
+                    <?php
                             if (!empty($_POST['color_chartbar2']))
                                 echo $_POST['color_chartbar2'];
                             else {
@@ -662,6 +662,268 @@ include_once "par_header.php";
                             ?>">
                         </td>
                     </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"] ."-0"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter0_chartbar_min" id="color_inverter0_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter0_chartbar_min']))
+                                echo $_POST['color_inverter0_chartbar_min'];
+                            else {
+                                $_POST['color_inverter0_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter0_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter0_chartbar_max" id="color_inverter0_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter0_chartbar_max']))
+                                echo $_POST['color_inverter0_chartbar_max'];
+                            else {
+                                $_POST['color_inverter0_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter0_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-1"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter1_chartbar_min" id="color_inverter1_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter1_chartbar_min']))
+                                echo $_POST['color_inverter1_chartbar_min'];
+                            else {
+                                $_POST['color_inverter1_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter1_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter1_chartbar_max" id="color_inverter1_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter1_chartbar_max']))
+                                echo $_POST['color_inverter1_chartbar_max'];
+                            else {
+                                $_POST['color_inverter1_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter1_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-2"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter2_chartbar_min" id="color_inverter2_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter2_chartbar_min']))
+                                echo $_POST['color_inverter2_chartbar_min'];
+                            else {
+                                $_POST['color_inverter2_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter2_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter2_chartbar_max" id="color_inverter2_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter2_chartbar_max']))
+                                echo $_POST['color_inverter2_chartbar_max'];
+                            else {
+                                $_POST['color_inverter2_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter2_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-3"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter3_chartbar_min" id="color_inverter3_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter3_chartbar_min']))
+                                echo $_POST['color_inverter3_chartbar_min'];
+                            else {
+                                $_POST['color_inverter3_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter3_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter3_chartbar_max" id="color_inverter3_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter3_chartbar_max']))
+                                echo $_POST['color_inverter3_chartbar_max'];
+                            else {
+                                $_POST['color_inverter3_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter3_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-4"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter4_chartbar_min" id="color_inverter4_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter4_chartbar_min']))
+                                echo $_POST['color_inverter4_chartbar_min'];
+                            else {
+                                $_POST['color_inverter4_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter4_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter4_chartbar_max" id="color_inverter4_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter4_chartbar_max']))
+                                echo $_POST['color_inverter4_chartbar_max'];
+                            else {
+                                $_POST['color_inverter4_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter4_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-5"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter5_chartbar_min" id="color_inverter5_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter5_chartbar_min']))
+                                echo $_POST['color_inverter5_chartbar_min'];
+                            else {
+                                $_POST['color_inverter5_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter5_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter5_chartbar_max" id="color_inverter5_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter5_chartbar_max']))
+                                echo $_POST['color_inverter5_chartbar_max'];
+                            else {
+                                $_POST['color_inverter5_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter5_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-6"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter6_chartbar_min" id="color_inverter6_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter6_chartbar_min']))
+                                echo $_POST['color_inverter6_chartbar_min'];
+                            else {
+                                $_POST['color_inverter6_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter6_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter6_chartbar_max" id="color_inverter6_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter6_chartbar_max']))
+                                echo $_POST['color_inverter6_chartbar_max'];
+                            else {
+                                $_POST['color_inverter6_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter6_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-7"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter7_chartbar_min" id="color_inverter7_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter7_chartbar_min']))
+                                echo $_POST['color_inverter7_chartbar_min'];
+                            else {
+                                $_POST['color_inverter7_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter7_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter7_chartbar_max" id="color_inverter7_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter7_chartbar_max']))
+                                echo $_POST['color_inverter7_chartbar_max'];
+                            else {
+                                $_POST['color_inverter7_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter7_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-8"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter8_chartbar_min" id="color_inverter8_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter8_chartbar_min']))
+                                echo $_POST['color_inverter8_chartbar_min'];
+                            else {
+                                $_POST['color_inverter8_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter8_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter8_chartbar_max" id="color_inverter8_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter8_chartbar_max']))
+                                echo $_POST['color_inverter8_chartbar_max'];
+                            else {
+                                $_POST['color_inverter8_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter8_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-9"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter9_chartbar_min" id="color_inverter9_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter9_chartbar_min']))
+                                echo $_POST['color_inverter9_chartbar_min'];
+                            else {
+                                $_POST['color_inverter9_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter9_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter9_chartbar_max" id="color_inverter9_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter9_chartbar_max']))
+                                echo $_POST['color_inverter9_chartbar_max'];
+                            else {
+                                $_POST['color_inverter9_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter9_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+
                     <tr>
                         <td><?php echo $txt["klbalkgrpiek"]; ?>:</td>
                         <td>

@@ -259,21 +259,36 @@ if (strlen($str_dataserie > 0)) {
     $str_dataserie = substr($str_dataserie, 0, -1);
 }
 
-$akleurenbarst=array("C4D318","50284A","ff1257");
+// build colors per inverter array
+$myColors = array();
+for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+    $col1 = "color_inverter" . $k ."_chartbar_min";
+    $col1 = "'#" . $colors[$col1] . "'";
+    $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
+    $col1 = "color_inverter" . $k ."_chartbar_max";
+    $col1 = "'#" . $colors[$col1] . "'";
+    $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
+}
+
+
 $strgeg = "";
 $cnt = 0;
 foreach ($inveter_list as $inverter_name)
 {
-    $strgeg .= "{ name: '".$inverter_name."', type: 'area', marker: { enabled: false }, color:'#$akleurenbarst[$cnt]', data:[";
+    $col1 =$myColors[$inverter_name]['min'];
+    $col2 =$myColors[$inverter_name]['max'];
+
+    $strgeg .= "{ name: '$inverter_name', type: 'area', marker: { enabled: false }, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
+    data:[";
 
     foreach ($all_valarray as $time => $valarray) {
 
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
 
         if (isset($param['no_units'])) {
-            $strgeg .= '{color:\'#' . $akleurenbarst[$cnt]. '\', x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name].'}, ';
+            $strgeg .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name].'}, ';
         } else {
-            $strgeg .= '{color:\'#' . $akleurenbarst[$cnt]. '\', x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
+            $strgeg .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
         }
     }
     $strgeg=substr($strgeg,0,-1);
