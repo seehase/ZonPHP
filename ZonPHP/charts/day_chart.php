@@ -264,16 +264,24 @@ $strgeg = "";
 $cnt = 0;
 foreach ($inveter_list as $inverter_name)
 {
-    $strgeg.="{ name: '".$inverter_name."', marker: { enabled: false }, color:\"#$akleurenbarst[$cnt]\", data:[";
+    $strgeg .= "{ name: '".$inverter_name."', type: 'area', marker: { enabled: false }, color:'#$akleurenbarst[$cnt]', data:[";
 
     foreach ($all_valarray as $time => $valarray) {
 
-        $strgeg.="{color:\"#$akleurenbarst[$cnt]\", x:" . ($time * 1000) . ", y:" . $valarray[$inverter_name]."}, ";
+        if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
+
+        if (isset($param['no_units'])) {
+            $strgeg .= '{color:\'#' . $akleurenbarst[$cnt]. '\', x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name].'}, ';
+        } else {
+            $strgeg .= '{color:\'#' . $akleurenbarst[$cnt]. '\', x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
+        }
     }
     $strgeg=substr($strgeg,0,-1);
-    $strgeg.="]},";
+    $strgeg.="]}, 
+                    ";
     $cnt++;
 }
+
 
 // $strgeg=substr($strgeg,0,-1);
 $str_dataserie = $strgeg;
@@ -584,6 +592,7 @@ if (strlen($str_temp_vals) > 0) {
                             }
                         },
                         threshold: 0,
+                        stacking: 'normal',
                     },
 
                     series: {}
@@ -595,14 +604,6 @@ if (strlen($str_temp_vals) > 0) {
                 },
                 series: [
                     <?php echo $str_dataserie ?>
-
-                    {
-                        type: 'area',
-                        name: 'Watt',
-                        data: data_series,
-                        color: '#0909D6',
-
-                    },
                     {
                         type: 'spline',
                         name: 'Max',
