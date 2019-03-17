@@ -63,9 +63,14 @@ else {
 }
 
 $valarray = array();
-$sql = "SELECT SUM( Geg_Dag ) AS gem,
+$all_valarray = array();
+$inveter_list = array();
+
+
+$sql = "SELECT SUM( Geg_Dag ) AS gem, naam, 
 	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd FROM " .
-    $table_prefix . "_dag where Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' ". $inverter_clause . " GROUP BY datumtijd ORDER BY datumtijd ASC";
+    $table_prefix . "_dag where Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' ". $inverter_clause .
+    " GROUP BY datumtijd, naam ORDER BY datumtijd ASC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
@@ -74,26 +79,29 @@ if (mysqli_num_rows($result) == 0) {
     $tlaatstetijd = time();
     $geengevdag = 0;
     $adatum[] = date("Y-m-d", $chartdate);
+    $date_array[] = date("Y-m-d", $chartdate);
     $agegevens[] = 0;
     $aoplopendkwdag[] = 0;
 } else {
     $geengevdag = 1;
     $fsomoplopend = 0;
     while ($row = mysqli_fetch_array($result)) {
+
+        $inverter_name = $row['naam'];
         $tlaatstetijd = strtotime($row['datumtijd']);
         $adatum[] = $row['datumtijd'];
+        $date_array[][$row['naam']]=$row['datumtijd'];
+
         $agegevens[date("H:i", strtotime($row['datumtijd']))] = $row['gem'];
 
-        $x1 = $row['datumtijd'];
-        $x2 = strtotime($row['datumtijd']);
-        $x3 = $x2 * 1000;
-        $x4 = new DateTime($x1);
-        $x5 = $x4->getTimestamp();
-
         $valarray[strtotime($row['datumtijd'])] = $row['gem'];
-
+        $all_valarray[ strtotime($row['datumtijd'])] [$inverter_name]  = $row['gem'];
         $fsomoplopend += $row['gem'] * 1000 / (1000 * 60 / $param['isorteren']);
         $aoplopendkwdag[strtotime($row['datumtijd'])] = $fsomoplopend;
+
+        if (!in_array($inverter_name, $inveter_list)){
+            $inveter_list[] = $inverter_name;
+        } ;
     }
 
     $datum = strftime("%d %B %Y", $chartdate);
@@ -250,6 +258,26 @@ foreach ($valarray as $time => $val) {
 if (strlen($str_dataserie > 0)) {
     $str_dataserie = substr($str_dataserie, 0, -1);
 }
+
+$akleurenbarst=array("C4D318","50284A","ff1257");
+$strgeg = "";
+$cnt = 0;
+foreach ($inveter_list as $inverter_name)
+{
+    $strgeg.="{ name: '".$inverter_name."', marker: { enabled: false }, color:\"#$akleurenbarst[$cnt]\", data:[";
+
+    foreach ($all_valarray as $time => $valarray) {
+
+        $strgeg.="{color:\"#$akleurenbarst[$cnt]\", x:" . ($time * 1000) . ", y:" . $valarray[$inverter_name]."}, ";
+    }
+    $strgeg=substr($strgeg,0,-1);
+    $strgeg.="]},";
+    $cnt++;
+}
+
+// $strgeg=substr($strgeg,0,-1);
+$str_dataserie = $strgeg;
+
 
 // day max line --------------------------------------------------------------
 $str_max = "";
@@ -566,6 +594,8 @@ if (strlen($str_temp_vals) > 0) {
                     pointFormat: '<span style="color:{point.color}">\u25CF<\/span> {series.name}: <b>{point.y} {point.unit}<\/b><br/>',
                 },
                 series: [
+                    <?php echo $str_dataserie ?>
+
                     {
                         type: 'area',
                         name: 'Watt',
