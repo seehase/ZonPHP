@@ -574,13 +574,6 @@ if (strlen($str_temp_vals) > 0) {
 
                 plotOptions: {
                     area: {
-                        fillColor: {
-                            linearGradient: [0, 0, 0, 300],
-                            stops: [
-                                [0, col1],
-                                [1, col2],
-                            ]
-                        },
                         marker: {
                             radius: 2,
                             enabled: false,
