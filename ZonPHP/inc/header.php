@@ -18,6 +18,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <meta name="description" content="PV Anlagen Montoring">
     <meta name="author" content="slaper">
     <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <?php
     echo '<meta http-equiv="refresh" content="300" >';
     ?>
