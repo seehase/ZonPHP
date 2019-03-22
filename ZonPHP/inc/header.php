@@ -15,10 +15,11 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
-    <meta name="description" content="PV Anlagen Montoring">
+    <meta name="description" content="PV Anlagen Monitoring">
     <meta name="author" content="slaper">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="apple-mobile-web-app-capable" content="yes">
+
     <?php
     echo '<meta http-equiv="refresh" content="300" >';
     ?>
@@ -100,7 +101,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
 
         #headerinverter {
             color: #<?php echo $colors['color_menubackground'] ?>;
-            font-size: 34px;
+            font-size: 18px;
         }
 
     </style>
