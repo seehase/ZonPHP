@@ -68,7 +68,7 @@ $inveter_list = array();
 
 
 $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, 
-	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd ". 
+	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd ".
     " FROM " .  $table_prefix . "_dag ".
     " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' ". $inverter_clause .
     " GROUP BY datumtijd, naam ".
