@@ -17,8 +17,9 @@ if (!$tables_exists) {
 $param = array();
 $param['image1'] = "inc/image/image1.jpg";
 $param['image2'] = "inc/image/image2.jpg";
-// $param['chart_date_format'] = "";
+
 $charts = array();
+$charts['chart_date_format'] = "";
 
 if (!isset($colors)) $colors = array();
 $teller = 0;
