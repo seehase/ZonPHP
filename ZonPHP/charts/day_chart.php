@@ -68,9 +68,11 @@ $inveter_list = array();
 
 
 $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, 
-	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd FROM " .
-    $table_prefix . "_dag where Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' ". $inverter_clause .
-    " GROUP BY datumtijd, naam ORDER BY datumtijd ASC";
+	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd ". 
+    " FROM " .  $table_prefix . "_dag ".
+    " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' ". $inverter_clause .
+    " GROUP BY datumtijd, naam ".
+    " ORDER BY datumtijd ASC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
@@ -128,7 +130,7 @@ $maxkwh = number_format($maxkwh, 2, ',', ' ');
 $nice_max_date = date("Y-m-d", strtotime($maxdag));
 
 // select data from the best day for current month
-$sqlmd = "SELECT AVG( Geg_Dag ) AS gem,
+$sqlmd = "SELECT SUM( Geg_Dag ) AS gem,
 	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" .
     $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd FROM " . $table_prefix . "_dag where Datum_Dag LIKE '" .
     date("Y-m-d", strtotime($maxdag)) . "%' " . $inverter_clause . " GROUP BY datumtijd ORDER BY datumtijd ASC";
@@ -297,8 +299,6 @@ foreach ($inveter_list as $inverter_name)
     $cnt++;
 }
 
-
-// $strgeg=substr($strgeg,0,-1);
 $str_dataserie = $strgeg;
 
 
