@@ -217,6 +217,8 @@ $txt["zonphpse"] = "Wil u de versie ZONPHP SE gebruiken?(zonder dag resultaten)"
 $txt["YES"] = "Ja";
 $txt["NO"] = "Nee";
 
+$txt["chart_date_format"] = "Datumnotatie in grafieken. Voorbeeld: %Y-%m-%d %H:%M (leeglaten voor standaardkeuze)";
+
 $txt["CustomFields"] = "custom fields";
 $txt["EMU_Offset"] = "EMU_Offset";
 $txt["Path_EMU"] = "Path_EMU";

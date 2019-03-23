@@ -40,7 +40,7 @@ include_once "par_header.php";
                 $txt["watverkeerd"] = "";
                 foreach ($_POST as $key => $waarden) {
                     if (strlen($waarden) == 0 || ($_POST[$key] == $txt["verkeerd"])) {
-                        if ($key == 'plantname' || $key == 'google_tracking' || $key == 'wunderground_stationID') {
+                        if ($key == 'plantname' || $key == 'google_tracking' || $key == 'wunderground_stationID' || $key == 'chart_date_format') {
                             // plantname, google_tracking ... could be empty
                         } else {
                             $_POST[$key] = $txt["verkeerd"];
@@ -481,6 +481,12 @@ include_once "par_header.php";
 
                     </tbody>
                 </table>
+                <br>
+                <?php echo $txt["chart_date_format"]; ?>:
+                <input type='text' name='chart_date_format'
+                       value='<?php if (!empty($_POST['chart_date_format'])) echo $_POST['chart_date_format'];  ?>'
+                       size='63'><br/>
+
                 <hr>
                 <?php echo $txt["zonphpse"]; ?>
                 <input type="radio" name="izonphpse" value="1" <?php if (isset($_POST['izonphpse'])) {

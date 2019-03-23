@@ -289,8 +289,8 @@ $txt['back_to_today'] = "Zur&uuml;ck zu heute";
 $txt['all_inverters'] = "Alle WR";
 $txt['choose_inverter'] = "Wähle Wechselrichter";
 $txt['peak'] = "Peak";
-
 $txt["1"] = "1";
+$txt["date_format_diagramms"] = "Datumsformat in Diagrammen; z.b. %Y-%m-%d %H:%M oder leer f&uuml;r default";
 
 $txt["CustomFields"] = "Benutzer Felder";
 $txt["EMU_Offset"] = "EMU_Offset";

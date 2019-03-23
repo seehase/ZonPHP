@@ -355,10 +355,11 @@ $cnt = 0;
 $cum_max_value = 0;
 foreach ($aoplopendkwdag as $tuur => $fkw) {
     $cnt++;
+    $fkw = $fkw / 1000;
     if (isset($param['no_units'])) {
         $strtemp = "[" . ($tuur * 1000) . ", " . number_format($fkw, 1, '.', '') . "]";
     } else {
-        $strtemp = "{x:" . ($tuur * 1000) . ", y:" . number_format($fkw, 1, '.', '') . ", unit: 'Wh' }";
+        $strtemp = "{x:" . ($tuur * 1000) . ", y:" . number_format($fkw, 1, '.', '') . ", unit: 'kWh' }";
     }
 
     $str_cum .= $strtemp . ",";
@@ -606,6 +607,7 @@ if (strlen($str_temp_vals) > 0) {
                     series: {}
                 },
                 tooltip: {
+
                     crosshairs: [true],
                     shared: true,
                     pointFormat: '<span style="color:{point.color}">\u25CF<\/span> {series.name}: <b>{point.y} {point.unit}<\/b><br/>',

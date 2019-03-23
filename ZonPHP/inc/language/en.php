@@ -287,6 +287,7 @@ $txt['all_inverters'] = "all inverters";
 $txt['choose_inverter'] = "Choose Inverter";
 $txt['peak'] = "Peak";
 $txt["1"] = "1";
+$txt["chart_date_format"] = "Dateformat in charts; sample: %Y-%m-%d %H:%M or empty for default";
 
 
 $txt["CustomFields"] = "custom fields";
