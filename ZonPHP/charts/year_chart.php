@@ -240,16 +240,15 @@ $gridlines .= '{xaxis: {from:  0.5, to: 12.5}, yaxis: {from: ' . $fgemiddelde . 
 $sub_title = "";
 
 if ($datum != date("Y", $chartdate) . " geen data.") {
-    $sub_title .= ("<b>" . date("Y", time()) . ": <\/b>"
+    $sub_title .= "<b>" . date("Y", time()) . ": <\/b>"
         . number_format(array_sum($agegevens), 0, ',', '.') . " kWh = "
         . number_format((array_sum($agegevens) * $current_euroval), 0, ',', '.') . "€ = "
         . number_format(1000 * array_sum($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp = "
-        . number_format(100 * array_sum($agegevens) / array_sum($frefmaand), 0, ',', '.') . "%<br />");
-    $sub_title .= ("<b>" . $txt["max"] . ": <\/b>" . number_format(max($agegevens), 0, ',', '.') . " kWh = "
-        . number_format(1000 * max($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp = "
-        . number_format(100 * max($agegevens) / (array_sum($frefmaand) / 12), 0, ',', '.') . "%<br />");
-    $sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format(array_sum($agegevens) / count($agegevens), 0, ',',
-            '.') . " kWh");
+        . number_format(100 * array_sum($agegevens) / array_sum($frefmaand), 0, ',', '.') . "%<br />";
+    $sub_title .= "<b>" . $txt["max"] . ": <\/b>" . number_format(max($agegevens), 0, ',', '.') . " kWh = "
+        . number_format(1000 * max($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp <br /> ";
+    $sub_title .= "<b>" . $txt["gem"] . ": <\/b>" . number_format(array_sum($agegevens) / count($agegevens), 0, ',',
+            '.') . " kWh";
 }
 
 $show_legende = "true";

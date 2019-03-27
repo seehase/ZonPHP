@@ -80,8 +80,6 @@ if (mysqli_num_rows($result) == 0) {
 
     $tlaatstetijd = time();
     $geengevdag = 0;
-    $adatum[] = date("Y-m-d", $chartdate);
-    $date_array[] = date("Y-m-d", $chartdate);
     $agegevens[] = 0;
     $aoplopendkwdag[] = 0;
 } else {
@@ -91,8 +89,7 @@ if (mysqli_num_rows($result) == 0) {
 
         $inverter_name = $row['naam'];
         $tlaatstetijd = strtotime($row['datumtijd']);
-        $adatum[] = $row['datumtijd'];
-        $date_array[][$row['naam']]=$row['datumtijd'];
+
 
         $agegevens[date("H:i", strtotime($row['datumtijd']))] = $row['gem'];
 
@@ -397,19 +394,19 @@ if (strpos($paramstr_day, "?") == 0) {
 $maxlink = '<a href=\"day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '\">' . $nice_max_date . '</a>';
 
 // --------------
-$subtitle = '"<b>' . $txt['actueel'] . ": <\/b> " . date("H:i", $tlaatstetijd) . "  " . number_format(end($agegevens), 0, ',', '.') . "W="
-    . number_format(100 * end($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . "%  "
-    . $txt['peak'] . ": ". number_format(max($agegevens));
+$subtitle = '"<b>' . $txt['actueel'] . ": <\/b> " . date("H:i", $tlaatstetijd) . " - " . number_format(end($agegevens), 0, ',', '.') . "W="
+    . number_format(100 * end($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . "% - "
+    . $txt['peak'] . ": ". number_format(max($agegevens), 0, ",", ".") . "W";
 if ($isIndexPage) {
     $subtitle .= "<br >";
 }
 $subtitle .= "<b> " . $txt['totaal'] . ": <\/b>" . number_format((end($aoplopendkwdag) / 1000), 2, ',', '.') . "kWh="
-    . number_format(end($aoplopendkwdag) / ($ieffectiefkwpiek / 1000), 1, ',', '.') . "kWhp="
-    . number_format((100 * end($aoplopendkwdag) / $frefmaand / 1000), 0, ',', '.') . "% ";
+    . number_format(end($aoplopendkwdag) / ($ieffectiefkwpiek / 1), 1, ',', '.') . "kWh/kWp ";
+
 if ($isIndexPage) {
     $subtitle .= "<br >";
 }
-$subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$maxlink. " --> ". $maxkwh. "kWh ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".")
+$subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$maxlink. " --> ". $maxkwh. "kWh - ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".")
     . "W" .'' . '"';
 
 
