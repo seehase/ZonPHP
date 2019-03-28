@@ -59,9 +59,11 @@ if (mysqli_num_rows($resultverbruik) == 0) {
     }
 }
 
-$sqlref = "SELECT *
-	FROM " . $table_prefix . "_refer
-	WHERE Naam='" . $inverter . "' ORDER BY Datum_Refer ASC";
+$sqlref = "SELECT SUM(Geg_Refer) as sum_geg_refer, SUM(Dag_Refer) as sum_dag_refer, Datum_Refer
+	FROM " . $table_prefix . "_refer " .
+	$inverter_clause2 .
+	" GROUP BY Datum_refer
+	  ORDER BY Datum_Refer ASC";
 
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. jaar-ref " . mysqli_error($con));
 if (mysqli_num_rows($resultref) == 0) {
@@ -71,19 +73,21 @@ if (mysqli_num_rows($resultref) == 0) {
     $frefmaand = array();
     $frefdagmaand = array();
     while ($row = mysqli_fetch_array($resultref)) {
-        $frefmaand[date("n", strtotime($row['Datum_Refer']))] = $row['Geg_Refer'];
-        $frefdagmaand[date("n", strtotime($row['Datum_Refer']))] = $row['Dag_Refer'];
+        $frefmaand[date("n", strtotime($row['Datum_Refer']))] = $row['sum_geg_refer'];
+        $frefdagmaand[date("n", strtotime($row['Datum_Refer']))] = $row['sum_dag_refer'];
     }
     $iyasaanpassen = (round(0.5 + max($frefmaand) / 50) * 50);
 }
 
-$sql = "SELECT MAX( Datum_Maand ) AS maxi, SUM( Geg_Maand ) AS som,COUNT(Geg_Maand) AS aantal
+$sql = "SELECT MAX( Datum_Maand ) AS maxi, SUM( Geg_Maand ) AS som, COUNT(Geg_Maand) AS aantal, naam
 	FROM " . $table_prefix . "_maand
 	where DATE_FORMAT(Datum_Maand,'%y')='" . date('y', $chartdate) . "'"  . $inverter_clause1 . "
-	GROUP BY month(Datum_Maand)
+	GROUP BY month(Datum_Maand), naam
 	ORDER BY 1 ASC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. jaar " . mysqli_error($con));
+$all_valarray = array();
+$inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
     $datum = date("Y", $chartdate) . " geen data.";
     $agegevens = array();
@@ -92,8 +96,14 @@ if (mysqli_num_rows($result) == 0) {
 } else {
     $agegevens = array();
     while ($row = mysqli_fetch_array($result)) {
+        $inverter_name = $row['naam'];
         $agegevens[date("n", strtotime($row['maxi']))] = $row['som'];
         $agegaantal[date("n", strtotime($row['maxi']))] = $row['aantal'];
+
+        $all_valarray[date("n", strtotime($row['maxi']))][$inverter_name] = $row['som'];
+        if (!in_array($inverter_name, $inveter_list)){
+            $inveter_list[] = $inverter_name;
+        } ;
     }
     $fgemiddelde = array_sum($agegevens) / count($agegevens);
     $datum = date("Y", $chartdate);
@@ -148,6 +158,16 @@ if (max($frefmaand) < max($maxmaand)) {
 ?>
 
 <?php
+
+$myColors = array();
+for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+    $col1 = "color_inverter" . $k ."_chartbar_min";
+    $col1 = "'#" . $colors[$col1] . "'";
+    $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
+    $col1 = "color_inverter" . $k ."_chartbar_max";
+    $col1 = "'#" . $colors[$col1] . "'";
+    $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
+}
 $categories = "";
 for ($i = 1; $i <= 12; $i++) {
     // get month names in current locale
@@ -164,71 +184,75 @@ $gridlines = "";
 $max_bars = "";
 $expected_bars = "";
 $current_bars = "";
-$reflines = "";
-for ($i = 1; $i <= 12; $i++) {
-    $stoon = "";
-    $sverwacht = "";
-    if ($param['iTonendagnacht'] == 1) {
-        if (isset($ajaarverbruikdag[$i]))
-            $stoon .= '<br />' . $txt["dagverbruik"] . ': ' . number_format($ajaarverbruikdag[$i], 0, ',', '.') . ' kWh';
-        if (isset($ajaarverbruiknacht[$i]))
-            $stoon .= '<br />' . $txt["nachtverbruik"] . ': ' . number_format($ajaarverbruiknacht[$i], 0, ',', '.') . ' kWh';
-        if (array_key_exists($i, $agegevens) && isset($ajaarverbruikdag[$i]) && isset($ajaarverbruiknacht[$i]))
-            $stoon .= '<br />' . $txt["totaalverbruik"] . ': ' . number_format($ajaarverbruikdag[$i] + $ajaarverbruiknacht[$i] + $agegevens[$i], 0, ',', '.') . ' kWh';
-    }
 
-    // max bars
-    $val = round($maxmaand[$i], 2);
-    $max_bars .= "  { 
-                      y:  $val, 
-                      url: \"$href$my_year-$i-01\",
-                      color: \"#" . $colors['color_chart_max_bar'] . "\"
-                    },";
+$strdataseries = "";
+foreach ($inveter_list as $inverter_name) {
 
-    $expected = 0.0;
-    if (array_key_exists($i, $agegevens)) {
+    // build one serie per inverter
+    $current_bars = "";
+    $reflines = "";
+    for ($i = 1; $i <= 12; $i++) {
+        // max bars
+        $val = round($maxmaand[$i], 2);
+        $max_bars .= "  { 
+                          y:  $val, 
+                          url: \"$href$my_year-$i-01\",
+                          color: \"#" . $colors['color_chart_max_bar'] . "\"
+                        },";
 
-        if (array_key_exists($i, $agegaantal)) {
-            if ($agegaantal[$i] < cal_days_in_month(CAL_GREGORIAN, $i, $i)) {
-                $fverwacht[$i] = $agegevens[$i] + $frefdagmaand[$i] * (cal_days_in_month(CAL_GREGORIAN, $i, $i) - $agegaantal[$i]);
-                $sverwacht = "<br />" . $txt["verwacht"] . ": " . number_format($fverwacht[$i], 0, ',', '.') . ' kWh';
-                $expected = $fverwacht[$i];
+        $expected = 0.0;
+        if (array_key_exists($i, $agegevens)) {
 
-                // expected bars char
-                $val = round($fverwacht[$i], 2);
-                $expected_bars .= "                
-                    { x: ($i-1),
-                      y:  $val, 
-                      url: \"$href$my_year-$i-01\",
-                      color: \"#" . $colors['color_chart_expected_bar'] . "\",
-                    },";
+            if (array_key_exists($i, $agegaantal)) {
+                if ($agegaantal[$i] < cal_days_in_month(CAL_GREGORIAN, $i, $i)) {
+                    $fverwacht[$i] = array_sum($all_valarray[$i]) + $frefdagmaand[$i] * (cal_days_in_month(CAL_GREGORIAN, $i, $i) - $agegaantal[$i]);
+                    $expected = $fverwacht[$i];
 
+                    // expected bars char
+                    $val = round($fverwacht[$i], 2);
+                    $expected_bars .= "                
+                        { x: ($i-1),
+                          y:  $val, 
+                          url: \"$href$my_year-$i-01\",
+                          color: \"#" . $colors['color_chart_expected_bar'] . "\",
+                        },";
+
+                }
             }
-        }
 
-        $myColor1 = $colors['color_chartbar1'];
-        $myColor2 = $colors['color_chartbar2'];
-        if ($agegevens[$i] == max($agegevens)) {
-            $myColor1 = $colors['color_chartbar_piek1'];
-            $myColor2 = $colors['color_chartbar_piek2'];
-        }
+            $myColor1 =$myColors[$inverter_name]['min'];
+            $myColor2 =$myColors[$inverter_name]['max'];
+            if ($agegevens[$i] == max($agegevens)) {
+                $myColor1 = "'#" .$colors['color_chartbar_piek1'] . "'";
+                $myColor2 = "'#" .$colors['color_chartbar_piek2'] . "'";
+            }
 
-        // normal actual  bar
-        $val = round($agegevens[$i], 2);
-        $current_bars .= "
-                    { x: $i-1, 
-                      y: $val, 
-                      url: \"$href$my_year-$i-01\",
-                      color: {
-                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
-                        stops: [
-                            [0, '#$myColor1'],
-                            [1, '#$myColor2']
-                        ]}                                                       
-                    },";
+            // normal actual  bar
+            $val = round($all_valarray[$i][$inverter_name], 2);
+            $current_bars .= "
+                        { x: $i-1, 
+                          y: $val, 
+                          url: \"$href$my_year-$i-01\",
+                          color: {
+                            linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                            stops: [
+                                [0, $myColor1],
+                                [1, $myColor2]
+                            ]}                                                       
+                        },";
+        }
+        // refline per bar
+        $reflines .= "{ name: 'ref_$maxmaand[$i]', type: 'line', color: '#" . $colors['color_chart_reference_line'] . "', data: [{ x: ($i -1.3), y: $frefmaand[$i]}, { x: ($i - 0.7), y: $frefmaand[$i] }], showInLegend: false},";
     }
-    // refline per bar
-    $reflines .= "{ name: 'ref_$maxmaand[$i]', type: 'line', color: '#" . $colors['color_chart_reference_line'] . "', data: [{ x: ($i -1.3), y: $frefmaand[$i]}, { x: ($i - 0.7), y: $frefmaand[$i] }], showInLegend: false},";
+    $current_bars = substr($current_bars, 0, -1);
+    $strdataseries .= " {
+                    name: '". $inverter_name. "',
+                    color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $myColor1], [1, $myColor2]] },
+                    type: 'column',
+                    stacking: 'normal',
+                    data: [".$current_bars."]
+                },
+    ";
 }
 $max_bars = substr($max_bars, 0, -1);
 $expected_bars = substr($expected_bars, 0, -1);
@@ -337,12 +361,7 @@ include_once "chart_styles.php";
                     color: '#<?php echo $colors['color_chart_expected_bar'] ?>',
                     data: [<?php echo $expected_bars; ?>],
                 },
-                {
-                    name: 'kWh/Month',
-                    type: 'column',
-                    color: '#<?php echo $colors['color_chartbar1'] ?>',
-                    data: [<?php echo $current_bars; ?>],
-                },
+                <?php echo $strdataseries ?>
                 {
                     name: "Average",
                     type: "line",
