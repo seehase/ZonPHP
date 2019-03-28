@@ -553,7 +553,7 @@ if (strlen($str_temp_vals) > 0) {
                                 color: '#<?php echo $colors['color_chart_labels_yaxis2'] ?>',
                             },
                             formatter: function () {
-                                return this.value / 1000 + "kWh";
+                                return this.value.toFixed(1)  + "kWh";
                             },
                         },
                         gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis2'] ?>',

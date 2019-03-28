@@ -180,7 +180,7 @@ if (strlen($choose_inverter_items) > 0){
 						<td><b>" . $txt["totaal"] . "</b></td>
 						<td><b>" . number_format(array_sum($agegevens), 0, ',', '.') . "</b>kWh</td>
 						<td><b>" . number_format(array_sum($agegevens) * $current_euroval, 0, ',', '.') . "</b>&euro;</td>
-						<td><b>" . number_format(100 * array_sum($agegevens) / ($frefmaand * count($adatum)), 1, ',', '.') . "</b>%</td>
+						<td><b>" . number_format(100 * array_sum($agegevens) / ($frefmaand * count($all_valarray)), 1, ',', '.') . "</b>%</td>
 						<td></td>
 						<td><b>" . number_format(1000 * array_sum($agegevens) / $ieffectiefkwpiek, 1, ',', '.') . "</b>kWhp</td>
 						</tr>");
