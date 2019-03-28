@@ -175,7 +175,7 @@ for ($i = 1; $i <= 12; $i++) {
 }
 
 $categories = substr($categories, 0, -1);
-$fverwacht = array();
+
 
 $my_year = date("Y", $chartdate);
 $href = "month_overview.php?maand=";
@@ -201,15 +201,14 @@ foreach ($inveter_list as $inverter_name) {
                         },";
 
         $expected = 0.0;
+        // only month with values
         if (array_key_exists($i, $agegevens)) {
-
+            // expected bars char
             if (array_key_exists($i, $agegaantal)) {
                 if ($agegaantal[$i] < cal_days_in_month(CAL_GREGORIAN, $i, $i)) {
-                    $fverwacht[$i] = array_sum($all_valarray[$i]) + $frefdagmaand[$i] * (cal_days_in_month(CAL_GREGORIAN, $i, $i) - $agegaantal[$i]);
-                    $expected = $fverwacht[$i];
-
-                    // expected bars char
-                    $val = round($fverwacht[$i], 2);
+                    // current val + ( ref value per day * rest days in this month)  = expected
+                    $expected = array_sum($all_valarray[$i]) + $frefdagmaand[$i] * (cal_days_in_month(CAL_GREGORIAN, $i, $i) - $agegaantal[$i]);
+                    $val = round($expected, 2);
                     $expected_bars .= "                
                         { x: ($i-1),
                           y:  $val, 
@@ -259,7 +258,7 @@ $expected_bars = substr($expected_bars, 0, -1);
 $current_bars = substr($current_bars, 0, -1);
 $reflines = substr($reflines, 0, -1);
 
-// avagageline char
+// avarageline char
 $gridlines .= '{xaxis: {from:  0.5, to: 12.5}, yaxis: {from: ' . $fgemiddelde . ', to: ' . $fgemiddelde . '}, color: "#' . $colors['color_chart_reference_line'] . '", lineWidth: 1.5},';
 $sub_title = "";
 
