@@ -64,6 +64,9 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     }
 
     $charts = $_SESSION['charts'];
+    if (!isset($charts['chart_date_format'])) {
+        $charts['chart_date_format'] = "";
+    }
 
     if (!isset($_SESSION['colors'])) {
         include_once "load_colors.php";
@@ -136,8 +139,8 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     }
 
     $_SESSION['average_per_month'] = $average_per_month;
-    $_SESSION['sum_per_year'] = $sum_per_year;
-    $_SESSION['total_sum_for_all_years'] = $total_sum_for_all_years;
+    $_SESSION['sum_per_year'] = $sum_per_year;                         // JHS is in use
+    $_SESSION['total_sum_for_all_years'] = $total_sum_for_all_years;  // JHS is in use
     $_SESSION['max_month'] = $max_month;
     $_SESSION['missing_days_month_year'] = $missing_days_month_year;
 

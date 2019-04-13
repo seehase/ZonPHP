@@ -120,9 +120,7 @@ if (intval($param['flyout']) > 0) {
         </li> ';
         ?>
 
-        <?php if ($param['idagboek'] == 1)
-            echo '<li><a href="mydiary.php">' . $txt["dagboekmenu"] . '</a></li>';
-        ?>
+
 
 
         <li><a href="#" style="display: flex">&nbsp;</a> <label for="links" class="toggle-sub" onclick="">
@@ -179,6 +177,9 @@ if (intval($param['flyout']) > 0) {
                         &#9658;</label>
                 </li>
                 <li><a href="install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
+                <?php if ($param['idagboek'] == 1)
+                    echo '<li><a href="mydiary.php">' . $txt["dagboekmenu"] . '</a></li>';
+                ?>
                 <li><a href="about.php">About</a></li>
                 <li><a href="installation.php"><?php echo $txt["installatie"]; ?></a></li>
                 <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
