@@ -37,8 +37,6 @@ if (isset($year_euro[$current_year])) {
     $current_euro = 0.25;
 }
 
-// ----NEW START--------------------------------------------------
-
 $inveter_list = array();
 
 // load sum per month for all years --------------------------------------------------------------------------------
@@ -52,7 +50,8 @@ $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error
 $sum_per_year = array();
 $total_sum_for_all_years = 0;
 $average_per_month = 0;
-$max_month = 0;
+$fsomeuro = 0;
+
 $missing_days_month_year = array();
 if (mysqli_num_rows($result) == 0) {
     $sum_per_year[date('Y-m-d', time())] = 0;
@@ -75,13 +74,14 @@ if (mysqli_num_rows($result) == 0) {
             $inveter_list[] = $inverter_name;
         };
     }
-    $average_per_month = array_sum($sum_per_year) / count($sum_per_year);
-    $total_sum_for_all_years = array_sum($sum_per_year);
-    $max_month = max($sum_per_year);
+    $total_sum_for_all_years = 0;
+    foreach ($sum_per_year as $year => $val) {
+        $total_sum_for_all_years += array_sum($val);
+    }
+    $average_per_month = $total_sum_for_all_years / count($sum_per_year);
+    $fsomeuro += $current_euro * $total_sum_for_all_years;
 }
 
-
-//  ---NEW end------------------------------------------------
 
 $sqlref = "SELECT month( Datum_Refer ) AS maand, Geg_Refer, Dag_Refer
         FROM " . $table_prefix . "_refer "
@@ -166,7 +166,6 @@ $href = "year_overview.php?jaar=";
 $my_year = date("Y", time());
 $strgeg = "";
 $strxas = "";
-$fsomeuro = 0;
 $aclickxas = array();
 $astrverbruikdag = "";
 $first_year = 0;
@@ -176,20 +175,31 @@ $categories = "";
 $best_year = 0;
 $strdataseries = "";
 
+$myColors = array();
+for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+    $col1 = "color_inverter" . $k ."_chartbar_min";
+    $col1 = "'#" . $colors[$col1] . "'";
+    $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
+    $col1 = "color_inverter" . $k ."_chartbar_max";
+    $col1 = "'#" . $colors[$col1] . "'";
+    $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
+}
+
 foreach ($inveter_list as $inverter_name) {
 
     $current_bars = "";
+    $best_year_per_inverter = 0;
     foreach ($sum_per_year as $ijaar => $fkw) {
         $categories .= '"' . $ijaar . '",';
 
         if ($first_year == 0) $first_year = $ijaar;
 
-        $myColor1 = $colors['color_chartbar1'];
-        $myColor2 = $colors['color_chartbar2'];
+        $myColor1 =$myColors[$inverter_name]['min'];
+        $myColor2 =$myColors[$inverter_name]['max'];
         if ($fkw >= max($sum_per_year)) {
-            $myColor1 = $colors['color_chartbar_piek1'];
-            $myColor2 = $colors['color_chartbar_piek2'];
-            $best_year = max($sum_per_year)[$inverter_name];
+            $myColor1 = "'#" .$colors['color_chartbar_piek1'] . "'";
+            $myColor2 = "'#" .$colors['color_chartbar_piek2'] . "'";
+            $best_year_per_inverter = max($sum_per_year)[$inverter_name];
         }
 
         // normal chart
@@ -201,8 +211,8 @@ foreach ($inveter_list as $inverter_name) {
                       color: {
                         linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
                         stops: [
-                            [0, '#$myColor1'],
-                            [1, '#$myColor2']
+                            [0, $myColor1],
+                            [1, $myColor2]
                         ]}                                                       
                     },";
 
@@ -220,9 +230,9 @@ foreach ($inveter_list as $inverter_name) {
                 }
             }
         }
-        if (!isset($year_euro[$ijaar])) $year_euro[$ijaar] = 0.25;
-        $fsomeuro += $year_euro[$ijaar] * $fkw[$inverter_name];
+
     }
+    $best_year += $best_year_per_inverter;
     $current_bars = substr($current_bars, 0, -1);
     $strdataseries .= " {
                     name: '" . $inverter_name . "',
@@ -232,8 +242,9 @@ foreach ($inveter_list as $inverter_name) {
                         }, 
                     ";
 
-
 }
+
+
 
 // strip last ","
 $strgeg = substr($strgeg, 0, -1);
@@ -244,9 +255,9 @@ $myKeys = array_keys($sum_per_year);
 
 $sub_title = "";
 $sub_title .= "<b>" . $txt["totaal"] . ": <\/b>"
-    . number_format(array_sum($sum_per_year), 0, ',', '.') . " kWh = "
+    . number_format($total_sum_for_all_years, 0, ',', '.') . " kWh = "
     . number_format($fsomeuro, 0, ',', '.') . "€ = "
-    . number_format(1000 * array_sum($sum_per_year) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br />";
+    . number_format(1000 * $total_sum_for_all_years / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br />";
 $sub_title .= "<b>" . $txt["max"] . ": <\/b>"
     . number_format($best_year, 0, ',', '.') . " kWh = "
     . number_format(1000 * $best_year / $ieffectiefkwpiek, 0, ',', '.') . " kWh = <br />";

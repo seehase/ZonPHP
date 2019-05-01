@@ -490,7 +490,7 @@ if (strlen($str_temp_vals) > 0) {
                                 }
                             }
                         }
-                        //	subtitle actueel per inverter, highest inverter number first
+                        //	subtitle current per inverter, highest inverter number first
                         i=1
                         if(series[i].visible){
                             sum2 = (series[i].data[series[i].data.length -1]).y
