@@ -487,28 +487,28 @@ if (strlen($str_temp_vals) > 0) {
                         current = 0;
                         tota = 0;
                         // subtitle cumulatief
-                        for( i = 0; i < 2; i++) {
-                            if(series[i].visible){
-                                for( j = 0; j < series[i].data.length; j++) {
-                                    tota += (series[i].data[j].y)/12000;
+                        for (i = 0; i < 2; i++) {
+                            if (series[i].visible) {
+                                for (j = 0; j < series[i].data.length; j++) {
+                                    tota += (series[i].data[j].y) / 12000;
                                 }
                             }
                         }
                         //	subtitle current per inverter, highest inverter number first
-                        i=1;
-                        if(series[i].visible){
-                            sum2 = (series[i].data[series[i].data.length -1]).y;
-                            current= Highcharts.dateFormat('%H:%M',(series[i].data[series[i].data.length -1]).x);
-                            kWh2 = 	khhWp[i];
+                        i = 1;
+                        if (series[i].visible) {
+                            sum2 = (series[i].data[series[i].data.length - 1]).y;
+                            current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);
+                            kWh2 = khhWp[i];
                             max2 = maxmax[i];
                             ax2 = series[i].dataMax;
                         }
 
-                        i=0;
-                        if(series[i].visible){
-                            sum1 = (series[i].data[series[i].data.length -1]).y;
-                            current= Highcharts.dateFormat('%H:%M',(series[i].data[series[i].data.length -1]).x);
-                            kWh1 = 	khhWp[i];
+                        i = 0;
+                        if (series[i].visible) {
+                            sum1 = (series[i].data[series[i].data.length - 1]).y;
+                            current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);
+                            kWh1 = khhWp[i];
                             max1 = maxmax[i];
                             ax1 = series[i].dataMax - ax2;
                         }
@@ -517,11 +517,13 @@ if (strlen($str_temp_vals) > 0) {
                         KWH = kWh1 + kWh2;
                         AXI = ax1 + ax2;
                         MAX = max1 + max2;
-                        this.setSubtitle({text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(sum, 0,",","") +
-                                "W" + "=" +(Highcharts.numberFormat(100*sum/KWH, 0,",",""))+"%" + " - " + txt_peak+": " +AXI +"W <b>" +
-                                txt_totaal + ":</b> " +( Highcharts.numberFormat(tota, 2,",","")) +"kWh = " +
-                                (Highcharts.numberFormat((tota/KWH)*1000, 2,",","")) +"kWh/kWp" +" <b>" +
-                                txt_max+ ": </b>" +maxlink +"--> " + (Highcharts.numberFormat(MAX, 2,",","")) +" kWh" }, false, false);
+                        this.setSubtitle({
+                            text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(sum, 0, ",", "") +
+                                "W" + "=" + (Highcharts.numberFormat(100 * sum / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + AXI + "W <b>" +
+                                txt_totaal + ":</b> " + (Highcharts.numberFormat(tota, 2, ",", "")) + "kWh = " +
+                                (Highcharts.numberFormat((tota / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>" +
+                                txt_max + ": </b>" + maxlink + "--> " + (Highcharts.numberFormat(MAX, 2, ",", "")) + " kWh"
+                        }, false, false);
 
                         total = [];
                         value = 0;
@@ -534,18 +536,18 @@ if (strlen($str_temp_vals) > 0) {
                             //function to check amount of visible series and to destroy old spline series
                             mychart.series.forEach(s => {
                                 if (s.type === 'spline' && s.visible === true) {
-                                s.destroy()
-                            } else if (s.type === 'spline' && s.visible === false) {
-                                checkHideForSpline = 0
-                            }
+                                    s.destroy()
+                                } else if (s.type === 'spline' && s.visible === false) {
+                                    checkHideForSpline = 0
+                                }
                             if (s.type === 'area' && s.visible) {
                                 indexOfVisibleSeries.push(s.index);
                             }
-                        })
+                            });
 
                             if (checkHideForSpline) {
-                                for ( i = 0; i < mychart.series[0].data.length; i++) {
-                                    for ( j of indexOfVisibleSeries) {
+                                for (i = 0; i < mychart.series[0].data.length; i++) {
+                                    for (j of indexOfVisibleSeries) {
                                         value += mychart.series[j].data[i].y / 12000;
                                         axis = mychart.series[j].data[i].x;
                                     }
@@ -570,20 +572,21 @@ if (strlen($str_temp_vals) > 0) {
             tooltip: {
                 crosshairs: [true],
                 shared: true,
-                pointFormatter(){
-                     unit = this.unit;
-                     value = this.y;
+                pointFormatter() {
+                    unit = this.unit;
+                    value = this.y;
                     //if unit is undefined (added series) set unit to 'kWh' and value to two decimals
-                    if(!unit){
+                    if (!unit) {
                         unit = 'kWh';
-                        value = Highcharts.numberFormat(this.y,'2' ,',');
-                    };
+                        value = Highcharts.numberFormat(this.y, '2', ',');
+                    }
+                    ;
 
                     return `<span style="color:${this.color}">\u25CF<\/span> ${this.series.name}: <b>${value} ${unit}<\/b><br/>`;
                 }
             },
             plotOptions: {
-                line: {stacking:'normal'},
+                line: {stacking: 'normal'},
                 area: {
                     marker: {
                         radius: 2,
@@ -628,7 +631,7 @@ if (strlen($str_temp_vals) > 0) {
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>'
                     },
-                    formatter: function() {
+                    formatter: function () {
                         return this.value / 1000 + "kW";
                     }
                 },
@@ -646,7 +649,7 @@ if (strlen($str_temp_vals) > 0) {
                         style: {
                             color: '#<?php echo $colors['color_chart_labels_yaxis2'] ?>'
                         },
-                        formatter: function() {
+                        formatter: function () {
                             return this.value + "kWh";
                         }
                     },
