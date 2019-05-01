@@ -62,6 +62,9 @@ if (mysqli_num_rows($result) == 0) {
         if (!isset($sum_per_year[$row['year']])) {
             $sum_per_year[$row['year']][$inverter_name] = 0;
         }
+        if (!isset($sum_per_year[$row['year']][$inverter_name])) {
+            $sum_per_year[$row['year']][$inverter_name] = 0;
+        }
         $sum_per_year[$row['year']][$inverter_name] += $row['sum_month'];
 
         $days_per_month = cal_days_in_month(CAL_GREGORIAN, $row['month'], $row['year']);
@@ -152,12 +155,8 @@ $href = "year_overview.php?jaar=";
 $my_year = date("Y", time());
 $strgeg = "";
 $strxas = "";
-$strgem = "";
-$strref = "";
-$teller = 1;
 $fsomeuro = 0;
 $aclickxas = array();
-$astrverwacht = "";
 $astrverbruikdag = "";
 
 
@@ -167,12 +166,11 @@ $yearcount = count($sum_per_year);
 $expected_bars = "";
 $current_bars = "";
 $categories = "";
+$best_year = 0;
 
 foreach ($inveter_list as $inverter_name) {
 
-
     foreach ($sum_per_year as $ijaar => $fkw) {
-        // get month names in current locale
         $categories .= '"' . $ijaar . '",';
 
         if ($first_year == 0) $first_year = $ijaar;
@@ -194,11 +192,11 @@ foreach ($inveter_list as $inverter_name) {
         if ($fkw >= max($sum_per_year)) {
             $myColor1 = $colors['color_chartbar_piek1'];
             $myColor2 = $colors['color_chartbar_piek2'];
+            $best_year = max($sum_per_year)[$inverter_name];
         }
 
-
         // normal chart
-        $val = round($fkw, 2);
+        $val = round($fkw[$inverter_name], 2);
         $current_bars .= "
                     {  
                       y: $val, 
@@ -214,15 +212,7 @@ foreach ($inveter_list as $inverter_name) {
 
         $strxas .= '"' . $ijaar . '",';
         $aclickxas[0][] = $ijaar . "-01-01";
-        $astrgem[] = '{
 
-                },';
-        $astrref[] = '{
-
-                },';
-        $astrverwacht .= '{
-
-                },';
         if ($param['iTonendagnacht'] == 1) {
             if (array_key_exists($ijaar, $ajaarverbruikdag)) {
                 if (!isset($ajaarverbruiknacht[$ijaar])) $ajaarverbruiknacht[$ijaar] = 0;
@@ -233,30 +223,17 @@ foreach ($inveter_list as $inverter_name) {
                 }
             }
         }
-        $teller++;
         if (!isset($year_euro[$ijaar])) $year_euro[$ijaar] = 0.25;
-        $fsomeuro += $year_euro[$ijaar] * $fkw;
-
+        $fsomeuro += $year_euro[$ijaar] * $fkw[$inverter_name];
     }
 }
-
 
 // strip last ","
 $strgeg = substr($strgeg, 0, -1);
 $strxas = substr($strxas, 0, -1);
 
 $categories = substr($categories, 0, -1);
-
-foreach ($astrgem as $ijaar => $fkw) {
-    $strgem .= $fkw;
-}
-foreach ($astrref as $ijaar => $fkw) {
-    $strref .= $fkw;
-}
-$strref = substr($strref, 0, -1);
-
 $myKeys = array_keys($sum_per_year);
-
 
 $sub_title = "";
 $sub_title .= "<b>" . $txt["totaal"] . ": <\/b>"
@@ -264,8 +241,8 @@ $sub_title .= "<b>" . $txt["totaal"] . ": <\/b>"
     . number_format($fsomeuro, 0, ',', '.') . "€ = "
     . number_format(1000 * array_sum($sum_per_year) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br />";
 $sub_title .= "<b>" . $txt["max"] . ": <\/b>"
-    . number_format(max($sum_per_year), 0, ',', '.') . " kWh = "
-    . number_format(1000 * max($sum_per_year) / $ieffectiefkwpiek, 0, ',', '.') . " kWh = <br />";
+    . number_format($best_year, 0, ',', '.') . " kWh = "
+    . number_format(1000 * $best_year / $ieffectiefkwpiek, 0, ',', '.') . " kWh = <br />";
 
 $sub_title .= "<b>" . $txt["gem"] . ": <\/b>" . number_format($average_per_month, 0, ',', '.') . " kWh   ";
 $sub_title .= "<b>" . $txt["ref"] . ": <\/b>" . number_format($frefjaar, 0, ',', '.') . " kWh";
