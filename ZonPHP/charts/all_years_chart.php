@@ -126,6 +126,7 @@ if (mysqli_num_rows($resultverbruik) == 0) {
 
 // calculate expected values per years without day with no data
 $averwacht = array();
+$expected_bars = "";
 foreach ($missing_days_month_year as $ijaar => $months) {
     if (!isset($averwacht[$ijaar])) $averwacht[$ijaar] = 0;
     for ($i = 1; $i <= 12; $i++) {
@@ -141,9 +142,19 @@ foreach ($missing_days_month_year as $ijaar => $months) {
                 $averwacht[$ijaar] += $arefjaar[$i] * $iaantaldagen;
         }
     }
-
     // fixme
     // $averwacht[$ijaar] += $sum_per_year[$ijaar];
+
+    // expected bars char
+    $val = 0;
+    if (isset ($averwacht[$ijaar])) {
+        $val = round($averwacht[$ijaar], 2);
+        $expected_bars .= "                
+                    { 
+                      y: $val,                       
+                      color: \"#" . $colors['color_chart_expected_bar'] . "\",
+                    },";
+    }
 }
 
 ?>
@@ -158,35 +169,21 @@ $strxas = "";
 $fsomeuro = 0;
 $aclickxas = array();
 $astrverbruikdag = "";
-
-
 $first_year = 0;
-
 $yearcount = count($sum_per_year);
-$expected_bars = "";
 $current_bars = "";
 $categories = "";
 $best_year = 0;
+$strdataseries = "";
 
 foreach ($inveter_list as $inverter_name) {
 
+    $current_bars = "";
     foreach ($sum_per_year as $ijaar => $fkw) {
         $categories .= '"' . $ijaar . '",';
 
         if ($first_year == 0) $first_year = $ijaar;
 
-        // expected bars char
-        $val = 0;
-        if (isset ($averwacht[$ijaar])) {
-            $val = round($averwacht[$ijaar], 2);
-            $expected_bars .= "                
-                    { 
-                      y: $val, 
-                      url: \"$href$ijaar-01-01\",
-                      color: \"#" . $colors['color_chart_expected_bar'] . "\",
-                    },";
-
-        }
         $myColor1 = $colors['color_chartbar1'];
         $myColor2 = $colors['color_chartbar2'];
         if ($fkw >= max($sum_per_year)) {
@@ -226,6 +223,16 @@ foreach ($inveter_list as $inverter_name) {
         if (!isset($year_euro[$ijaar])) $year_euro[$ijaar] = 0.25;
         $fsomeuro += $year_euro[$ijaar] * $fkw[$inverter_name];
     }
+    $current_bars = substr($current_bars, 0, -1);
+    $strdataseries .= " {
+                    name: '" . $inverter_name . "',
+                    type: 'column',
+                    stacking: 'normal',                    
+                    data: [" . $current_bars . "],
+                        }, 
+                    ";
+
+
 }
 
 // strip last ","
@@ -321,12 +328,7 @@ include_once "chart_styles.php";
                     color: '#<?php echo $colors['color_chart_expected_bar'] ?>',
                     data: [<?php echo $expected_bars; ?>],
                 },
-                {
-                    name: 'kWh/Year',
-                    type: 'column',
-                    color: '#<?php echo $colors['color_chartbar1'] ?>',
-                    data: [<?php echo $current_bars; ?>],
-                },
+                <?php echo $strdataseries ?>
                 {
                     name: "Average",
                     type: "line",
