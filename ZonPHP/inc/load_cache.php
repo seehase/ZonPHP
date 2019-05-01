@@ -33,22 +33,19 @@ date_default_timezone_set("UTC");
 $github_version = "unknown";
 $new_version_label = "";
 
+// fixme
+$total_sum_for_all_years = 0;
+
 
 if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout) > (time())) {
     // cache still valid --> do not reload cache
     if ($debugmode) error_log("cache hit --> ");
     // copy data from session into variabls
-    $average_per_month = $_SESSION['average_per_month'];
-    $sum_per_year = $_SESSION['sum_per_year'];
-    $total_sum_for_all_years = $_SESSION['total_sum_for_all_years'];
-    $max_month = $_SESSION['max_month'];
-    $missing_days_month_year = $_SESSION['missing_days_month_year'];
 
-    $all_inverters_average_per_month = $_SESSION['all_inverters_average_per_month'];
-    $all_inverters_sum_per_year = $_SESSION['all_inverters_sum_per_year'];
-    $all_inverters_total_sum_for_all_years = $_SESSION['all_inverters_total_sum_for_all_years'];
-    $all_inverters_max_month = $_SESSION['all_inverters_max_month'];
-    $all_inverters_missing_days_month_year = $_SESSION['all_inverters_missing_days_month_year'];
+//     $total_sum_for_all_years = $_SESSION['total_sum_for_all_years'];   //jhs in use last years and import
+//    $max_month = $_SESSION['max_month'];  // jhs in use last year
+
+
 
     $txt = $_SESSION['txt'];
     $year_euro = $_SESSION['year_euro'];
@@ -64,6 +61,9 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     }
 
     $charts = $_SESSION['charts'];
+    if (!isset($charts['chart_date_format'])) {
+        $charts['chart_date_format'] = "";
+    }
 
     if (!isset($_SESSION['colors'])) {
         include_once "load_colors.php";
@@ -102,81 +102,6 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     // load color and theme
     include_once "load_colors.php";
-
-    // load sum per month for all years --------------------------------------------------------------------------------
-    $sql = "SELECT SUM( Geg_Maand ) AS sum_month, year( Datum_Maand ) AS year, month( Datum_Maand ) AS month,
-            count( Datum_Maand ) AS tdag_maand
-        FROM " . $table_prefix . "_maand
-        WHERE Naam = '" . $_SESSION['Wie'] . "'
-        GROUP BY year, month";
-
-    $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
-    $sum_per_year = array();
-    $total_sum_for_all_years = 0;
-    $average_per_month = 0;
-    $max_month = 0;
-    $missing_days_month_year = array();
-    if (mysqli_num_rows($result) == 0) {
-        $sum_per_year[date('Y-m-d', time())] = 0;
-    } else {
-        while ($row = mysqli_fetch_array($result)) {
-            if (!isset($sum_per_year[$row['year']])) {
-                $sum_per_year[$row['year']] = 0;
-            }
-            $sum_per_year[$row['year']] += $row['sum_month'];
-
-            $days_per_month = cal_days_in_month(CAL_GREGORIAN, $row['month'], $row['year']);
-            $missingdays = $days_per_month - $row['tdag_maand'];
-
-            $missing_days_month_year[$row['year']][$row['month']] = $missingdays;
-        }
-        $average_per_month = array_sum($sum_per_year) / count($sum_per_year);
-        $total_sum_for_all_years = array_sum($sum_per_year);
-        $max_month = max($sum_per_year);
-    }
-
-    $_SESSION['average_per_month'] = $average_per_month;
-    $_SESSION['sum_per_year'] = $sum_per_year;
-    $_SESSION['total_sum_for_all_years'] = $total_sum_for_all_years;
-    $_SESSION['max_month'] = $max_month;
-    $_SESSION['missing_days_month_year'] = $missing_days_month_year;
-
-    // load sum per month for all years and all interters ----------------------------------------------------------------------------
-    $sql = "SELECT SUM( Geg_Maand ) AS sum_month, year( Datum_Maand ) AS year, month( Datum_Maand ) AS month,
-            count( Datum_Maand ) AS tdag_maand
-        FROM " . $table_prefix . "_maand        
-        GROUP BY year, month";
-
-    $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
-    $all_inverters_sum_per_year = array();
-    $all_inverters_total_sum_for_all_years = 0;
-    $all_inverters_average_per_month = 0;
-    $all_inverters_max_month = 0;
-    $all_inverters_missing_days_month_year = array();
-    if (mysqli_num_rows($result) == 0) {
-        $all_inverters_sum_per_year[date('Y-m-d', time())] = 0;
-    } else {
-        while ($row = mysqli_fetch_array($result)) {
-            if (!isset($all_inverters_sum_per_year[$row['year']])) {
-                $all_inverters_sum_per_year[$row['year']] = 0;
-            }
-            $all_inverters_sum_per_year[$row['year']] += $row['sum_month'];
-
-            $all_inverters_days_per_month = cal_days_in_month(CAL_GREGORIAN, $row['month'], $row['year']);
-            $all_inverters_missingdays = $all_inverters_days_per_month - $row['tdag_maand'];
-
-            $all_inverters_missing_days_month_year[$row['year']][$row['month']] = $all_inverters_missingdays;
-        }
-        $all_inverters_average_per_month = array_sum($all_inverters_sum_per_year) / count($all_inverters_sum_per_year);
-        $all_inverters_total_sum_for_all_years = array_sum($all_inverters_sum_per_year);
-        $all_inverters_max_month = max($all_inverters_sum_per_year);
-    }
-
-    $_SESSION['all_inverters_average_per_month'] = $all_inverters_average_per_month;
-    $_SESSION['all_inverters_sum_per_year'] = $all_inverters_sum_per_year;
-    $_SESSION['all_inverters_total_sum_for_all_years'] = $all_inverters_total_sum_for_all_years;
-    $_SESSION['all_inverters_max_month'] = $all_inverters_max_month;
-    $_SESSION['all_inverters_missing_days_month_year'] = $all_inverters_missing_days_month_year;
 
 
     // load euro -------------------------------------------------------------------------------------------------------

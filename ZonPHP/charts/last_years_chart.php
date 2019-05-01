@@ -222,26 +222,7 @@ for ($i = 1; $i <= 12; $i++) {
 $strxas = substr($strxas, 0, -1);
 $slinkdoorgeven = "/year_overviewt.php?jaar=";
 
-
 $sub_title = "";
-
-
-$myKeys = array_keys($sum_per_year);
-
-
-$sub_title .= ("<b>" . $txt["totaal"] . ": <\/b>"
-    . number_format($total_sum_for_all_years, 1, ',', '.') . " kWh = "
-    . number_format($total_sum_for_all_years * 4086 / 10000, 2, ',', '.') . "€; = "
-    . number_format(1000 * $total_sum_for_all_years / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br />");
-$sub_title .= ("<b>" . $txt["max"] . ": <\/b>"
-    . number_format($max_month, 0, ',', '.') . " kWh = "
-    . number_format(1000 * $max_month / $ieffectiefkwpiek, 0, ',', '.') . " kWh = "
-    . number_format(100 * $max_month / $frefjaar, 0, ',', '.') . "%<br />");
-$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($average, 0, ',', '.') . " kWh");
-$sub_title .= ("<b>" . $txt["ref"] . ": <\/b>" . number_format($frefjaar, 0, ',', '.') . " kWh");
-
-$sub_title = "";
-
 $show_legende = "true";
 if ($isIndexPage == true) {
     echo '<div class = "index_chart" id="all_years_chart_' . $inverter . '"></div>';

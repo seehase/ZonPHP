@@ -17,6 +17,7 @@ $id = "";
 //     // reformat string
 //     $chartdatestring = strftime("%Y-%m-%d", $chartdate);
 // }
+// fixed
 
 
 if (isset($_GET['Schaal']))
@@ -73,7 +74,7 @@ if (mysqli_num_rows($result) == 0) {
         $agegevens[date("H:i", strtotime($row['datumtijd']))] = $row['gem'];
 
         $valarray[strtotime($row['datumtijd'])] = $row['gem'];
-        $all_valarray[ strtotime($row['datumtijd'])] [$inverter_name]  = $row['gem'];
+        $all_valarray[strtotime($row['datumtijd'])] [$inverter_name] = $row['gem'];
         $fsomoplopend += $row['gem'] * 1000 / (1000 * 60 / $param['isorteren']);
         $aoplopendkwdag[strtotime($row['datumtijd'])] = $fsomoplopend;
 
@@ -125,6 +126,7 @@ if (mysqli_num_rows($resultmaxkwh) == 0) {
 //$maxkwh = number_format($maxkwh, 2, ',', ' ');
 $nice_max_date = date("Y-m-d", strtotime($maxdag));
 
+
 // select data from the best day for current month
 $sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
 FROM " . $table_prefix . "_dag
@@ -145,7 +147,7 @@ if (mysqli_num_rows($resultmd) == 0) {
         $adatum_max[] = $row['datumtijd'];
         $agegevensdag_max[strtotime($row['datumtijd'])] = $row['gem'];
         if ($row['gem'] > $maxdagpeak) {
-            $maxdagpeak =  $row['gem'];
+            $maxdagpeak = $row['gem'];
         };
     }
 }
@@ -156,33 +158,19 @@ include "inc/sensor.php";
 
 $strgegmax = "";
 $strsomkw = "";
-$str_dataserie = "";
-
-foreach ($valarray as $time => $val) {
-    if (isset($param['no_units'])) {
-        $str_dataserie .= '[' . ($time * 1000) . ',' . $val . '] ,';
-    } else {
-        $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $val . ' , unit: \'W\'} ,';
-    }
-}
-// strip last ","
-if (strlen($str_dataserie > 0)) {
-    $str_dataserie = substr($str_dataserie, 0, -1);
-}
 
 // build colors per inverter array
 $myColors = array();
 for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
-    $col1 = "color_inverter" . $k ."_chartbar_min";
+    $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'#" . $colors[$col1] . "'";
     $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
-    $col1 = "color_inverter" . $k ."_chartbar_max";
+    $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'#" . $colors[$col1] . "'";
     $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
 }
 
-
-$strgeg = "";
+$str_dataserie = "";
 $cnt = 0;
 foreach ($sNaamSaveDatabase as $inverter_name)
 {
@@ -197,13 +185,13 @@ foreach ($sNaamSaveDatabase as $inverter_name)
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
 
         if (isset($param['no_units'])) {
-            $strgeg .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name].'}, ';
+            $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . '}, ';
         } else {
-            $strgeg .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
+            $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
         }
     }
-    $strgeg=substr($strgeg,0,-1);
-    $strgeg.="]}, 
+    $str_dataserie = substr($str_dataserie, 0, -1);
+    $str_dataserie .= "]}, 
                     ";
     $cnt++;
 }
@@ -257,9 +245,9 @@ if ($isIndexPage == true) {
 
 // get query parameters
 $paramstr_day = "";
-if (sizeof($_GET) > 0){
+if (sizeof($_GET) > 0) {
     foreach ($_GET as $key => $value) {
-        if ( $key != "dag") {
+        if ($key != "dag") {
             $paramstr_day .= $key . "=" . $value . "&";
         }
     }
@@ -423,8 +411,11 @@ var chart = new Highcharts.chart('mycontainer', Highcharts.merge(myoptions, {
   },
   subtitle: {
                     style: {
-                        color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
+                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>'
                     },
+                    formatter: function () {
+                        return this.value / 1000 + "kW";
+                    }
                 },
   
   xAxis: {
@@ -487,3 +478,6 @@ var chart = new Highcharts.chart('mycontainer', Highcharts.merge(myoptions, {
 </script>
 
 
+<script type="text/javascript">
+
+</script>

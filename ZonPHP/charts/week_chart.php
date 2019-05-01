@@ -103,11 +103,6 @@ for ($i = 1; $i <= 7; $i++) {
 $avgr = number_format(($sum / 7), 2);
 $maximum = number_format(($maximum / 7), 2);
 
-$sub_title = ("<b>" . $txt["totaal"] . ": <\/b>"
-    . number_format($total_sum_for_all_years, 1, ',', '') . " kWh = "
-    . number_format($total_sum_for_all_years * 4086 / 10000, 2, ',', '.') . "€ = "
-    . number_format(1000 * $total_sum_for_all_years / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br />");
-
 $sub_title = "";
 $categories = substr($categories, 0, -1);
 
