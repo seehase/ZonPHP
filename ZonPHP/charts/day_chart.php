@@ -534,15 +534,15 @@ if (strlen($str_temp_vals) > 0) {
                             mychart.forRender = false;
 
                             //function to check amount of visible series and to destroy old spline series
-                            mychart.series.forEach(s => {
+                            mychart.series.forEach(s => function () {
                                 if (s.type === 'spline' && s.visible === true) {
                                     s.destroy()
                                 } else if (s.type === 'spline' && s.visible === false) {
                                     checkHideForSpline = 0
                                 }
-                            if (s.type === 'area' && s.visible) {
-                                indexOfVisibleSeries.push(s.index);
-                            }
+                                if (s.type === 'area' && s.visible) {
+                                    indexOfVisibleSeries.push(s.index);
+                                }
                             });
 
                             if (checkHideForSpline) {
@@ -572,7 +572,7 @@ if (strlen($str_temp_vals) > 0) {
             tooltip: {
                 crosshairs: [true],
                 shared: true,
-                pointFormatter() {
+                pointFormatter: function () {
                     unit = this.unit;
                     value = this.y;
                     //if unit is undefined (added series) set unit to 'kWh' and value to two decimals
