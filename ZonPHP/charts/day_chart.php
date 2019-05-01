@@ -68,10 +68,10 @@ $inveter_list = array();
 
 
 $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, 
-	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd ".
-    " FROM " .  $table_prefix . "_dag ".
-    " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' ". $inverter_clause .
-    " GROUP BY datumtijd, naam ".
+	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd " .
+    " FROM " . $table_prefix . "_dag " .
+    " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' " . $inverter_clause .
+    " GROUP BY datumtijd, naam " .
     " ORDER BY datumtijd ASC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
@@ -94,13 +94,13 @@ if (mysqli_num_rows($result) == 0) {
         $agegevens[date("H:i", strtotime($row['datumtijd']))] = $row['gem'];
 
         $valarray[strtotime($row['datumtijd'])] = $row['gem'];
-        $all_valarray[ strtotime($row['datumtijd'])] [$inverter_name]  = $row['gem'];
+        $all_valarray[strtotime($row['datumtijd'])] [$inverter_name] = $row['gem'];
         $fsomoplopend += $row['gem'] * 1000 / (1000 * 60 / $param['isorteren']);
         $aoplopendkwdag[strtotime($row['datumtijd'])] = $fsomoplopend;
 
-        if (!in_array($inverter_name, $inveter_list)){
+        if (!in_array($inverter_name, $inveter_list)) {
             $inveter_list[] = $inverter_name;
-        } ;
+        };
     }
 
     $datum = strftime("%d %B %Y", $chartdate);
@@ -110,7 +110,7 @@ if (mysqli_num_rows($result) == 0) {
 $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
 	 FROM " . $table_prefix . "_maand
 	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . $table_prefix . "_maand WHERE 
-     DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' ".  $inverter_clause . " GROUP BY maand )AS maandelijks ON (month(" .
+     DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . $inverter_clause . " GROUP BY maand )AS maandelijks ON (month(" .
     $table_prefix . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . $table_prefix . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
 
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
@@ -127,7 +127,7 @@ if (mysqli_num_rows($resultmaxdag) == 0) {
 // Query maxkwh to get array with max value for all inverters
 $sqlmaxkwh = "SELECT Geg_Maand, Naam
 	 FROM " . $table_prefix . "_maand
-	 WHERE Datum_Maand LIKE  '" .date("Y-m-d", strtotime($maxdag)) . "%' 
+	 WHERE Datum_Maand LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%' 
 	 ORDER BY Naam ASC ";
 //echo $sqlmaxkwh;
 
@@ -148,7 +148,7 @@ $nice_max_date = date("Y-m-d", strtotime($maxdag));
 // select data from the best day for current month
 $sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
 FROM " . $table_prefix . "_dag
-WHERE Datum_Dag LIKE  '" .date("Y-m-d", strtotime($maxdag)) . "%'
+WHERE Datum_Dag LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%'
 ORDER BY Name, datumtijd ASC";
 
 $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
@@ -161,11 +161,11 @@ if (mysqli_num_rows($resultmd) == 0) {
     while ($row = mysqli_fetch_array($resultmd)) {
         $inverter_name = $row['Name'];
         $valarraymax[strtotime($row['datumtijd'])] = $row['gem'];
-        $all_valarraymax[ strtotime($row['datumtijd'])] [$inverter_name]  = $row['gem'];
+        $all_valarraymax[strtotime($row['datumtijd'])] [$inverter_name] = $row['gem'];
         $adatum_max[] = $row['datumtijd'];
         $agegevensdag_max[strtotime($row['datumtijd'])] = $row['gem'];
         if ($row['gem'] > $maxdagpeak) {
-            $maxdagpeak =  $row['gem'];
+            $maxdagpeak = $row['gem'];
         };
     }
 }
@@ -243,7 +243,7 @@ if ($sensor_available) {
                 $val = number_format(($row['val'] - 32) * 5 / 9, 1); // F --> °C
                 $temp_unit = "°C";
             } else {
-                $val = number_format($row['val'] , 1); // temp is already in °C
+                $val = number_format($row['val'], 1); // temp is already in °C
                 $temp_unit = "°F";
             }
             $sensor_values[date("H:i", strtotime($row['nicedate']))] = $val;
@@ -266,40 +266,25 @@ if ($sensor_available) {
 
 $strgegmax = "";
 $strsomkw = "";
-$str_dataserie = "";
-
-foreach ($valarray as $time => $val) {
-    if (isset($param['no_units'])) {
-        $str_dataserie .= '[' . ($time * 1000) . ',' . $val . '] ,';
-    } else {
-        $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $val . ' , unit: \'W\'} ,';
-    }
-}
-// strip last ","
-if (strlen($str_dataserie > 0)) {
-    $str_dataserie = substr($str_dataserie, 0, -1);
-}
 
 // build colors per inverter array
 $myColors = array();
 for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
-    $col1 = "color_inverter" . $k ."_chartbar_min";
+    $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'#" . $colors[$col1] . "'";
     $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
-    $col1 = "color_inverter" . $k ."_chartbar_max";
+    $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'#" . $colors[$col1] . "'";
     $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
 }
 
-
-$strgeg = "";
+$str_dataserie = "";
 $cnt = 0;
-foreach ($inveter_list as $inverter_name)
-{
-    $col1 =$myColors[$inverter_name]['min'];
-    $col2 =$myColors[$inverter_name]['max'];
+foreach ($inveter_list as $inverter_name) {
+    $col1 = $myColors[$inverter_name]['min'];
+    $col2 = $myColors[$inverter_name]['max'];
 
-    $strgeg .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
+    $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
 
     foreach ($all_valarray as $time => $valarray) {
@@ -307,27 +292,23 @@ foreach ($inveter_list as $inverter_name)
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
 
         if (isset($param['no_units'])) {
-            $strgeg .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name].'}, ';
+            $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . '}, ';
         } else {
-            $strgeg .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
+            $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
         }
     }
-    $strgeg=substr($strgeg,0,-1);
-    $strgeg.="]}, 
+    $str_dataserie = substr($str_dataserie, 0, -1);
+    $str_dataserie .= "]}, 
                     ";
     $cnt++;
 }
-
-$str_dataserie = $strgeg;
-
 
 // day max line per inverter --------------------------------------------------------------
 $str_max = "";
 $cnt = 0;
 
 
-foreach ($sNaamSaveDatabase as $inverter_name)
-{
+foreach ($sNaamSaveDatabase as $inverter_name) {
     $str_max .= "{ name: '$inverter_name max', linkedTo: '$inverter_name', color : '#15ff24', lineWidth: 1,  type: 'line', marker: { enabled: false },                           
     data:[";
 
@@ -347,17 +328,17 @@ foreach ($sNaamSaveDatabase as $inverter_name)
         if (!isset($valarraymax[$inverter_name])) $valarraymax[$inverter_name] = 0;
 
         if (isset($param['no_units'])) {
-            $str_max .= '{x:' . ($newDate * 1000) . ', y:' . $valarraymax[$inverter_name].'}, ';
+            $str_max .= '{x:' . ($newDate * 1000) . ', y:' . $valarraymax[$inverter_name] . '}, ';
         } else {
             $str_max .= '{x:' . ($newDate * 1000) . ', y:' . $valarraymax[$inverter_name] . ', unit: \'W\'}, ';
         }
     }
-    $str_max=substr($str_max,0,-1);
-
-    $str_max.="]}, 
+    $str_max = substr($str_max, 0, -1);
+    $str_max .= "]}, 
                     ";
     $cnt++;
 }
+
 // remember last date
 $max_last_val = $newDate;
 $str_max = substr($str_max, 0, -1);
@@ -372,7 +353,7 @@ if ($sensor_success) {
             if (isset($param['no_units'])) {
                 $str_temp_vals .= "[" . $time * 1000 . "," . number_format($val, 1, '.', '') . "],";
             } else {
-                $str_temp_vals .= "{x:" . $time * 1000 . ", y:" . number_format($val, 1, '.', '') . ", unit: '".$temp_unit."' },";
+                $str_temp_vals .= "{x:" . $time * 1000 . ", y:" . number_format($val, 1, '.', '') . ", unit: '" . $temp_unit . "' },";
             }
         }
     }
@@ -414,9 +395,9 @@ if ($isIndexPage == true) {
 
 // get query parameters
 $paramstr_day = "";
-if (sizeof($_GET) > 0){
+if (sizeof($_GET) > 0) {
     foreach ($_GET as $key => $value) {
-        if ( $key != "dag") {
+        if ($key != "dag") {
             $paramstr_day .= $key . "=" . $value . "&";
         }
     }
@@ -429,7 +410,7 @@ $maxlink = '<a href=\"day_overview.php' . $paramstr_day . 'dag=' . $nice_max_dat
 // --------------
 $subtitle = '"<b>' . $txt['actueel'] . ": <\/b> " . date("H:i", $tlaatstetijd) . " - " . number_format(end($agegevens), 0, ',', '.') . "W="
     . number_format(100 * end($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . "% - "
-    . $txt['peak'] . ": ". number_format(max($agegevens), 0, ",", ".") . "W";
+    . $txt['peak'] . ": " . number_format(max($agegevens), 0, ",", ".") . "W";
 if ($isIndexPage) {
     $subtitle .= "<br >";
 }
@@ -534,12 +515,13 @@ if (strlen($str_temp_vals) > 0) {
                             mychart.forRender = false;
 
                             //function to check amount of visible series and to destroy old spline series
-                            mychart.series.forEach(s => function () {
+                            mychart.series.forEach(s => {
                                 if (s.type === 'spline' && s.visible === true) {
                                     s.destroy()
                                 } else if (s.type === 'spline' && s.visible === false) {
                                     checkHideForSpline = 0
                                 }
+
                                 if (s.type === 'area' && s.visible) {
                                     indexOfVisibleSeries.push(s.index);
                                 }
@@ -580,7 +562,6 @@ if (strlen($str_temp_vals) > 0) {
                         unit = 'kWh';
                         value = Highcharts.numberFormat(this.y, '2', ',');
                     }
-                    ;
 
                     return `<span style="color:${this.color}">\u25CF<\/span> ${this.series.name}: <b>${value} ${unit}<\/b><br/>`;
                 }
@@ -661,7 +642,7 @@ if (strlen($str_temp_vals) > 0) {
 
             series: [ <?php echo $str_dataserie ?> <?php echo $str_max ?> ]
 
-        }), function(mychart) {
+        }), function (mychart) {
             mychart.forRender = true
         });
 
