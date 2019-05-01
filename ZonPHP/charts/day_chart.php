@@ -116,23 +116,42 @@ $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
 if (mysqli_num_rows($resultmaxdag) == 0) {
     $maxdag = date("y-m-d", time());
-    $maxkwh = 0;
+///     $maxkwh = 0;
 } else {
     while ($row = mysqli_fetch_array($resultmaxdag)) {
         $maxdag = $row['Datum_Maand'];
-        $maxkwh = round($row['Geg_Maand'], 2);
+///        $maxkwh = round($row['Geg_Maand'], 2);
     }
 }
-$maxkwh = number_format($maxkwh, 2, ',', ' ');
+
+// Query maxkwh to get array with max value for all inverters
+$sqlmaxkwh = "SELECT Geg_Maand, Naam
+	 FROM " . $table_prefix . "_maand
+	 WHERE Datum_Maand LIKE  '" .date("Y-m-d", strtotime($maxdag)) . "%' 
+	 ORDER BY Naam ASC ";
+//echo $sqlmaxkwh;
+
+$resultmaxkwh = mysqli_query($con, $sqlmaxkwh) or die("Query failed. kwh-max " . mysqli_error($con));
+if (mysqli_num_rows($resultmaxkwh) == 0) {
+    $maxkwh[] = 0;
+} else {
+    while ($row = mysqli_fetch_array($resultmaxkwh)) {
+        $maxkwh[] = round($row['Geg_Maand'], 2);
+    }
+}
+
+
+/// $maxkwh = number_format($maxkwh, 2, ',', ' ');
 $nice_max_date = date("Y-m-d", strtotime($maxdag));
 
-// select data from the best day for current month
-$sqlmd = "SELECT SUM( Geg_Dag ) AS gem,
-	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" .
-    $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd FROM " . $table_prefix . "_dag where Datum_Dag LIKE '" .
-    date("Y-m-d", strtotime($maxdag)) . "%' " . $inverter_clause . " GROUP BY datumtijd ORDER BY datumtijd ASC";
 
-$resultmd = mysqli_query($con, $sqlmd) or die("Query failed. dag-max-dag " . mysqli_error($con));
+// select data from the best day for current month
+$sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
+FROM " . $table_prefix . "_dag
+WHERE Datum_Dag LIKE  '" .date("Y-m-d", strtotime($maxdag)) . "%'
+ORDER BY Name, datumtijd ASC";
+
+$resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
 if (mysqli_num_rows($resultmd) == 0) {
     $maxdagpeak = 0;
     $agegevensdag_max[] = 0;
@@ -140,6 +159,9 @@ if (mysqli_num_rows($resultmd) == 0) {
 } else {
     $maxdagpeak = 0;
     while ($row = mysqli_fetch_array($resultmd)) {
+        $inverter_name = $row['Name'];
+        $valarraymax[strtotime($row['datumtijd'])] = $row['gem'];
+        $all_valarraymax[ strtotime($row['datumtijd'])] [$inverter_name]  = $row['gem'];
         $adatum_max[] = $row['datumtijd'];
         $agegevensdag_max[strtotime($row['datumtijd'])] = $row['gem'];
         if ($row['gem'] > $maxdagpeak) {
@@ -277,7 +299,7 @@ foreach ($inveter_list as $inverter_name)
     $col1 =$myColors[$inverter_name]['min'];
     $col2 =$myColors[$inverter_name]['max'];
 
-    $strgeg .= "{ name: '$inverter_name', type: 'area', marker: { enabled: false }, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
+    $strgeg .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
 
     foreach ($all_valarray as $time => $valarray) {
@@ -299,31 +321,42 @@ foreach ($inveter_list as $inverter_name)
 $str_dataserie = $strgeg;
 
 
-// day max line --------------------------------------------------------------
+// day max line per inverter --------------------------------------------------------------
 $str_max = "";
 $cnt = 0;
 
-foreach ($agegevensdag_max as $time => $fw) {
 
+foreach ($sNaamSaveDatabase as $inverter_name)
+{
+    $str_max .= "{ name: '$inverter_name max', linkedTo: '$inverter_name', color : '#15ff24', lineWidth: 1,  type: 'line', marker: { enabled: false },                           
+    data:[";
+
+    foreach ($all_valarraymax as $time => $valarraymax) {
+
+        $cnt++;
+        // hier in time ist die Ursprüngliche Zeit... muss auf heute geändert werden
+        $orginal_date = date($time);
+        $hour = intval(date('G', $orginal_date));
+        $minutes = intval(date('i', $orginal_date));
+        $newDate = mktime($hour, $minutes, 0, intval(date('m', $chartdate)), intval(date('j', $chartdate)), intval(date('Y', $chartdate)));
+
+        if ($cnt == 1) {
+            // remember first date
+            $max_first_val = $newDate;
+        }
+        if (!isset($valarraymax[$inverter_name])) $valarraymax[$inverter_name] = 0;
+
+        if (isset($param['no_units'])) {
+            $str_max .= '{x:' . ($newDate * 1000) . ', y:' . $valarraymax[$inverter_name].'}, ';
+        } else {
+            $str_max .= '{x:' . ($newDate * 1000) . ', y:' . $valarraymax[$inverter_name] . ', unit: \'W\'}, ';
+        }
+    }
+    $str_max=substr($str_max,0,-1);
+
+    $str_max.="]}, 
+                    ";
     $cnt++;
-    // hier in time ist die Ursprüngliche Zeit... muss auf heute geändert werden
-    $orginal_date = date($time);
-    $hour = intval(date('G', $orginal_date));
-    $minutes = intval(date('i', $orginal_date));
-    $newDate = mktime($hour, $minutes, 0, intval(date('m', $chartdate)), intval(date('j', $chartdate)), intval(date('Y', $chartdate)));
-    if ($cnt == 1) {
-        // remember first date
-        $max_first_val = $newDate;
-    }
-
-    if (isset($param['no_units'])) {
-        $strtemp = "[" . ($newDate * 1000) . ", " . $fw . "] ";
-    } else {
-        $strtemp = "{x:" . ($newDate * 1000) . ", y:" . $fw . ", unit: 'W'} ";
-    }
-
-    $str_max .= $strtemp . ",";
-    $strgegmax .= $fw . ",";
 }
 // remember last date
 $max_last_val = $newDate;
@@ -406,9 +439,7 @@ $subtitle .= "<b> " . $txt['totaal'] . ": <\/b>" . number_format((end($aoplopend
 if ($isIndexPage) {
     $subtitle .= "<br >";
 }
-$subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$maxlink. " --> ". $maxkwh. "kWh - ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".")
-    . "W" .'' . '"';
-
+/// $subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$maxlink. " --> ". $maxkwh. "kWh - ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".") . "W" .'' . '"';
 
 //--------------------
 include_once "chart_styles.php";
@@ -424,226 +455,209 @@ if (strlen($str_temp_vals) > 0) {
 
 
 <script type="text/javascript">
-
     $(function () {
 
-        (function (H) {
-            var Axis = H.Axis,
-                inArray = H.inArray,
-                wrap = H.wrap;
-
-            wrap(Axis.prototype, 'adjustTickAmount', function (proceed) {
-                var chart = this.chart,
-                    primaryAxis = chart[this.coll][0],
-                    primaryThreshold,
-                    primaryIndex,
-                    index,
-                    newTickPos,
-                    threshold;
-
-                // Find the index and return boolean result
-                function isAligned(axis) {
-                    index = inArray(threshold, axis.tickPositions); // used in while-loop
-                    return axis.tickPositions.length === axis.tickAmount && index === primaryIndex;
-                }
-
-                if (chart.options.chart.alignThresholds && this !== primaryAxis) {
-                    primaryThreshold = (primaryAxis.series[0] && primaryAxis.series[0].options.threshold) || 0;
-                    threshold = (this.series[0] && this.series[0].options.threshold) || 0;
-
-                    primaryIndex = primaryAxis.tickPositions && inArray(primaryThreshold, primaryAxis.tickPositions);
-
-                    if (this.tickPositions && this.tickPositions.length &&
-                        primaryIndex > 0 &&
-                        primaryIndex < primaryAxis.tickPositions.length - 1 &&
-                        this.tickAmount) {
-
-                        // Add tick positions to the top or bottom in order to align the threshold
-                        // to the primary axis threshold
-                        while (!isAligned(this)) {
-
-                            if (index < primaryIndex) {
-                                newTickPos = this.tickPositions[0] - this.tickInterval;
-                                this.tickPositions.unshift(newTickPos);
-                                this.min = newTickPos;
-                            } else {
-                                newTickPos = this.tickPositions[this.tickPositions.length - 1] + this.tickInterval;
-                                this.tickPositions.push(newTickPos);
-                                this.max = newTickPos;
-                            }
-                            proceed.call(this);
-                        }
-                    }
-
-                } else {
-                    proceed.call(this);
-                }
-            });
-        }(Highcharts));
-
-
         var myoptions = <?php echo $chart_options ?>;
-
-        var data_series = [<?php echo $str_dataserie ?>];
-        var max_serie = [<?php echo $str_max ?>];
-        var cum_serie = [<?php echo $str_cum ?>];
-        var temp_serie = [<?php echo $str_temp_vals ?>];
-        var temp_max = <?php echo $val_max ?>;
-        var temp_min = <?php echo $val_min ?>;
-
-
-        var col1 = '#<?php echo $colors['color_chartbar1'] ?>';
-        var col2 = '#<?php echo $colors['color_chartbar2'] ?>';
-
+        var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        var maxmax = <?php echo json_encode($maxkwh) ?>;
+        var maxlink = '<?php echo $maxlink ?>';
         Highcharts.setOptions({<?php echo $chart_lang ?>});
 
-        var mychart = new Highcharts.chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
+        var chart = new Highcharts.chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
+
+            chart: {
+
+                events: {
+                    render() {
+                        let chart = this
+                        let series = this.series
+                        let sum1 = 0, sum2 = 0
+                        let kWh1 = 0, kWh2 = 0
+                        let ax1 = 0, ax2 = 0
+                        let max1 = 0, max2 = 0
+                        let actueel = 0
+                        let tota = 0
+                        // subtitle cumulatief
+                        for(let i = 0; i < 2; i++) {
+                            if(series[i].visible){
+                                for(let j = 0; j < series[i].data.length; j++) {
+                                    tota += (series[i].data[j].y)/12000
+                                }
+                            }
+                        }
+                        //	subtitle actueel per inverter, highest inverter number first
+                        i=1
+                        if(series[i].visible){
+                            sum2 = (series[i].data[series[i].data.length -1]).y
+                            actueel= Highcharts.dateFormat('%H:%M',(series[i].data[series[i].data.length -1]).x)
+                            kWh2 = 	khhWp[i]
+                            max2 = maxmax[i]
+                            ax2 = series[i].dataMax
+                        }
+
+                        i=0
+                        if(series[i].visible){
+                            sum1 = (series[i].data[series[i].data.length -1]).y
+                            actueel= Highcharts.dateFormat('%H:%M',(series[i].data[series[i].data.length -1]).x)
+                            kWh1 = 	khhWp[i]
+                            max1 = maxmax[i]
+                            ax1 = series[i].dataMax - ax2
+                        }
+
+                        sum = sum1 + sum2
+                        KWH = kWh1 + kWh2
+                        AXI = ax1 + ax2
+                        MAX = max1 + max2
+                        this.setSubtitle({text: "<b>Actueel: </b>" + actueel + " -  " + Highcharts.numberFormat(sum, 0,",","") + "W" + "=" +(Highcharts.numberFormat(100*sum/KWH, 0,",",""))+"%" + " - Peak: " +AXI +"W <b>Totaal:</b> " +(Highcharts.numberFormat(tota, 2,",","")) +"kWh = " +(Highcharts.numberFormat((tota/KWH)*1000, 2,",",""))   +"kWh/kWp" +" <b>Max: </b>" +maxlink +"--> " +MAX +" kWh" }, false, false)
+
+
+
+                        total = [],
+                            value = 0,
+                            indexOfVisibleSeries = [],
+                            checkHideForSpline = 1;
+
+                        if (chart.forRender) {
+                            chart.forRender = false;
+
+                            //function to check amount of visible series and to destroy old spline series
+                            chart.series.forEach(s => {
+                                if (s.type === 'spline' && s.visible === true) {
+                                s.destroy();
+                            } else if (s.type === 'spline' && s.visible === false) {
+                                checkHideForSpline = 0
+                            }
+                            if (s.type === 'area' && s.visible) {
+                                indexOfVisibleSeries.push(s.index)
+                            }
+                        })
+
+                            if (checkHideForSpline) {
+                                for (let i = 0; i < chart.series[0].data.length; i++) {
+                                    for (let j of indexOfVisibleSeries) {
+                                        value += chart.series[j].data[i].y / 12000
+                                        axis = chart.series[j].data[i].x
+                                    }
+                                    total.push([axis, value])
+
+                                }
+
+                                chart.addSeries({
+                                    data: total,
+                                    name: 'Cum',
+                                    yAxis: 1,
+                                    unit: 'kWh',
+                                    type: "spline",
+                                    color: '#<?php echo $colors['color_chart_cum_line'] ?>',
+                                })
+                            }
+                        }
+                        chart.forRender = true
+                    }
+                }
+            },
+
+            tooltip: {
+                crosshairs: [true],
+                shared: true,
+                pointFormatter(){
+                    let unit = this.unit,
+                        value = this.y;
+                    //if unit is undefined (added series) set unit to 'kWh' and value to two decimals
+                    if(!unit){
+                        unit = 'kWh'
+                        value = Highcharts.numberFormat(this.y,'2' ,',')
+                    }
+
+                    return `<span style="color:${this.color}">\u25CF<\/span> ${this.series.name}: <b>${value} ${unit}<\/b><br/>`
+                }
+            },
+            plotOptions: {
+                line: {stacking:'normal'},
+                area: {
+                    marker: {
+                        radius: 2,
+                        enabled: false
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: 0,
+                    stacking: 'normal',
+                },
+
+            },
+            subtitle: {
+                style: {
+                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
+                },
+            },
+
+            xAxis: {
+                type: 'datetime',
+                labels: {
+                    style: {
+                        color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                    },
+                },
+            },
+            yAxis: [{ // Watt
                 title: {
-                    text: '',
+                    text: 'Watt',
                     style: {
-                        color: '#<?php echo $colors['color_chart_text_title'] ?>',
+                        color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>',
                     },
+                    visible: false,
                 },
-                subtitle: {
-                    text: <?php echo $subtitle ?>,
+                // min: 0,
+                labels: {
+                    format: '{value}kW',
                     style: {
-                        color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
+                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
                     },
+                    formatter: function() {
+                        return this.value / 1000 + "kW";
+                    }
                 },
-                xAxis: {
-                    type: 'datetime',
-                    labels: {
+                gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+            },
+                { // cum kWh
+                    title: {
+                        text: 'Total',
                         style: {
-                            color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                            color: '#<?php echo $colors['color_chart_title_yaxis2'] ?>',
                         },
                     },
-                },
-                yAxis: [
-                    { // Watt
-                        title: {
-                            text: 'Watt',
-                            style: {
-                                color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>',
-                            },
-                            visible: false,
+                    labels: {
+                        format: '{value} kWh',
+                        style: {
+                            color: '#<?php echo $colors['color_chart_labels_yaxis2'] ?>',
                         },
-                        // min: 0,
-                        labels: {
-                            format: '{value}kW',
-                            style: {
-                                color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
-                            },
-                            formatter: function () {
-                                return this.value / 1000 + "kW";
-                            }
+                        formatter: function() {
+                            return this.value + "kWh";
                         },
-                        gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+                    },
+                    gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis2'] ?>',
+                    opposite: true,
+                    visible: <?php echo $show_cum_axis ?>,
+                }
+            ],
 
-                    },
-                    { // cum kWh
-                        title: {
-                            text: 'Total',
-                            style: {
-                                color: '#<?php echo $colors['color_chart_title_yaxis2'] ?>',
-                            },
-                        },
-                        labels: {
-                            format: '{value} kWh',
-                            style: {
-                                color: '#<?php echo $colors['color_chart_labels_yaxis2'] ?>',
-                            },
-                            formatter: function () {
-                                return this.value.toFixed(1)  + "kWh";
-                            },
-                        },
-                        gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis2'] ?>',
-                        opposite: true,
-                        visible: <?php echo $show_cum_axis ?>,
-                    },
-                    { // temperature
-                        title: {
-                            text: 'Temperature',
-                            style: {
-                                color: '#<?php echo $colors['color_chart_title_yaxis3'] ?>',
-                            },
-                        },
-                        labels: {
-                            format: '{value}<?php echo $temp_unit ?>',
-                            style: {
-                                color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
-                            },
-                            formatter: function () {
-                                return this.value + "<?php echo $temp_unit ?>";
-                            },
-                        },
-                        gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis3'] ?>',
-                        opposite: true,
-                        visible: <?php echo $show_temp_axis ?>,
-                        steps: 5,
-                        min: temp_min,
-                        max: temp_max,
-                    }
-                ],
+            series: [ <?php echo $str_dataserie ?> <?php echo $str_max ?> ]
 
-                plotOptions: {
-                    area: {
-                        marker: {
-                            radius: 2,
-                            enabled: false,
-                        },
-                        lineWidth: 1,
-                        states: {
-                            hover: {
-                                lineWidth: 1
-                            }
-                        },
-                        threshold: 0,
-                        stacking: 'normal',
-                    },
-
-                    series: {}
-                },
-                tooltip: {
-
-                    crosshairs: [true],
-                    shared: true,
-                    pointFormat: '<span style="color:{point.color}">\u25CF<\/span> {series.name}: <b>{point.y} {point.unit}<\/b><br/>',
-                },
-                series: [
-                    <?php echo $str_dataserie ?>
-                    {
-                        type: 'spline',
-                        name: 'Max',
-                        data: max_serie,
-                        color: '#<?php echo $colors['color_chart_max_line'] ?>',
-                    },
-                    {
-                        type: 'spline',
-                        name: 'Cum',
-                        data: cum_serie,
-                        yAxis: 1,
-                        color: '#<?php echo $colors['color_chart_cum_line'] ?>',
-                    },
-                    {
-                        type: 'spline',
-                        name: 'Temp',
-                        data: temp_serie,
-                        yAxis: 2,
-                        color: '#<?php echo $colors['color_chart_temp_line'] ?>',
-                    }
-                ]
-            }))
-            ;
-
-        $("#mycontainer_<?php echo $inverter_id ?>").resize(function () {
-            mychart.reflow();
+        }), function(chart) {
+            chart.forRender = true
         });
 
-
-    })
-    ;
-
-
+    });
 </script>
 
 
+<script type="text/javascript">
+    $('mycontainer_<?php echo $inverter_id ?>').resize(function () {
+        chart.reflow();
+    });
+</script>

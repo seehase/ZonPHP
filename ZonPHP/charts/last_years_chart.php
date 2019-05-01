@@ -222,12 +222,7 @@ for ($i = 1; $i <= 12; $i++) {
 $strxas = substr($strxas, 0, -1);
 $slinkdoorgeven = "/year_overviewt.php?jaar=";
 
-
 $sub_title = "";
-
-
-$myKeys = array_keys($sum_per_year);
-
 
 $sub_title .= ("<b>" . $txt["totaal"] . ": <\/b>"
     . number_format($total_sum_for_all_years, 1, ',', '.') . " kWh = "
