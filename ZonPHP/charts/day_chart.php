@@ -461,21 +461,26 @@ if (strlen($str_temp_vals) > 0) {
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var maxmax = <?php echo json_encode($maxkwh) ?>;
         var maxlink = '<?php echo $maxlink ?>';
+        var txt_actueel = '<?php echo $txt['actueel'] ?>';
+        var txt_totaal = '<?php echo $txt['totaal'] ?>';
+        var txt_max = '<?php echo $txt['max'] ?>';
+        var txt_peak = '<?php echo $txt['peak'] ?>';
+
         Highcharts.setOptions({<?php echo $chart_lang ?>});
 
-        var chart = new Highcharts.chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
 
             chart: {
 
                 events: {
                     render() {
-                        let chart = this
+                        let mychart = this
                         let series = this.series
                         let sum1 = 0, sum2 = 0
                         let kWh1 = 0, kWh2 = 0
                         let ax1 = 0, ax2 = 0
                         let max1 = 0, max2 = 0
-                        let actueel = 0
+                        let current = 0
                         let tota = 0
                         // subtitle cumulatief
                         for(let i = 0; i < 2; i++) {
@@ -489,7 +494,7 @@ if (strlen($str_temp_vals) > 0) {
                         i=1
                         if(series[i].visible){
                             sum2 = (series[i].data[series[i].data.length -1]).y
-                            actueel= Highcharts.dateFormat('%H:%M',(series[i].data[series[i].data.length -1]).x)
+                            current= Highcharts.dateFormat('%H:%M',(series[i].data[series[i].data.length -1]).x)
                             kWh2 = 	khhWp[i]
                             max2 = maxmax[i]
                             ax2 = series[i].dataMax
@@ -498,7 +503,7 @@ if (strlen($str_temp_vals) > 0) {
                         i=0
                         if(series[i].visible){
                             sum1 = (series[i].data[series[i].data.length -1]).y
-                            actueel= Highcharts.dateFormat('%H:%M',(series[i].data[series[i].data.length -1]).x)
+                            current= Highcharts.dateFormat('%H:%M',(series[i].data[series[i].data.length -1]).x)
                             kWh1 = 	khhWp[i]
                             max1 = maxmax[i]
                             ax1 = series[i].dataMax - ax2
@@ -508,20 +513,22 @@ if (strlen($str_temp_vals) > 0) {
                         KWH = kWh1 + kWh2
                         AXI = ax1 + ax2
                         MAX = max1 + max2
-                        this.setSubtitle({text: "<b>Actueel: </b>" + actueel + " -  " + Highcharts.numberFormat(sum, 0,",","") + "W" + "=" +(Highcharts.numberFormat(100*sum/KWH, 0,",",""))+"%" + " - Peak: " +AXI +"W <b>Totaal:</b> " +(Highcharts.numberFormat(tota, 2,",","")) +"kWh = " +(Highcharts.numberFormat((tota/KWH)*1000, 2,",",""))   +"kWh/kWp" +" <b>Max: </b>" +maxlink +"--> " +MAX +" kWh" }, false, false)
-
-
+                        this.setSubtitle({text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(sum, 0,",","") +
+                                "W" + "=" +(Highcharts.numberFormat(100*sum/KWH, 0,",",""))+"%" + " - " + txt_peak+": " +AXI +"W <b>" +
+                                txt_totaal + ":</b> " +( Highcharts.numberFormat(tota, 2,",","")) +"kWh = " +
+                                (Highcharts.numberFormat((tota/KWH)*1000, 2,",","")) +"kWh/kWp" +" <b>" +
+                                txt_max+ ": </b>" +maxlink +"--> " + (Highcharts.numberFormat(MAX, 2,",","")) +" kWh" }, false, false)
 
                         total = [],
                             value = 0,
                             indexOfVisibleSeries = [],
                             checkHideForSpline = 1;
 
-                        if (chart.forRender) {
-                            chart.forRender = false;
+                        if (mychart.forRender) {
+                            mychart.forRender = false;
 
                             //function to check amount of visible series and to destroy old spline series
-                            chart.series.forEach(s => {
+                            mychart.series.forEach(s => {
                                 if (s.type === 'spline' && s.visible === true) {
                                 s.destroy();
                             } else if (s.type === 'spline' && s.visible === false) {
@@ -533,16 +540,16 @@ if (strlen($str_temp_vals) > 0) {
                         })
 
                             if (checkHideForSpline) {
-                                for (let i = 0; i < chart.series[0].data.length; i++) {
+                                for (let i = 0; i < mychart.series[0].data.length; i++) {
                                     for (let j of indexOfVisibleSeries) {
-                                        value += chart.series[j].data[i].y / 12000
-                                        axis = chart.series[j].data[i].x
+                                        value += mychart.series[j].data[i].y / 12000
+                                        axis = mychart.series[j].data[i].x
                                     }
                                     total.push([axis, value])
 
                                 }
 
-                                chart.addSeries({
+                                mychart.addSeries({
                                     data: total,
                                     name: 'Cum',
                                     yAxis: 1,
@@ -552,7 +559,7 @@ if (strlen($str_temp_vals) > 0) {
                                 })
                             }
                         }
-                        chart.forRender = true
+                        mychart.forRender = true
                     }
                 }
             },
@@ -648,16 +655,17 @@ if (strlen($str_temp_vals) > 0) {
 
             series: [ <?php echo $str_dataserie ?> <?php echo $str_max ?> ]
 
-        }), function(chart) {
-            chart.forRender = true
+        }), function(mychart) {
+            mychart.forRender = true
         });
 
+        $('#mycontainer_<?php echo $inverter_id ?>').resize(function () {
+            mychart.reflow();
+        });
     });
 </script>
 
 
 <script type="text/javascript">
-    $('mycontainer_<?php echo $inverter_id ?>').resize(function () {
-        chart.reflow();
-    });
+
 </script>
