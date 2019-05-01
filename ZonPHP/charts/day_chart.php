@@ -524,9 +524,9 @@ if (strlen($str_temp_vals) > 0) {
                                 txt_max+ ": </b>" +maxlink +"--> " + (Highcharts.numberFormat(MAX, 2,",","")) +" kWh" }, false, false);
 
                         total = [];
-                            value = 0;
-                            indexOfVisibleSeries = [];
-                            checkHideForSpline = 1;
+                        value = 0;
+                        indexOfVisibleSeries = [];
+                        checkHideForSpline = 1;
 
                         if (mychart.forRender) {
                             mychart.forRender = false;
@@ -534,9 +534,9 @@ if (strlen($str_temp_vals) > 0) {
                             //function to check amount of visible series and to destroy old spline series
                             mychart.series.forEach(s => {
                                 if (s.type === 'spline' && s.visible === true) {
-                                s.destroy();
+                                s.destroy()
                             } else if (s.type === 'spline' && s.visible === false) {
-                                checkHideForSpline = 0;
+                                checkHideForSpline = 0
                             }
                             if (s.type === 'area' && s.visible) {
                                 indexOfVisibleSeries.push(s.index);
@@ -550,7 +550,6 @@ if (strlen($str_temp_vals) > 0) {
                                         axis = mychart.series[j].data[i].x;
                                     }
                                     total.push([axis, value])
-
                                 }
 
                                 mychart.addSeries({
@@ -572,13 +571,13 @@ if (strlen($str_temp_vals) > 0) {
                 crosshairs: [true],
                 shared: true,
                 pointFormatter(){
-                    let unit = this.unit,
-                        value = this.y;
+                     unit = this.unit;
+                     value = this.y;
                     //if unit is undefined (added series) set unit to 'kWh' and value to two decimals
                     if(!unit){
                         unit = 'kWh';
                         value = Highcharts.numberFormat(this.y,'2' ,',');
-                    }
+                    };
 
                     return `<span style="color:${this.color}">\u25CF<\/span> ${this.series.name}: <b>${value} ${unit}<\/b><br/>`;
                 }
