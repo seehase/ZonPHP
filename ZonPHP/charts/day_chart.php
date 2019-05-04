@@ -47,6 +47,10 @@ if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
     $inverter_clause = " ";
 }
 
+// jhs TEST
+$inverter_clause = " ";
+
+
 
 $sqlref = "SELECT *
 	FROM " . $table_prefix . "_refer
@@ -194,7 +198,16 @@ foreach ($inveter_list as $inverter_name) {
     $col1 = $myColors[$inverter_name]['min'];
     $col2 = $myColors[$inverter_name]['max'];
 
-    $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
+    $series_isVisible = "false";
+    if ($showAllInverters){
+        $series_isVisible = "true";
+    } else if ($inverter == $inverter_name){
+        $series_isVisible = "true";
+    };
+
+
+
+    $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
 
     foreach ($all_valarray as $time => $valarray) {
