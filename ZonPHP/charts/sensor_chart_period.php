@@ -6,6 +6,7 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/load_cache.php";
 }
 
+$sensotable = "_sensordata";
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $startdate = time();
@@ -105,7 +106,7 @@ $sensorid = $allsensors[0]["id"];
 $sensortype = $allsensors[0]["type"];
 
 $sqlminmax = "SELECT MAX(logtime)AS maxi,MIN(logtime)AS mini
-	FROM " . $table_prefix . "_sensordata
+	FROM " . $table_prefix . $sensotable . "
 	WHERE sensorid=" . $sensorid . " AND sensortype = " . $sensortype;
 $resultminmax = mysqli_query($con, $sqlminmax) or die("Query failed. dag-minmax " . mysqli_error($con));
 while ($row = mysqli_fetch_array($resultminmax)) {
@@ -133,7 +134,7 @@ foreach ($allsensors as &$sensor) {
         "
         SELECT FROM_UNIXTIME(FLOOR(UNIX_TIMESTAMP(logtime)/ $interval) * $interval - ($time_offset)) AS nicedate,
         $linetype(measurevalue) as val
-        FROM " . $table_prefix . "_sensordata         
+        FROM " . $table_prefix . $sensotable . "         
         WHERE (logtime  >  \"$startdatestring\" AND logtime < \"$enddatestring\" ) AND sensorid= $sensorid AND sensortype = $sensortype
         GROUP BY nicedate
         
@@ -147,7 +148,7 @@ $x=
                AVG( measurevalue ) AS val,
                STR_TO_DATE( CONCAT( DATE( logtime ) ,  ' ',HOUR( logtime ) , ':', LPAD( FLOOR( MINUTE( logtime ) / $interval ) * $interval, 2, '0' ) , ':00' ) ,
                    '%Y-%m-%d %H:%i:%s' ) AS nicedate
-            FROM " . $table_prefix . "_sensordata 
+            FROM " . $table_prefix . $sensotable . " 
             WHERE (logtime  >  \"$startdatestring\" AND logtime < \"$enddatestring\" ) AND sensorid= $sensorid AND sensortype = $sensortype
             GROUP BY nicedate ORDER BY nicedate ASC";
 
