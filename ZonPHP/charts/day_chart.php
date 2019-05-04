@@ -250,6 +250,8 @@ $strgegmax = substr($strgegmax, 0, -1);
 $external_sensors = isset($param['external_sensors']);
 $temp_serie = "";
 $temp_unit = "°C";
+$val_max = 0;
+$val_min = 0;
 if ($external_sensors) {
     include "charts/temp_sensor_inc.php";
 }
