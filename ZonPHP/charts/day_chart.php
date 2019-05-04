@@ -6,8 +6,6 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/load_cache.php";
 }
 
-
-$id = "";
 $chartdate = time();
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
 
@@ -18,17 +16,16 @@ if (isset($_GET['dag'])) {
     $chartdatestring = strftime("%Y-%m-%d", $chartdate);
 }
 
-
 if (isset($_GET['Schaal']))
     $aanpas = 1;
 else
     $aanpas = 0;
 
 $isIndexPage = false;
+$showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$showAllInverters = true;
 if (isset($_GET['naam'])) {
     $inverter_id = $_GET['naam'];
     $showAllInverters = false;
@@ -38,13 +35,10 @@ if (isset($_GET['naam'])) {
 } else {
     $inverter_id = "all";
 }
-$inverter_clause = "";
-
 
 $sqlref = "SELECT *
 	FROM " . $table_prefix . "_refer
-	WHERE Month(Datum_Refer)='" . date("m", $chartdate) . "'" . $inverter_clause;
-
+	WHERE Month(Datum_Refer)='" . date("m", $chartdate) . "'";
 
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. dag-ref " . mysqli_error($con));
 if (mysqli_num_rows($resultref) == 0)
@@ -59,18 +53,16 @@ $valarray = array();
 $all_valarray = array();
 $inveter_list = array();
 
-
-$sql = "SELECT SUM( Geg_Dag ) AS gem, naam, 
-	 STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd " .
+$sql = "SELECT SUM( Geg_Dag ) AS gem, naam, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" .
+    $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd " .
     " FROM " . $table_prefix . "_dag " .
-    " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' " . $inverter_clause .
+    " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' " .
     " GROUP BY datumtijd, naam " .
     " ORDER BY datumtijd ASC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
     $datum = strftime("%d %B %Y", $chartdate);
-
     $tlaatstetijd = time();
     $geengevdag = 0;
     $agegevens[] = 0;
@@ -92,7 +84,10 @@ if (mysqli_num_rows($result) == 0) {
         $aoplopendkwdag[strtotime($row['datumtijd'])] = $fsomoplopend;
 
         if (!in_array($inverter_name, $inveter_list)) {
-            $inveter_list[] = $inverter_name;
+            if (in_array($inverter_name, $sNaamSaveDatabase)) {
+                // add to list only if it configured (ignore db entries)
+                $inveter_list[] = $inverter_name;
+            }
         };
     }
 
@@ -103,7 +98,7 @@ if (mysqli_num_rows($result) == 0) {
 $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
 	 FROM " . $table_prefix . "_maand
 	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . $table_prefix . "_maand WHERE 
-     DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . $inverter_clause . " GROUP BY maand )AS maandelijks ON (month(" .
+     DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . " GROUP BY maand )AS maandelijks ON (month(" .
     $table_prefix . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . $table_prefix . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
 
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
@@ -122,7 +117,7 @@ $sqlmaxkwh = "SELECT Geg_Maand, Naam
 	 FROM " . $table_prefix . "_maand
 	 WHERE Datum_Maand LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%' 
 	 ORDER BY Naam ASC ";
-//echo $sqlmaxkwh;
+
 
 $resultmaxkwh = mysqli_query($con, $sqlmaxkwh) or die("Query failed. kwh-max " . mysqli_error($con));
 if (mysqli_num_rows($resultmaxkwh) == 0) {
@@ -133,10 +128,8 @@ if (mysqli_num_rows($resultmaxkwh) == 0) {
     }
 }
 
-
 /// $maxkwh = number_format($maxkwh, 2, ',', ' ');
 $nice_max_date = date("Y-m-d", strtotime($maxdag));
-
 
 // select data from the best day for current month
 $sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name

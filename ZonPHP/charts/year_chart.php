@@ -102,7 +102,10 @@ if (mysqli_num_rows($result) == 0) {
 
         $all_valarray[date("n", strtotime($row['maxi']))][$inverter_name] = $row['som'];
         if (!in_array($inverter_name, $inveter_list)){
-            $inveter_list[] = $inverter_name;
+            if (in_array($inverter_name, $sNaamSaveDatabase)) {
+                // add to list only if it configured (ignore db entries)
+                $inveter_list[] = $inverter_name;
+            }
         } ;
     }
     $fgemiddelde = array_sum($agegevens) / count($agegevens);
