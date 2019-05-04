@@ -328,7 +328,7 @@ if (isset($use_weewx) && $use_weewx==true){
             $.ajax({
                 url: 'charts/day_chart.php',
                 type: 'post',
-                data: {'action': 'indexpage', 'inverter': 'all', 'type': 'all'},
+                data: {'action': 'indexpage'},
                 cache: false,
                 success: function (chart) {
                     $(container_totalday).append(chart);

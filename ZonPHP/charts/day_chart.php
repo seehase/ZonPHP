@@ -28,28 +28,17 @@ $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
+$showAllInverters = true;
 if (isset($_GET['naam'])) {
-    $inverter = $_GET['naam'];
-}
-
-$showAllInverters = false;
-$inverter_id = $inverter;
-$inverter_clause = " AND Naam='" . $inverter . "' ";
-if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
-    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
-    $showAllInverters = true;
+    $inverter_id = $_GET['naam'];
+    $showAllInverters = false;
+} else if (isset($_POST['inverter'])) {
+    $inverter_id = $_POST['inverter'];
+    $showAllInverters = false;
+} else {
     $inverter_id = "all";
-    $inverter_clause = " ";
 }
-
-// jhs TEST
-$inverter_clause = " ";
-
+$inverter_clause = "";
 
 
 $sqlref = "SELECT *
@@ -176,8 +165,6 @@ if (mysqli_num_rows($resultmd) == 0) {
 //--------------------------------------------------------------------------------------------------
 
 
-
-
 $strgegmax = "";
 $strsomkw = "";
 
@@ -199,12 +186,11 @@ foreach ($inveter_list as $inverter_name) {
     $col2 = $myColors[$inverter_name]['max'];
 
     $series_isVisible = "false";
-    if ($showAllInverters){
+    if ($showAllInverters) {
         $series_isVisible = "true";
-    } else if ($inverter == $inverter_name){
+    } else if ($inverter_id == $inverter_name) {
         $series_isVisible = "true";
     };
-
 
 
     $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
@@ -266,7 +252,6 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
 $max_last_val = $newDate;
 $str_max = substr($str_max, 0, -1);
 $strgegmax = substr($strgegmax, 0, -1);
-
 
 
 $external_sensors = isset($param['external_sensors']);
@@ -437,7 +422,7 @@ if (strlen($temp_serie) > 0) {
 
                             //function to check amount of visible series and to destroy old spline series
                             mychart.series.forEach(s => {
-                                if (s.type === 'spline' && s.visible === true && s.name != 'Temp')  {
+                                if (s.type === 'spline' && s.visible === true && s.name != 'Temp') {
                                     s.destroy()
                                 } else if (s.type === 'spline' && s.visible === false) {
                                     checkHideForSpline = 0
@@ -538,7 +523,7 @@ if (strlen($temp_serie) > 0) {
                     }
                 },
                 gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>'
-                },
+            },
                 { // cum kWh
                     title: {
                         text: 'Total',

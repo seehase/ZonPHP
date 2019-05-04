@@ -9,24 +9,6 @@ include_once "inc/header.php";
 include_once "charts/day_chart.php";
 
 
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
-
-if (isset($_GET['naam'])) {
-    $inverter = $_GET['naam'];
-}
-
-$inverter_id = $inverter;
-$add_params = "";
-if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
-    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
-    $inverter_id = "all";
-    $add_params = "&type=all";
-}
-
-
 $nextdatevisible = false;
 $nextdate = strtotime("+1 day", $chartdate);
 $nextdatestring = strftime("%Y-%m-%d", $nextdate);
