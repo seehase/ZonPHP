@@ -82,7 +82,7 @@ if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
 foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
-    $choose_inverter_items .= '<li><a href="#" onclick="myFunction(\'' . $sdbnaam . '\')">' . $sdbnaam . '</a></li>';
+    $choose_inverter_items .= '<li><a href="#" onclick="myDropdownFunction(\'' . $sdbnaam . '\')">' . $sdbnaam . '</a></li>';
 }
 
 
@@ -96,7 +96,7 @@ if (strlen($choose_inverter_items) > 0) {
                         </button>
                         <ul class="dropdown-menu"> ' .
         $choose_inverter_items .
-        '<li><a href="#" onclick="myFunction(\'all\')">' . $txt['all_inverters'] . '</a></li>' . '
+        '<li><a href="#" onclick="myDropdownFunction(\'all\')">' . $txt['all_inverters'] . '</a></li>' . '
                         </ul>
                     </div>
             
@@ -135,22 +135,6 @@ if (strlen($choose_inverter_items) > 0) {
 
     </div>
 
-
-    <script>
-        function myFunction(value) {
-            var count = this.series.length;
-            for (ii = 0; ii < count; ii++) {
-                if (this.series[ii].name == value) {
-                    var aaa = this.series[ii];
-                    aaa.setVisible(!aaa.visible);
-                    break;
-                } else if (value == 'all') {
-                    var bbb = this.series[ii];
-                    bbb.setVisible(true);
-                }
-            }
-        }
-    </script>
 
     <div style="float: unset; margin-top: 5px;">
         <button class="btn btn-primary" id="toggelbutton"><?php echo $txt['showvalues'] ?></button>

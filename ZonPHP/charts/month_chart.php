@@ -222,6 +222,7 @@ include_once "chart_styles.php";
 
             chart: {
                 events: {
+                    // make serias public available
                     render() {
                         mychart = this;
                         series = this.series;

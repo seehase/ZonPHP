@@ -7,25 +7,18 @@ if (strpos(getcwd(), "charts") > 0) {
 }
 
 $isIndexPage = false;
+$showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
-
-$showAllInverters = false;
-$inverter_id = $inverter;
-$inverter_clause1 = " AND Naam='" . $inverter . "' ";
-$inverter_clause2 = " WHERE Naam='" . $inverter . "' ";
-if ((isset($_POST['type']) && ($_POST['type'] == "all"))  ||
-   (isset($_GET['type']) && ($_GET['type'] == "all"))) {
-    $showAllInverters = true;
+if (isset($_GET['naam'])) {
+    $inverter_id = $_GET['naam'];
+    $showAllInverters = false;
+} else if (isset($_POST['inverter'])) {
+    $inverter_id = $_POST['inverter'];
+    $showAllInverters = false;
+} else {
     $inverter_id = "all";
-    $inverter_clause1 = " ";
-    $inverter_clause2 = " ";
 }
 
 $chartdate = time();
@@ -46,7 +39,7 @@ if (array_key_exists($current_year, $year_euro)) {
 
 $sqlverbruik = "SELECT *
 	FROM " . $table_prefix . "_verbruik
-	WHERE DATE_FORMAT(Datum_Verbruik,'%y')='" . date('y', $chartdate) . "' AND Naam='" . $inverter . "'";
+	WHERE DATE_FORMAT(Datum_Verbruik,'%y')='" . date('y', $chartdate) ."'" ;
 
 $resultverbruik = mysqli_query($con, $sqlverbruik) or die("Query failed. jaar-verbruik " . mysqli_error($con));
 if (mysqli_num_rows($resultverbruik) == 0) {
@@ -61,7 +54,6 @@ if (mysqli_num_rows($resultverbruik) == 0) {
 
 $sqlref = "SELECT SUM(Geg_Refer) as sum_geg_refer, SUM(Dag_Refer) as sum_dag_refer, Datum_Refer
 	FROM " . $table_prefix . "_refer " .
-	$inverter_clause2 .
 	" GROUP BY Datum_refer
 	  ORDER BY Datum_Refer ASC";
 
@@ -81,7 +73,7 @@ if (mysqli_num_rows($resultref) == 0) {
 
 $sql = "SELECT MAX( Datum_Maand ) AS maxi, SUM( Geg_Maand ) AS som, COUNT(Geg_Maand) AS aantal, naam
 	FROM " . $table_prefix . "_maand
-	where DATE_FORMAT(Datum_Maand,'%y')='" . date('y', $chartdate) . "'"  . $inverter_clause1 . "
+	where DATE_FORMAT(Datum_Maand,'%y')='" . date('y', $chartdate) . "'
 	GROUP BY month(Datum_Maand), naam
 	ORDER BY 1 ASC";
 
@@ -116,8 +108,7 @@ if (mysqli_num_rows($result) == 0) {
 
 $sqlmax = "SELECT maand,jaar,som
         FROM (SELECT month(Datum_Maand) AS maand,year(Datum_Maand) AS jaar,sum(Geg_Maand) AS som
-                FROM " . $table_prefix . "_maand "
-                . $inverter_clause2. "				
+                FROM " . $table_prefix . "_maand                 	
                 GROUP BY maand,jaar
 		) AS somquery
         JOIN (SELECT maand as tmaand, max( som ) AS maxgeg
@@ -125,8 +116,7 @@ $sqlmax = "SELECT maand,jaar,som
                         SELECT maand, jaar, som
                         FROM (
                                 SELECT month( Datum_Maand ) AS maand, year( Datum_Maand ) AS jaar, sum( Geg_Maand ) AS som
-                                FROM " . $table_prefix . "_maand "
-                                . $inverter_clause2. "								
+                                FROM " . $table_prefix . "_maand 								
                                 GROUP BY maand, jaar
                         ) AS somqjoin
                 ) AS maxqjoin
@@ -295,6 +285,15 @@ include_once "chart_styles.php";
 
         var mychart = new Highcharts.Chart('year_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
 
+            chart: {
+                events: {
+                    render() {
+                        // make serias public available
+                        mychart = this;
+                        series = this.series;
+                    }
+                }
+            },
             subtitle: {
                 text: sub_title,
                 style: {
@@ -374,7 +373,7 @@ include_once "chart_styles.php";
             ]
         }));
 
-        $("#year_chart_<?php echo $inverter ?>").resize(function () {
+        $("#year_chart_<?php echo $inverter_id ?>").resize(function () {
             mychart.reflow();
         });
     });

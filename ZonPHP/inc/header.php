@@ -27,6 +27,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
 
 
     <!-- use googleapis CDN -->
+
     <link type="text/css" rel="stylesheet"
           href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
@@ -45,8 +46,8 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
     <script type="text/javascript" src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
-
     <script language="javascript" type="text/javascript" src="inc/js/jquery.flot.resize.min.js"></script>
+
     <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.base.css">
     <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.zonphp.css">
 
@@ -144,6 +145,22 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
                 }
             })
         })
+    </script>
+
+    <script>
+        function myDropdownFunction(value) {
+            var count = this.series.length;
+            for (ii = 0; ii < count; ii++) {
+                if (this.series[ii].name == value) {
+                    var aaa = this.series[ii];
+                    aaa.setVisible(!aaa.visible);
+                    break;
+                } else if (value == 'all') {
+                    var bbb = this.series[ii];
+                    bbb.setVisible(true);
+                }
+            }
+        }
     </script>
 
     <?php

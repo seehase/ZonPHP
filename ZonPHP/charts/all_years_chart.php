@@ -7,26 +7,19 @@ if (strpos(getcwd(), "charts") > 0) {
 }
 
 $isIndexPage = false;
+$showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
-
-$showAllInverters = false;
-$inverter_id = $inverter;
-
-$inverter_clause = " WHERE Naam='" . $inverter . "' ";
-if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
-    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
-    $showAllInverters = true;
+if (isset($_GET['naam'])) {
+    $inverter_id = $_GET['naam'];
+    $showAllInverters = false;
+} else if (isset($_POST['inverter'])) {
+    $inverter_id = $_POST['inverter'];
+    $showAllInverters = false;
+} else {
     $inverter_id = "all";
-    $inverter_clause = " ";
-
 }
-
 // -----------------------------  get data from DB -----------------------------------------------------------------
 $datum = "";
 
@@ -42,8 +35,7 @@ $inveter_list = array();
 // load sum per month for all years --------------------------------------------------------------------------------
 $sql = "SELECT SUM( Geg_Maand ) AS sum_month, year( Datum_Maand ) AS year, month( Datum_Maand ) AS month, naam, 
             count( Datum_Maand ) AS tdag_maand
-        FROM " . $table_prefix . "_maand " .
-    $inverter_clause . "        
+        FROM " . $table_prefix . "_maand     
         GROUP BY year, month, naam";
 
 $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
@@ -87,8 +79,7 @@ if (mysqli_num_rows($result) == 0) {
 
 
 $sqlref = "SELECT month( Datum_Refer ) AS maand, Geg_Refer, Dag_Refer
-        FROM " . $table_prefix . "_refer "
-    . $inverter_clause;
+        FROM " . $table_prefix . "_refer ";
 
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. totaal-ref " . mysqli_error($con));
 $frefjaar = 0;
@@ -102,8 +93,7 @@ if (mysqli_num_rows($resultref) != 0) {
     $frefjaar = 1;
 
 $sqlgem = "SELECT month( Datum_Maand ) AS maand, AVG( Geg_Maand ) AS gem, naam
-        FROM " . $table_prefix . "_maand "
-    . $inverter_clause . "
+        FROM " . $table_prefix . "_maand 
         GROUP BY maand, naam";
 $resultgem = mysqli_query($con, $sqlgem) or die("Query failed. totaal-ref " . mysqli_error($con));
 while ($row = mysqli_fetch_array($resultgem)) {
@@ -112,8 +102,7 @@ while ($row = mysqli_fetch_array($resultgem)) {
 
 $sqlverbruik = "SELECT sum( Geg_Verbruik_Dag ) AS verdag, sum( Geg_Verbruik_Nacht ) AS vernacht,
         year( Datum_Verbruik ) AS jaar
-        FROM " . $table_prefix . "_verbruik "
-    . $inverter_clause . "
+        FROM " . $table_prefix . "_verbruik 
         GROUP BY jaar";
 
 $resultverbruik = mysqli_query($con, $sqlverbruik) or die("Query failed. jaar-verbruik " . mysqli_error($con));
@@ -288,6 +277,15 @@ include_once "chart_styles.php";
 
         var mychart = new Highcharts.Chart('total_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
 
+            chart: {
+                events: {
+                    render() {
+                        // make serias public available
+                        mychart = this;
+                        series = this.series;
+                    }
+                }
+            },
             subtitle: {
                 text: sub_title,
                 style: {
@@ -358,7 +356,7 @@ include_once "chart_styles.php";
             ]
         }));
 
-        $("#total_chart_<?php echo $inverter ?>").resize(function () {
+        $("#total_chart_<?php echo $inverter_id ?>").resize(function () {
             mychart.reflow();
         });
     });
