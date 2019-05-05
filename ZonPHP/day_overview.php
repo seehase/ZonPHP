@@ -136,13 +136,10 @@ if (strlen($choose_inverter_items) > 0) {
     </div>
 
 
-    <p id="demo"></p>
-
     <script>
         function myFunction(value) {
             var count = this.series.length;
             for (ii = 0; ii < count; ii++) {
-                console.log("counter: " + ii);
                 if (this.series[ii].name == value) {
                     var aaa = this.series[ii];
                     aaa.setVisible(!aaa.visible);

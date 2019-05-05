@@ -9,20 +9,6 @@ include_once "inc/header.php";
 include_once "charts/month_chart.php";
 
 
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
-
-$inverter_id = $inverter;
-$add_params = "";
-if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
-    (isset($_GET['type']) && ($_GET['type'] == "all"))) {
-    $inverter_id = "all";
-    $add_params = "&type=all";
-}
-
-//  $chartdate = time();
 $nextmonthvisible = false;
 $nextmonth = strtotime("+1 month", $chartdate);
 $nextmonthstring = strftime("%Y-%m-%d", strtotime("+1 month", $chartdate));
@@ -31,7 +17,6 @@ if ($nextmonth <= $date_maximum) {
 }
 
 $prevmonthvisible = false;
-#$prevmonth = strftime("%Y-%m-%d", strtotime("-1 month", $chartdate));
 $prevmonth = strtotime("-1 month", $chartdate);
 $prevmonthstring = strftime("%Y-%m-%d", strtotime("-1 month", $chartdate));
 $date_minimum1=strtotime("-1 month", $date_minimum);
@@ -39,10 +24,7 @@ $date_minimum1=strtotime("-1 month", $date_minimum);
 if ($prevmonth >= $date_minimum1) {
     $prevmonthvisible = true;
 }
-
 $chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum));
-#$nextmonth = strftime("%Y-%m-%d", strtotime("+1 month", $chartdate));
-#$prevmonth = strftime("%Y-%m-%d", strtotime("-1 month", $chartdate));
 
 ?>
 
@@ -71,8 +53,7 @@ if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
 foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
-    $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "naam=" . $sdbnaam .
-        "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
+    $choose_inverter_items .= '<li><a href="#" onclick="myFunction(\'' . $sdbnaam . '\')">' . $sdbnaam . '</a></li>';
 }
 
 if (strlen($choose_inverter_items) > 0){
@@ -85,8 +66,7 @@ if (strlen($choose_inverter_items) > 0){
                             </button>
                             <ul class="dropdown-menu"> ' .
         $choose_inverter_items .
-        "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "type=all" .
-        "' onclick=\"target='_self'\">" . $txt['all_inverters'] . "</a></li>" . '
+        '<li><a href="#" onclick="myFunction(\'all\')">' . $txt['all_inverters'] . '</a></li>' . '
                             </ul>
                         </div>
                 
@@ -120,8 +100,24 @@ if (strlen($choose_inverter_items) > 0){
         <div id="month_chart_<?php echo $inverter_id ?>" style="width:100%; !important; height:100%; !important;"></div>
     </div>
 
+    <script>
+        function myFunction(value) {
+            var count = this.series.length;
+            for (ii = 0; ii < count; ii++) {
+                if (this.series[ii].name == value) {
+                    var aaa = this.series[ii];
+                    aaa.setVisible(!aaa.visible);
+                    break;
+                } else if (value == 'all') {
+                    var bbb = this.series[ii];
+                    bbb.setVisible(true);
+                }
+            }
+        }
+    </script>
+
     <div style="float: unset; margin-top: 5px;">
-        <button class="btn btn-primary"id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
+        <button class="btn btn-primary" id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
         <a href="<?php echo "month_overview.php".$paramstr_day."jaar=".$chartmonthdatestring ?>" target="_self">
             <button class="btn btn-primary"><?php echo $txt['back_to_today'] ?></button>
         </a>

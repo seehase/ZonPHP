@@ -105,17 +105,9 @@ if (isset($use_weewx) && $use_weewx==true){
     <div id='jqxwindow_month_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_monthoverview'])) echo ' display: none;'; ?> ">
         <a href="month_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_monthoverview'] . " - " . $inverter ?></div>
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_monthoverview'] ?></div>
         </a>
-        <div id='month_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
-
-    <div id='jqxwindow_total_month_overview' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_totalmonthoverview'])) echo ' display: none;'; ?> ">
-        <a href="month_overview.php?type=all">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalmonthoverview'] ?></div>
-        </a>
-        <div id='total_month_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
+        <div id='month_chart_all' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
 
@@ -210,7 +202,6 @@ if (isset($use_weewx) && $use_weewx==true){
             $("#jqxwindow_chart_all_temp").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_chart_all_humidity").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_month_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
-            $("#jqxwindow_total_month_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_total_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
@@ -402,7 +393,7 @@ if (isset($use_weewx) && $use_weewx==true){
 " ?>
 
             <?php if (isset($charts['chart_monthoverview'])) echo "                    
-            var container_month = $('#month_chart_id');
+            var container_month = $('#month_chart_all');
             $.ajax({
                 url: 'charts/month_chart.php',
                 type: 'post',
@@ -410,21 +401,6 @@ if (isset($use_weewx) && $use_weewx==true){
                 cache: false,
                 success: function (chart) {
                     $(container_month).append(chart);
-                },
-                error: function (xhr, desc, err) {
-                    console.log(xhr + '\\n' + err);
-                }
-            });
-" ?>
-            <?php if (isset($charts['chart_totalmonthoverview'])) echo "                    
-            var container_total_month = $('#total_month_chart_id');
-            $.ajax({
-                url: 'charts/month_chart.php',
-                type: 'post',
-                data: {'action': 'indexpage', 'type': 'all'},
-                cache: false,
-                success: function (chart) {
-                    $(container_total_month).append(chart);
                 },
                 error: function (xhr, desc, err) {
                     console.log(xhr + '\\n' + err);

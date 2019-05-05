@@ -429,12 +429,15 @@ if (strlen($temp_serie) > 0) {
                             });
 
                             if (checkHideForSpline) {
+
                                 for (i = 0; i < mychart.series[0].data.length; i++) {
                                     for (j of indexOfVisibleSeries) {
                                         value += mychart.series[j].data[i].y / 12000;
                                         axis = mychart.series[j].data[i].x;
                                     }
-                                    total.push([axis, value])
+                                    if(typeof axis !== 'undefined') {
+                                        total.push([axis, value]);
+                                    }
                                 }
 
                                 mychart.addSeries({
