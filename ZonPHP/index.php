@@ -129,14 +129,6 @@ if (isset($use_weewx) && $use_weewx==true){
         </a>
         <div id='all_years_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
-    <div id='jqxwindow_total_all_years_overview' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_totalallyearoverview'])) echo ' display: none;'; ?> ">
-        <a href="all_years_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalallyearoverview']?>
-            </div>
-        </a>
-        <div id='total_all_years_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
 
     <div id='jqxwindow_last_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_lastyearoverview'])) echo ' display: none;'; ?> ">
@@ -197,7 +189,6 @@ if (isset($use_weewx) && $use_weewx==true){
             $("#jqxwindow_month_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
-            $("#jqxwindow_total_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_last_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_week_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_top31_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
@@ -431,22 +422,7 @@ if (isset($use_weewx) && $use_weewx==true){
                 }
             });
 " ?>
-
-            <?php if (isset($charts['chart_totalallyearoverview'])) echo "            
-            var container_total_all_years = $('#total_all_years_chart_id');
-            $.ajax({
-                url: 'charts/all_years_chart.php',
-                type: 'post',
-                data: {'action': 'indexpage', 'type': 'all'},
-                cache: false,
-                success: function (chart) {
-                    $(container_total_all_years).append(chart);
-                },
-                error: function (xhr, desc, err) {
-                    console.log(xhr + '\\n' + err);
-                }
-            });
-" ?>
+            
             <?php if (isset($charts['chart_lastyearoverview'])) echo "                
             var container_last_years = $('#last_years_chart_id');
             $.ajax({
