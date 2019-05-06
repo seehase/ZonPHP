@@ -6,9 +6,9 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/load_cache.php";
 }
 
-$chartdate = time();
+$chartcurrentdate = @mktime();
+$chartdate = $chartcurrentdate;
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
-
 if (isset($_GET['dag'])) {
     $chartdatestring = html_entity_decode($_GET['dag']);
     $chartdate = strtotime($chartdatestring);
