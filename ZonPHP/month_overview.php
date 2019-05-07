@@ -73,7 +73,8 @@ if (strlen($choose_inverter_items) > 0){
 					echo " ".$datum." ";
 					 if(date('Y-m',$date_maximum)>date('Y-m',$chartdate))
 						echo '<button class="btn btn-primary" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("+1 months", $chartdate)) . '  >  > </button>';
-					?>	
+					?>
+		    </form>	
             </h2>
         </div>
 
