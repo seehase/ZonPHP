@@ -21,7 +21,9 @@ if (isset($_GET['naam'])) {
     $inverter_id = "all";
 }
 
-$chartdate = time();
+$chartcurrentdate = @mktime();
+$chartdate = $chartcurrentdate;
+
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
 
 if (isset($_GET['jaar'])) {

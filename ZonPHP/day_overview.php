@@ -9,9 +9,7 @@ include_once "charts/day_chart.php";
 ?>
 <?php include_once "menu.php"; ?>
 <script type="text/javascript">
-
     $(function () {
-
         $("#startdate, #enddate").datepicker({
             changeMonth: true,
             changeYear: true,

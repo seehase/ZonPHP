@@ -5,7 +5,6 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
-
 $chartcurrentdate = @mktime();
 $chartdate = $chartcurrentdate;
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
@@ -15,12 +14,10 @@ if (isset($_GET['dag'])) {
     // reformat string
     $chartdatestring = strftime("%Y-%m-%d", $chartdate);
 }
-
 if (isset($_GET['Schaal']))
     $aanpas = 1;
 else
     $aanpas = 0;
-
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
@@ -48,18 +45,15 @@ else {
         $frefmaand = $row['Dag_Refer'];
     }
 }
-
 $valarray = array();
 $all_valarray = array();
 $inveter_list = array();
-
 $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" .
     $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd " .
     " FROM " . $table_prefix . "_dag " .
     " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' " .
     " GROUP BY datumtijd, naam " .
     " ORDER BY datumtijd ASC";
-
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
     $datum = strftime("%d %B %Y", $chartdate);
@@ -71,18 +65,13 @@ if (mysqli_num_rows($result) == 0) {
     $geengevdag = 1;
     $fsomoplopend = 0;
     while ($row = mysqli_fetch_array($result)) {
-
         $inverter_name = $row['naam'];
         $tlaatstetijd = strtotime($row['datumtijd']);
-
-
         $agegevens[date("H:i", strtotime($row['datumtijd']))] = $row['gem'];
-
         $valarray[strtotime($row['datumtijd'])] = $row['gem'];
         $all_valarray[strtotime($row['datumtijd'])] [$inverter_name] = $row['gem'];
         $fsomoplopend += $row['gem'] * 1000 / (1000 * 60 / $param['isorteren']);
         $aoplopendkwdag[strtotime($row['datumtijd'])] = $fsomoplopend;
-
         if (!in_array($inverter_name, $inveter_list)) {
             if (in_array($inverter_name, $sNaamSaveDatabase)) {
                 // add to list only if it configured (ignore db entries)
@@ -90,7 +79,6 @@ if (mysqli_num_rows($result) == 0) {
             }
         };
     }
-
     $datum = strftime("%d %B %Y", $chartdate);
 }
 //--------------------------------------------------------------------------------------------------
@@ -100,7 +88,6 @@ $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
 	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . $table_prefix . "_maand WHERE 
      DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . " GROUP BY maand )AS maandelijks ON (month(" .
     $table_prefix . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . $table_prefix . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
-
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
 if (mysqli_num_rows($resultmaxdag) == 0) {
     $maxdag = date("y-m-d", time());
@@ -111,7 +98,6 @@ if (mysqli_num_rows($resultmaxdag) == 0) {
 ///        $maxkwh = round($row['Geg_Maand'], 2);
     }
 }
-
 // Query maxkwh to get array with max value for all inverters
 $sqlmaxkwh = "SELECT Geg_Maand, Naam
 	 FROM " . $table_prefix . "_maand
@@ -127,21 +113,17 @@ if (mysqli_num_rows($resultmaxkwh) == 0) {
         $maxkwh[] = round($row['Geg_Maand'], 2);
     }
 }
-
 /// $maxkwh = number_format($maxkwh, 2, ',', ' ');
 $nice_max_date = date("Y-m-d", strtotime($maxdag));
-
 // select data from the best day for current month
 $sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
 FROM " . $table_prefix . "_dag
 WHERE Datum_Dag LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%'
 ORDER BY Name, datumtijd ASC";
-
 $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
 if (mysqli_num_rows($resultmd) == 0) {
     $maxdagpeak = 0;
     $agegevensdag_max[] = 0;
-
 } else {
     $maxdagpeak = 0;
     while ($row = mysqli_fetch_array($resultmd)) {
@@ -171,13 +153,11 @@ for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $col1 = "'#" . $colors[$col1] . "'";
     $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
 }
-
 $str_dataserie = "";
 $cnt = 0;
 foreach ($inveter_list as $inverter_name) {
     $col1 = $myColors[$inverter_name]['min'];
     $col2 = $myColors[$inverter_name]['max'];
-
     $series_isVisible = "false";
     if ($showAllInverters) {
         $series_isVisible = "true";
@@ -188,11 +168,8 @@ foreach ($inveter_list as $inverter_name) {
 
     $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
-
     foreach ($all_valarray as $time => $valarray) {
-
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
-
         if (isset($param['no_units'])) {
             $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . '}, ';
         } else {
@@ -215,20 +192,17 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
     data:[";
 
     foreach ($all_valarraymax as $time => $valarraymax) {
-
         $cnt++;
         // hier in time ist die Ursprüngliche Zeit... muss auf heute geändert werden
         $orginal_date = date($time);
         $hour = intval(date('G', $orginal_date));
         $minutes = intval(date('i', $orginal_date));
         $newDate = mktime($hour, $minutes, 0, intval(date('m', $chartdate)), intval(date('j', $chartdate)), intval(date('Y', $chartdate)));
-
         if ($cnt == 1) {
             // remember first date
             $max_first_val = $newDate;
         }
         if (!isset($valarraymax[$inverter_name])) $valarraymax[$inverter_name] = 0;
-
         if (isset($param['no_units'])) {
             $str_max .= '{x:' . ($newDate * 1000) . ', y:' . $valarraymax[$inverter_name] . '}, ';
         } else {
@@ -240,7 +214,6 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
                     ";
     $cnt++;
 }
-
 // remember last date
 $max_last_val = $newDate;
 $str_max = substr($str_max, 0, -1);
@@ -255,7 +228,6 @@ $val_min = 0;
 if ($external_sensors) {
     include "charts/temp_sensor_inc.php";
 }
-
 // cumulative line --------------------------------------------------------------
 $str_cum = "";
 $cnt = 0;
@@ -268,7 +240,6 @@ foreach ($aoplopendkwdag as $tuur => $fkw) {
     } else {
         $strtemp = "{x:" . ($tuur * 1000) . ", y:" . number_format($fkw, 1, '.', '') . ", unit: 'kWh' }";
     }
-
     $str_cum .= $strtemp . ",";
     $strsomkw .= $fkw . ",";
     $cum_max_value = $fkw;
@@ -289,7 +260,6 @@ if ($isIndexPage == true) {
     echo '<div class = "index_chart" id="mycontainer_' . $inverter_id . '"></div>';
     $show_legende = "false";
 }
-
 // get query parameters
 $paramstr_day = "";
 if (sizeof($_GET) > 0) {
@@ -303,7 +273,6 @@ if (strpos($paramstr_day, "?") == 0) {
     $paramstr_day = '?' . $paramstr_day;
 }
 $maxlink = '<a href=\"day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '\">' . $nice_max_date . '</a>';
-
 // --------------
 $subtitle = '"<b>' . $txt['actueel'] . ": <\/b> " . date("H:i", $tlaatstetijd) . " - " . number_format(end($agegevens), 0, ',', '.') . "W="
     . number_format(100 * end($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . "% - "
@@ -313,29 +282,23 @@ if ($isIndexPage) {
 }
 $subtitle .= "<b> " . $txt['totaal'] . ": <\/b>" . number_format((end($aoplopendkwdag) / 1000), 2, ',', '.') . "kWh="
     . number_format(end($aoplopendkwdag) / ($ieffectiefkwpiek / 1), 1, ',', '.') . "kWh/kWp ";
-
 if ($isIndexPage) {
     $subtitle .= "<br >";
 }
 /// $subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$maxlink. " --> ". $maxkwh. "kWh - ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".") . "W" .'' . '"';
-
 //--------------------
 include_once "chart_styles.php";
-
 $show_temp_axis = "false";
 $show_cum_axis = "true";
-
 if (strlen($temp_serie) > 0) {
     $show_temp_axis = "true";
     $show_cum_axis = "false";
 }
-
 ?>
 
 
 <script type="text/javascript">
     $(function () {
-
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var maxmax = <?php echo json_encode($maxkwh) ?>;
@@ -385,7 +348,6 @@ if (strlen($temp_serie) > 0) {
                             max2 = maxmax[i];
                             ax2 = series[i].dataMax;
                         }
-
                         i = 0;
                         if (series[i].visible) {
                             sum1 = (series[i].data[series[i].data.length - 1]).y;
@@ -394,7 +356,6 @@ if (strlen($temp_serie) > 0) {
                             max1 = maxmax[i];
                             ax1 = series[i].dataMax - ax2;
                         }
-
                         sum = sum1 + sum2;
                         KWH = kWh1 + kWh2;
                         AXI = ax1 + ax2;
@@ -422,7 +383,6 @@ if (strlen($temp_serie) > 0) {
                                 } else if (s.type === 'spline' && s.visible === false) {
                                     checkHideForSpline = 0
                                 }
-
                                 if (s.type === 'area' && s.visible) {
                                     indexOfVisibleSeries.push(s.index);
                                 }
@@ -439,7 +399,6 @@ if (strlen($temp_serie) > 0) {
                                         total.push([axis, value]);
                                     }
                                 }
-
                                 mychart.addSeries({
                                     data: total,
                                     name: 'Cum',
@@ -454,7 +413,6 @@ if (strlen($temp_serie) > 0) {
                     }
                 }
             },
-
             tooltip: {
                 crosshairs: [true],
                 shared: true,
@@ -466,7 +424,6 @@ if (strlen($temp_serie) > 0) {
                         unit = 'kWh';
                         value = Highcharts.numberFormat(this.y, '2', ',');
                     }
-
                     return `<span style="color:${this.color}">\u25CF<\/span> ${this.series.name}: <b>${value} ${unit}<\/b><br/>`;
                 }
             },
@@ -586,5 +543,4 @@ if (strlen($temp_serie) > 0) {
 
 
 <script type="text/javascript">
-
 </script>
