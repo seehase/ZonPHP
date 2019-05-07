@@ -4,19 +4,14 @@ include_once "inc/sessionstart.php";
 include_once "inc/load_cache.php";
 include_once "inc/import_data.php";
 
-$chartcurrentdate=@mktime();
-$chartdate=$chartcurrentdate;
-    if(isset($_GET['dag']))
-    $chartdate=strtotime($_GET['dag'])    ;
+//$chartcurrentdate = @mktime();
 
 include_once "inc/header.php";
 include_once "charts/day_chart.php";
 ?>
 <?php include_once "menu.php"; ?>
 <script type="text/javascript">
-
     $(function () {
-
         $("#startdate, #enddate").datepicker({
             changeMonth: true,
             changeYear: true,
@@ -85,31 +80,33 @@ if (strlen($choose_inverter_items) > 0) {
 }
 ?>
 <div id="page-content">
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 72px; ">
-
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 46px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
 
             <?php
             if ($multiple_inverters) echo $choose_inverter_dropdown;
             ?>
-			<form action = "<?php $_SERVER['PHP_SELF']; ?>" method = "GET">
-				<h2 align="center" class="notopgap" >
-					<?php if($date_minimum<$chartcurrentdate)
-    				echo '<button class="btn btn-primary" type="submit" name="dag" value= ' .date('Y-m-d',strtotime("-1 day", $chartdate)). '  >  <  </button>';
-    				echo " ".$datum." ";
-    				if(date("y-m-d",$date_maximum)> date("y-m-d",$chartdate))
-    				echo '<button class="btn btn-primary" type="submit" name="dag" value= ' .date('Y-m-d',strtotime("+1 day", $chartdate)). '  >  > </button>';
-    				?>
-				</h2>
-			</form>
+            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
+                <h2 align="center" class="notopgap">
+                    <?php if (date("y-m-d", $date_minimum) < date("y-m-d", $chartdate))
+                        echo '<button class="btn btn-primary" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '  >  <  </button>';
+                    echo " " . $datum . " " . '  <input type="hidden" id="startdate" value="' . strftime("%d-%m-%Y", time()) . '" readonly>  ';
+                    if (date("y-m-d", $date_maximum) > date("y-m-d", $chartdate))
+                        echo '<button class="btn btn-primary" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '  >  > </button>';
+                    ?>
+                </h2>
+            </form>
         </div>
-    			<div id="mycontainer_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
-    			</div>
+        <div id="mycontainer_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
+    </div>
     <div style="float: unset; margin-top: 5px;">
-        <form action = "<?php $_SERVER['PHP_SELF']; ?>" method = "GET">
-		<button class="btn btn-primary" type="submit" id = "txt" name="dag"  value="<?php echo date('Y-m-d',$chartcurrentdate); ?>"><?php echo $txt['back_to_today'] ?></button></form>
+        <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
+            <button class="btn btn-primary" type="submit" id="txt" name="dag"
+                    value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt['back_to_today'] ?></button>
+        </form>
     </div>
     <div id="kalender">
+    
     </div>
     <div id="tabelgeg">
     </div>
