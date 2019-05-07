@@ -8,26 +8,24 @@ if (strpos(getcwd(), "charts") > 0) {
 
 
 $isIndexPage = false;
+$showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
 
-$showAllInverters = false;
-$inverter_id = $inverter;
-$inverter_clause = " AND Naam='" . $inverter . "' ";
-if ((isset($_POST['type']) && ($_POST['type'] == "all")) ||
-   (isset($_GET['type']) && ($_GET['type'] == "all"))) {
-    $showAllInverters = true;
+if (isset($_GET['naam'])) {
+    $inverter_id = $_GET['naam'];
+    $showAllInverters = false;
+} else if (isset($_POST['inverter'])) {
+    $inverter_id = $_POST['inverter'];
+    $showAllInverters = false;
+} else {
     $inverter_id = "all";
-    $inverter_clause = " ";
 }
 
+$chartcurrentdate = @mktime();
+$chartdate = $chartcurrentdate;
 
-$chartdate = time();
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
 
 if (isset($_GET['maand'])) {
@@ -53,7 +51,7 @@ if (isset($year_euro[$current_year])) {
 // get reference values
 $sqlref = "SELECT *
         FROM " . $table_prefix . "_refer
-        WHERE DATE_FORMAT(Datum_Refer,'%m')='" . $current_month . "'" . $inverter_clause . "
+        WHERE DATE_FORMAT(Datum_Refer,'%m')='" . $current_month . "'" . "
         ORDER BY Datum_Refer ASC";
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. maand-ref " . mysqli_error($con));
 $frefmaand = 0;
@@ -69,7 +67,7 @@ $DaysPerMonth = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
 
 $sql = "SELECT Datum_Maand, sum(Geg_Maand) as Geg_Maand, naam
         FROM " . $table_prefix . "_maand
-        where Datum_Maand like '" . $current_year_month . "%'" .  $inverter_clause . "
+        where Datum_Maand like '" . $current_year_month . "%'
         GROUP BY Datum_Maand, naam
         ORDER BY Datum_Maand ASC";
 $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
@@ -102,7 +100,10 @@ if (mysqli_num_rows($result) == 0) {
         $all_valarray[ date("j", strtotime($row['Datum_Maand']))] [$inverter_name]  = $row['Geg_Maand'];
         $dmaandjaar[] = $row['Datum_Maand'];
         if (!in_array($inverter_name, $inveter_list)){
-            $inveter_list[] = $inverter_name;
+            if (in_array($inverter_name, $sNaamSaveDatabase)) {
+                // add to list only if it configured (ignore db entries)
+                $inveter_list[] = $inverter_name;
+            }
         } ;
     }
     $datum = strftime("%B-%Y", $chartdate);
@@ -221,6 +222,16 @@ include_once "chart_styles.php";
 
         var mychart = new Highcharts.Chart('month_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
 
+            chart: {
+                events: {
+                    // make serias public available
+                    render() {
+                        mychart = this;
+                        series = this.series;
+                    }
+                }
+            },
+
             subtitle: {
                 text: sub_title,
                 style: {
@@ -289,7 +300,7 @@ include_once "chart_styles.php";
 
         }));
 
-        $("#month_chart_<?php echo $inverter ?>").resize(function () {
+        $("#month_chart_<?php echo $inverter_id ?>").resize(function () {
             mychart.reflow();
         });
     });
