@@ -120,9 +120,7 @@ if (intval($param['flyout']) > 0) {
         </li> ';
         ?>
 
-        <?php if ($param['idagboek'] == 1)
-            echo '<li><a href="mydiary.php">' . $txt["dagboekmenu"] . '</a></li>';
-        ?>
+
 
 
         <li><a href="#" style="display: flex">&nbsp;</a> <label for="links" class="toggle-sub" onclick="">
@@ -179,6 +177,9 @@ if (intval($param['flyout']) > 0) {
                         &#9658;</label>
                 </li>
                 <li><a href="install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
+                <?php if ($param['idagboek'] == 1)
+                    echo '<li><a href="mydiary.php">' . $txt["dagboekmenu"] . '</a></li>';
+                ?>
                 <li><a href="about.php">About</a></li>
                 <li><a href="installation.php"><?php echo $txt["installatie"]; ?></a></li>
                 <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
@@ -201,9 +202,12 @@ if (intval($param['flyout']) === 2) {
 
 <div class="container">
     <div id="header">
-        <a href="index.php"><img src="inc/image/logo.png" style="position:absolute; top:21px; left:136px;  border:0"
-                                 alt="Home" title="Home"/></a>
+        
+        <input   type="image" src="inc/image/logo.png"   onClick="location.href='index.php'" style="position:absolute; top:21px; left:136px;  border:0" value='Vandaag'>
+        
         <label for="main-nav-check" class="toggle" onclick="" title="Menu">&#x2261;</label>
+        
+        
         <span style="margin-left: 330px;">&nbsp;</span>
         <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'/></a>"; ?>
         <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
@@ -215,7 +219,7 @@ if (intval($param['flyout']) === 2) {
 
         if ($iveromvormers == 1) {
             echo '<p id="headerinverter" style="margin: -22px 460px 10px">' .
-                    $txt["inverter"] . '  ' . $_SESSION['Wie'] .
+                $param['sNaamVoorOpWebsite']  .
                 '</p>';
         }
 
