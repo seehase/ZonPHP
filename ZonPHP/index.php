@@ -116,7 +116,7 @@ if (isset($use_weewx) && $use_weewx==true){
         <a href="year_overview.php">
             <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_yearoverview'] ?>
             </div>
-        </a>
+        
         <div id='year_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
@@ -126,37 +126,37 @@ if (isset($use_weewx) && $use_weewx==true){
         <a href="all_years_overview.php">
             <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_allyearoverview'] ?>
             </div>
-        </a>
+        
         <div id='all_years_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
     <div id='jqxwindow_last_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_lastyearoverview'])) echo ' display: none;'; ?> ">
-        <a href="last_years_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_lastyearoverview'] . " - " . $inverter?></div>
-        </a>
+       
+            <div style="cursor:pointer" onclick="location.href='last_years_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_lastyearoverview'] . " - " . $inverter?></div>
+       
         <div id='last_years_chart_id' class="<?= CONTENT_CLASS ?> " style="<?= CHART_STYLE ?>"></div>
     </div>
     <div id='jqxwindow_week_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_weekoverview'])) echo ' display: none;'; ?> ">
-        <a href="week_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_weekoverview'] . " - " . $inverter?>
+        
+            <div style="cursor:pointer" onclick="location.href='week_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_weekoverview'] . " - " . $inverter?>
             </div>
-        </a>
+        
         <div id='week_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
     <div id='jqxwindow_flop31_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_31days'])) echo ' display: none;'; ?> ">
-        <a href="top31_overview.php?Max_Min=flop">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['slechtste'] . " - " . $inverter?></div>
-        </a>
+        
+            <div style="cursor:pointer" onclick="location.href='top31_overview.php?Max_Min=flop'" class="<?= HEADER_CLASS ?>"><?php echo $txt['slechtste'] . " - " . $inverter?></div>
+       
         <div id='top31_chart_id' class="<?= CONTENT_CLASS ?> " style="<?= CHART_STYLE ?>"></div>
     </div>
     <div id='jqxwindow_top31_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_31days'])) echo ' display: none;'; ?> ">
-        <a href="top31_overview.php?Max_Min=top">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['beste'] . " - " . $inverter?></div>
-        </a>
+        
+            <div style="cursor:pointer" onclick="location.href='top31_overview.php?Max_Min=top'" class="<?= HEADER_CLASS ?>"><?php echo $txt['beste'] . " - " . $inverter?></div>
+        
         <div id='flop31_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 

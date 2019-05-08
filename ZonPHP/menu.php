@@ -17,7 +17,6 @@ if (intval($param['flyout']) > 0) {
     echo "<div>";
 }
 ?>
-
 <input type="checkbox" name="nav" id="main-nav-check"/>
 <div id="menu" style="clear:both; ">
     <label for="main-nav-check" class="toggle" onclick="" title="Close"></label>
@@ -202,9 +201,12 @@ if (intval($param['flyout']) === 2) {
 
 <div class="container">
     <div id="header">
-        <a href="index.php"><img src="inc/image/logo.png" style="position:absolute; top:21px; left:136px;  border:0"
-                                 alt="Home" title="Home"/></a>
+        
+        <input   type="image" src="inc/image/logo.png"   onClick="location.href='index.php'" style="position:absolute; top:21px; left:136px;  border:0" value='Vandaag'>
+        
         <label for="main-nav-check" class="toggle" onclick="" title="Menu">&#x2261;</label>
+        
+        
         <span style="margin-left: 330px;">&nbsp;</span>
         <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'/></a>"; ?>
         <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
