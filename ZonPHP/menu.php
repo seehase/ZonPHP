@@ -217,7 +217,7 @@ if (intval($param['flyout']) === 2) {
         <?php
 
         if ($iveromvormers == 1) {
-            echo '<p id="headerinverter" style="margin: -22px 460px 10px">' .
+            echo '<p id="headerinverter" style="margin: -22px 0px 10px 460px">' .
                 $param['sNaamVoorOpWebsite']  .
                 '</p>';
         }
