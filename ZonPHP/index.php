@@ -95,91 +95,68 @@ if (isset($use_weewx) && $use_weewx==true){
 
     <div id='jqxwindow_chart_totaldayoverview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_totaldayoverview'])) echo ' display: none;'; ?> ">
-        <a href="day_overview.php?type=all">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - " . $txt['all_inverters']?></div>
-        </a>
+        
+            <div style="cursor:pointer" onclick="location.href='day_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $daytext . " - " . $txt['all_inverters']?></div>
+        
 
         <div id='totalday_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
     <div id='jqxwindow_month_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_monthoverview'])) echo ' display: none;'; ?> ">
-        <a href="month_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_monthoverview'] . " - " . $inverter ?></div>
-        </a>
+        
+            <div style="cursor:pointer" onclick="location.href='month_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_monthoverview'] ?></div>
+        
         <div id='month_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
-
-    <div id='jqxwindow_total_month_overview' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_totalmonthoverview'])) echo ' display: none;'; ?> ">
-        <a href="month_overview.php?type=all">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalmonthoverview'] ?></div>
-        </a>
-        <div id='total_month_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
 
     <div id='jqxwindow_year_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_yearoverview'])) echo ' display: none;'; ?> ">
-        <a href="year_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_yearoverview'] . " - " . $inverter?>
+        
+            <div style="cursor:pointer" onclick="location.href='year_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_yearoverview'] ?>
             </div>
-        </a>
+        
         <div id='year_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
-    <div id='jqxwindow_total_year_overview' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_totalyearoverview'])) echo ' display: none;'; ?> ">
-        <a href="year_overview.php?type=all">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalyearoverview']?>
-            </div>
-        </a>
-        <div id='total_year_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
+
 
     <div id='jqxwindow_all_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_allyearoverview'])) echo ' display: none;'; ?> ">
-        <a href="all_years_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_allyearoverview'] . " - " . $inverter?>
+        
+            <div style="cursor:pointer" onclick="location.href='all_years_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_allyearoverview'] ?>
             </div>
-        </a>
+        
         <div id='all_years_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
-    <div id='jqxwindow_total_all_years_overview' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_totalallyearoverview'])) echo ' display: none;'; ?> ">
-        <a href="all_years_overview.php?type=all">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_totalallyearoverview']?>
-            </div>
-        </a>
-        <div id='total_all_years_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
     <div id='jqxwindow_last_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_lastyearoverview'])) echo ' display: none;'; ?> ">
-        <a href="last_years_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_lastyearoverview'] . " - " . $inverter?></div>
-        </a>
+       
+            <div style="cursor:pointer" onclick="location.href='last_years_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_lastyearoverview'] . " - " . $inverter?></div>
+       
         <div id='last_years_chart_id' class="<?= CONTENT_CLASS ?> " style="<?= CHART_STYLE ?>"></div>
     </div>
     <div id='jqxwindow_week_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_weekoverview'])) echo ' display: none;'; ?> ">
-        <a href="week_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_weekoverview'] . " - " . $inverter?>
+        
+            <div style="cursor:pointer" onclick="location.href='week_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_weekoverview'] . " - " . $inverter?>
             </div>
-        </a>
+        
         <div id='week_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
     <div id='jqxwindow_flop31_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_31days'])) echo ' display: none;'; ?> ">
-        <a href="top31_overview.php?Max_Min=flop">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['slechtste'] . " - " . $inverter?></div>
-        </a>
+        
+            <div style="cursor:pointer" onclick="location.href='top31_overview.php?Max_Min=flop'" class="<?= HEADER_CLASS ?>"><?php echo $txt['slechtste'] . " - " . $inverter?></div>
+       
         <div id='top31_chart_id' class="<?= CONTENT_CLASS ?> " style="<?= CHART_STYLE ?>"></div>
     </div>
     <div id='jqxwindow_top31_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_31days'])) echo ' display: none;'; ?> ">
-        <a href="top31_overview.php?Max_Min=top">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['beste'] . " - " . $inverter?></div>
-        </a>
+        
+            <div style="cursor:pointer" onclick="location.href='top31_overview.php?Max_Min=top'" class="<?= HEADER_CLASS ?>"><?php echo $txt['beste'] . " - " . $inverter?></div>
+        
         <div id='flop31_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
@@ -210,11 +187,8 @@ if (isset($use_weewx) && $use_weewx==true){
             $("#jqxwindow_chart_all_temp").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_chart_all_humidity").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_month_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
-            $("#jqxwindow_total_month_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
-            $("#jqxwindow_total_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
-            $("#jqxwindow_total_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_last_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_week_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_top31_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
@@ -328,7 +302,7 @@ if (isset($use_weewx) && $use_weewx==true){
             $.ajax({
                 url: 'charts/day_chart.php',
                 type: 'post',
-                data: {'action': 'indexpage', 'inverter': 'all', 'type': 'all'},
+                data: {'action': 'indexpage'},
                 cache: false,
                 success: function (chart) {
                     $(container_totalday).append(chart);
@@ -416,21 +390,6 @@ if (isset($use_weewx) && $use_weewx==true){
                 }
             });
 " ?>
-            <?php if (isset($charts['chart_totalmonthoverview'])) echo "                    
-            var container_total_month = $('#total_month_chart_id');
-            $.ajax({
-                url: 'charts/month_chart.php',
-                type: 'post',
-                data: {'action': 'indexpage', 'type': 'all'},
-                cache: false,
-                success: function (chart) {
-                    $(container_total_month).append(chart);
-                },
-                error: function (xhr, desc, err) {
-                    console.log(xhr + '\\n' + err);
-                }
-            });
-" ?>
 
             <?php if (isset($charts['chart_yearoverview'])) echo "            
             var container_year = $('#year_chart_id');
@@ -441,21 +400,6 @@ if (isset($use_weewx) && $use_weewx==true){
                 cache: false,
                 success: function (chart) {
                     $(container_year).append(chart);
-                },
-                error: function (xhr, desc, err) {
-                    console.log(xhr + '\\n' + err);
-                }
-            });
-" ?>
-            <?php if (isset($charts['chart_totalyearoverview'])) echo "            
-            var container_total_year = $('#total_year_chart_id');
-            $.ajax({
-                url: 'charts/year_chart.php',
-                type: 'post',
-                data: {'action': 'indexpage', 'type': 'all'},
-                cache: false,
-                success: function (chart) {
-                    $(container_total_year).append(chart);
                 },
                 error: function (xhr, desc, err) {
                     console.log(xhr + '\\n' + err);
@@ -478,22 +422,7 @@ if (isset($use_weewx) && $use_weewx==true){
                 }
             });
 " ?>
-
-            <?php if (isset($charts['chart_totalallyearoverview'])) echo "            
-            var container_total_all_years = $('#total_all_years_chart_id');
-            $.ajax({
-                url: 'charts/all_years_chart.php',
-                type: 'post',
-                data: {'action': 'indexpage', 'type': 'all'},
-                cache: false,
-                success: function (chart) {
-                    $(container_total_all_years).append(chart);
-                },
-                error: function (xhr, desc, err) {
-                    console.log(xhr + '\\n' + err);
-                }
-            });
-" ?>
+            
             <?php if (isset($charts['chart_lastyearoverview'])) echo "                
             var container_last_years = $('#last_years_chart_id');
             $.ajax({
