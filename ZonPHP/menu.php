@@ -17,7 +17,6 @@ if (intval($param['flyout']) > 0) {
     echo "<div>";
 }
 ?>
-
 <input type="checkbox" name="nav" id="main-nav-check"/>
 <div id="menu" style="clear:both; ">
     <label for="main-nav-check" class="toggle" onclick="" title="Close"></label>
