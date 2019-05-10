@@ -32,11 +32,9 @@ if (isset($_GET['naam'])) {
 } else {
     $inverter_id = "all";
 }
-
 $sqlref = "SELECT *
 	FROM " . $table_prefix . "_refer
 	WHERE Month(Datum_Refer)='" . date("m", $chartdate) . "'";
-
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. dag-ref " . mysqli_error($con));
 if (mysqli_num_rows($resultref) == 0)
     $frefmaand = 1;
@@ -103,8 +101,6 @@ $sqlmaxkwh = "SELECT Geg_Maand, Naam
 	 FROM " . $table_prefix . "_maand
 	 WHERE Datum_Maand LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%' 
 	 ORDER BY Naam ASC ";
-
-
 $resultmaxkwh = mysqli_query($con, $sqlmaxkwh) or die("Query failed. kwh-max " . mysqli_error($con));
 if (mysqli_num_rows($resultmaxkwh) == 0) {
     $maxkwh[] = 0;
@@ -138,11 +134,8 @@ if (mysqli_num_rows($resultmd) == 0) {
     }
 }
 //--------------------------------------------------------------------------------------------------
-
-
 $strgegmax = "";
 $strsomkw = "";
-
 // build colors per inverter array
 $myColors = array();
 for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
@@ -164,8 +157,6 @@ foreach ($inveter_list as $inverter_name) {
     } else if ($inverter_id == $inverter_name) {
         $series_isVisible = "true";
     };
-
-
     $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
     foreach ($all_valarray as $time => $valarray) {
@@ -181,16 +172,12 @@ foreach ($inveter_list as $inverter_name) {
                     ";
     $cnt++;
 }
-
 // day max line per inverter --------------------------------------------------------------
 $str_max = "";
 $cnt = 0;
-
-
 foreach ($sNaamSaveDatabase as $inverter_name) {
     $str_max .= "{ name: '$inverter_name max', linkedTo: '$inverter_name', color : '#15ff24', lineWidth: 1,  type: 'line', marker: { enabled: false },                           
     data:[";
-
     foreach ($all_valarraymax as $time => $valarraymax) {
         $cnt++;
         // hier in time ist die Ursprüngliche Zeit... muss auf heute geändert werden
@@ -218,8 +205,6 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
 $max_last_val = $newDate;
 $str_max = substr($str_max, 0, -1);
 $strgegmax = substr($strgegmax, 0, -1);
-
-
 $external_sensors = isset($param['external_sensors']);
 $temp_serie = "";
 $temp_unit = "°C";
@@ -245,16 +230,10 @@ foreach ($aoplopendkwdag as $tuur => $fkw) {
     $cum_max_value = $fkw;
 }
 $str_cum = substr($str_cum, 0, -1);
-
 if (strlen($str_dataserie) == 0) $str_cum = "";
-
 $strsomkw = substr($strsomkw, 0, -1);
-
-
 if (max($aoplopendkwdag) < 2) $aoplopendkwdag1 = 2;
 else $aoplopendkwdag1 = round((max($aoplopendkwdag) + 0.5), 0);
-
-
 $show_legende = "true";
 if ($isIndexPage == true) {
     echo '<div class = "index_chart" id="mycontainer_' . $inverter_id . '"></div>';
@@ -273,20 +252,7 @@ if (strpos($paramstr_day, "?") == 0) {
     $paramstr_day = '?' . $paramstr_day;
 }
 $maxlink = '<a href=\"day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '\">' . $nice_max_date . '</a>';
-// --------------
-$subtitle = '"<b>' . $txt['actueel'] . ": <\/b> " . date("H:i", $tlaatstetijd) . " - " . number_format(end($agegevens), 0, ',', '.') . "W="
-    . number_format(100 * end($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . "% - "
-    . $txt['peak'] . ": " . number_format(max($agegevens), 0, ",", ".") . "W";
-if ($isIndexPage) {
-    $subtitle .= "<br >";
-}
-$subtitle .= "<b> " . $txt['totaal'] . ": <\/b>" . number_format((end($aoplopendkwdag) / 1000), 2, ',', '.') . "kWh="
-    . number_format(end($aoplopendkwdag) / ($ieffectiefkwpiek / 1), 1, ',', '.') . "kWh/kWp ";
-if ($isIndexPage) {
-    $subtitle .= "<br >";
-}
-/// $subtitle .= "     <b>" . $txt['max'] .": <\/b>" .$maxlink. " --> ". $maxkwh. "kWh - ". $txt['peak'] .": " . number_format(max($agegevensdag_max), 0, ",", ".") . "W" .'' . '"';
-//--------------------
+
 include_once "chart_styles.php";
 $show_temp_axis = "false";
 $show_cum_axis = "true";
@@ -295,12 +261,15 @@ if (strlen($temp_serie) > 0) {
     $show_cum_axis = "false";
 }
 ?>
-
-
 <script type="text/javascript">
     $(function () {
+        function add(accumulator, a) {
+    return accumulator + a;
+}
+        
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        var nmbr =  khhWp.length //misused to get the inverter count
         var maxmax = <?php echo json_encode($maxkwh) ?>;
         var maxlink = '<?php echo $maxlink ?>';
         var temp_max = <?php echo $val_max ?>;
@@ -309,73 +278,58 @@ if (strlen($temp_serie) > 0) {
         var txt_totaal = '<?php echo $txt['totaal'] ?>';
         var txt_max = '<?php echo $txt['max'] ?>';
         var txt_peak = '<?php echo $txt['peak'] ?>';
-
-
+        
+        //console.log (khhWp.length);
         Highcharts.setOptions({<?php echo $chart_lang ?>});
-
         var mychart = new Highcharts.chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
-
             chart: {
-
                 events: {
                     render() {
                         mychart = this;
                         series = this.series;
-                        sum1 = 0;
-                        sum2 = 0;
-                        kWh1 = 0;
-                        kWh2 = 0;
-                        ax1 = 0;
-                        ax2 = 0;
-                        max1 = 0;
-                        max2 = 0;
+                        // construct subtitle
+                        sum =[];
+                        kWh =[];
+                        peak = [];
+                        max =[];
                         current = 0;
                         tota = 0;
-                        // subtitle cumulatief
-                        for (i = 0; i < 2; i++) {
+                        
+                        for (i = nmbr-1; i >= 0 ; i--) {
                             if (series[i].visible) {
                                 for (j = 0; j < series[i].data.length; j++) {
-                                    tota += (series[i].data[j].y) / 12000;
+                                    tota += (series[i].data[j].y) / 12000;//Total
+                                    sum[i] = (series[i].data[series[i].data.length - 1]).y; //sum
+                                    current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);//TIME
+                                    kWh[i] = khhWp[i]; //KWH
+                            		max[i] = maxmax[i]; //MAXday
+                                    peak[i] = series[i].dataMax //PEAK
                                 }
                             }
                         }
-                        //	subtitle current per inverter, highest inverter number first
-                        i = 1;
-                        if (series[i].visible) {
-                            sum2 = (series[i].data[series[i].data.length - 1]).y;
-                            current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);
-                            kWh2 = khhWp[i];
-                            max2 = maxmax[i];
-                            ax2 = series[i].dataMax;
-                        }
-                        i = 0;
-                        if (series[i].visible) {
-                            sum1 = (series[i].data[series[i].data.length - 1]).y;
-                            current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);
-                            kWh1 = khhWp[i];
-                            max1 = maxmax[i];
-                            ax1 = series[i].dataMax - ax2;
-                        }
-                        sum = sum1 + sum2;
-                        KWH = kWh1 + kWh2;
-                        AXI = ax1 + ax2;
-                        MAX = max1 + max2;
+
+                        SUM = sum.reduce(add, 0);
+                        KWH = kWh.reduce(add, 0);
+                        MAX = max.reduce(add, 0);
+                        var AX = peak.filter(Boolean);
+                        if (AX.length == 0) {PEAK = 0;}
+						else {
+                        PEAK = AX[0];}
                         this.setSubtitle({
-                            text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(sum, 0, ",", "") +
-                                "W" + "=" + (Highcharts.numberFormat(100 * sum / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + AXI + "W <b>" +
+                            text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(SUM, 0, ",", "") +
+                                "W" + "=" + (Highcharts.numberFormat(100 * SUM / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + PEAK + "W <br/><b>" +
                                 txt_totaal + ":</b> " + (Highcharts.numberFormat(tota, 2, ",", "")) + "kWh = " +
                                 (Highcharts.numberFormat((tota / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>" +
-                                txt_max + ": </b>" + maxlink + "--> " + (Highcharts.numberFormat(MAX, 2, ",", "")) + " kWh"
+                                txt_max + ": </b>" + maxlink + " " + (Highcharts.numberFormat(MAX, 2, ",", "")) + " kWh"
                         }, false, false);
-
+                        
+                        //construct chart
                         total = [];
                         value = 0;
                         indexOfVisibleSeries = [];
                         checkHideForSpline = 1;
-
                         if (mychart.forRender) {
                             mychart.forRender = false;
-
                             //function to check amount of visible series and to destroy old spline series
                             mychart.series.forEach(s => {
                                 if (s.type === 'spline' && s.visible === true && s.name != 'Temp') {
@@ -387,9 +341,7 @@ if (strlen($temp_serie) > 0) {
                                     indexOfVisibleSeries.push(s.index);
                                 }
                             });
-
                             if (checkHideForSpline) {
-
                                 for (i = 0; i < mychart.series[0].data.length; i++) {
                                     for (j of indexOfVisibleSeries) {
                                         value += mychart.series[j].data[i].y / 12000;
@@ -428,7 +380,14 @@ if (strlen($temp_serie) > 0) {
                 }
             },
             plotOptions: {
-                line: {stacking: 'normal'},
+                line: { stacking: 'normal',
+                
+                states: {
+                        hover: {
+                            lineWidth: 0
+                        }
+                }
+                },
                 area: {
                     marker: {
                         radius: 2,
@@ -443,14 +402,13 @@ if (strlen($temp_serie) > 0) {
                     threshold: 0,
                     stacking: 'normal'
                 }
-
             },
             subtitle: {
                 style: {
+                    wordWrap:'break-word',
                     color: '#<?php echo $colors['color_chart_text_subtitle'] ?>'
                 }
             },
-
             xAxis: {
                 type: 'datetime',
                 labels: {
@@ -469,12 +427,12 @@ if (strlen($temp_serie) > 0) {
                 },
                 // min: 0,
                 labels: {
-                    format: '{value}kW',
+                    format: '{value} kW',
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>'
                     },
                     formatter: function () {
-                        return this.value / 1000 + "kW";
+                        return Highcharts.numberFormat(this.value / 1000, 1,',','.') + " kW";
                     }
                 },
                 gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>'
@@ -492,7 +450,7 @@ if (strlen($temp_serie) > 0) {
                             color: '#<?php echo $colors['color_chart_labels_yaxis2'] ?>'
                         },
                         formatter: function () {
-                            return this.value + "kWh";
+                            return Highcharts.numberFormat(this.value, 1,',','.') + " kWh";
                         }
                     },
                     gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis2'] ?>',
@@ -522,19 +480,15 @@ if (strlen($temp_serie) > 0) {
                     min: temp_min,
                     max: temp_max,
                 }
-
             ],
-
             series: [
                 <?php echo $str_dataserie ?>
                 <?php echo $str_max ?>
                 <?php echo $temp_serie ?>
             ]
-
         }), function (mychart) {
             mychart.forRender = true
         });
-
         $('#mycontainer_<?php echo $inverter_id ?>').resize(function () {
             mychart.reflow();
         });
