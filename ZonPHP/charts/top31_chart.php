@@ -35,10 +35,8 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     }
 }
 
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
+$inverter = "xxxx";
+
 
 unset($agegevens);
 

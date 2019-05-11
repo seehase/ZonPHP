@@ -15,10 +15,8 @@ include_once "inc/header.php";
 include_once "charts/top31_chart.php";
 
 
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
+$inverter = "xxxx";
+
 $myLabel = "Top ";
 
 if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
@@ -35,9 +33,6 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
 <?php include "menu.php"; ?>
 
 <?php
-    $choose_inverter_dropdown = "";
-    $multiple_inverters = false;
-    $choose_inverter_items = "";
     $paramstr_choose = '';
     $paramstr_day = '';
     # remove naam parameter
@@ -57,28 +52,7 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
     if (strpos($paramstr_choose, "?") == 0) {
         $paramstr_choose = '?' . $paramstr_choose;
     }
-    foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
-        $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "naam=" . $sdbnaam .
-            "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
-    }
 
-    if (strlen($choose_inverter_items) > 0){
-        $choose_inverter_dropdown = '
-                        <div style="position: absolute; z-index: 50">
-        
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 15px;margin-left: 20px;">' .
-            $txt['choose_inverter'] . '
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu"> ' .
-                                $choose_inverter_items .
-                                '
-                            </ul>
-                        </div>
-                
-                ';
-        $multiple_inverters = true;
-    }
 ?>
 
 
@@ -86,9 +60,7 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 72px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
-            <?php
-                if ($multiple_inverters) echo $choose_inverter_dropdown;
-            ?>
+
 
             <h2 align="center"><?php echo $myLabel; ?></h2>
             <?php
