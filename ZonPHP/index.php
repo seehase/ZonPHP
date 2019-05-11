@@ -109,19 +109,17 @@ if (isset($use_weewx) && $use_weewx==true){
     <div id='jqxwindow_year_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_yearoverview'])) echo ' display: none;'; ?> ">
         <a href="year_overview.php">
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_yearoverview'] ?>
-            </div>
-        
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_yearoverview'] ?> </div>
+        </a>
         <div id='year_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
 
     <div id='jqxwindow_all_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_allyearoverview'])) echo ' display: none;'; ?> ">
-        <a href="all_years_overview.php"> </a>
-            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_allyearoverview'] ?>
-            </div>
-        
+        <a href="all_years_overview.php">
+            <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_allyearoverview'] ?> </div>
+        </a>
         <div id='all_years_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
 
