@@ -151,7 +151,7 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
 						<td>" . $iteller . "</td>
 						<td>" . $slinkseversie . "</td>
 						<td>" . number_format($fkw, 2, ',', '.') . "</td>
-						<td>" . number_format($fkw * $ajaareuro[date("y", strtotime($ddag))], 2, ',', '.') . " &euro;</td>
+						<td>" . number_format($fkw * $price_per_kwh, 2, ',', '.') . " &euro;</td>
 						<td>" . number_format(1000 * $fkw / $ieffectiefkwpiek, 2, ',', '.') . "</td>
 						</tr>");
                         $iteller++;
