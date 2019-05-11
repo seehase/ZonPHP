@@ -41,65 +41,30 @@ if (isset($_POST['inverter'])) {
 }
 
 unset($agegevens);
-unset($frefmaand);
-unset($adatum);
-unset($fgemiddelde);
-unset($amaxref);
-unset($adatum);
 
 
-$sqleuro = "SELECT *
-	FROM " . $table_prefix . "_euro";
-$resulteuro = mysqli_query($con, $sqleuro) or die("Query failed. de_top_31_dagen-euro " . mysqli_error($con));
-if (mysqli_num_rows($resulteuro) == 0) {
-    $ajaareuro[] = 0;
-} else {
-    while ($row = mysqli_fetch_array($resulteuro)) {
-        $ajaareuro[date("y", strtotime($row['Datum_Euro']))] = $row['Geg_Euro'];
-    }
-}
+// fixme
+$price_per_kwh = 0.42;
 
-$sqlref = "SELECT *
-	FROM " . $table_prefix . "_refer
-	WHERE Naam='" . $inverter . "'
-	ORDER BY Datum_Refer ASC";
-$resultref = mysqli_query($con, $sqlref) or die("Query failed. de_top_31_dagen-ref" . mysqli_error($con));
-if (mysqli_num_rows($resultref) == 0) {
-    $frefmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-} else {
-    while ($row = mysqli_fetch_array($resultref)) {
-        $frefmaand[date("n", strtotime($row['Datum_Refer']))] = $row['Dag_Refer'];
-    }
-}
 
 $sql = 'SELECT Datum_Maand,Geg_Maand
 	FROM ' . $table_prefix . '_maand
 	WHERE Naam="' . $inverter . '"
 	ORDER BY Geg_Maand ' . $DESC_ASC . ' LIMIT 0,31';
 
-//echo $sql .'<br/>' ;
+
 $fsomeuro = 0;
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
     $datum = "Geen data";
     $agegevens[date("Y-m-d", time())] = 0;
-    $fgemiddelde = 0;
     $amaxref[] = 0;
 } else {
     while ($row = mysqli_fetch_array($result)) {
-        $adatum[] = date("j", strtotime($row['Datum_Maand']));
         $agegevens[date("Y-m-d", strtotime($row['Datum_Maand']))] = $row['Geg_Maand'];
-        if (!isset($ajaareuro[date("y", strtotime($row['Datum_Maand']))])) $ajaareuro[date("y", strtotime($row['Datum_Maand']))] = 0;
-        $fsomeuro += $ajaareuro[date("y", strtotime($row['Datum_Maand']))] * $row['Geg_Maand'];
-        $amaxref[] = $frefmaand[date("n", strtotime($row['Datum_Maand']))];
+        $fsomeuro += $price_per_kwh * $row['Geg_Maand'];
     }
     $datum = date("M-Y", time());
-    $fgemiddelde = array_sum($agegevens) / count($agegevens);
-}
-if (max($amaxref) < max($agegevens)) {
-    $iyasaanpassen = round(0.5 + max($agegevens) / 5) * 5;
-} else {
-    $iyasaanpassen = round(0.5 + max($amaxref) / 5) * 5;
 }
 
 ?>
@@ -112,19 +77,16 @@ $myColor1 = $colors['color_chartbar1'];
 $myColor2 = $colors['color_chartbar2'];
 $href = "day_overview.php?dag=";
 
-
-
 $cnt = 0;
 foreach ($agegevens as $ddag => $fkw) {
     $cnt++;
-    $day = $frefmaand[date('n', strtotime($ddag))];
+
     // normal chart
     $kwpeak = number_format(($fkw * 1000 / $ieffectiefkwpiek), 2, ',', '.');
     $current_bars .= "
                     {  
                       y: $fkw , 
                       url: \"$href$ddag\",
-                      day: \"$day\",
                       ddag: \"$ddag\",
                       kwpeak: \"$kwpeak\",
                       color: {
@@ -142,14 +104,13 @@ $sub_title = ("<b>" . $txt["totaal"] . ": <\/b>"
     . number_format(array_sum($agegevens) * 4086 / 10000, 2, ',', '.') . "€ = "
     . number_format(1000 * array_sum($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br /><br /><br />");
 
-$id =  $showTopFlop . '_' . $inverter;
+$id = $showTopFlop . '_' . $inverter;
 
 $show_legende = "true";
 if ($isIndexPage == true) {
     echo '<div class = "index_chart" id="' . $id . '"></div>';
     $show_legende = "false";
 }
-
 
 include_once "chart_styles.php";
 ?>
@@ -202,10 +163,10 @@ include_once "chart_styles.php";
                 formatter: function () {
                     value = this.y;
                     kwpeak = this.point.kwpeak;
-                    total ='<?php echo $txt['totaal'] ?>';
+                    total = '<?php echo $txt['totaal'] ?>';
                     day = Highcharts.dateFormat("%Y-%m-%d", new Date(this.point.ddag));
-                    val =  `<b> ${day}:</b> <br/>${total}:<b>${value} kWh<\/b> = ${this.point.kwpeak} kWh/kWp<br/>`;
-                    val1 = this.x + ': ' + this.y.toFixed(2) +  'kWh';
+                    val = `<b> ${day}:</b> <br/>${total}:<b>${value} kWh<\/b> = ${this.point.kwpeak} kWh/kWp<br/>`;
+                    val1 = this.x + ': ' + this.y.toFixed(2) + 'kWh';
                     return val;
                 }
             },
