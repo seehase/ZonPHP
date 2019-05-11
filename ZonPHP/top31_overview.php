@@ -14,9 +14,6 @@ unset($adatum);
 include_once "inc/header.php";
 include_once "charts/top31_chart.php";
 
-
-$inverter = "xxxx";
-
 $myLabel = "Top ";
 
 if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
@@ -33,6 +30,7 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
 <?php include "menu.php"; ?>
 
 <?php
+
     $paramstr_choose = '';
     $paramstr_day = '';
     # remove naam parameter
@@ -70,7 +68,7 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
 
         </div>
 
-        <div id="<?php echo $currentview ?>31_chart_<?php echo $inverter ?>" style="width:100%; height:100%;"></div>
+        <div id="<?php echo $currentview ?>31_chart_" style="width:100%; height:100%;"></div>
     </div>
 
     <div style="float: unset; margin-top: 5px;">
