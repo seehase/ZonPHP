@@ -94,7 +94,7 @@ $sub_title = ("<b>" . $txt["totaal"] . ": <\/b>"
     . number_format(array_sum($agegevens), 1, ',', '.') . " kWh = "
     . number_format(array_sum($agegevens) * 4086 / 10000, 2, ',', '.') . "€");
 
-$id = $showTopFlop . '_';
+$id = $showTopFlop . '';
 
 $show_legende = "true";
 if ($isIndexPage == true) {

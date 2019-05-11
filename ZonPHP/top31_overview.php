@@ -68,7 +68,7 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
 
         </div>
 
-        <div id="<?php echo $currentview ?>31_chart_" style="width:100%; height:100%;"></div>
+        <div id="<?php echo $currentview ?>31_chart" style="width:100%; height:100%;"></div>
     </div>
 
     <div style="float: unset; margin-top: 5px;">
