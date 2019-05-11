@@ -123,7 +123,7 @@ if (isset($use_weewx) && $use_weewx==true){
 
     <div id='jqxwindow_all_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_allyearoverview'])) echo ' display: none;'; ?> ">
-        <a href="all_years_overview.php">
+        <a href="all_years_overview.php"> </a>
             <div class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_allyearoverview'] ?>
             </div>
         
