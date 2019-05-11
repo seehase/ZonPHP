@@ -112,15 +112,21 @@ $myColor1 = $colors['color_chartbar1'];
 $myColor2 = $colors['color_chartbar2'];
 $href = "day_overview.php?dag=";
 
+
+
 $cnt = 0;
 foreach ($agegevens as $ddag => $fkw) {
     $cnt++;
     $day = $frefmaand[date('n', strtotime($ddag))];
     // normal chart
+    $kwpeak = number_format(($fkw * 1000 / $ieffectiefkwpiek), 2, ',', '.');
     $current_bars .= "
                     {  
                       y: $fkw , 
                       url: \"$href$ddag\",
+                      day: \"$day\",
+                      ddag: \"$ddag\",
+                      kwpeak: \"$kwpeak\",
                       color: {
                         linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
                         stops: [
@@ -154,6 +160,7 @@ include_once "chart_styles.php";
 
         var sub_title = '<?php echo $sub_title ?>';
         var myoptions = <?php echo $chart_options ?>;
+
 
         var mychart = new Highcharts.Chart('<?php echo $id ?>', Highcharts.merge(myoptions, {
 
@@ -193,8 +200,15 @@ include_once "chart_styles.php";
             }],
             tooltip: {
                 formatter: function () {
-                    return '' +
-                        this.x + ': ' + this.y.toFixed(2) +  'kWh';
+                    value = this.y;
+                    unit = 'kWh';
+                    day = this.point.ddag;
+                    kwpeak = this.point.kwpeak;
+                    total ='<?php echo $txt['totaal'] ?>';
+                    val =  `<b> ${this.point.ddag}:</b> <br/>${total}:<b>${value} ${unit}<\/b> = ${this.point.kwpeak} kWh/kWp<br/>`;
+                    val1 = this.x + ': ' + this.y.toFixed(2) +  'kWh';
+                    return val;
+
                 }
             },
             series: [
