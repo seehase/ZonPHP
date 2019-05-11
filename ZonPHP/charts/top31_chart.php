@@ -201,14 +201,12 @@ include_once "chart_styles.php";
             tooltip: {
                 formatter: function () {
                     value = this.y;
-                    unit = 'kWh';
-                    day = this.point.ddag;
                     kwpeak = this.point.kwpeak;
                     total ='<?php echo $txt['totaal'] ?>';
-                    val =  `<b> ${this.point.ddag}:</b> <br/>${total}:<b>${value} ${unit}<\/b> = ${this.point.kwpeak} kWh/kWp<br/>`;
+                    day = Highcharts.dateFormat("%Y-%m-%d", new Date(this.point.ddag));
+                    val =  `<b> ${day}:</b> <br/>${total}:<b>${value} kWh<\/b> = ${this.point.kwpeak} kWh/kWp<br/>`;
                     val1 = this.x + ': ' + this.y.toFixed(2) +  'kWh';
                     return val;
-
                 }
             },
             series: [
