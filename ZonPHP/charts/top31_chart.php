@@ -77,8 +77,8 @@ $cnt = 0;
 foreach ($agegevens as $ddag => $fkw) {
     $cnt++;
 
-    // normal chart
-    $kwpeak = number_format(($fkw * 1000 / $ieffectiefkwpiek), 2, ',', '.');
+    $sum_kwpeak = array_sum($ieffectief_kwpiek);
+    $kwpeak = number_format(($fkw * 1000 / $sum_kwpeak), 2, ',', '.');
     $current_bars .= "
                     {  
                       y: $fkw , 
@@ -97,8 +97,7 @@ foreach ($agegevens as $ddag => $fkw) {
 
 $sub_title = ("<b>" . $txt["totaal"] . ": <\/b>"
     . number_format(array_sum($agegevens), 1, ',', '.') . " kWh = "
-    . number_format(array_sum($agegevens) * 4086 / 10000, 2, ',', '.') . "€ = "
-    . number_format(1000 * array_sum($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br /><br /><br />");
+    . number_format(array_sum($agegevens) * 4086 / 10000, 2, ',', '.') . "€");
 
 $id = $showTopFlop . '_' . $inverter;
 
