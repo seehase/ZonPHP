@@ -10,9 +10,9 @@ $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
+$inverter = $sNaamSaveDatabase[0];
+if (isset( $_GET['naam'])) {
+    $inverter =  $_GET['naam'];
 }
 
 $chartdate = time();

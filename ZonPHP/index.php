@@ -11,11 +11,6 @@ $aoplopendkwdag[] = 0;
 
 include_once "inc/header.php";
 
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
-
 $daytext =  $txt['chart_dayoverview'];
 if (isset($use_weewx) && $use_weewx==true){
     $daytext =  $txt['chart_solar_temp'];
@@ -75,7 +70,7 @@ if (isset($use_weewx) && $use_weewx==true){
         }
     } else
     {
-        $out = '<div id="jqxwindow_chart_dayoverview_' . $inverter . '" class="smallCharts" 
+        $out = '<div id="jqxwindow_chart_dayoverview_" class="smallCharts" 
          style="' . WINDOW_STYLE;
         if (!isset($charts['chart_dayoverview'])) $out = $out . ' display: none;';
         $out = $out . '" ';
@@ -83,9 +78,9 @@ if (isset($use_weewx) && $use_weewx==true){
             ' 
         <a href="day_overview.php">' .
             '    
-             <div class="' . HEADER_CLASS . '">' . $daytext . " - " . $inverter . '</div> 
+             <div class="' . HEADER_CLASS . '">' . $daytext . " - " .  '</div> 
         </a>
-        <div id="day_chart_id_' . $inverter . '" class="' . CONTENT_CLASS . '" style="' . CHART_STYLE . '"></div>
+        <div id="day_chart_id_" class="' . CONTENT_CLASS . '" style="' . CHART_STYLE . '"></div>
         </div>
                 ';
         echo $out;
@@ -133,7 +128,7 @@ if (isset($use_weewx) && $use_weewx==true){
     <div id='jqxwindow_last_years_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_lastyearoverview'])) echo ' display: none;'; ?> ">
        
-            <div style="cursor:pointer" onclick="location.href='last_years_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_lastyearoverview'] . " - " . $inverter?></div>
+            <div style="cursor:pointer" onclick="location.href='last_years_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_lastyearoverview']?></div>
        
         <div id='last_years_chart_id' class="<?= CONTENT_CLASS ?> " style="<?= CHART_STYLE ?>"></div>
     </div>
@@ -194,7 +189,7 @@ if (isset($use_weewx) && $use_weewx==true){
                     echo '$("#jqxwindow_chart_dayoverview_' . $sdbnaam . '").jqxPanel({height: 410, width: 440, theme: "zonphp"});';
                 }
             } else {
-                echo '$("#jqxwindow_chart_dayoverview_' . $inverter . '").jqxPanel({height: 410, width: 440, theme: "zonphp"});';
+                echo '$("#jqxwindow_chart_dayoverview_").jqxPanel({height: 410, width: 440, theme: "zonphp"});';
             }
             ?>
 
@@ -271,14 +266,14 @@ if (isset($use_weewx) && $use_weewx==true){
                 }
             } else {
                 echo "
-                        var container_day_" . $inverter . " = $('#day_chart_id_" . $inverter . "');
+                        var container_day_"  . " = $('#day_chart_id_"  . "');
                         $.ajax({
                             url: 'charts/day_chart.php',
                             type: 'post',
-                            data: {'action': 'indexpage', 'inverter': '" . $inverter . "'},
+                            data: {'action': 'indexpage'},
                             cache: false,
                             success: function (chart) {
-                                $(container_day_" . $inverter . ").append(chart);
+                                $(container_day_" . ").append(chart);
                             },
                             error: function (xhr, desc, err) {
                                 console.log(xhr + '\\n' + err);

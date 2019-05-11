@@ -8,10 +8,9 @@ include_once "inc/import_data.php";
 include_once "inc/header.php";
 include_once "charts/last_years_chart.php";
 
-
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
+$inverter = $sNaamSaveDatabase[0];
+if (isset( $_GET['naam'])) {
+    $inverter =  $_GET['naam'];
 }
 
 $nextyear = strftime("%Y-%m-%d", strtotime("+1 year", $chartdate));
@@ -80,6 +79,7 @@ $prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
 
             <h2 align="center">
                 <?php
+                echo " " . $inverter . "  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ";
                 echo '<a class="btn btn-primary" href="all_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
                 echo " " .  ($param['jaar'] - 4) . " - " . $param['jaar'] . " ";
                 echo '<a class="btn btn-primary" href="all_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
