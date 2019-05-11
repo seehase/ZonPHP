@@ -449,11 +449,6 @@ include_once "par_header.php";
                                    size='5' <?php if (isset($_POST['chart_lastyearoverview'])) echo "checked"; ?> ></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["chart_weekoverview"]; ?></td>
-                        <td><input type='checkbox' name='chart_weekoverview'
-                                   size='5' <?php if (isset($_POST['chart_weekoverview'])) echo "checked"; ?> ></td>
-                    </tr>
-                    <tr>
                         <td><?php echo $txt["chart_31days"]; ?></td>
                         <td><input type='checkbox' name='chart_31days'
                                    size='5' <?php if (isset($_POST['chart_31days'])) echo "checked"; ?> ></td>

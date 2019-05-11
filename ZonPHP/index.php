@@ -137,25 +137,18 @@ if (isset($use_weewx) && $use_weewx==true){
        
         <div id='last_years_chart_id' class="<?= CONTENT_CLASS ?> " style="<?= CHART_STYLE ?>"></div>
     </div>
-    <div id='jqxwindow_week_overview' class="smallCharts"
-         style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_weekoverview'])) echo ' display: none;'; ?> ">
-        
-            <div style="cursor:pointer" onclick="location.href='week_overview.php'" class="<?= HEADER_CLASS ?>"><?php echo $txt['chart_weekoverview'] . " - " . $inverter?>
-            </div>
-        
-        <div id='week_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
-    </div>
+
     <div id='jqxwindow_flop31_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_31days'])) echo ' display: none;'; ?> ">
         
-            <div style="cursor:pointer" onclick="location.href='top31_overview.php?Max_Min=flop'" class="<?= HEADER_CLASS ?>"><?php echo $txt['slechtste'] . " - " . $inverter?></div>
+            <div style="cursor:pointer" onclick="location.href='top31_overview.php?Max_Min=flop'" class="<?= HEADER_CLASS ?>"><?php echo $txt['slechtste']?></div>
        
         <div id='top31_chart_id' class="<?= CONTENT_CLASS ?> " style="<?= CHART_STYLE ?>"></div>
     </div>
     <div id='jqxwindow_top31_overview' class="smallCharts"
          style="<?= WINDOW_STYLE ?> <?php if (!isset($charts['chart_31days'])) echo ' display: none;'; ?> ">
         
-            <div style="cursor:pointer" onclick="location.href='top31_overview.php?Max_Min=top'" class="<?= HEADER_CLASS ?>"><?php echo $txt['beste'] . " - " . $inverter?></div>
+            <div style="cursor:pointer" onclick="location.href='top31_overview.php?Max_Min=top'" class="<?= HEADER_CLASS ?>"><?php echo $txt['beste']?></div>
         
         <div id='flop31_chart_id' class="<?= CONTENT_CLASS ?>" style="<?= CHART_STYLE ?>"></div>
     </div>
@@ -190,7 +183,6 @@ if (isset($use_weewx) && $use_weewx==true){
             $("#jqxwindow_year_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_all_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_last_years_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
-            $("#jqxwindow_week_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_top31_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_flop31_overview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
             $("#jqxwindow_chart_totaldayoverview").jqxPanel({height: 410, width: 440, theme: 'zonphp'});
@@ -205,7 +197,6 @@ if (isset($use_weewx) && $use_weewx==true){
                 echo '$("#jqxwindow_chart_dayoverview_' . $inverter . '").jqxPanel({height: 410, width: 440, theme: "zonphp"});';
             }
             ?>
-
 
         });
 
@@ -432,21 +423,6 @@ if (isset($use_weewx) && $use_weewx==true){
                 cache: false,
                 success: function (chart) {
                     $(container_last_years).append(chart);
-                },
-                error: function (xhr, desc, err) {
-                    console.log(xhr + '\\n' + err);
-                }
-            });
-" ?>
-            <?php if (isset($charts['chart_weekoverview'])) echo "            
-            var container_week = $('#week_chart_id');
-            $.ajax({
-                url: 'charts/week_chart.php',
-                type: 'post',
-                data: {'action': 'indexpage'},
-                cache: false,
-                success: function (chart) {
-                    $(container_week).append(chart);
                 },
                 error: function (xhr, desc, err) {
                     console.log(xhr + '\\n' + err);

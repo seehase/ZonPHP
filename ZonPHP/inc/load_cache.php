@@ -49,6 +49,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     $txt = $_SESSION['txt'];
     $year_euro = $_SESSION['year_euro'];
+    $price_per_kwh = $year_euro[date("Y")];
     $short_weekdays = $_SESSION['short_weekdays'];
     $weekdays = $_SESSION['weekdays'];
 
@@ -116,7 +117,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
         }
     }
     $_SESSION['year_euro'] = $year_euro;
-
+    $price_per_kwh = $year_euro[date("Y")];
 
     // fixme: integrate into cache... after importing data force reload of paramater
     // load first and last date of date

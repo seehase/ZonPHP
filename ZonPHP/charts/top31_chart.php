@@ -42,16 +42,12 @@ if (isset($_POST['inverter'])) {
 
 unset($agegevens);
 
-
-// fixme
-$price_per_kwh = 0.42;
-
-
-$sql = 'SELECT Datum_Maand,Geg_Maand
-	FROM ' . $table_prefix . '_maand
-	WHERE Naam="' . $inverter . '"
-	ORDER BY Geg_Maand ' . $DESC_ASC . ' LIMIT 0,31';
-
+$sql = '
+            SELECT Datum_Maand as mydate, sum(Geg_Maand) as mysum                     
+            FROM ' . $table_prefix . '_maand
+            GROUP BY Datum_Maand
+            ORDER BY mysum ' . $DESC_ASC . ' LIMIT 0,31
+';
 
 $fsomeuro = 0;
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
@@ -61,8 +57,8 @@ if (mysqli_num_rows($result) == 0) {
     $amaxref[] = 0;
 } else {
     while ($row = mysqli_fetch_array($result)) {
-        $agegevens[date("Y-m-d", strtotime($row['Datum_Maand']))] = $row['Geg_Maand'];
-        $fsomeuro += $price_per_kwh * $row['Geg_Maand'];
+        $agegevens[date("Y-m-d", strtotime($row['mydate']))] = $row['mysum'];
+        $fsomeuro += $price_per_kwh * $row['mydate'];
     }
     $datum = date("M-Y", time());
 }
@@ -160,8 +156,9 @@ include_once "chart_styles.php";
                 gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
             }],
             tooltip: {
+
                 formatter: function () {
-                    value = this.y;
+                    value = Highcharts.numberFormat(this.y, 2);
                     kwpeak = this.point.kwpeak;
                     total = '<?php echo $txt['totaal'] ?>';
                     day = Highcharts.dateFormat("%Y-%m-%d", new Date(this.point.ddag));
