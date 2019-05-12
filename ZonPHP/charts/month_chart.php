@@ -74,6 +74,7 @@ $all_valarray = array();
 $inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
     $datum = $txt["nodata"] . strftime("%B-%Y", $chartdate);
+    $adatum[] = date("Y-m-d", $chartdate);
     $agegevens[] = 0;
     $iyasaanpassen = $frefmaand * 1.5;
     $geengevmaand = 0;
@@ -93,7 +94,7 @@ if (mysqli_num_rows($result) == 0) {
 
     while ($row = mysqli_fetch_array($result)) {
         $inverter_name = $row['naam'];
-
+        $adatum[] = date("j", strtotime($row['Datum_Maand']));
         $agegevens[date("j", strtotime($row['Datum_Maand']))] += $row['Geg_Maand'];
         $all_valarray[ date("j", strtotime($row['Datum_Maand']))] [$inverter_name]  = $row['Geg_Maand'];
         $dmaandjaar[] = $row['Datum_Maand'];
