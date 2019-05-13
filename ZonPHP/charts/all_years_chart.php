@@ -356,9 +356,9 @@ include_once "chart_styles.php";
             ]
         }));
 
-        $("#total_chart_<?php echo $inverter_id ?>").resize(function () {
-            mychart.reflow();
-        });
+		setInterval(function() {
+  	$("#total_chart_<?php echo $inverter_id ?>").highcharts().reflow();  }, 500);
+        
     });
 
 
