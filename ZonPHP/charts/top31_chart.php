@@ -171,11 +171,8 @@ include_once "chart_styles.php";
             ]
 
         }));
-
-        $("#<?php echo $id ?>").resize(function () {
-            mychart.reflow();
-        });
-
+		setInterval(function() { $("#<?php echo $id ?>").highcharts().reflow();  }, 500);
+        
 
     });
 
