@@ -374,10 +374,10 @@ include_once "chart_styles.php";
                 <?php echo $reflines; ?>
             ]
         }));
-
-        $("#year_chart_<?php echo $inverter_id ?>").resize(function () {
-            mychart.reflow();
-        });
+		
+        setInterval(function() {
+  	$("#year_chart_<?php echo $inverter_id ?>").highcharts().reflow();  }, 500);
+        
     });
 
 
