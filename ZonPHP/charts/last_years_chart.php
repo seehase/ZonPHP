@@ -329,10 +329,8 @@ include_once "chart_styles.php";
                 <?php echo $lines_per_month; ?>
             ]
         }));
-
-        $("#all_years_chart_<?php echo $inverter ?>").resize(function () {
-            mychart.reflow();
-        });
+		setInterval(function() { $("#all_years_chart_<?php echo $inverter ?>").highcharts().reflow();  }, 500);
+        
     });
 
 
