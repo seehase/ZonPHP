@@ -299,9 +299,8 @@ include_once "chart_styles.php";
 
         }));
 
-        $("#month_chart_<?php echo $inverter_id ?>").resize(function () {
-            mychart.reflow();
-        });
+        setInterval(function() {
+  	$("#month_chart_<?php echo $inverter_id ?>").highcharts().reflow();  }, 500);
     });
 
 
