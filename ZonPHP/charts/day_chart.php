@@ -341,7 +341,7 @@ if (strlen($temp_serie) > 0) {
                                     indexOfVisibleSeries.push(s.index);
                                 }
                             });
-                            if (checkHideForSpline) {
+							if (checkHideForSpline) {
                                 for (i = 0; i < mychart.series[0].data.length; i++) {
                                     for (j of indexOfVisibleSeries) {
                                         value += mychart.series[j].data[i].y / 12000;
@@ -489,12 +489,7 @@ if (strlen($temp_serie) > 0) {
         }), function (mychart) {
             mychart.forRender = true
         });
-        $('#mycontainer_<?php echo $inverter_id ?>').resize(function () {
-            mychart.reflow();
-        });
+        setInterval(function() {
+  		$("#mycontainer_<?php echo $inverter_id ?>").highcharts().reflow();  }, 500);
     });
-</script>
-
-
-<script type="text/javascript">
 </script>
