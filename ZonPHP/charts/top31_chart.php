@@ -53,7 +53,7 @@ if (mysqli_num_rows($result) == 0) {
 } else {
     while ($row = mysqli_fetch_array($result)) {
         $agegevens[date("Y-m-d", strtotime($row['mydate']))] = $row['mysum'];
-        $fsomeuro += $price_per_kwh * $row['mydate'];
+        $fsomeuro += $price_per_kwh * $row['mysum'];
     }
     $datum = date("M-Y", time());
 }
