@@ -8,24 +8,6 @@ include_once "inc/import_data.php";
 include_once "inc/header.php";
 include_once "charts/month_chart.php";
 
-
-$nextmonthvisible = false;
-$nextmonth = strtotime("+1 month", $chartdate);
-$nextmonthstring = strftime("%Y-%m-%d", strtotime("+1 month", $chartdate));
-if ($nextmonth <= $date_maximum) {
-    $nextmonthvisible = true;
-}
-
-$prevmonthvisible = false;
-$prevmonth = strtotime("-1 month", $chartdate);
-$prevmonthstring = strftime("%Y-%m-%d", strtotime("-1 month", $chartdate));
-$date_minimum1=strtotime("-1 month", $date_minimum);
-
-if ($prevmonth >= $date_minimum1) {
-    $prevmonthvisible = true;
-}
-$chartmonthdatestring = strftime("%Y-%m-01", strtotime("+0 month", $date_maximum));
-
 ?>
 
 
@@ -49,7 +31,6 @@ if (strpos($paramstr_day, "?") == 0) {
 if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
-
 ?>
 
 
@@ -76,7 +57,7 @@ if (strpos($paramstr_choose, "?") == 0) {
             </h2>
         </div>
 
-        <div id="month_chart_<?php echo $inverter_id ?>" style="width:100%; !important; height:100%; !important;"></div>
+        <div id="month_chart_all" style="width:100%; !important; height:100%; !important;"></div>
     </div>
 
 
