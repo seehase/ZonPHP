@@ -175,9 +175,17 @@ foreach ($inveter_list as $inverter_name) {
 // day max line per inverter --------------------------------------------------------------
 $str_max = "";
 $cnt = 0;
-foreach ($sNaamSaveDatabase as $inverter_name) {
-    $str_max .= "{ name: '$inverter_name max', linkedTo: '$inverter_name', color : '#15ff24', lineWidth: 1,  type: 'line', marker: { enabled: false },                           
+
+foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
+    if($key == 0) { 
+        $dash = '';
+    } elseif($key> 0) { 
+        $dash = "dashStyle: 'dash',";
+    }
+    $str_max .= "{ name: '$inverter_name max',  color : '#15ff24', linkedTo: '$inverter_name', lineWidth: 1,  $dash  type: 'line',  stacking: 'normal', marker: { enabled: false },                           
     data:[";
+    
+    //echo $key;
     foreach ($all_valarraymax as $time => $valarraymax) {
         $cnt++;
         // hier in time ist die Ursprüngliche Zeit... muss auf heute geändert werden
@@ -201,6 +209,8 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
                     ";
     $cnt++;
 }
+
+//echo $str_max;
 // remember last date
 $max_last_val = $newDate;
 $str_max = substr($str_max, 0, -1);
@@ -357,8 +367,8 @@ if (strlen($temp_serie) > 0) {
                                     yAxis: 1,
                                     unit: 'kWh',
                                     type: "spline",
-                                    color: '#<?php echo $colors['color_chart_cum_line'] ?>'
-                                })
+                                    color: '#<?php echo $colors['color_chart_cum_line'] ?>',
+                               })
                             }
                         }
                         mychart.forRender = true
@@ -380,13 +390,47 @@ if (strlen($temp_serie) > 0) {
                 }
             },
             plotOptions: {
-                line: { stacking: 'normal',
+                series: { 
                 
                 states: {
                         hover: {
-                            lineWidth: 0
-                        }
+                            lineWidth: 0,
+                        },
+                        inactive: {
+                    opacity: 1
                 }
+                	},
+               	events: {
+        			legendItemClick: function() {
+          			var clickedSeries = this,
+            		lineSeries = clickedSeries.chart.series.filter(series => series.type === 'line'),
+            		visibleLineSeries = [];
+
+          			lineSeries.forEach(function(series) {
+            // Set all series to "dot"
+            		if (series.options.dashStyle === 'solid') {
+              			series.update({
+                		dashStyle: 'dash'
+              			})
+            			}
+            		clickedSeries.index=clickedSeries.index + nmbr;
+            // Push all visible series to an array except the one that was clicked
+            		if (series.visible && series.index !== clickedSeries.index) {
+              			visibleLineSeries.push(series)
+            			}
+            		if (!series.visible && series.index === clickedSeries.index) {
+              
+              			visibleLineSeries.push(series)
+            			}
+          				})
+          	// Set first visible series to "solid"
+          			if (visibleLineSeries.length) {
+            			visibleLineSeries[0].update({
+              			dashStyle: 'solid'
+          				})
+          				}
+        			  }
+      				}
                 },
                 area: {
                     marker: {
@@ -397,11 +441,14 @@ if (strlen($temp_serie) > 0) {
                     states: {
                         hover: {
                             lineWidth: 1
-                        }
+                        },
+                        inactive: {
+                    opacity: 1
+                }
                     },
                     threshold: 0,
                     stacking: 'normal'
-                }
+                },
             },
             subtitle: {
                 style: {
@@ -419,7 +466,7 @@ if (strlen($temp_serie) > 0) {
             },
             yAxis: [{ // Watt
                 title: {
-                    text: 'Watt',
+                    text: 'Power',
                     style: {
                         color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>'
                     },
@@ -484,6 +531,8 @@ if (strlen($temp_serie) > 0) {
             series: [
                 <?php echo $str_dataserie ?>
                 <?php echo $str_max ?>
+                
+                
                 <?php echo $temp_serie ?>
             ]
         }), function (mychart) {
