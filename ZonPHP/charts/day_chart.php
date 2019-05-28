@@ -336,26 +336,41 @@ if (strlen($temp_serie) > 0) {
                         //construct chart
                         total = [];
                         value = 0;
+                      
                         indexOfVisibleSeries = [];
                         checkHideForSpline = 1;
                         if (mychart.forRender) {
                             mychart.forRender = false;
+                            
                             //function to check amount of visible series and to destroy old spline series
                             mychart.series.forEach(s => {
+                                
                                 if (s.type === 'spline' && s.visible === true && s.name != 'Temp') {
                                     s.destroy()
                                 } else if (s.type === 'spline' && s.visible === false) {
+                                    //console.log(s.index)
                                     checkHideForSpline = 0
                                 }
-                                if (s.type === 'area' && s.visible) {
+                                                          
+                                
+                               if (s.type === 'area' && s.visible ) {
+                                    
+                           //      if (s.type === 'area' && s.visible && s.index) {
+
+//                                
+                               
+                               
                                     indexOfVisibleSeries.push(s.index);
-                                }
+                                }console.log (indexOfVisibleSeries)
                             });
 							if (checkHideForSpline) {
                                 for (i = 0; i < mychart.series[0].data.length; i++) {
-                                    for (j of indexOfVisibleSeries) {
-                                        value += mychart.series[j].data[i].y / 12000;
-                                        axis = mychart.series[j].data[i].x;
+                                    for (h of indexOfVisibleSeries) {
+                                    
+                                        
+                                        //console.log(indexOfVisibleSeries);
+                                        value += mychart.series[h].data[i].y / 12000;
+                                        axis = mychart.series[h].data[i].x;
                                     }
                                     if(typeof axis !== 'undefined') {
                                         total.push([axis, value]);
@@ -364,6 +379,7 @@ if (strlen($temp_serie) > 0) {
                                 mychart.addSeries({
                                     data: total,
                                     name: 'Cum',
+                                    
                                     yAxis: 1,
                                     unit: 'kWh',
                                     type: "spline",
@@ -400,7 +416,10 @@ if (strlen($temp_serie) > 0) {
                     opacity: 1
                 }
                 	},
-               	events: {
+               	
+                },
+                area: {
+                   events: {
         			legendItemClick: function() {
           			var clickedSeries = this,
             		lineSeries = clickedSeries.chart.series.filter(series => series.type === 'line'),
@@ -413,13 +432,14 @@ if (strlen($temp_serie) > 0) {
                 		dashStyle: 'dash'
               			})
             			}
-            		clickedSeries.index=clickedSeries.index + nmbr;
+            		//clickedSeries.index=clickedSeries.index + nmbr;
             // Push all visible series to an array except the one that was clicked
-            		if (series.visible && series.index !== clickedSeries.index) {
+            		if (series.visible && series.index !== clickedSeries.index + nmbr) {
+              			//console.log ('case a')
               			visibleLineSeries.push(series)
             			}
-            		if (!series.visible && series.index === clickedSeries.index) {
-              
+            		if (!series.visible && series.index === clickedSeries.index + nmbr) {
+              			//console.log ('case b')
               			visibleLineSeries.push(series)
             			}
           				})
@@ -430,9 +450,11 @@ if (strlen($temp_serie) > 0) {
           				})
           				}
         			  }
-      				}
-                },
-                area: {
+      				}, 
+                    
+                    
+                    
+                    
                     marker: {
                         radius: 2,
                         enabled: false
