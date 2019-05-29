@@ -209,8 +209,6 @@ foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
                     ";
     $cnt++;
 }
-
-//echo $str_max;
 // remember last date
 $max_last_val = $newDate;
 $str_max = substr($str_max, 0, -1);
@@ -273,9 +271,7 @@ if (strlen($temp_serie) > 0) {
 ?>
 <script type="text/javascript">
     $(function () {
-        function add(accumulator, a) {
-    return accumulator + a;
-}
+        function add(accumulator, a) { return accumulator + a;	}
         
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
@@ -289,7 +285,6 @@ if (strlen($temp_serie) > 0) {
         var txt_max = '<?php echo $txt['max'] ?>';
         var txt_peak = '<?php echo $txt['peak'] ?>';
         
-        //console.log (khhWp.length);
         Highcharts.setOptions({<?php echo $chart_lang ?>});
         var mychart = new Highcharts.chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
             chart: {
@@ -325,6 +320,7 @@ if (strlen($temp_serie) > 0) {
                         if (AX.length == 0) {PEAK = 0;}
 						else {
                         PEAK = AX[0];}
+                        
                         this.setSubtitle({
                             text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(SUM, 0, ",", "") +
                                 "W" + "=" + (Highcharts.numberFormat(100 * SUM / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + PEAK + "W <br/><b>" +
@@ -341,34 +337,20 @@ if (strlen($temp_serie) > 0) {
                         checkHideForSpline = 1;
                         if (mychart.forRender) {
                             mychart.forRender = false;
-                            
                             //function to check amount of visible series and to destroy old spline series
                             mychart.series.forEach(s => {
-                                
                                 if (s.type === 'spline' && s.visible === true && s.name != 'Temp') {
                                     s.destroy()
                                 } else if (s.type === 'spline' && s.visible === false) {
-                                    //console.log(s.index)
                                     checkHideForSpline = 0
                                 }
-                                                          
-                                
                                if (s.type === 'area' && s.visible ) {
-                                    
-                           //      if (s.type === 'area' && s.visible && s.index) {
-
-//                                
-                               
-                               
                                     indexOfVisibleSeries.push(s.index);
-                                }console.log (indexOfVisibleSeries)
+                                }
                             });
 							if (checkHideForSpline) {
                                 for (i = 0; i < mychart.series[0].data.length; i++) {
                                     for (h of indexOfVisibleSeries) {
-                                    
-                                        
-                                        //console.log(indexOfVisibleSeries);
                                         value += mychart.series[h].data[i].y / 12000;
                                         axis = mychart.series[h].data[i].x;
                                     }
@@ -384,10 +366,10 @@ if (strlen($temp_serie) > 0) {
                                     unit: 'kWh',
                                     type: "spline",
                                     color: '#<?php echo $colors['color_chart_cum_line'] ?>',
-                               })
-                            }
-                        }
-                        mychart.forRender = true
+                               		})
+                            	}
+                        	}
+                      	mychart.forRender = true
                     }
                 }
             },
@@ -407,24 +389,21 @@ if (strlen($temp_serie) > 0) {
             },
             plotOptions: {
                 series: { 
-                
-                states: {
+                	states: {
                         hover: {
                             lineWidth: 0,
-                        },
+                        		},
                         inactive: {
-                    opacity: 1
-                }
-                	},
-               	
-                },
+                    		opacity: 1
+                				}
+                			},
+			              },
                 area: {
                    events: {
         			legendItemClick: function() {
           			var clickedSeries = this,
             		lineSeries = clickedSeries.chart.series.filter(series => series.type === 'line'),
             		visibleLineSeries = [];
-
           			lineSeries.forEach(function(series) {
             // Set all series to "dot"
             		if (series.options.dashStyle === 'solid') {
@@ -432,14 +411,11 @@ if (strlen($temp_serie) > 0) {
                 		dashStyle: 'dash'
               			})
             			}
-            		//clickedSeries.index=clickedSeries.index + nmbr;
             // Push all visible series to an array except the one that was clicked
             		if (series.visible && series.index !== clickedSeries.index + nmbr) {
-              			//console.log ('case a')
               			visibleLineSeries.push(series)
             			}
             		if (!series.visible && series.index === clickedSeries.index + nmbr) {
-              			//console.log ('case b')
               			visibleLineSeries.push(series)
             			}
           				})
@@ -451,10 +427,6 @@ if (strlen($temp_serie) > 0) {
           				}
         			  }
       				}, 
-                    
-                    
-                    
-                    
                     marker: {
                         radius: 2,
                         enabled: false
@@ -462,7 +434,7 @@ if (strlen($temp_serie) > 0) {
                     lineWidth: 1,
                     states: {
                         hover: {
-                            lineWidth: 1
+                            lineWidth: 0
                         },
                         inactive: {
                     opacity: 1
@@ -553,8 +525,6 @@ if (strlen($temp_serie) > 0) {
             series: [
                 <?php echo $str_dataserie ?>
                 <?php echo $str_max ?>
-                
-                
                 <?php echo $temp_serie ?>
             ]
         }), function (mychart) {
