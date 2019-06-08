@@ -175,9 +175,17 @@ foreach ($inveter_list as $inverter_name) {
 // day max line per inverter --------------------------------------------------------------
 $str_max = "";
 $cnt = 0;
-foreach ($sNaamSaveDatabase as $inverter_name) {
-    $str_max .= "{ name: '$inverter_name max', linkedTo: '$inverter_name', color : '#15ff24', lineWidth: 1,  type: 'line', marker: { enabled: false },                           
+
+foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
+    if($key == 0) { 
+        $dash = '';
+    } elseif($key> 0) { 
+        $dash = "dashStyle: 'dash',";
+    }
+    $str_max .= "{ name: '$inverter_name max',  color : '#15ff24', linkedTo: '$inverter_name', lineWidth: 1,  $dash  type: 'line',  stacking: 'normal', marker: { enabled: false },                           
     data:[";
+    
+    //echo $key;
     foreach ($all_valarraymax as $time => $valarraymax) {
         $cnt++;
         // hier in time ist die Ursprüngliche Zeit... muss auf heute geändert werden
@@ -263,9 +271,7 @@ if (strlen($temp_serie) > 0) {
 ?>
 <script type="text/javascript">
     $(function () {
-        function add(accumulator, a) {
-    return accumulator + a;
-}
+        function add(accumulator, a) { return accumulator + a;	}
         
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
@@ -279,7 +285,6 @@ if (strlen($temp_serie) > 0) {
         var txt_max = '<?php echo $txt['max'] ?>';
         var txt_peak = '<?php echo $txt['peak'] ?>';
         
-        //console.log (khhWp.length);
         Highcharts.setOptions({<?php echo $chart_lang ?>});
         var mychart = new Highcharts.chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
             chart: {
@@ -315,6 +320,7 @@ if (strlen($temp_serie) > 0) {
                         if (AX.length == 0) {PEAK = 0;}
 						else {
                         PEAK = AX[0];}
+                        
                         this.setSubtitle({
                             text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(SUM, 0, ",", "") +
                                 "W" + "=" + (Highcharts.numberFormat(100 * SUM / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + PEAK + "W <br/><b>" +
@@ -326,6 +332,7 @@ if (strlen($temp_serie) > 0) {
                         //construct chart
                         total = [];
                         value = 0;
+                      
                         indexOfVisibleSeries = [];
                         checkHideForSpline = 1;
                         if (mychart.forRender) {
@@ -337,15 +344,15 @@ if (strlen($temp_serie) > 0) {
                                 } else if (s.type === 'spline' && s.visible === false) {
                                     checkHideForSpline = 0
                                 }
-                                if (s.type === 'area' && s.visible) {
+                               if (s.type === 'area' && s.visible ) {
                                     indexOfVisibleSeries.push(s.index);
                                 }
                             });
 							if (checkHideForSpline) {
                                 for (i = 0; i < mychart.series[0].data.length; i++) {
-                                    for (j of indexOfVisibleSeries) {
-                                        value += mychart.series[j].data[i].y / 12000;
-                                        axis = mychart.series[j].data[i].x;
+                                    for (h of indexOfVisibleSeries) {
+                                        value += mychart.series[h].data[i].y / 12000;
+                                        axis = mychart.series[h].data[i].x;
                                     }
                                     if(typeof axis !== 'undefined') {
                                         total.push([axis, value]);
@@ -354,14 +361,15 @@ if (strlen($temp_serie) > 0) {
                                 mychart.addSeries({
                                     data: total,
                                     name: 'Cum',
+                                    
                                     yAxis: 1,
                                     unit: 'kWh',
                                     type: "spline",
-                                    color: '#<?php echo $colors['color_chart_cum_line'] ?>'
-                                })
-                            }
-                        }
-                        mychart.forRender = true
+                                    color: '#<?php echo $colors['color_chart_cum_line'] ?>',
+                               		})
+                            	}
+                        	}
+                      	mychart.forRender = true
                     }
                 }
             },
@@ -380,15 +388,45 @@ if (strlen($temp_serie) > 0) {
                 }
             },
             plotOptions: {
-                line: { stacking: 'normal',
-                
-                states: {
+                series: { 
+                	states: {
                         hover: {
-                            lineWidth: 0
-                        }
-                }
-                },
+                            lineWidth: 0,
+                        		},
+                        inactive: {
+                    		opacity: 1
+                				}
+                			},
+			              },
                 area: {
+                   events: {
+        			legendItemClick: function() {
+          			var clickedSeries = this,
+            		lineSeries = clickedSeries.chart.series.filter(series => series.type === 'line'),
+            		visibleLineSeries = [];
+          			lineSeries.forEach(function(series) {
+            // Set all series to "dot"
+            		if (series.options.dashStyle === 'solid') {
+              			series.update({
+                		dashStyle: 'dash'
+              			})
+            			}
+            // Push all visible series to an array except the one that was clicked
+            		if (series.visible && series.index !== clickedSeries.index + nmbr) {
+              			visibleLineSeries.push(series)
+            			}
+            		if (!series.visible && series.index === clickedSeries.index + nmbr) {
+              			visibleLineSeries.push(series)
+            			}
+          				})
+          	// Set first visible series to "solid"
+          			if (visibleLineSeries.length) {
+            			visibleLineSeries[0].update({
+              			dashStyle: 'solid'
+          				})
+          				}
+        			  }
+      				}, 
                     marker: {
                         radius: 2,
                         enabled: false
@@ -396,12 +434,15 @@ if (strlen($temp_serie) > 0) {
                     lineWidth: 1,
                     states: {
                         hover: {
-                            lineWidth: 1
-                        }
+                            lineWidth: 0
+                        },
+                        inactive: {
+                    opacity: 1
+                }
                     },
                     threshold: 0,
                     stacking: 'normal'
-                }
+                },
             },
             subtitle: {
                 style: {
@@ -419,7 +460,7 @@ if (strlen($temp_serie) > 0) {
             },
             yAxis: [{ // Watt
                 title: {
-                    text: 'Watt',
+                    text: 'Power',
                     style: {
                         color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>'
                     },
