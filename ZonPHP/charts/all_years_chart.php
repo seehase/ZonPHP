@@ -37,12 +37,14 @@ $sql = "SELECT SUM( Geg_Maand ) AS sum_month, year( Datum_Maand ) AS year, month
             count( Datum_Maand ) AS tdag_maand
         FROM " . $table_prefix . "_maand     
         GROUP BY year, month, naam";
-
+//echo $sql;
 $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
 $sum_per_year = array();
 $total_sum_for_all_years = 0;
 $average_per_month = 0;
 $fsomeuro = 0;
+
+
 
 $missing_days_month_year = array();
 if (mysqli_num_rows($result) == 0) {
@@ -69,18 +71,32 @@ if (mysqli_num_rows($result) == 0) {
             }
         };
     }
+    //print_r ($sum_per_year);
     $total_sum_for_all_years = 0;
-    foreach ($sum_per_year as $year => $val) {
+    //foreach ($sum_per_year as $inverter_name => $valss) {
+    foreach ($sum_per_year as $inverter_name => $val) {
+        //print_r ($val);
         $total_sum_for_all_years += array_sum($val);
     }
     $average_per_month = $total_sum_for_all_years / count($sum_per_year);
     $fsomeuro += $current_euro * $total_sum_for_all_years;
+//}
 }
+//print_r ($total_sum_for_all_years);
 
-
+//new year average per inverter in clean array
+$sqltotal= "SELECT ROUND((SUM( Geg_Maand ) /  COUNT( Geg_Maand ))* 365 , 0 ) AS grand_total_average 
+FROM " . $table_prefix . "_maand
+GROUP BY naam";
+$result = mysqli_query($con, $sqltotal)or die("Query failed (total average) " . mysqli_error($con));
+ while($row = mysqli_fetch_array($result)) {
+   $avg_data[] = $row['grand_total_average'];
+}
+//print_r ($avg_data);
+//end
 $sqlref = "SELECT month( Datum_Refer ) AS maand, Geg_Refer, Dag_Refer
         FROM " . $table_prefix . "_refer ";
-
+//echo $sqlref;
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. totaal-ref " . mysqli_error($con));
 $frefjaar = 0;
 $arefjaar = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -91,6 +107,17 @@ if (mysqli_num_rows($resultref) != 0) {
     }
 } else
     $frefjaar = 1;
+//print_r ($frefjaar);
+$ref_data= array();
+$sqlreftot="SELECT SUM(Geg_Refer) as total_ref FROM " . $table_prefix . "_refer GROUP by naam ORDER by naam";
+//echo $sqlreftot;
+
+$result = mysqli_query($con, $sqlreftot)or die("Query failed (total average) " . mysqli_error($con));
+ while($row = mysqli_fetch_array($result)) {
+   $ref_data[] = $row['total_ref'];
+}
+
+//print_r($ref_data);
 
 $sqlgem = "SELECT month( Datum_Maand ) AS maand, AVG( Geg_Maand ) AS gem, naam
         FROM " . $table_prefix . "_maand 
@@ -194,8 +221,8 @@ foreach ($inveter_list as $inverter_name) {
             $best_year_per_inverter = max($sum_per_year)[$inverter_name];
         }
 
-        // normal chart
-        $val = round($fkw[$inverter_name], 2);
+        // normal chart, $val throws errors when missing inverter index
+        @$val = round($fkw[$inverter_name], 2);
         $current_bars .= "
                     {  
                       y: $val, 
@@ -269,12 +296,22 @@ include_once "chart_styles.php";
 <script type="text/javascript">
 
     $(function () {
+    	function add(accumulator, a) {
+    	return accumulator + a;
+			} 
         var sub_title = '<?php echo $sub_title ?>';
+        var txt = '<?php echo $txt["totaal"] ?>';
+        var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        var nmbr =  khhWp.length //misused to get the inverter count
+        var txt_max = '<?php echo $txt['max'] ?>';
+        var txt_ref = '<?php echo $txt['ref'] ?>';
         var avrg = <?php echo round($average_per_month, 0); ?>;
         var ref = <?php echo round($frefjaar, 0); ?>;
         var years = <?php echo $yearcount ?>;
         var myoptions = <?php echo $chart_options ?>;
-
+		var txt_gem = '<?php echo $txt['gem'] ?>';
+        var avg = <?php echo json_encode ($avg_data, JSON_NUMERIC_CHECK) ?>;
+        var ref = <?php echo json_encode ($ref_data, JSON_NUMERIC_CHECK) ?>;
         var mychart = new Highcharts.Chart('total_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
 
             chart: {
@@ -283,16 +320,155 @@ include_once "chart_styles.php";
                         // make serias public available
                         mychart = this;
                         series = this.series;
+                        totayr = 0;
+                        kWh =[];
+                        gem =[];
+                        sum =[];
+                        refref=[];
+                        peak = [];
+                        for (i = nmbr-1; i >= 0 ; i--) {
+                            if (series[i].visible) {
+                                for (j = 0; j < series[i].data.length; j++) {
+                                    totayr += (series[i].data[j].y) ;//Total
+                                    kWh[i] = khhWp[i]; //KWH
+                                    sum = series[i].data.length
+                                   	refref[i]=ref[i]
+                                   	gem[i] = avg[i] ;
+                                    peak[i] = series[i].dataMax //PEAK
+                                    //refref[i] = nref[i];
+                                }
+                            }
+                        }
+                        //console.log(ref)
+                        TOT = totayr;
+                        KWH = kWh.reduce(add, 0);
+                        GEM = gem.reduce(add, 0);
+                        GE2= GEM;
+                        REF = refref.reduce(add, 0);
+                        var AX = peak.filter(Boolean);
+                        if (AX.length == 0) {PEAK = 0;}
+						else {
+                        PEAK = AX[0];};
+                        
+                        
+                        
+                        
+                        
+                        this.setSubtitle({
+                            text: "<b>" +txt + ": </b>"  +(Highcharts.numberFormat(totayr, 0, ",", "")) + " kWh = " + (Highcharts.numberFormat((totayr / KWH) * 1000, 0, ",", "")) + " kWh/kWp " + " <br/><b>" 
+                                +txt_max + ": </b>" +(Highcharts.numberFormat(PEAK, 0, ",", "")) + " kWh = " +
+                                (Highcharts.numberFormat((PEAK / KWH) * 1000, 0, ",", "")) + " kWh/kWp" + " <b>" +
+                                txt_gem + ": </b>" +(Highcharts.numberFormat(GEM, 0, ",", "")) + " kWh" + " <b>" +txt_ref + ": </b>" + (Highcharts.numberFormat(REF, 0, ",", "")) + " kWh"
+                        }, false, false);
+                        //average plotline
+                        mychart.yAxis[0].addPlotLine({
+    					id	: 'Average',
+    					value : GEM,
+    					color : '#<?php echo $colors['color_chart_average_line'] ?>',
+    					dashStyle : 'shortdash',
+    					events: {
+          				mouseover: function(e) {
+            			var series = this.axis.series[0],
+            			chart = series.chart,
+            	 		PointClass = series.pointClass,
+              			tooltip = chart.tooltip,
+              			point = (new PointClass()).init(
+                		series, ['Average', this.options.value]
+              			),
+              			normalizedEvent = chart.pointer.normalize(e);
+           				point.tooltipPos = [
+           				normalizedEvent.chartX - chart.plotLeft,
+            			normalizedEvent.chartY - chart.plotTop
+           				];
+            			tooltip.refresh(point);
+        				},
+        				mouseout: function(e) {
+          				this.axis.chart.tooltip.hide();
+        				}
+      					},
+    					width : 2,
+    					});
+    					//average plotline
+                        mychart.yAxis[0].addPlotLine({
+    					id	: 'Reference',
+    					value : REF,
+    					color : '#<?php echo $colors['color_chart_reference_line'] ?>',
+    					dashStyle : 'shortdash',
+    					events: {
+          				mouseover: function(e) {
+            			var series = this.axis.series[0],
+            			chart = series.chart,
+            	 		PointClass = series.pointClass,
+              			tooltip = chart.tooltip,
+              			point = (new PointClass()).init(
+                		series, ['Reference', this.options.value]
+              			),
+              			normalizedEvent = chart.pointer.normalize(e);
+           				point.tooltipPos = [
+           				normalizedEvent.chartX - chart.plotLeft,
+            			normalizedEvent.chartY - chart.plotTop
+           				];
+            			tooltip.refresh(point);
+        				},
+        				mouseout: function(e) {
+          				this.axis.chart.tooltip.hide();
+        				}
+      					},
+    					width : 2,
+    					});
+    					
                     }
                 }
             },
             subtitle: {
-                text: sub_title,
+                //text: sub_title,
                 style: {
                     color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
                 },
             },
 
+            plotOptions: {
+                
+                
+                series: { 
+                	states: {
+                        hover: {
+                            lineWidth: 0,
+                        		},
+                        inactive: {
+                    		opacity: 1
+                				}
+                			},
+			              },
+                column: {
+                   events: {
+        			legendItemClick: function() {
+          			
+          			var clickedSeries = this;
+            		mychart.yAxis[0].removePlotLine('Average');
+          			mychart.yAxis[0].removePlotLine('Reference');	
+        			  
+      				}, 
+                    marker: {
+                        radius: 2,
+                        enabled: false
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 0
+                        },
+                        inactive: {
+                    opacity: 1
+                }
+                    },
+                    threshold: 0,
+                    //stacking: 'normal'
+                }
+            }
+            },
+            
+            
             xAxis: [{
                 labels: {
                     rotation: 0,
@@ -326,7 +502,15 @@ include_once "chart_styles.php";
                 formatter: function () {
                     if (this.series.name == 'kWh/Year') {
                         return this.x + ': ' + this.y.toFixed(0) + 'kWh';
-                    } else {
+                    } 
+                    if ((typeof(this.x) == 'undefined') && this.y == GEM ) {
+                        return mychart.yAxis[0].plotLinesAndBands[0].id + ' ' + this.y.toFixed(0)  + ' kWh';
+                    }
+                    if ((typeof(this.x) == 'undefined') && this.y == REF ) {
+                        return mychart.yAxis[0].plotLinesAndBands[1].id + ' ' + this.y.toFixed(0)  + ' kWh';
+                    }
+                    
+                    else {
                         return this.series.name + ' ' + this.y.toFixed(0) + 'kWh';
                     }
                 }
@@ -334,14 +518,17 @@ include_once "chart_styles.php";
 
 
             series: [
-                {
+               /* 
+ {
                     name: "Expected",
                     type: "column",
                     color: '#<?php echo $colors['color_chart_expected_bar'] ?>',
                     data: [<?php echo $expected_bars; ?>],
                 },
+ */
                 <?php echo $strdataseries ?>
-                {
+                /* 
+{
                     name: "Average",
                     type: "line",
                     color: '#<?php echo $colors['color_chart_average_line'] ?>',
@@ -353,9 +540,9 @@ include_once "chart_styles.php";
                     color: '#<?php echo $colors['color_chart_reference_line'] ?>',
                     data: [{x: -0.4, y: ref}, {x: years - 0.6, y: ref}],
                 },
+ */
             ]
         }));
-
 		setInterval(function() {
   	$("#total_chart_<?php echo $inverter_id ?>").highcharts().reflow();  }, 500);
         
