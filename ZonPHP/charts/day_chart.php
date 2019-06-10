@@ -192,6 +192,10 @@ foreach ($inveter_list as $inverter_name) {
     $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
     foreach ($all_valarray as $time => $valarray) {
+        if ($cnt == 1) {
+            // remember first date
+            $max_first_val = $newDate;
+        }
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
         if (isset($param['no_units'])) {
             $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . '}, ';
