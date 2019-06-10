@@ -80,57 +80,77 @@ if (mysqli_num_rows($result) == 0) {
     $datum = strftime("%d %B %Y", $chartdate);
 }
 //--------------------------------------------------------------------------------------------------
-// get best day for current month (max value over all years for current month
-$sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
+// get best day for current month (max value over all years for current month) per each inverter
+$maxdays = array();
+foreach ($sNaamSaveDatabase as $key => $inverter) {
+    $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
 	 FROM " . $table_prefix . "_maand
-	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . $table_prefix . "_maand WHERE 
-     DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . " GROUP BY maand )AS maandelijks ON (month(" .
-    $table_prefix . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . $table_prefix . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
-$resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
-if (mysqli_num_rows($resultmaxdag) == 0) {
-    $maxdag = date("y-m-d", time());
-///     $maxkwh = 0;
-} else {
-    while ($row = mysqli_fetch_array($resultmaxdag)) {
-        $maxdag = $row['Datum_Maand'];
-///        $maxkwh = round($row['Geg_Maand'], 2);
+	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . $table_prefix . "_maand 
+	 WHERE DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . "
+	   AND naam = '" . $inverter . "'  
+     GROUP BY maand )AS maandelijks ON (month(" .
+        $table_prefix . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . $table_prefix . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
+    $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
+    if (mysqli_num_rows($resultmaxdag) == 0) {
+        $maxdays[$inverter] = date("y-m-d", time());
+    } else {
+        while ($row = mysqli_fetch_array($resultmaxdag)) {
+            $maxdays[$inverter] = $row['Datum_Maand'];
+        }
     }
 }
-// Query maxkwh to get array with max value for all inverters
-$sqlmaxkwh = "SELECT Geg_Maand, Naam
-	 FROM " . $table_prefix . "_maand
-	 WHERE Datum_Maand LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%' 
-	 ORDER BY Naam ASC ";
-$resultmaxkwh = mysqli_query($con, $sqlmaxkwh) or die("Query failed. kwh-max " . mysqli_error($con));
-if (mysqli_num_rows($resultmaxkwh) == 0) {
-    $maxkwh[] = 0;
-} else {
-    while ($row = mysqli_fetch_array($resultmaxkwh)) {
-        $maxkwh[] = round($row['Geg_Maand'], 2);
+
+/// to be removed
+/*
+
+    // Query maxkwh to get array with max value for all inverters
+    $sqlmaxkwh = "SELECT Geg_Maand, Naam
+         FROM " . $table_prefix . "_maand
+         WHERE Datum_Maand LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%'
+         ORDER BY Naam ASC ";
+    $resultmaxkwh = mysqli_query($con, $sqlmaxkwh) or die("Query failed. kwh-max " . mysqli_error($con));
+    if (mysqli_num_rows($resultmaxkwh) == 0) {
+        $maxkwh[] = 0;
+    } else {
+        while ($row = mysqli_fetch_array($resultmaxkwh)) {
+            $maxkwh[] = round($row['Geg_Maand'], 2);
+        }
     }
-}
-/// $maxkwh = number_format($maxkwh, 2, ',', ' ');
-$nice_max_date = date("Y-m-d", strtotime($maxdag));
-// select data from the best day for current month
-$sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
-FROM " . $table_prefix . "_dag
-WHERE Datum_Dag LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%'
-ORDER BY Name, datumtijd ASC";
-$resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
-if (mysqli_num_rows($resultmd) == 0) {
-    $maxdagpeak = 0;
-    $agegevensdag_max[] = 0;
-} else {
-    $maxdagpeak = 0;
-    while ($row = mysqli_fetch_array($resultmd)) {
-        $inverter_name = $row['Name'];
-        $valarraymax[strtotime($row['datumtijd'])] = $row['gem'];
-        $all_valarraymax[strtotime($row['datumtijd'])] [$inverter_name] = $row['gem'];
-        $adatum_max[] = $row['datumtijd'];
-        $agegevensdag_max[strtotime($row['datumtijd'])] = $row['gem'];
-        if ($row['gem'] > $maxdagpeak) {
-            $maxdagpeak = $row['gem'];
-        };
+
+   $nice_max_date = date("Y-m-d", strtotime($maxdag));
+*/
+/// to be removed
+
+
+// select data from the best day for current month per inverter
+foreach ($maxdays as $inverter => $maxday) {
+    $sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
+                   FROM " . $table_prefix . "_dag
+                  WHERE Datum_Dag LIKE  '" . date("Y-m-d", strtotime($maxday)) . "%'
+                    AND naam = '" . $inverter . "'
+                  ORDER BY Name, datumtijd ASC";
+    $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
+    if (mysqli_num_rows($resultmd) == 0) {
+        $maxdagpeak = 0;
+        /// $agegevensdag_max[] = 0;
+    } else {
+        $maxdagpeak = 0;
+        while ($row = mysqli_fetch_array($resultmd)) {
+            $inverter_name = $row['Name'];
+
+            // take original date and convert it to the current chartdate
+            $orginal_date = strtotime($row['datumtijd']);
+            $hour = intval(date('G', $orginal_date));
+            $minutes = intval(date('i', $orginal_date));
+            $newDate = mktime($hour, $minutes, 0, intval(date('m', $chartdate)), intval(date('j', $chartdate)), intval(date('Y', $chartdate)));
+
+            $valarraymax[$newDate] = $row['gem'];
+            $all_valarraymax[$newDate] [$inverter_name] = $row['gem'];
+
+            if ($row['gem'] > $maxdagpeak) {
+                $maxdagpeak = $row['gem'];
+            };
+        }
     }
 }
 //--------------------------------------------------------------------------------------------------
@@ -184,19 +204,10 @@ foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
     }
     $str_max .= "{ name: '$inverter_name max',  color : '#15ff24', linkedTo: '$inverter_name', lineWidth: 1,  $dash  type: 'line',  stacking: 'normal', marker: { enabled: false },                           
     data:[";
-    
-    //echo $key;
+
     foreach ($all_valarraymax as $time => $valarraymax) {
         $cnt++;
-        // hier in time ist die Ursprüngliche Zeit... muss auf heute geändert werden
-        $orginal_date = date($time);
-        $hour = intval(date('G', $orginal_date));
-        $minutes = intval(date('i', $orginal_date));
-        $newDate = mktime($hour, $minutes, 0, intval(date('m', $chartdate)), intval(date('j', $chartdate)), intval(date('Y', $chartdate)));
-        if ($cnt == 1) {
-            // remember first date
-            $max_first_val = $newDate;
-        }
+        $newDate = date($time);
         if (!isset($valarraymax[$inverter_name])) $valarraymax[$inverter_name] = 0;
         if (isset($param['no_units'])) {
             $str_max .= '{x:' . ($newDate * 1000) . ', y:' . $valarraymax[$inverter_name] . '}, ';
@@ -209,6 +220,7 @@ foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
                     ";
     $cnt++;
 }
+
 // remember last date
 $max_last_val = $newDate;
 $str_max = substr($str_max, 0, -1);
@@ -259,7 +271,7 @@ if (sizeof($_GET) > 0) {
 if (strpos($paramstr_day, "?") == 0) {
     $paramstr_day = '?' . $paramstr_day;
 }
-$maxlink = '<a href=\"day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '\">' . $nice_max_date . '</a>';
+/// $maxlink = '<a href=\"day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '\">' . $nice_max_date . '</a>';
 
 include_once "chart_styles.php";
 $show_temp_axis = "false";
@@ -268,6 +280,9 @@ if (strlen($temp_serie) > 0) {
     $show_temp_axis = "true";
     $show_cum_axis = "false";
 }
+
+$maxkwh = array();
+$maxlink = "";
 ?>
 <script type="text/javascript">
     $(function () {
@@ -276,8 +291,10 @@ if (strlen($temp_serie) > 0) {
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var nmbr =  khhWp.length //misused to get the inverter count
-        var maxmax = <?php echo json_encode($maxkwh) ?>;
-        var maxlink = '<?php echo $maxlink ?>';
+         /// do be removed
+           var maxmax = <?php echo json_encode($maxkwh) ?>;
+           var maxlink = '<?php echo $maxlink ?>';
+        /// do be removed
         var temp_max = <?php echo $val_max ?>;
         var temp_min = <?php echo $val_min ?>;
         var txt_actueel = '<?php echo $txt['actueel'] ?>';
@@ -307,7 +324,7 @@ if (strlen($temp_serie) > 0) {
                                     sum[i] = (series[i].data[series[i].data.length - 1]).y; //sum
                                     current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);//TIME
                                     kWh[i] = khhWp[i]; //KWH
-                            		max[i] = maxmax[i]; //MAXday
+                            		 max[i] = maxmax[i]; //MAXday
                                     peak[i] = series[i].dataMax //PEAK
                                 }
                             }
@@ -315,7 +332,8 @@ if (strlen($temp_serie) > 0) {
 
                         SUM = sum.reduce(add, 0);
                         KWH = kWh.reduce(add, 0);
-                        MAX = max.reduce(add, 0);
+                        /// do be removed
+                        ///  MAX = max.reduce(add, 0);
                         var AX = peak.filter(Boolean);
                         if (AX.length == 0) {PEAK = 0;}
 						else {
@@ -325,8 +343,8 @@ if (strlen($temp_serie) > 0) {
                             text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(SUM, 0, ",", "") +
                                 "W" + "=" + (Highcharts.numberFormat(100 * SUM / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + PEAK + "W <br/><b>" +
                                 txt_totaal + ":</b> " + (Highcharts.numberFormat(tota, 2, ",", "")) + "kWh = " +
-                                (Highcharts.numberFormat((tota / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>" +
-                                txt_max + ": </b>" + maxlink + " " + (Highcharts.numberFormat(MAX, 2, ",", "")) + " kWh"
+                                (Highcharts.numberFormat((tota / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>"
+                                ///  txt_max + ": </b>" + maxlink + " " + (Highcharts.numberFormat(MAX, 2, ",", "")) + " kWh"
                         }, false, false);
                         
                         //construct chart
