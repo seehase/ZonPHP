@@ -72,7 +72,7 @@ if (mysqli_num_rows($result) == 0) {
         $aoplopendkwdag[strtotime($row['datumtijd'])] = $fsomoplopend;
         if (!in_array($inverter_name, $inveter_list)) {
             if (in_array($inverter_name, $sNaamSaveDatabase)) {
-                // add to list only if it configured (ignore db entries)
+                // add to list only if it configured (ignore db entries) and it has values for the current day
                 $inveter_list[] = $inverter_name;
             }
         };
@@ -82,7 +82,7 @@ if (mysqli_num_rows($result) == 0) {
 //--------------------------------------------------------------------------------------------------
 // get best day for current month (max value over all years for current month) per each inverter
 $maxdays = array();
-foreach ($sNaamSaveDatabase as $key => $inverter) {
+foreach ($inveter_list as $key => $inverter) {
     $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
 	 FROM " . $table_prefix . "_maand
 	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . $table_prefix . "_maand 
@@ -131,7 +131,7 @@ foreach ($maxdays as $inverter => $maxday) {
     $maxkwh[] = $maxval;
 
     $nice_max_date = date("Y-m-d", strtotime($maxday));
-   $maxlinks[] = '<a href="day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '">' . $txt['max'] . " " .  $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>';
+    $maxlinks[] = '<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . $txt['max'] . " " .  $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>';
 }
 
 $s = json_encode($maxlinks) ;
