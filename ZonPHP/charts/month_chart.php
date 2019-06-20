@@ -325,11 +325,23 @@ include_once "chart_styles.php";
             
             },
 			plotOptions: {
+	        series: { 
+                	states: {
+                        hover: {
+                        enabled: false,
+                            lineWidth: 0,
+                        		},
+                        inactive: {
+                    		opacity: 1
+                				}
+                			},
+			              },
 	        column: {
     	       events: {
                 legendItemClick: function () {
                    mychart.yAxis[0].removePlotLine('Average');
                    mychart.yAxis[0].removePlotLine('Reference');
+                   
 								}
 							},
 						showInLegend: true
@@ -382,8 +394,23 @@ include_once "chart_styles.php";
                     }
                                         
                     else {
-                        
-                        return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh';
+                        var chart = this.series.chart,
+        		x = this.x,
+        
+        		stackName = this.series.userOptions.stack,
+        		contribuants = '';
+        		//console.log(x);
+
+      			chart.series.forEach(function(series) {
+        		series.points.forEach(function(point) {
+          		if (point.category === x && stackName === point.series.userOptions.stack) {
+            	contribuants += point.series.name + ': ' + point.y + ' kWh<br/>'
+          			}
+       			 })
+      			})
+				if (stackName === undefined) {stackName = '';}
+      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal +  ' kWh';
+                        /* return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh'; */
                     }
                 }
             },
