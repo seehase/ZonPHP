@@ -134,8 +134,8 @@ foreach ($maxdays as $inverter => $maxday) {
     $maxlinks[] = '<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . $txt['max'] . " " .  $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>';
 }
 
-$s = json_encode($maxlinks) ;
 // select data from the best day for current month per inverter
+$all_valarraymax = array();
 foreach ($maxdays as $inverter => $maxday) {
     $sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
                    FROM " . $table_prefix . "_dag
@@ -179,7 +179,8 @@ for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
 }
 $str_dataserie = "";
-$cnt = 0;
+$max_first_val = PHP_INT_MAX;
+$max_last_val = 0;
 foreach ($inveter_list as $inverter_name) {
     $col1 = $myColors[$inverter_name]['min'];
     $col2 = $myColors[$inverter_name]['max'];
@@ -192,26 +193,29 @@ foreach ($inveter_list as $inverter_name) {
     $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
     foreach ($all_valarray as $time => $valarray) {
-        if ($cnt == 1) {
-            // remember first date
-            $max_first_val = $newDate;
-        }
+
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
         if (isset($param['no_units'])) {
             $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . '}, ';
         } else {
             $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
         }
+
+        // remember first and last date
+        if ($max_first_val >$time) {
+            $max_first_val = $time;
+        }
+        if ($max_last_val < $time) {
+            $max_last_val = $time;
+        }
     }
     $str_dataserie = substr($str_dataserie, 0, -1);
     $str_dataserie .= "]}, 
                     ";
-    $cnt++;
+
 }
 // day max line per inverter --------------------------------------------------------------
 $str_max = "";
-$cnt = 0;
-
 foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
     if($key == 0) { 
         $dash = '';
@@ -222,7 +226,6 @@ foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
     data:[";
 
     foreach ($all_valarraymax as $time => $valarraymax) {
-        $cnt++;
         $newDate = date($time);
         if (!isset($valarraymax[$inverter_name])) $valarraymax[$inverter_name] = 0;
         if (isset($param['no_units'])) {
@@ -230,15 +233,20 @@ foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
         } else {
             $str_max .= '{x:' . ($newDate * 1000) . ', y:' . $valarraymax[$inverter_name] . ', unit: \'W\'}, ';
         }
+        // remember first and last date get max/min of all
+        if ($max_first_val >$time) {
+            $max_first_val = $time;
+        }
+        if ($max_last_val < $time) {
+            $max_last_val = $time;
+        }
     }
     $str_max = substr($str_max, 0, -1);
     $str_max .= "]}, 
                     ";
-    $cnt++;
+
 }
 
-// remember last date
-$max_last_val = $newDate;
 $str_max = substr($str_max, 0, -1);
 $strgegmax = substr($strgegmax, 0, -1);
 $external_sensors = isset($param['external_sensors']);
