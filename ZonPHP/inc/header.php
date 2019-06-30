@@ -21,8 +21,17 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <?php
-    //echo '<meta http-equiv="refresh" content="300" >';
+    if (isset($param['autorefresh']) ){
+        $autorefresh =  intval($param['autorefresh']);
+    } else {
+        $autorefresh = 301;
+    }
+
+    if ($autorefresh > 0) {
+        echo '<meta http-equiv="refresh" content="' . $autorefresh . '" >';
+    }
     ?>
+
     <title><?php echo $param['sNaamVoorOpWebsite']; ?></title>
 
 

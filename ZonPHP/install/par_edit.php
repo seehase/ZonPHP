@@ -160,6 +160,14 @@ include_once "par_header.php";
                 <br/>
 
                 <hr>
+                <?php echo $txt["autorefresh"]; ?> <br/>
+                <input type='text' name='autorefresh'
+                       value='<?php if (!empty($_POST['autorefresh'])) echo $_POST['autorefresh']; else echo "300" ?>'
+                       size='63'>
+                <br/>
+
+
+                <hr>
 
                 <?php echo $txt["keuzenaam"]; ?> (,) bv: SLAPER,SIRA,FJORD<br/>
                 <input type='text' name='sNaamSaveDatabasest'
