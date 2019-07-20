@@ -8,9 +8,10 @@ include_once "inc/import_data.php";
 include_once "inc/header.php";
 include_once "charts/last_years_chart.php";
 
-$inverter = $sNaamSaveDatabase[0];
-if (isset( $_GET['naam'])) {
-    $inverter =  $_GET['naam'];
+
+$inverter = $_SESSION['Wie'];
+if (isset($_POST['inverter'])) {
+    $inverter = $_POST['inverter'];
 }
 
 $nextyear = strftime("%Y-%m-%d", strtotime("+1 year", $chartdate));
@@ -48,29 +49,12 @@ $prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
             "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
     }
 
-    if (strlen($choose_inverter_items) > 0){
-        $choose_inverter_dropdown = '
-                        <div style="position: absolute; z-index: 50">
-        
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 15px;margin-left: 20px;">' .
-            $txt['choose_inverter'] . '
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu"> ' .
-            $choose_inverter_items .
-            "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "type=all" .
-            "' onclick=\"target='_self'\">" . $txt['all_inverters'] . "</a></li>" . '
-                            </ul>
-                        </div>
-                
-                ';
-        $multiple_inverters = true;
-}
+    
 ?>
 
 <div id="page-content">
 
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 59px; ">
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
 
             <?php
@@ -79,10 +63,9 @@ $prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
 
             <h2 align="center">
                 <?php
-                echo " " . $inverter . "  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ";
-                echo '<a class="btn btn-primary" href="all_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
-                echo " " .  ($param['jaar'] - 4) . " - " . $param['jaar'] . " ";
-                echo '<a class="btn btn-primary" href="all_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
+                //echo '<a class="btn btn-primary" href="last_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
+                echo "All Years Overview";
+                //echo '<a class="btn btn-primary" href="last_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
                 ?>
             </h2>
         </div>

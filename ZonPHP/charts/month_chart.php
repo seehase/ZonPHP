@@ -52,7 +52,7 @@ if (isset($year_euro[$current_year])) {
 $sqlref = "SELECT *
         FROM " . $table_prefix . "_refer
         WHERE DATE_FORMAT(Datum_Refer,'%m')='" . $current_month . "'" . "
-        ORDER BY Datum_Refer ASC";
+        ORDER BY Naam, Datum_Refer ASC";
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. maand-ref " . mysqli_error($con));
 
 $nfrefmaand = array();
@@ -73,13 +73,13 @@ $sql = "SELECT Datum_Maand, Geg_Maand, naam
         GROUP BY Datum_Maand, naam
         ORDER BY Naam, Datum_Maand ASC";
 $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
-
+$daycount=0;
 $all_valarray = array();
 $inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
     $datum = $txt["nodata"] . strftime("%B-%Y", $chartdate);
     $agegevens[] = 0;
-    $iyasaanpassen = $frefmaand * 1.5;
+    //$iyasaanpassen = $frefmaand * 1.5;
     $geengevmaand = 0;
     $fgemiddelde = 0;
 } else {
@@ -123,7 +123,6 @@ if (mysqli_num_rows($result) == 0) {
 
 <?php
 // -----------------------------  build data for chart -----------------------------------------------------------------
-
 // build colors per inverter array
 $myColors = array();
 for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
@@ -159,6 +158,7 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
             }
             $var = round($all_valarray[$i][$inverter_name], 2);
             if ($var > $local_max ) $local_max = $var;
+            
             $strdata .= "
                     {
                       y: $var, 
@@ -171,7 +171,15 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
                         ]}                                                       
                     },";
         }
+    else
+            {$myColor1="'#FFAABB'";
+            $myColor2="'#FFAABB'";}
     }
+    
+    
+  
+    
+    
     $maxval_yaxis += $local_max;
     $local_max = 0;
     $strdata = substr($strdata, 0, -1);
@@ -235,13 +243,14 @@ include_once "chart_styles.php";
                         totamth = 0;
                         for (i = nmbr-1; i >= 0 ; i--) {
                             if (series[i].visible) {
+                                	kWh[i] = khhWp[i]; //KWH
+                                    sum = series[i].data.length;
+                                	peak[i] = series[i].dataMax; //PEAK
+                                    refref[i] = nref[i];
                                 for (j = 0; j < series[i].data.length; j++) {
                                     totamth += (series[i].data[j].y) ;//Total
-                                    kWh[i] = khhWp[i]; //KWH
-                                    sum = series[i].data.length
                                    	gem = totamth/daycount2 ;
-                                    peak[i] = series[i].dataMax //PEAK
-                                    refref[i] = nref[i];
+                                    
                                 }
                             }
                         }
@@ -325,11 +334,23 @@ include_once "chart_styles.php";
             
             },
 			plotOptions: {
+	        series: { 
+                	states: {
+                        hover: {
+                        enabled: false,
+                            lineWidth: 0,
+                        		},
+                        inactive: {
+                    		opacity: 1
+                				}
+                			},
+			              },
 	        column: {
     	       events: {
                 legendItemClick: function () {
                    mychart.yAxis[0].removePlotLine('Average');
                    mychart.yAxis[0].removePlotLine('Reference');
+                   
 								}
 							},
 						showInLegend: true
@@ -382,8 +403,23 @@ include_once "chart_styles.php";
                     }
                                         
                     else {
-                        
-                        return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh';
+                        var chart = this.series.chart,
+        		x = this.x,
+        
+        		stackName = this.series.userOptions.stack,
+        		contribuants = '';
+        		//console.log(x);
+
+      			chart.series.forEach(function(series) {
+        		series.points.forEach(function(point) {
+          		if (point.category === x && stackName === point.series.userOptions.stack) {
+            	contribuants += point.series.name + ': ' + point.y + ' kWh<br/>'
+          			}
+       			 })
+      			})
+				if (stackName === undefined) {stackName = '';}
+      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal +  ' kWh';
+                        /* return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh'; */
                     }
                 }
             },
