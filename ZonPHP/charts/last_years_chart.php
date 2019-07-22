@@ -5,7 +5,7 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
-
+echo $_SESSION['theme'];
 $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
@@ -25,23 +25,6 @@ if (isset($_GET['jaar'])) {
     $chartdatestring = strftime("%Y-%m-%d", $chartdate);
 }
 $cur_year_month = "" . date('Y-m', $chartdate);
-$color_yearchart = array($colors['color_yearchart0'], $colors['color_yearchart1'], $colors['color_yearchart2'], $colors['color_yearchart3'], $colors['color_yearchart4']);
-//extra colors (each row with palette from light to dark)
-$palettes=array (
-array ('#9ccc65' , '#8bc34a' , '#7cb342' , '#689f38' , '#558b2f' , '33691e'),
-array ('#aed6f1' , '#85c1e9' , '#5dade2' , '#3498db' , '#2e86c1' , '#2874a6'),
-array ('#f9e79f' , '#f7dc6f' , '#f4d03f' , '#f1c40f' , '#d4ac0d' , '#b7950b'),
-array ('#a3e4d7' , '#76d7c4' , '#48c9b0' , '#1abc9c' , '#17a589' , '#148f77'),
-array ('#d7bde2' , '#c39bd3' , '#af7ac5' , '#9b59b6' , '#884ea0' , '#76448a'),
-array ('#ef5350' , '#e53935' , '#c62828' , '#f44336' , '#d32f2f' , '#b71c1c'),
-array ('#f2d7d5' , '#e6b0aa' , '#d98880' , '#cd6155' , '#c0392b' , '#a93226'),
-array ('#aed6f1' , '#85c1e9' , '#5dade2' , '#3498db' , '#2e86c1' , '#2874a6'),
-array ('#f9e79f' , '#f7dc6f' , '#f4d03f' , '#f1c40f' , '#d4ac0d' , '#b7950b'),
-array ('#a3e4d7' , '#76d7c4' , '#48c9b0' , '#1abc9c' , '#17a589' , '#148f77'),
-array ('#d7bde2' , '#c39bd3' , '#af7ac5' , '#9b59b6' , '#884ea0' , '#76448a'),
-array ('#ef5350' , '#e53935' , '#c62828' , '#f44336' , '#d32f2f' , '#b71c1c'));
-// ---------------------------------------------------------------------------------------------------------------------
-
 $paramnw['jaar'] = date("Y", $chartdate);
 
 $sql = "SELECT MAX( Datum_Maand ) AS maxi, YEAR(Datum_Maand) as year, ROUND(SUM( Geg_Maand ),0) AS som, naam
@@ -69,8 +52,6 @@ if (mysqli_num_rows($result) == 0) {
 }
 $acdatum=array_values(array_unique($acdatum));
 $firstYear=reset($acdatum);
-//print_r($acdatum);
-//echo $firstYear;
 
 //  new average
 $sqlavg = "SELECT Naam, MONTH( Datum_Maand ) AS Maand, ROUND( SUM( Geg_Maand ) / COUNT( DISTINCT (
@@ -84,7 +65,7 @@ $result = mysqli_query($con, $sqlavg)or die("Query failed (gemiddelde) " . mysql
    $avg_data[$row['Naam']][$row['Maand']] = $row['AVG'];
 }
 
-//ref nieuw
+//	new reference
 $sqlref = "SELECT Naam, SUM(Geg_Refer) as sum_geg_refer, SUM(Dag_Refer) as sum_dag_refer, Datum_Refer
 	FROM " . $table_prefix . "_refer " .
 	" GROUP BY Naam, Datum_refer
@@ -138,35 +119,14 @@ if (mysqli_num_rows($resultmax) == 0) {
 		$nmaxmaand_jaar[$row['maand']][$row['Name']] = $row['jaar'];
     }
 }
-//print "<pre>";
-//print_r($nmaxmaand_jaar);
-//print "</pre>";
 ?>
 <?php
 // ----------------------------------------------------------------------------
-$strgeg = "";
 $strxas = "";
-$strgemiddelde = "";
-$strref = "";
-$strmax = "";
 $tellerkleuren = 0;
-$strbar3d = "";
-$max = 0;
-
-$on_click = "allejaar";
-$str_data = "";
-
-$str_ticks = "";
 $href = "month_overview.php?maand=";
-$max_per_month = "";
-$tip_max_month = "";
-$tip_ref_month = "";
 $sum_per_month = array();
 $cnt_per_month = array();
-
-$avg_per_month = "";
-$gridlines = "";
-
 $frefjaar = 0;
 for ($i = 1; $i <= 12; $i++) {
     $sum_per_month[$i] = 0.0;
@@ -174,7 +134,6 @@ for ($i = 1; $i <= 12; $i++) {
     $frefjaar = $frefjaar + $frefmaand[$i];
 }
 $frefjaar = $frefjaar / 12;
-
 $my_year = date("Y", $chartdate);
 $dummy = "";
 $max_bars = "";
@@ -188,21 +147,23 @@ for ($i = 1; $i <= 12; $i++) {
 $categories = substr($categories, 0, -1);
 $value_series = "";
 $zz=0;
+$colorzz=0;
 $year=$firstYear-1;
 $i=0;
+$colori=1;
 $newLine ='';
 $dummyyears='';
 $dyear='';
-//if ($i=0) $newLine = "newLine: 'true'," ;
-$dummyyears .="{name: $firstYear , newLine: 'true', type: 'column', grouping: false, id: 'year', zIndex: -1, color: '" .$palettes[$i][2]. "', data:[] }," ;
+$dummyyears .="{name: $firstYear , newLine: 'true', type: 'column', grouping: false, id: 'year', zIndex: -1,color: '" .$colors['color_palettes'][$colori-1][2]. "',  data:[] }," ;
 $isFirst = true;
 foreach($acdatum as $i=>$dyear) {
     if ($isFirst) {
         $isFirst = false;
         continue;
     }   
-    $dummyyears .="{name: $dyear ,type: 'column', grouping: false, id: 'year', zIndex: -1, color: '" .$palettes[$i][2]. "', data:[] }," ;
-
+    $dummyyears .="{name: $dyear ,type: 'column', grouping: false, id: 'year', zIndex: -1, color: '" .$colors['color_palettes'][$colori][2]. "', data:[] }," ;
+	if ($colori==4){$colori=0;}
+    	else $colori++;
 }
 
 foreach ($sNaamSaveDatabase as $zz => $inverter_name) {
@@ -214,12 +175,12 @@ if($zz == 0) {
     }
 $link=0;
 $cnt = 0;
+$colorcnt = 0;
 $fsomeuro = 0;
-
 $bdatum=array();
 $bdatum=$abdatum[$inverter_name];
 
-$dummy .= "{name: '$inverter_name', id: '$inverter_name dummy',type: 'column',  zIndex: -1, stacking: 'normal', color: '" .$palettes[5][$zz]. "',data: [";
+$dummy .= "{name: '$inverter_name', id: '$inverter_name dummy',type: 'column',  zIndex: -1, stacking: 'normal', color: '" .$colors['color_palettes'][5][$colorzz]. "',data: [";
 
 $max_bars .= "{name: '$inverter_name max', type: 'column',  zIndex: -1, linkedTo: '$inverter_name',  grouping: false, pointPlacement: 0.048, stacking: 'normal', color: \"#" . $colors['color_chart_max_bar'] . "\" ,data: [";
  
@@ -288,49 +249,41 @@ foreach ($bdatum as $asx => $asy) {
 			//refline
 			$z= $nfrefmaand[$i][$inverter_name];
         	$reflines .= "$z, $z, $z, null,";
-			
-			//$cnt is de jaarteller,$zz de inverterteller
-			//echo ($cnt.$zz);echo '<BR>';
-            //$kleur='$c'.$cnt.$zz;
-           // echo $palettes[$cnt][$zz];
             $current_bars .= "
                     { x: $i-1,
                       y: $cur_year , 
                       
                       url: \"$href$asx-$i-01\",
-                      color: '" .$palettes[$cnt][$zz]. "', 
+                      color: '" .$colors['color_palettes'][$colorcnt][$colorzz]. "', 
                     },";
-
             $tellerkleuren++;
-            $strgeg = "";
-
+            
         }
-        //echo $current_bars;
-        if ($cnt==0){$link='';}
-		//else {$link= 'linkedTo: "' .$inverter_name. '",';}
-        //echo $link;echo '<BR>';
         $value_series .= "
             {
                     name: '$inverter_name',
                     id: '$inverter_name',
                     linkedTo: '$inverter_name dummy',
-                   	$link
-                    color: '" .$palettes[5][$zz]. "', 
+                    color: '" .$colors['color_palettes'][5][$colorzz]. "', 
                     type: 'column',
-                    
                     stack: $asx,
                     stacking: 'normal',
                     data: [$current_bars]
             },
             ";
+        //echo $colorcnt;
         $cnt++;
+    	if ($colorcnt==4){$colorcnt=0;}
+    	else $colorcnt++;
     }
-    
   }
   $dummy	.="]},";
   $max_bars .="]},";
   $reflines .="]},";
   $avglines .="]},";
+//echo $colorzz;
+if ($colorzz==3){$colorzz=0;}
+    	else $colorzz++;
 }
 
 $strxas = substr($strxas, 0, -1);
