@@ -5,7 +5,7 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
-echo $_SESSION['theme'];
+//echo $_SESSION['theme'];
 $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
