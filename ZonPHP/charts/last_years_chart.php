@@ -5,7 +5,7 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
-echo $_SESSION['theme'];
+//echo $_SESSION['theme'];
 $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
@@ -551,6 +551,10 @@ include_once "chart_styles.php";
         
         		stackName = this.series.userOptions.stack,
         		contribuants = '';
+        		if (isNaN(x)){x= x}
+        		else{x= mychart.axes[0].categories[Math.round(x)]}
+        		
+        		
         		//console.log(x);
 
       			chart.series.forEach(function(series) {
