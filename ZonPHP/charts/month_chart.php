@@ -164,7 +164,7 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
                       y: $var, 
                       url: \"$myurl$current_year_month-$i\",
                       color: {
-                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                        linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
                         stops: [
                             [0, $myColor1],
                             [1, $myColor2]
@@ -185,7 +185,7 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
     $strdata = substr($strdata, 0, -1);
     $strdataseries .= " {
                     name: '". $inverter_name. "',
-                    color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $myColor1], [1, $myColor2]] },
+                    color: { linearGradient: {x1: 0, x2: 0, y1: 1, y2: 0}, stops: [ [0, $myColor1], [1, $myColor2]] },
                     type: 'column',
                     stacking: 'normal',
                     data: [".$strdata."]
@@ -413,12 +413,12 @@ include_once "chart_styles.php";
       			chart.series.forEach(function(series) {
         		series.points.forEach(function(point) {
           		if (point.category === x && stackName === point.series.userOptions.stack) {
-            	contribuants += point.series.name + ': ' + point.y + ' kWh<br/>'
+            	contribuants += '<span style="color:'+ point.series.color +'">\u25CF</span>' + point.series.name + ': ' + Highcharts.numberFormat(point.y, '2', ',') + ' kWh<br/>'
           			}
        			 })
       			})
 				if (stackName === undefined) {stackName = '';}
-      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal +  ' kWh';
+      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + Highcharts.numberFormat(this.point.stackTotal, '2', ',') +  ' kWh';
                         /* return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh'; */
                     }
                 }

@@ -502,13 +502,13 @@ include_once "chart_styles.php";
 
       			chart.series.forEach(function(series) {
         		series.points.forEach(function(point) {
-          		if (point.category === x && stackName === point.series.userOptions.stack) {
-            	contribuants += point.series.name + ': ' + point.y + ' kWh<br/>'
+          		if (point.category === x && stackName === point.series.userOptions.stack ) {
+            	contribuants += '<span style="color:'+ point.series.color +'">\u25CF</span>' + point.series.name + ': ' + point.y.toFixed(0) + ' kWh<br/>'
           			}
        			 })
       			})
 				if (stackName === undefined) {stackName = '';}
-      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal +  ' kWh';
+      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal.toFixed(0) +  ' kWh';
                         /* return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh'; */
                     }
                     }

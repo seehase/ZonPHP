@@ -551,22 +551,18 @@ include_once "chart_styles.php";
         
         		stackName = this.series.userOptions.stack,
         		contribuants = '';
-        		if (isNaN(x)){x= x}
-        		else{x= mychart.axes[0].categories[Math.round(x)]}
-        		
-        		
         		//console.log(x);
 
       			chart.series.forEach(function(series) {
         		series.points.forEach(function(point) {
           		if (point.category === x && stackName === point.series.userOptions.stack && point.series.visible) {
-            	contribuants += point.series.name + ': ' + point.y + '<br/>'
+            	contribuants += '<span style="color:'+ point.series.color +'">\u25CF</span>' + point.series.name + ': ' + point.y + ' kWh'+'<br/>'
           			}
        			 })
       			})
 				if (stackName === undefined ) {stackName = '';}
 				//if (x.match[0-9]){x = 'test';}
-      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal;
+      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal + ' kWh';
     			}
 			},
 
