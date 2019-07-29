@@ -250,7 +250,7 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
     $strdataseries .= " {
                     name: '". $inverter_name. "',
                     id: '". $inverter_name. "',
-                    color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $myColor1], [1, $myColor2]] },
+                    color: " . $myColors[$inverter_name]['max'] . ",
                     type: 'column',
                     stacking: 'normal',
                     data: [".$current_bars."]
@@ -502,7 +502,7 @@ include_once "chart_styles.php";
 
       			chart.series.forEach(function(series) {
         		series.points.forEach(function(point) {
-          		if (point.category === x && stackName === point.series.userOptions.stack ) {
+          		if (point.category === x && stackName === point.series.userOptions.stack  ) {
             	contribuants += '<span style="color:'+ point.series.color +'">\u25CF</span>' + point.series.name + ': ' + point.y.toFixed(0) + ' kWh<br/>'
           			}
        			 })
