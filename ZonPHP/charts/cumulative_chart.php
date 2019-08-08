@@ -10,6 +10,7 @@ $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
+
 $currentdate = date("Y-m-d");
 $sql = "SELECT YEAR(Datum_Maand) AS DYEAR, DATEDIFF(max(Datum_Maand),min(Datum_Maand)) AS Days, ((UNIX_TIMESTAMP(DATE_FORMAT(DATE_ADD(Datum_Maand,INTERVAL (YEAR('$currentdate') - YEAR(Datum_Maand)) YEAR), '%Y-%m-%d'))*1000)+86400000) AS timestamp, IFNULL( Datum_Maand, 'TOTAAL' ) AS Datum_Maand, 
 		ROUND(SUM( Geg_Maand ),2) Total, IFNULL( naam, 'ALL' ) AS naam, '0' AS 'STotal'
@@ -45,14 +46,18 @@ $value = array();
 $all = array();
 $peryear = array();
 $strdataseries = "";
-//print_r($names);
-$add = (!isset($_GET['add']) ? 0 : $_GET['add']);
-$_SESSION['capnum'] = ((isset($_SESSION['capnum'])) ? $_SESSION['capnum'] : 0);
-if(isset($_GET['add'])){
+$add = (!isset($_POST['add']) ? 0 : $_POST['add']);
+//when 'ALL' isn't last key in $names adjust $maxkey to correct number
+//this happens when historical startdates are not the same 
+$maxkey=max(array_keys($names));
+$_SESSION['capnum'] = ((isset($_SESSION['capnum'])) ? $_SESSION['capnum'] : $maxkey);//number reflects all
+if(isset($_POST['add'])){
      $_SESSION['capnum']++;
 }
 if ($_SESSION['capnum']>(count($names)-1)){$_SESSION['capnum']=0;}
 $title=$names[$_SESSION['capnum']];
+
+
 Foreach($values as $value)
 	{
 		if($value['naam'] == $title )
