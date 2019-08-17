@@ -4,7 +4,54 @@ document.addEventListener('DOMContentLoaded', function () {
         layout: {
             fillGaps: true
         }
+    }).on('move', function () {
+        saveLayout(grid);
     });
+    var layout = window.localStorage.getItem('layout');
+    if (layout) {
+        console.log("stored Layout " + layout);
+        loadLayout(grid, layout);
+    } else {
+        grid.layout(true);
+        console.log("Layout default");
+    }
+
+    function serializeLayout(grid) {
+        var itemIds = grid.getItems().map(function (item) {
+            return item.getElement().getAttribute('data-id');
+        });
+        console.log(JSON.stringify(itemIds));
+        return JSON.stringify(itemIds);
+    }
+
+    function saveLayout(grid) {
+        var layout = serializeLayout(grid);
+        window.localStorage.setItem('layout', layout);
+        console.log("Layout saved");
+    }
+
+    function loadLayout(grid, serializedLayout) {
+        var layout = JSON.parse(serializedLayout);
+        var currentItems = grid.getItems();
+        var currentItemIds = currentItems.map(function (item) {
+            return item.getElement().getAttribute('data-id')
+        });
+        var newItems = [];
+        var itemId;
+        var itemIndex;
+
+        for (var i = 0; i < layout.length; i++) {
+            itemId = layout[i];
+            itemIndex = currentItemIds.indexOf(itemId);
+            if (itemIndex > -1) {
+                newItems.push(currentItems[itemIndex])
+            }
+        }
+
+        grid.sort(newItems, {layout: 'instant'});
+        console.log("Layout loaded");
+    }
+
     var headerclass = "jqx-window-header jqx-window-header-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp"
 
     /* load all charts according order */
@@ -22,12 +69,13 @@ document.addEventListener('DOMContentLoaded', function () {
         addAllTemp();
         addAllHumidty();
         addIndoorSensors();
+        loadLayout(grid, layout);
     }
 
     function addDay() {
         var id = "id_Day";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div  class="item-content card"> ' +
             '<a href="day_overview.php"><div class="' + headerclass + '">' + daytext + '</div> </a> ' +
             '<div id="' + id + '">' +
@@ -55,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addMonth() {
         var id = "id_Month";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div  class="item-content card"> ' +
             '<a href="month_overview.php"><div class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
             '<div id="' + id + '">' +
@@ -83,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addAllYears() {
         var id = "id_AllYears";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div  class="item-content card"> ' +
             '<a href="all_years_overview.php"><div class="' + headerclass + '">' + txt["chart_allyearoverview"] + '</div></a>' +
             '<div id="' + id + '">' +
@@ -111,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addWorst() {
         var id = "id_Worst";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
             '<a href="top31_overview.php?Max_Min=top"><div class="' + headerclass + '">' + txt["slechtste"] + '</div></a>' +
             '<div id="' + id + '">' +
@@ -136,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addBest() {
         var id = "id_Best";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
             '<a href="top31_overview.php?Max_Min=top"><div class="' + headerclass + '">' + txt["beste"] + '</div></a>' +
             '<div id="' + id + '">' +
@@ -161,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addYear() {
         var id = "id_Year";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
             '<a href="year_overview.php"><div class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
             '<div id="' + id + '">' +
@@ -186,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addCumulative() {
         var id = "id_Cumulative";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
             '<a href="cumulative_overview.php"><div class="' + headerclass + '">' + txt["chart_cumulativeoverview"] + '</div></a>' +
             '<div id="' + id + '">' +
@@ -211,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addTemerature() {
         var id = "id_Temperature";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card" style="background-color: #'+ colors['color_chartbackground'] + '"> ' +
             '<a href="sensor_gauge_overview.php"><div class="' + headerclass + '">' + txt["chart_gauge"] + '</div></a>' +
             '<div id="' + id + '">' +
@@ -244,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addLastYears() {
         var id = "id_LastYears";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
             '<a href="last_years_chart.php"><div class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
             '<div id="' + id + '">' +
@@ -269,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addWeewx() {
         var id = "id_Weewx";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card" style="background-color: #'+ colors['color_chartbackground'] + '"> ' +
             '<a href="/weewx/index.html"><div class="' + headerclass + '">' + txt["chart_weewx"] + '</div></a>' +
             '<div id="' + id + '">' +
@@ -296,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addAllTemp() {
         var id = "id_AllTemp";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
             '<div class="' + headerclass + '">' + txt["chart_all_temp"] + '</div>' +
             '<div id="' + id + '">' +
@@ -325,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addIndoorSensors() {
         var id = "id_IndoorSensors";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
             '<div class="' + headerclass + '">' + txt["chart_indoor"] + '</div>' +
             '<div id="' + id + '">' +
@@ -355,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addAllHumidty() {
         var id = "id_AllHumudity";
         var itemTemplate = '' +
-            '<div class="item h4 w4">' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
             '<div class="' + headerclass + '">' + txt["chart_all_humidity"] + '</div>' +
             '<div id="' + id + '">' +
