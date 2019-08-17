@@ -292,6 +292,7 @@ $txt['peak'] = "Peak";
 $txt["1"] = "1";
 $txt["date_format_diagramms"] = "Datumsformat in Diagrammen; z.b. %Y-%m-%d %H:%M oder leer f&uuml;r default";
 $txt["autorefresh"] = "Auto reload der Website in Sekunden default = 300 (0=disabled)";
+$txt["chart_cumulativeoverview"] = "Cumulative &Uuml;berblick";
 
 $txt["CustomFields"] = "Benutzer Felder";
 $txt["EMU_Offset"] = "EMU_Offset";

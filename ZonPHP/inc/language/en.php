@@ -289,7 +289,7 @@ $txt['peak'] = "Peak";
 $txt["1"] = "1";
 $txt["chart_date_format"] = "Dateformat in charts; sample: %Y-%m-%d %H:%M or empty for default";
 $txt["autorefresh"] = "Auto reload of webpage in seconds default = 300 (0=disabled)";
-
+$txt["chart_cumulativeoverview"] = "Cumulative Overview";
 
 $txt["CustomFields"] = "custom fields";
 $txt["EMU_Offset"] = "EMU_Offset";
