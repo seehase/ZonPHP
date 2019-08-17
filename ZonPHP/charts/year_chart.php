@@ -119,48 +119,19 @@ if (mysqli_num_rows($result) == 0) {
     $iyasaanpassen = (round(0.5 + max($agegevens) / 50) * 50);
 }
 //nieuwe gemiddelde
-
+//print_r ($agegevens);
 $sqlavg ="SELECT ROUND( SUM( Geg_Maand ) / ( COUNT( Geg_Maand ) /30 ) , 0 ) AS aantal
 FROM " . $table_prefix . "_maand
 WHERE DATE_FORMAT( Datum_Maand,  '%y' ) =  '" . date('y', $chartdate) . "'
 GROUP BY naam
 ORDER BY naam ASC"; 
+//echo $sqlavg;
 $result = mysqli_query($con, $sqlavg)or die("Query failed (gemiddelde) " . mysqli_error($con));
  while($row = mysqli_fetch_array($result)) {
    $avg_data[] = $row['aantal'];
 }
-//print_r($avg_data); 
-
-//echo $avg_data[0];echo '<BR>';
-//echo $avg_data[1];echo '<BR>';
-
-
-
-// $sqlmax = "SELECT maand,jaar,som
-//         FROM (SELECT month(Datum_Maand) AS maand,year(Datum_Maand) AS jaar,sum(Geg_Maand) AS som
-//                 FROM " . $table_prefix . "_maand                 	
-//                 GROUP BY maand,jaar
-// 		) AS somquery
-//         JOIN (SELECT maand as tmaand, max( som ) AS maxgeg
-//                 FROM (
-//                         SELECT maand, jaar, som
-//                         FROM (
-//                                 SELECT month( Datum_Maand ) AS maand, year( Datum_Maand ) AS jaar, sum( Geg_Maand ) AS som
-//                                 FROM " . $table_prefix . "_maand 								
-//                                 GROUP BY maand, jaar
-//                         ) AS somqjoin
-//                 ) AS maxqjoin
-//                 GROUP BY tmaand
-//              )AS maandelijks
-//         ON (somquery.maand= maandelijks.tmaand
-//             AND maandelijks.maxgeg = somquery.som)
-// 	ORDER BY maand";
-
+//print_r ($avg_data);
 $sqlmax = "SELECT maand,jaar,som, Name FROM (SELECT naam as Name, month(Datum_Maand) AS maand,year(Datum_Maand) AS jaar,sum(Geg_Maand) AS som FROM " . $table_prefix . "_maand GROUP BY naam, maand,jaar ) AS somquery JOIN (SELECT maand as tmaand, max( som ) AS maxgeg FROM ( SELECT naam, maand, jaar, som FROM ( SELECT naam, month( Datum_Maand ) AS maand, year( Datum_Maand ) AS jaar, sum( Geg_Maand ) AS som FROM " . $table_prefix . "_maand GROUP BY naam, maand, jaar ) AS somqjoin ) AS maxqjoin GROUP BY naam,tmaand )AS maandelijks ON (somquery.maand= maandelijks.tmaand AND maandelijks.maxgeg = somquery.som) ORDER BY Name, maand";
-
-
-//echo $sqlmax;
-
 for ($i = 1; $i <= 12; $i++) {
     $maxmaand[$i] = 0;
 }
@@ -244,20 +215,7 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
         // only month with values
         if (array_key_exists($i, $agegevens)) {
             // expected bars char
-            if (array_key_exists($i, $agegaantal)) {
-                if ($agegaantal[$i] < cal_days_in_month(CAL_GREGORIAN, $i, $i)) {
-                    // current val + ( ref value per day * rest days in this month)  = expected
-                    $expected = array_sum($all_valarray[$i]) + $frefdagmaand[$i] * (cal_days_in_month(CAL_GREGORIAN, $i, $i) - $agegaantal[$i]);
-                    $val = round($expected, 2);
-                    $expected_bars .= "                
-                        { x: ($i-1),
-                          y:  $val, 
-                          url: \"$href$my_year-$i-01\",
-                          color: \"#" . $colors['color_chart_expected_bar'] . "\",
-                        },";
-
-                }
-            }
+           
 
             $myColor1 =$myColors[$inverter_name]['min'];
             $myColor2 =$myColors[$inverter_name]['max'];
@@ -273,7 +231,7 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
                           y: $val, 
                           url: \"$href$my_year-$i-01\",
                           color: {
-                            linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                            linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
                             stops: [
                                 [0, $myColor1],
                                 [1, $myColor2]
@@ -283,10 +241,6 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
         // refline per bar
         $z= $nfrefmaand[$i][$inverter_name];
         $reflines .= "$z, $z, $z, null,";
-   
-    //echo $nfrefmaand[$i][$inverter_name];echo '<BR>';
-    
-    //echo $reflines;
     }
      
     $max_bars .="]},";
@@ -296,40 +250,18 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
     $strdataseries .= " {
                     name: '". $inverter_name. "',
                     id: '". $inverter_name. "',
-                    color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $myColor1], [1, $myColor2]] },
+                    color: " . $myColors[$inverter_name]['max'] . ",
                     type: 'column',
                     stacking: 'normal',
                     data: [".$current_bars."]
                 },
     ";
 }
-
-//print_r ($nfrefmaand);echo '<BR>';
-
-
-//echo $strdataseries;echo '<BR>';
 $max_bars = substr($max_bars, 0, -1);
 //echo $max_bars;
 $expected_bars = substr($expected_bars, 0, -1);
 $current_bars = substr($current_bars, 0, -1);
 $reflines = substr($reflines, 0, -1);
-//echo $reflines;
-// averageline char
-$gridlines .= '{xaxis: {from:  0.5, to: 12.5}, yaxis: {from: ' . $fgemiddelde . ', to: ' . $fgemiddelde . '}, color: "#' . $colors['color_chart_reference_line'] . '", lineWidth: 1.5},';
-$sub_title = "";
-
-if ($datum != date("Y", $chartdate) . " geen data.") {
-    $sub_title .= "<b>" . date("Y", time()) . ": <\/b>"
-        . number_format(array_sum($agegevens), 0, ',', '.') . " kWh = "
-        . number_format((array_sum($agegevens) * $current_euroval), 0, ',', '.') . "€ = "
-        . number_format(1000 * array_sum($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp = "
-        . number_format(100 * array_sum($agegevens) / array_sum($frefmaand), 0, ',', '.') . "%<br />";
-    $sub_title .= "<b>" . $txt["max"] . ": <\/b>" . number_format(max($agegevens), 0, ',', '.') . " kWh = "
-        . number_format(1000 * max($agegevens) / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp <br /> ";
-    $sub_title .= "<b>" . $txt["gem"] . ": <\/b>" . number_format(array_sum($agegevens) / count($agegevens), 0, ',',
-            '.') . " kWh";
-}
-
 $show_legende = "true";
 if ($isIndexPage == true) {
     echo '<div class = "index_chart" id="year_chart_' . $inverter_id . '"></div>';
@@ -347,7 +279,6 @@ include_once "chart_styles.php";
         
         
         var year = '<?php echo strftime("%Y", $chartdate) ?>';
-        var sub_title = '<?php echo $sub_title ?>';
         var avrg =<?php echo round($fgemiddelde, 2) ?>;
         var myoptions = <?php echo $chart_options ?>;
 		var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
@@ -384,7 +315,7 @@ include_once "chart_styles.php";
                                 }
                             }
                         }
-                        //console.log(ref)
+                        // alert (mychart.axes[0].categories[2])
                         TOT = totayr;
                         KWH = kWh.reduce(add, 0);
                         GEM = gem.reduce(add, 0);
@@ -452,12 +383,13 @@ include_once "chart_styles.php";
                 min: 0,
                 max: 11,
                 categories: [<?php echo $categories ?>],
+                
             }],
-           
+          
         	
             plotOptions: {
                 line: {
-            		pointStart: -0.245,
+            		pointStart: -0.250,
             		pointInterval: 0.25
         			},
                 
@@ -543,6 +475,7 @@ include_once "chart_styles.php";
             }],
             tooltip: {
                 formatter: function () {
+                
                     if (this.series.name == 'kWh/Month') {
                         return this.x + ': ' + this.y.toFixed(0) + 'kWh';
                     }
@@ -556,36 +489,36 @@ include_once "chart_styles.php";
                     }
                         else
                         {
-                        return this.series.name + ' ' + this.y.toFixed(0) + 'kWh';
-                        }
+                        
+                        var chart = this.series.chart,
+        		x = this.x,
+        		stackName = this.series.userOptions.stack,
+        		contribuants = '';
+        		
+        		if (isNaN(x)){x= x}
+        		else{x= mychart.axes[0].categories[Math.round(x)]}
+        		
+        		
+
+      			chart.series.forEach(function(series) {
+        		series.points.forEach(function(point) {
+          		if (point.category === x && stackName === point.series.userOptions.stack  ) {
+            	contribuants += '<span style="color:'+ point.series.color +'">\u25CF</span>' + point.series.name + ': ' + point.y.toFixed(0) + ' kWh<br/>'
+          			}
+       			 })
+      			})
+				if (stackName === undefined) {stackName = '';}
+      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal.toFixed(0) +  ' kWh';
+                        /* return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh'; */
+                    }
                     }
                 }
             },
-
+			
             series: [
                 <?php echo $strdataseries ?>
                 <?php echo $reflines; ?>,
                 <?php echo $max_bars; ?>,
-      /* 
-          {
-                    name: "Expected",
-                    type: "column",
-                    zIndex: -1,
-                    color: '#<?php echo $colors['color_chart_expected_bar'] ?>',
-                    data: [<?php echo $expected_bars; ?>],
-                },
- */
-   				            
- /* 
-               {
-                    name: "Average",
-                    type: "line",
-                    zIndex: -1,
-                    color: '#<?php echo $colors['color_chart_average_line'] ?>',
-                    data: [{x: -0.4, y: avrg}, {x: 11.4, y: avrg}],
-                },
- 
- */               
             ]
         }));
 		

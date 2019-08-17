@@ -164,7 +164,7 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
                       y: $var, 
                       url: \"$myurl$current_year_month-$i\",
                       color: {
-                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                        linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
                         stops: [
                             [0, $myColor1],
                             [1, $myColor2]
@@ -185,7 +185,7 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
     $strdata = substr($strdata, 0, -1);
     $strdataseries .= " {
                     name: '". $inverter_name. "',
-                    color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $myColor1], [1, $myColor2]] },
+                    color: " . $myColors[$inverter_name]['max'] . ",
                     type: 'column',
                     stacking: 'normal',
                     data: [".$strdata."]
@@ -259,6 +259,8 @@ include_once "chart_styles.php";
                         KWH = kWh.reduce(add, 0);
                         MAX = max.reduce(add, 0);
                         REF = refref.reduce(add, 0);
+                        //console.log(REF);
+                        ref2=REF;
                         percent = 100*TOT/(REF*daycount)
                         var AX = peak.filter(Boolean);
                         if (AX.length == 0) {PEAK = 0;}
@@ -302,7 +304,7 @@ include_once "chart_styles.php";
     					//reference plotline
     					mychart.yAxis[0].addPlotLine({
     					id	: 'Reference',
-    					value : REF,
+    					value : ref2,
     					color : '#<?php echo $colors['color_chart_reference_line'] ?>',
     					dashStyle : 'shortdash',
     					//tooltip reference line
@@ -395,7 +397,7 @@ include_once "chart_styles.php";
             tooltip: {
             
                 formatter: function () {
-                    if ((typeof(this.x) == 'undefined') && this.y == REF ) {
+                    if ((typeof(this.x) == 'undefined') && this.y == ref2 ) {
                         return mychart.yAxis[0].plotLinesAndBands[1].id + ' ' + this.y.toFixed(2) + ' kWh';
                     }
                     if ((typeof(this.x) == 'undefined') && this.y == gem2 ) {
@@ -405,7 +407,6 @@ include_once "chart_styles.php";
                     else {
                         var chart = this.series.chart,
         		x = this.x,
-        
         		stackName = this.series.userOptions.stack,
         		contribuants = '';
         		//console.log(x);
@@ -413,12 +414,12 @@ include_once "chart_styles.php";
       			chart.series.forEach(function(series) {
         		series.points.forEach(function(point) {
           		if (point.category === x && stackName === point.series.userOptions.stack) {
-            	contribuants += point.series.name + ': ' + point.y + ' kWh<br/>'
+            	contribuants += '<span style="color:'+ point.series.color +'">\u25CF</span>' + point.series.name + ': ' + Highcharts.numberFormat(point.y, '2', ',') + ' kWh<br/>'
           			}
        			 })
       			})
 				if (stackName === undefined) {stackName = '';}
-      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal +  ' kWh';
+      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + Highcharts.numberFormat(this.point.stackTotal, '2', ',') +  ' kWh';
                         /* return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh'; */
                     }
                 }

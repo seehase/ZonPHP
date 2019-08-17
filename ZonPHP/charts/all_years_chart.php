@@ -203,7 +203,7 @@ for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $col1 = "'#" . $colors[$col1] . "'";
     $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
 }
-
+//print_r($myColors);
 foreach ($inveter_list as $inverter_name) {
 
     $current_bars = "";
@@ -256,6 +256,7 @@ foreach ($inveter_list as $inverter_name) {
     $strdataseries .= " {
                     name: '" . $inverter_name . "',
                     type: 'column',
+                    color: " . $myColors[$inverter_name]['max'] . ",
                     stacking: 'normal',                    
                     data: [" . $current_bars . "],
                         }, 
@@ -511,7 +512,24 @@ include_once "chart_styles.php";
                     }
                     
                     else {
-                        return this.series.name + ' ' + this.y.toFixed(0) + 'kWh';
+                        {
+                        
+                        var chart = this.series.chart,
+        		x = this.x,
+        		stackName = this.series.userOptions.stack,
+        		contribuants = '';
+        		
+      			chart.series.forEach(function(series) {
+        		series.points.forEach(function(point) {
+          		if (point.category === x && stackName === point.series.userOptions.stack) { 
+            	contribuants += '<span style="color:'+ point.series.color +'">\u25CF</span>' + point.series.name + ': ' + point.y.toFixed(0) + ' kWh<br/>'
+          			}
+       			 })
+      			})
+				if (stackName === undefined) {stackName = '';}
+      			return '<b> '+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal.toFixed(0) +  ' kWh';
+                        /* return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh'; */
+                    }
                     }
                 }
             },
