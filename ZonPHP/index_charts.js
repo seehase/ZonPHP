@@ -1,5 +1,6 @@
+var grid = [];
 document.addEventListener('DOMContentLoaded', function () {
-    var grid = grid = new Muuri('.grid', {
+    grid = new Muuri('.grid', {
         dragEnabled: true,
         layout: {
             fillGaps: true
@@ -56,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* load all charts according order */
     function loadCharts() {
+        // todo: only load activted charts
+        // todo: list day/month for all inverters and acrivate/deactivate
         addTemerature();
         addWeewx();
         addDay();
@@ -431,3 +434,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     loadCharts();
 });
+
+function myTest(){
+    var layout = window.localStorage.getItem('layout');
+    console.log("xxx grid " + grid);
+    console.log("The TEST2");
+}

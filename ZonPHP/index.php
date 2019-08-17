@@ -32,8 +32,20 @@ if (isset($use_weewx) && $use_weewx==true){
 
 <div id="page-content">
 
-    <script type="text/javascript">
+    <div style="float: unset; margin-top: 5px;">
+        <button class="btn btn-primary" type="submit" id="txt" name="dag" onclick="myTest()" value="test">Test Save</button>
+    </div>
+    <!--
+        todo:
+        * Liste of available/selected
+        * Show popup (kanban board) to activate/deactivate chatst
+        * save layout
+        ** default in DB
+        ** user specific in session
+        * save in JS via POST
+    -->
 
+    <script type="text/javascript">
         $(document).ready(function () {
 
         });
@@ -44,10 +56,11 @@ if (isset($use_weewx) && $use_weewx==true){
             daytext = <?php echo '"' . $daytext . '"'; ?>;
             charts = <?php echo json_encode($charts); ?>;
             colors = <?php echo json_encode($colors); ?>;
-
         });
 
     </script>
+
+
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
