@@ -55,7 +55,7 @@ if (isset($_GET['sensors'])) {
         echo 'window.location.href="index.php";';
         echo '</script>';
         echo '<noscript>';
-        echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
+        ///echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
         echo '</noscript>';
         exit();
         // die(header('location:index.php'));  // does not work because of header modification with echo "..."

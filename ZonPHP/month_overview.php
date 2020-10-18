@@ -71,12 +71,19 @@ if (strpos($paramstr_choose, "?") == 0) {
             <table>
                 <tbody>
                 <?php
+                $frefmaand = 1;
+                $divisor = 1;
+
+                if (isset ($adatum) && ($frefmaand * count($adatum)) != 0)
+                {
+                    $divisor = $frefmaand * count($adatum);
+                }
                 if ($datum != $txt["nodata"] . date("M-Y", $chartdate)) {
                     echo("<tr>
 						<td><b>" . $txt["totaal"] . "</b></td>
 						<td><b>" . number_format(array_sum($agegevens), 0, ',', '.') . "</b>kWh</td>
 						<td><b>" . number_format(array_sum($agegevens) * $current_euroval, 0, ',', '.') . "</b>&euro;</td>
-						<td><b>" . number_format(100 * array_sum($agegevens) / ($frefmaand * count($adatum)), 1, ',', '.') . "</b>%</td>
+						<td><b>" . number_format(100 * array_sum($agegevens) / $divisor, 1, ',', '.') . "</b>%</td>
 						<td></td>
 						<td><b>" . number_format(1000 * array_sum($agegevens) / $ieffectiefkwpiek, 1, ',', '.') . "</b>kWhp</td>
 						</tr>");
@@ -91,6 +98,7 @@ if (strpos($paramstr_choose, "?") == 0) {
                     <td width=105><?php echo $txt["genormeerdkwhp"]; ?></td>
                 </tr>
                 <?php
+
                 $iaantaldagen = cal_days_in_month(CAL_GREGORIAN, date("m", $chartdate), date("Y", $chartdate));
                 if ($geengevmaand != 0) {
                     for ($i = 1; $i <= $iaantaldagen; $i++) {

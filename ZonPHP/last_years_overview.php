@@ -97,10 +97,18 @@ $prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
                 </tr>
                 <?php
                 foreach ($adatum as $ijaar => $amaandgeg) {
-                    if ($aTotaaljaar[$ijaar] == max($aTotaaljaar)) {
+                    $totalYearnum = 0;
+                    $totalMax = 0;
+                    if (isset($aTotaaljaar[$ijaar])) {
+                        $totalYearnum = number_format($aTotaaljaar[$ijaar], 0, ",", ".");
+                    }
+                    if (isset ($aTotaaljaar) && count($aTotaaljaar)> 0) {
+                        $totalMax = max($aTotaaljaar);
+                    }
+                    if ($totalYearnum == $totalMax) {
                         echo "<tr>		
 										<td><a href='year_overview.php?jaar=" . $ijaar . "-1-1'><b>" . $ijaar . "</b></a></td>
-										<td><b>" . number_format($aTotaaljaar[$ijaar], 0, ",", ".") . "</b></td>";
+										<td><b>" . $totalYearnum . "</b></td>";
                         for ($i = 1; $i < 13; $i++) {
                             if (empty($amaandgeg[$i]))
                                 echo '<td><b>0</b></td>';

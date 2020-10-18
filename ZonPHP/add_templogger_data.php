@@ -59,7 +59,7 @@ if (isset($datalogger_offset)) {
     $isDaylight = date('I');
     logger(" -- offest is set -------------------------------");
     logger("system day light saving option: " . $isDaylight);
-    logger("added offset: " . $datalogger_offset) + " hour";
+    logger("added offset: " . $datalogger_offset) . " hour";
     logger("Datetime original  : " . $datetime);
     logger("timestamp original : " . $mtime);
     if ($isDaylight == 0) {

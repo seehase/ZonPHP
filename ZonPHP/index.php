@@ -28,7 +28,16 @@ if (isset($use_weewx) && $use_weewx==true){
 <script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxgauge.js"></script>
 <!--<script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxknob.js"></script>-->
 
+<!-- jQuery Modal -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+-->
+
+
 <?php include "menu.php"; ?>
+
+<link type="text/css" rel="stylesheet" href="index_sort.css">
+
 
 <div id="page-content">
 
@@ -68,8 +77,23 @@ if (isset($use_weewx) && $use_weewx==true){
 
     <script type="text/javascript" src="index_charts.js"></script>
 
+
     <!-- here comes all the charts-->
-    <div class="grid"></div>
+    <div class="grid">
+        <!-- The Modal -->
+
+
+    </div>
+
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="board">
+            </div>
+        </div>
+    </div>
 
 </div><!-- closing ".page-content" -->
 <div id="spacer" style="float: left; height: 40px; width: 400px; display: block">

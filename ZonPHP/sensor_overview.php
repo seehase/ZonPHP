@@ -98,8 +98,8 @@ $prevday = strftime("%Y-%m-%d", strtotime("-1 day", $chartdate));
                             foreach ($sensor_values as $time => $val) {
                                 $min = date("i", strtotime($time));
                                 $safeval = "";
-                                if (isset($val) && strlen($val > 0)) {
-                                    $safeval = number_format($val, 1, ",", ".");
+                                if (isset($val['val']) && strlen($val['val'] > 0)) {
+                                    $safeval = number_format($val['val'], 1, ",", ".");
                                 }
                                 if ($min != 00) {
                                     if ($bstart) {

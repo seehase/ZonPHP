@@ -126,6 +126,7 @@ WHERE DATE_FORMAT( Datum_Maand,  '%y' ) =  '" . date('y', $chartdate) . "'
 GROUP BY naam
 ORDER BY naam ASC"; 
 //echo $sqlavg;
+$avg_data = array();
 $result = mysqli_query($con, $sqlavg)or die("Query failed (gemiddelde) " . mysqli_error($con));
  while($row = mysqli_fetch_array($result)) {
    $avg_data[] = $row['aantal'];
@@ -225,7 +226,10 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
             }
 
             // normal actual  bar
-            $val = round($all_valarray[$i][$inverter_name], 2);
+            $val = 0.0;
+            if (isset($all_valarray[$i][$inverter_name])) {
+                $val = round($all_valarray[$i][$inverter_name], 2);
+            }
             $current_bars .= "
                         { x: $i-1, 
                           y: $val, 

@@ -43,13 +43,14 @@ if (isset($_GET['sensors'])) {
     $params = $_POST['sensors'];
 }
 
+
 // goto index if on parameters are specified
 if (strlen($params) == 0) {
     echo '<script type="text/javascript">';
     echo 'window.location.href="index.php";';
     echo '</script>';
     echo '<noscript>';
-    echo '<meta http-equiv="refresh" content="0;url=' . $url . '" />';
+   ///  echo '<meta http-equiv="refresh" content="0;url=' . $url . '" />';
     echo '</noscript>';
     exit();
 }

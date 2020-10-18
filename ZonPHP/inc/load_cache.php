@@ -160,6 +160,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     // get latest Version from github
     $github_version = "unkown";
+    $homepage = "";
     if (strpos($version, "(dev)") > 0)    {
         $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/development/ZonPHP/inc/version_info.php');
     }

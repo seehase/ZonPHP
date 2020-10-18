@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }).on('move', function () {
         saveLayout(grid);
     });
+
     var layout = window.localStorage.getItem('layout');
     if (layout) {
         console.log("stored Layout " + layout);
@@ -297,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<a href="last_years_chart.php"><div class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
+            '<a href="last_years_overview.php"><div class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
             '</div>';
@@ -432,11 +433,121 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    loadCharts();
+     loadCharts();
 });
 
 function myTest(){
     var layout = window.localStorage.getItem('layout');
     console.log("xxx grid " + grid);
     console.log("The TEST2");
+    // Get the modal
+
+
+
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("myBtn");
+    var span = document.getElementsByClassName("close")[0];
+    var cnt = document.getElementsByClassName("board")[0];
+
+    var itemElem = document.createElement('div');
+    itemElem.innerHTML =
+        '        <div class="board-column todo">' +
+        '            <div class="board-column-header">Available Charts</div>' +
+        '            <div class="board-column-content-wrapper">' +
+        '                <div class="board-column-content">' +
+        '                    <div class="board-item"><div class="board-item-content">aaa</div></div>' +
+        '                    <div class="board-item"><div class="board-item-content">bbb</div></div>' +
+        '                    <div class="board-item"><div class="board-item-content">ccc</div></div>' +
+        '                    <div class="board-item"><div class="board-item-content">dddd</div></div>' +
+       // '                </div>' +
+        '            </div>';
+        cnt.appendChild(itemElem);
+        itemElem = document.createElement('div');
+    itemElem.innerHTML =
+        '        <div class="board-column working">' +
+        '            <div class="board-column-header">Active Charts</div>' +
+        '            <div class="board-column-content-wrapper">' +
+        '                <div class="board-column-content">' +
+        '                    <div class="board-item"><div class="board-item-content"><span>Item #</span>8</div></div>' +
+        '                    <div class="board-item"><div class="board-item-content"><span>Item #</span>9</div></div>' +
+        '                    <div class="board-item"><div class="board-item-content"><span>Item #</span>10</div></div>' +
+        '            </div>\n';
+     cnt.appendChild(itemElem);
+
+    var boardGrid = new Muuri('.board', {
+        layoutDuration: 400,
+        layoutEasing: 'ease',
+        dragEnabled: false,
+        dragSortInterval: 0,
+        dragStartPredicate: {
+            handle: '.board-column-header'
+        },
+        dragReleaseDuration: 400,
+        dragReleaseEasing: 'ease'
+    });
+
+    modal.style.display = "block";
+    var itemContainers = [].slice.call(document.querySelectorAll('.board-column-content'));
+    var columnGrids = [];
+
+    // Define the column grids so we can drag those
+    // items around.
+    itemContainers.forEach(function (container) {
+        // Instantiate column grid.
+        var gridLayout = new Muuri(container, {
+            items: '.board-item',
+            layoutDuration: 400,
+            layoutEasing: 'ease',
+            dragEnabled: true,
+            dragSort: function () {
+                return columnGrids;
+            },
+            dragSortInterval: 0,
+            dragContainer: document.body,
+            dragReleaseDuration: 400,
+            dragReleaseEasing: 'ease'
+        })
+            .on('dragStart', function (item) {
+                // Let's set fixed widht/height to the dragged item
+                // so that it does not stretch unwillingly when
+                // it's appended to the document body for the
+                // duration of the drag.
+                item.getElement().style.width = item.getWidth() + 'px';
+                item.getElement().style.height = item.getHeight() + 'px';
+            })
+            .on('dragReleaseEnd', function (item) {
+                // Let's remove the fixed width/height from the
+                // dragged item now that it is back in a grid
+                // column and can freely adjust to it's
+                // surroundings.
+                item.getElement().style.width = '';
+                item.getElement().style.height = '';
+                // Just in case, let's refresh the dimensions of all items
+                // in case dragging the item caused some other items to
+                // be different size.
+                columnGrids.forEach(function (grid) {
+                    grid.refreshItems();
+                });
+            })
+            .on('layoutStart', function () {
+                // Let's keep the board grid up to date with the
+                // dimensions changes of column grids.
+                boardGrid.refreshItems().layout();
+            });
+
+        // Add the column grid reference to the column grids
+        // array, so we can access it later on.
+        columnGrids.push(gridLayout);
+
+    });
+
+    // When the user clicks on the button, open the modal
+     modal.style.display = "block";
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+
 }

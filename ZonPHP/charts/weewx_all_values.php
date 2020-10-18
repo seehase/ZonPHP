@@ -57,7 +57,7 @@ if (isset($use_weewx) && $use_weewx == true) {
             $value['heatindex'] = number_format($row["heatindex"], 2);
             $value['ET'] = number_format($row["ET"], 2);
             $value['radiation'] = number_format($row["radiation"], 2);
-            $value['luminosity'] = number_format($row["luminosity"], 2);
+            $value['luminosity'] = $row["luminosity"];
 
         }
 
@@ -70,6 +70,7 @@ if (isset($use_weewx) && $use_weewx == true) {
         $value['altimeter'] = number_format(($value['altimeter'] / 0.0295299830714), 1);// inHG --> mBar
         $value['windSpeed'] = number_format(($value['windSpeed'] * 1.60934), 1);  // miles --> km
         $value['luminosity'] = number_format(($value['luminosity'] / 126.7), 1);  // lux --> radiation
+
     }
 
 //-----------------------------------------------------------------------------------------
@@ -224,8 +225,8 @@ if (isset($use_weewx) && $use_weewx == true) {
                 dataLabels: {
                     y: 15,
                     format: '<div style="text-align:center"><span style="font-size:12px;' +
-                    'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
-                    '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
+                        'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
+                        '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
                 },
             }]
         }));
@@ -248,8 +249,8 @@ if (isset($use_weewx) && $use_weewx == true) {
                 dataLabels: {
                     y: 15,
                     format: '<div style="text-align:center"><span style="font-size:12px;' +
-                    'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
-                    '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
+                        'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
+                        '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
                 },
             }]
 

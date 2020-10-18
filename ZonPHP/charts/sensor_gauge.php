@@ -62,19 +62,25 @@ foreach ($allsensors as &$sensor) {
         "SELECT 
             measurevalue  AS val,            
             logtime as logtime
-         FROM " . $table_prefix . "_sensordata
+         FROM " . $table_prefix . "_sensordata_temp
          WHERE sensorid= $sensorid AND sensortype = $sensortype
          ORDER BY logtime DESC
          LIMIT 1";
 
     $sensor["value"] = 0.0;
     $sensor["logtime"] = time();
+    $sensor["minvalue"] = 0.0;
+    $sensor["maxvalue"] = 0.0;
     $result_sensor = mysqli_query($con, $sql_sensor) or die("Query failed. dag " . mysqli_error($con));
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // fetch latest value only one result
-            $sensor["value"] = $row["val"];
-            $sensor["logtime"] = $row["logtime"];
+            if (($row["val"] != null) & ($row["logtime"] != null)) {
+                $sensor["value"] = $row["val"];
+                $sensor["logtime"] = $row["logtime"];
+                $sensor["minvalue"] = $row["val"];
+                $sensor["maxvalue"] = $row["val"];
+            }
         }
     }
 
@@ -82,7 +88,7 @@ foreach ($allsensors as &$sensor) {
         "SELECT 
             min(measurevalue)  AS min,   
             max(measurevalue) AS max    
-         FROM " . $table_prefix . "_sensordata
+         FROM " . $table_prefix . "_sensordata_temp
          WHERE sensorid= $sensorid AND sensortype = $sensortype AND
          (logtime < \"$todaystring 23:59:59\" and logtime > \"$todaystring 00:00:00\")";
 
@@ -90,20 +96,23 @@ foreach ($allsensors as &$sensor) {
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // only one result
-            $sensor["minvalue"] = $row["min"];
-            $sensor["maxvalue"] = $row["max"];
+            if ($row["min"] != null) {
+                $sensor["minvalue"] = $row["min"];
+            }
+            if ($row["max"] != null) {
+                $sensor["maxvalue"] = $row["max"];
+            }
         }
     }
-
 }
 unset($sensor);
 
 
 //-----------------------------------------------------------------------------------------
 // var_dump($allsensors);
-$indoor = number_format($allsensors[0]["value"],1);
-$cellar = number_format($allsensors[1]["value"],1);
-$outdoor = number_format($allsensors[2]["value"],1);
+$indoor = number_format($allsensors[0]["value"], 1);
+$cellar = number_format($allsensors[1]["value"], 1);
+$outdoor = number_format($allsensors[2]["value"], 1);
 $indoorrh = $allsensors[3]["value"];
 $cellarrrh = $allsensors[4]["value"];
 $outdoorrh = $allsensors[5]["value"];
@@ -298,8 +307,8 @@ echo '
                 dataLabels: {
                     y: -38,
                     format: '<div style="text-align:center"><span style="font-size:15px;' +
-                    'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
-                    '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
+                        'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
+                        '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
                 },
                 tooltip: {
                     valueSuffix: ' km/h'
@@ -325,8 +334,8 @@ echo '
                 dataLabels: {
                     y: -38,
                     format: '<div style="text-align:center"><span style="font-size:15px;' +
-                    'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
-                    '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
+                        'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
+                        '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
                 },
                 tooltip: {
                     valueSuffix: ' revolutions/min'
@@ -353,8 +362,8 @@ echo '
                 dataLabels: {
                     y: -38,
                     format: '<div style="text-align:center"><span style="font-size:15px;' +
-                    'color:#<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
-                    '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
+                        'color:#<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
+                        '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
                 },
                 tooltip: {
                     valueSuffix: ' revolutions/min'

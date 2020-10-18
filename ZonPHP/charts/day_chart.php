@@ -294,8 +294,9 @@ if (strlen($temp_serie) > 0) {
     $show_cum_axis = "false";
 }
 
- //$maxkwh = array();
- // $maxlink = "";
+$maxkwh = array();
+$maxlinks = "";
+
 ?>
 <script type="text/javascript">
     $(function () {
@@ -304,10 +305,12 @@ if (strlen($temp_serie) > 0) {
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var nmbr =  khhWp.length //misused to get the inverter count
-         /// do be removed
-           var maxmax = <?php echo json_encode($maxkwh) ?>;
-           var maxlinks = <?php echo json_encode($maxlinks) ?>;
+
         /// do be removed
+        var maxmax = <?php echo json_encode($maxkwh) ?>;
+        var maxlinks = <?php echo json_encode($maxlinks) ?>;
+        /// do be removed
+         
         var temp_max = <?php echo $val_max ?>;
         var temp_min = <?php echo $val_min ?>;
         var txt_actueel = '<?php echo $txt['actueel'] ?>';
