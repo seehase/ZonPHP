@@ -21,7 +21,7 @@ if (isset($_GET['naam'])) {
     $inverter_id = "all";
 }
 
-$chartcurrentdate = @mktime();
+$chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
 
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
@@ -62,6 +62,9 @@ $sqlref = "SELECT Naam, SUM(Geg_Refer) as sum_geg_refer, SUM(Dag_Refer) as sum_d
 $nfrefmaand = array();
 $nfrefdagmaand = array();
 $nfreftot = array();
+for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+    $nfreftot[$sNaamSaveDatabase[$k]] = 0;
+}
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. jaar-ref " . mysqli_error($con));
 if (mysqli_num_rows($resultref) == 0) {
     $frefmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);

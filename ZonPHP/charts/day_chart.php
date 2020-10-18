@@ -5,7 +5,7 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
-$chartcurrentdate = @mktime();
+$chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
 if (isset($_GET['dag'])) {

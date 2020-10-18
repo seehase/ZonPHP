@@ -23,7 +23,7 @@ if (isset($_GET['naam'])) {
     $inverter_id = "all";
 }
 
-$chartcurrentdate = @mktime();
+$chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
 
 $chartdatestring = strftime("%Y-%m-%d", $chartdate);
