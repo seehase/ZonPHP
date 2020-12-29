@@ -223,6 +223,9 @@ include_once "par_header.php";
                     <option <?php if ($selectedInverter == "Invullen_gegevens_sunny_explorer") echo "selected "; ?>>
                         Invullen_gegevens_sunny_explorer
                     </option>
+                    <option <?php if ($selectedInverter == "Invullen_gegevens_sunny_explorer_2WR") echo "selected "; ?>>
+                        Invullen_gegevens_sunny_explorer_2WR
+                    </option>
                     <option <?php if ($selectedInverter == "Import_von_Hyperion") echo "selected "; ?>>
                         Import_von_Hyperion
                     </option>

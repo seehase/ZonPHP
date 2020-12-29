@@ -5,7 +5,7 @@ include_once "inc/sessionstart.php";
 include_once "inc/load_cache.php";
 include_once "inc/import_data.php";
 
-include_once "inc/header.php";
+
 
 $id = "";
 if (isset($_POST['id'])) {
@@ -22,6 +22,9 @@ if (isset($_GET['sensors'])) {
 }
 // goto index if on parameters are specified
 if (strlen($params) == 0) die(header('location:index.php'));
+
+// pervent duplicate header
+include_once "inc/header.php";
 
 ?>
 <script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxcore.js"></script>

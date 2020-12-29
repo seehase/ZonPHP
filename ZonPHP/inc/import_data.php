@@ -26,6 +26,9 @@ switch ($param['sInvullen_gegevens']) {
     case "Invullen_gegevens_sunny_explorer":
         include "importer/Invullen_gegevens_sunny_explorer.php";
         break;
+    case "Invullen_gegevens_sunny_explorer_2WR":
+        include "importer/Invullen_gegevens_sunny_explorer_2WR.php";
+        break;
     case "sunny_explorer_seehase":
         include "importer/sunny_explorer_seehase.php";
         break;
