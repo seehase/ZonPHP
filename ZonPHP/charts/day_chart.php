@@ -113,6 +113,8 @@ if (strpos($paramstr_day, "?") == 0) {
     $paramstr_day = '?' . $paramstr_day;
 }
 
+$maxlinks = array();
+$maxkwh = array();
 foreach ($maxdays as $inverter => $maxday) {
     // Query maxkwh to get array with max value for all inverters
     $sqlmaxkwh = "SELECT Geg_Maand, Naam
@@ -294,8 +296,7 @@ if (strlen($temp_serie) > 0) {
     $show_cum_axis = "false";
 }
 
-$maxkwh = array();
-$maxlinks = "";
+
 
 ?>
 <script type="text/javascript">
