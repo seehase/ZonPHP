@@ -113,7 +113,7 @@ if (strpos($paramstr_day, "?") == 0) {
     $paramstr_day = '?' . $paramstr_day;
 }
 
-$maxlinks = array();
+$maxlinks = '[';
 $maxkwh = array();
 foreach ($maxdays as $inverter => $maxday) {
     // Query maxkwh to get array with max value for all inverters
@@ -133,8 +133,9 @@ foreach ($maxdays as $inverter => $maxday) {
     $maxkwh[] = $maxval;
 
     $nice_max_date = date("Y-m-d", strtotime($maxday));
-    $maxlinks[] = '<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . $txt['max'] . " " .  $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>';
+    $maxlinks .= '\'<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . $txt['max'] . " " .  $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>\',';
 }
+$maxlinks .= ']';
 
 // select data from the best day for current month per inverter
 $all_valarraymax = array();
@@ -307,10 +308,11 @@ if (strlen($temp_serie) > 0) {
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var nmbr =  khhWp.length //misused to get the inverter count
 
-        /// do be removed
+        /// to be removed2345
         var maxmax = <?php echo json_encode($maxkwh) ?>;
-        var maxlinks = <?php echo json_encode($maxlinks) ?>;
-        /// do be removed
+        var maxlinks = <?php echo $maxlinks ?>;
+
+        /// to be removed
          
         var temp_max = <?php echo $val_max ?>;
         var temp_min = <?php echo $val_min ?>;
