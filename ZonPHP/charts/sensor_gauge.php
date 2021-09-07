@@ -126,7 +126,7 @@ $outdoorrh = $allsensors[5]["value"];
 echo '
 
 <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Sleep</strong><br />' . strftime("%H:%M:%S", strtotime($allsensors[0]["logtime"])) . ' </div>
+    <div style="float: none"><strong>Winterg.</strong><br />' . strftime("%H:%M:%S", strtotime($allsensors[0]["logtime"])) . ' </div>
     <div id="gaugeContainer1" style="float: none; margin-left: 11px;"></div>
     <div style="float: none; text-align:center; font-size:10px;">' . $indoor . '°C</div>
 </div>
@@ -142,7 +142,7 @@ echo '
     <div style="float: none; text-align:center; font-size:10px;">' . $outdoor . '°C</div>
 </div>
 
-<div class="sensorgauge" id="container-speed" style="width: 200px; height: 120px; float: left; ">Sleep</div>
+<div class="sensorgauge" id="container-speed" style="width: 200px; height: 120px; float: left; ">Wintergarden</div>
 <div class="sensorgauge" id="container-cellar" style="width: 200px; height: 120px; float: left; ">Cellar</div>
 <div class="sensorgauge" id="container-rpm" style="width: 200px; height: 120px; float: left; ">Loft</div>
 
@@ -293,7 +293,7 @@ echo '
                 min: 0,
                 max: 100,
                 title: {
-                    text: 'Sleep',
+                    text: 'Wintergarden',
                     style: {color: '#<?php echo $colors['color_chart_text_subtitle'] ?>'},
                 },
                 visible: true,

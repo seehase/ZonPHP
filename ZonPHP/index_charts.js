@@ -278,10 +278,10 @@ document.addEventListener('DOMContentLoaded', function () {
             url: 'charts/sensor_gauge.php',
             type: 'post',
             data: {
-                'action': 'indexpage', 'sensors': '197086:1:Sleep:FFF, ' +
+                'action': 'indexpage', 'sensors': '197086:1:Wintergarden:FFF, ' +
                     '196692:1:Cellar:FFF, ' +
                     '18974:1:Loft:FFF, ' +
-                    '197086:3:Sleep:3B77DB, ' +
+                    '197086:3:Wintergarden:3B77DB, ' +
                     '196692:3:Cellar:3B77DB, ' +
                     '18974:3:Loft:3B77DB', 'id': 'Current'
             },
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'post',
             data: {
                 'action': 'indexpage',
-                'sensors': '197190:1:Outdoor °C:ffa200,196692:1:Cellar °C:1919B7,197086:1:Sleep °C:33cc33, 18974:1:Loft °C:FA58F4',
+                'sensors': '197190:1:Outdoor °C:ffa200,196692:1:Cellar °C:1919B7,197086:1:Wintergarden °C:33cc33, 18974:1:Loft °C:FA58F4',
                 'id': 'all_temp'
             },
             cache: false,
@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'post',
             data: {
                 'action': 'indexpage',
-                'sensors': '197086:1:Sleep °C:ffa200,197086:3:Sleep %RH:001570',
+                'sensors': '197086:1:Wintergarden °C:ffa200,197086:3:Wintergarden %RH:001570',
                 'id': 'indoor',
                 'title': 'title'
             },
@@ -423,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'post',
             data: {
                 'action': 'indexpage',
-                'sensors': '197190:3:Outdoor %RH:ffa200,196692:3:Cellar %RH:1919B7,197086:3:Sleep %RH:33cc33, 18974:3:Loft %RH:FA58F4',
+                'sensors': '197190:3:Outdoor %RH:ffa200,196692:3:Cellar %RH:1919B7,197086:3:Wintergarden %RH:33cc33, 18974:3:Loft %RH:FA58F4',
                 'id': 'all_humidity'
             },
             cache: false,
