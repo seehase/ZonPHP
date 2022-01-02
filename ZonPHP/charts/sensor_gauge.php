@@ -62,7 +62,7 @@ foreach ($allsensors as &$sensor) {
         "SELECT 
             measurevalue  AS val,            
             logtime as logtime
-         FROM " . $table_prefix . "_sensordata_temp
+         FROM " . $table_prefix . "_sensordata
          WHERE sensorid= $sensorid AND sensortype = $sensortype
          ORDER BY logtime DESC
          LIMIT 1";
@@ -88,7 +88,7 @@ foreach ($allsensors as &$sensor) {
         "SELECT 
             min(measurevalue)  AS min,   
             max(measurevalue) AS max    
-         FROM " . $table_prefix . "_sensordata_temp
+         FROM " . $table_prefix . "_sensordata
          WHERE sensorid= $sensorid AND sensortype = $sensortype AND
          (logtime < \"$todaystring 23:59:59\" and logtime > \"$todaystring 00:00:00\")";
 

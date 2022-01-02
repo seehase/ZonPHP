@@ -292,7 +292,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
     function addLastYears() {
         var id = "id_LastYears";
         var itemTemplate = '' +
@@ -393,9 +392,9 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'post',
             data: {
                 'action': 'indexpage',
-                'sensors': '197086:1:Wintergarden °C:ffa200,197086:3:Wintergarden %RH:001570',
+                'sensors': '197086:1:Wintergarden °C:33cc33,197190:1:Outdoor °C:063d06,197086:3:Wintergarden %RH:001570,197190:3:Outdoor %RH:95a5f4',
                 'id': 'indoor',
-                'title': 'title'
+                'title': 'Outoor vs Wintergarden'
             },
             cache: false,
             success: function (chart) {

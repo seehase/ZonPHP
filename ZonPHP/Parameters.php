@@ -23,7 +23,7 @@ include_once "inc/version_info.php";
  *
  *
  * more infos under
- * http://solar.seehause.org
+ * https://solar.seehausen.org
  * email: solar@seehausen.org
  ******************************************************************************/
 
