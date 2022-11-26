@@ -176,7 +176,7 @@ include_once "chart_styles.php";
     			type: 'category',
 				categories: categories,
     			labels: {
-      				rotation: 270,
+      				rotation: 310,
     				style: { color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>'},
                     },
   					},

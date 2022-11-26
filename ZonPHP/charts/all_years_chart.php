@@ -472,10 +472,13 @@ include_once "chart_styles.php";
             
             xAxis: [{
                 labels: {
-                    rotation: 0,
+                    rotation: 310,
                     step: 1,
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                    },
+                    formatter: function () {
+                        return this.value;
                     },
                 },
                 min: 0,
