@@ -299,7 +299,7 @@ if ($isIndexPage == true) {
 include_once "chart_styles.php";
 ?>
 <script type="text/javascript">
-/*	(function(H) {
+	(function(H) {
   H.wrap(H.Legend.prototype, 'layoutItem', function(proceed, item) {
 
     var options = this.options,
@@ -363,7 +363,7 @@ include_once "chart_styles.php";
   })
 
 })(Highcharts);
-*/
+
     $(function () {
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var first = <?php echo $firstYear ?>;

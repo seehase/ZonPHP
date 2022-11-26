@@ -259,7 +259,7 @@ if (intval($param['flyout']) === 2) {
 
     </form>
 </div>
-        <button class="btn btn-primary" name='toggle1' type="submit1" value='toggle'>xx</button>
+
 
     </div><!-- closing "#header" -->
 

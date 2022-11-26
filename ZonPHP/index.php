@@ -41,9 +41,7 @@ if (isset($use_weewx) && $use_weewx==true){
 
 <div id="page-content">
 
-    <div style="float: unset; margin-top: 5px;">
-        <button class="btn btn-primary" type="submit" id="txt" name="dag" onclick="myTest()" value="test">Test Save</button>
-    </div>
+
     <!--
         todo:
         * Liste of available/selected
