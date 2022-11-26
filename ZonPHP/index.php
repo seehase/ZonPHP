@@ -65,6 +65,7 @@ if (isset($use_weewx) && $use_weewx==true){
             daytext = <?php echo '"' . $daytext . '"'; ?>;
             charts = <?php echo json_encode($charts); ?>;
             colors = <?php echo json_encode($colors); ?>;
+            useDragDrop = <?php echo json_encode($editLayout); ?>;
         });
 
     </script>

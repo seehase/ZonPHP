@@ -1,7 +1,7 @@
 var grid = [];
 document.addEventListener('DOMContentLoaded', function () {
     grid = new Muuri('.grid', {
-        dragEnabled: true,
+        dragEnabled: useDragDrop,
         layout: {
             fillGaps: true
         }
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* load all charts according order */
     function loadCharts() {
         // todo: only load activted charts
-        // todo: list day/month for all inverters and acrivate/deactivate
+        // todo: list day/month for all inverters and activate/deactivate
         addTemerature();
         addWeewx();
         addDay();
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         addCumulative();
         addLastYears();
         addBest();
-        addWorst();
+        //addWorst();
         addAllTemp();
         addAllHumidty();
         addIndoorSensors();
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<a href="top31_overview.php?Max_Min=top"><div class="' + headerclass + '">' + txt["slechtste"] + '</div></a>' +
+            '<a href="top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["slechtste"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
             '</div>';
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<a href="top31_overview.php?Max_Min=top"><div class="' + headerclass + '">' + txt["beste"] + '</div></a>' +
+            '<a href="top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["beste"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
             '</div>';

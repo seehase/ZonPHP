@@ -35,6 +35,8 @@ $new_version_label = "";
 
 // fixme
 $total_sum_for_all_years = 0;
+$editLayout = false;
+if (isset($_SESSION['editLayout'])) $editLayout = $_SESSION['editLayout'];
 
 
 if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout) > (time())) {

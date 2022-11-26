@@ -6,6 +6,18 @@
             navarray[i].checked = false
         }
     }
+
+    $('#setQuickVar1').on('click', function() {
+        var checkStatus = this.checked ? 'ON' : 'OFF';
+
+        $.post("inc/toggle.php", {"quickVar1a": checkStatus},
+            function(data) {
+                $('#resultQuickVar1').html(data);
+            });
+    });
+
+
+
 </script>
 
 <?php
@@ -16,6 +28,8 @@ if (!isset($param['flyout'])) {
 if (intval($param['flyout']) > 0) {
     echo "<div>";
 }
+
+
 ?>
 <input type="checkbox" name="nav" id="main-nav-check"/>
 <div id="menu" style="clear:both; ">
@@ -216,13 +230,36 @@ if (intval($param['flyout']) === 2) {
 
         <?php
 
+        if (isset($_POST['toggle'])){
+            $editLayout = !$editLayout;
+            $_SESSION['editLayout'] = $editLayout;
+        }
+
         if ($iveromvormers == 1) {
             echo '<p id="headerinverter" style="margin: -22px 460px 10px">' .
-                $param['sNaamVoorOpWebsite']  .
+                $param['sNaamVoorOpWebsite']  . " - " . $editLayout .
                 '</p>';
         }
 
+        $ligado = 0;
+
         ?>
+
+
+
+<div style="margin: -42px 750px 10px">
+    <form action = "<?php $_SERVER['PHP_SELF']; ?>" method = "POST">
+
+            <input id="x123"
+                   type="checkbox"
+                   onchange="this.form.submit();"
+                   name='toggle' <?php if ($editLayout) echo "checked"; ?> >
+
+
+
+    </form>
+</div>
+        <button class="btn btn-primary" name='toggle1' type="submit1" value='toggle'>xx</button>
 
     </div><!-- closing "#header" -->
 
@@ -231,3 +268,4 @@ if (intval($param['flyout']) == 1) {
     echo "</div>";
 }
 ?>
+
