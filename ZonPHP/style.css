@@ -50,6 +50,7 @@
     font-size: 8pt;
     margin-bottom: 15px;
     width: 98%;
+    color: #2ac06d;
 }
 
 .eenblad {
@@ -87,6 +88,17 @@
     top: 42px;
     width: 680px;
 }
+
+.hasDatepicker{
+    color: #2ac06d;
+}
+#startdate{
+    color: #2ac06d;
+}
+#getToday{
+    color: #2ac06d;
+}
+
 
 #bodyfloat {
     float: left;

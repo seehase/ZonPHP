@@ -12,6 +12,7 @@ $txt["chart_totaldayoverview"] = "Day all Inverters";
 $txt["chart_totalmonthoverview"] = "Month all Inverters";
 $txt["chart_totalyearoverview"] = "Year all Inverters";
 $txt["chart_totalallyearoverview"] = "All years all Inverters";
+$txt["chart_powermeter"] = "Power Meter";
 $txt["allejarentotoverzicht"] = "All years Up Overview";
 $txt["behaaldeuro"] = "Title of [Euro]";
 $txt["behaaldeuro"] = "Title of [Euro]";

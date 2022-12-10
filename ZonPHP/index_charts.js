@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // todo: list day/month for all inverters and activate/deactivate
         addTemerature();
         addWeewx();
+        addPowerMeter()
         addDay();
         addMonth();
         addYear();
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
         addAllTemp();
         addAllHumidty();
         addIndoorSensors();
-        loadLayout(grid, layout);
+        // loadLayout(grid, layout);
     }
 
     function addDay() {
@@ -432,7 +433,34 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-     loadCharts();
+    function addPowerMeter() {
+        var id = "id_PowerMeter";
+        var itemTemplate = '' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
+            '<div class="item-content card"> ' +
+            '<div class="' + headerclass + '">' + txt["chart_powermeter"] + '</div>' +
+            '<div id="' + id + '" style="height: 500px">' +
+            '</div>' +
+            '</div>';
+        var itemElem = document.createElement('div');
+        itemElem.innerHTML = itemTemplate;
+        grid.add(itemElem.firstChild);
+
+        var container = $('#' + id);
+        $.ajax({
+            url: 'charts/powermeter_chart_period.php',
+            type: 'post',
+            data: {
+                'action': 'indexpage', 'id': 'Current'
+            },
+            cache: false,
+            success: function (chart) {
+                $(container).append(chart);
+            }
+        });
+    }
+
+    loadCharts();
 });
 
 function myTest(){

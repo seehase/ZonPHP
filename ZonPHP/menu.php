@@ -58,6 +58,7 @@ if (intval($param['flyout']) > 0) {
                 <li class="sub-heading"><?php echo $txt["grafiekoverzicht"]; ?><label for="fof" class="toggle"
                                                                                       onclick="" title="Back">
                         &#9658;</label></li>
+                <li><a href="powermeter_overview_period.php"><?php echo $txt["chart_powermeter"]; ?></a></li>
                 <?php
                 if ($param['izonphpse'] == 0)
                     echo '<li><a href="day_overview.php">' . $txt["dagoverzicht"] . '</a></li>';
