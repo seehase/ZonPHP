@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var id = "id_Weewx";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card" style="background-color: #'+ colors['color_chartbackground'] + '"> ' +
+            '<div class="item-content card" style="background-color: #' + colors['color_chartbackground'] + '"> ' +
             '<a href="/weewx/index.html"><div class="' + headerclass + '">' + txt["chart_weewx"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
@@ -335,8 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $.ajax({
             url: 'charts/weewx_all_values.php',
             type: 'post',
-            data: { 'id': 'Current'
-            },
+            data: { 'id': 'Current' },
             cache: false,
             success: function (chart) {
                 $(container).append(chart);
@@ -438,8 +437,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<div class="' + headerclass + '">' + txt["chart_powermeter"] + '</div>' +
-            '<div id="' + id + '" style="height: 500px">' +
+            '<a href="powermeter_overview_period.php"><div class="' + headerclass + '">' + txt["chart_powermeter"] + '</div> </a> ' +
+            '<div id="' + id + '">' +
             '</div>' +
             '</div>';
         var itemElem = document.createElement('div');

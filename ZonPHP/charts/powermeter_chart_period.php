@@ -10,9 +10,9 @@ $datatable = "home_power";
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $startdate = time();
-$startdatestring = strftime("%Y-%m-%d", $startdate);
+$startdatestring = strftime("%Y-%m-%d 00:00:00", $startdate);
 $enddate = strtotime("+1 day", $startdate);
-$enddatestring = strftime("%Y-%m-%d", $enddate);
+$enddatestring = strftime("%Y-%m-%d 23:59:59", $enddate);
 
 if (isset($_GET['start'])) {
     $startdatestring = html_entity_decode($_GET['start']);
@@ -254,7 +254,7 @@ unset($sensor);
 // ---------------------------------------------------------------------------
 
 if ($isIndexPage == true) {
-    echo '<div id="sensor_chart_period_' . $id . '" class = "smallCharts" style="width:350px; height:390px; margin-top:1px; float: left"></div>';
+    echo '<div id="sensor_chart_period_' . $id . '" class = "smallCharts" style="width:230px; height:380px; min-width:435px;margin:0px"></div>';
 }
 
 // build javascript string
@@ -300,17 +300,7 @@ $idstring = "sensor_chart_period_$id"
                 alignThresholds: false,
             },
             title: {
-                text: 'Watt',
-                style: {
-                    color: '#<?php echo $colors['color_chart_text_title'] ?>',
-                },
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in',
-                style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
-                },
+                text: '',
             },
             xAxis: {
                 type: 'datetime',

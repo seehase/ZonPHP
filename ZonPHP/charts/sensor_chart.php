@@ -330,13 +330,6 @@ foreach ($allsensors as $sensor) {
                     color: '#<?php echo $colors['color_chart_text_title'] ?>',
                 },
             },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in',
-                style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
-                },
-            },
             xAxis: {
                 type: 'datetime',
                 labels: {

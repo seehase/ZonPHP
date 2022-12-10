@@ -53,7 +53,7 @@ if (isset($_GET['id'])) {
                 var sensor = getUrlVars()["sensors"];
                 var id = getUrlVars()["id"];
                 var title = getUrlVars()["title"];
-                var url = "powermeter_overview_period.php?start=" + startdate + "&end=" + enddate + "&sensors=" + sensor + "&id=" + id + "&title=" + title + "&interval=" + interval + "&linetype=" + linetype;
+                var url = "powermeter_overview_period.php?start=" + startdate + "&end=" + enddate +  "&interval=" + interval + "&linetype=" + linetype;
 
                 window.open(url, "_self");
             });
@@ -66,7 +66,7 @@ if (isset($_GET['id'])) {
                 var sensor = getUrlVars()["sensors"];
                 var id = getUrlVars()["id"];
                 var title = getUrlVars()["title"];
-                var url = "powermeter_overview_period.php?start=" + today + "&end=" + today + "&sensors=" + sensor + "&id=" + id + "&title=" + title;
+                var url = "powermeter_overview_period.php?start=" + today + "&end=" + today ;
 
                 window.open(url, "_self");
             });
