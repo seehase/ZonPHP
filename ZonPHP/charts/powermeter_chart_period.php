@@ -6,7 +6,7 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/load_cache.php";
 }
 
-$datatable = "home_power";
+$datatable = "home_power1";
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $startdate = time();
@@ -59,7 +59,7 @@ if (isset($_GET['linetype'])) {
     $linetype = $_POST['linetype'];
 }
 
-$params = "16.7.0:1:Wirkung:#41bc66,SEEHASE:2:Erzeugung:#bb2222";
+$params = "16.7.0:1:Wirkung:#0085f2,SEEHASE:2:Erzeugung:#41bc66";
 $urlparams = "&amp;sensors=" . $params;
 
 $tmp = explode(",", $params);  // $tmp = "16.7.0:1:Verbrauch:#33cc33"
@@ -125,7 +125,7 @@ foreach ($allsensors as &$sensor) {
         $sql_sensor =
             "
         SELECT FROM_UNIXTIME(FLOOR(UNIX_TIMESTAMP(Datum_Dag)/ $interval) * $interval + (0)) AS nicedate,
-        sum(Geg_Dag) as val
+        avg(Geg_Dag) as val
         FROM  tgeg_dag       
         WHERE (Datum_Dag  >  \"$startdatestring\" AND Datum_Dag < \"$enddatestring\" ) AND naam = \"$sensorid\" 
         GROUP BY nicedate        
@@ -154,7 +154,7 @@ $sensor_consumption = array();
 $sensor_consumption["id"] = "Calc";
 $sensor_consumption["type"] = "3";
 $sensor_consumption["label"] = "Verbrauch";
-$sensor_consumption["color"] = "#eaca67";
+$sensor_consumption["color"] = "#bb2222";
 
 $sensor_consumption_values = array();
 $sensor_consumption_values_str = "";

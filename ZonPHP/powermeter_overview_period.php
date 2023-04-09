@@ -109,13 +109,11 @@ if (isset($_GET['id'])) {
                     <br/>
                     Interval:
                     <select id="interval" style="color: #000000;margin-top: 5px;">
+                        <option <?php if ($interval == "1") echo "selected "; ?> value="1">1min</option>
                         <option <?php if ($interval == "5") echo "selected "; ?> value="5">5min</option>
+                        <option <?php if ($interval == "15") echo "selected "; ?> value="15">15min</option>
                         <option <?php if ($interval == "30") echo "selected "; ?> value="30">30min</option>
                         <option <?php if ($interval == "60") echo "selected "; ?> value="60">1h</option>
-                        <option <?php if ($interval == "120") echo "selected "; ?> value="120">2h</option>
-                        <option <?php if ($interval == "240") echo "selected "; ?> value="240">4h</option>
-                        <option <?php if ($interval == "480") echo "selected "; ?> value="480">8h</option>
-                        <option <?php if ($interval == "960") echo "selected "; ?> value="960">12h</option>
                         <option <?php if ($interval == "1440") echo "selected "; ?> value="1440">24h</option>
                     </select>
                     Type:

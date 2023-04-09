@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // todo: list day/month for all inverters and activate/deactivate
         addTemerature();
         addWeewx();
-        addPowerMeter()
+        /// addPowerMeter()
         addDay();
         addMonth();
         addYear();
