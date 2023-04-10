@@ -7,12 +7,12 @@ if (strpos(getcwd(), "charts") > 0) {
 }
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
-$chartdatestring = strftime("%Y-%m-%d", $chartdate);
+$chartdatestring = date("Y-m-d", $chartdate);
 if (isset($_GET['dag'])) {
     $chartdatestring = html_entity_decode($_GET['dag']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
-    $chartdatestring = strftime("%Y-%m-%d", $chartdate);
+    $chartdatestring = date("Y-m-d", $chartdate);
 }
 if (isset($_GET['Schaal']))
     $aanpas = 1;
@@ -54,7 +54,7 @@ $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, STR_TO_DATE( CONCAT( DATE( Datum_Dag
     " ORDER BY datumtijd ASC";
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
-    $datum = strftime("%d %B %Y", $chartdate);
+    $datum = date("d M Y", $chartdate);
     $tlaatstetijd = time();
     $geengevdag = 0;
     $agegevens[] = 0;
@@ -77,7 +77,7 @@ if (mysqli_num_rows($result) == 0) {
             }
         };
     }
-    $datum = strftime("%d %B %Y", $chartdate);
+    $datum = date("d M Y", $chartdate);
 }
 //--------------------------------------------------------------------------------------------------
 // get best day for current month (max value over all years for current month) per each inverter

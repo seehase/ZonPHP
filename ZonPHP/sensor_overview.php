@@ -17,8 +17,8 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
 
-$nextday = strftime("%Y-%m-%d", strtotime("+1 day", $chartdate));
-$prevday = strftime("%Y-%m-%d", strtotime("-1 day", $chartdate));
+$nextday = date("Y-m-d", strtotime("+1 day", $chartdate));
+$prevday = date("Y-m-d", strtotime("-1 day", $chartdate));
 
 ?>
 
@@ -55,18 +55,18 @@ $prevday = strftime("%Y-%m-%d", strtotime("-1 day", $chartdate));
                 echo '<table><tbody>';
                 echo '<tr>';
                 echo '<td width=60><a href="sensor_overview.php?dag=' . date("Y-m-d", strtotime("-1 months", $chartdate)) . $urlparams .
-                    '"><font size="-1"><b>' . strftime("%B", strtotime("-1 months", $chartdate)) . '</b></font></a></td>';
+                    '"><font size="-1"><b>' . date("B", strtotime("-1 months", $chartdate)) . '</b></font></a></td>';
                 for ($i = 1; $i <= $iaantaldagen; $i++) {
                     if (strtotime(date("Y-m-", $chartdate) . $i) >= strtotime(date("Y-m-d", $dminimum)) && strtotime(date("Y-m-", $chartdate) . $i) < $dmaximum) {
-                        echo '<td width=16><font size="-5"><b>' . strftime("%a", strtotime(date("Y-m-", $chartdate) . $i)) . '</b></font><br />';
+                        echo '<td width=16><font size="-5"><b>' . date("a", strtotime(date("Y-m-", $chartdate) . $i)) . '</b></font><br />';
                         echo '<a href="sensor_overview.php?dag=' . date("Y-m-", $chartdate) . $i . $urlparams . '"><font size="-5">' . $i . '</font></a></td>';
                     } else {
-                        echo '<td width=16><font size="-5" color="#BBBBBB"><b>' . strftime("%a", strtotime(date("Y-m-", $chartdate) . $i)) . '</b></font><br />';
+                        echo '<td width=16><font size="-5" color="#BBBBBB"><b>' . date("a", strtotime(date("Y-m-", $chartdate) . $i)) . '</b></font><br />';
                         echo '<a href="sensor_overview.php?dag=' . date("Y-m-", $chartdate) . $i . $urlparams . '"><font size="-5" color="#FF000F">' . $i . '</font></a></td>';
                     }
                 }
                 echo '<td width=60><a href="sensor_overview.php?dag=' . date("Y-m-d", strtotime("+1 months", $chartdate)) . $urlparams .
-                    '"><font size="-1"><b>' . strftime("%B", strtotime("+1 months", $chartdate)) . '</b></font></a></td>';
+                    '"><font size="-1"><b>' . date("B", strtotime("+1 months", $chartdate)) . '</b></font></a></td>';
                 echo '</tr>';
                 echo '</tbody>
 		</table>';

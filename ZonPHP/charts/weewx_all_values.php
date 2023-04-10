@@ -10,7 +10,7 @@ if (strpos(getcwd(), "charts") > 0) {
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $today = time();
-$todaystring = strftime("%Y-%m-%d", $today);
+$todaystring = date("%Y-%m-%d", $today);
 
 $id = $todaystring;
 
@@ -46,17 +46,11 @@ if (mysqli_num_rows($result_sensor) != 0) {
         $value['barometer'] = number_format($row["barometer"], 2);
         $value['altimeter'] = number_format($row["altimeter"], 2);
         $value['windSpeed'] = number_format($row["windSpeed"], 2);
-        $value['windDir'] = number_format($row["windDir"], 2);
         $value['rainRate'] = number_format($row["rainRate"], 2);
         $value['rain'] = number_format($row["rain"], 2);
-        $value['rain_total'] = number_format($row["rain_total"], 2);
-        $value['UV'] = number_format($row["UV"], 2);
-        $value['uv_raw'] = number_format($row["uv_raw"], 2);
         $value['dewpoint'] = number_format($row["dewpoint"], 2);
         $value['windchill'] = number_format($row["windchill"], 2);
         $value['heatindex'] = number_format($row["heatindex"], 2);
-        $value['ET'] = number_format($row["ET"], 2);
-        $value['radiation'] = number_format($row["radiation"], 2);
         $value['luminosity'] = $row["luminosity"];
 
     }
@@ -78,13 +72,13 @@ if (mysqli_num_rows($result_sensor) != 0) {
 
     echo '
         <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-            <div style="float: none"><strong>Indoor</strong><br />' . strftime("%H:%M:%S", strtotime($logtime)) . ' </div>
+            <div style="float: none"><strong>Indoor</strong><br />' . date("H:m:s", strtotime($logtime)) . ' </div>
             <div id="weewxGaugeContainer1" style="float: none; margin-left: 11px;"></div>
             <div style="float: none; text-align:center; font-size:10px;">' . $value['inTemp'] . '°C</div>
         </div>
 
         <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-            <div style="float: none"><strong>Outdoor</strong> <br />' . strftime("%H:%M:%S", strtotime($logtime)) . ' </div>
+            <div style="float: none"><strong>Outdoor</strong> <br />' . date("H:m:s", strtotime($logtime)) . ' </div>
             <div id="weewxGaugeContainer2" style="margin-left: 3px;"></div>
             <div style="float: none; text-align:center; font-size:10px;">' . $value['outTemp'] . '°C</div>
         </div>
@@ -97,18 +91,12 @@ if (mysqli_num_rows($result_sensor) != 0) {
         <div class="sensorgauge"  style="width: 200px;  float: left; ">pressure : ' . $value['pressure'] . ' </div>
         <div class="sensorgauge"  style="width: 200px;  float: left; ">barometer : ' . $value['barometer'] . ' </div>
         <div class="sensorgauge"  style="width: 200px;  float: left; ">altimeter : ' . $value['altimeter'] . ' </div>
-        <div class="sensorgauge"  style="width: 200px;  float: left; ">windSpeed : ' . $value['windSpeed'] . ' </div>
-        <div class="sensorgauge"  style="width: 200px;  float: left; ">windDir : ' . $value['windDir'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">windSpeed : ' . $value['windSpeed'] . ' </div>        
         <div class="sensorgauge"  style="width: 200px;  float: left; ">rainRate : ' . $value['rainRate'] . ' </div>
-        <div class="sensorgauge"  style="width: 200px;  float: left; ">rain : ' . $value['rain'] . ' </div>
-        <div class="sensorgauge"  style="width: 200px;  float: left; ">rain_total : ' . $value['rain_total'] . ' </div>
-        <div class="sensorgauge"  style="width: 200px;  float: left; ">UV : ' . $value['UV'] . ' </div>
-        <div class="sensorgauge"  style="width: 200px;  float: left; ">uv_raw : ' . $value['uv_raw'] . ' </div>
+        <div class="sensorgauge"  style="width: 200px;  float: left; ">rain : ' . $value['rain'] . ' </div>   
         <div class="sensorgauge"  style="width: 200px;  float: left; ">dewpoint : ' . $value['dewpoint'] . ' </div>
         <div class="sensorgauge"  style="width: 200px;  float: left; ">windchill : ' . $value['windchill'] . ' </div>
         <div class="sensorgauge"  style="width: 200px;  float: left; ">heatindex : ' . $value['heatindex'] . ' </div>
-        <div class="sensorgauge"  style="width: 200px;  float: left; ">ET : ' . $value['ET'] . ' </div>
-        <div class="sensorgauge"  style="width: 200px;  float: left; ">radiation : ' . $value['radiation'] . ' </div>
         <div class="sensorgauge"  style="width: 200px;  float: left; ">luminosity : ' . $value['luminosity'] . ' </div>
     ';
 

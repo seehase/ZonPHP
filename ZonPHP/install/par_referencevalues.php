@@ -137,7 +137,7 @@ for ($i = 1; $i <= 12; $i++) {
                     for ($i = 1; $i <= 12; $i++) {
                         if (!isset($arefer[$i])) $arefer[$i] = 0;
                         echo "<tr>
-									<td>" . strftime("%B", strtotime("2009-" . $i . "-01")) . "</td>
+									<td>" . date("M", strtotime("2009-" . $i . "-01")) . "</td>
 									<td>" . number_format($arefer[$i], 0, ',', '.') . "</td>
 									<td><input type='text' name='" . $teller . "' id='id" . $teller . "'value='";
                         if (!empty($_POST[$i]))

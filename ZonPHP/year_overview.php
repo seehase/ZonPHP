@@ -11,12 +11,12 @@ include_once "charts/year_chart.php";
 
 $nextyearvisible = false;
 $nextyear = strtotime("+1 year", $chartdate);
-$nextyearstring = strftime("%Y-01-01", strtotime("+1 year", $chartdate));
+$nextyearstring = date("Y-01-01", strtotime("+1 year", $chartdate));
 if ($nextyear <= $date_maximum) {
     $nextyearvisible = true;
 }
 $prevyear = strtotime("-1 year", $chartdate);
-$prevyearstring = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
+$prevyearstring = date("Y-m-d", strtotime("-1 year", $chartdate));
 
 $date_minimum1 = strtotime("-1 year", $date_minimum);
 
@@ -30,8 +30,8 @@ if ($nextyear <= $date_maximum) {
     $nextyearvisible = true;
 }
 
-$chartyeardatestring = strftime("%Y-01-01", strtotime("+0 year", $date_maximum));
-#$prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
+$chartyeardatestring = date("Y-01-01", strtotime("+0 year", $date_maximum));
+#$prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
 
 ?>
 

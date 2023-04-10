@@ -10,13 +10,13 @@ if (strpos(getcwd(), "charts") > 0) {
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $chartdate = time();
-$chartdatestring = strftime("%Y-%m-%d", $chartdate);
+$chartdatestring = date("Y-m-d", $chartdate);
 
 if (isset($_GET['dag'])) {
     $chartdatestring = html_entity_decode($_GET['dag']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
-    $chartdatestring = strftime("%Y-%m-%d", $chartdate);
+    $chartdatestring = date("Y-m-d", $chartdate);
 }
 
 $isIndexPage = false;
@@ -80,7 +80,7 @@ if (isset($_GET['title'])) {
 }
 
 
-$datum = strftime("%d %B %Y", $chartdate);
+$datum = date("d M Y", $chartdate);
 
 
 //-----------------------------------------------------------------------------------------

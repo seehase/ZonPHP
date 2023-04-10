@@ -14,8 +14,8 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
-$nextyear = strftime("%Y-%m-%d", strtotime("+1 year", $chartdate));
-$prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
+$nextyear = date("Y-m-d", strtotime("+1 year", $chartdate));
+$prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
 
 ?>
 

@@ -26,13 +26,13 @@ if (isset($_GET['naam'])) {
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
 
-$chartdatestring = strftime("%Y-%m-%d", $chartdate);
+$chartdatestring = date("Y-m-d", $chartdate);
 
 if (isset($_GET['maand'])) {
     $chartdatestring = html_entity_decode($_GET['maand']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
-    $chartdatestring = strftime("%Y-%m-%d", $chartdate);
+    $chartdatestring = date("Y-m-d", $chartdate);
 }
 
 
@@ -77,7 +77,7 @@ $daycount=0;
 $all_valarray = array();
 $inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
-    $datum = $txt["nodata"] . strftime("%B-%Y", $chartdate);
+    $datum = $txt["nodata"] . date("F-Y", $chartdate);
     $agegevens[] = 0;
     //$iyasaanpassen = $frefmaand * 1.5;
     $geengevmaand = 0;
@@ -103,7 +103,7 @@ if (mysqli_num_rows($result) == 0) {
         $dmaandjaar[] = $row['Datum_Maand'];
         
     }
-    $datum = strftime("%B-%Y", $chartdate);
+    $datum = date("F-Y", $chartdate);
 
     $daycount=0;
     for ($i = 1; $i <= $DaysPerMonth; $i++) {
@@ -213,7 +213,7 @@ include_once "chart_styles.php";
     return accumulator + a;
 }  
     
-		var month = '<?php echo strftime("%B", $chartdate) ?>';
+		var month = '<?php echo date("M", $chartdate) ?>';
         var daycount = <?php echo $DaysPerMonth ?>;
         var daycount2 = <?php echo $daycount ?>;
         var nref = <?php echo json_encode ($nfrefmaand, JSON_NUMERIC_CHECK) ?>;

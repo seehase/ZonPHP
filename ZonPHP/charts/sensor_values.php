@@ -9,7 +9,7 @@ if (strpos(getcwd(), "charts") > 0) {
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $today = time();
-$todaystring = strftime("%Y-%m-%d", $today);
+$todaystring = date("Y-m-d", $today);
 
 $id = $todaystring;
 // get sensorID's from URL
@@ -102,7 +102,7 @@ foreach ($allsensors as &$sensor) {
 
     echo '<tr style="height: 22pt;">';
     echo '<td width=140 style="text-align: left;  font-size: 12pt; color: #' . $sensor["color"] . '; padding-left: 5px;">' . $sensor["label"] . '</td>';
-    echo '<td width=90 style="text-align: center; font-size: 12pt;">' . strftime("%H:%M:%S", $logtime) . '</td>';
+    echo '<td width=90 style="text-align: center; font-size: 12pt;">' . date("H:i:s", $logtime) . '</td>';
     echo '<td width=120 style="text-align: right; font-size: 12pt; padding-right: 5px;"><strong>' . number_format($sensor["value"], 2, ',', '.') . ' ' . $unit . '</strong></td>';
     echo '</tr>';
 

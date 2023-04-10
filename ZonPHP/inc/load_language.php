@@ -81,9 +81,9 @@ if ($taal == "en") {
 $months[] = "";
 for ($i = 1; $i <= 12; $i++) {
     if ($use_utf8 == true) {
-        $months[] = (strftime("%b", strtotime("2009-" . $i . "-01")));
+        $months[] = (date("M", strtotime("2009-" . $i . "-01")));
     } else {
-        $months[] = utf8_encode(strftime("%b", strtotime("2009-" . $i . "-01")));
+        $months[] = utf8_encode(date("M", strtotime("2009-" . $i . "-01")));
     }
 }
 $_SESSION['months'] = $months;
@@ -93,8 +93,8 @@ $timestamp = strtotime('next Sunday');
 $short_weekdays = array();
 $weekdays = array();
 for ($i = 0; $i < 7; $i++) {
-    $weekdays[] = strftime('%A', $timestamp);
-    $short_weekdays[] = strftime('%a', $timestamp);
+    $weekdays[] = date('L', $timestamp);
+    $short_weekdays[] = date('D', $timestamp);
     $timestamp = strtotime('+1 day', $timestamp);
 }
 $_SESSION['short_weekdays'] = $short_weekdays;

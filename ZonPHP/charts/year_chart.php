@@ -24,13 +24,13 @@ if (isset($_GET['naam'])) {
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
 
-$chartdatestring = strftime("%Y-%m-%d", $chartdate);
+$chartdatestring = date("Y-m-d", $chartdate);
 
 if (isset($_GET['jaar'])) {
     $chartdatestring = html_entity_decode($_GET['jaar']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
-    $chartdatestring = strftime("%Y-%m-%d", $chartdate);
+    $chartdatestring = date("Y-m-d", $chartdate);
 }
 // -------------------------------------------------------------------------------------------------------------
 $current_year = date('Y', $chartdate);
@@ -285,7 +285,7 @@ include_once "chart_styles.php";
 			}  
         
         
-        var year = '<?php echo strftime("%Y", $chartdate) ?>';
+        var year = '<?php echo date("Y", $chartdate) ?>';
         var avrg =<?php echo round($fgemiddelde, 2) ?>;
         var myoptions = <?php echo $chart_options ?>;
 		var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];

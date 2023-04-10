@@ -66,13 +66,13 @@ if (isset($datalogger_offset)) {
         // correct value by addind offest
         logger("correcting time daylightsaving off");
         $mtime = strtotime("$datalogger_offset hour", $mtime);
-        $datetime = strftime("%Y-%m-%d %H:%M:%S", $mtime);
+        $datetime = date("Y-m-d H:i:s", $mtime);
     } else {
         // if daylight is true add 1 additional hour
         logger("correcting time daylightsaving on offset +  1 hour");
         $datalogger_offset = $datalogger_offset + 1;
         $mtime = strtotime("$datalogger_offset hour", $mtime);
-        $datetime = strftime("%Y-%m-%d %H:%M:%S", $mtime);
+        $datetime = date("Y-m-d H:i:s", $mtime);
     }
 
     logger("Datetime new : " . $datetime);
@@ -93,7 +93,7 @@ logger("id        : " . $id);
 logger("--------------------");
 
 // $newtime = ($mtime + 946681200) + 3600;   // Date since 1.1.2000 + diff since 1.1.1970 (946681200) + 1h
-// $newtimestring = strftime("%Y-%m-%d %H:%M:%S", $newtime);
+// $newtimestring = date("Y-m-d H:i:s", $newtime);
 // logger("new Date: $newtime -- > $newtimestring");
 
 

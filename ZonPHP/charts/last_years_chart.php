@@ -16,13 +16,13 @@ if (isset( $_GET['naam'])) {
 }
 
 $chartdate = time();
-$chartdatestring = strftime("%Y-%m-%d", $chartdate);
+$chartdatestring = date("Y-m-d", $chartdate);
 
 if (isset($_GET['jaar'])) {
     $chartdatestring = html_entity_decode($_GET['jaar']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
-    $chartdatestring = strftime("%Y-%m-%d", $chartdate);
+    $chartdatestring = date("Y-m-d", $chartdate);
 }
 $cur_year_month = "" . date('Y-m', $chartdate);
 $paramnw['jaar'] = date("Y", $chartdate);

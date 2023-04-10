@@ -70,7 +70,7 @@ for($i=0; $i<count($years);$i++)
 	$strdata = "";
 	Foreach($all as $allsum)
 	{	
-		if($allsum['DYEAR']== $years{($i)})
+		if($allsum['DYEAR']== $years[($i)])
 		{
 		 $sumtotal += $allsum['Total'];
 		 $allsum['STotal'] = $sumtotal;
@@ -78,7 +78,7 @@ for($i=0; $i<count($years);$i++)
 		 $strdata .= "[ $allsum[timestamp], $allsum[STotal] ],";
 		}
 	}
-	$strdataseries .= " { name: '". $years{($i)}. "',
+	$strdataseries .= " { name: '". $years[($i)] . "',
 							type: 'line',
 							marker: { enabled: false },
 							data: [".$strdata."]},

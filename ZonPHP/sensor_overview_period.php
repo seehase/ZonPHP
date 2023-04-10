@@ -60,7 +60,7 @@ if (isset($_GET['id'])) {
         });
         $(function () {
             $("#getToday").click(function () {
-                var today = <?php echo '"' . strftime("%d-%m-%Y") . '"';?>;
+                var today = <?php echo '"' . date("d-m-Y") . '"';?>;
 
 
                 var sensor = getUrlVars()["sensors"];
@@ -98,12 +98,12 @@ if (isset($_GET['id'])) {
             <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
                 <h2 align="center" ; style="margin-top: 0px;">
                     <?php echo $title;
-                    echo " - " . strftime("%d-%m-%Y", $startdate) . " to " . strftime("%d-%m-%Y", $enddate);
+                    echo " - " . date("d-m-Y", $startdate) . " to " . date("d-m-Y", $enddate);
                     ?>
                 </h2>
-                <p><input type="text" id="startdate" value="<?php echo strftime("%d-%m-%Y", $startdate); ?>"
+                <p><input type="text" id="startdate" value="<?php echo date("d-m-Y", $startdate); ?>"
                           readonly> -
-                    <input type="text" id="enddate" value="<?php echo strftime("%d-%m-%Y", $enddate); ?>" readonly>
+                    <input type="text" id="enddate" value="<?php echo date("d-m-Y", $enddate); ?>" readonly>
                     <button id="getToday" type="button">Today</button>
                     <br/>
                     Interval:

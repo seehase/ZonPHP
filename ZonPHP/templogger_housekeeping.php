@@ -42,7 +42,7 @@ if ($args[0] != $datalogger_password) {
 }
 
 // $newtime = ($mtime + 946681200) + 3600;   // Date since 1.1.2000 + diff since 1.1.1970 (946681200) + 1h
-// $newtimestring = strftime("%Y-%m-%d %H:%M:%S", $newtime);
+// $newtimestring = date("Y-m-d H:i:s", $newtime);
 // logger("new Date: $newtime -- > $newtimestring");
 
 // remember start date

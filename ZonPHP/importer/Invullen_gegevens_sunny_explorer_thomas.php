@@ -79,7 +79,7 @@ if (!empty($adag)) {
                         $startpos = strpos($v, "Tag_");
                         $myDateStr = substr($v, $startpos + 4, 10);
                         $myDate = strtotime($myDateStr);
-                        $myDateStr = strftime("%d.%m.%Y", $myDate);
+                        $myDateStr = date("d.m.Y", $myDate);
                         $TimeStamp = $myDateStr . " " . $mytime;
                         $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
                         $GridMsTotW = $GridMsTotW + ($MeteringDykWh / 60 * 15);

@@ -10,19 +10,19 @@ $datatable = "home_power1";
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $startdate = time();
-$startdatestring = strftime("%Y-%m-%d 00:00:00", $startdate);
+$startdatestring = date("Y-m-d 00:00:00", $startdate);
 $enddate = strtotime("+1 day", $startdate);
-$enddatestring = strftime("%Y-%m-%d 23:59:59", $enddate);
+$enddatestring = date("Y-m-d 23:59:59", $enddate);
 
 if (isset($_GET['start'])) {
     $startdatestring = html_entity_decode($_GET['start']);
     $startdate = strtotime($startdatestring);
-    $startdatestring = strftime("%Y-%m-%d 00:00:00", $startdate);
+    $startdatestring = date("Y-m-d 00:00:00", $startdate);
 }
 if (isset($_GET['end'])) {
     $enddatestring = html_entity_decode($_GET['end']);
     $enddate = strtotime($enddatestring);
-    $enddatestring = strftime("%Y-%m-%d 23:59:59", $enddate);
+    $enddatestring = date("Y-m-d 23:59:59", $enddate);
 }
 
 $isIndexPage = false;

@@ -10,7 +10,7 @@ if (strpos(getcwd(), "charts") > 0) {
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $today = time();
-$todaystring = strftime("%Y-%m-%d", $today);
+$todaystring = date("%Y-%m-%d", $today);
 
 
 $id = $todaystring;
@@ -126,18 +126,18 @@ $outdoorrh = $allsensors[5]["value"];
 echo '
 
 <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Winterg.</strong><br />' . strftime("%H:%M:%S", strtotime($allsensors[0]["logtime"])) . ' </div>
+    <div style="float: none"><strong>Winterg.</strong><br />' . date("H:m:s", strtotime($allsensors[0]["logtime"])) . ' </div>
     <div id="gaugeContainer1" style="float: none; margin-left: 11px;"></div>
     <div style="float: none; text-align:center; font-size:10px;">' . $indoor . '°C</div>
 </div>
 
 <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Cellar</strong> <br />' . strftime("%H:%M:%S", strtotime($allsensors[1]["logtime"])) . ' </div>
+    <div style="float: none"><strong>Cellar</strong> <br />' . date("H:m:s", strtotime($allsensors[1]["logtime"])) . ' </div>
     <div id="gaugeContainer2" style="margin-left: 11px;"></div>
     <div style="float: none; text-align:center; font-size:10px;">' . $cellar . '°C</div>
 </div>
 <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Loft</strong> <br />' . strftime("%H:%M:%S", strtotime($allsensors[2]["logtime"])) . ' </div>    
+    <div style="float: none"><strong>Loft</strong> <br />' . date("H:m:s", strtotime($allsensors[2]["logtime"])) . ' </div>    
     <div id="gaugeContainer3" style="margin-left: 3px;"></div>
     <div style="float: none; text-align:center; font-size:10px;">' . $outdoor . '°C</div>
 </div>
