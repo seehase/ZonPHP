@@ -12,6 +12,7 @@ include_once "charts/month_chart.php";
 
 
 <?php
+
 $choose_inverter_dropdown = "";
 $multiple_inverters = false;
 $choose_inverter_items = "";
@@ -55,6 +56,7 @@ if (strlen($choose_inverter_items) > 0){
                 ';
     $multiple_inverters = true;
 }
+
 ?>
 
 
@@ -66,6 +68,7 @@ if (strlen($choose_inverter_items) > 0){
             <?php
             if ($multiple_inverters) echo $choose_inverter_dropdown;
             ?>
+
             <h2 align="center">
                 <form action = "<?php $_SERVER['PHP_SELF']; ?>" method = "GET">
                 <?php if(date('Y-m',$date_minimum)<date('Y-m',$chartdate))
@@ -80,7 +83,6 @@ if (strlen($choose_inverter_items) > 0){
 
         <div id="month_chart_<?php echo $inverter_id ?>" style="width:100%; !important; height:100%; !important;"></div>
     </div>
-
 
     <div style="float: unset; margin-top: 5px;">
         

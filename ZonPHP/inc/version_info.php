@@ -3,14 +3,15 @@
 /********************************************************************
  * Version
  *********************************************************************/
-$version ="v2018.01.04 ";
+$version = "v2023.04.09 (dev)";
 
 /********************************************************************
  * Debug
  *********************************************************************/
-$debugmode=false;
+$debugmode=true;
 
 error_reporting(E_ALL);          // place these two lines at the top of
+/// error_reporting (E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 ini_set('display_errors', 1);    // the script you are debugging
 
 

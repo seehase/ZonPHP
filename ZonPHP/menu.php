@@ -6,6 +6,18 @@
             navarray[i].checked = false
         }
     }
+
+    $('#setQuickVar1').on('click', function() {
+        var checkStatus = this.checked ? 'ON' : 'OFF';
+
+        $.post("inc/toggle.php", {"quickVar1a": checkStatus},
+            function(data) {
+                $('#resultQuickVar1').html(data);
+            });
+    });
+
+
+
 </script>
 
 <?php
@@ -16,8 +28,9 @@ if (!isset($param['flyout'])) {
 if (intval($param['flyout']) > 0) {
     echo "<div>";
 }
-?>
 
+
+?>
 <input type="checkbox" name="nav" id="main-nav-check"/>
 <div id="menu" style="clear:both; ">
     <label for="main-nav-check" class="toggle" onclick="" title="Close"></label>
@@ -26,7 +39,7 @@ if (intval($param['flyout']) > 0) {
         <?php
 
         if ($iveromvormers == 1) {
-            echo "<li><a href='#'>&nbsp;</a> <label for='inverter' class='toggle-sub' onclick=''>&nbsp;" . $_SESSION['Wie'] . "&nbsp;&nbsp;&nbsp;&#9658;</label>";
+            echo "<li><a href='#' style='display: flex'>&nbsp;</a> <label for='inverter' class='toggle-sub' onclick=''>&nbsp;" . $_SESSION['Wie'] . "&nbsp;&nbsp;&nbsp;&#9658;</label>";
             echo "<input type='checkbox' name='nav' id='inverter' class='sub-nav-check'/>";
             echo "<ul id='inverter-sub' class='sub-nav'>";
             echo "  <li class='sub-heading'>inverter<label for='inverter' class='toggle' onclick='' title='Back'>&#9658;</label></li>";
@@ -38,13 +51,14 @@ if (intval($param['flyout']) > 0) {
         }
         ?>
 
-        <li><a href="#">&nbsp;</a> <label for="fof" class="toggle-sub" onclick="">
+        <li><a href="#" style="display: flex">&nbsp;</a> <label for="fof" class="toggle-sub" onclick="">
                 &nbsp;<?php echo $txt["grafiekoverzicht"]; ?>&nbsp;&nbsp;&nbsp;&#9658;</label>
             <input type="checkbox" name="nav" id="fof" class="sub-nav-check"/>
             <ul id="fof-sub" class="sub-nav">
                 <li class="sub-heading"><?php echo $txt["grafiekoverzicht"]; ?><label for="fof" class="toggle"
                                                                                       onclick="" title="Back">
                         &#9658;</label></li>
+                <li><a href="powermeter_overview_period.php"><?php echo $txt["chart_powermeter"]; ?></a></li>
                 <?php
                 if ($param['izonphpse'] == 0)
                     echo '<li><a href="day_overview.php">' . $txt["dagoverzicht"] . '</a></li>';
@@ -120,12 +134,10 @@ if (intval($param['flyout']) > 0) {
         </li> ';
         ?>
 
-        <?php if ($param['idagboek'] == 1)
-            echo '<li><a href="mydiary.php">' . $txt["dagboekmenu"] . '</a></li>';
-        ?>
 
 
-        <li><a href="#">&nbsp;</a> <label for="links" class="toggle-sub" onclick="">
+
+        <li><a href="#" style="display: flex">&nbsp;</a> <label for="links" class="toggle-sub" onclick="">
                 &nbsp;Links&nbsp;&nbsp;&nbsp;&#9658;</label>
             <input type="checkbox" name="nav" id="links" class="sub-nav-check"/>
             <ul id="links-sub" class="sub-nav">
@@ -141,9 +153,9 @@ if (intval($param['flyout']) > 0) {
                 </li>
 
                 <li><a href="#">&nbsp;</a> <label for="samples" class="toggle-sub" onclick="">&nbsp;samples&nbsp;&nbsp;&#9658;</label>
-                    <input type="checkbox" name="nav" id="samples" class="sub-nav-check"/>
+                    <input type="checkbox"  name="nav" id="samples" class="sub-nav-check"/>
                     <ul id="samples-sub" class="sub-nav">
-                        <li class="sub-heading">samples<label for="samples" class="toggle" onclick="" title="Back">
+                        <li class="sub-heading" >samples<label style="margin-top: -5px;" for="samples" class="toggle" onclick="" title="Back">
                                 &#9658;</label></li>
                         <li><a href="http://craeghs-syen.be/WEILLEN/index.php" onclick="target='_blank'">WEILLEN</a>
                         </li>
@@ -172,13 +184,16 @@ if (intval($param['flyout']) > 0) {
             </ul>
         </li>
 
-        <li><a href="#">&nbsp;</a> <label for="info" class="toggle-sub" onclick=""><span style="text-align: right">&nbsp;Info&nbsp;&nbsp;&nbsp;&#9658;</span></label>
+        <li><a href="#" style="display: flex">&nbsp;</a> <label for="info" class="toggle-sub" onclick=""><span style="text-align: right">&nbsp;Info&nbsp;&nbsp;&nbsp;&#9658;</span></label>
             <input type="checkbox" name="nav" id="info" class="sub-nav-check"/>
             <ul id="info-sub" class="sub-nav">
                 <li class="sub-heading"><?= $version ?><label for="info" class="toggle" onclick="" title="Back">
                         &#9658;</label>
                 </li>
                 <li><a href="install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
+                <?php if ($param['idagboek'] == 1)
+                    echo '<li><a href="mydiary.php">' . $txt["dagboekmenu"] . '</a></li>';
+                ?>
                 <li><a href="about.php">About</a></li>
                 <li><a href="installation.php"><?php echo $txt["installatie"]; ?></a></li>
                 <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
@@ -201,9 +216,12 @@ if (intval($param['flyout']) === 2) {
 
 <div class="container">
     <div id="header">
-        <a href="index.php"><img src="inc/image/logo.png" style="position:absolute; top:21px; left:136px;  border:0"
-                                 alt="Home" title="Home"/></a>
+        
+        <input   type="image" src="inc/image/logo.png"   onClick="location.href='index.php'" style="position:absolute; top:21px; left:136px;  border:0" value='Vandaag'>
+        
         <label for="main-nav-check" class="toggle" onclick="" title="Menu">&#x2261;</label>
+        
+        
         <span style="margin-left: 330px;">&nbsp;</span>
         <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'/></a>"; ?>
         <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
@@ -213,14 +231,36 @@ if (intval($param['flyout']) === 2) {
 
         <?php
 
-        if ($iveromvormers == 1) {
-            echo '<span id="headerinverter">
-                     <span style="margin-center: 530px;">&nbsp;</span> ' .
-                $txt["inverter"] . ' - ' . $_SESSION['Wie'] .
-                '</span>';
+        if (isset($_POST['toggle'])){
+            $editLayout = !$editLayout;
+            $_SESSION['editLayout'] = $editLayout;
         }
 
+        if ($iveromvormers == 1) {
+            echo '<p id="headerinverter" style="margin: -22px 460px 10px">' .
+                $param['sNaamVoorOpWebsite']  . " - " . $editLayout .
+                '</p>';
+        }
+
+        $ligado = 0;
+
         ?>
+
+
+
+<div style="margin: -42px 750px 10px">
+    <form action = "<?php $_SERVER['PHP_SELF']; ?>" method = "POST">
+
+            <input id="x123"
+                   type="checkbox"
+                   onchange="this.form.submit();"
+                   name='toggle' <?php if ($editLayout) echo "checked"; ?> >
+
+
+
+    </form>
+</div>
+
 
     </div><!-- closing "#header" -->
 
@@ -229,3 +269,4 @@ if (intval($param['flyout']) == 1) {
     echo "</div>";
 }
 ?>
+

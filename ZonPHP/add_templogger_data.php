@@ -9,7 +9,7 @@
 
 function logger($data)
 {
-//   error_log($data);
+   //  error_log($data);
 }
 
 $callparams = $_SERVER["QUERY_STRING"];
@@ -58,15 +58,21 @@ $mtime = strtotime($datetime);  // used to create ID
 if (isset($datalogger_offset)) {
     $isDaylight = date('I');
     logger(" -- offest is set -------------------------------");
-    logger("system day light saving option: " + $isDaylight);
-    logger("added offset: " . $datalogger_offset) + " hour";
+    logger("system day light saving option: " . $isDaylight);
+    logger("added offset: " . $datalogger_offset) . " hour";
     logger("Datetime original  : " . $datetime);
     logger("timestamp original : " . $mtime);
     if ($isDaylight == 0) {
-        // only correct value if there is noch dayligt saving
-        logger("correcting time");
+        // correct value by addind offest
+        logger("correcting time daylightsaving off");
         $mtime = strtotime("$datalogger_offset hour", $mtime);
-        $datetime = strftime("%Y-%m-%d %H:%M:%S", $mtime);
+        $datetime = date("Y-m-d H:i:s", $mtime);
+    } else {
+        // if daylight is true add 1 additional hour
+        logger("correcting time daylightsaving on offset +  1 hour");
+        $datalogger_offset = $datalogger_offset + 1;
+        $mtime = strtotime("$datalogger_offset hour", $mtime);
+        $datetime = date("Y-m-d H:i:s", $mtime);
     }
 
     logger("Datetime new : " . $datetime);
@@ -87,12 +93,12 @@ logger("id        : " . $id);
 logger("--------------------");
 
 // $newtime = ($mtime + 946681200) + 3600;   // Date since 1.1.2000 + diff since 1.1.1970 (946681200) + 1h
-// $newtimestring = strftime("%Y-%m-%d %H:%M:%S", $newtime);
+// $newtimestring = date("Y-m-d H:i:s", $newtime);
 // logger("new Date: $newtime -- > $newtimestring");
 
 
 // save data to db
-$sql = "insert into " . $table_prefix . "_sensordata (id, logtime, measurevalue, sensorid, sensortype)
+$sql = "insert into " . $table_prefix . "_sensordata_temp (id, logtime, measurevalue, sensorid, sensortype)
 VALUES ('$id', '$datetime',  $value, '$device', '$sensortype' )";
 
 logger($sql);

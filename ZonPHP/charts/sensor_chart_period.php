@@ -6,22 +6,23 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/load_cache.php";
 }
 
+$sensotable = "_sensordata";
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $startdate = time();
-$startdatestring = strftime("%Y-%m-%d", $startdate);
+$startdatestring = date("Y-m-d", $startdate);
 $enddate = strtotime("+1 day", $startdate);
-$enddatestring = strftime("%Y-%m-%d", $enddate);
+$enddatestring = date("Y-m-d", $enddate);
 
 if (isset($_GET['start'])) {
     $startdatestring = html_entity_decode($_GET['start']);
     $startdate = strtotime($startdatestring);
-    $startdatestring = strftime("%Y-%m-%d 00:00:00", $startdate);
+    $startdatestring = date("Y-m-d 00:00:00", $startdate);
 }
 if (isset($_GET['end'])) {
     $enddatestring = html_entity_decode($_GET['end']);
     $enddate = strtotime($enddatestring);
-    $enddatestring = strftime("%Y-%m-%d 23:59:59", $enddate);
+    $enddatestring = date("Y-m-d 23:59:59", $enddate);
 }
 
 $isIndexPage = false;
@@ -54,7 +55,7 @@ if (isset($_GET['sensors'])) {
         echo 'window.location.href="index.php";';
         echo '</script>';
         echo '<noscript>';
-        echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
+        ///echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
         echo '</noscript>';
         exit();
         // die(header('location:index.php'));  // does not work because of header modification with echo "..."
@@ -105,7 +106,7 @@ $sensorid = $allsensors[0]["id"];
 $sensortype = $allsensors[0]["type"];
 
 $sqlminmax = "SELECT MAX(logtime)AS maxi,MIN(logtime)AS mini
-	FROM " . $table_prefix . "_sensordata
+	FROM " . $table_prefix . $sensotable . "
 	WHERE sensorid=" . $sensorid . " AND sensortype = " . $sensortype;
 $resultminmax = mysqli_query($con, $sqlminmax) or die("Query failed. dag-minmax " . mysqli_error($con));
 while ($row = mysqli_fetch_array($resultminmax)) {
@@ -133,7 +134,7 @@ foreach ($allsensors as &$sensor) {
         "
         SELECT FROM_UNIXTIME(FLOOR(UNIX_TIMESTAMP(logtime)/ $interval) * $interval - ($time_offset)) AS nicedate,
         $linetype(measurevalue) as val
-        FROM " . $table_prefix . "_sensordata         
+        FROM " . $table_prefix . $sensotable . "         
         WHERE (logtime  >  \"$startdatestring\" AND logtime < \"$enddatestring\" ) AND sensorid= $sensorid AND sensortype = $sensortype
         GROUP BY nicedate
         
@@ -146,8 +147,8 @@ $x=
             SELECT
                AVG( measurevalue ) AS val,
                STR_TO_DATE( CONCAT( DATE( logtime ) ,  ' ',HOUR( logtime ) , ':', LPAD( FLOOR( MINUTE( logtime ) / $interval ) * $interval, 2, '0' ) , ':00' ) ,
-                   '%Y-%m-%d %H:%i:%s' ) AS nicedate
-            FROM " . $table_prefix . "_sensordata 
+                   'Y-m-d H:i:s' ) AS nicedate
+            FROM " . $table_prefix . $sensotable . " 
             WHERE (logtime  >  \"$startdatestring\" AND logtime < \"$enddatestring\" ) AND sensorid= $sensorid AND sensortype = $sensortype
             GROUP BY nicedate ORDER BY nicedate ASC";
 
@@ -301,13 +302,6 @@ $idstring = "sensor_chart_period_$id"
                 text: 'Temperature',
                 style: {
                     color: '#<?php echo $colors['color_chart_text_title'] ?>',
-                },
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in',
-                style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
                 },
             },
             xAxis: {

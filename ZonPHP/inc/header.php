@@ -15,34 +15,52 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
-    <meta name="description" content="PV Anlagen Montoring">
+    <meta name="description" content="PV Anlagen Monitoring">
     <meta name="author" content="slaper">
     <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
     <?php
-    echo '<meta http-equiv="refresh" content="300" >';
+    if (isset($param['autorefresh']) ){
+        $autorefresh =  intval($param['autorefresh']);
+    } else {
+        $autorefresh = 301;
+    }
+
+    if ($autorefresh > 0) {
+        echo '<meta http-equiv="refresh" content="' . $autorefresh . '" >';
+    }
     ?>
+
     <title><?php echo $param['sNaamVoorOpWebsite']; ?></title>
 
 
     <!-- use googleapis CDN -->
+	
     <link type="text/css" rel="stylesheet"
           href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script type="text/javascript"
             src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <!-- <script language="javascript" type="text/javascript" src="inc/js/jquery.flot.resize.min.js"></script> -->
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 
-    <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
-    <script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
-    <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script type="text/javascript" src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/10.2/highcharts.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/10.2/highcharts-more.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/10.2/modules/exporting.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/10.2/modules/solid-gauge.js"></script>
 
+    
 
-    <script language="javascript" type="text/javascript" src="inc/js/jquery.flot.resize.min.js"></script>
     <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.base.css">
     <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.zonphp.css">
+
 
     <!-- read default styles (static) -->
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -94,6 +112,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
 
         #headerinverter {
             color: #<?php echo $colors['color_menubackground'] ?>;
+            font-size: 18px;
         }
 
     </style>
@@ -120,7 +139,38 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
             });
         });
 
+    </script>
 
+
+    <script>
+        $(function() {
+            $('#toggle-one').change(function() {
+                var mydiv = $("#toggeldiv");
+                var ishidden = true;
+
+                if (mydiv.is(':hidden')) {
+                    $("#toggeldiv").show();
+                } else {
+                    $("#toggeldiv").hide();
+                }
+            })
+        })
+    </script>
+
+    <script>
+        function myDropdownFunction(value) {
+            var count = this.series.length;
+            for (ii = 0; ii < count; ii++) {
+                if (this.series[ii].name == value) {
+                    var aaa = this.series[ii];
+                    aaa.setVisible(!aaa.visible);
+                    break;
+                } else if (value == 'all') {
+                    var bbb = this.series[ii];
+                    bbb.setVisible(true);
+                }
+            }
+        }
     </script>
 
     <?php

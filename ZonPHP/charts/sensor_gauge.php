@@ -10,7 +10,7 @@ if (strpos(getcwd(), "charts") > 0) {
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $today = time();
-$todaystring = strftime("%Y-%m-%d", $today);
+$todaystring = date("%Y-%m-%d", $today);
 
 
 $id = $todaystring;
@@ -69,12 +69,18 @@ foreach ($allsensors as &$sensor) {
 
     $sensor["value"] = 0.0;
     $sensor["logtime"] = time();
+    $sensor["minvalue"] = 0.0;
+    $sensor["maxvalue"] = 0.0;
     $result_sensor = mysqli_query($con, $sql_sensor) or die("Query failed. dag " . mysqli_error($con));
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // fetch latest value only one result
-            $sensor["value"] = $row["val"];
-            $sensor["logtime"] = $row["logtime"];
+            if (($row["val"] != null) & ($row["logtime"] != null)) {
+                $sensor["value"] = $row["val"];
+                $sensor["logtime"] = $row["logtime"];
+                $sensor["minvalue"] = $row["val"];
+                $sensor["maxvalue"] = $row["val"];
+            }
         }
     }
 
@@ -90,20 +96,23 @@ foreach ($allsensors as &$sensor) {
     if (mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             // only one result
-            $sensor["minvalue"] = $row["min"];
-            $sensor["maxvalue"] = $row["max"];
+            if ($row["min"] != null) {
+                $sensor["minvalue"] = $row["min"];
+            }
+            if ($row["max"] != null) {
+                $sensor["maxvalue"] = $row["max"];
+            }
         }
     }
-
 }
 unset($sensor);
 
 
 //-----------------------------------------------------------------------------------------
 // var_dump($allsensors);
-$indoor = number_format($allsensors[0]["value"],1);
-$cellar = number_format($allsensors[1]["value"],1);
-$outdoor = number_format($allsensors[2]["value"],1);
+$indoor = number_format($allsensors[0]["value"], 1);
+$cellar = number_format($allsensors[1]["value"], 1);
+$outdoor = number_format($allsensors[2]["value"], 1);
 $indoorrh = $allsensors[3]["value"];
 $cellarrrh = $allsensors[4]["value"];
 $outdoorrh = $allsensors[5]["value"];
@@ -117,25 +126,25 @@ $outdoorrh = $allsensors[5]["value"];
 echo '
 
 <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Indoor</strong><br />' . strftime("%H:%M:%S", strtotime($allsensors[0]["logtime"])) . ' </div>
+    <div style="float: none"><strong>Winterg.</strong><br />' . date("H:m:s", strtotime($allsensors[0]["logtime"])) . ' </div>
     <div id="gaugeContainer1" style="float: none; margin-left: 11px;"></div>
     <div style="float: none; text-align:center; font-size:10px;">' . $indoor . '°C</div>
 </div>
 
 <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Cellar</strong> <br />' . strftime("%H:%M:%S", strtotime($allsensors[1]["logtime"])) . ' </div>
+    <div style="float: none"><strong>Cellar</strong> <br />' . date("H:m:s", strtotime($allsensors[1]["logtime"])) . ' </div>
     <div id="gaugeContainer2" style="margin-left: 11px;"></div>
     <div style="float: none; text-align:center; font-size:10px;">' . $cellar . '°C</div>
 </div>
 <div class="sensorgauge" style="float: left; padding-top: 13px; text-align:center; font-size:12px;">
-    <div style="float: none"><strong>Outdoor</strong> <br />' . strftime("%H:%M:%S", strtotime($allsensors[2]["logtime"])) . ' </div>
+    <div style="float: none"><strong>Loft</strong> <br />' . date("H:m:s", strtotime($allsensors[2]["logtime"])) . ' </div>    
     <div id="gaugeContainer3" style="margin-left: 3px;"></div>
     <div style="float: none; text-align:center; font-size:10px;">' . $outdoor . '°C</div>
 </div>
 
-<div class="sensorgauge" id="container-speed" style="width: 200px; height: 120px; float: left; ">indoor</div>
-<div class="sensorgauge" id="container-cellar" style="width: 200px; height: 120px; float: left; ">cellar</div>
-<div class="sensorgauge" id="container-rpm" style="width: 200px; height: 120px; float: left; ">outdoor</div>
+<div class="sensorgauge" id="container-speed" style="width: 200px; height: 120px; float: left; ">Wintergarden</div>
+<div class="sensorgauge" id="container-cellar" style="width: 200px; height: 120px; float: left; ">Cellar</div>
+<div class="sensorgauge" id="container-rpm" style="width: 200px; height: 120px; float: left; ">Loft</div>
 
 ';
 
@@ -284,7 +293,7 @@ echo '
                 min: 0,
                 max: 100,
                 title: {
-                    text: 'Indoor',
+                    text: 'Wintergarden',
                     style: {color: '#<?php echo $colors['color_chart_text_subtitle'] ?>'},
                 },
                 visible: true,
@@ -298,8 +307,8 @@ echo '
                 dataLabels: {
                     y: -38,
                     format: '<div style="text-align:center"><span style="font-size:15px;' +
-                    'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
-                    '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
+                        'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
+                        '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
                 },
                 tooltip: {
                     valueSuffix: ' km/h'
@@ -325,8 +334,8 @@ echo '
                 dataLabels: {
                     y: -38,
                     format: '<div style="text-align:center"><span style="font-size:15px;' +
-                    'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
-                    '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
+                        'color: #<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
+                        '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
                 },
                 tooltip: {
                     valueSuffix: ' revolutions/min'
@@ -340,7 +349,7 @@ echo '
                 min: 0,
                 max: 100,
                 title: {
-                    text: 'Outdoor',
+                    text: 'Loft',
                     style: {color: '#<?php echo $colors['color_chart_text_subtitle'] ?>'},
                 }
             },
@@ -353,8 +362,8 @@ echo '
                 dataLabels: {
                     y: -38,
                     format: '<div style="text-align:center"><span style="font-size:15px;' +
-                    'color:#<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
-                    '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
+                        'color:#<?php echo $colors['color_chart_text_subtitle'] ?> ; font-weight:normal;">{y:.1f}<\/span><br/>' +
+                        '<span style="font-size:10px; color:#<?php echo $colors['color_chart_text_subtitle'] ?>; font-weight:normal;">%RH<\/span><\/div>'
                 },
                 tooltip: {
                     valueSuffix: ' revolutions/min'

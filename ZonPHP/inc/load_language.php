@@ -89,16 +89,4 @@ for ($i = 1; $i <= 12; $i++) {
 }
 //print_r($months);
 $_SESSION['months'] = $months;
-// calc weekdays ---------------------------------------------------------------------------------------------------
-// commented out weekdays. No need for because skipping support week graphs
-// $timestamp = strtotime('next Sunday');
-// $short_weekdays = array();
-// $weekdays = array();
-// for ($i = 0; $i < 7; $i++) {
-//     $weekdays[] = date('l', $timestamp);
-//     $short_weekdays[] = date('D', $timestamp);
-//     $timestamp = strtotime('+1 day', $timestamp);
-// }
-// $_SESSION['short_weekdays'] = $short_weekdays;
-// $_SESSION['weekdays'] = $weekdays;
 ?>

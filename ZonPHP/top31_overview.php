@@ -14,11 +14,6 @@ unset($adatum);
 include_once "inc/header.php";
 include_once "charts/top31_chart.php";
 
-
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
-}
 $myLabel = "Top ";
 
 if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
@@ -33,23 +28,51 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
 
 
 <?php include "menu.php"; ?>
+
+<?php
+
+    $paramstr_choose = '';
+    $paramstr_day = '';
+    # remove naam parameter
+    if (sizeof($_GET) > 0){
+        foreach ($_GET as $key => $value) {
+            if ( !(($key == "naam") || ($key == "type")) ) {
+                $paramstr_choose .=  $key . "=" . $value . "&";
+            }
+            if ( $key != "dag") {
+                $paramstr_day .= $key . "=" . $value . "&";
+            }
+        }
+    }
+    if (strpos($paramstr_day, "?") == 0) {
+        $paramstr_day = '?' . $paramstr_day;
+    }
+    if (strpos($paramstr_choose, "?") == 0) {
+        $paramstr_choose = '?' . $paramstr_choose;
+    }
+
+?>
+
+
 <div id="page-content">
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 72px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
+
+
             <h2 align="center"><?php echo $myLabel; ?></h2>
             <?php
-            echo '<a class="myButton" href="top31_overview.php?Max_Min=flop">' . $txt['slechtste'] . "-" . $txt["chart_31days"] . ' </a> &nbsp;';
-            echo '<a class="myButton" href="top31_overview.php?Max_Min=top">' . $txt['beste'] . "-" . $txt["chart_31days"] . ' </a>';
+                echo '<a class="btn btn-primary" href="top31_overview.php?Max_Min=flop">' . $txt['slechtste'] . "-" . $txt["chart_31days"] . ' </a> &nbsp;';
+                echo '<a class="btn btn-primary" href="top31_overview.php?Max_Min=top">' . $txt['beste'] . "-" . $txt["chart_31days"] . ' </a>';
             ?>
 
         </div>
 
-        <div id="<?php echo $currentview ?>31_chart_<?php echo $inverter ?>" style="width:100%; height:100%;"></div>
+        <div id="<?php echo $currentview ?>31_chart" style="width:100%; height:100%;"></div>
     </div>
 
     <div style="float: unset; margin-top: 5px;">
-        <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
+        <button class="btn btn-primary" id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
     </div>
 
     <div id="tabelgeg">
@@ -98,7 +121,7 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
 						<td>" . $iteller . "</td>
 						<td>" . $slinkseversie . "</td>
 						<td>" . number_format($fkw, 2, ',', '.') . "</td>
-						<td>" . number_format($fkw * $ajaareuro[date("y", strtotime($ddag))], 2, ',', '.') . " &euro;</td>
+						<td>" . number_format($fkw * $price_per_kwh, 2, ',', '.') . " &euro;</td>
 						<td>" . number_format(1000 * $fkw / $ieffectiefkwpiek, 2, ',', '.') . "</td>
 						</tr>");
                         $iteller++;

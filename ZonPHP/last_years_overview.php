@@ -14,21 +14,58 @@ if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];
 }
 
-$nextyear = strftime("%Y-%m-%d", strtotime("+1 year", $chartdate));
-$prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
+$nextyear = date("Y-m-d", strtotime("+1 year", $chartdate));
+$prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
 
 ?>
 
 <?php include_once "menu.php"; ?>
+
+<?php
+    $choose_inverter_dropdown = "";
+    $multiple_inverters = false;
+    $choose_inverter_items = "";
+    $paramstr_choose = '';
+    $paramstr_day = '';
+    # remove naam parameter
+    if (sizeof($_GET) > 0){
+        foreach ($_GET as $key => $value) {
+            if ( !(($key == "naam") || ($key == "type")) ) {
+                $paramstr_choose .=  $key . "=" . $value . "&";
+            }
+            if ( $key != "dag") {
+                $paramstr_day .= $key . "=" . $value . "&";
+            }
+        }
+    }
+    if (strpos($paramstr_day, "?") == 0) {
+        $paramstr_day = '?' . $paramstr_day;
+    }
+    if (strpos($paramstr_choose, "?") == 0) {
+        $paramstr_choose = '?' . $paramstr_choose;
+    }
+    foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
+        $choose_inverter_items .= "<li><a href='" . $_SERVER['SCRIPT_NAME'] . $paramstr_choose . "naam=" . $sdbnaam .
+            "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
+    }
+
+    
+?>
+
 <div id="page-content">
 
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 59px; ">
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
+
+            <?php
+                if ($multiple_inverters) echo $choose_inverter_dropdown;
+            ?>
+
             <h2 align="center">
                 <?php
-                echo '<a class="myButton" href="all_years_overview.php?jaar=' . $prevyear . '"> < </a>';
-                echo ($param['jaar'] - 4) . " - " . $param['jaar'];
-                echo '<a class="myButton" href="all_years_overview.php?jaar=' . $nextyear . '"> > </a>';
+                //echo '<a class="btn btn-primary" href="last_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
+                echo "All Years Overview";
+                //echo '<a class="btn btn-primary" href="last_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
                 ?>
             </h2>
         </div>
@@ -37,7 +74,7 @@ $prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
     </div>
 
     <div style="float: unset; margin-top: 5px;">
-        <button id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
+        <button class="btn btn-primary" id="toggelbutton"><?php echo $txt['showvalues'] ?></button>
     </div>
 
     <div id="tabelgeg">
@@ -60,10 +97,18 @@ $prevyear = strftime("%Y-%m-%d", strtotime("-1 year", $chartdate));
                 </tr>
                 <?php
                 foreach ($adatum as $ijaar => $amaandgeg) {
-                    if ($aTotaaljaar[$ijaar] == max($aTotaaljaar)) {
+                    $totalYearnum = 0;
+                    $totalMax = 0;
+                    if (isset($aTotaaljaar[$ijaar])) {
+                        $totalYearnum = number_format($aTotaaljaar[$ijaar], 0, ",", ".");
+                    }
+                    if (isset ($aTotaaljaar) && count($aTotaaljaar)> 0) {
+                        $totalMax = max($aTotaaljaar);
+                    }
+                    if ($totalYearnum == $totalMax) {
                         echo "<tr>		
 										<td><a href='year_overview.php?jaar=" . $ijaar . "-1-1'><b>" . $ijaar . "</b></a></td>
-										<td><b>" . number_format($aTotaaljaar[$ijaar], 0, ",", ".") . "</b></td>";
+										<td><b>" . $totalYearnum . "</b></td>";
                         for ($i = 1; $i < 13; $i++) {
                             if (empty($amaandgeg[$i]))
                                 echo '<td><b>0</b></td>';

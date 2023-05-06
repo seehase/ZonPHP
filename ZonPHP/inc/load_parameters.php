@@ -19,6 +19,7 @@ $param['image1'] = "inc/image/image1.jpg";
 $param['image2'] = "inc/image/image2.jpg";
 
 $charts = array();
+$charts['chart_date_format'] = "";
 
 if (!isset($colors)) $colors = array();
 $teller = 0;
@@ -60,7 +61,7 @@ if (mysqli_num_rows($resultpar) != 0) {
         $charts['chart_allyearoverview'] = 'on';
         $charts['chart_lastyearoverview'] = 'on';
         $charts['chart_monthoverview'] = 'on';
-        $charts['chart_solar_temp'] = 'on';
+        $charts['chart_dayoverview'] = 'on';
         $charts['chart_weekoverview'] = 'on';
         $charts['chart_yearoverview'] = 'on';
     }

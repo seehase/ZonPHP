@@ -10,13 +10,13 @@ if (strpos(getcwd(), "charts") > 0) {
 $val_c_dif = 100;
 $val_rh_dif = 100;
 $chartdate = time();
-$chartdatestring = strftime("%Y-%m-%d", $chartdate);
+$chartdatestring = date("Y-m-d", $chartdate);
 
 if (isset($_GET['dag'])) {
     $chartdatestring = html_entity_decode($_GET['dag']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
-    $chartdatestring = strftime("%Y-%m-%d", $chartdate);
+    $chartdatestring = date("Y-m-d", $chartdate);
 }
 
 $isIndexPage = false;
@@ -43,13 +43,14 @@ if (isset($_GET['sensors'])) {
     $params = $_POST['sensors'];
 }
 
+
 // goto index if on parameters are specified
 if (strlen($params) == 0) {
     echo '<script type="text/javascript">';
     echo 'window.location.href="index.php";';
     echo '</script>';
     echo '<noscript>';
-    echo '<meta http-equiv="refresh" content="0;url=' . $url . '" />';
+   ///  echo '<meta http-equiv="refresh" content="0;url=' . $url . '" />';
     echo '</noscript>';
     exit();
 }
@@ -79,7 +80,7 @@ if (isset($_GET['title'])) {
 }
 
 
-$datum = strftime("%d %B %Y", $chartdate);
+$datum = date("d M Y", $chartdate);
 
 
 //-----------------------------------------------------------------------------------------
@@ -327,13 +328,6 @@ foreach ($allsensors as $sensor) {
                 text: '<?php echo $title ?>',
                 style: {
                     color: '#<?php echo $colors['color_chart_text_title'] ?>',
-                },
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in',
-                style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
                 },
             },
             xAxis: {

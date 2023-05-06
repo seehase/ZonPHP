@@ -22,7 +22,7 @@ if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
                 Standort: ' . $param['sPlaats'] . '<br />
                 Module: ' . $param['sSoort_pannel_aantal'] . '<br />
                 Wechselrichter: ' . $param['sOmvormer'] . '<br />
-                Inbetriebnahme: ' . strftime("%d-%B-%Y", strtotime($dstartdatum)) . '<br />
+                Inbetriebnahme: ' . date("Y-m-d", strtotime($dstartdatum)) . '<br />
                 Ausrichtung: ' . $param['sOrientatie'] . '<br />
                 Data Logger: ' . $param['sData_Captatie'] . '<br /> ';
                 ?>

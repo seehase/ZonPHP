@@ -92,7 +92,10 @@ $chart_options =
                 floating: false,
                 backgroundColor: '#" . $colors['color_chartbackground'] . "',
                 enabled: $show_legende,
-            },       
+            },    
+     tooltip: {
+                    xDateFormat: '" . $charts['chart_date_format'] . "'
+              },
      plotOptions: {
                 series: {
                     cursor: 'pointer',

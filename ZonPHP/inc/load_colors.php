@@ -39,9 +39,29 @@ if (!isset ($colors['color_chart_max_line'])) $colors['color_chart_max_line'] = 
 if (!isset ($colors['color_chart_cum_line'])) $colors['color_chart_cum_line'] = "06990B";
 if (!isset ($colors['color_chart_temp_line'])) $colors['color_chart_temp_line'] = "0E669E";
 if (!isset ($colors['color_chart_expected_bar'])) $colors['color_chart_expected_bar'] = "AAAAAA";
-if (!isset ($colors['color_chart_avarage_line'])) $colors['color_chart_avarage_line'] = "0AF02F";
+if (!isset ($colors['color_chart_average_line'])) $colors['color_chart_average_line'] = "0AF02F";
 if (!isset ($colors['color_chartbar1'])) $colors['color_chartbar1'] = "003399";
 if (!isset ($colors['color_chartbar2'])) $colors['color_chartbar2'] = "3366AA";
+if (!isset ($colors['color_inverter0_chartbar_min'])) $colors['color_inverter0_chartbar_min'] = "003399";
+if (!isset ($colors['color_inverter0_chartbar_max'])) $colors['color_inverter0_chartbar_max'] = "3366AA";
+if (!isset ($colors['color_inverter1_chartbar_min'])) $colors['color_inverter1_chartbar_min'] = "158EFF";
+if (!isset ($colors['color_inverter1_chartbar_max'])) $colors['color_inverter1_chartbar_max'] = "715AAA";
+if (!isset ($colors['color_inverter2_chartbar_min'])) $colors['color_inverter2_chartbar_min'] = "1A8A99";
+if (!isset ($colors['color_inverter2_chartbar_max'])) $colors['color_inverter2_chartbar_max'] = "3829AA";
+if (!isset ($colors['color_inverter3_chartbar_min'])) $colors['color_inverter3_chartbar_min'] = "0F9949";
+if (!isset ($colors['color_inverter3_chartbar_max'])) $colors['color_inverter3_chartbar_max'] = "3366AA";
+if (!isset ($colors['color_inverter4_chartbar_min'])) $colors['color_inverter4_chartbar_min'] = "7E1D99";
+if (!isset ($colors['color_inverter4_chartbar_max'])) $colors['color_inverter4_chartbar_max'] = "AA1D66";
+if (!isset ($colors['color_inverter5_chartbar_min'])) $colors['color_inverter5_chartbar_min'] = "5D7499";
+if (!isset ($colors['color_inverter5_chartbar_max'])) $colors['color_inverter5_chartbar_max'] = "9138AA";
+if (!isset ($colors['color_inverter6_chartbar_min'])) $colors['color_inverter6_chartbar_min'] = "003399";
+if (!isset ($colors['color_inverter6_chartbar_max'])) $colors['color_inverter6_chartbar_max'] = "3366AA";
+if (!isset ($colors['color_inverter7_chartbar_min'])) $colors['color_inverter7_chartbar_min'] = "003399";
+if (!isset ($colors['color_inverter7_chartbar_max'])) $colors['color_inverter7_chartbar_max'] = "3366AA";
+if (!isset ($colors['color_inverter8_chartbar_min'])) $colors['color_inverter8_chartbar_min'] = "003399";
+if (!isset ($colors['color_inverter8_chartbar_max'])) $colors['color_inverter8_chartbar_max'] = "3366AA";
+if (!isset ($colors['color_inverter9_chartbar_min'])) $colors['color_inverter9_chartbar_min'] = "003399";
+if (!isset ($colors['color_inverter9_chartbar_max'])) $colors['color_inverter9_chartbar_max'] = "3366AA";
 if (!isset ($colors['color_chartbar_piek1'])) $colors['color_chartbar_piek1'] = "730073";
 if (!isset ($colors['color_chartbar_piek2'])) $colors['color_chartbar_piek2'] = "FF00FF";
 if (!isset ($colors['color_image_windowtitle'])) $colors['color_image_windowtitle'] = "inc/image/bg_black.png";
@@ -64,6 +84,13 @@ if (!isset ($colors['color_yearchart3'])) $colors['color_yearchart3'] = "89C4F4"
 if (!isset ($colors['color_yearchart4'])) $colors['color_yearchart4'] = "5C97BF";
 if (!isset ($colors['color_text_link1'])) $colors['color_text_link1'] = "ffffff";
 if (!isset ($colors['color_text_link2'])) $colors['color_text_link2'] = "c00000";
+if (!isset ($colors['color_palettes'])) $colors['color_palettes'] = array (
+    							array ('#9ccc65' , '#8bc34a' , '#7cb342' ),
+								array ('#aed6f1' , '#85c1e9' , '#5dade2' ),
+								array ('#f9e79f' , '#f7dc6f' , '#f4d03f' ),
+								array ('#a3e4d7' , '#76d7c4' , '#48c9b0' ),
+								array ('#d7bde2' , '#c39bd3' , '#af7ac5' ),
+								array ('#ef5350' , '#e53935' , '#c62828' ));
 
 // load themes if not
 if ($_SESSION['theme'] == "default") {
@@ -77,9 +104,29 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbackground'] = "888888";
     $colors['color_chartbar1'] = "003399";
     $colors['color_chartbar2'] = "3366AA";
+    $colors['color_inverter0_chartbar_min'] = "003399";
+    $colors['color_inverter0_chartbar_max'] = "3366AA";
+    $colors['color_inverter1_chartbar_min'] = "158EFF";
+    $colors['color_inverter1_chartbar_max'] = "715AAA";
+    $colors['color_inverter2_chartbar_min'] = "1A8A99";
+    $colors['color_inverter2_chartbar_max'] = "3829AA";
+    $colors['color_inverter3_chartbar_min'] = "0F9949";
+    $colors['color_inverter3_chartbar_max'] = "3366AA";
+    $colors['color_inverter4_chartbar_min'] = "7E1D99";
+    $colors['color_inverter4_chartbar_max'] = "AA1D66";
+    $colors['color_inverter5_chartbar_min'] = "5D7499";
+    $colors['color_inverter5_chartbar_max'] = "9138AA";
+    $colors['color_inverter6_chartbar_min'] = "003399";
+    $colors['color_inverter6_chartbar_max'] = "3366AA";
+    $colors['color_inverter7_chartbar_min'] = "003399";
+    $colors['color_inverter7_chartbar_max'] = "3366AA";
+    $colors['color_inverter8_chartbar_min'] = "003399";
+    $colors['color_inverter8_chartbar_max'] = "3366AA";
+    $colors['color_inverter9_chartbar_min'] = "003399";
+    $colors['color_inverter9_chartbar_max'] = "3366AA";
     $colors['color_chartbar_piek1'] = "F8F804";
     $colors['color_chartbar_piek2'] = "FF00FF";
-    $colors['color_chart_avarage_line'] = "0AF02F";
+    $colors['color_chart_average_line'] = "0AF02F";
     $colors['color_chart_reference_line'] = "FF0055";
     $colors['color_chart_cum_line'] = "212121";
     $colors['color_chart_max_line'] = "777777";
@@ -116,9 +163,29 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbackground'] = "616161";
     $colors['color_chartbar1'] = "f4ff1c";
     $colors['color_chartbar2'] = "FF000D";
+    $colors['color_inverter0_chartbar_min'] = "f4ff1c";
+    $colors['color_inverter0_chartbar_max'] = "FF000D";
+    $colors['color_inverter1_chartbar_min'] = "BECE04";
+    $colors['color_inverter1_chartbar_max'] = "AA3A38";
+    $colors['color_inverter2_chartbar_min'] = "E8E40E";
+    $colors['color_inverter2_chartbar_max'] = "DB480D";
+    $colors['color_inverter3_chartbar_min'] = "003399";
+    $colors['color_inverter3_chartbar_max'] = "3366AA";
+    $colors['color_inverter4_chartbar_min'] = "003399";
+    $colors['color_inverter4_chartbar_max'] = "3366AA";
+    $colors['color_inverter5_chartbar_min'] = "003399";
+    $colors['color_inverter5_chartbar_max'] = "3366AA";
+    $colors['color_inverter6_chartbar_min'] = "003399";
+    $colors['color_inverter6_chartbar_max'] = "3366AA";
+    $colors['color_inverter7_chartbar_min'] = "003399";
+    $colors['color_inverter7_chartbar_max'] = "3366AA";
+    $colors['color_inverter8_chartbar_min'] = "003399";
+    $colors['color_inverter8_chartbar_max'] = "3366AA";
+    $colors['color_inverter9_chartbar_min'] = "003399";
+    $colors['color_inverter9_chartbar_max'] = "3366AA";
     $colors['color_chartbar_piek1'] = "ff000D";
     $colors['color_chartbar_piek2'] = "A80000";
-    $colors['color_chart_avarage_line'] = "15ff24";
+    $colors['color_chart_average_line'] = "15ff24";
     $colors['color_chart_reference_line'] = "ff000d";
     $colors['color_chart_cum_line'] = "212121";
     $colors['color_chart_max_line'] = "454545";
@@ -144,6 +211,13 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_yearchart4'] = "ff000d";
     $colors['color_text_link1'] = "ffffff";
     $colors['color_text_link2'] = "c00000";
+  	$colors['color_palettes'] =  array (
+	array ('#f9e79f' , '#f7dc6f' , '#f4d03f'),
+	array ('#ff9e80','#ff6e40','#ff3d00'),
+	array ('#ff7043','#f4511e','#d84315' ),
+	array ('#fff176','#ffeb3b','#fbc02d'),
+	array ('#ef5350' , '#e53935' , '#c62828'),
+	array ('#b0bec5','#607d8b','#37474f' ));
 } else if ($_SESSION['theme'] == "theme2") {
     $colors['color_background'] = "381C04";
     $colors['color_footerbackground'] = "E7A75B";
@@ -157,7 +231,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbar2'] = "700000";
     $colors['color_chartbar_piek1'] = "FFE100";
     $colors['color_chartbar_piek2'] = "FF7E38";
-    $colors['color_chart_avarage_line'] = "B88686";
+    $colors['color_chart_average_line'] = "B88686";
     $colors['color_chart_reference_line'] = "4B3636";
     $colors['color_chart_cum_line'] = "212121";
     $colors['color_chart_max_line'] = "805E5E";
@@ -183,6 +257,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_yearchart4'] = "9A01BE";
     $colors['color_text_link1'] = "ffffff";
     $colors['color_text_link2'] = "c00000";
+    
 }else if ($_SESSION['theme'] == "theme3") {
     $colors['color_background'] = "ffffff";
     $colors['color_footerbackground'] = "ffffff";
@@ -196,7 +271,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbar2'] = "ff000d";
     $colors['color_chartbar_piek1'] = "ff000d";
     $colors['color_chartbar_piek2'] = "a80000";
-    $colors['color_chart_avarage_line'] = "15ff24";
+    $colors['color_chart_average_line'] = "15ff24";
     $colors['color_chart_reference_line'] = "ff000d";
     $colors['color_chart_cum_line'] = "0d0bb0";
     $colors['color_chart_max_line'] = "454545";
@@ -222,6 +297,13 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_yearchart4'] = "FF00D0";
     $colors['color_text_link1'] = "000000";
     $colors['color_text_link2'] = "c00000";
+  	$colors['color_palettes'] =  array (
+array ('#ff7043','#f4511e','#d84315' ),
+array ('#81c784','#43a047','#2e7d32' ),
+array ('#e57373','#f44336','#c62828' ),
+array ('#4fc3f7','#039be5','#0277bd' ),
+array ('#4dd0e1','#00acc1','#006064' ),
+array ('#b0bec5','#607d8b','#37474f' ));
 }else if ($_SESSION['theme'] == "theme4") {
     $colors['color_background'] = "ffffff";
     $colors['color_footerbackground'] = "d6d6d6";
@@ -235,7 +317,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_chartbar2'] = "0003a6";
     $colors['color_chartbar_piek1'] = "f3ff15";
     $colors['color_chartbar_piek2'] = "a80000";
-    $colors['color_chart_avarage_line'] = "0003a6";
+    $colors['color_chart_average_line'] = "0003a6";
     $colors['color_chart_reference_line'] = "ff000d";
     $colors['color_chart_cum_line'] = "f3ff15";
     $colors['color_chart_max_line'] = "15ff24";
@@ -261,6 +343,13 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_yearchart4'] = "545454";
     $colors['color_text_link1'] = "000000";
     $colors['color_text_link2'] = "c00000";
+    $colors['color_palettes'] = array (
+    							array ('#9ccc65' , '#8bc34a' , '#7cb342' ),
+								array ('#aed6f1' , '#85c1e9' , '#5dade2' ),
+								array ('#f9e79f' , '#f7dc6f' , '#f4d03f' ),
+								array ('#a3e4d7' , '#76d7c4' , '#48c9b0' ),
+								array ('#d7bde2' , '#c39bd3' , '#af7ac5' ),
+								array ('#ef5350' , '#e53935' , '#c62828' ));
 }
 
 $_SESSION['colors'] = $colors;
