@@ -13,22 +13,6 @@ if (isset($_GET['theme'])) {
     include_once "load_colors.php";
 }
 
-if ($taal == "nl")
-    setlocale(LC_TIME, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nl_NL.UTF-8', 'nld_nld', 'nld', 'nld_NLD', 'NL_nl');
-
-if ($taal == "fr")
-    setlocale(LC_TIME, 'fr', 'fr_FR', 'fr_FR.ISO8859-1', 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
-
-if ($taal == "de") {
-    setlocale(LC_TIME, 'de', 'de_DE.utf8', 'de_DE', 'deutsch', 'german');
-    // setlocale(LC_TIME, 'German', 'de_DE', 'deu', 'de_DE', 'de');
-}
-if ($taal == "en")
-    setlocale(LC_TIME, 'english-us', 'English', 'en_US', 'en', 'en_US.ISO8859-1', 'en_US.UTF-8', 'en');
-
-date_default_timezone_set("UTC");
-
-
 
 $github_version = "unknown";
 $new_version_label = "";
