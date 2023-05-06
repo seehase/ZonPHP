@@ -288,7 +288,7 @@ echo '
             }
         };
 
-        var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
+        var chartSpeed = Highcharts.Chart('container-speed', Highcharts.merge(gaugeOptions, {
             yAxis: {
                 min: 0,
                 max: 100,
@@ -316,7 +316,7 @@ echo '
             }]
         }));
 
-        var chartRpm = Highcharts.chart('container-cellar', Highcharts.merge(gaugeOptions, {
+        var chartRpm = Highcharts.Chart('container-cellar', Highcharts.merge(gaugeOptions, {
             yAxis: {
                 min: 0,
                 max: 100,
@@ -344,7 +344,7 @@ echo '
 
         }));
 
-        var chartRpm = Highcharts.chart('container-rpm', Highcharts.merge(gaugeOptions, {
+        var chartRpm = Highcharts.Chart('container-rpm', Highcharts.merge(gaugeOptions, {
             yAxis: {
                 min: 0,
                 max: 100,

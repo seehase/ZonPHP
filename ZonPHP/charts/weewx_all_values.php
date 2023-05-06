@@ -197,7 +197,7 @@ if (mysqli_num_rows($result_sensor) != 0) {
             }
         };
 
-        var chartInHumidity = Highcharts.chart('wewwx-container-inHumidity', Highcharts.merge(gaugeOptions, {
+        var chartInHumidity = Highcharts.Chart('wewwx-container-inHumidity', Highcharts.merge(gaugeOptions, {
             yAxis: {
                 min: 0,
                 max: 100,
@@ -222,7 +222,7 @@ if (mysqli_num_rows($result_sensor) != 0) {
             }]
         }));
 
-        var chartOutHumidity = Highcharts.chart('wewwx-container-outHumidity', Highcharts.merge(gaugeOptions, {
+        var chartOutHumidity = Highcharts.Chart('wewwx-container-outHumidity', Highcharts.merge(gaugeOptions, {
             yAxis: {
                 min: 0,
                 max: 100,

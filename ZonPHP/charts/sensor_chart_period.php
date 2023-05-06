@@ -292,7 +292,7 @@ $idstring = "sensor_chart_period_$id"
 
     $(function () {
 
-        var mychart = new Highcharts.chart('<?php echo $idstring ?>', {
+        var mychart = new Highcharts.Chart('<?php echo $idstring ?>', {
             chart: {
                 zoomType: 'x',
                 backgroundColor: '#888888',

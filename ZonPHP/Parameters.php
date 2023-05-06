@@ -38,7 +38,7 @@ $sdatabase_name = "solar";                  /*  Database name     --> default: "
 $table_prefix = "tgeg";                     /*  table name prefix --> default: "tgeg"        */
 
 $default_language = "de";                   /*  preferred language --> values: en, de, fr, nl, at */
-$use_utf8 = false;                          /*  set this to true if your server is configured using UTF8 */
+$use_utf8 = true;                           /*  set this to true if your server is configured using UTF8 */
 
 
 

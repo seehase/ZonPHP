@@ -24,44 +24,44 @@ $chart_lang_de = "lang: {
                        },";
 
 $chart_lang_nl = "lang: {
-    loading: 'Wordt geladen...',
-    months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-    weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-    shortMonths: ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
-    exportButtonTitle: \"Exporteren\",
-    printButtonTitle: \"Printen\",
-    rangeSelectorFrom: \"Vanaf\",
-    rangeSelectorTo: \"Tot\",
-    rangeSelectorZoom: \"Periode\",
-    downloadPNG: 'Download als PNG',
-    downloadJPEG: 'Download als JPEG',
-    downloadPDF: 'Download als PDF',
-    downloadSVG: 'Download als SVG',
-    resetZoom: 'Reset',
-    resetZoomTitle: 'Reset',
-    thousandsSep: '.',
-    decimalPoint: ','
-    },";
+                    loading: 'Wordt geladen...',
+                    months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+                    weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+                    shortMonths: ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+                    exportButtonTitle: \"Exporteren\",
+                    printButtonTitle: \"Printen\",
+                    rangeSelectorFrom: \"Vanaf\",
+                    rangeSelectorTo: \"Tot\",
+                    rangeSelectorZoom: \"Periode\",
+                    downloadPNG: 'Download als PNG',
+                    downloadJPEG: 'Download als JPEG',
+                    downloadPDF: 'Download als PDF',
+                    downloadSVG: 'Download als SVG',
+                    resetZoom: 'Reset',
+                    resetZoomTitle: 'Reset',
+                    thousandsSep: '.',
+                    decimalPoint: ','
+                    },";
 
 $chart_lang_fr = "lang: {
-                loading: 'Chargement...',
-                months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
-                weekdays: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
-                shortMonths: ['jan', 'fév', 'mar', 'avr', 'mai', 'juin', 'juil', 'aoû', 'sep', 'oct', 'nov', 'déc'],
-                exportButtonTitle: \"Exporter\",
-                printButtonTitle: \"Imprimer\",
-                rangeSelectorFrom: \"Du\",
-                rangeSelectorTo: \"au\",
-                rangeSelectorZoom: \"Période\",
-                downloadPNG: 'Télécharger en PNG',
-                downloadJPEG: 'Télécharger en JPEG',
-                downloadPDF: 'Télécharger en PDF',
-                downloadSVG: 'Télécharger en SVG',
-                resetZoom: \"Réinitialiser le zoom\",
-                resetZoomTitle: \"Réinitialiser le zoom\",
-                thousandsSep: \" \",
-                decimalPoint: ','
-        },";
+                    loading: 'Chargement...',
+                    months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+                    weekdays: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+                    shortMonths: ['jan', 'fév', 'mar', 'avr', 'mai', 'juin', 'juil', 'aoû', 'sep', 'oct', 'nov', 'déc'],
+                    exportButtonTitle: \"Exporter\",
+                    printButtonTitle: \"Imprimer\",
+                    rangeSelectorFrom: \"Du\",
+                    rangeSelectorTo: \"au\",
+                    rangeSelectorZoom: \"Période\",
+                    downloadPNG: 'Télécharger en PNG',
+                    downloadJPEG: 'Télécharger en JPEG',
+                    downloadPDF: 'Télécharger en PDF',
+                    downloadSVG: 'Télécharger en SVG',
+                    resetZoom: \"Réinitialiser le zoom\",
+                    resetZoomTitle: \"Réinitialiser le zoom\",
+                    thousandsSep: \" \",
+                    decimalPoint: ','
+                    },";
 
 $chart_lang = "";
 if (isset($_SESSION['sestaal'])) {
@@ -74,12 +74,26 @@ if (isset($_SESSION['sestaal'])) {
     }
 }
 
+if ($isIndexPage == true) {
+    $displayType = "'none'";
+} else {
+    $displayType = "'block'";
+}
 
 $chart_options =
     "{     
      title: {
-                text: '',     
-            },
+         text: '',    
+         style: {
+             display: 'none'
+         } 
+     },
+     subtitle: {
+         text: '',
+         style: {
+             display: $displayType
+         }
+     },            
      chart: {
                 zoomType: 'xy',
                 backgroundColor: '#" . $colors['color_chartbackground'] . "',
@@ -92,7 +106,7 @@ $chart_options =
                 floating: false,
                 backgroundColor: '#" . $colors['color_chartbackground'] . "',
                 enabled: $show_legende,
-            },    
+     },                                
      tooltip: {
                     xDateFormat: '" . $charts['chart_date_format'] . "'
               },

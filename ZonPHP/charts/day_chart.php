@@ -322,7 +322,7 @@ if (strlen($temp_serie) > 0) {
         var txt_peak = '<?php echo $txt['peak'] ?>';
         
         Highcharts.setOptions({<?php echo $chart_lang ?>});
-        var mychart = new Highcharts.chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.Chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
             chart: {
                 events: {
                     render() {
@@ -491,7 +491,8 @@ if (strlen($temp_serie) > 0) {
                 type: 'datetime',
                 labels: {
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>'
+                        color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                        fontSize: '0.7em'
                     }
                 }
             },

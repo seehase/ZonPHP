@@ -41,17 +41,6 @@ if (isset($use_weewx) && $use_weewx==true){
 
 <div id="page-content">
 
-
-    <!--
-        todo:
-        * Liste of available/selected
-        * Show popup (kanban board) to activate/deactivate chatst
-        * save layout
-        ** default in DB
-        ** user specific in session
-        * save in JS via POST
-    -->
-
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -68,8 +57,6 @@ if (isset($use_weewx) && $use_weewx==true){
 
     </script>
 
-
-
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/muuri/0.4.0/muuri.min.js"></script>
@@ -80,19 +67,8 @@ if (isset($use_weewx) && $use_weewx==true){
     <!-- here comes all the charts-->
     <div class="grid">
         <!-- The Modal -->
-
-
     </div>
 
-
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="board">
-            </div>
-        </div>
-    </div>
 
 </div><!-- closing ".page-content" -->
 <div id="spacer" style="float: left; height: 40px; width: 400px; display: block">

@@ -77,7 +77,6 @@ $daycount=0;
 $all_valarray = array();
 $inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
-    $datum = $txt["nodata"] . date("F-Y", $chartdate);
     $agegevens[] = 0;
     //$iyasaanpassen = $frefmaand * 1.5;
     $geengevmaand = 0;
@@ -103,8 +102,6 @@ if (mysqli_num_rows($result) == 0) {
         $dmaandjaar[] = $row['Datum_Maand'];
         
     }
-    $datum = date("F-Y", $chartdate);
-
     $daycount=0;
     for ($i = 1; $i <= $DaysPerMonth; $i++) {
         if ($agegevens[$i] > 0) {
@@ -116,8 +113,10 @@ if (mysqli_num_rows($result) == 0) {
     }
     $fgemiddelde = array_sum($agegevens) / $daycount;
     $iyasaanpassen = round(0.5 + max($agegevens) / 5) * 5;
-
 }
+
+$formatter->setPattern("MMMM-Y");
+$datum = datefmt_format($formatter, $chartdate);
 ?>
 
 
@@ -371,6 +370,7 @@ include_once "chart_styles.php";
                     step: 1,
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                        fontSize: '0.7em'
                     },
                 },
                 categories: [<?php echo $categories ?>],

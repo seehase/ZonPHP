@@ -1,6 +1,5 @@
 <?php
-// version 2.0
-//php8.0 ready
+// php8.0 ready
 $path = "";
 if (!file_exists("inc/language/en.php")) {
     $path = "../";
@@ -56,37 +55,30 @@ if (isset($_GET['taal']) || (!isset($_SESSION['months']))) {
 }
 // date_default_timezone_set('Europe/Brussels');
 if ($taal == "nl") {
-    //commented out setlocale. Do we need it?
-    //setlocale(LC_TIME, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nl_NL.UTF-8', 'nld_nld', 'nld', 'nld_NLD', 'NL_nl');
     $locale='nl_NL'; // For IntlDateFormatter
 }
 if ($taal == "fr") {
-    //setlocale(LC_TIME, 'fr', 'fr_FR', 'fr_FR.ISO8859-1', 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
     $locale='fr_FR'; // For IntlDateFormatter
 }
 if ($taal == "de") {
-    //setlocale(LC_TIME, 'de', 'de_DE', 'de_DE.UTF-8', 'de_AT', 'de_AT.UTF-8', 'deutsch', 'german', 'deu');
     $locale='de_DE'; // For IntlDateFormatter
 }
 if ($taal == "at") {
-    //setlocale(LC_TIME, "de_AT", 'de_AT.UTF-8', 'de', 'de_DE', 'de_DE.UTF-8');
     $locale='de_DE'; // For IntlDateFormatter
 }
 if ($taal == "en") {
-    //setlocale(LC_TIME, 'english-us', 'English', 'en_US', 'en_GB', 'en', 'en_US.ISO8859-1', 'en_US.UTF-8' );
     $locale='en_US'; // For IntlDateFormatter
 }
 // preparing a localized month array
 $months[] = "";
 for ($i = 1; $i <= 12; $i++) {
     if ($use_utf8 == true) {
-        $format = new IntlDateFormatter($locale , IntlDateFormatter::NONE, 
+        $formatter = new IntlDateFormatter($locale , IntlDateFormatter::NONE,
               IntlDateFormatter::NONE, NULL, NULL, "MMMM");
-		$months[] = substr(datefmt_format($format, mktime(0, 0, 0, $i)),0,3);
+		$months[] = substr(datefmt_format( $formatter, mktime(0, 0, 0, $i)),0,3);
      } else {
         $months[] = utf8_encode(date("M", strtotime("2009-" . $i . "-01")));
     }
 }
-//print_r($months);
 $_SESSION['months'] = $months;
 ?>

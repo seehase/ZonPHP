@@ -187,6 +187,7 @@ include_once "chart_styles.php";
                     },
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
+                        fontSize: '0.7em'
                     },
                 },
                 title: {

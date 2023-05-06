@@ -513,12 +513,11 @@ include_once "chart_styles.php";
             },
             
             xAxis: [{
-                
                 labels: {
-                    
                     step: 1,
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                        fontSize: '0.7em'
                     },
                 },
                 

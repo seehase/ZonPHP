@@ -59,10 +59,9 @@ document.addEventListener('DOMContentLoaded', function () {
     /* load all charts according order */
     function loadCharts() {
         // todo: only load activted charts
-        // todo: list day/month for all inverters and activate/deactivate
-        addTemerature();
-        addWeewx();
-        /// addPowerMeter()
+ ///    addTemerature();
+ ///    addWeewx();
+
         addDay();
         addMonth();
         addYear();
@@ -70,10 +69,10 @@ document.addEventListener('DOMContentLoaded', function () {
         addCumulative();
         addLastYears();
         addBest();
-        //addWorst();
-        addAllTemp();
-        addAllHumidty();
-        addIndoorSensors();
+
+///        addAllTemp();
+///        addAllHumidty();
+///        addIndoorSensors();
         // loadLayout(grid, layout);
     }
 
@@ -99,8 +98,8 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'post',
             data: {'action': 'indexpage'},
             cache: false,
-            success: function (chart) {
-                $(container).append(chart);
+            success: function (Chart) {
+                $(container).append(Chart);
             }
         });
     }

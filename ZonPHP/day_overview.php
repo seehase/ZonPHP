@@ -57,6 +57,9 @@ if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
 
+$formatter->setPattern("d LLL yyyy");
+$datum = $formatter->format(strtotime($datum));
+
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 72px; ">

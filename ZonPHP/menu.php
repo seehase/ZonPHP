@@ -63,7 +63,6 @@ if (intval($param['flyout']) > 0) {
                 if ($param['izonphpse'] == 0)
                     echo '<li><a href="day_overview.php">' . $txt["dagoverzicht"] . '</a></li>';
                 ?>
-                <li><a href="week_overview.php"><?php echo $txt["chart_weekoverview"]; ?></a></li>
                 <li><a href="month_overview.php"><?php echo $txt['chart_monthoverview']; ?></a></li>
                 <li><a href="year_overview.php"><?php echo $txt['chart_yearoverview']; ?></a></li>
                 <li><a href="all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
@@ -231,36 +230,15 @@ if (intval($param['flyout']) === 2) {
 
         <?php
 
-        if (isset($_POST['toggle'])){
-            $editLayout = !$editLayout;
-            $_SESSION['editLayout'] = $editLayout;
-        }
-
         if ($iveromvormers == 1) {
             echo '<p id="headerinverter" style="margin: -22px 460px 10px">' .
-                $param['sNaamVoorOpWebsite']  . " - " . $editLayout .
+                $param['sNaamVoorOpWebsite'] .
                 '</p>';
         }
 
         $ligado = 0;
 
         ?>
-
-
-
-<div style="margin: -42px 750px 10px">
-    <form action = "<?php $_SERVER['PHP_SELF']; ?>" method = "POST">
-
-            <input id="x123"
-                   type="checkbox"
-                   onchange="this.form.submit();"
-                   name='toggle' <?php if ($editLayout) echo "checked"; ?> >
-
-
-
-    </form>
-</div>
-
 
     </div><!-- closing "#header" -->
 

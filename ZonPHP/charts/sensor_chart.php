@@ -318,7 +318,7 @@ foreach ($allsensors as $sensor) {
         var temp_max = <?php echo $val_c_max ?>;
         var temp_min = <?php echo $val_c_min ?>;
 
-        var mychart = new Highcharts.chart('sensor_chart_<?php echo $id ?>', {
+        var mychart = new Highcharts.Chart('sensor_chart_<?php echo $id ?>', {
             chart: {
                 zoomType: 'x',
                 backgroundColor: '#<?php echo $colors['color_chartbackground'] ?>',

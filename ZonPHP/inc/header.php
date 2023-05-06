@@ -50,13 +50,16 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-
+<!--
     <script type="text/javascript" src="https://code.highcharts.com/10.2/highcharts.js"></script>
     <script type="text/javascript" src="https://code.highcharts.com/10.2/highcharts-more.js"></script>
     <script type="text/javascript" src="https://code.highcharts.com/10.2/modules/exporting.js"></script>
     <script type="text/javascript" src="https://code.highcharts.com/10.2/modules/solid-gauge.js"></script>
-
-    
+-->
+    <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
     <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.base.css">
     <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.zonphp.css">
