@@ -56,8 +56,6 @@ if (strlen($choose_inverter_items) > 0) {
                 ';
     $multiple_inverters = true;
 }
-$formatter->setPattern("MMMM-Y");
-
 ?>
 
 <?php include "menu.php"; ?>
