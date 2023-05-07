@@ -67,7 +67,7 @@ if (strlen($choose_inverter_items) > 0) {
                 <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
                     <?php if (date('Y-m', $date_minimum) < date('Y-m', $chartdate))
                         echo '<button class="btn btn-primary" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("-1 months", $chartdate)) . '  >  < </button>';
-                    echo " " . datefmt_format($formatter, $chartdate) . " ";
+                    echo " " . $datum . " ";
                     if (date('Y-m', $date_maximum) > date('Y-m', $chartdate))
                         echo '<button class="btn btn-primary" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("+1 months", $chartdate)) . '  >  > </button>';
                     ?>
