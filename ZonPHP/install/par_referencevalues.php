@@ -76,7 +76,7 @@ for ($i = 1; $i <= 12; $i++) {
         <div class="inside">
 
             <?php echo $txt["refwaarden"]; ?>
-            <a href="http://sunbird.jrc.it/pvgis/apps/pvest.php?europe=" TARGET="_blank"><?php echo $txt["klik"]; ?>
+            <a href="https://re.jrc.ec.europa.eu/pvg_tools/en/#api_5.1" TARGET="_blank"><?php echo $txt["klik"]; ?>
                 .</a><br/><br/>
             <?php echo "Name: " . $current_name . "<br />"; ?>
             <?php
