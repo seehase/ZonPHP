@@ -35,22 +35,6 @@ if (intval($param['flyout']) > 0) {
 <div id="menu" style="clear:both; ">
     <label for="main-nav-check" class="toggle" onclick="" title="Close"></label>
     <ul>
-
-        <?php
-
-        if ($iveromvormers == 1) {
-            echo "<li><a href='#' style='display: flex'>&nbsp;</a> <label for='inverter' class='toggle-sub' onclick=''>&nbsp;" . $_SESSION['Wie'] . "&nbsp;&nbsp;&nbsp;&#9658;</label>";
-            echo "<input type='checkbox' name='nav' id='inverter' class='sub-nav-check'/>";
-            echo "<ul id='inverter-sub' class='sub-nav'>";
-            echo "  <li class='sub-heading'>inverter<label for='inverter' class='toggle' onclick='' title='Back'>&#9658;</label></li>";
-            foreach ($sNaamSaveDatabase as $key => $sdbnaam) {
-                echo "<li><a href='" . $_SERVER['SCRIPT_NAME'] . "?naam=" . $sdbnaam .
-                    "' onclick=\"target='_self'\">" . $sdbnaam . "</a></li>";
-            }
-            echo "</ul></li>";
-        }
-        ?>
-
         <li><a href="#" style="display: flex">&nbsp;</a> <label for="fof" class="toggle-sub" onclick="">
                 &nbsp;<?php echo $txt["grafiekoverzicht"]; ?>&nbsp;&nbsp;&nbsp;&#9658;</label>
             <input type="checkbox" name="nav" id="fof" class="sub-nav-check"/>

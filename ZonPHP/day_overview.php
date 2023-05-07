@@ -34,9 +34,6 @@ include_once "charts/day_chart.php";
     });
 </script>
 <?php
-$choose_inverter_dropdown = "";
-$multiple_inverters = false;
-$choose_inverter_items = "";
 $paramstr_choose = '';
 $paramstr_day = '';
 # remove naam parameter
@@ -64,10 +61,6 @@ $formatter->setPattern("d LLL yyyy");
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 72px; ">
 
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
-
-            <?php
-            if ($multiple_inverters) echo $choose_inverter_dropdown;
-            ?>
             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
                 <h2 align="center" class="notopgap">
                     <?php if ($date_minimum < $chartcurrentdate)
@@ -79,14 +72,15 @@ $formatter->setPattern("d LLL yyyy");
                 </h2>
             </form>
         </div>
+        <div class="backtoday" style="float:none; position: absolute;  top: 10px;  left: 15px;">
+            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
+                <button class="btn btn-primary" type="submit" id="txt" name="dag"
+                        value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt['back_to_today'] ?></button>
+            </form>
+        </div>
         <div id="mycontainer_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
     </div>
-    <div style="float: unset; margin-top: 5px;">
-        <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
-            <button class="btn btn-primary" type="submit" id="txt" name="dag"
-                    value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt['back_to_today'] ?></button>
-        </form>
-    </div>
+
     <div id="kalender">
     </div>
     <div id="tabelgeg">
