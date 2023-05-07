@@ -56,9 +56,9 @@ if (strlen($choose_inverter_items) > 0) {
                 ';
     $multiple_inverters = true;
 }
+$formatter->setPattern("MMMM-Y");
 
 ?>
-
 
 <?php include "menu.php"; ?>
 <div id="page-content">
@@ -69,7 +69,7 @@ if (strlen($choose_inverter_items) > 0) {
                 <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
                     <?php if (date('Y-m', $date_minimum) < date('Y-m', $chartdate))
                         echo '<button class="btn btn-primary" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("-1 months", $chartdate)) . '  >  < </button>';
-                    echo " " . $datum . " ";
+                    echo " " . datefmt_format($formatter, $chartdate) . " ";
                     if (date('Y-m', $date_maximum) > date('Y-m', $chartdate))
                         echo '<button class="btn btn-primary" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("+1 months", $chartdate)) . '  >  > </button>';
                     ?>

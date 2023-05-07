@@ -115,8 +115,6 @@ if (mysqli_num_rows($result) == 0) {
     $iyasaanpassen = round(0.5 + max($agegevens) / 5) * 5;
 }
 
-$formatter->setPattern("MMMM-Y");
-$datum = datefmt_format($formatter, $chartdate);
 ?>
 
 

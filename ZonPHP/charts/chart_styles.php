@@ -108,7 +108,7 @@ $chart_options =
                 enabled: $show_legende,
      },                                
      tooltip: {
-                    xDateFormat: '" . $charts['chart_date_format'] . "'
+                    xDateFormat: '" . $param['chart_date_format'] . "'
               },
      plotOptions: {
                 series: {

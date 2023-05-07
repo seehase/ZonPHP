@@ -58,7 +58,6 @@ if (strpos($paramstr_choose, "?") == 0) {
 }
 
 $formatter->setPattern("d LLL yyyy");
-$datum = $formatter->format(strtotime($datum));
 
 ?>
 <div id="page-content">
@@ -73,7 +72,7 @@ $datum = $formatter->format(strtotime($datum));
                 <h2 align="center" class="notopgap">
                     <?php if ($date_minimum < $chartcurrentdate)
                         echo '<button class="btn btn-primary" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '  >  <  </button>';
-                    echo " " . $datum . " ";
+                    echo " " .  $formatter->format(strtotime($datum)) . " ";
                     if (date("y-m-d", $date_maximum) > date("y-m-d", $chartdate))
                         echo '<button class="btn btn-primary" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '  >  > </button>';
                     ?>
