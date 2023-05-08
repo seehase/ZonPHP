@@ -45,7 +45,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 <div id="page-content">
     <?php $myKeys = array_keys($sum_per_year); ?>
 
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 59px;">
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px;">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2 align="center"><?php echo $txt["totaaloverzicht"] . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
         </div>
