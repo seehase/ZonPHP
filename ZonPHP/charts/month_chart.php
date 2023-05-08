@@ -35,7 +35,7 @@ if (isset($_GET['maand'])) {
 $current_year = date('Y', $chartdate);
 $current_month = date('m', $chartdate);
 $current_year_month = "" . date('Y-m', $chartdate);
-$formatter->setPattern('LLLL-yyyy');
+
 
 if (isset($year_euro[$current_year])) {
     $current_euroval = $year_euro[$current_year];
@@ -72,13 +72,15 @@ $daycount=0;
 $all_valarray = array();
 $inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
+    $formatter->setPattern('LLLL yyyy');
     $datum = $txt["nodata"] . datefmt_format($formatter, $chartdate);
     $agegevens[] = 0;
     //$iyasaanpassen = $frefmaand * 1.5;
     $geengevmaand = 0;
     $fgemiddelde = 0;
 } else {
-    $datum = $months[date('n',$chartdate)] . '-' . date('Y',$chartdate);
+    $formatter->setPattern('LLL yyyy');
+    $datum = datefmt_format($formatter, $chartdate);
     $geengevmaand = 1;
     $agegevens = array();
     // fill empty days
