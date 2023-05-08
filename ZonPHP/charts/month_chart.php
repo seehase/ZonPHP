@@ -78,7 +78,7 @@ if (mysqli_num_rows($result) == 0) {
     $geengevmaand = 0;
     $fgemiddelde = 0;
 } else {
-    $datum = datefmt_format($formatter, $chartdate);
+    $datum = $months[date('n',$chartdate)] . '-' . date('Y',$chartdate);
     $geengevmaand = 1;
     $agegevens = array();
     // fill empty days
