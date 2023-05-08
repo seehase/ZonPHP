@@ -36,9 +36,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     $txt = $_SESSION['txt'];
     $year_euro = $_SESSION['year_euro'];
     $price_per_kwh = $year_euro[date("Y")];
-
-    $months = $_SESSION['months'];
-
+  
     if (!isset($_SESSION['param'])) {
         include_once "load_parameters.php";
     } else {
