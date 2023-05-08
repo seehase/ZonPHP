@@ -72,14 +72,4 @@ if ($taal == "en") {
 // preparing a localized month array
 $formatter = new IntlDateFormatter($locale , IntlDateFormatter::NONE,
               IntlDateFormatter::NONE, NULL, NULL, "MMMM");
-$months[] = "";
-for ($i = 1; $i <= 12; $i++) {
-    if ($use_utf8 == true) {
-        
-		$months[] = substr(datefmt_format( $formatter, mktime(0, 0, 0, $i)),0,3);
-     } else {
-        $months[] = utf8_encode(date("M", strtotime("2009-" . $i . "-01")));
-    }
-}
-$_SESSION['months'] = $months;
 ?>
