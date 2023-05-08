@@ -161,7 +161,7 @@ if (max($frefmaand) < max($maxmaand)) {
 }
 ?>
 <?php
-
+$formatter->setPattern('LLL');
 $myColors = array();
 for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $col1 = "color_inverter" . $k ."_chartbar_min";
@@ -174,7 +174,7 @@ for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
 $categories = "";
 for ($i = 1; $i <= 12; $i++) {
     // get month names in current locale
-    $categories .= '"' . ($months[$i]) . '",';
+    $categories .= '"' . str_replace('.','',datefmt_format($formatter, mktime(0, 0, 0, $i))) . '",';
 }
 
 $categories = substr($categories, 0, -1);
