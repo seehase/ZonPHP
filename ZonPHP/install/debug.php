@@ -117,7 +117,7 @@ include "par_header.php";
                 return $val;
             }
 
-            echo "<hr><h2>Connetion parameter: </h2>";
+            echo "<hr><h2>Connection parameter: </h2>";
             echo "sserver: $sserver<br />";
             echo "susername: $susername<br />";
             echo "sdatabase_name: $sdatabase_name<br />";
@@ -162,8 +162,6 @@ include "par_header.php";
                 echo "color_chartbar_piek1" . '=' . $colors['color_chartbar_piek1'];
                 echo "<br />";
                 echo 'izonphpse' . "=" . $param['izonphpse'];
-                echo "<br />";
-                echo 'ivergroten' . '=' . $param['ivergroten'];
                 echo "<br />";
                 echo '$iveromvormers=' . $iveromvormers;
                 echo "<br />";
