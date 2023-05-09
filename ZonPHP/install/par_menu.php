@@ -11,7 +11,6 @@
 					<li><a href="par_edit.php">&raquo;&nbsp;' . $txt["parameters"] . '</a></li>
 					<li><a href="par_referencevalues.php">&raquo;&nbsp;' . $txt["parref"] . '</a></li>
 					<li><a href="par_euro.php">&raquo;&nbsp;' . $txt["pareuro"] . '</a></li>
-					<li><a href="par_powerusage.php">&raquo;&nbsp;' . $txt["parverbruik"] . '</a></li>
 					<li><a href="debug.php">&raquo;&nbsp;Debug</a></li> 
 					<li><a href="../inc/destroy.php">&raquo;&nbsp;' . $txt["clearsession"] . '</a></li>
 					<li><a href="delete.php">&raquo;&nbsp;' . $txt["pardelete"] . '</a></li>
