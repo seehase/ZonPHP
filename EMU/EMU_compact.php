@@ -1,9 +1,9 @@
 <?php
 //###################################################################
-// Version 2.0 Import EMU S0-logger CSV-data  E.M. Plankeel        ##
-// Date  2019-04-04                                                ##
+// Version 3.1 Import EMU S0-logger CSV-data  E.M. Plankeel        ##
+// Date  2023-05-10                                                ##
 // Script to load csv data into a ZonPHP database                  ##
-// Written for PHP 7.2 en MySQLi                                   ##
+// Compatible with PHP 8 en MySQLi                                 ##
 // For security script removed from public_html                    ##
 //                                                                 ##
 //###################################################################
@@ -18,7 +18,7 @@ try {
     $conn = new PDO("mysql:host=$sserver;dbname=$sdatabase_name", $susername, $spassword);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//    echo "Connected successfully"; 
+    echo "Connected successfully \n";
     }
 catch(PDOException $e)
     {
@@ -72,6 +72,7 @@ else
 	$dateTime = $row['Datum_Dag']; 
 	}
 }
+//echo date('Y-m-d H:i:s', strtotime($dateTime));
 $date=$datum = date('Y-m-d', strtotime($dateTime));
 $now=date('Y-m-d', time());
 //###################################################################
@@ -79,23 +80,44 @@ $now=date('Y-m-d', time());
 //###################################################################
 $file=$datum.'.csv';
  
-//echo $file;
+//echo $file;echo '<BR>';
 while ($datum <= $now)
 {
 $datum = date( 'Y-m-d',strtotime(date("Y-m-d", strtotime($datum)) . " +1 day"));
 $filename = $param['Path_EMU'].$file;
-if (($h = fopen("{$filename}", "r")) !== FALSE) 
-{
-  while (($column = fgetcsv($h, 1000, ";")) !== FALSE) 
-  {
-    $sqldata = "REPLACE into logger (Datum_Dag,S0_1,S0_2,S0_3,S0_4,S0_5,S0_6,S0_7,S0_8,S0_9,T_1)
-values ('" . $column[0] . "','" . $column[1] . "','" . $column[2] . "','" . $column[3] . "','" . $column[4] . "','" . $column[5] . "','" . $column[6] . "','" . $column[7] . "','" . $column[8] . "','" . $column[9] . "','" . $column[10] . "')";	
-  $result = mysqli_query($mysqli,$sqldata) or die("Error replacing records in database: ".mysqli_error($mysqli));
-  }
-  // Close the file
-  fclose($h);
-}
+//improved part. Reading file in memory, evaluate and put in database in one sql replace statement
+$row = 1;
+$result2 = "";
+	if ($text = file_get_contents("{$filename}")){
+		$handle = fopen('data://text/plain,' . $text,'r');
+		while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+			$num = count($data);
+			//echo "$num fields in line $row: \n";
+			$row++;
+			for ($c=0; $c < $num; $c++) {
+				$data2 = str_replace(";", "','",$data);
+			
+				//echo "('" . $data2[$c] . "'),\n";
+				
+				$result2 .= "('" . $data2[$c] . "'),\n";
+			}
+		}
+		fclose($handle);
+	}
+	else {
+		throw new Exception('Error reading csv file.');
+	}
+
+$result2 = substr($result2, 0, -2);
+//echo $result2;
+$sqldata = "REPLACE into logger (Datum_Dag,S0_1,S0_2)
+values ".$result2."";	
+
+//echo $sqldata;
+  $sqlresult = mysqli_query($mysqli,$sqldata) or die("Error replacing records in database: ".mysqli_error($mysqli));
+//zonodig naar volgende dag
 $file=$datum.'.csv';
+
 }
 ?>
 <?php
@@ -165,4 +187,5 @@ mysqli_query($mysqli,$sql)or die ('SQL Error maandfout:'. mysqli_error($mysqli))
 ?>
 <?php
 include "Export.php";
+echo 'Einde script';
 ?>
