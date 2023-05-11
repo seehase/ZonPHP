@@ -43,7 +43,7 @@ if (intval($param['flyout']) > 0) {
                                                                                       onclick="" title="Back">
                         &#9658;</label></li>
 
-                <li><a href="day_overview.php">' . $txt["dagoverzicht"] . '</a></li>
+                <li><a href="day_overview.php"><?php echo $txt['dagoverzicht']; ?></a></li>
                 <li><a href="month_overview.php"><?php echo $txt['chart_monthoverview']; ?></a></li>
                 <li><a href="year_overview.php"><?php echo $txt['chart_yearoverview']; ?></a></li>
                 <li><a href="all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
@@ -64,39 +64,6 @@ if (intval($param['flyout']) > 0) {
             </ul>
         </li> ';
         ?>
-
-        <li><a href="#" style="display: flex">&nbsp;</a> <label for="links" class="toggle-sub" onclick="">
-                &nbsp;Links&nbsp;&nbsp;&nbsp;&#9658;</label>
-            <input type="checkbox" name="nav" id="links" class="sub-nav-check"/>
-            <ul id="links-sub" class="sub-nav">
-                <li class="sub-heading">Links<label for="links" class="toggle" onclick="" title="Back">
-                        &#9658;</label></li>
-
-                <li><a href="https://github.com/seehase/ZonPHP" target="_blank">github - ZonPHP</a>
-                </li>
-                <li><a href="http://www.albrechtreiber.de/index.php?id=datalogging">www.albrechtreiber.de</a></li>
-                <li><a href="http://www.sonnenertrag.eu/de/ingolstadt/seehase/17395/17043.html"
-                       onclick="target='_blank'">Sonnenertrag EU Seehase</a></li>
-                <li><a href="http://www.pv-log.com/photovoltaikanlage-seehase" onclick="target='_blank'">PV-Anlagenvergleich</a>
-                </li>
-
-                <li><a href="#">&nbsp;</a> <label for="samples" class="toggle-sub" onclick="">&nbsp;samples&nbsp;&nbsp;&#9658;</label>
-                    <input type="checkbox"  name="nav" id="samples" class="sub-nav-check"/>
-                    <ul id="samples-sub" class="sub-nav">
-                        <li class="sub-heading" >samples<label style="margin-top: -5px;" for="samples" class="toggle" onclick="" title="Back">
-                                &#9658;</label></li>
-                        <li><a href="http://craeghs-syen.be/WEILLEN/index.php" onclick="target='_blank'">WEILLEN</a>
-                        </li>
-                        <li><a href="http://craeghs-syen.be/zon/index.php" onclick="target='_blank'">Zon</a></li>
-                        <li><a href="http://www.fbussi.de/test/index.php" onclick="target='_blank'">Bussi</a></li>
-                        <li><a href="http://www.marcelstoffels.eu/ZonPHPneu/" onclick="target='_blank'">Marcel</a></li>
-                        <li><a href="http://www.pvlueck.bplaced.net" onclick="target='_blank'">PV Lueck</a></li>
-                    </ul>
-                </li>
-
-            </ul>
-        </li>
-
 
         <li><a href="#" style="display: flex">&nbsp;</a> <label for="themes" class="toggle-sub" onclick="">&nbsp;Themes&nbsp;&nbsp;&nbsp;&#9658;</label>
             <input type="checkbox" name="nav" id="themes" class="sub-nav-check"/>
