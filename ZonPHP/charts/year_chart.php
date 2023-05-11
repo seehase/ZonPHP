@@ -161,7 +161,6 @@ if (max($frefmaand) < max($maxmaand)) {
 }
 ?>
 <?php
-$formatter->setPattern('LLL');
 $myColors = array();
 for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $col1 = "color_inverter" . $k ."_chartbar_min";
@@ -171,15 +170,6 @@ for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $col1 = "'#" . $colors[$col1] . "'";
     $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
 }
-$categories = "";
-for ($i = 1; $i <= 12; $i++) {
-    // get month names in current locale
-    $categories .= '"' . str_replace('.','',datefmt_format($formatter, mktime(0, 0, 0, $i))) . '",';
-}
-
-$categories = substr($categories, 0, -1);
-
-
 $my_year = date("Y", $chartdate);
 $href = "month_overview.php?maand=";
 $gridlines = "";
@@ -187,7 +177,6 @@ $reflines = "";
 $max_bars = "";
 $expected_bars = "";
 $current_bars = "";
-
 $strdataseries = "";
 foreach ($sNaamSaveDatabase as $key => $inverter_name) {
 	if($key == 0) { 
@@ -276,6 +265,7 @@ if ($isIndexPage == true) {
 };
 
 include_once "chart_styles.php";
+$categories = $shortmonthcategories;
 ?>
 
 <script type="text/javascript">
