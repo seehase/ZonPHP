@@ -121,7 +121,6 @@ if (mysqli_num_rows($resultmax) == 0) {
 }
 ?>
 <?php
-$formatter->setPattern('LLL');
 // ----------------------------------------------------------------------------
 $strxas = "";
 $tellerkleuren = 0;
@@ -140,12 +139,6 @@ $dummy = "";
 $max_bars = "";
 $reflines = "";
 $avglines = "";
-$categories = "";
-// grey max data chart
-for ($i = 1; $i <= 12; $i++) {
-    $categories .= '"' . str_replace('.','',datefmt_format($formatter, mktime(0, 0, 0, $i)))  . '",';
-}
-$categories = substr($categories, 0, -1);
 $value_series = "";
 $zz=0;
 $colorzz=0;
@@ -298,6 +291,7 @@ if ($isIndexPage == true) {
 }
 //echo $max_bars;
 include_once "chart_styles.php";
+$categories = $shortmonthcategories;
 ?>
 <script type="text/javascript">
 
