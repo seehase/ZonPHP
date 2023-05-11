@@ -269,7 +269,7 @@ foreach ($inveter_list as $inverter_name) {
 // strip last ","
 $strgeg = substr($strgeg, 0, -1);
 $strxas = substr($strxas, 0, -1);
-
+$categories = substr($categories, 0, -1);
 $myKeys = array_keys($sum_per_year);
 
 $sub_title = "";
@@ -291,7 +291,7 @@ if ($isIndexPage == true) {
 }
 
 include_once "chart_styles.php";
-$categories = $shortmonthcategories;
+
 ?>
 
 <script type="text/javascript">
