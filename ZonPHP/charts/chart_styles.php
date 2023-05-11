@@ -179,6 +179,15 @@ $chart_options =
             },
     reflow: true,                
     }";
-
-
+//introducing new variable $shortmonthcategories to replace the fixed arrays in chart_lang_xx
+//for use in year_chart, last_years_chart and cumulative_chart
+//format follows ICU and Unicode
+//skipping months, weekdays and shortMonths from chart_lang_xx
+$formatter->setPattern('LLL');
+$shortmonthcategories = "";
+for ($i = 1; $i <= 12; $i++) {
+    // get month names in current locale
+    $shortmonthcategories .= '"' . str_replace('.','',datefmt_format($formatter, mktime(0, 0, 0, $i))) . '",';
+}
+$shortmonthcategories = substr($shortmonthcategories, 0, -1);
 ?>
