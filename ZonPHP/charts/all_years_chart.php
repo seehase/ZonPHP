@@ -5,7 +5,6 @@ if (strpos(getcwd(), "charts") > 0) {
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
-
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
@@ -22,30 +21,24 @@ if (isset($_GET['naam'])) {
 }
 // -----------------------------  get data from DB -----------------------------------------------------------------
 $datum = "";
-
 $current_year = date('Y', time());
 if (isset($year_euro[$current_year])) {
     $current_euro = $year_euro[$current_year];
 } else {
     $current_euro = 0.25;
 }
-
 $inveter_list = array();
-
 // load sum per month for all years --------------------------------------------------------------------------------
 $sql = "SELECT SUM( Geg_Maand ) AS sum_month, year( Datum_Maand ) AS year, month( Datum_Maand ) AS month, naam, 
             count( Datum_Maand ) AS tdag_maand
         FROM " . $table_prefix . "_maand     
         GROUP BY year, month, naam";
-//echo $sql;
+
 $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
 $sum_per_year = array();
 $total_sum_for_all_years = 0;
 $average_per_month = 0;
 $fsomeuro = 0;
-
-
-
 $missing_days_month_year = array();
 if (mysqli_num_rows($result) == 0) {
     $sum_per_year[date('Y-m-d', time())] = 0;
@@ -62,7 +55,6 @@ if (mysqli_num_rows($result) == 0) {
 
         $days_per_month = cal_days_in_month(CAL_GREGORIAN, $row['month'], $row['year']);
         $missingdays = $days_per_month - $row['tdag_maand'];
-
         $missing_days_month_year[$row['year']][$row['month']] = $missingdays;
         if (!in_array($inverter_name, $inveter_list)) {
             if (in_array($inverter_name, $sNaamSaveDatabase)) {
@@ -71,18 +63,15 @@ if (mysqli_num_rows($result) == 0) {
             }
         };
     }
-    //print_r ($sum_per_year);
+    
     $total_sum_for_all_years = 0;
-    //foreach ($sum_per_year as $inverter_name => $valss) {
     foreach ($sum_per_year as $inverter_name => $val) {
-        //print_r ($val);
         $total_sum_for_all_years += array_sum($val);
     }
     $average_per_month = $total_sum_for_all_years / count($sum_per_year);
     $fsomeuro += $current_euro * $total_sum_for_all_years;
-//}
+
 }
-//print_r ($total_sum_for_all_years);
 
 //new year average per inverter in clean array
 $sqltotal= "SELECT ROUND((SUM( Geg_Maand ) /  COUNT( Geg_Maand ))* 365 , 0 ) AS grand_total_average 
@@ -92,11 +81,10 @@ $result = mysqli_query($con, $sqltotal)or die("Query failed (total average) " . 
  while($row = mysqli_fetch_array($result)) {
    $avg_data[] = $row['grand_total_average'];
 }
-//print_r ($avg_data);
-//end
+
 $sqlref = "SELECT month( Datum_Refer ) AS maand, Geg_Refer, Dag_Refer
         FROM " . $table_prefix . "_refer ";
-//echo $sqlref;
+
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. totaal-ref " . mysqli_error($con));
 $frefjaar = 0;
 $arefjaar = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -107,17 +95,14 @@ if (mysqli_num_rows($resultref) != 0) {
     }
 } else
     $frefjaar = 1;
-//print_r ($frefjaar);
+
 $ref_data= array();
 $sqlreftot="SELECT SUM(Geg_Refer) as total_ref FROM " . $table_prefix . "_refer GROUP by naam ORDER by naam";
-//echo $sqlreftot;
 
 $result = mysqli_query($con, $sqlreftot)or die("Query failed (total average) " . mysqli_error($con));
  while($row = mysqli_fetch_array($result)) {
    $ref_data[] = $row['total_ref'];
 }
-
-//print_r($ref_data);
 
 $sqlgem = "SELECT month( Datum_Maand ) AS maand, AVG( Geg_Maand ) AS gem, naam
         FROM " . $table_prefix . "_maand 
@@ -126,59 +111,7 @@ $resultgem = mysqli_query($con, $sqlgem) or die("Query failed. totaal-ref " . my
 while ($row = mysqli_fetch_array($resultgem)) {
     $agemjaar[$row['maand']] = $row['gem'];
 }
-
-$sqlverbruik = "SELECT sum( Geg_Verbruik_Dag ) AS verdag, sum( Geg_Verbruik_Nacht ) AS vernacht,
-        year( Datum_Verbruik ) AS jaar
-        FROM " . $table_prefix . "_verbruik 
-        GROUP BY jaar";
-
-$resultverbruik = mysqli_query($con, $sqlverbruik) or die("Query failed. jaar-verbruik " . mysqli_error($con));
-if (mysqli_num_rows($resultverbruik) == 0) {
-    $ajaarverbruikdag[] = 0;
-    $ajaarverbruiknacht[] = 0;
-} else {
-    while ($row = mysqli_fetch_array($resultverbruik)) {
-        $ajaarverbruikdag[$row['jaar']] = $row['verdag'];
-        $ajaarverbruiknacht[$row['jaar']] = $row['vernacht'];
-    }
-}
-
-// calculate expected values per years without day with no data
-$averwacht = array();
-$expected_bars = "";
-foreach ($missing_days_month_year as $ijaar => $months) {
-    if (!isset($averwacht[$ijaar])) $averwacht[$ijaar] = 0;
-    for ($i = 1; $i <= 12; $i++) {
-        if (!isset($agemjaar[$i])) $agemjaar[$i] = 0;
-        if (array_key_exists($i, $months)) {
-            if ($months[$i] != 0)
-                $averwacht[$ijaar] += $agemjaar[$i] * $months[$i];
-        } else {
-            $iaantaldagen = cal_days_in_month(CAL_GREGORIAN, $i, $ijaar);
-            if (array_key_exists($i, $agemjaar))
-                $averwacht[$ijaar] += $agemjaar[$i] * $iaantaldagen;
-            else
-                $averwacht[$ijaar] += $arefjaar[$i] * $iaantaldagen;
-        }
-    }
-    // fixme
-    // $averwacht[$ijaar] += $sum_per_year[$ijaar];
-
-    // expected bars char
-    $val = 0;
-    if (isset ($averwacht[$ijaar])) {
-        $val = round($averwacht[$ijaar], 2);
-        $expected_bars .= "                
-                    { 
-                      y: $val,                       
-                      color: \"#" . $colors['color_chart_expected_bar'] . "\",
-                    },";
-    }
-}
-
 ?>
-
-
 <?php
 // ----------------------------- build data for chart -----------------------------------------------------------------
 $href = "year_overview.php?jaar=";
@@ -264,8 +197,6 @@ foreach ($inveter_list as $inverter_name) {
 
 }
 
-
-
 // strip last ","
 $strgeg = substr($strgeg, 0, -1);
 $strxas = substr($strxas, 0, -1);
@@ -289,11 +220,8 @@ if ($isIndexPage == true) {
     echo ' <div class = "index_chart" id="total_chart_' . $inverter_id . '"></div>';
     $show_legende = "false";
 }
-
 include_once "chart_styles.php";
-
 ?>
-
 <script type="text/javascript">
 
     $(function () {
@@ -336,11 +264,9 @@ include_once "chart_styles.php";
                                    	refref[i]=ref[i]
                                    	gem[i] = avg[i] ;
                                     peak[i] = series[i].dataMax //PEAK
-                                    //refref[i] = nref[i];
                                 }
                             }
                         }
-                        //console.log(ref)
                         TOT = totayr;
                         KWH = kWh.reduce(add, 0);
                         GEM = gem.reduce(add, 0);
@@ -350,18 +276,12 @@ include_once "chart_styles.php";
                         if (AX.length == 0) {PEAK = 0;}
 						else {
                         PEAK = AX[0];};
-                        
-                        
-                        
-                        
-                        
                         this.setSubtitle({
                             text: "<b>" +txt + ": </b>"  +(Highcharts.numberFormat(totayr, 0, ",", "")) + " kWh = " + (Highcharts.numberFormat((totayr / KWH) * 1000, 0, ",", "")) + " kWh/kWp " + " <br/><b>" 
                                 +txt_max + ": </b>" +(Highcharts.numberFormat(PEAK, 0, ",", "")) + " kWh = " +
                                 (Highcharts.numberFormat((PEAK / KWH) * 1000, 0, ",", "")) + " kWh/kWp" + " <b>" +
                                 txt_gem + ": </b>" +(Highcharts.numberFormat(GEM, 0, ",", "")) + " kWh" + " <b>" +txt_ref + ": </b>" + (Highcharts.numberFormat(REF, 0, ",", "")) + " kWh"
                         }, false, false);
-                        //average plotline
                         mychart.yAxis[0].addPlotLine({
     					id	: 'Average',
     					value : GEM,
@@ -430,7 +350,6 @@ include_once "chart_styles.php";
 
             plotOptions: {
                 
-                
                 series: { 
                 	states: {
                         hover: {
@@ -469,7 +388,6 @@ include_once "chart_styles.php";
             }
             },
             
-            
             xAxis: [{
                 labels: {
                     rotation: 310,
@@ -487,7 +405,7 @@ include_once "chart_styles.php";
             yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
-                        return this.value + 'kWh';
+                        return this.value/1000 + ' MWh';
                     },
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
@@ -531,7 +449,7 @@ include_once "chart_styles.php";
       			})
 				if (stackName === undefined) {stackName = '';}
       			return '<b> '+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal.toFixed(0) +  ' kWh';
-                        /* return this.x + ': ' + Highcharts.numberFormat(this.y, '2', ',') +  ' kWh'; */
+                        
                     }
                     }
                 }
@@ -539,36 +457,10 @@ include_once "chart_styles.php";
 
 
             series: [
-               /* 
- {
-                    name: "Expected",
-                    type: "column",
-                    color: '#<?php echo $colors['color_chart_expected_bar'] ?>',
-                    data: [<?php echo $expected_bars; ?>],
-                },
- */
                 <?php echo $strdataseries ?>
-                /* 
-{
-                    name: "Average",
-                    type: "line",
-                    color: '#<?php echo $colors['color_chart_average_line'] ?>',
-                    data: [{x: -0.4, y: avrg}, {x: years - 0.6, y: avrg}],
-                },
-                {
-                    name: "Reference",
-                    type: "line",
-                    color: '#<?php echo $colors['color_chart_reference_line'] ?>',
-                    data: [{x: -0.4, y: ref}, {x: years - 0.6, y: ref}],
-                },
- */
             ]
         }));
 		setInterval(function() {
   	$("#total_chart_<?php echo $inverter_id ?>").highcharts().reflow();  }, 500);
-        
     });
-
-
 </script>
-
