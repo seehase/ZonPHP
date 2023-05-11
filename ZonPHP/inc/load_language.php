@@ -7,7 +7,7 @@ if (!file_exists("inc/language/en.php")) {
 $taal = "en";
 if (isset($default_language)) {
     $default_language = strtolower($default_language);
-    if ($default_language === "de" || $default_language === "en" || $default_language === "fr" || $default_language === "nl" || $default_language === "at") {
+    if ($default_language === "de" || $default_language === "en" || $default_language === "fr" || $default_language === "nl") {
         $taal = $default_language;
     }
 }
@@ -61,9 +61,6 @@ if ($taal == "fr") {
     $locale='fr_FR'; // For IntlDateFormatter
 }
 if ($taal == "de") {
-    $locale='de_DE'; // For IntlDateFormatter
-}
-if ($taal == "at") {
     $locale='de_DE'; // For IntlDateFormatter
 }
 if ($taal == "en") {

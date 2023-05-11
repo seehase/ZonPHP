@@ -140,23 +140,23 @@ include_once "par_header.php";
                 <?php echo $txt["available_languages"]; ?>?<br>
                 <input type='checkbox' name='lang_de'
                        size='5' <?php if (isset($_POST['lang_de'])) echo "checked"; ?> >DE <img
-                        src="../inc/image/blank.gif" class="flag flag-de" alt=""/>
+                    src="../inc/image/blank.gif" class="flag flag-de" alt=""/>
                 <br/>
                 <input type='checkbox' name='lang_nl'
                        size='5' <?php if (isset($_POST['lang_nl'])) echo "checked"; ?> >NL <img
-                        src="../inc/image/blank.gif" class="flag flag-nl" alt=""/>
+                    src="../inc/image/blank.gif" class="flag flag-nl" alt=""/>
                 <br/>
                 <input type='checkbox' name='lang_fr'
                        size='5' <?php if (isset($_POST['lang_fr'])) echo "checked"; ?> >FR <img
-                        src="../inc/image/blank.gif" class="flag flag-fr" alt=""/>
+                    src="../inc/image/blank.gif" class="flag flag-fr" alt=""/>
                 <br/>
                 <input type='checkbox' name='lang_en'
                        size='5' <?php if (isset($_POST['lang_en'])) echo "checked"; ?> >EN <img
-                        src="../inc/image/blank.gif" class="flag flag-gb" alt=""/>
+                    src="../inc/image/blank.gif" class="flag flag-gb" alt=""/>
                 <br/>
                 <input type='checkbox' name='lang_at'
                        size='5' <?php if (isset($_POST['lang_at'])) echo "checked"; ?> >AT <img
-                        src="../inc/image/blank.gif" class="flag flag-at" alt=""/>
+                    src="../inc/image/blank.gif" class="flag flag-at" alt=""/>
                 <br/>
 
                 <hr>
@@ -395,8 +395,8 @@ include_once "par_header.php";
 
                 <?php echo $txt["wunderground_stationID"]; ?>:
                 <input type='text' name='wunderground_stationID'
-                           value='<?php if (!empty($_POST['wunderground_stationID'])) echo $_POST['wunderground_stationID']; ?>'
-                           size='30'>
+                       value='<?php if (!empty($_POST['wunderground_stationID'])) echo $_POST['wunderground_stationID']; ?>'
+                       size='30'>
 
                 <br/>
                 <?php echo $txt["chart_date_format"]; ?>:
@@ -414,15 +414,6 @@ include_once "par_header.php";
                 } else echo "CHECKED"; ?>><?php echo $txt["NO"] ?>
                 <br/>
                 <hr>
-                <?php echo $txt["dagnachttarief"]; ?>
-                <input type="radio" name="iTonendagnacht" value="1"<?php if (isset($_POST['iTonendagnacht'])) {
-                    if ($_POST['iTonendagnacht'] == 1) echo "CHECKED";
-                } else echo "CHECKED"; ?>> <?php echo $txt["YES"] ?>
-                <input type="radio" name="iTonendagnacht" value="0"<?php if (isset($_POST['iTonendagnacht'])) {
-                    if ($_POST['iTonendagnacht'] == 0) echo "CHECKED";
-                } ?>><?php echo $txt["NO"] ?>
-                <br/>
-                <hr>
 
                 <?php echo $txt["uwmailadres"]; ?>:
                 <input type='text' name='email'
@@ -438,6 +429,784 @@ include_once "par_header.php";
                 <br/>
                 <hr>
 
+
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><?php echo $txt["color_background"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_background" id="color_background" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_background']))
+                                echo $_POST['color_background'];
+                            else {
+                                $_POST['color_background'] = "#888888";
+                                echo $_POST['color_background'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_footerbackground"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_footerbackground" id="color_footerbackground"
+                                   size="6" maxlength="6"
+                                   value="
+				<?php
+                                   if (!empty($_POST['color_footerbackground']))
+                                       echo $_POST['color_footerbackground'];
+                                   else {
+                                       $_POST['color_footerbackground'] = "#C00000";
+                                       echo $_POST['color_footerbackground'];
+                                   }
+                                   ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_menubackground"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_menubackground" id="color_menubackground"
+                                   size="6" maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_menubackground']))
+                                echo $_POST['color_menubackground'];
+                            else {
+                                $_POST['color_menubackground'] = "#ffffff";
+                                echo $_POST['color_menubackground'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_menufont"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_menufont" id="color_menufont" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_menufont']))
+                                echo $_POST['color_menufont'];
+                            else {
+                                $_POST['color_menufont'] = "#000000";
+                                echo $_POST['color_menufont'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_windowfont"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_windowfont" id="color_windowfont" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_windowfont']))
+                                echo $_POST['color_windowfont'];
+                            else {
+                                $_POST['color_windowfont'] = "#ffffff";
+                                echo $_POST['color_windowfont'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_windowcolor"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_windowcolor" id="color_windowcolor" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_windowcolor']))
+                                echo $_POST['color_windowcolor'];
+                            else {
+                                $_POST['color_windowcolor'] = "#000000";
+                                echo $_POST['color_windowcolor'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_image_windowtitle"]; ?>:</td>
+                        <td>
+                            <input type='text' name='color_image_windowtitle' id="color_image_windowtitle" size='50'
+                                   value="<?php if (!empty($_POST['color_image_windowtitle']))
+                                       echo $_POST['color_image_windowtitle'];
+                                   else {
+                                       $_POST['color_image_windowtitle'] = "inc/image/bg_black.png";
+                                       echo $_POST['color_image_windowtitle'];
+                                   }
+                                   ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["achtergrondflash"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chartbackground" id="color_chartbackground"
+                                   size="6" maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chartbackground']))
+                                echo $_POST['color_chartbackground'];
+                            else {
+                                $_POST['color_chartbackground'] = "#888888";
+                                echo $_POST['color_chartbackground'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chartbar1" id="color_chartbar1" size="6"
+                                   maxlength="6" value="
+                    <?php
+                            if (!empty($_POST['color_chartbar1']))
+                                echo $_POST['color_chartbar1'];
+                            else {
+                                $_POST['color_chartbar1'] = "#003399";
+                                echo $_POST['color_chartbar1'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_chartbar2" id="color_chartbar2" size="6"
+                                   maxlength="6" value="
+                    <?php
+                            if (!empty($_POST['color_chartbar2']))
+                                echo $_POST['color_chartbar2'];
+                            else {
+                                $_POST['color_chartbar2'] = "#3366AA";
+                                echo $_POST['color_chartbar2'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"] ."-0"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter0_chartbar_min" id="color_inverter0_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter0_chartbar_min']))
+                                echo $_POST['color_inverter0_chartbar_min'];
+                            else {
+                                $_POST['color_inverter0_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter0_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter0_chartbar_max" id="color_inverter0_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter0_chartbar_max']))
+                                echo $_POST['color_inverter0_chartbar_max'];
+                            else {
+                                $_POST['color_inverter0_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter0_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-1"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter1_chartbar_min" id="color_inverter1_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter1_chartbar_min']))
+                                echo $_POST['color_inverter1_chartbar_min'];
+                            else {
+                                $_POST['color_inverter1_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter1_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter1_chartbar_max" id="color_inverter1_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter1_chartbar_max']))
+                                echo $_POST['color_inverter1_chartbar_max'];
+                            else {
+                                $_POST['color_inverter1_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter1_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-2"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter2_chartbar_min" id="color_inverter2_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter2_chartbar_min']))
+                                echo $_POST['color_inverter2_chartbar_min'];
+                            else {
+                                $_POST['color_inverter2_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter2_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter2_chartbar_max" id="color_inverter2_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter2_chartbar_max']))
+                                echo $_POST['color_inverter2_chartbar_max'];
+                            else {
+                                $_POST['color_inverter2_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter2_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-3"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter3_chartbar_min" id="color_inverter3_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter3_chartbar_min']))
+                                echo $_POST['color_inverter3_chartbar_min'];
+                            else {
+                                $_POST['color_inverter3_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter3_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter3_chartbar_max" id="color_inverter3_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter3_chartbar_max']))
+                                echo $_POST['color_inverter3_chartbar_max'];
+                            else {
+                                $_POST['color_inverter3_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter3_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-4"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter4_chartbar_min" id="color_inverter4_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter4_chartbar_min']))
+                                echo $_POST['color_inverter4_chartbar_min'];
+                            else {
+                                $_POST['color_inverter4_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter4_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter4_chartbar_max" id="color_inverter4_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter4_chartbar_max']))
+                                echo $_POST['color_inverter4_chartbar_max'];
+                            else {
+                                $_POST['color_inverter4_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter4_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-5"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter5_chartbar_min" id="color_inverter5_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter5_chartbar_min']))
+                                echo $_POST['color_inverter5_chartbar_min'];
+                            else {
+                                $_POST['color_inverter5_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter5_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter5_chartbar_max" id="color_inverter5_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter5_chartbar_max']))
+                                echo $_POST['color_inverter5_chartbar_max'];
+                            else {
+                                $_POST['color_inverter5_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter5_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-6"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter6_chartbar_min" id="color_inverter6_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter6_chartbar_min']))
+                                echo $_POST['color_inverter6_chartbar_min'];
+                            else {
+                                $_POST['color_inverter6_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter6_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter6_chartbar_max" id="color_inverter6_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter6_chartbar_max']))
+                                echo $_POST['color_inverter6_chartbar_max'];
+                            else {
+                                $_POST['color_inverter6_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter6_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-7"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter7_chartbar_min" id="color_inverter7_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter7_chartbar_min']))
+                                echo $_POST['color_inverter7_chartbar_min'];
+                            else {
+                                $_POST['color_inverter7_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter7_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter7_chartbar_max" id="color_inverter7_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter7_chartbar_max']))
+                                echo $_POST['color_inverter7_chartbar_max'];
+                            else {
+                                $_POST['color_inverter7_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter7_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-8"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter8_chartbar_min" id="color_inverter8_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter8_chartbar_min']))
+                                echo $_POST['color_inverter8_chartbar_min'];
+                            else {
+                                $_POST['color_inverter8_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter8_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter8_chartbar_max" id="color_inverter8_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter8_chartbar_max']))
+                                echo $_POST['color_inverter8_chartbar_max'];
+                            else {
+                                $_POST['color_inverter8_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter8_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgr"]."-9"; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_inverter9_chartbar_min" id="color_inverter9_chartbar_min" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter9_chartbar_min']))
+                                echo $_POST['color_inverter9_chartbar_min'];
+                            else {
+                                $_POST['color_inverter9_chartbar_min'] = "#003399";
+                                echo $_POST['color_inverter9_chartbar_min'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_inverter9_chartbar_max" id="color_inverter9_chartbar_max" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_inverter9_chartbar_max']))
+                                echo $_POST['color_inverter9_chartbar_max'];
+                            else {
+                                $_POST['color_inverter9_chartbar_max'] = "#3366AA";
+                                echo $_POST['color_inverter9_chartbar_max'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgrpiek"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chartbar_piek1" id="color_chartbar_piek1"
+                                   size="6" maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chartbar_piek1']))
+                                echo $_POST['color_chartbar_piek1'];
+                            else {
+                                $_POST['color_chartbar_piek1'] = "#730073";
+                                echo $_POST['color_chartbar_piek1'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_chartbar_piek2" id="color_chartbar_piek2"
+                                   size="6" maxlength="6"
+                                   value="
+				<?php
+                                   if (!empty($_POST['color_chartbar_piek2']))
+                                       echo $_POST['color_chartbar_piek2'];
+                                   else {
+                                       $_POST['color_chartbar_piek2'] = "#FF00FF";
+                                       echo $_POST['color_chartbar_piek2'];
+                                   }
+                                   ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_average_line"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_average_line"
+                                   id="color_chart_average_line" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_average_line']))
+                                echo $_POST['color_chart_average_line'];
+                            else {
+                                $_POST['color_chart_average_line'] = "#0AF02F";
+                                echo $_POST['color_chart_average_line'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_reference_line"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_reference_line"
+                                   id="color_chart_reference_line"
+                                   size="6" maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_reference_line']))
+                                echo $_POST['color_chart_reference_line'];
+                            else {
+                                $_POST['color_chart_reference_line'] = "#FF0055";
+                                echo $_POST['color_chart_reference_line'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_cum_line"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_cum_line" id="color_chart_cum_line"
+                                   size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_cum_line']))
+                                echo $_POST['color_chart_cum_line'];
+                            else {
+                                $_POST['color_chart_cum_line'] = "#777777";
+                                echo $_POST['color_chart_cum_line'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_max_line"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_max_line" id="color_chart_max_line"
+                                   size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_max_line']))
+                                echo $_POST['color_chart_max_line'];
+                            else {
+                                $_POST['color_chart_max_line'] = "#777777";
+                                echo $_POST['color_chart_max_line'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_temp_line"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_temp_line" id="color_chart_temp_line"
+                                   size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_temp_line']))
+                                echo $_POST['color_chart_temp_line'];
+                            else {
+                                $_POST['color_chart_temp_line'] = "#0E669E";
+                                echo $_POST['color_chart_temp_line'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_max_bar"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_max_bar" id="color_chart_max_bar"
+                                   size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_max_bar']))
+                                echo $_POST['color_chart_max_bar'];
+                            else {
+                                $_POST['color_chart_max_bar'] = "#777777";
+                                echo $_POST['color_chart_max_bar'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_expected_bar"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_expected_bar"
+                                   id="color_chart_expected_bar" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_expected_bar']))
+                                echo $_POST['color_chart_expected_bar'];
+                            else {
+                                $_POST['color_chart_expected_bar'] = "#aaaaaa";
+                                echo $_POST['color_chart_expected_bar'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_text_title"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_text_title"
+                                   id="color_chart_text_title" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_text_title']))
+                                echo $_POST['color_chart_text_title'];
+                            else {
+                                $_POST['color_chart_text_title'] = "#151515";
+                                echo $_POST['color_chart_text_title'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_text_subtitle"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_text_subtitle"
+                                   id="color_chart_text_subtitle" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_text_subtitle']))
+                                echo $_POST['color_chart_text_subtitle'];
+                            else {
+                                $_POST['color_chart_text_subtitle'] = "#151515";
+                                echo $_POST['color_chart_text_subtitle'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_labels_xaxis1"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_labels_xaxis1"
+                                   id="color_chart_labels_xaxis1" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_labels_xaxis1']))
+                                echo $_POST['color_chart_labels_xaxis1'];
+                            else {
+                                $_POST['color_chart_labels_xaxis1'] = "#1D1999";
+                                echo $_POST['color_chart_labels_xaxis1'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $txt["color_chart_labels_yaxis1"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_labels_yaxis1"
+                                   id="color_chart_labels_yaxis1" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_labels_yaxis1']))
+                                echo $_POST['color_chart_labels_yaxis1'];
+                            else {
+                                $_POST['color_chart_labels_yaxis1'] = "#1D1999";
+                                echo $_POST['color_chart_labels_yaxis1'];
+                            }
+                            ?>">
+
+                            <input class="jscolor" type="text" name="color_chart_labels_yaxis2"
+                                   id="color_chart_labels_yaxis2" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_labels_yaxis2']))
+                                echo $_POST['color_chart_labels_yaxis2'];
+                            else {
+                                $_POST['color_chart_labels_yaxis2'] = "#1D1999";
+                                echo $_POST['color_chart_labels_yaxis2'];
+                            }
+                            ?>">
+
+                            <input class="jscolor" type="text" name="color_chart_labels_yaxis3"
+                                   id="color_chart_labels_yaxis3" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_labels_yaxis3']))
+                                echo $_POST['color_chart_labels_yaxis3'];
+                            else {
+                                $_POST['color_chart_labels_yaxis3'] = "#1D1999";
+                                echo $_POST['color_chart_labels_yaxis3'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["color_chart_title_yaxis1"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_title_yaxis1"
+                                   id="color_chart_title_yaxis1" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_title_yaxis1']))
+                                echo $_POST['color_chart_title_yaxis1'];
+                            else {
+                                $_POST['color_chart_title_yaxis1'] = "#151515";
+                                echo $_POST['color_chart_title_yaxis1'];
+                            }
+                            ?>">
+
+                            <input class="jscolor" type="text" name="color_chart_title_yaxis2"
+                                   id="color_chart_title_yaxis2" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_title_yaxis2']))
+                                echo $_POST['color_chart_title_yaxis2'];
+                            else {
+                                $_POST['color_chart_title_yaxis2'] = "#4FA2D6";
+                                echo $_POST['color_chart_title_yaxis2'];
+                            }
+                            ?>">
+
+                            <input class="jscolor" type="text" name="color_chart_title_yaxis3"
+                                   id="color_chart_title_yaxis3" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_title_yaxis3']))
+                                echo $_POST['color_chart_title_yaxis3'];
+                            else {
+                                $_POST['color_chart_title_yaxis3'] = "#4FA2D6";
+                                echo $_POST['color_chart_title_yaxis3'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["color_chart_gridline_yaxis1"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_chart_gridline_yaxis1"
+                                   id="color_chart_gridline_yaxis1" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_gridline_yaxis1']))
+                                echo $_POST['color_chart_gridline_yaxis1'];
+                            else {
+                                $_POST['color_chart_gridline_yaxis1'] = "#151515";
+                                echo $_POST['color_chart_gridline_yaxis1'];
+                            }
+                            ?>">
+
+                            <input class="jscolor" type="text" name="color_chart_gridline_yaxis2"
+                                   id="color_chart_gridline_yaxis2" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_gridline_yaxis2']))
+                                echo $_POST['color_chart_gridline_yaxis2'];
+                            else {
+                                $_POST['color_chart_gridline_yaxis2'] = "#4FA2D6";
+                                echo $_POST['color_chart_gridline_yaxis2'];
+                            }
+                            ?>">
+
+                            <input class="jscolor" type="text" name="color_chart_gridline_yaxis3"
+                                   id="color_chart_gridline_yaxis3" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_chart_gridline_yaxis3']))
+                                echo $_POST['color_chart_gridline_yaxis3'];
+                            else {
+                                $_POST['color_chart_gridline_yaxis3'] = "#4FA2D6";
+                                echo $_POST['color_chart_gridline_yaxis3'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td><?php echo $txt["klbalkgrvijfjaar"]; ?>:</td>
+                        <td>
+
+                            <?php
+                            $color_yearchartt = array("#1F3A93", "#4B77BE", "#2574A9", "#89C4F4", "#5C97BF");
+                            for ($i = 0; $i < 5; $i++) {
+                                echo '<input class="jscolor" type="text" name="color_yearchart' . $i . '" id ="color_yearchart' . $i . '" size="6" maxlength="6"  value="';
+                                if (!empty($_POST['color_yearchart' . $i]))
+                                    echo $_POST['color_yearchart' . $i];
+                                else {
+                                    $_POST['color_yearchart' . $i] = $color_yearchartt[$i];
+                                    echo $_POST['color_yearchart' . $i];
+                                }
+                                echo '">';
+                            }
+                            ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $txt["color_text_link"]; ?>:</td>
+                        <td>
+                            <input class="jscolor" type="text" name="color_text_link1"
+                                   id="color_text_link1" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_text_link1']))
+                                echo $_POST['color_text_link1'];
+                            else {
+                                $_POST['color_text_link1'] = "#ffffff";
+                                echo $_POST['color_text_link1'];
+                            }
+                            ?>">
+                            <input class="jscolor" type="text" name="color_text_link2"
+                                   id="color_text_link2" size="6"
+                                   maxlength="6" value="
+				<?php
+                            if (!empty($_POST['color_text_link2']))
+                                echo $_POST['color_text_link2'];
+                            else {
+                                $_POST['color_text_link2'] = "#c00000";
+                                echo $_POST['color_text_link2'];
+                            }
+                            ?>">
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <?php echo $txt["copy"]; ?>
+                <button type="button" onclick="resetcolors()"><?php echo $txt["default"]; ?></button>
+                <button type="button" onclick="theme1()"><?php echo $txt["colortheme"]; ?>1</button>
+                <button type="button" onclick="theme2()"><?php echo $txt["colortheme"]; ?>2</button>
+                <!--                <button type="button" onclick="theme3()">-->
+                <?php //echo $txt["colortheme"]; ?><!--3</button>-->
+                <!--                <button type="button" onclick="theme4()">-->
+                <?php //echo $txt["colortheme"]; ?><!--4</button>-->
+                <br>
 
                 <?php
                 if (empty($_POST['colortheme'])) {
@@ -460,23 +1229,23 @@ include_once "par_header.php";
                 <hr>
                 <?php echo $txt["CustomFields"]; ?>:<br>
                 <?php echo $txt["EMU_Offset"]; ?>: <input type='text' name='EMU_Offset'
-                       value='<?php if (!empty($_POST['EMU_Offset'])) echo $_POST['EMU_Offset']; else echo "0" ?>'
-                       size='5'><br/>
+                                                          value='<?php if (!empty($_POST['EMU_Offset'])) echo $_POST['EMU_Offset']; else echo "0" ?>'
+                                                          size='5'><br/>
                 <?php echo $txt["Path_EMU"]; ?>: <input type='text' name='Path_EMU'
-                       value='<?php if (!empty($_POST['Path_EMU'])) echo $_POST['Path_EMU']; else echo "" ?>'
-                       size='60'><br/>
+                                                        value='<?php if (!empty($_POST['Path_EMU'])) echo $_POST['Path_EMU']; else echo "" ?>'
+                                                        size='60'><br/>
                 <?php echo $txt["Path_Webroot"]; ?>: <input type='text' name='Path_Webroot'
-                       value='<?php if (!empty($_POST['Path_Webroot'])) echo $_POST['Path_Webroot']; else echo "" ?>'
-                       size='60'><br/>
+                                                            value='<?php if (!empty($_POST['Path_Webroot'])) echo $_POST['Path_Webroot']; else echo "" ?>'
+                                                            size='60'><br/>
                 <?php echo $txt["Path_Zonphp"]; ?>: <input type='text' name='Path_Zonphp'
-                       value='<?php if (!empty($_POST['Path_Zonphp'])) echo $_POST['Path_Zonphp']; else echo "" ?>'
-                       size='60'><br/>
+                                                           value='<?php if (!empty($_POST['Path_Zonphp'])) echo $_POST['Path_Zonphp']; else echo "" ?>'
+                                                           size='60'><br/>
                 <?php echo $txt["PVO_API"]; ?>: <input type='text' name='PVO_API'
-                       value='<?php if (!empty($_POST['PVO_API'])) echo $_POST['PVO_API']; else echo "" ?>'
-                       size='60'><br/>
+                                                       value='<?php if (!empty($_POST['PVO_API'])) echo $_POST['PVO_API']; else echo "" ?>'
+                                                       size='60'><br/>
                 <?php echo $txt["PVO_SYS_ID"]; ?>: <input type='text' name='PVO_SYS_ID'
-                       value='<?php if (!empty($_POST['PVO_SYS_ID'])) echo $_POST['PVO_SYS_ID']; else echo "" ?>'
-                       size='60'><br/>
+                                                          value='<?php if (!empty($_POST['PVO_SYS_ID'])) echo $_POST['PVO_SYS_ID']; else echo "" ?>'
+                                                          size='60'><br/>
 
 
                 <hr>

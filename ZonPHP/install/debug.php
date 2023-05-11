@@ -181,8 +181,6 @@ include "par_header.php";
                 echo "<br />";
                 echo 'idagboek' . '=' . $param['idagboek'];
                 echo "<br />";
-                echo 'iTonendagnacht' . '=' . $param['iTonendagnacht'];
-                echo "<br />";
                 echo "<hr><h2>Database sample values: </h2>";
             };
             ?>

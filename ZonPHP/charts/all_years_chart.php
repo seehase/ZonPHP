@@ -171,18 +171,6 @@ foreach ($inveter_list as $inverter_name) {
 
         $strxas .= '"' . $ijaar . '",';
         $aclickxas[0][] = $ijaar . "-01-01";
-
-        if ($param['iTonendagnacht'] == 1) {
-            if (array_key_exists($ijaar, $ajaarverbruikdag)) {
-                if (!isset($ajaarverbruiknacht[$ijaar])) $ajaarverbruiknacht[$ijaar] = 0;
-                if (array_key_exists($ijaar, $sum_per_year)) {
-                    $ftotaalverbruik = $ajaarverbruikdag[$ijaar] + $ajaarverbruiknacht[$ijaar] + $sum_per_year[$ijaar];
-                    $astrverbruikdag .= '
-                },';
-                }
-            }
-        }
-
     }
     $best_year += $best_year_per_inverter;
     $current_bars = substr($current_bars, 0, -1);

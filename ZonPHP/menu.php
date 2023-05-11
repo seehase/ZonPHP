@@ -210,7 +210,6 @@ if (intval($param['flyout']) === 2) {
         <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
         <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-fr' alt='française' title='française'/></a>" ?>
         <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'/></a>" ?>
-        <?php if (isset($param['lang_at'])) echo "<a href='?taal=at' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-at' alt='österreichisch' title='österreichisch'/></a>" ?>
 
         <?php
 

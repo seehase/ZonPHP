@@ -50,12 +50,6 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-<!--
-    <script type="text/javascript" src="https://code.highcharts.com/10.2/highcharts.js"></script>
-    <script type="text/javascript" src="https://code.highcharts.com/10.2/highcharts-more.js"></script>
-    <script type="text/javascript" src="https://code.highcharts.com/10.2/modules/exporting.js"></script>
-    <script type="text/javascript" src="https://code.highcharts.com/10.2/modules/solid-gauge.js"></script>
--->
     <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
     <script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
     <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -141,9 +135,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
 
             });
         });
-
     </script>
-
 
     <script>
         $(function() {
@@ -158,22 +150,6 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
                 }
             })
         })
-    </script>
-
-    <script>
-        function myDropdownFunction(value) {
-            var count = this.series.length;
-            for (ii = 0; ii < count; ii++) {
-                if (this.series[ii].name == value) {
-                    var aaa = this.series[ii];
-                    aaa.setVisible(!aaa.visible);
-                    break;
-                } else if (value == 'all') {
-                    var bbb = this.series[ii];
-                    bbb.setVisible(true);
-                }
-            }
-        }
     </script>
 
     <?php

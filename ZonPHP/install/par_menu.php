@@ -35,9 +35,7 @@
                                                        height='11'></a>
                 <a href='?taal=de' TARGET='_self'><img src='../inc/image/de.png' alt='de' border='0' width='16'
                                                        height='11'></a> 
-				<a href='?taal=at' TARGET='_self'><img src='../inc/image/at.png' alt='at' border='0' width='16'
-                                                       height='11'></a> ";
-
+			  ";
             }
             ?>
             <br/>
