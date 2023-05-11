@@ -59,8 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* load all charts according order */
     function loadCharts() {
         // todo: only load activted charts
- ///    addTemerature();
- ///    addWeewx();
+        /// addWeewx();
 
         addDay();
         addMonth();
@@ -69,10 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
         addCumulative();
         addLastYears();
         addBest();
-
-///        addAllTemp();
-///        addAllHumidty();
-///        addIndoorSensors();
         // loadLayout(grid, layout);
     }
 
@@ -260,38 +255,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function addTemerature() {
-        var id = "id_Temperature";
-        var itemTemplate = '' +
-            '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card" style="background-color: #'+ colors['color_chartbackground'] + '"> ' +
-            '<a href="sensor_gauge_overview.php"><div class="' + headerclass + '">' + txt["chart_gauge"] + '</div></a>' +
-            '<div id="' + id + '">' +
-            '</div>' +
-            '</div>';
-        var itemElem = document.createElement('div');
-        itemElem.innerHTML = itemTemplate;
-        grid.add(itemElem.firstChild);
-
-        var container = $('#' + id);
-        $.ajax({
-            url: 'charts/sensor_gauge.php',
-            type: 'post',
-            data: {
-                'action': 'indexpage', 'sensors': '197086:1:Wintergarden:FFF, ' +
-                    '196692:1:Cellar:FFF, ' +
-                    '18974:1:Loft:FFF, ' +
-                    '197086:3:Wintergarden:3B77DB, ' +
-                    '196692:3:Cellar:3B77DB, ' +
-                    '18974:3:Loft:3B77DB', 'id': 'Current'
-            },
-            cache: false,
-            success: function (chart) {
-                $(container).append(chart);
-            }
-        });
-    }
-
     function addLastYears() {
         var id = "id_LastYears";
         var itemTemplate = '' +
@@ -339,121 +302,6 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function (chart) {
                 $(container).append(chart);
 
-            }
-        });
-    }
-
-    function addAllTemp() {
-        var id = "id_AllTemp";
-        var itemTemplate = '' +
-            '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card"> ' +
-            '<div class="' + headerclass + '">' + txt["chart_all_temp"] + '</div>' +
-            '<div id="' + id + '">' +
-            '</div>' +
-            '</div>';
-        var itemElem = document.createElement('div');
-        itemElem.innerHTML = itemTemplate;
-        grid.add(itemElem.firstChild);
-
-        var container = $('#' + id);
-        $.ajax({
-            url: 'charts/sensor_chart.php',
-            type: 'post',
-            data: {
-                'action': 'indexpage',
-                'sensors': '197190:1:Outdoor °C:ffa200,196692:1:Cellar °C:1919B7,197086:1:Wintergarden °C:33cc33, 18974:1:Loft °C:FA58F4',
-                'id': 'all_temp'
-            },
-            cache: false,
-            success: function (chart) {
-                $(container).append(chart);
-            }
-        });
-    }
-
-    function addIndoorSensors() {
-        var id = "id_IndoorSensors";
-        var itemTemplate = '' +
-            '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card"> ' +
-            '<div class="' + headerclass + '">' + txt["chart_indoor"] + '</div>' +
-            '<div id="' + id + '">' +
-            '</div>' +
-            '</div>';
-        var itemElem = document.createElement('div');
-        itemElem.innerHTML = itemTemplate;
-        grid.add(itemElem.firstChild);
-
-        var container = $('#' + id);
-        $.ajax({
-            url: 'charts/sensor_chart.php',
-            type: 'post',
-            data: {
-                'action': 'indexpage',
-                'sensors': '197086:1:Wintergarden °C:33cc33,197190:1:Outdoor °C:063d06,197086:3:Wintergarden %RH:001570,197190:3:Outdoor %RH:95a5f4',
-                'id': 'indoor',
-                'title': 'Outoor vs Wintergarden'
-            },
-            cache: false,
-            success: function (chart) {
-                $(container).append(chart);
-            }
-        });
-    }
-
-    function addAllHumidty() {
-        var id = "id_AllHumudity";
-        var itemTemplate = '' +
-            '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card"> ' +
-            '<div class="' + headerclass + '">' + txt["chart_all_humidity"] + '</div>' +
-            '<div id="' + id + '">' +
-            '</div>' +
-            '</div>';
-        var itemElem = document.createElement('div');
-        itemElem.innerHTML = itemTemplate;
-        grid.add(itemElem.firstChild);
-
-        var container = $('#' + id);
-        $.ajax({
-            url: 'charts/sensor_chart.php',
-            type: 'post',
-            data: {
-                'action': 'indexpage',
-                'sensors': '197190:3:Outdoor %RH:ffa200,196692:3:Cellar %RH:1919B7,197086:3:Wintergarden %RH:33cc33, 18974:3:Loft %RH:FA58F4',
-                'id': 'all_humidity'
-            },
-            cache: false,
-            success: function (chart) {
-                $(container).append(chart);
-            }
-        });
-    }
-
-    function addPowerMeter() {
-        var id = "id_PowerMeter";
-        var itemTemplate = '' +
-            '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card"> ' +
-            '<a href="powermeter_overview_period.php"><div class="' + headerclass + '">' + txt["chart_powermeter"] + '</div> </a> ' +
-            '<div id="' + id + '">' +
-            '</div>' +
-            '</div>';
-        var itemElem = document.createElement('div');
-        itemElem.innerHTML = itemTemplate;
-        grid.add(itemElem.firstChild);
-
-        var container = $('#' + id);
-        $.ajax({
-            url: 'charts/powermeter_chart_period.php',
-            type: 'post',
-            data: {
-                'action': 'indexpage', 'id': 'Current'
-            },
-            cache: false,
-            success: function (chart) {
-                $(container).append(chart);
             }
         });
     }

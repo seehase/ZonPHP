@@ -40,7 +40,7 @@ include_once "par_header.php";
                 $txt["watverkeerd"] = "";
                 foreach ($_POST as $key => $waarden) {
                     if (strlen($waarden) == 0 || ($_POST[$key] == $txt["verkeerd"])) {
-                        if ($key == 'plantname' || $key == 'google_tracking' || $key == 'wunderground_stationID' || $key == 'chart_date_format') {
+                        if ($key == 'plantname' || $key == 'google_tracking' || $key == 'chart_date_format') {
                             // plantname, google_tracking ... could be empty
                         } else {
                             $_POST[$key] = $txt["verkeerd"];
@@ -349,16 +349,6 @@ include_once "par_header.php";
                     </tbody>
                 </table>
                 <hr>
-                <?php echo $txt["dagboek"]; ?>?
-                <input type="radio" name="idagboek" value="1" <?php if (isset($_POST['idagboek'])) {
-                    if ($_POST['idagboek'] == 1) echo "checked";
-                } ?>> <?php echo $txt["YES"] ?>
-                <input type="radio" name="idagboek" value="0" <?php if (isset($_POST['idagboek'])) {
-                    if ($_POST['idagboek'] == 0) echo "checked";
-                } else echo "checked"; ?>><?php echo $txt["NO"] ?>
-                <br/>
-
-                <hr>
                 <?php echo $txt["flyout_menu"]; ?>?
                 <br>
                 <input type="radio" name="flyout" value="0" <?php if (isset($_POST['flyout'])) {
@@ -382,37 +372,11 @@ include_once "par_header.php";
                        size='5' <?php if (isset($_POST['no_units'])) echo "checked"; ?> >
                 <br/>
 
-                <hr>
-                <?php echo $txt["weatherstation_config"]; ?>:<br>
-                <?php echo $txt["external_sensors"]; ?>?
-                <input type='checkbox' name='external_sensors'
-                       size='5' <?php if (isset($_POST['external_sensors'])) echo "checked"; ?> >
-                <br/>
-                <?php echo $txt["external_sensors_for_daychart"]; ?>?
-                <input type='checkbox' name='external_sensors_for_daychart'
-                       size='5' <?php if (isset($_POST['external_sensors_for_daychart'])) echo "checked"; ?> >
-                <br/>
-
-                <?php echo $txt["wunderground_stationID"]; ?>:
-                <input type='text' name='wunderground_stationID'
-                       value='<?php if (!empty($_POST['wunderground_stationID'])) echo $_POST['wunderground_stationID']; ?>'
-                       size='30'>
-
-                <br/>
                 <?php echo $txt["chart_date_format"]; ?>:
                 <input type='text' name='chart_date_format'
                        value='<?php if (!empty($_POST['chart_date_format'])) echo $_POST['chart_date_format'];  ?>'
                        size='63'><br/>
 
-                <hr>
-                <?php echo $txt["zonphpse"]; ?>
-                <input type="radio" name="izonphpse" value="1" <?php if (isset($_POST['izonphpse'])) {
-                    if ($_POST['izonphpse'] == 1) echo "CHECKED";
-                } ?>> <?php echo $txt["YES"] ?>
-                <input type="radio" name="izonphpse" value="0" <?php if (isset($_POST['izonphpse'])) {
-                    if ($_POST['izonphpse'] == 0) echo "CHECKED";
-                } else echo "CHECKED"; ?>><?php echo $txt["NO"] ?>
-                <br/>
                 <hr>
 
                 <?php echo $txt["uwmailadres"]; ?>:

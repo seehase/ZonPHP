@@ -64,10 +64,6 @@ include_once "inc/header.php";
                 <strong>ZonPHP.2016.12.04: </strong> (2016-12-04)
                 <ul>
                     <li>Performace Optimierung und Caching</li>
-                    <li>Integration von zusätzlichen Sensoren <a
-                                href="http://www.arexx.com/templogger/html/en/index.php"
-                                target="_blank">http://www.arexx.com/templogger/html/en/index.php</a>
-                    </li>
                     <li>komplettes refactoring</li>
                     <li>neue Datei Struktur</li>
                     <li>neue Chart Library <a href="http://http://www.highcharts.com/" target="_blank">http://www.highcharts.com/</a>

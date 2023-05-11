@@ -18,8 +18,6 @@ $txt["breedte"] = "width";
 $txt["coefficient"] = "coefficient peut être utilisé si la CGC se distingue par une mesure de contrer <br />  valeurs. Coefficient = counter GSC / MeteringTotkWh ";
 $txt["cum"] = "Cum";
 $txt["dag"] = "Jour";
-$txt["dagboek"] = "Voulez-vous tenir un journal";
-$txt["dagboekmenu"] = "Journal";
 $txt["dagenjaar"] = "jours par an";
 $txt["dagnachttarief "] = "Voulez-vous le jour taux jaar_overzicht et nuit pour voir?";
 $txt["dagoverzicht"] = "Jour Voir";
@@ -205,7 +203,6 @@ $txt["welkomverk"] = "Mot de passe incorrect";
 $txt["welkomvis"] = "Paramètres: Ici vous mettez les entrées des paramètres de votre système et la visualisation";
 $txt["woonplaats"] = "emplacement";
 $txt["zonnekalender"] = "Calendrier Solaire";
-$txt["zonphpse"] = "Souhaitez-vous utiliser la version SE ZONPHP? (Jours sans résultats)";
 
 $txt["YES"] = "Oui";
 $txt["NO"] = "Non";

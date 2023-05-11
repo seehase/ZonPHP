@@ -20,8 +20,6 @@ $txt["choose_charts"] = "Selecteer de overzichten voor de index-pagina. Geen sel
 $txt["coefficient"] = "Coëfficient kan gebruikt worden indien de GSC teller afwijkt van de gemeten<br />waarden.  coefficient= gsc teller/MeteringTotkWh";
 $txt["cum"] = "Cum";
 $txt["dag"] = "Dag";
-$txt["dagboek"] = "Wil je een dagboek bijhouden";
-$txt["dagboekmenu"] = "dagboek";
 $txt["dagenjaar"] = "dagen/jaar";
 $txt["dagnachttarief"] = "Wil u uw dag en nacht tarief in jaar_overzicht zien?";
 $txt["dagoverzicht"] = "Dagoverzicht";
@@ -212,7 +210,6 @@ $txt["welkomverk"] = "Verkeerd wachtwoord";
 $txt["welkomvis"] = "Parameters : Hier doet u de ingaven van de parameters van je installatie alsook de visualisatie";
 $txt["woonplaats"] = "Uw woonplaats";
 $txt["zonnekalender"] = "Zonnekalender";
-$txt["zonphpse"] = "Wil u de versie ZONPHP SE gebruiken?(zonder dag resultaten)";
 
 $txt["YES"] = "Ja";
 $txt["NO"] = "Nee";

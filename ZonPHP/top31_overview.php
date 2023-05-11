@@ -100,13 +100,10 @@ if (isset($_GET['Max_Min']) && $_GET['Max_Min'] == "top") {
                 <?php
                 $iteller = 1;
                 foreach ($agegevens as $ddag => $fkw) {
-                    if ($param['izonphpse'] == 0) {
-                        $slinkseversiekl = "<a href='day_overview.php?dag=" . $ddag . "'><b>" . date("d-m-Y", strtotime($ddag)) . "</b></a>";
-                        $slinkseversie = "<a href='day_overview.php?dag=" . $ddag . "'>" . date("d-m-Y", strtotime($ddag)) . "</a>";
-                    } else {
-                        $slinkseversiekl = "<b>" . date("d-m-Y", strtotime($ddag)) . "</b>";
-                        $slinkseversie = "" . date("d-m-Y", strtotime($ddag)) . "";
-                    }
+
+                    $slinkseversiekl = "<a href='day_overview.php?dag=" . $ddag . "'><b>" . date("d-m-Y", strtotime($ddag)) . "</b></a>";
+                    $slinkseversie = "<a href='day_overview.php?dag=" . $ddag . "'>" . date("d-m-Y", strtotime($ddag)) . "</a>";
+
                     if ($ddag == date("Y-m-d", time())) {
                         echo("<tr>
 						<td><b>" . $iteller . "</b></td>

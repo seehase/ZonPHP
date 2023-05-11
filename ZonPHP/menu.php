@@ -42,51 +42,13 @@ if (intval($param['flyout']) > 0) {
                 <li class="sub-heading"><?php echo $txt["grafiekoverzicht"]; ?><label for="fof" class="toggle"
                                                                                       onclick="" title="Back">
                         &#9658;</label></li>
-                <li><a href="powermeter_overview_period.php"><?php echo $txt["chart_powermeter"]; ?></a></li>
-                <?php
-                if ($param['izonphpse'] == 0)
-                    echo '<li><a href="day_overview.php">' . $txt["dagoverzicht"] . '</a></li>';
-                ?>
+
+                <li><a href="day_overview.php">' . $txt["dagoverzicht"] . '</a></li>
                 <li><a href="month_overview.php"><?php echo $txt['chart_monthoverview']; ?></a></li>
                 <li><a href="year_overview.php"><?php echo $txt['chart_yearoverview']; ?></a></li>
                 <li><a href="all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
                 <li><a href="last_years_overview.php"><?php echo $txt["chart_lastyearoverview"]; ?></a></li>
                 <li><a href="top31_overview.php?Max_Min=Top"><?php echo $txt["chart_31days"]; ?></a></li>
-                <?php
-                if (isset($param['external_sensors'])) {
-                    echo '                
-                <li>
-                    <a href="sensor_gauge_overview.php?sensors=197086:1:outdoor:33cc33,196692:1:cellar:FD3C00,197190:1:indoor:323232,197086:3:outdoor:33cc33,196692:3:cellar:FD3C00,196692:3:indoor:323232,197190:3:indoor:323232&amp;title=Temp%20all&amp;id=holg">Gauge view</a>
-                </li>
-                <li>
-                    <a href="sensor_overview.php?sensors=197190:1:outdoor:33cc33,196692:1:cellar:FD3C00,197086:1:indoor:323232&amp;title=Temp%20all&amp;id=holg">Temp
-                        all Sensors</a></li>
-                <li>
-                    <a href="sensor_overview.php?sensors=197190:3:outdoor:33cc33,196692:3:cellar:FD3C00,197086:3:indoor:323232&amp;title=RH%20all">RH
-                        all Sensors</a></li>
-                <li>
-                    <a href="sensor_overview.php?sensors=197190:1:outdoor%20C:33cc33,197190:3:outdoor%20RH:FD3C00&amp;title=Outdoor">Outdoor
-                        Sensors</a></li>
-                <li>
-                    <a href="sensor_overview.php?sensors=197086:1:indoor%20C:33cc33,197086:3:indoor%20RH:FD3C00&amp;title=Indoor">Indoor
-                        Sensors</a></li>
-                <li>
-                    <a href="sensor_overview.php?sensors=196692:1:Cellar%20C:33cc33,196692:3:Cellar%20RH:FD3C00&amp;title=Cellar">Cellar
-                        Sensors</a></li>
-
-                <li>
-                    <a href="sensor_overview_period.php?start=2016-10-6&amp;end=2017-11-16&amp;sensors=197086:1:indoor%20C:33cc33,197086:3:indoor%20RH:FD3C00&amp;title=Indoor%20Period&amp;id=holg">Indoor
-                        Period</a></li>
-                <li>
-                    <a href="sensor_overview_period.php?start=2016-10-6&amp;end=2017-11-16&amp;sensors=197190:1:outdoor:33cc33,196692:1:cellar:FD3C00,197086:1:indoor:323232&amp;title=Temperature%20Period&amp;id=holg">Temp
-                        Period</a></li>
-                <li>
-                    <a href="sensor_overview_period.php?start=2016-10-6&amp;end=2017-11-16&amp;sensors=197190:3:outdoor:33cc33,196692:3:cellar:FD3C00,197086:3:indoor:323232&amp;title=Humidity%20Period&amp;id=holg">RH
-                        Period</a></li>
-                ';
-                }
-                ?>
-
             </ul>
         </li>
 
@@ -102,23 +64,6 @@ if (intval($param['flyout']) > 0) {
             </ul>
         </li> ';
         ?>
-
-        <?php if (isset($param['wunderground_stationID']) && strlen($param['wunderground_stationID']) > 0)
-            echo '
-            <li><a href="#" style="display: flex">&nbsp;</a> <label for="wunderground" class="toggle-sub" onclick="">&nbsp;wunderground&nbsp;&nbsp;&#9658;</label>
-            <input type="checkbox" name="nav" id="wunderground" class="sub-nav-check"/>
-            <ul id="wunderground-sub" class="sub-nav">
-                <li class="sub-heading">wounderground<label for="wunderground" class="toggle" onclick="" title="Back">&#9658;</label>
-                </li>
-                <li><a href="https://www.wunderground.com" onclick="target=\'_blank\'">' . 'wounderground</a></li>
-                <li><a href="https://www.wunderground.com/personal-weather-station/dashboard?ID=' . $param['wunderground_stationID'] .
-                '" onclick="target=\'_blank\'">' . 'Your PWS</a></li>
-            </ul>
-        </li> ';
-        ?>
-
-
-
 
         <li><a href="#" style="display: flex">&nbsp;</a> <label for="links" class="toggle-sub" onclick="">
                 &nbsp;Links&nbsp;&nbsp;&nbsp;&#9658;</label>
@@ -174,9 +119,6 @@ if (intval($param['flyout']) > 0) {
                         &#9658;</label>
                 </li>
                 <li><a href="install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
-                <?php if ($param['idagboek'] == 1)
-                    echo '<li><a href="mydiary.php">' . $txt["dagboekmenu"] . '</a></li>';
-                ?>
                 <li><a href="about.php">About</a></li>
                 <li><a href="installation.php"><?php echo $txt["installatie"]; ?></a></li>
                 <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
