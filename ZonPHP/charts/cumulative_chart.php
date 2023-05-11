@@ -94,8 +94,8 @@ if ($isIndexPage == true) {
     echo '<div class = "index_chart" id="universal"></div>';
     $show_legende = "false";
 }
-
 include_once "chart_styles.php";
+$categories = $shortmonthcategories;
 ?>
 <script type="text/javascript">
     $(function () {
@@ -148,20 +148,36 @@ include_once "chart_styles.php";
                     color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
                 	},
             	},
-            xAxis: {
+                xAxis: [{
+        		id: 0,
         		type: 'datetime',
-        		showLastLabel: false,
+        		lineWidth: 0,
+   				minorGridLineWidth: 0,
+   				lineColor: 'transparent',
         		labels: {
-                useHTML: true,
-                style: {
+            	enabled: false
+        		},	
+            	
+            	minorTickLength: 0,
+   				tickLength: 0
+   				},
+            	{
+            	id: 1,
+         		type: 'categories',
+                labels: {
+                    rotation: 0,
+                    align: 'left',
+                    step: 1,
+                    style: {
                         color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
                     },
-            		},
-        		tickInterval   : 24 * 3600 * 1000*30, 
-           		dateTimeLabelFormats: { 
-            	month: '%b'
-        			},
-            	},
+                },
+                min: -0.5,
+                max: 11.5,
+                categories: [<?php echo $categories ?>],
+                
+            }],
+
             	yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
