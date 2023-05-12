@@ -18,8 +18,8 @@ if (mysqli_num_rows($result) != 0) {
     $_POST['next_mail_threshold'] = $row['Waarde'];
 }
 
-
-$statoe = 1;
+//be careful with this one
+//$statoe = 1;
 
 include_once "par_header.php";
 
