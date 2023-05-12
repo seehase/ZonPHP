@@ -181,7 +181,7 @@ $categories = $shortmonthcategories;
             	yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
-                        return this.value + ' kWh';
+                        return this.value/1000 + ' MWh';
                     },
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
