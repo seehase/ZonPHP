@@ -58,7 +58,7 @@ $formatter->setPattern("d LLL yyyy");
 
 ?>
 <div id="page-content">
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 72px; ">
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 46px; ">
 
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
