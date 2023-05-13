@@ -362,12 +362,6 @@ include_once "par_header.php";
                        size='5' <?php if (isset($_POST['show_footer'])) echo "checked"; ?> >
                 <br/>
 
-                <hr>
-                <?php echo $txt["no_units"]; ?>?
-                <input type='checkbox' name='no_units'
-                       size='5' <?php if (isset($_POST['no_units'])) echo "checked"; ?> >
-                <br/>
-
                 <?php echo $txt["chart_date_format"]; ?>:
                 <input type='text' name='chart_date_format'
                        value='<?php if (!empty($_POST['chart_date_format'])) echo $_POST['chart_date_format'];  ?>'
