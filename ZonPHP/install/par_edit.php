@@ -3,7 +3,7 @@
 include_once "../Parameters.php";
 include_once "../inc/sessionstart.php";
 
-if (!isset($_SESSION['passok']))
+if ( !isset($_SESSION['passok']) ||  $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
 
 include_once "../inc/connect.php";
@@ -17,9 +17,6 @@ if (mysqli_num_rows($result) != 0) {
     $row = mysqli_fetch_array($result);
     $_POST['next_mail_threshold'] = $row['Waarde'];
 }
-
-//be careful with this one
-//$statoe = 1;
 
 include_once "par_header.php";
 

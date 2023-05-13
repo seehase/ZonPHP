@@ -27,14 +27,17 @@ include_once "inc/version_info.php";
  * email: solar@seehausen.org
  ******************************************************************************/
 
-/*****************************************************************************/
-/* Configuration                                                             */
-/*****************************************************************************/
+/*****************************************************************************
+ * Configuration
+ *
+ *     admin username and password must be set to be able to login,
+ *     with empty password login is restricted
+ *
+ *****************************************************************************/
 
 //fixme: set pw to "" as default in final version,
-
-/* admin password must be set to be able to login, with empty password login is restricted */
-$admin_password = "secret";
+$admin_password = " ";
+$admin_username = "admin";
 
 /*****************************************************************************/
 /* Database configuration                                                    */

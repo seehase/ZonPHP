@@ -6,7 +6,7 @@
                 <br/>
                 <li><a href="../index.php">&raquo;&nbsp;Index</a></li>
                 <?php
-                if (isset($_SESSION['passok'])) {
+                if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder") {
                     echo '
                     
                     <li><a href="installatie_zonphp.php">&raquo;&nbsp;' . $txt["insteltabel"] . '</a></li>

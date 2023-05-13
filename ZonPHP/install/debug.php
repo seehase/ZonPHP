@@ -4,7 +4,7 @@
 include_once "../Parameters.php";
 include_once "../inc/sessionstart.php";
 
-if (!isset($_SESSION['passok']))
+if ( !isset($_SESSION['passok']) ||  $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
 
 include_once "../inc/connect.php";

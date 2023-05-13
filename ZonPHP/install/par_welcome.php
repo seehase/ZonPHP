@@ -5,12 +5,13 @@ include_once "../inc/sessionstart.php";
 
 include "par_header.php";
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST['pass'] == $admin_password)
+    if (($_POST['pass'] == $admin_password) && ($_POST['user'] == $admin_username)) {
         $_SESSION['passok'] = "passinorder";
+    } else {
+        $_SESSION['passok'] = "fail";
+    }
 }
-
 ?>
 
 <div id="menus">
@@ -33,50 +34,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                     width="16" height="11"></a>
             </center>
             <hr>
-            <br /><br />
-            <?php echo $txt["welkomconf"]; ?>.<br />
-            <?php echo $txt["welkomlinks"]; ?>:<br /><br />
+            <br/><br/>
+            <?php echo $txt["welkomconf"]; ?>.<br/>
+            <?php echo $txt["welkomlinks"]; ?>:<br/><br/>
             &nbsp;&nbsp;&nbsp;-<?php echo $txt["welkomcre"]; ?>.
-            <br /><br />
+            <br/><br/>
             &nbsp;&nbsp;&nbsp;-<?php echo $txt["welkomvis"]; ?>.
-            <br /><br />
+            <br/><br/>
             &nbsp;&nbsp;&nbsp;-<?php echo $txt["welkomref"]; ?>.
-            <br /><br />
+            <br/><br/>
             &nbsp;&nbsp;&nbsp;-<?php echo $txt["welkomeuro"]; ?>.
-            <br /><br />
+            <br/><br/>
             &nbsp;&nbsp;&nbsp;-<?php echo $txt["welkomverbruik"]; ?>.
-            <br /><br />
+            <br/><br/>
             &nbsp;&nbsp;&nbsp;-<?php echo $txt["welkomdebug"]; ?>.
-            <br /><br />
+            <br/><br/>
             &nbsp;&nbsp;&nbsp;-<?php echo $txt["welkomIndex"]; ?>.
-            <br /><br />
+            <br/><br/>
             <hr>
             <b>
-            <?php
+                <?php
                 echo $txt["welkominlog"];
-                if ($admin_password == "") {
+                if ($admin_password == "" || $admin_username == "") {
                     echo " <br /><br />" . $txt["noadminpassword"];
                 } else {
                     echo '
                     </b><br /><br />
+                    
                     <FORM METHOD="post" ACTION="">
-                        <input type="password" name="pass" value="" SIZE="20">
-                        <input name="savecontrole" type="submit" value="' . $txt["save"].'>">
+                    <table>
+                        <tr>
+                            <td>Username:&nbsp;</td><td><input name="user" value="" SIZE="20"></td>
+                        </tr> 
+                        <tr>
+                        <td>Password:&nbsp;</td><td><input type="password" name="pass" value="" SIZE="20"></td>
+                        </tr>
+                        <table>
+                        <br />
+                        <input name="savecontrole" type="submit" value="' . $txt["save"] . '>">                        
                     </form>
                     ';
                 }
-            ?>
+                ?>
 
-            <br />
-            <?php
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                if ($_POST['pass'] == $admin_password)
+                <br/>
+                <?php
+                if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder")
                     echo "<br /><br /><b>" . $txt["welkominl"] . ".</b><br />";
                 else
                     echo "<br /><br /><b>" . $txt["welkomverk"] . ".</b><br />";
-                    // unset($_SESSION['passok']);
-            } ?>
-            <br/>
+                ?>
+                <br/>
         </div>
     </div>
 </div>

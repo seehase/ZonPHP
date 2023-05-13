@@ -7,10 +7,8 @@ include_once "../inc/connect.php";
 $sqlpar = "SELECT *	FROM " . $table_prefix . "_parameters limit 1";
 $result = mysqli_query($con, $sqlpar) or die(header('location:opstart_installatie.php?fout=table'));
 
-
-$statoe = 1;
 // check if pass is ok
-if (!isset($_SESSION['passok']))
+if ( !isset($_SESSION['passok']) ||  $_SESSION['passok'] != "passinorder")
    header('location:par_welcome.php');
 
 
