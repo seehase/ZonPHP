@@ -1,14 +1,10 @@
 <?php
 $txt["aantalsoortpaneel"] = "Nombre de type + panel";
-$txt["behaaldeuro"] = "Titre de [euro]";
-$txt["behaaldkwh"] = "obtenus [kWh] ";
 $txt["bestezonphp"] = "Cher utilisateur zonPHP";
 $txt["chart_31days"] = "31 jours";
 $txt["chart_allyearoverview"] = "Tous les ans Voir";
 $txt["chart_yearoverview"] = "Resume annuel";
 $txt["coefficient"] = "coefficient peut être utilisé si la CGC se distingue par une mesure de contrer <br />  valeurs. Coefficient = counter GSC / MeteringTotkWh ";
-$txt["cum"] = "Cum";
-$txt["dag"] = "Jour";
 $txt["datacaptatie"] = "Type de saisie de données";
 $txt["datum"] = "Date";
 $txt["euro"] = "Sur cette page vous pouvez entrer le produit en euros";
@@ -19,7 +15,6 @@ $txt["foutref"] = 'Vous avez oublié vos valeurs de référence afin de donner.<
 $txt["fouttable"] = 'Il ya une erreur en lisant les tables de la base de données.<br />Blijkbaar ziin deze niet aanwezig.<br /><br />Je kan deze aanmaken met behulp van installatie_zonphp.php : <a href"] = "installatie_zonphp.php" TARGET"] = "_self">klik hier.</a>';
 $txt["gegevensinstallatie"] = "données de votre systèm";
 $txt["gem"] = "Gem";
-$txt["genormeerdkwhp"] = "normees [kWhp]";
 $txt["grafiekoverzicht"] = "Voir le tableau";
 $txt["inlezenbestand"] = "Quels sont les fichiers lisez-vous";
 $txt["installatie"] = "Installation";

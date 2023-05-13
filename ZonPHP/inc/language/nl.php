@@ -1,17 +1,13 @@
 <?php
 $txt["aantalsoortpaneel"] = "Aantal + soort paneel";
 $txt["available_languages"] ="Beschikbare talen";
-$txt["behaaldeuro"] = "Behaald [Euro]";
-$txt["behaaldkwh"] = "Behaald [kWh]";
 $txt["bestezonphp"] = "Beste zonPHP gebruiker";
 $txt["chart_31days"] = "31 Dagen";
 $txt["chart_allyearoverview"] = "Alle jaren overzicht";
 $txt["chart_date_format"] = "Datumnotatie in grafieken. Voorbeeld: %Y-%m-%d %H:%M (leeglaten voor standaardkeuze)";
 $txt["chart_yearoverview"] = "Jaaroverzicht";
 $txt["coefficient"] = "Coëfficient kan gebruikt worden indien de GSC teller afwijkt van de gemeten<br />waarden.  coefficient= gsc teller/MeteringTotkWh";
-$txt["cum"] = "Cum";
 $txt["CustomFields"] = "custom fields";
-$txt["dag"] = "Dag";
 $txt["datacaptatie"] = "Soort data captatie";
 $txt["datum"] = "Datum";
 $txt["EMU_Offset"] = "EMU_Offset";
@@ -23,7 +19,6 @@ $txt["foutref"] = 'U hebt vergeten uw referentiewaarden op te geven.<br /> <a hr
 $txt["fouttable"] = 'Er is een fout tijdens het lezen van de tabellen uit de database.<br />Blijkbaar zijn deze niet aanwezig.<br /><br />Je kan deze aanmaken met behulp van installatie_zonphp.php : <a href"] = "installatie_zonphp.php" TARGET"] = "_self">klik hier.</a>';
 $txt["gegevensinstallatie"] = "Gegevens van uw installatie";
 $txt["gem"] = "Gem";
-$txt["genormeerdkwhp"] = "Genormeerd [kWhp]";
 $txt["grafiekoverzicht"] = "Grafiekoverzicht";
 $txt["inlezenbestand"] = "Welke bestanden wilt u inlezen";
 $txt["installatie"] = "Installatie";
@@ -52,7 +47,6 @@ $txt["max"] = "Max";
 $txt["naamwebsite"] = "Naam voor op de website";
 $txt["nieuwewaarde"] = "Uw nieuwe waarde";
 $txt["nodata"] = "no data";
-$txt["no_units"] = "Geen eenheden in tooltip";
 $txt["omvormer"] = "Omvormer";
 $txt["opgeslagen"] = "Data opgeslagen";
 $txt["parameters"] = "Parameters";
