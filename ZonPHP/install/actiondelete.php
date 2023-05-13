@@ -82,7 +82,7 @@ if ($day !== "" and $finish == false){
 		
 		mysqli_query($con, $delstring) or die($txt["pardeletesqlerror"].$delstring." <--" . mysqli_error($delstring));
 		mysqli_query($con, $delstringmaand) or die($txt["pardeletesqlerror"].$delstring." <--" . mysqli_error($delstring));
-		$deldat = $txt["verbruikd"];
+		$deldat = $txt["dag"];
 		$finish = true;
 		}
 

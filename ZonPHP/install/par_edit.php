@@ -296,7 +296,7 @@ include_once "par_header.php";
                                    size='63'></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["Omvormer"]; ?>:</td>
+                        <td><?php echo $txt["omvormer"]; ?>:</td>
                         <td><input type='text' name='sOmvormer'
                                    value='<?php if (!empty($_POST['sOmvormer'])) echo $_POST['sOmvormer']; else echo " your converter" ?>'
                                    size='63'></td>

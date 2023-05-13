@@ -43,7 +43,7 @@ if (intval($param['flyout']) > 0) {
                                                                                       onclick="" title="Back">
                         &#9658;</label></li>
 
-                <li><a href="day_overview.php"><?php echo $txt['dagoverzicht']; ?></a></li>
+                <li><a href="day_overview.php"><?php echo $txt['chart_dayoverview']; ?></a></li>
                 <li><a href="month_overview.php"><?php echo $txt['chart_monthoverview']; ?></a></li>
                 <li><a href="year_overview.php"><?php echo $txt['chart_yearoverview']; ?></a></li>
                 <li><a href="all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
@@ -59,8 +59,8 @@ if (intval($param['flyout']) > 0) {
             <ul id="weewx-sub" class="sub-nav">
                 <li class="sub-heading">weewx<label for="weewx" class="toggle" onclick="" title="Back">&#9658;</label>
                 </li>
-                <li><a href="weewx_overview.php">' . $txt["weewx"] . '-overview</a></li>
-                <li><a href="/weewx/index.html">' . $txt["weewx"] . '-website</a></li>                
+                <li><a href="weewx_overview.php">weewx-overview</a></li>
+                <li><a href="/weewx/index.html">weewx-website</a></li>                
             </ul>
         </li> ';
         ?>
