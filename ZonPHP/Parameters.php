@@ -28,6 +28,15 @@ include_once "inc/version_info.php";
  ******************************************************************************/
 
 /*****************************************************************************/
+/* Configuration                                                             */
+/*****************************************************************************/
+
+//fixme: set pw to "" as default in final version,
+
+/* admin password must be set to be able to login, with empty password login is restricted */
+$admin_password = "secret";
+
+/*****************************************************************************/
 /* Database configuration                                                    */
 /*****************************************************************************/
 $sserver = "localhost";                     /*  Database server   --> default: "localhost"   */

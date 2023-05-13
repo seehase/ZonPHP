@@ -28,11 +28,6 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     if ($debugmode) error_log("cache hit --> ");
     // copy data from session into variabls
 
-//     $total_sum_for_all_years = $_SESSION['total_sum_for_all_years'];   //jhs in use last years and import
-//    $max_month = $_SESSION['max_month'];  // jhs in use last year
-
-
-
     $txt = $_SESSION['txt'];
     $year_euro = $_SESSION['year_euro'];
     $price_per_kwh = $year_euro[date("Y")];
@@ -68,8 +63,9 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     // error_log("cache is valid  " . ($_SESSION['lastupdate'] + $cache_timeout) . " - " . time());
 } else {
+    // reset login status
+    unset($_SESSION['passok']);
     // reload cache
-    // error_log("+++++++++++cache is NOT valid");
     if ($debugmode) error_log("cache failed --> need to reload data");
 
     // load lanaguages -----------------------------------------------------------------------------------------------
@@ -79,13 +75,11 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     }
     $_SESSION['txt'] = $txt;
 
-
     // load parameters from DB
     include_once "load_parameters.php";
 
     // load color and theme
     include_once "load_colors.php";
-
 
     // load euro -------------------------------------------------------------------------------------------------------
     $sqleuro = "SELECT DATE_FORMAT(Datum_Euro,'%Y') as year, Geg_Euro as euro_val
@@ -166,6 +160,4 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     // -----------------------------------------------------------------------------------------------------------------
     $_SESSION['lastupdate'] = time();
 }
-
-
 ?>

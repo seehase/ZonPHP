@@ -7,7 +7,7 @@ include "par_header.php";
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST['pass'] == $spassword)
+    if ($_POST['pass'] == $admin_password)
         $_SESSION['passok'] = "passinorder";
 }
 
@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
+            <br/>
             <h1 class="notopgap" align="center"><?php echo $txt["bestezonphp"]; ?>,</h1>
 
             <center>
@@ -50,19 +51,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             &nbsp;&nbsp;&nbsp;-<?php echo $txt["welkomIndex"]; ?>.
             <br /><br />
             <hr>
-            <b><?php echo $txt["welkominlog"]; ?>.</b><br /><br />
-            <FORM METHOD="post" ACTION="">
-                <input type='password' name='pass' value='' SIZE='20'>
-                <input name="savecontrole" type="submit" value="<?php echo $txt["save"]; ?>">
-            </form>
+            <b>
+            <?php
+                echo $txt["welkominlog"];
+                if ($admin_password == "") {
+                    echo " <br /><br />" . $txt["noadminpassword"];
+                } else {
+                    echo '
+                    </b><br /><br />
+                    <FORM METHOD="post" ACTION="">
+                        <input type="password" name="pass" value="" SIZE="20">
+                        <input name="savecontrole" type="submit" value="' . $txt["save"].'>">
+                    </form>
+                    ';
+                }
+            ?>
+
             <br />
             <?php
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                if ($_POST['pass'] == $spassword)
+                if ($_POST['pass'] == $admin_password)
                     echo "<br /><br /><b>" . $txt["welkominl"] . ".</b><br />";
                 else
                     echo "<br /><br /><b>" . $txt["welkomverk"] . ".</b><br />";
+                    // unset($_SESSION['passok']);
             } ?>
+            <br/>
         </div>
     </div>
 </div>
