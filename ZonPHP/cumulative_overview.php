@@ -14,7 +14,7 @@ location.reload();
 ?>
 <?php include "menu.php"; ?>
 <div id="page-content">
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 66px; ">
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2 align="center">
                 <form action = "<?php $_SERVER['PHP_SELF']; ?>" method = "POST">
