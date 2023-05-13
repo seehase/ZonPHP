@@ -1,5 +1,4 @@
 <?php
-
 include_once "../Parameters.php";
 include_once "../inc/sessionstart.php";
 
@@ -21,7 +20,6 @@ if (mysqli_num_rows($result) != 0) {
 include_once "par_header.php";
 
 ?>
-
 <div id="menus">
     <?php include "par_menu.php"; ?>
 </div>
@@ -151,17 +149,13 @@ include_once "par_header.php";
                        size='5' <?php if (isset($_POST['lang_en'])) echo "checked"; ?> >EN <img
                     src="../inc/image/blank.gif" class="flag flag-gb" alt=""/>
                 <br/>
-
                 <hr>
                 <?php echo $txt["autorefresh"]; ?> <br/>
                 <input type='text' name='autorefresh'
                        value='<?php if (!empty($_POST['autorefresh'])) echo $_POST['autorefresh']; else echo "300" ?>'
                        size='63'>
                 <br/>
-
-
                 <hr>
-
                 <?php echo $txt["keuzenaam"]; ?> (,) bv: SLAPER,SIRA,FJORD<br/>
                 <input type='text' name='sNaamSaveDatabasest'
                        value='<?php if (!empty($_POST['sNaamSaveDatabasest'])) echo $_POST['sNaamSaveDatabasest']; ?>'
@@ -187,7 +181,6 @@ include_once "par_header.php";
                 $selectedInverter = $_POST['sInvullen_gegevens'];
                 echo $txt["inlezenbestand"];
                 ?>:
-
                 <select NAME="sInvullen_gegevens">
                     <option <?php if ($selectedInverter == "none") echo "selected "; ?> >
                         none
@@ -430,134 +423,5 @@ include_once "par_header.php";
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-
-    function resetcolors() {
-        document.getElementById("color_background").jscolor.fromString("888888");
-        document.getElementById("color_footerbackground").jscolor.fromString("C00000");
-        document.getElementById("color_menubackground").jscolor.fromString("ffffff");
-        document.getElementById("color_menufont").jscolor.fromString("000000");
-        document.getElementById("color_windowfont").jscolor.fromString("ffffff");
-        document.getElementById("color_windowcolor").jscolor.fromString("000000");
-        document.getElementById("image_windowtitle").value = "inc/image/bg_black.png";
-        document.getElementById("color_chartbackground").jscolor.fromString("888888");
-        document.getElementById("color_chartbar1").jscolor.fromString("003399");
-        document.getElementById("color_chartbar2").jscolor.fromString("3366AA");
-        document.getElementById("color_chartbar_piek1").jscolor.fromString("F8F804");
-        document.getElementById("color_chartbar_piek2").jscolor.fromString("FF00FF");
-        document.getElementById("color_chart_average_line").jscolor.fromString("0AF02F");
-        document.getElementById("color_chart_reference_line").jscolor.fromString("FF0055");
-        document.getElementById("color_chart_cum_line").jscolor.fromString("212121");
-        document.getElementById("color_chart_max_line").jscolor.fromString("777777");
-        document.getElementById("color_chart_temp_line").jscolor.fromString("777777");
-        document.getElementById("color_chart_max_bar").jscolor.fromString("777777");
-        document.getElementById("color_chart_expected_bar").jscolor.fromString("C4C4C4");
-        document.getElementById("color_chart_text_title").jscolor.fromString("1677B0");
-        document.getElementById("color_chart_text_subtitle").jscolor.fromString("1C567D");
-        document.getElementById("color_chart_labels_xaxis1").jscolor.fromString("4FA2D6");
-        document.getElementById("color_chart_title_yaxis1").jscolor.fromString("1D2599");
-        document.getElementById("color_chart_title_yaxis2").jscolor.fromString("0E6C7A");
-        document.getElementById("color_chart_title_yaxis3").jscolor.fromString("565699");
-        document.getElementById("color_chart_labels_yaxis1").jscolor.fromString("3D3C4F");
-        document.getElementById("color_chart_labels_yaxis2").jscolor.fromString("C5D6D1");
-        document.getElementById("color_chart_labels_yaxis3").jscolor.fromString("C3D6A9");
-        document.getElementById("color_chart_gridline_yaxis1").jscolor.fromString("D1B3B0");
-        document.getElementById("color_chart_gridline_yaxis2").jscolor.fromString("C8D1B2");
-        document.getElementById("color_chart_gridline_yaxis3").jscolor.fromString("FFEBF2");
-        document.getElementById("color_yearchart0").jscolor.fromString("1F3A93");
-        document.getElementById("color_yearchart1").jscolor.fromString("4B77BE");
-        document.getElementById("color_yearchart2").jscolor.fromString("2574A9");
-        document.getElementById("color_yearchart3").jscolor.fromString("89C4F4");
-        document.getElementById("color_yearchart4").jscolor.fromString("5C97BF");
-        document.getElementById("color_text_link1").jscolor.fromString("ffffff");
-        document.getElementById("color_text_link2").jscolor.fromString("c00000");
-    }
-
-    function theme1() {
-        document.getElementById("color_background").jscolor.fromString("888888");
-        document.getElementById("color_footerbackground").jscolor.fromString("C00000");
-        document.getElementById("color_menubackground").jscolor.fromString("ffffff");
-        document.getElementById("color_menufont").jscolor.fromString("000000");
-        document.getElementById("color_windowfont").jscolor.fromString("ffffff");
-        document.getElementById("color_windowcolor").jscolor.fromString("000000");
-        document.getElementById("image_windowtitle").value = "inc/image/bg_black.png";
-        document.getElementById("color_chartbackground").jscolor.fromString("888888");
-        document.getElementById("color_chartbar1").jscolor.fromString("FF1C33");
-        document.getElementById("color_chartbar2").jscolor.fromString("FFFF0D");
-        document.getElementById("color_chartbar_piek1").jscolor.fromString("55FF33");
-        document.getElementById("color_chartbar_piek2").jscolor.fromString("127029");
-        document.getElementById("color_chart_average_line").jscolor.fromString("0AF02F");
-        document.getElementById("color_chart_reference_line").jscolor.fromString("FF0055");
-        document.getElementById("color_chart_max_line").jscolor.fromString("777777");
-        document.getElementById("color_chart_max_bar").jscolor.fromString("777777");
-        document.getElementById("color_chart_expected_bar").jscolor.fromString("C4C4C4");
-        document.getElementById("color_chart_text_title").jscolor.fromString("1677B0");
-        document.getElementById("color_chart_text_subtitle").jscolor.fromString("1C567D");
-        document.getElementById("color_chart_labels_xaxis1").jscolor.fromString("4FA2D6");
-        document.getElementById("color_chart_title_yaxis1").jscolor.fromString("1D2599");
-        document.getElementById("color_chart_title_yaxis2").jscolor.fromString("0E6C7A");
-        document.getElementById("color_chart_title_yaxis3").jscolor.fromString("565699");
-        document.getElementById("color_chart_labels_yaxis1").jscolor.fromString("3D3C4F");
-        document.getElementById("color_chart_labels_yaxis2").jscolor.fromString("C5D6D1");
-        document.getElementById("color_chart_labels_yaxis3").jscolor.fromString("C3D6A9");
-        document.getElementById("color_chart_gridline_yaxis1").jscolor.fromString("D1B3B0");
-        document.getElementById("color_chart_gridline_yaxis2").jscolor.fromString("C8D1B2");
-        document.getElementById("color_chart_gridline_yaxis3").jscolor.fromString("FFEBF2");
-        document.getElementById("color_yearchart0").jscolor.fromString("FFFF0D");
-        document.getElementById("color_yearchart1").jscolor.fromString("3334AD");
-        document.getElementById("color_yearchart2").jscolor.fromString("FF1C33");
-        document.getElementById("color_yearchart3").jscolor.fromString("55FF33");
-        document.getElementById("color_yearchart4").jscolor.fromString("000000");
-        document.getElementById("color_text_link1").jscolor.fromString("ffffff");
-        document.getElementById("color_text_link2").jscolor.fromString("c00000");
-    }
-
-    function theme2() {
-        document.getElementById("color_background").jscolor.fromString("381C04");
-        document.getElementById("color_footerbackground").jscolor.fromString("E7A75B");
-        document.getElementById("color_menubackground").jscolor.fromString("B8895F");
-        document.getElementById("color_menufont").jscolor.fromString("000000");
-        document.getElementById("color_windowfont").jscolor.fromString("ffffff");
-        document.getElementById("color_windowcolor").jscolor.fromString("FFBF87");
-        document.getElementById("image_windowtitle").value = "inc/image/bg_brown.png";
-        document.getElementById("color_chartbackground").jscolor.fromString("FFDCBC");
-        document.getElementById("color_chartbar1").jscolor.fromString("FF1C33");
-        document.getElementById("color_chartbar2").jscolor.fromString("700000");
-        document.getElementById("color_chartbar_piek1").jscolor.fromString("FFE100");
-        document.getElementById("color_chartbar_piek2").jscolor.fromString("FF7E38");
-        document.getElementById("color_chart_average_line").jscolor.fromString("B88686");
-        document.getElementById("color_chart_reference_line").jscolor.fromString("4B3636");
-        document.getElementById("color_chart_max_line").jscolor.fromString("805E5E");
-        document.getElementById("color_chart_max_bar").jscolor.fromString("B88686");
-        document.getElementById("color_chart_expected_bar").jscolor.fromString("C89191");
-        document.getElementById("color_chart_text_title").jscolor.fromString("1677B0");
-        document.getElementById("color_chart_text_subtitle").jscolor.fromString("1C567D");
-        document.getElementById("color_chart_labels_xaxis1").jscolor.fromString("4FA2D6");
-        document.getElementById("color_chart_title_yaxis1").jscolor.fromString("1D2599");
-        document.getElementById("color_chart_title_yaxis2").jscolor.fromString("0E6C7A");
-        document.getElementById("color_chart_title_yaxis3").jscolor.fromString("565699");
-        document.getElementById("color_chart_labels_yaxis1").jscolor.fromString("3D3C4F");
-        document.getElementById("color_chart_labels_yaxis2").jscolor.fromString("C5D6D1");
-        document.getElementById("color_chart_labels_yaxis3").jscolor.fromString("C3D6A9");
-        document.getElementById("color_chart_gridline_yaxis1").jscolor.fromString("D1B3B0");
-        document.getElementById("color_chart_gridline_yaxis2").jscolor.fromString("C8D1B2");
-        document.getElementById("color_chart_gridline_yaxis3").jscolor.fromString("FFEBF2");
-        document.getElementById("color_yearchart0").jscolor.fromString("FF00D4");
-        document.getElementById("color_yearchart1").jscolor.fromString("000000");
-        document.getElementById("color_yearchart2").jscolor.fromString("620993");
-        document.getElementById("color_yearchart3").jscolor.fromString("480458");
-        document.getElementById("color_yearchart4").jscolor.fromString("9A01BE");
-        document.getElementById("color_text_link1").jscolor.fromString("ffffff");
-        document.getElementById("color_text_link2").jscolor.fromString("c00000");
-    }
-    function theme3() {
-        //  alert("not jet defined")
-    }
-    function theme4() {
-        //  alert("not jet defined")
-    }
-</script>
-
 </body>
 </html>
