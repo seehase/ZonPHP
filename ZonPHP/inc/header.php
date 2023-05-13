@@ -16,7 +16,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
     <meta name="description" content="PV Anlagen Monitoring">
-    <meta name="author" content="slaper">
+    <meta name="author" content="seehase">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="apple-mobile-web-app-capable" content="yes">
 

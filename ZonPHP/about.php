@@ -109,19 +109,17 @@ include_once "inc/header.php";
                     <li><a href="http://www.weewx.com/" target="_blank">http://www.weewx.com/</a></li>
                 </ul>
 
-                <strong>current Version ZonPHP.2017.01.12: </strong> (2017-01-01)
+                <strong>Version ZonPHP.2017.01.12: </strong> (2017-01-01)
                 <ul>
                     <li>Moved code and documentation to github <a href="https://github.com/seehase/ZonPHP"
                                                                   target="_blank">https://github.com/seehase/ZonPHP</a></li>
                 </ul>
 
-                comming next: <br/>
+                <strong>current Version ZonPHP.2023.05.01: </strong> (v2023.05.01)
                 <ul>
-                    <li>weewx Daten besser visualisieren und Graphen für historische Werte</li>
-                    <li>eure Ideen und Anforderungen.... bitte um Feedback</li>
-                    <li>Graphen für mehrere WR im Vergleich</li>
-                    <li>Bessere Konfiguration für mehrere WR</li>
-                    <li>dynamisches laden von Daten Importern</li>
+                    <li>PHP8 compliant</li>
+                    <li>Cleanup code</li>
+                    <li>Multi converter support</li>
                 </ul>
             </div>
             <br/>

@@ -10,21 +10,15 @@ include_once "inc/version_info.php";
  *
  * Hier können Sie Server, Benutzername, Passwort, Datenbank-Namen geben für Ihre Datenbank
  * $spassword wordt gebruikt voor inloggen in de database
- * alsook voor het inloggen voor het voor het instellen van je parameters voor zon PHP
  *
  * $spassword is used for logging into the database
- * and for logging on for setting the parameters for zonPHP
  *
- * $spassword est utilisé pour la connexion à la base de données
- * et pour l'ouverture de session pour définir les paramètres pour zonPHP
+ * $spassword est utilisé pour la connexion à la base de données *
  *
- * $spassword ist für die Anmeldung in der Datenbank verwendet
- * und für die Anmeldung zur Einstellung der Parameter für zonPHP
- *
+ * sample: https://solar.seehausen.org
  *
  * more infos under
- * https://solar.seehausen.org
- * email: solar@seehausen.org
+ * https://github.com/seehase/ZonPHP
  ******************************************************************************/
 
 /*****************************************************************************
@@ -36,29 +30,21 @@ include_once "inc/version_info.php";
  *****************************************************************************/
 
 //fixme: set pw to "" as default in final version,
-$admin_password = " ";
 $admin_username = "admin";
+$admin_password = " ";
 
 /*****************************************************************************/
 /* Database configuration                                                    */
 /*****************************************************************************/
-$sserver = "localhost";                     /*  Database server   --> default: "localhost"   */
-$susername = "root";                        /*  Database user     --> default: "root"        */
-$spassword = "";                            /*  Database password --> default: ""            */
-$sdatabase_name = "solar";                  /*  Database name     --> default: "slaper_be"   */
+$sserver = "localhost";                     /*  Database server   --> default: "localhost"               */
+$susername = "root";                        /*  Database user     --> default: "root"                    */
+$spassword = "";                            /*  Database password --> default: ""                        */
+$sdatabase_name = "solar";                  /*  Database name     --> default: "solar"                   */
 
-$table_prefix = "tgeg";                     /*  table name prefix --> default: "tgeg"        */
+$table_prefix = "tgeg";                     /*  table name prefix --> default: "tgeg"                    */
 
-$default_language = "de";                   /*  preferred language --> values: en, de, fr, nl, at */
+$default_language = "de";                   /*  preferred language --> values: en, de, fr, nl            */
 $use_utf8 = true;                           /*  set this to true if your server is configured using UTF8 */
-
-
-
-/*****************************************************************************/
-/* datalogger configuration          OPTIONAL                                */
-/*****************************************************************************/
-$datalogger_password = "secret";            /*  password used for datalogger                 */
-$datalogger_offset = "-1";                  /*  time offset in hours e.g.  +1  or -2         */
 
 /*****************************************************************************/
 /* weatherstation weewx configuration          OPTIONAL                      */
