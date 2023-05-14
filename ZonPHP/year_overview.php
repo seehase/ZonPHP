@@ -8,7 +8,6 @@ include_once "inc/import_data.php";
 include_once "inc/header.php";
 include_once "charts/year_chart.php";
 
-
 $nextyearvisible = false;
 $nextyear = strtotime("+1 year", $chartdate);
 $nextyearstring = date("Y-01-01", strtotime("+1 year", $chartdate));
@@ -77,7 +76,7 @@ if (strpos($paramstr_choose, "?") == 0) {
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
             <a href="<?php echo "year_overview.php" . $paramstr_day . "jaar=" . $chartyeardatestring ?>" target="_self">
-                <button class="btn btn-primary"><?php echo $txt['back_to_today'] ?></button>
+                <button class="btn btn-primary"><?php echo $txt["back_to_today"] ?></button>
             </a>
         </div>
         <div id="year_chart_<?php echo $inverter_id ?>" style=":width100%; height:100%;"></div>
@@ -103,6 +102,5 @@ if (strpos($paramstr_choose, "?") == 0) {
 </div><!-- closing ".container" -->
 
 <?php include_once "inc/footer.php"; ?>
-
 </body>
 </html>
