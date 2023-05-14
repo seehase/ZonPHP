@@ -12,9 +12,12 @@ and refactored the PHP code and support PHP8.
 
 If you have any feedback or questions, please contact me at https://github.com/seehase/ZonPHP/issues
 
+### Day-View
 ![img|320x271](resources%2Fday_view.png)
+
+### All years per month view
 ![all_years.png](resources%2Fall_years.png)
 
-### download
+## download
 * last stable version [download](https://github.com/seehase/ZonPHP/archive/master.zip)
 * current development version: [download](https://github.com/seehase/ZonPHP/archive/development.zip)
