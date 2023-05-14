@@ -43,9 +43,9 @@ if (intval($param['flyout']) > 0) {
                                                                                       onclick="" title="Back">
                         &#9658;</label></li>
 
-                <li><a href="day_overview.php"><?php echo $txt['chart_dayoverview']; ?></a></li>
-                <li><a href="month_overview.php"><?php echo $txt['chart_monthoverview']; ?></a></li>
-                <li><a href="year_overview.php"><?php echo $txt['chart_yearoverview']; ?></a></li>
+                <li><a href="day_overview.php"><?php echo $txt["chart_dayoverview"]; ?></a></li>
+                <li><a href="month_overview.php"><?php echo $txt["chart_monthoverview"]; ?></a></li>
+                <li><a href="year_overview.php"><?php echo $txt["chart_yearoverview"]; ?></a></li>
                 <li><a href="all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
                 <li><a href="last_years_overview.php"><?php echo $txt["chart_lastyearoverview"]; ?></a></li>
                 <li><a href="top31_overview.php?Max_Min=Top"><?php echo $txt["chart_31days"]; ?></a></li>
