@@ -4,6 +4,7 @@ $txt["aantalsoortpaneel"] = "Number type + panel";
 $txt["autorefresh"] = "Auto reload of webpage in seconds default = 300 (0=disabled)";
 $txt["available_languages"] = "define languages which the user can choose";
 $txt["back_to_today"] = "goto today";
+$txt["beste"] = "Top";
 $txt["bestezonphp"] = "Dear user zonPHP";
 $txt["chart_31days"] = "31 Days";
 $txt["chart_allyearoverview"] = "All years View";
