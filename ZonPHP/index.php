@@ -13,7 +13,7 @@ include_once "inc/header.php";
 
 $daytext =  $txt["chart_dayoverview"];
 if (isset($use_weewx) && $use_weewx==true){
-    $daytext =  $txt['chart_solar_temp'];
+    $daytext =  $txt["chart_solar_temp"];
 }
 
 ?>
