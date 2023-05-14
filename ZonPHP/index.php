@@ -11,7 +11,7 @@ $aoplopendkwdag[] = 0;
 
 include_once "inc/header.php";
 
-$daytext =  $txt['chart_dayoverview'];
+$daytext =  $txt["chart_dayoverview"];
 if (isset($use_weewx) && $use_weewx==true){
     $daytext =  $txt['chart_solar_temp'];
 }
