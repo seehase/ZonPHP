@@ -16,7 +16,7 @@ include_once "charts/top31_chart.php";
 $myLabel = "Top ";
 
 $currentview = "top";
-$myLabel = " " . $txt['beste'] . "  " . $txt["chart_31days"] . " ";
+$myLabel = " " . $txt["beste"] . "  " . $txt["chart_31days"] . " ";
 ?>
 <?php include "menu.php"; ?>
 <?php
