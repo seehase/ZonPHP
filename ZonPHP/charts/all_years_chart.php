@@ -220,13 +220,13 @@ include_once "chart_styles.php";
         var txt = '<?php echo $txt["totaal"] ?>';
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var nmbr =  khhWp.length //misused to get the inverter count
-        var txt_max = '<?php echo $txt['max'] ?>';
-        var txt_ref = '<?php echo $txt['ref'] ?>';
+        var txt_max = '<?php echo $txt["max"] ?>';
+        var txt_ref = '<?php echo $txt["ref"] ?>';
         var avrg = <?php echo round($average_per_month, 0); ?>;
         var ref = <?php echo round($frefjaar, 0); ?>;
         var years = <?php echo $yearcount ?>;
         var myoptions = <?php echo $chart_options ?>;
-		var txt_gem = '<?php echo $txt['gem'] ?>';
+		var txt_gem = '<?php echo $txt["gem"] ?>';
         var avg = <?php echo json_encode ($avg_data, JSON_NUMERIC_CHECK) ?>;
         var ref = <?php echo json_encode ($ref_data, JSON_NUMERIC_CHECK) ?>;
         var mychart = new Highcharts.Chart('total_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
