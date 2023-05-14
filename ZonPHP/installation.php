@@ -29,7 +29,7 @@ if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
             </div>
             <div id="foto" style="float:none;">
                 <p>
-                    <img src="<?php echo $param['image1'] ?>" alt="<?php echo $txt["magemissing"] ?>"
+                    <img src="<?php echo $param['image1'] ?>" alt="<?php echo $txt["imagemissing"] ?>"
                          style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px;">
                 </p>
                 <p>
