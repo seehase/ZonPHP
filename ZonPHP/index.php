@@ -6,7 +6,6 @@ include_once "inc/load_cache.php";
 
 include_once "inc/import_data.php";
 
-
 $aoplopendkwdag[] = 0;
 
 include_once "inc/header.php";

@@ -28,7 +28,6 @@
             </ul>
 
             <?php
-            if (isset($con) && $con) {
                 echo " <hr>   <a href='?taal=nl' TARGET='_self'><img src='../inc/image/nl.png' alt='nl' border='0' width='16'
                                                        height='11'></a>
                 <a href='?taal=en' TARGET='_self'><img src='../inc/image/en.png' alt='en' border='0' width='16'
@@ -38,7 +37,6 @@
                 <a href='?taal=de' TARGET='_self'><img src='../inc/image/de.png' alt='de' border='0' width='16'
                                                        height='11'></a> 
 			  ";
-            }
             ?>
             <hr>
             <?php echo $version ?>

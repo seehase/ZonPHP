@@ -69,9 +69,10 @@ for ($i = 1; $i <= 12; $i++) {
     <?php include "par_menu.php"; ?>
 </div>
 <div id="container">
-    <div id="bodytext">
+    <div id="bodytextparm">
         <div class="inside">
-
+            <h2 class="notopgap" align="center"><?php echo $txt["reference"]; ?></h2>
+            <hr>
             <?php echo $txt["refwaarden"]; ?>
             <a href="https://re.jrc.ec.europa.eu/pvg_tools/en/#api_5.1" TARGET="_blank"><?php echo $txt["klik"]; ?>
                 .</a><br/><br/>

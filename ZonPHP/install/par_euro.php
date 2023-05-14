@@ -45,8 +45,10 @@ foreach ($arefer as $ijaar => $feuro) {
     <?php include "par_menu.php"; ?>
 </div>
 <div id="container">
-    <div id="bodytext">
+    <div id="bodytextparm">
         <div class="inside">
+            <h2 class="notopgap" align="center"><?php echo $txt["pareuro"]; ?></h2>
+            <hr>
             <?php
             echo $txt["euro"] . " &euro;.<br /><br />";
             //if(isset($_GET['save'])){

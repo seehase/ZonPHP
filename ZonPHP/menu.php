@@ -16,8 +16,6 @@
             });
     });
 
-
-
 </script>
 
 <?php
@@ -48,7 +46,7 @@ if (intval($param['flyout']) > 0) {
                 <li><a href="year_overview.php"><?php echo $txt["chart_yearoverview"]; ?></a></li>
                 <li><a href="all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
                 <li><a href="last_years_overview.php"><?php echo $txt["chart_lastyearoverview"]; ?></a></li>
-                <li><a href="top31_overview.php?Max_Min=Top"><?php echo $txt["chart_31days"]; ?></a></li>
+                <li><a href="top31.php?Max_Min=Top"><?php echo $txt["chart_31days"]; ?></a></li>
             </ul>
         </li>
 

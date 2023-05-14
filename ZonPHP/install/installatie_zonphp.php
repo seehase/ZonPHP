@@ -17,16 +17,6 @@ include_once "par_header.php";
 
         <div class="inside">
             <h2 class="notopgap" align="center"><?php echo $txt["installscript"]; ?></h2>
-            <center>
-                Uw Taal:<a href='?taal=nl' TARGET='_self'><img src="../inc/image/nl.png" alt="nl" border="0" width="16"
-                                                               height="11"></a>&nbsp;&nbsp;
-                Your language:<a href='?taal=en' TARGET='_self'><img src="../inc/image/en.png" alt="en" border="0"
-                                                                     width="16" height="11"></a>&nbsp;&nbsp;
-                Votre langue:<a href='?taal=fr' TARGET='_self'><img src="../inc/image/fr.png" alt="fr" border="0"
-                                                                    width="16" height="11"></a>&nbsp;&nbsp;
-                Ihre Sprache:<a href='?taal=de' TARGET='_self'><img src="../inc/image/de.png" alt="de" border="0"
-                                                                    width="16" height="11"></a>
-            </center>
             <hr>
             <?php echo $txt["installdattab"]; ?><br />
             <br />

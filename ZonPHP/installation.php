@@ -24,17 +24,17 @@ if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
                 Wechselrichter: ' . $param['sOmvormer'] . '<br />
                 Inbetriebnahme: ' . date("Y-m-d", strtotime($dstartdatum)) . '<br />
                 Ausrichtung: ' . $param['sOrientatie'] . '<br />
-                Data Logger: ' . $param['sData_Captatie'] . '<br /> ';
+                Data Logger: ' . $param['sData_Captatie'] . '<br /> <br />';
                 ?>
             </div>
             <div id="foto" style="float:none;">
                 <p>
                     <img src="<?php echo $param['image1'] ?>" alt="<?php echo $txt["imagemissing"] ?>"
-                         style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px;">
+                         style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px; width: 600px">
                 </p>
                 <p>
                     <img src="<?php echo $param['image2'] ?>" alt="<?php echo $txt["imagemissing"] ?>"
-                         style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px;">
+                         style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px;  width: 600px">
                 </p>
             </div>
 

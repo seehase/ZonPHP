@@ -41,8 +41,8 @@ if (isset($_GET['naam'])) {
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><u><?php echo $txt["parupdate"];?></u></h2>
-
+            <h2 class="notopgap" align="center"><?php echo $txt["parupdate"];?></h2>
+            <hr>
   <div id="bodytextloschen">	
 	<form action="actionupdate.php" method="get">
 
@@ -63,7 +63,7 @@ if (isset($_GET['naam'])) {
             
             <br/>
             <br/>
-                <label><?php echo $txt["parupdatedag"]; ?> </label>
+                <label><?php echo $txt["datum"]; ?> </label>
                 <select name="year">
                     <option SELECTED><?php if (!empty($_POST['year'])) echo $_POST['year']; ?>
                         <?php

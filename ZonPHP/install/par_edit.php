@@ -26,7 +26,7 @@ include_once "par_header.php";
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><u>Parameters</u></h2>
+            <h2 class="notopgap" align="center">Parameters</h2>
             <?php
 
             $vlag = 0;

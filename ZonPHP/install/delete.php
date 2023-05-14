@@ -41,8 +41,8 @@ if (isset($_GET['naam'])) {
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><u><?php echo $txt["pardelete"];?></u></h2>
-
+            <h2 class="notopgap" align="center"><?php echo $txt["pardelete"];?></h2>
+            <hr>
   <div id="bodytextdelete">	
 	<form action="actiondelete.php" method="get">
 
