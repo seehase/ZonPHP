@@ -75,7 +75,7 @@ $formatter->setPattern("d LLL yyyy");
         <div class="backtoday" style="float:none; position: absolute;  top: 10px;  left: 15px;">
             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
                 <button class="btn btn-primary" type="submit" id="txt" name="dag"
-                        value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt['back_to_today'] ?></button>
+                        value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt["back_to_today"] ?></button>
             </form>
         </div>
         <div id="mycontainer_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
