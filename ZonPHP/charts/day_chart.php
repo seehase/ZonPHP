@@ -133,7 +133,7 @@ foreach ($maxdays as $inverter => $maxday) {
     $maxkwh[] = $maxval;
 
     $nice_max_date = date("Y-m-d", strtotime($maxday));
-    $maxlinks .= '\'<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . $txt['max'] . " " .  $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>\',';
+    $maxlinks .= '\'<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . $txt["max"] . " " .  $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>\',';
 }
 $maxlinks .= ']';
 
@@ -316,10 +316,10 @@ if (strlen($temp_serie) > 0) {
          
         var temp_max = <?php echo $val_max ?>;
         var temp_min = <?php echo $val_min ?>;
-        var txt_actueel = '<?php echo $txt['actueel'] ?>';
-        var txt_totaal = '<?php echo $txt['totaal'] ?>';
-        var txt_max = '<?php echo $txt['max'] ?>';
-        var txt_peak = '<?php echo $txt['peak'] ?>';
+        var txt_actueel = '<?php echo $txt["actueel"] ?>';
+        var txt_totaal = '<?php echo $txt["totaal"] ?>';
+        var txt_max = '<?php echo $txt["max"] ?>';
+        var txt_peak = '<?php echo $txt["peak"] ?>';
         
         Highcharts.setOptions({<?php echo $chart_lang ?>});
         var mychart = new Highcharts.Chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
