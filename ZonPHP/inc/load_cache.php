@@ -13,15 +13,18 @@ if (isset($_GET['theme'])) {
     include_once "load_colors.php";
 }
 
+// check if tables exists
+$tablename = $table_prefix . "_parameters";
+$result = mysqli_query($con, "SHOW TABLES LIKE '" . $tablename . "'");
+if ($result->num_rows != 1) {
+    die(header('location:install/opstart_installatie.php?fout=table'));
+}
 
 $github_version = "unknown";
 $new_version_label = "";
 
 // fixme
 $total_sum_for_all_years = 0;
-$editLayout = false;
-if (isset($_SESSION['editLayout'])) $editLayout = $_SESSION['editLayout'];
-
 
 if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout) > (time())) {
     // cache still valid --> do not reload cache
@@ -31,7 +34,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     $txt = $_SESSION['txt'];
     $year_euro = $_SESSION['year_euro'];
     $price_per_kwh = $year_euro[date("Y")];
-  
+
     if (!isset($_SESSION['param'])) {
         include_once "load_parameters.php";
     } else {
@@ -58,7 +61,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     $date_minimum = $_SESSION['date_minimum'];
     $date_maximum = $_SESSION['date_maximum'];
 
-    if (isset($_SESSION['github_version']))  $github_version = $_SESSION['github_version'];
+    if (isset($_SESSION['github_version'])) $github_version = $_SESSION['github_version'];
     if (isset($_SESSION['new_version_label'])) $new_version_label = $_SESSION['new_version_label'];
 
     // error_log("cache is valid  " . ($_SESSION['lastupdate'] + $cache_timeout) . " - " . time());
@@ -110,16 +113,17 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     $_SESSION['date_maximum'] = $date_maximum;
     $values_found = true;
     while ($row = mysqli_fetch_array($resultminmax)) {
-        if ($row['mini'] == null){
+        if ($row['mini'] == null) {
             $values_found = false;
+        } else {
+            $date_minimum = strtotime($row['mini']);
+            $date_maximum = strtotime($row['maxi']);
+            $_SESSION['date_minimum'] = $date_minimum;
+            $_SESSION['date_maximum'] = $date_maximum;
         }
-        $date_minimum = strtotime($row['mini']);
-        $date_maximum = strtotime($row['maxi']);
-        $_SESSION['date_minimum'] = $date_minimum;
-        $_SESSION['date_maximum'] = $date_maximum;
     }
     // fallback if only data in maand table
-    if (!$values_found){
+    if (!$values_found) {
         $sqlminmax = "SELECT   
                     DATE_FORMAT(MAX(Datum_maand), '%Y-%m-%d') AS maxi,
                     DATE_FORMAT(MIN(Datum_maand), '%Y-%m-%d') AS mini
@@ -127,27 +131,28 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
                WHERE Naam='" . $_SESSION['Wie'] . "'";
         $resultminmax = mysqli_query($con, $sqlminmax) or die("Query failed. maand-minmax " . mysqli_error($con));
         while ($row = mysqli_fetch_array($resultminmax)) {
-            $date_minimum = strtotime($row['mini']);
-            $date_maximum = strtotime($row['maxi']);
-            $_SESSION['date_minimum'] = $date_minimum;
-            $_SESSION['date_maximum'] = $date_maximum;
+            if ($row['mini'] != null) {
+                $date_minimum = strtotime($row['mini']);
+                $date_maximum = strtotime($row['maxi']);
+                $_SESSION['date_minimum'] = $date_minimum;
+                $_SESSION['date_maximum'] = $date_maximum;
+            }
         }
     }
 
     // get latest Version from github
     $github_version = "unkown";
     $homepage = "";
-    if (strpos($version, "(dev)") > 0)    {
+    if (strpos($version, "(dev)") > 0) {
         $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/development/ZonPHP/inc/version_info.php');
-    }
-    else    {
+    } else {
         $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/master/ZonPHP/inc/version_info.php');
     }
     $pos_start = strpos($homepage, '"v');
     $pos_end = strpos($homepage, '";', $pos_start + 2);
 
     if ($pos_start > 0) {
-        $github_version = substr($homepage, $pos_start+1, $pos_end-$pos_start-1 );
+        $github_version = substr($homepage, $pos_start + 1, $pos_end - $pos_start - 1);
     }
     $_SESSION['github_version'] = $github_version;
 

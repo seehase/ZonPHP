@@ -39,7 +39,7 @@ $admin_password = " ";
 $sserver = "localhost";                     /*  Database server   --> default: "localhost"               */
 $susername = "root";                        /*  Database user     --> default: "root"                    */
 $spassword = "";                            /*  Database password --> default: ""                        */
-$sdatabase_name = "TEST";                  /*  Database name     --> default: "solar"                   */
+$sdatabase_name = "xxx";                  /*  Database name     --> default: "solar"                   */
 
 $table_prefix = "tgeg";                     /*  table name prefix --> default: "tgeg"                    */
 

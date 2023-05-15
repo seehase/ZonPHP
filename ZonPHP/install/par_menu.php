@@ -9,7 +9,7 @@
                 if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder") {
                     echo '
                     
-                    <li><a href="installatie_zonphp.php">&raquo;&nbsp;' . $txt["insteltabel"] . '</a></li>
+                    <li><a href="./installatie_zonphp.php">&raquo;&nbsp;' . $txt["insteltabel"] . '</a></li>
                     <li><a href="clear_tables.php">&raquo;&nbsp;' . $txt["deletevalues"] . '</a></li>
 					<li><a href="par_edit.php">&raquo;&nbsp;' . $txt["parameters"] . '</a></li>
 					<li><a href="par_referencevalues.php">&raquo;&nbsp;' . $txt["parref"] . '</a></li>
@@ -28,6 +28,7 @@
             </ul>
 
             <?php
+            if (isset($con) && $con) {
                 echo " <hr>   <a href='?taal=nl' TARGET='_self'><img src='../inc/image/nl.png' alt='nl' border='0' width='16'
                                                        height='11'></a>
                 <a href='?taal=en' TARGET='_self'><img src='../inc/image/en.png' alt='en' border='0' width='16'
@@ -37,6 +38,7 @@
                 <a href='?taal=de' TARGET='_self'><img src='../inc/image/de.png' alt='de' border='0' width='16'
                                                        height='11'></a> 
 			  ";
+            }
             ?>
             <hr>
             <?php echo $version ?>

@@ -37,7 +37,7 @@ $txt["foutconnect"] = 'Es ist ein Fehler bei der Verbindung mit dem MySQL-Server
 $txt["foutdatabase"] = 'Es ist ein Fehler beim Lesen der Datenbank aufgetreten.<br />Blijkbaar is die niet aanwezig.<br /><br />Je kan deze aanmaken in phpMyAdmin (bv <a href="https://dbadmin.one.com/" TARGET="_blank">dbadmin bij one.com</a>)';
 $txt["foutparameter"] = 'Parameter nicht vorhanden<br />Verbindung zur Datenbank OK<br /><br />Bitte einloggen und Parameter bearbeiten : <a href="par_edit.php" TARGET="_self">click hier.</a>';
 $txt["foutref"] = 'Sie haben Ihre Referenzwerte noch nicht eingegeben.<br /><a href="install/par_referencevalues.php" TARGET="_self">Klicken Sie hier</a>, um sie einzugeben.';
-$txt["fouttable"] = 'Datenbank Tabellen nicht vorhanden<br />Connect zur Datenbank erfolgreich<br /><br />bitte mit SQL Passwort einloggen und Tabellen neu erstellen : <a href="installatie_zonphp.php" TARGET="_self">klicken sie hier.</a>';
+$txt["fouttable"] = 'Datenbank Tabellen nicht vorhanden<br />Connect zur Datenbank erfolgreich<br /><br />bitte mit SQL Passwort einloggen und Tabellen neu erstellen : <a href="./par_welcome.php" TARGET="_self">klicken sie hier.</a>';
 $txt["gegevensinstallatie"] = "Die Daten aus Ihrem System";
 $txt["gem"] = "Durchschnitt";
 $txt["google_tracking"] = "Gib dein Google Tracking ID an, wenn du Google Analytics nutzen willst";
@@ -122,6 +122,7 @@ $txt["tabelverkeerd1"] = " existiert nicht. Erstellen Sie das Men&uuml; in der l
 $txt["terugnaarvandaag"] = "Zur&uuml;ck zu Heute";
 $txt["totaal"] = "Gesamt";
 $txt["totaaloverzicht"] = "Gesamt &Uuml;bersicht";
+$txt["undefined"] = "Fehlermeldung nicht gefunden";
 $txt["uwmailadres"] = "Ihre E-Mail-Adresse";
 $txt["verkeerd"] = "Fehlerhafte Daten";
 $txt["volfout"] = "Folgende Fehlermeldung";

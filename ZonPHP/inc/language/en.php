@@ -126,6 +126,7 @@ $txt["tabelverkeerd1"] = " does not exist. Create the menu in the left table";
 $txt["terugnaarvandaag"] = "Back to Today";
 $txt["totaal"] = "Total";
 $txt["totaaloverzicht"] = "Overview";
+$txt["undefined"] = "Undefined error message";
 $txt["uwmailadres"] = "Your e-mail address";
 $txt["verkeerd"] = "bad data";
 $txt["volfout"] = "Following error";

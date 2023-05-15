@@ -1,7 +1,7 @@
 var grid = [];
 document.addEventListener('DOMContentLoaded', function () {
     grid = new Muuri('.grid', {
-        dragEnabled: useDragDrop,
+        dragEnabled: false,
         layout: {
             fillGaps: true
         }
