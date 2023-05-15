@@ -193,7 +193,7 @@ foreach ($inveter_list as $inverter_name) {
     } else if ($inverter_id == $inverter_name) {
         $series_isVisible = "true";
     };
-    $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $col1], [1, $col2]] },                        
+    $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 1, y2: 0}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
     foreach ($all_valarray as $time => $valarray) {
 
