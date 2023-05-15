@@ -60,8 +60,8 @@
 }
 
 .highcharts-container {
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
 }
 
 .sbutton {
@@ -225,8 +225,8 @@ a {
 
 .index_chart {
     width: 435px;
-    height: 380px;
-    margin-top: 1px;
+    height: 382px;
+    margin-top: 0px;
     float: left;
 }
 
