@@ -161,7 +161,7 @@ foreach ($inveter_list as $inverter_name) {
                       y: $val, 
                       url: \"$href$ijaar-01-01\",
                       color: {
-                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                        linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
                         stops: [
                             [0, $myColor1],
                             [1, $myColor2]
