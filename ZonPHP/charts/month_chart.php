@@ -170,7 +170,7 @@ foreach ($sNaamSaveDatabase as $inverter_name) {
     $strdata = substr($strdata, 0, -1);
     $strdataseries .= " {
                     name: '". $inverter_name. "',
-                    color: { linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1}, stops: [ [0, $myColor1], [1, $myColor2]] },
+                    color: { linearGradient: {x1: 0, x2: 0, y1: 1, y2: 0}, stops: [ [0, $myColor1], [1, $myColor2]] },
                     type: 'column',
                     stacking: 'normal',
                     data: [".$strdata."]
