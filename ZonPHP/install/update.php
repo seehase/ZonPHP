@@ -92,7 +92,7 @@ if (isset($_GET['naam'])) {
             
 
 
- <p><?php echo $txt["parupdatetimee"];?><input type="text" name="time" /></p>
+ <p><?php echo $txt["parupdatetime"];?><input type="text" name="time" /></p>
  <p><?php echo $txt["parupdatetimeinfo"]?></p>
  
  <p><?php echo $txt["parupdatevalue"]?><input type="text" name="value" /></p>
