@@ -113,10 +113,10 @@ if (intval($param['flyout']) === 2) {
         
         
         <span style="margin-left: 330px;">&nbsp;</span>
-        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'/></a>"; ?>
-        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
-        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-fr' alt='française' title='française'/></a>" ?>
-        <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'/></a>" ?>
+        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='inc/image/nl.svg' border='0' width='16' height='12' alt='Nederlands' title='Nederlands'/></a>"; ?>
+        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='inc/image/en.svg' border='0' width='16' height='12' alt='english' title='english'/></a>" ?>
+        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='inc/image/fr.svg' border='0' width='16' height='12' alt='française' title='français'/></a>" ?>
+        <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='inc/image/de.svg' border='0' width='16' height='12' alt='deutsch' title='deutsch'/></a>" ?>
 
         <?php
 
