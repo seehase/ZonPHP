@@ -337,21 +337,14 @@ include_once "par_header.php";
                 <hr>
                 <?php echo $txt["flyout_menu"]; ?>?
                 <br>
-                <input type="radio" name="flyout" value="0" <?php if (isset($_POST['flyout'])) {
-                    if ($_POST['flyout'] == 0) echo "checked";
-                } ?>> <?php echo $txt["flyout0"] ?>
-                <input type="radio" name="flyout" value="1" <?php if (isset($_POST['flyout'])) {
-                    if ($_POST['flyout'] == 1) echo "checked";
-                } else echo "checked"; ?>><?php echo $txt["flyout1"] ?>
-                <input type="radio" name="flyout" value="2" <?php if (isset($_POST['flyout'])) {
-                    if ($_POST['flyout'] == 2) echo "checked";
-                } else echo "checked"; ?>><?php echo $txt["flyout2"] ?>
-                <br>
                 <?php echo $txt["show_footer"]; ?>?
                 <input type='checkbox' name='show_footer'
                        size='5' <?php if (isset($_POST['show_footer'])) echo "checked"; ?> >
+                <?php echo $txt["show_menu"]; ?>?
+                <input type='checkbox' name='show_menu'
+                       size='5' <?php if (isset($_POST['show_menu'])) echo "checked"; ?> >
                 <br/>
-
+                <hr>
                 <?php echo $txt["chart_date_format"]; ?>:
                 <input type='text' name='chart_date_format'
                        value='<?php if (!empty($_POST['chart_date_format'])) echo $_POST['chart_date_format'];  ?>'
