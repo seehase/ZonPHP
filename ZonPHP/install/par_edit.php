@@ -135,19 +135,19 @@ include_once "par_header.php";
                 <?php echo $txt["available_languages"]; ?>?<br>
                 <input type='checkbox' name='lang_de'
                        size='5' <?php if (isset($_POST['lang_de'])) echo "checked"; ?> >DE <img
-                    src="../inc/image/blank.gif" class="flag flag-de" alt=""/>
+                    src="../inc/image/de.svg" border='0' width='16' height='12' alt="de"/>
                 <br/>
                 <input type='checkbox' name='lang_nl'
                        size='5' <?php if (isset($_POST['lang_nl'])) echo "checked"; ?> >NL <img
-                    src="../inc/image/blank.gif" class="flag flag-nl" alt=""/>
+                    src="../inc/image/nl.svg" border='0' width='16' height='12' alt="nl"/>
                 <br/>
                 <input type='checkbox' name='lang_fr'
                        size='5' <?php if (isset($_POST['lang_fr'])) echo "checked"; ?> >FR <img
-                    src="../inc/image/blank.gif" class="flag flag-fr" alt=""/>
+                    src="../inc/image/fr.svg" border='0' width='16' height='12' alt="fr"/>
                 <br/>
                 <input type='checkbox' name='lang_en'
                        size='5' <?php if (isset($_POST['lang_en'])) echo "checked"; ?> >EN <img
-                    src="../inc/image/blank.gif" class="flag flag-gb" alt=""/>
+                    src="../inc/image/en.svg" border='0' width='16' height='12' alt="en"/>
                 <br/>
                 <hr>
                 <?php echo $txt["autorefresh"]; ?> <br/>
