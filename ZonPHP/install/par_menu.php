@@ -4,7 +4,7 @@
         <div class="inside">
             <ul id="nav">
                 <br/>
-                <li><a href="../index.php">&raquo;&nbsp;Index</a></li>
+                <li><a href="../">&raquo;&nbsp;Index</a></li>
                 <?php
                 if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder") {
                     echo '
