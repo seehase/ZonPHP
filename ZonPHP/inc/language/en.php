@@ -13,7 +13,7 @@ $txt["chart_date_format"] = "Dateformat in charts; sample: %Y-%m-%d %H:%M or emp
 $txt["chart_dayoverview"] = "Day overview";
 $txt["chart_lastyearoverview"] = "All years by month";
 $txt["chart_monthoverview"] = "Overview Month";
-$txt["chart_solar_temp"];
+$txt["chart_solar_temp"] = "Solar temperature";
 $txt["chart_weewx"] = "chart weewx";
 $txt["chart_yearoverview"] = "Annual Summary";
 $txt["choose"] = "choose";
