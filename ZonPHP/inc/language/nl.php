@@ -25,7 +25,7 @@ $txt["CustomFields"] = "custom fields";
 $txt["dag"] = "dag";
 $txt["datacaptatie"] = "Soort data captatie";
 $txt["datum"] = "Datum";
-$txt["deletevalues"] : "Wis solar gegevens";
+$txt["deletevalues"] = "Wis solar gegevens";
 $txt["EMU_Offset"] = "EMU_Offset";
 $txt["euro"] = "Op deze pagina kan u de opbrengsten ingeven in Euro";
 $txt["firmanaam"] = "Firmanaam installateur";
