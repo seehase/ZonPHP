@@ -72,7 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <hr>
             <b>
                 <?php
-                echo $txt["welkominlog"];
+                if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder")
+                    echo "";
+                else
+                    echo $txt["welkominlog"];
+		    
                 if ($admin_password == "" || $admin_username == "") {
                     echo " <br /><br />" . $txt["noadminpassword"];
                 } else {
