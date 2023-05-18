@@ -24,6 +24,7 @@ ON db1.Datum_Maand = db2.Datum_Maand order by mysum desc';
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
     $datum = "Geen data";
+    $adatum = array();
 } else {
     while ($row = mysqli_fetch_array($result)) {
         $inverter_name = $row['Naam'];
@@ -64,8 +65,12 @@ foreach ($sNaamSaveDatabase as $key =>$inverter_name) {
 	$myMetadata[] = "{name: '$inverter_name', color: {linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 }, stops: [[0, $myColor1], [1, $myColor2]]}, stacking: 'normal', keys: ['name', 'y'], data: data[$key]}";	 
 	
 	for ($i = 0; $i <= 30; $i++) {
-        $var = round($all_valarray[$adatum[$i]][$inverter_name], 2);
-        $data .= '[\''. $adatum[$i] .'\', ' . $var .'],';
+        $var = 0.0;
+        $data = "";
+        if(isset($adatum[$i]) ) {
+            $var = round($all_valarray[$adatum[$i]][$inverter_name], 2);
+            $data .= '[\''. $adatum[$i] .'\', ' . $var .'],';
+        }
     }
 	$maxval_yaxis += $local_max;
 	$data = substr($data, 0, -1);

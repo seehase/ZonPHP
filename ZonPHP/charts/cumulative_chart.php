@@ -36,8 +36,15 @@ $names = array_values(array_unique($names));
 $years = array_values(array_unique($years));
 $strip = array_pop($years);//haalt laatste 'ROLLUP' record uit $years
 $stripped = array_pop($values);//haalt laatste 'ROLLUP' record uit $values
-$Grand_total = Round($stripped['Total'],0);//Total yield
-$All_Days = $stripped['Days'];
+$Grand_total = 0.0;
+if (isset($stripped['Total'])) {
+    $Grand_total = Round($stripped['Total'],0);//Total yield
+}
+$All_Days = 1;
+if (isset($stripped['Days'])) {
+    $All_Days = $stripped['Days'];
+}
+
 $All_Avg = Round($Grand_total/($All_Days/365),0);
 
 $subtitle = '"<b>Total yield all inverters:</b> '.$Grand_total.' kWh <br><b>Average yield per year:</b> '. $All_Avg .'   kWh"'   ;
@@ -48,14 +55,26 @@ $peryear = array();
 $strdataseries = "";
 $add = (!isset($_POST['add']) ? 0 : $_POST['add']);
 //when 'ALL' isn't last key in $names adjust $maxkey to correct number
-//this happens when historical startdates are not the same 
-$maxkey=max(array_keys($names));
+//this happens when historical startdates are not the same
+$maxkey = 0;
+if (count($names) > 0){
+    $maxkey=max(array_keys($names));
+}
+
 $_SESSION['capnum'] = ((isset($_SESSION['capnum'])) ? $_SESSION['capnum'] : $maxkey);//number reflects all
 if(isset($_POST['add'])){
      $_SESSION['capnum']++;
 }
-if ($_SESSION['capnum']>(count($names)-1)){$_SESSION['capnum']=0;}
-$title=$names[$_SESSION['capnum']];
+if (!isset($_SESSION['capnum'])) {
+    $_SESSION['capnum']=0;
+}
+$title="";
+if ($_SESSION['capnum']>(count($names)-1)){
+    $_SESSION['capnum']=0;
+}
+if(isset($names[$_SESSION['capnum']])) {
+    $title = $names[$_SESSION['capnum']];
+}
 
 
 Foreach($values as $value)

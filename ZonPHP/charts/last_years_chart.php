@@ -172,7 +172,10 @@ $cnt = 0;
 $colorcnt = 0;
 $fsomeuro = 0;
 $bdatum=array();
-$bdatum=$abdatum[$inverter_name];
+if (isset($abdatum[$inverter_name])) {
+    $bdatum=$abdatum[$inverter_name];
+}
+
 
 $dummy .= "{name: '$inverter_name', id: '$inverter_name dummy',type: 'column',  zIndex: -1, stacking: 'normal', color: '" .$colors['color_palettes'][5][$colorzz]. "',data: [";
 

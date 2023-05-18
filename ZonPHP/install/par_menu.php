@@ -7,12 +7,12 @@
                 <li><a href="../">&raquo;&nbsp;Index</a></li>
                 <?php
                 if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder") {
-                    echo '
-                    <li><a href="installatie_zonphp.php">&raquo;&nbsp;' . $txt["insteltabel"] . '</a></li>
-                    <li><a href="clear_tables.php">&raquo;&nbsp;' . $txt["deletevalues"] . '</a></li>
+                    echo '                    
 					<li><a href="par_edit.php">&raquo;&nbsp;' . $txt["parameters"] . '</a></li>
 					<li><a href="par_referencevalues.php">&raquo;&nbsp;' . $txt["parref"] . '</a></li>
 					<li><a href="debug.php">&raquo;&nbsp;Debug</a></li> 
+					<li><a href="installatie_zonphp.php">&raquo;&nbsp;' . $txt["insteltabel"] . '</a></li>
+					<li><a href="clear_tables.php">&raquo;&nbsp;' . $txt["deletevalues"] . '</a></li>
 					<li><a href="delete.php">&raquo;&nbsp;' . $txt["pardelete"] . '</a></li>
 					<li><a href="update.php">&raquo;&nbsp;' . $txt["parupdate"] . '</a></li>
 					<hr>

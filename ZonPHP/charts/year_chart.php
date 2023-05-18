@@ -69,6 +69,9 @@ $resultref = mysqli_query($con, $sqlref) or die("Query failed. jaar-ref " . mysq
 if (mysqli_num_rows($resultref) == 0) {
     $frefmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
     $frefdagmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+    $nfrefmaand = array(0 => array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), 1 => array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1));
+    $nfrefdagmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+    $nfreftot = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 } else {
     $frefmaand = array();
     $frefdagmaand = array();
@@ -235,7 +238,10 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
                         },";
         }
         // refline per bar
-        $z= $nfrefmaand[$i][$inverter_name];
+        $z = 0;
+        if (isset($nfrefmaand[$i][$inverter_name])) {
+            $z= $nfrefmaand[$i][$inverter_name];
+        }
         $reflines .= "$z, $z, $z, null,";
     }
      
