@@ -1,23 +1,19 @@
 <?php
-$show_footer = "display: none;";
-if (isset($param['show_footer']))
-{
-    $show_footer = '';
+$footer_display_style = "clear:both; ";
+if (isset($param['hide_footer'])){
+    $footer_display_style = "display: none;";
 }
 
-if (strpos($version, "(dev)") > 0)
-{
+if (strpos($version, "(dev)") > 0){
     $downloadlink = "https://github.com/seehase/ZonPHP/archive/development.zip";
-}
-else
-{
+} else {
     $downloadlink = "https://github.com/seehase/ZonPHP/archive/master.zip";
 }
 
 
 ?>
 
-<div id="footer" style="background-color: #<?php echo $colors['color_footerbackground'] ."; ". $show_footer ?>;">
+<div id="footer" style="background-color: #<?php echo $colors['color_footerbackground'] ."; ". $footer_display_style ?>;">
 
     <font size="-3">
         <?php echo "ZonPHP " . $version ?> <b> wewwx integration - Non Flash Version</b>

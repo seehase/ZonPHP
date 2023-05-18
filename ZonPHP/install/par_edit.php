@@ -337,13 +337,14 @@ include_once "par_header.php";
                 <hr>
                 <?php echo $txt["flyout_menu"]; ?>?
                 <br>
-                <?php echo $txt["show_footer"]; ?>?
-                <input type='checkbox' name='show_footer'
-                       size='5' <?php if (isset($_POST['show_footer'])) echo "checked"; ?> >
-                <?php echo $txt["show_menu"]; ?>?
-                <input type='checkbox' name='show_menu'
-                       size='5' <?php if (isset($_POST['show_menu'])) echo "checked"; ?> >
+                <?php echo $txt["hide_menu"]; ?>?
+                <input type='checkbox' name='hide_menu'
+                       size='5' <?php if (isset($_POST['hide_menu'])) echo "checked"; ?> >
                 <br/>
+                <?php echo $txt["hide_footer"]; ?>?
+                <input type='checkbox' name='hide_footer'
+                       size='5' <?php if (isset($_POST['hide_footer'])) echo "checked"; ?> >
+                <br>
                 <hr>
                 <?php echo $txt["chart_date_format"]; ?>:
                 <input type='text' name='chart_date_format'
