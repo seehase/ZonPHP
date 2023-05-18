@@ -64,9 +64,9 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
     $myColor2 = $myColors[$inverter_name]['max'];
     $myMetadata[] = "{name: '$inverter_name', color: {linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 }, stops: [[0, $myColor1], [1, $myColor2]]}, stacking: 'normal', keys: ['name', 'y'], data: data[$key]}";
 
+    $data = "";
     for ($i = 0; $i <= 30; $i++) {
         $var = 0.0;
-        $data = "";
         if (isset($adatum[$i])) {
             $var = round($all_valarray[$adatum[$i]][$inverter_name], 2);
             $data .= '[\'' . $adatum[$i] . '\', ' . $var . '],';
