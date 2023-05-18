@@ -244,8 +244,10 @@ foreach ($bdatum as $asx => $asy) {
 			
 			$avglines .= "$av, $av, $av, null,";
 			//refline
-			$z= $nfrefmaand[$i][$inverter_name];
-        	$reflines .= "$z, $z, $z, null,";
+            if (count($nfrefmaand) > 0) {
+                $z= $nfrefmaand[$i][$inverter_name];
+                $reflines .= "$z, $z, $z, null,";
+            } 
             $current_bars .= "
                     { x: $i-1,
                       y: $cur_year , 
