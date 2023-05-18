@@ -85,9 +85,9 @@ if (isset($param['show_menu']))
         <input   type="image" src="inc/image/logo.png"   onClick="location.href='index.php'" style="position:absolute; top:21px; left:136px;  border:0" value='Vandaag'>
  		<?php if (isset($param['show_menu'])) echo '<label for="main-nav-check" class="toggle" onclick="" title="Menu">&#x2261;</label>'; ?>
          <span style="margin-left: 330px;">&nbsp;</span>
-        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img class='flag flag-nl' alt='Nederlands' title='Nederlands'/></a>"; ?>
-        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img class='flag flag-gb' alt='english' title='english'/></a>" ?>
-        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img class='flag flag-fr' alt='français' title='français'/></a>" ?>
+        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'/></a>"; ?>
+        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
+        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-fr' alt='français' title='français'/></a>" ?>
         <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'/></a>" ?>
         <?php
         if ($iveromvormers == 1) {
