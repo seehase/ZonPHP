@@ -15,7 +15,8 @@ include_once "inc/header.php";
              style="background-color: #<?php echo $colors['color_chartbackground'] ?> ">
 
             <div style="height: auto;">
-                <h3>Information and documentation can be found on github </h3> <a class="myButtona" href="https://github.com/seehase/ZonPHP"><b>https://github.com/seehase/ZonPHP</b></a>
+                <h3>Information and documentation can be found on github </h3> <a class="myButtona"
+                                                                                  href="https://github.com/seehase/ZonPHP"><b>https://github.com/seehase/ZonPHP</b></a>
                 <hr>
             </div>
 
@@ -112,7 +113,8 @@ include_once "inc/header.php";
                 <strong>Version ZonPHP.2017.01.12: </strong> (2017-01-01)
                 <ul>
                     <li>Moved code and documentation to github <a href="https://github.com/seehase/ZonPHP"
-                                                                  target="_blank">https://github.com/seehase/ZonPHP</a></li>
+                                                                  target="_blank">https://github.com/seehase/ZonPHP</a>
+                    </li>
                 </ul>
 
                 <strong>current Version ZonPHP.2023.05.01: </strong> (v2023.05.01)
@@ -126,7 +128,8 @@ include_once "inc/header.php";
             <br/>
             <hr>
             <div style="height: auto;">
-                <a class="btn btn-primary" href="https://github.com/seehase/ZonPHP/archive/master.zip"><b>Download current
+                <a class="btn btn-primary" href="https://github.com/seehase/ZonPHP/archive/master.zip"><b>Download
+                        current
                         Version
                         ZonPHP from github</b></a>
                 <hr>

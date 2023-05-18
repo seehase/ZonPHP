@@ -2,7 +2,7 @@
 include_once "../Parameters.php";
 include_once "../inc/sessionstart.php";
 
-if ( !isset($_SESSION['passok']) ||  $_SESSION['passok'] != "passinorder")
+if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
 
 include_once "../inc/connect.php";
@@ -44,7 +44,7 @@ include_once "par_header.php";
                         }
                     }
                 }
-                if ($vlag == 1){
+                if ($vlag == 1) {
                     echo "<font size='0'color='#c00000'>" . $txt["verkeerd"] . $txt["watverkeerd"] . "</font><br/>";
                 }
             }
@@ -348,7 +348,7 @@ include_once "par_header.php";
                 <hr>
                 <?php echo $txt["chart_date_format"]; ?>:
                 <input type='text' name='chart_date_format'
-                       value='<?php if (!empty($_POST['chart_date_format'])) echo $_POST['chart_date_format'];  ?>'
+                       value='<?php if (!empty($_POST['chart_date_format'])) echo $_POST['chart_date_format']; ?>'
                        size='63'><br/>
 
                 <hr>
@@ -360,7 +360,8 @@ include_once "par_header.php";
                 <?php echo $txt["intervalmail"]; ?>:
                 <input type='text' name='mailinterval'
                        value='<?php if (!empty($_POST['mailinterval'])) echo $_POST['mailinterval']; else echo 1000 ?>'>
-                <br/> <hr>
+                <br/>
+                <hr>
                 <?php echo $txt["google_tracking"]; ?>:
                 <input type='text' name='google_tracking' size='40'
                        value='<?php if (!empty($_POST['google_tracking'])) echo $_POST['google_tracking'] ?>'>
@@ -406,8 +407,6 @@ include_once "par_header.php";
                 <?php echo $txt["PVO_SYS_ID"]; ?>: <input type='text' name='PVO_SYS_ID'
                                                           value='<?php if (!empty($_POST['PVO_SYS_ID'])) echo $_POST['PVO_SYS_ID']; else echo "-" ?>'
                                                           size='60'><br/>
-
-
                 <hr>
 
                 <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo $txt["save"]; ?>"

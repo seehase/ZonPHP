@@ -14,24 +14,18 @@ if (isset($_GET['dag'])) {
     // reformat string
     $chartdatestring = date("Y-m-d", $chartdate);
 }
-if (isset($_GET['Schaal']))
+if (isset($_GET['Schaal'])) {
     $aanpas = 1;
-else
+} else {
     $aanpas = 0;
+}
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-if (isset($_GET['naam'])) {
-    $inverter_id = $_GET['naam'];
-    $showAllInverters = false;
-} else if (isset($_POST['inverter'])) {
-    $inverter_id = $_POST['inverter'];
-    $showAllInverters = false;
-} else {
-    $inverter_id = "all";
-}
+$inverter_id = "all";
+
 $sqlref = "SELECT *
 	FROM " . $table_prefix . "_refer
 	WHERE Month(Datum_Refer)='" . date("m", $chartdate) . "'";
@@ -133,7 +127,7 @@ foreach ($maxdays as $inverter => $maxday) {
     $maxkwh[] = $maxval;
 
     $nice_max_date = date("Y-m-d", strtotime($maxday));
-    $maxlinks .= '\'<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . $txt["max"] . " " .  $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>\',';
+    $maxlinks .= '\'<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . $txt["max"] . " " . $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>\',';
 }
 $maxlinks .= ']';
 
@@ -205,7 +199,7 @@ foreach ($inveter_list as $inverter_name) {
         }
 
         // remember first and last date
-        if ($max_first_val >$time) {
+        if ($max_first_val > $time) {
             $max_first_val = $time;
         }
         if ($max_last_val < $time) {
@@ -219,10 +213,10 @@ foreach ($inveter_list as $inverter_name) {
 }
 // day max line per inverter --------------------------------------------------------------
 $str_max = "";
-foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
-    if($key == 0) { 
+foreach ($sNaamSaveDatabase as $key => $inverter_name) {
+    if ($key == 0) {
         $dash = '';
-    } elseif($key> 0) { 
+    } elseif ($key > 0) {
         $dash = "dashStyle: 'dash',";
     }
     $str_max .= "{ name: '$inverter_name max',  color : '#15ff24', linkedTo: '$inverter_name', lineWidth: 1,  $dash  type: 'line',  stacking: 'normal', marker: { enabled: false },                           
@@ -237,7 +231,7 @@ foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
             $str_max .= '{x:' . ($newDate * 1000) . ', y:' . $valarraymax[$inverter_name] . ', unit: \'W\'}, ';
         }
         // remember first and last date get max/min of all
-        if ($max_first_val >$time) {
+        if ($max_first_val > $time) {
             $max_first_val = $time;
         }
         if ($max_last_val < $time) {
@@ -288,7 +282,6 @@ if ($isIndexPage == true) {
 }
 
 
-
 include_once "chart_styles.php";
 $show_temp_axis = "false";
 $show_cum_axis = "true";
@@ -298,29 +291,30 @@ if (strlen($temp_serie) > 0) {
 }
 
 
-
 ?>
 <script type="text/javascript">
     $(function () {
-        function add(accumulator, a) { return accumulator + a;	}
-        
+        function add(accumulator, a) {
+            return accumulator + a;
+        }
+
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
-        var nmbr =  khhWp.length //misused to get the inverter count
+        var nmbr = khhWp.length //misused to get the inverter count
 
         /// to be removed2345
         var maxmax = <?php echo json_encode($maxkwh) ?>;
         var maxlinks = <?php echo $maxlinks ?>;
 
         /// to be removed
-         
+
         var temp_max = <?php echo $val_max ?>;
         var temp_min = <?php echo $val_min ?>;
         var txt_actueel = '<?php echo $txt["actueel"] ?>';
         var txt_totaal = '<?php echo $txt["totaal"] ?>';
         var txt_max = '<?php echo $txt["max"] ?>';
         var txt_peak = '<?php echo $txt["peak"] ?>';
-        
+
         Highcharts.setOptions({<?php echo $chart_lang ?>});
         var mychart = new Highcharts.Chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
             chart: {
@@ -329,14 +323,14 @@ if (strlen($temp_serie) > 0) {
                         mychart = this;
                         series = this.series;
                         // construct subtitle
-                        sum =[];
-                        kWh =[];
+                        sum = [];
+                        kWh = [];
                         peak = [];
                         max = [];
                         current = 0;
                         tota = 0;
                         links = "";
-                        for (i = nmbr-1; i >= 0 ; i--) {
+                        for (i = nmbr - 1; i >= 0; i--) {
                             if (series[i].visible) {
                                 for (j = 0; j < series[i].data.length; j++) {
                                     tota += (series[i].data[j].y) / 12000;//Total
@@ -354,10 +348,12 @@ if (strlen($temp_serie) > 0) {
                         KWH = kWh.reduce(add, 0);
                         MAX = max.reduce(add, 0);
                         var AX = peak.filter(Boolean);
-                        if (AX.length == 0) {PEAK = 0;}
-						else {
-                        PEAK = AX[0];}
-                        
+                        if (AX.length == 0) {
+                            PEAK = 0;
+                        } else {
+                            PEAK = AX[0];
+                        }
+
                         this.setSubtitle({
                             text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(SUM, 0, ",", "") +
                                 "W" + "=" + (Highcharts.numberFormat(100 * SUM / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + PEAK + "W <br/><b>" +
@@ -365,11 +361,11 @@ if (strlen($temp_serie) > 0) {
                                 (Highcharts.numberFormat((tota / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>" +
                                 txt_max + ": </b>" + (Highcharts.numberFormat(MAX, 2, ",", "")) + " kWh <br/>" + links
                         }, false, false);
-                        
+
                         //construct chart
                         total = [];
                         value = 0;
-                      
+
                         indexOfVisibleSeries = [];
                         checkHideForSpline = 1;
                         if (mychart.forRender) {
@@ -381,32 +377,32 @@ if (strlen($temp_serie) > 0) {
                                 } else if (s.type === 'spline' && s.visible === false) {
                                     checkHideForSpline = 0
                                 }
-                               if (s.type === 'area' && s.visible ) {
+                                if (s.type === 'area' && s.visible) {
                                     indexOfVisibleSeries.push(s.index);
                                 }
                             });
-							if (checkHideForSpline) {
+                            if (checkHideForSpline) {
                                 for (i = 0; i < mychart.series[0].data.length; i++) {
                                     for (h of indexOfVisibleSeries) {
                                         value += mychart.series[h].data[i].y / 12000;
                                         axis = mychart.series[h].data[i].x;
                                     }
-                                    if(typeof axis !== 'undefined') {
+                                    if (typeof axis !== 'undefined') {
                                         total.push([axis, value]);
                                     }
                                 }
                                 mychart.addSeries({
                                     data: total,
                                     name: 'Cum',
-                                    
+
                                     yAxis: 1,
                                     unit: 'kWh',
                                     type: "spline",
                                     color: '#<?php echo $colors['color_chart_cum_line'] ?>',
-                               		})
-                            	}
-                        	}
-                      	mychart.forRender = true
+                                })
+                            }
+                        }
+                        mychart.forRender = true
                     }
                 }
             },
@@ -425,45 +421,45 @@ if (strlen($temp_serie) > 0) {
                 }
             },
             plotOptions: {
-                series: { 
-                	states: {
+                series: {
+                    states: {
                         hover: {
                             lineWidth: 0,
-                        		},
+                        },
                         inactive: {
-                    		opacity: 1
-                				}
-                			},
-			              },
+                            opacity: 1
+                        }
+                    },
+                },
                 area: {
-                   events: {
-        			legendItemClick: function() {
-          			var clickedSeries = this,
-            		lineSeries = clickedSeries.chart.series.filter(series => series.type === 'line'),
-            		visibleLineSeries = [];
-          			lineSeries.forEach(function(series) {
-            // Set all series to "dot"
-            		if (series.options.dashStyle === 'solid') {
-              			series.update({
-                		dashStyle: 'dash'
-              			})
-            			}
-            // Push all visible series to an array except the one that was clicked
-            		if (series.visible && series.index !== clickedSeries.index + nmbr) {
-              			visibleLineSeries.push(series)
-            			}
-            		if (!series.visible && series.index === clickedSeries.index + nmbr) {
-              			visibleLineSeries.push(series)
-            			}
-          				})
-          	// Set first visible series to "solid"
-          			if (visibleLineSeries.length) {
-            			visibleLineSeries[0].update({
-              			dashStyle: 'solid'
-          				})
-          				}
-        			  }
-      				}, 
+                    events: {
+                        legendItemClick: function () {
+                            var clickedSeries = this,
+                                lineSeries = clickedSeries.chart.series.filter(series => series.type === 'line'),
+                                visibleLineSeries = [];
+                            lineSeries.forEach(function (series) {
+                                // Set all series to "dot"
+                                if (series.options.dashStyle === 'solid') {
+                                    series.update({
+                                        dashStyle: 'dash'
+                                    })
+                                }
+                                // Push all visible series to an array except the one that was clicked
+                                if (series.visible && series.index !== clickedSeries.index + nmbr) {
+                                    visibleLineSeries.push(series)
+                                }
+                                if (!series.visible && series.index === clickedSeries.index + nmbr) {
+                                    visibleLineSeries.push(series)
+                                }
+                            })
+                            // Set first visible series to "solid"
+                            if (visibleLineSeries.length) {
+                                visibleLineSeries[0].update({
+                                    dashStyle: 'solid'
+                                })
+                            }
+                        }
+                    },
                     marker: {
                         radius: 2,
                         enabled: false
@@ -474,8 +470,8 @@ if (strlen($temp_serie) > 0) {
                             lineWidth: 0
                         },
                         inactive: {
-                    opacity: 1
-                }
+                            opacity: 1
+                        }
                     },
                     threshold: 0,
                     stacking: 'normal'
@@ -483,7 +479,7 @@ if (strlen($temp_serie) > 0) {
             },
             subtitle: {
                 style: {
-                    wordWrap:'break-word',
+                    wordWrap: 'break-word',
                     color: '#<?php echo $colors['color_chart_text_subtitle'] ?>'
                 }
             },
@@ -511,7 +507,7 @@ if (strlen($temp_serie) > 0) {
                         color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>'
                     },
                     formatter: function () {
-                        return Highcharts.numberFormat(this.value / 1000, 1,',','.') + " kW";
+                        return Highcharts.numberFormat(this.value / 1000, 1, ',', '.') + " kW";
                     }
                 },
                 gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>'
@@ -529,7 +525,7 @@ if (strlen($temp_serie) > 0) {
                             color: '#<?php echo $colors['color_chart_labels_yaxis2'] ?>'
                         },
                         formatter: function () {
-                            return Highcharts.numberFormat(this.value, 1,',','.') + " kWh";
+                            return Highcharts.numberFormat(this.value, 1, ',', '.') + " kWh";
                         }
                     },
                     gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis2'] ?>',
@@ -568,7 +564,8 @@ if (strlen($temp_serie) > 0) {
         }), function (mychart) {
             mychart.forRender = true
         });
-        setInterval(function() {
-  		$("#mycontainer_<?php echo $inverter_id ?>").highcharts().reflow();  }, 500);
+        setInterval(function () {
+            $("#mycontainer_<?php echo $inverter_id ?>").highcharts().reflow();
+        }, 500);
     });
 </script>

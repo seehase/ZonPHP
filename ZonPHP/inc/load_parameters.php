@@ -35,7 +35,7 @@ if (mysqli_num_rows($resultpar) != 0) {
         if (stripos($var, "color") === 0) {
             $colors[$var] = $value;
         } else {
-            $param[$var] =$value;
+            $param[$var] = $value;
         }
     }
     if (!isset($param['sNaamSaveDatabasest']) || strlen($param['sNaamSaveDatabasest']) < 2) {

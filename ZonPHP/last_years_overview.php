@@ -22,25 +22,25 @@ $prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
 <?php include_once "menu.php"; ?>
 
 <?php
-    $paramstr_choose = '';
-    $paramstr_day = '';
-    # remove naam parameter
-    if (sizeof($_GET) > 0){
-        foreach ($_GET as $key => $value) {
-            if ( !(($key == "naam") || ($key == "type")) ) {
-                $paramstr_choose .=  $key . "=" . $value . "&";
-            }
-            if ( $key != "dag") {
-                $paramstr_day .= $key . "=" . $value . "&";
-            }
+$paramstr_choose = '';
+$paramstr_day = '';
+# remove naam parameter
+if (sizeof($_GET) > 0) {
+    foreach ($_GET as $key => $value) {
+        if (!(($key == "naam") || ($key == "type"))) {
+            $paramstr_choose .= $key . "=" . $value . "&";
+        }
+        if ($key != "dag") {
+            $paramstr_day .= $key . "=" . $value . "&";
         }
     }
-    if (strpos($paramstr_day, "?") == 0) {
-        $paramstr_day = '?' . $paramstr_day;
-    }
-    if (strpos($paramstr_choose, "?") == 0) {
-        $paramstr_choose = '?' . $paramstr_choose;
-    }
+}
+if (strpos($paramstr_day, "?") == 0) {
+    $paramstr_day = '?' . $paramstr_day;
+}
+if (strpos($paramstr_choose, "?") == 0) {
+    $paramstr_choose = '?' . $paramstr_choose;
+}
 ?>
 
 <div id="page-content">

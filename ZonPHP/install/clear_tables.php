@@ -3,7 +3,7 @@
 include_once "../Parameters.php";
 include_once "../inc/sessionstart.php";
 
-if ( !isset($_SESSION['passok']) ||  $_SESSION['passok'] != "passinorder")
+if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
 
 include_once "../inc/connect.php";
@@ -30,7 +30,7 @@ include_once "par_header.php";
                        onClick="return confirmSubmit()">
 
             </form>
-            <br />
+            <br/>
             <?php
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stringdelete = "DELETE FROM " . $table_prefix . "_dag";

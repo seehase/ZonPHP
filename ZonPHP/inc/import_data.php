@@ -94,9 +94,9 @@ if ($total_sum_for_all_years >= $param['next_mail_threshold']) {
     // echo $mail_sent ? "Mail sent" : "Mail failed";
 
     if ($mail_sent) {
-        error_log('---------> Mail sucessfully sent '  . $message);
+        error_log('---------> Mail sucessfully sent ' . $message);
     } else {
-        error_log('######### Mail faild' .  $message);
+        error_log('######### Mail faild' . $message);
     }
 
     $param['next_mail_threshold'] = $totaal + $param['mailinterval'];

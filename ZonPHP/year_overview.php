@@ -83,10 +83,9 @@ if (strpos($paramstr_choose, "?") == 0) {
     </div>
 
 
-
     <div id="tabelgeg">
         <div id="toggeldiv" class="collapse1">
-            
+
         </div>
     </div>
 </div>

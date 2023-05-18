@@ -110,7 +110,7 @@ if (!empty($adag)) {
 //Prüfung ob eine Zeile mit dem Gleichen Datum und Uhrzeit existiert, wenn Ja Fehler bei der Uhrzeitprüfung
 // sonst wird else (ganz normal weiter) ausgeführt.
 // Ich hoffe es funktioniert, wenn nicht dann folgende Zeile löschen: 91 - 96	;eine Klammer } in 138.					
-                        If ($Uhrzeit == $UhrPrufung) {
+                        if ($Uhrzeit == $UhrPrufung) {
                             //echo "Fehler bei der Uhrzeitprufung="."<br />";
                             //echo"Prufung=".$UhrPrufung."<br />";
                             //echo"Uhrzeit=".$Uhrzeit."<br />";
@@ -273,7 +273,7 @@ function omzetdatum($date)
 function controledatum($idag, $imaand, $ijaar)
 {
     //echo $idag.$imaand.$ijaar;
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

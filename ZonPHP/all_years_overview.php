@@ -54,7 +54,6 @@ if (strpos($paramstr_choose, "?") == 0) {
     </div>
 
 
-
 </div>
 
 <script type="text/javascript">

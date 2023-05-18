@@ -10,9 +10,9 @@ $aoplopendkwdag[] = 0;
 
 include_once "inc/header.php";
 
-$daytext =  $txt["chart_dayoverview"];
-if (isset($use_weewx) && $use_weewx==true){
-    $daytext =  $txt["chart_solar_temp"];
+$daytext = $txt["chart_dayoverview"];
+if (isset($use_weewx) && $use_weewx == true) {
+    $daytext = $txt["chart_solar_temp"];
 }
 
 ?>
@@ -60,7 +60,7 @@ if (isset($use_weewx) && $use_weewx==true){
 
 </div><!-- closing ".page-content" -->
 <div id="spacer" style="float: left; height: 40px; width: 400px; display: block">
-    <br />&nbsp;
+    <br/>&nbsp;
 </div>
 
 </div><!-- closing ".container" -->

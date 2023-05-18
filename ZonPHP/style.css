@@ -69,11 +69,12 @@
 }
 
 .backtoday {
-    float:none !important;
+    float: none !important;
     position: absolute !important;
     top: 15px !important;
     left: 15px !important;
 }
+
 .sbuttonmaxmin {
     width: 100px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -94,13 +95,15 @@
     width: 680px;
 }
 
-.hasDatepicker{
+.hasDatepicker {
     color: #2ac06d;
 }
-#startdate{
+
+#startdate {
     color: #2ac06d;
 }
-#getToday{
+
+#getToday {
     color: #2ac06d;
 }
 
@@ -386,7 +389,8 @@ body {
     height: 100%;
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
-    width: 100%; !important;
+    width: 100%;
+!important;
 }
 
 
@@ -608,8 +612,10 @@ code {
     font-size: 16px !important;
     font-weight: bolder;
 }
+
 .h2, h2 {
-    font-size: 12pt; !important;
+    font-size: 12pt;
+!important;
     font-weight: bolder;
     line-height: 0px;
 }
@@ -631,6 +637,7 @@ code {
 .js #menu .sub-nav .toggle {
     width: 1.5em;
 }
+
 #menu .sub-heading {
     background-color: #444;
 }
@@ -657,6 +664,7 @@ code {
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
 }
+
 .item {
     position: absolute;
     width: 437px;
@@ -668,31 +676,39 @@ code {
     will-change: transform;
     color: transparent;
 }
+
 .item.muuri-item-positioning {
     z-index: 2;
 }
+
 .item.muuri-item-dragging,
 .item.muuri-item-releasing {
     z-index: 9999;
 }
+
 .item.muuri-item-dragging {
     cursor: move;
 }
+
 .item.muuri-item-hidden {
     z-index: 0;
 }
+
 .item.h2 {
     height: 420px;
     line-height: 420px;
 }
+
 .item.w2 {
     width: 220px;
 }
+
 .item-content {
     position: relative;
     width: 100%;
     height: 100%;
 }
+
 .card {
     position: absolute;
     left: 0;
@@ -725,6 +741,7 @@ code {
     font-size: 16px;
     font-weight: 400;
 }
+
 .card-remove {
     position: absolute;
     right: 0;
@@ -747,6 +764,7 @@ code {
     -o-transition: all 0.15s ease-out;
     transition: all 0.15s ease-out;
 }
+
 .card:hover > .card-remove {
     -moz-transform: scale(1);
     -webkit-transform: scale(1);
@@ -761,11 +779,11 @@ code {
     margin: 60px 0;
     text-align: center;
 }
+
 .grid-footer .btn .material-icons {
     margin-right: 10px;
     font-size: 24px;
 }
-
 
 
 /* Icons in the selector */

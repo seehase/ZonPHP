@@ -112,9 +112,8 @@ if (!empty($adag)) {
                         $startkw = $GridMsTotW;
                         $start = 1;
                     }
-                    if ($GridMsTotW < $startkw)
-                    {
-                        $GridMsTotW =  $startkw;
+                    if ($GridMsTotW < $startkw) {
+                        $GridMsTotW = $startkw;
                     }
 
                     if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
@@ -242,7 +241,7 @@ function omzetdatum($date)
 
 function controledatum($idag, $imaand, $ijaar)
 {
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

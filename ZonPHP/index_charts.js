@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $.ajax({
             url: 'charts/weewx_all_values.php',
             type: 'post',
-            data: { 'id': 'Current' },
+            data: {'id': 'Current'},
             cache: false,
             success: function (chart) {
                 $(container).append(chart);
@@ -309,12 +309,11 @@ document.addEventListener('DOMContentLoaded', function () {
     loadCharts();
 });
 
-function myTest(){
+function myTest() {
     var layout = window.localStorage.getItem('layout');
     console.log("xxx grid " + grid);
     console.log("The TEST2");
     // Get the modal
-
 
 
     var modal = document.getElementById("myModal");
@@ -332,10 +331,10 @@ function myTest(){
         '                    <div class="board-item"><div class="board-item-content">bbb</div></div>' +
         '                    <div class="board-item"><div class="board-item-content">ccc</div></div>' +
         '                    <div class="board-item"><div class="board-item-content">dddd</div></div>' +
-       // '                </div>' +
+        // '                </div>' +
         '            </div>';
-        cnt.appendChild(itemElem);
-        itemElem = document.createElement('div');
+    cnt.appendChild(itemElem);
+    itemElem = document.createElement('div');
     itemElem.innerHTML =
         '        <div class="board-column working">' +
         '            <div class="board-column-header">Active Charts</div>' +
@@ -345,7 +344,7 @@ function myTest(){
         '                    <div class="board-item"><div class="board-item-content"><span>Item #</span>9</div></div>' +
         '                    <div class="board-item"><div class="board-item-content"><span>Item #</span>10</div></div>' +
         '            </div>\n';
-     cnt.appendChild(itemElem);
+    cnt.appendChild(itemElem);
 
     var boardGrid = new Muuri('.board', {
         layoutDuration: 400,
@@ -415,10 +414,10 @@ function myTest(){
     });
 
     // When the user clicks on the button, open the modal
-     modal.style.display = "block";
+    modal.style.display = "block";
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    span.onclick = function () {
         modal.style.display = "none";
     }
 

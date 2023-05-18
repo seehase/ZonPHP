@@ -3,7 +3,7 @@
 include_once "../Parameters.php";
 include_once "../inc/sessionstart.php";
 
-if ( !isset($_SESSION['passok']) ||  $_SESSION['passok'] != "passinorder")
+if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
 
 include_once "../inc/connect.php";
@@ -18,8 +18,8 @@ include_once "par_header.php";
         <div class="inside">
             <h2 class="notopgap" align="center"><?php echo $txt["installscript"]; ?></h2>
             <hr>
-            <?php echo $txt["installdattab"]; ?><br />
-            <br />
+            <?php echo $txt["installdattab"]; ?><br/>
+            <br/>
 
             <FORM METHOD="post" ACTION="">
                 <?php
@@ -53,20 +53,6 @@ include_once "par_header.php";
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<br /><br /><hr>";
                 /****************************************************************************
-                 * aanmaken tabel voor dag en nacht tarief
-                 ****************************************************************************/
-                $sql_wisdagnacht = "DROP TABLE IF EXISTS " . $table_prefix . "_verbruik";
-                $sql_maakdagnacht = "CREATE TABLE " . $table_prefix . "_verbruik (
-					  IndexVerbruik varchar(40) NOT NULL,
-					  Datum_Verbruik datetime NOT NULL,
-					  Geg_Verbruik_Dag float NOT NULL,
-					  Geg_Verbruik_Nacht float NOT NULL,
-					  Naam varchar(21) NOT NULL,
-					  Geg_MeterDag float NOT NULL,
-					  Geg_MeterNacht float NOT NULL,
-					  UNIQUE KEY IndexVerbruik (IndexVerbruik)
-					) ENGINE=InnoDB DEFAULT CHARSET=latin1";
-                /****************************************************************************
                  * aanmaken tabel voor ref kW per maand
                  ****************************************************************************/
                 $sql_wisRefkWMaand = "DROP TABLE IF EXISTS " . $table_prefix . "_refer";
@@ -76,17 +62,6 @@ include_once "par_header.php";
 						  Dag_Refer float NOT NULL,
 						  Naam varchar(21) NOT NULL
 						) ENGINE=MyISAM DEFAULT CHARSET=latin1";
-
-
-                /****************************************************************************
-                 * aanmaken tabel voor prijs per kW
-                 ****************************************************************************/
-                $sql_wisPrijskW = "DROP TABLE IF EXISTS " . $table_prefix . "_euro";
-                $sql_maakPrijskW = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "_euro (
-					  Datum_Euro datetime NOT NULL,
-					  Geg_Euro float NOT NULL,
-					  UNIQUE KEY Datum_Euro (Datum_Euro)
-					) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
                 /****************************************************************************
                  * aanmaken tabel voor daggegevens
@@ -134,32 +109,6 @@ include_once "par_header.php";
                     PRIMARY KEY (id),
                     CONSTRAINT tgeg_sensor_ix1 UNIQUE (logtime, sensorid, sensortype)
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
-
-
-                /****************************************************************************
-                 * Invullen kostprijs per kWh in Euro
-                 ****************************************************************************/
-                $sql_insertPrijskW = "INSERT INTO " . $table_prefix . "_euro (Datum_Euro, Geg_Euro) VALUES
-					('2010-01-01', 0.4301),
-					('2011-01-01', 0.4301),
-					('2012-01-01', 0.4301),
-					('2013-01-01', 0.4301),
-					('2014-01-01', 0.4301),
-					('2015-01-01', 0.4301),
-					('2016-01-01', 0.4301),
-					('2017-01-01', 0.4301),
-					('2018-01-01', 0.4301),
-					('2019-01-01', 0.4301),
-					('2020-01-01', 0.4301),
-					('2021-01-01', 0.4301),
-					('2022-01-01', 0.4301),
-					('2023-01-01', 0.4301),
-					('2024-01-01', 0.4301),
-					('2025-01-01', 0.4301),
-					('2026-01-01', 0.4301),
-					('2027-01-01', 0.4301),
-					('2028-01-01', 0.4301),
-					('2029-01-01', 0.4301)";
 
 
                 echo "<b>" . $txt["installuitg"] . ".</b><br /><br />";

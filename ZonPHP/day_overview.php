@@ -65,7 +65,7 @@ $formatter->setPattern("d LLL yyyy");
                 <h2 align="center" class="notopgap">
                     <?php if ($date_minimum < $chartcurrentdate)
                         echo '<button class="btn btn-primary" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '  >  <  </button>';
-                    echo " " .  $formatter->format(strtotime($datum)) . " ";
+                    echo " " . $formatter->format(strtotime($datum)) . " ";
                     if (date("y-m-d", $date_maximum) > date("y-m-d", $chartdate))
                         echo '<button class="btn btn-primary" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '  >  > </button>';
                     ?>

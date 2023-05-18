@@ -26,7 +26,7 @@
             </ul>
             <?php
             //if (isset($con) && $con) {
-                if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder") {
+            if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder") {
                 echo " 
                 <hr>   
                 <a href='?taal=nl' TARGET='_self'><img src='../inc/image/nl.svg' alt='nl' border='0' width='16' height='12'></a>

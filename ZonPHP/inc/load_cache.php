@@ -32,8 +32,6 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     // copy data from session into variabls
 
     $txt = $_SESSION['txt'];
-    $year_euro = $_SESSION['year_euro'];
-    $price_per_kwh = $year_euro[date("Y")];
 
     if (!isset($_SESSION['param'])) {
         include_once "load_parameters.php";
@@ -83,20 +81,6 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     // load color and theme
     include_once "load_colors.php";
-
-    // load euro -------------------------------------------------------------------------------------------------------
-    $sqleuro = "SELECT DATE_FORMAT(Datum_Euro,'%Y') as year, Geg_Euro as euro_val
-	FROM " . $table_prefix . "_euro";
-    $resulteuro = mysqli_query($con, $sqleuro) or die("Query failed. jaar-euro " . mysqli_error($con));
-    if (mysqli_num_rows($resulteuro) == 0) {
-        $year_euro = array();
-    } else {
-        while ($row = mysqli_fetch_array($resulteuro)) {
-            $year_euro[$row['year']] = $row['euro_val'];
-        }
-    }
-    $_SESSION['year_euro'] = $year_euro;
-    $price_per_kwh = $year_euro[date("Y")];
 
     // fixme: integrate into cache... after importing data force reload of paramater
     // load first and last date of date

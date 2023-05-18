@@ -50,7 +50,6 @@ if (mysqli_num_rows($resultrefer) != 0) {
     }
 }
 
-
 $bkannietsave = 0;
 for ($i = 1; $i <= 12; $i++) {
     if (!empty($_POST[$i])) {

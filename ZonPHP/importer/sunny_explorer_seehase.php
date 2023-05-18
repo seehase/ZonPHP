@@ -53,9 +53,9 @@ if (!empty($adag)) {
             $geg_suo = trim($geg_suo);
             // skip first 10 lines of CSV file
             if ($teller > 10) {
-                if (!empty($geg_suo) ) {
+                if (!empty($geg_suo)) {
                     $p = explode(";", $geg_suo);
-                    if (count($p)>2) {
+                    if (count($p) > 2) {
                         list($TimeStamp, $GridMsTotW, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
                         $oTimeStamp = omzetdatum($TimeStamp);      //date("Y-m-d H:i:s",strtotime($TimeStamp));
                         $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
@@ -103,7 +103,7 @@ if (!empty($adag)) {
             $string = substr($string, 0, -1);
             $del = "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . $_SESSION['Wie'] . "' AND Datum_Maand='" . $odatum[0] . "'";
             mysqli_query($con, $del) or die("Query failed. ERROR1: " . $del . mysqli_error($con));
-            mysqli_query($con, $string) or die("Query failed. ERROR2: " . $string .  mysqli_error($con));
+            mysqli_query($con, $string) or die("Query failed. ERROR2: " . $string . mysqli_error($con));
             mysqli_query($con, $string1) or die("Query failed. ERROR3: " . $string1 . mysqli_error($con));
 
         }
@@ -126,15 +126,15 @@ $result = mysqli_query($con, $sql) or die("Query failed. ERROR4: " . $sql . mysq
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
 } else {
-   if ($fp = fopen($directory . 'months.js', "w+")) {
-       while ($row = mysqli_fetch_array($result)) {
-           $datfile = date("d.m.y", strtotime($row['maxi']));
-           $dateTime = 'mo[mx++]="' . $datfile . "|" . floor($row['som'] * 1000) . '"';//echo $dateTime; //datum omzetten
-           //$fp = fopen('months1.js',"r+");
-           fwrite($fp, $dateTime . "\r\n");
-       }
-       fclose($fp);
-   }
+    if ($fp = fopen($directory . 'months.js', "w+")) {
+        while ($row = mysqli_fetch_array($result)) {
+            $datfile = date("d.m.y", strtotime($row['maxi']));
+            $dateTime = 'mo[mx++]="' . $datfile . "|" . floor($row['som'] * 1000) . '"';//echo $dateTime; //datum omzetten
+            //$fp = fopen('months1.js',"r+");
+            fwrite($fp, $dateTime . "\r\n");
+        }
+        fclose($fp);
+    }
 }
 
 /******************************************************************************
@@ -212,7 +212,7 @@ if (!empty($adag)) {
             $geg_suo = trim($geg_suo);
             // skip first 10 lines of CSV file
             if ($teller > 10) {
-                if (!empty($geg_suo)){
+                if (!empty($geg_suo)) {
                     $p = explode(";", $geg_suo);
                     if (count($p) > 2) {
                         list($TimeStamp, $GridMsTotW, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
@@ -260,10 +260,10 @@ if (!empty($adag)) {
         fclose($file);
         if ($string1 != "") {
             $string = substr($string, 0, -1);
-            $del =  "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . $_SESSION['Wie'] . "' AND Datum_Maand='" . $odatum[0] . "'";
-            mysqli_query($con, $del ) or die("Query failed. ERROR6: " .$del. mysqli_error($con));
-            mysqli_query($con, $string) or die("Query failed. ERROR7: " .$sql. mysqli_error($con));
-            mysqli_query($con, $string1) or die("Query failed. ERROR8: " .$sql. mysqli_error($con));
+            $del = "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . $_SESSION['Wie'] . "' AND Datum_Maand='" . $odatum[0] . "'";
+            mysqli_query($con, $del) or die("Query failed. ERROR6: " . $del . mysqli_error($con));
+            mysqli_query($con, $string) or die("Query failed. ERROR7: " . $sql . mysqli_error($con));
+            mysqli_query($con, $string1) or die("Query failed. ERROR8: " . $sql . mysqli_error($con));
 
         }
     }
@@ -305,7 +305,7 @@ $sql = "SELECT *
 	WHERE Naam='" . $_SESSION['Wie'] . "'
 	ORDER BY Datum_Maand DESC";
 
-$result = mysqli_query($con, $sql) or die("Query failed. ERROR10: " .$sql. mysqli_error($con));
+$result = mysqli_query($con, $sql) or die("Query failed. ERROR10: " . $sql . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
@@ -360,7 +360,7 @@ function omzetdatum($date)
 <?php
 function controledatum($idag, $imaand, $ijaar)
 {
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

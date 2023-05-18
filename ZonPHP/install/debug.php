@@ -4,7 +4,7 @@
 include_once "../Parameters.php";
 include_once "../inc/sessionstart.php";
 
-if ( !isset($_SESSION['passok']) ||  $_SESSION['passok'] != "passinorder")
+if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
 
 include_once "../inc/connect.php";
@@ -47,19 +47,6 @@ if ($tables_exists) {
         }
     }
 
-    $sqleuro = "SELECT *
-	FROM " . $table_prefix . "_euro 
-	ORDER BY Datum_Euro ASC";
-
-    $resulteuro = mysqli_query($con, $sqleuro) or die("Query failed. ERROR: " . mysqli_error($con));
-    if (mysqli_num_rows($resulteuro) == 0) {
-        $aeuro[date('d/m/y G:i', time())] = "Geen data";
-    } else {
-        while ($row = mysqli_fetch_array($resulteuro)) {
-            $aeuro[date('d/m/y G:i', strtotime($row['Datum_Euro']))] = $row['Geg_Euro'];
-        }
-    }
-//echo '<pre>'.print_r($aeuro, true).'</pre>';
     $sqlrefer = "SELECT *
 	FROM " . $table_prefix . "_refer 
 	ORDER BY Datum_Refer ASC";
@@ -107,11 +94,11 @@ include "par_header.php";
                 switch ($last) {
                     // The 'G' modifier is available since PHP 5.1.0
                     case 'g':
-                        $val = floatval($val)*1024;
+                        $val = floatval($val) * 1024;
                     case 'm':
-                        $val = floatval($val)*1024;
+                        $val = floatval($val) * 1024;
                     case 'k':
-                        $val = floatval($val)*1024;
+                        $val = floatval($val) * 1024;
                 }
 
                 return $val;
@@ -252,32 +239,6 @@ include "par_header.php";
 						<td><font size='-1'>" . $axas . "</font></td>
 						<td><font size='-1'>" . $ayas . "</font></td>
 						<td><font size='-1'>" . $areferdag[$axas] . "</font></td>
-						</tr>");
-                        };
-                    }
-                    ?>
-                    </tbody>
-                </table>
-            </div>
-            <div id="euro">
-                <br/>
-                <table>
-                    <tbody>
-                    <tr>
-                        <td colspan="3">
-                            <center>Records tabel tgeg_euro</center>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><font size="-1">Datum_Euro</font></td>
-                        <td><font size="-1">Geg_Euro</font></td>
-                    </tr>
-                    <?php
-                    if ($tables_exists) {
-                        foreach ($aeuro as $axas => $ayas) {
-                            echo("<tr>
-						<td><font size='-1'>" . $axas . "</font></td>
-						<td><font size='-1'>" . $ayas . "</font></td>
 						</tr>");
                         };
                     }

@@ -1,5 +1,4 @@
 <?php
-
 include_once "Parameters.php";
 include_once "inc/sessionstart.php";
 include_once "inc/load_cache.php";
@@ -7,9 +6,7 @@ include_once "inc/import_data.php";
 
 include_once "inc/header.php";
 include_once "charts/month_chart.php";
-
 ?>
-
 
 <?php
 $paramstr_choose = '';
@@ -58,7 +55,6 @@ if (strpos($paramstr_choose, "?") == 0) {
         </div>
         <div id="month_chart_<?php echo $inverter_id ?>" style="width:100%; !important; height:100%; !important;"></div>
     </div>
-
 
 
     <div id="kalender">

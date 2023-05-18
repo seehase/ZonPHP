@@ -5,8 +5,8 @@ include_once "inc/load_cache.php";
 include_once "inc/import_data.php";
 include_once "inc/header.php";
 include_once "charts/cumulative_chart.php";
-if (isset($_POST['add'])){
-echo '
+if (isset($_POST['add'])) {
+    echo '
 <script type="text/javascript">
 location.reload();
 </script>';
@@ -17,9 +17,10 @@ location.reload();
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2 align="center">
-                <form action = "<?php $_SERVER['PHP_SELF']; ?>" method = "POST">
-                <?php echo "&nbsp";	echo "  " .$title." ";?>
-				</form>	
+                <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+                    <?php echo "&nbsp";
+                    echo "  " . $title . " "; ?>
+                </form>
             </h2>
         </div>
         <div id="universal" style="width:100%; !important; height:100%; !important;"></div>

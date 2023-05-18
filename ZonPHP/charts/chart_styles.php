@@ -187,7 +187,7 @@ $formatter->setPattern('LLL');
 $shortmonthcategories = "";
 for ($i = 1; $i <= 12; $i++) {
     // get month names in current locale
-    $shortmonthcategories .= '"' . str_replace('.','',datefmt_format($formatter, mktime(0, 0, 0, $i))) . '",';
+    $shortmonthcategories .= '"' . str_replace('.', '', datefmt_format($formatter, mktime(0, 0, 0, $i))) . '",';
 }
 $shortmonthcategories = substr($shortmonthcategories, 0, -1);
 ?>

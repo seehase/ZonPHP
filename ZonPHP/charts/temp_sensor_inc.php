@@ -2,7 +2,7 @@
 
 // ---Temperature SENSOR -----------------------------------------------------------------------------------------------------------
 
-$sensor_available =  ($use_weewx == true);
+$sensor_available = ($use_weewx == true);
 
 $sensor_values = array();
 $sensorid = 197190;

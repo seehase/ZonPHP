@@ -84,13 +84,13 @@ if (!isset ($colors['color_yearchart3'])) $colors['color_yearchart3'] = "89C4F4"
 if (!isset ($colors['color_yearchart4'])) $colors['color_yearchart4'] = "5C97BF";
 if (!isset ($colors['color_text_link1'])) $colors['color_text_link1'] = "ffffff";
 if (!isset ($colors['color_text_link2'])) $colors['color_text_link2'] = "c00000";
-if (!isset ($colors['color_palettes'])) $colors['color_palettes'] = array (
-    							array ('#9ccc65' , '#8bc34a' , '#7cb342' ),
-								array ('#aed6f1' , '#85c1e9' , '#5dade2' ),
-								array ('#f9e79f' , '#f7dc6f' , '#f4d03f' ),
-								array ('#a3e4d7' , '#76d7c4' , '#48c9b0' ),
-								array ('#d7bde2' , '#c39bd3' , '#af7ac5' ),
-								array ('#ef5350' , '#e53935' , '#c62828' ));
+if (!isset ($colors['color_palettes'])) $colors['color_palettes'] = array(
+    array('#9ccc65', '#8bc34a', '#7cb342'),
+    array('#aed6f1', '#85c1e9', '#5dade2'),
+    array('#f9e79f', '#f7dc6f', '#f4d03f'),
+    array('#a3e4d7', '#76d7c4', '#48c9b0'),
+    array('#d7bde2', '#c39bd3', '#af7ac5'),
+    array('#ef5350', '#e53935', '#c62828'));
 
 // load themes if not
 if ($_SESSION['theme'] == "default") {
@@ -211,13 +211,13 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_yearchart4'] = "ff000d";
     $colors['color_text_link1'] = "ffffff";
     $colors['color_text_link2'] = "c00000";
-  	$colors['color_palettes'] =  array (
-	array ('#f9e79f' , '#f7dc6f' , '#f4d03f'),
-	array ('#ff9e80','#ff6e40','#ff3d00'),
-	array ('#ff7043','#f4511e','#d84315' ),
-	array ('#fff176','#ffeb3b','#fbc02d'),
-	array ('#ef5350' , '#e53935' , '#c62828'),
-	array ('#b0bec5','#607d8b','#37474f' ));
+    $colors['color_palettes'] = array(
+        array('#f9e79f', '#f7dc6f', '#f4d03f'),
+        array('#ff9e80', '#ff6e40', '#ff3d00'),
+        array('#ff7043', '#f4511e', '#d84315'),
+        array('#fff176', '#ffeb3b', '#fbc02d'),
+        array('#ef5350', '#e53935', '#c62828'),
+        array('#b0bec5', '#607d8b', '#37474f'));
 } else if ($_SESSION['theme'] == "theme2") {
     $colors['color_background'] = "381C04";
     $colors['color_footerbackground'] = "E7A75B";
@@ -257,8 +257,8 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_yearchart4'] = "9A01BE";
     $colors['color_text_link1'] = "ffffff";
     $colors['color_text_link2'] = "c00000";
-    
-}else if ($_SESSION['theme'] == "theme3") {
+
+} else if ($_SESSION['theme'] == "theme3") {
     $colors['color_background'] = "ffffff";
     $colors['color_footerbackground'] = "ffffff";
     $colors['color_menubackground'] = "ffffff";
@@ -297,14 +297,14 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_yearchart4'] = "FF00D0";
     $colors['color_text_link1'] = "000000";
     $colors['color_text_link2'] = "c00000";
-  	$colors['color_palettes'] =  array (
-array ('#ff7043','#f4511e','#d84315' ),
-array ('#81c784','#43a047','#2e7d32' ),
-array ('#e57373','#f44336','#c62828' ),
-array ('#4fc3f7','#039be5','#0277bd' ),
-array ('#4dd0e1','#00acc1','#006064' ),
-array ('#b0bec5','#607d8b','#37474f' ));
-}else if ($_SESSION['theme'] == "theme4") {
+    $colors['color_palettes'] = array(
+        array('#ff7043', '#f4511e', '#d84315'),
+        array('#81c784', '#43a047', '#2e7d32'),
+        array('#e57373', '#f44336', '#c62828'),
+        array('#4fc3f7', '#039be5', '#0277bd'),
+        array('#4dd0e1', '#00acc1', '#006064'),
+        array('#b0bec5', '#607d8b', '#37474f'));
+} else if ($_SESSION['theme'] == "theme4") {
     $colors['color_background'] = "ffffff";
     $colors['color_footerbackground'] = "d6d6d6";
     $colors['color_menubackground'] = "d6d6d6";
@@ -319,7 +319,7 @@ array ('#b0bec5','#607d8b','#37474f' ));
     $colors['color_inverter0_chartbar_max'] = "00008B";
     $colors['color_inverter1_chartbar_min'] = "FFFF00";
     $colors['color_inverter1_chartbar_max'] = "FFD700";
-	$colors['color_chartbar_piek1'] = "f3ff15";
+    $colors['color_chartbar_piek1'] = "f3ff15";
     $colors['color_chartbar_piek2'] = "a80000";
     $colors['color_chart_average_line'] = "0003a6";
     $colors['color_chart_reference_line'] = "ff000d";
@@ -347,13 +347,13 @@ array ('#b0bec5','#607d8b','#37474f' ));
     $colors['color_yearchart4'] = "545454";
     $colors['color_text_link1'] = "000000";
     $colors['color_text_link2'] = "c00000";
-    $colors['color_palettes'] = array (
-    							array ('#9ccc65' , '#8bc34a' , '#7cb342' ),
-								array ('#aed6f1' , '#85c1e9' , '#5dade2' ),
-								array ('#f9e79f' , '#f7dc6f' , '#f4d03f' ),
-								array ('#a3e4d7' , '#76d7c4' , '#48c9b0' ),
-								array ('#d7bde2' , '#c39bd3' , '#af7ac5' ),
-								array ('#ef5350' , '#e53935' , '#c62828' ));
+    $colors['color_palettes'] = array(
+        array('#9ccc65', '#8bc34a', '#7cb342'),
+        array('#aed6f1', '#85c1e9', '#5dade2'),
+        array('#f9e79f', '#f7dc6f', '#f4d03f'),
+        array('#a3e4d7', '#76d7c4', '#48c9b0'),
+        array('#d7bde2', '#c39bd3', '#af7ac5'),
+        array('#ef5350', '#e53935', '#c62828'));
 }
 
 $_SESSION['colors'] = $colors;

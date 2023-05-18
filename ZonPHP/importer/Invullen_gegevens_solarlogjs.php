@@ -46,7 +46,9 @@ for ($tel = 0; $tel <= $aantaldagen; $tel++) {
 <?php
 
 foreach ($adag as $v) {    //CVDK
-    $teller=1;$teller2=1;	$teller2=1; //CVDK
+    $teller = 1;
+    $teller2 = 1;
+    $teller2 = 1; //CVDK
     $string = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
     $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
     while (!feof($file)) {
@@ -179,7 +181,7 @@ function omzetdatum($date)
 function controledatum($idag, $imaand, $ijaar)
 {
     //echo $idag.$imaand.$ijaar;
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;
