@@ -112,11 +112,6 @@ include_once "par_header.php";
 
 
                 echo "<b>" . $txt["installuitg"] . ".</b><br /><br />";
-                if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtdnt"]) {
-                    mysqli_query($con, $sql_wisdagnacht) or die("Query failed. sql_wisDag: " . mysqli_error($con));
-                    mysqli_query($con, $sql_maakdagnacht) or die("Query failed. sql_wisDag: " . mysqli_error($con));
-                    echo $txt["installtdnt"] . "ok<br />";
-                }
                 if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtd"]) {
                     mysqli_query($con, $sql_wisDag) or die("Query failed. sql_wisDag: " . mysqli_error($con));
                     mysqli_query($con, $sql_maakDag) or die("Query failed. sql_maakDag: " . mysqli_error($con));
@@ -126,12 +121,6 @@ include_once "par_header.php";
                     mysqli_query($con, $sql_wisMaand) or die("Query failed. sql_wisMaand: " . mysqli_error($con));
                     mysqli_query($con, $sql_maakMaand) or die("Query failed. sql_maakMaand: " . mysqli_error($con));
                     echo $txt["installtm"] . "ok<br />";
-                }
-                if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtp"]) {
-                    mysqli_query($con, $sql_wisPrijskW) or die("Query failed. sql_wisPrijskW: " . mysqli_error($con));
-                    mysqli_query($con, $sql_maakPrijskW) or die("Query failed. sql_maakPrijskW: " . mysqli_error($con));
-                    mysqli_query($con, $sql_insertPrijskW) or die("Query failed. sql_insertRefkW: " . mysqli_error($con));
-                    echo $txt["installtp"] . "ok<br />";
                 }
                 if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtr"]) {
                     mysqli_query($con, $sql_wisRefkWMaand) or die("Query failed. sql_wisRefkWMaand: " . mysqli_error($con));

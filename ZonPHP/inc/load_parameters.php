@@ -73,8 +73,11 @@ foreach ($sNaamSaveDatabase as $keynaam => $snaam) {
         $_SESSION['Wie'] = $snaam;
 }
 
-$ieffectiefkwpiek = $anaam_wattpiek[$_SESSION['Wie']];
+if (isset($_SESSION['Wie']) && $anaam_wattpiek[$_SESSION['Wie']]) {
+    $ieffectiefkwpiek = $anaam_wattpiek[$_SESSION['Wie']];
+} else {
+    $ieffectiefkwpiek = 0.0;
+}
 $_SESSION['ieffectiefkwpiek'] = $ieffectiefkwpiek;
-
 
 ?>
