@@ -139,7 +139,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
         if ($pos_start > 0) {
             $github_version = substr($homepage, $pos_start + 1, $pos_end - $pos_start - 1);
         }
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
 
     }
     $_SESSION['github_version'] = $github_version;
