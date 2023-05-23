@@ -10,8 +10,8 @@ define('CHART_STYLE', 'background-color: #' . $colors['color_chartbackground'] .
 define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-left:  width: 100%; height: auto; overflow: hidden; background-color:#' . $colors['color_background'] . ';');
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
