@@ -79,7 +79,7 @@ if (isset($param['hide_menu'])) {
                     </li>
                     <li><a href="install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
                     <li><a href="about.php">About</a></li>
-                    <li><a href="installation.php"><?php echo $txt["installatie"]; ?></a></li>
+                    <li><a href="show_plant.php"><?php echo $txt["installatie"]; ?></a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/archive/master.zip">download ZonPHP</a></li>
                     <li><a href="inc/destroy.php"><?php echo $txt["clearsession"]; ?> </a></li>
