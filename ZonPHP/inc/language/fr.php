@@ -1,6 +1,6 @@
 <?php
 $txt["aantalsoortpaneel"] = "Nombre de type + panel";
-$txt["actueel"] = "Aujourd'hui";
+$txt["actueel"] = "Aujourd\'hui";
 $txt["autorefresh"] = "Rechargement automatique page web en secondes défaut = 300 (0=désactivé)";
 $txt["available_languages"] = "définir langues disponible pour utilisateur";
 $txt["back_to_today"] = "Retour à aujourd'hui";
