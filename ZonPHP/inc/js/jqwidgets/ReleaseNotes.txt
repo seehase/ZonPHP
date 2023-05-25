@@ -1,4 +1,1220 @@
-﻿*********************************************
+﻿jQWidgets v16.0.0 Release, March-03-2023
+
+What's New:
+
+New Fluent Theme.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid about the "ensurerowvisible" method. It calculates wrong position when using "autorowheight" and paging.
+- Fixed an issue in jqxGrid about the default selection in the filter dropdown when localization is applied to the Grid.
+- Fixed an issue in jqxGrid about the "filterable" column property. It does not work in filterbarmode: 'simple'.
+- Fixed an issue in jqxGrid about filtering with checkbox selection mode enabled.
+- Fixed an issue in jqxGrid about column resizing. The auto resize columns when you have row details does not work.
+- Fixed an issue in jqxGrid about the Grid selection when a filter is applied from the Column's Menu by pressing the enter key.
+- Fixed an issue in jqxGrid. The page auto-scrolls to top, when column menu is opened for the first time.
+- Fixed an issue in jqxGrid about the adaptive layout. It shows undefined column if selection is 'checkmode'.
+- Fixed an issue in jqxGrid about the column filtertype - "list" and localizing the filterchoosestring. This causes incorrect behavior with the filtering behavior.
+- Fixed an issue in jqxGrid about the filterType:'input'. It throws an error when filterstringcomparisonoperators is localized.
+- Fixed an issue in jqxGrid about the date range filter. The filter is lost after loading a previously saved state with the "loadstate" method.
+- Fixed an issue in jqxGrid about the "getselectedrowindexes" method. It returns empty array, if row is selected with keyboard arrow up/down.
+- Fixed an issue in jqxDropDownList about the Material theme. When checkboxes are enabled, the dropdown does not open after the first click.
+- Fixed an issue in jqxDropDownList, jqxComboBox and jqxDateTimeInput about the dropdown animation in the Material, Light and Dark themes.
+- Fixed an issue in jqxPasswordInput about the "val" method. It does not set correct value when the method is called dynamically.
+- Fixed an issue in jqxKanban about the "itemrenderer" method. The method is not called after dragging an item from one kanban instance to another.
+- Fixed an issue in jqxKanban about the "addItem" method. It does not work correctly when "id" is not included in the new item's data.
+- Fixed an issue in jqxKanban about the "updateItem" method. It adds a duplicate to the items array returned by "getItems" method
+- Fixed an issue in jqxKanban about the add/remove event handlers, when there are multiple kanbans in the page.
+- Fixed an issue in jqxKanban about the rendering of the collapse arrow in the Material, Light and Dark themes.
+- Fixed an issue in jqxSplitter. It throws error when resizing on touch screen.
+
+
+jQWidgets v15.0.0 Release, Nov-14-2022
+
+What's New:
+
+- jqxCheckBoxGroup Component.
+- jqxRadioButtonGroup Component.
+
+What's Improved:
+
+- jqxGrid support for Ctrl+Click when sorting by multiple columns.
+- jqxGrid - cardview mode - add support for cellclassname.
+
+What's Fixed:
+
+- Fixed an issue in jqxChart. saveAsJPEG does not work with annotations.
+- Fixed an issue in jqxPasswordInput (Angular). The change event not triggering properly.
+- Fixed an issue in jqxGrid. The  cellvaluechanged event is beinged trigger when cell's type is date.
+- Fixed an issue in jqxGrid. A Charting error with datafields array results in incorrect rendering.
+- Fixed an issue in jgxGrid. updaterow with array does not update the grid when filter is applied.
+- Fixed an issue in jqxGrid. Export without provided file name does not work.
+- Fixed an issue in jqxGrid. clears state on disabling.
+- Fixed an issue in jqxGrid .filter working incorrectly when using localization with filterchoosestring.
+- Fixed an issue in jqxGrid. export to xlsx not working with some themes.
+- Fixed an issue in jqxScheduler. Month Days > 31 Bug in edit dialog.
+- Fixed an issue in jqxDropDownList. Angular missing scrollBarSize property.
+- Fixed an issue in jqxScheduler. editDialogOpen 'dialog' variable reference.
+- Fixed an issue in jqxScheduler. Recursive appointment does not get added.
+- Fixed an issue in jqxNumberInput. When spinButtonsStep>10 and min<0, the spinButtons stop working.
+- Fixed an issue in jqxNumberInput. Incorrect cursor placement editing negative number.
+- Fixed an issue in jqxListBox. Getting wrong selected item when filter is applied.
+- Fixed an issue in jqxDateTimeInput. Mobile mode with time popup.
+- Fixed an issue in jqxDateTimeInput. Month only input. Padding on buttons not applied initially.
+- Fixed an issue in jqxMaskedInput about not updating value on 'Delete' key press.
+
+jQWidgets v14.0.0 Release, May-01-2022
+
+What's New:
+
+- jqxGrid command column.
+- Barcode component.
+- QRcode component.
+
+What's Improved:
+
+- Light theme is updated with more modern look and feel.
+
+What's Fixed:
+
+- Fixed an issue in jqxDataTable. 2nd level nested table disappears.
+- Fixed an issue in jqxSlider - the "created" event does not fire.
+- Fixed an issue in jqxNumberInput - spin buttons unexpected behavior. When decimalDigits and digits properties are set to 2 and the spin buttons are enabled with spinButtonsStep=0.1, the buttons don't work.
+- Fixed an issue in jqxGrid - card view mode - cards change position during scroll
+- Fixed an issue in jqxGrid - card view mode - cards are not fully displayed but there is no scrollbar
+- Fixed an issue in jqxGrid - rowsheight is not preserved when you switch to cardview mode and then back to grid mode
+- Fixed an issue in jqxGrid issue when used within a jqxSplitter component
+- Fixed an issue in jqxGrid bug when having pinned columns doesn't scroll on the next column on key press
+
+
+jQWidgets v13.2.0 Release, Jan-27-2022
+
+What's New:
+
+- jqxGrid Columns render is enhanced with badges showing the column's sort index.
+
+What's Improved:
+
+- jqxSwitchButton events API. Added changeType argument.
+
+What's Fixed:
+
+- Fixed an issue in jqxKanban. 'itemMoved' event returns 'args.NewColumn' as null
+- Fixed an issue in jqxKanban. When dropping a card from one Kanban to another Kanban element
+- Fixed an issue in jqxNumberInput. When trying to get negative value
+- Fixed an issue in jqxGrid. Filtering clears the bound data when used with filter row and custom list items
+- Fixed an issue in jqxGrid. Aggregates are not updated when the source of the grid is changed
+- Fixed an issue in jqxGrid. ExportView - xlsx does not format dates if there is any null values
+- Fixed an issue in jqxTabs. Adds new div element every time when 'setTitleAt' method is used
+- Fixed an issue in jqxGrid. Filtering issue when the grid is initially loaded( when using show filter row)
+- Fixed an issue in jqxGrid. When having localization set and filtering issue
+
+
+What's Fixed:
+
+
+jQWidgets v13.1.0 Release, Nov-16-2021
+
+What's Fixed:
+
+- Fixed an issue in jqxScheduler. jqxScheduler refreshes only to 12:00 AM hour when the source of the scheduler is changed.
+- Fixed an issue in jqxGrid. jqxGrid with filtermode set to excel doesn't work properly on columns with number type column data.
+- Fixed an issue in jqxGrid. jqxGrid - cannot filtering with the "showfilterbar" property when the "editable" property is enabled.
+- Fixed an issue in jqxGrid. jqxGrid - StatusBar Row placed too low.
+- Fixed an issue in jqxInput. jqxInput does not fire 'keyup' event #449.
+- Fixed an issue in jqxNumberInput. jqxNumberInput doesn't remove the minus symbol when value is set from negative to positive.
+- Fixed an issue in jqxDropDownList. jqxDropdownList select event is not firing in Safarai (Ipad & iphone).
+- Fixed an issue in jqxListBox. jqxListbox typing the filter input clears the SelectedItem.
+- Fixed an issue in jqxValidator. jqxValidator doesn't validate jqxDateTimeInput widget.
+- Fixed an issue in jqxGrid. jqxGrid with rating column - tooltip inconsistent behavior.
+- Fixed an issue in jqxNumberInput. jqxNumberInput - in simple inputMode with '-' sign 'Delete' key deletes one char away from cursor.
+- Fixed an issue in jqxGrid. jqxGrid - pressing with the pointer of the mouse on the vertical scrollbar does not stop in its position.
+- Fixed an issue in jqxGrid. jqxGrid rating column addittional properties. Added "ratingmax" property for setting the count of rating items.
+
+
+jQWidgets v13.0.0 Release, Nov-11-2021
+
+What's New:
+
+- Angular 13 support
+
+jQWidgets v12.2.0 Release, Sep-21-2021
+
+What's New:
+
+- jqxGrid Batch Edit mode
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid Copy paste large numbers in jqxGrid.
+- Fixed an issue in jqxGrid.  The addrow method when using with rowPosition parameter doesn't place the row in the right place.
+- Fixed an issue in JqxGrid Horizontal Scrolling. When some of the columns are pinned and we try to navigate with tab or keyboard.
+- Fixed an issue in jqxInput. Shows native autocomplete popup after entering a value.
+- Fixed an issue in jqxGrid with paging and some of the themes. Arrows for next/previous page are displaced.
+- Fixed an issue in jqxDropDownButton. It is not focusable on Tab key press.
+- Fixed an issue in jqxGrid. Scrolls to top of the grid when deleting row.
+- Fixed an issue in jqxGrid Column Chooser about the events raised when the column choosed is opened or closed.
+- Fixed an issue in jqxSortable about receive event not raised.
+- Fixed an issue in jqxGrid about createeditor callback.
+- Fixed an issue in jqxGrid. When dragging a column header it has to be drag it to the line of the filtering box for the grouping to work and it results in bad UI experience
+- Fixed an issue in DockingLayout regarding saveLayout and loadLayout, when a floating dialog is created.
+
+jQWidgets v12.1.2 Release, June-28-2021
+
+What's Improved:
+
+- Added 'enableSanitizeAll' option to jqxGrid. 
+- Light and Dark Themes for jqxDataTable, jqxTreeGrid and jqxScheduler. 
+
+
+jQWidgets v12.1.1 Release, June-23-2021
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the 'cellsformat', when enableSanitize is true.
+- Fixed an issue in jqxGrid regarding the 'cellsrenderer' value argument type.
+- Fixed an issue in jqxDataTable regarding the HTML sanitization.
+- Fixed an issue in jqxTree regarding an error thrown in mobile mode.
+- Fixed an issue in jqxPanel regarding the 'focused' property behavior. 
+
+jQWidgets v12.1.0 Release, June-18-2021
+
+What's New:
+
+- jqxSplitLayout component for Angular & Javascript
+
+What's Improved:
+
+- jqxGrid HTML Sanitization.
+- jqxDateTimeInput and jqxNumberInput mobile device UX.
+- jqxDateTimeInput delete button element which allows you to quickly clear the date.
+- Angular 12 integration.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding its focus method behavior.
+- Fixed an issue in jqxGrid List Filter with DropDown which has filterable enabled and source property set to a custom value. The Grid was not applying the correct filter when the DropDown items were filtered, too.
+- Fixed an issue in jqxGrid regarding the XSS attack prevention.
+- Fixed an issue in jqxGrid regarding the keyboard navigation when sorting and grouping are applied.
+- Fixed an issue in jqxNumberInput which allowed entering of letters when used on mobile device.
+- Fixed an issue in jqxNumberInput regarding the percentages and currency editing on mobile device.
+- Fixed an issue in jqxDateTimeInput which allowed entering of letters when used on mobile device.
+- Fixed an issue in jqxSlider regarding the tooltip hide delay property when the thumb is dragged.
+- Fixed an issue in jqxInput regarding the popup closing when Material theme is applied.
+- Fixed an issue in jqxDataTable about the "enableBrowserSelection" property set to the "true" value does not work properly
+- Fixed an issue in jqxMaskedInput when the component is used on Android device the input was incorrect.
+- Fixed an issue in jqxMaskedInput when the component is used on a mobile device, the default keyboard was shown instead of the numeric keyboard.
+
+
+jQWidgets v12.0.4 Release, Apr-15-2021
+
+What's Improved:
+
+- Extended jqxGrid cells styling options with fontFamily and fontWeight options.
+
+What's Fixed:
+
+- Fixed an issue regarding the val() method for input components using Light, Dark and the Material Themes.
+- Fixed an issue regarding the "disabled" property of jqxInput.
+- Fixed an issue regarding the placeholder visibility of inputs using Light and Dark themes.
+- Fixed an issue regarding the jqxInput popup usage with touchpads.
+- Fixed an issue regarding the jqxGrid resources disposal, when re-rendering the component.
+
+jQWidgets v12.0.1 Release, Mar-06-2021
+
+What's New:
+
+- jqxGrid Cardview Custom Value Templates
+
+What's Improved:
+
+- jqxGrid Cardview scrolling UX on mobile devices.
+
+What's Fixed:
+
+- Fixed an issue related to popups in jqxGrid Filter Menu.
+- Fixed an issue related to jqxGrid adaptive mode, when the adaptive mode is dynamically switched on/off.
+
+
+jQWidgets v12.0.0 Release, Feb-24-2021
+
+What's New:
+
+- jqxGrid Card View mode.
+- Angular v11.2.2 support.
+
+What's Fixed:
+
+- Fixed an issue regarding the jqxNumberInput component. Using the "val" method with the negative value it behaves inappropriately when is with the "simple" input mode
+- Fixed an issue regarding the jqxKnob component usage with IPad when there are multiple knobs on the page. 
+- Fixed an issue regarding the grid filtering, when the grid data source is updated dynamically and a filter is applied.
+- Fixed an issue regarding the filter menu rendering when row details are enabled.
+- Fixed an issue regarding the jqxPivotGrid Drill through functionality and selection events.
+
+jQWidgets v11.1.3 Release, Feb-09-2021
+
+What's Fixed:
+
+- Fixed an issue regarding the Angular CLI ng-add schematics.
+- Fixed an issue regarding the Angular CLI ng-generate schematics.
+- Fixed an issue regarding the default theme in Angular 11.1.4.
+- Fixed an issue regarding the stricter type checking in Angular
+
+*********************************************
+* jQWidgets v11.0.1 Release, Dec-09-2020    *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the Sorting icons rendering in energyblue and darkblue themes.
+
+*********************************************
+* jQWidgets v11.0.0 Release, Nov-16-2020    *
+*********************************************
+
+What's New:
+
+- Angular 11 support.
+
+What's Fixed:
+
+- Fixed an issue in jqxScheduler regarding the ensureVisible method.
+- Fixed an issue in jqxScheduler regarding the 'appointmentClick' event in agenda view.
+- Fixed an issue in jqxGrid regarding the cell class name styling.
+- Fixed an issue in jqxGrid when the Grid is displayed in a DropDownButton and the animationType is "none".
+- Fixed an issue in jqxInput regarding the HTML sanitization.
+- Fixed an issue in jqxKnob regarding the 'changing' callback.
+- Fixed an issue in jqxInput regarding the "change" event raised multiple times.
+- Fixed an issue in ThemeBuilder when importing a theme.
+- Fixed an issue in ThemeBuilder regarding the DateTimeInput icon.
+- Fixed an issue in jqxToolbar regarding the z-index of its dropdown button.
+- Fixed an issue in jqxNumberInput regarding changed steps when pressing the spin down button.
+- Fixed an issue in jqxTextArea regarding the "select" event.
+- Fixed an issue in jqxKanban regarding the 'itemMoved' event for newly added item.
+- Fixed an issue in jqxPasswordInput regarding its style.
+
+*********************************************
+* jQWidgets v10.1.6 Release, Oct-16-2020    *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the scrolling with mouse wheel in Chrome 86.
+- Fixed an issue in jqxGrid data export, when the data has symbols like &, @, etc.
+- Fixed an issue in jqxForm regarding the hideComponent API.
+
+
+*********************************************
+* jQWidgets v10.1.5 Release, Sept-18-2020   *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxPivotGrid regarding the html escape of characters.
+- Fixed an issue in jqxGrid regarding the clipboard paste.
+- Fixed an issue in jqxGrid regarding the undo and redo functionality.
+- Fixed an issue in jqxGrid regarding the Ctrl+Space column selection.
+- Fixed an issue in jqxGrid regarding the Ctrl+Shift+Space all rows selection.
+- Fixed an issue in jqxGrid regarding the excel-like cells selection, when the Grid is bound to large data set.
+- Fixed an issue in jqxGrid regarding the selection of all rows API, when the selection mode is set to excel-like cells selection mode.
+- Fixed an issue in jqxGrid regarding the column resizing, when autofill property is set to true.
+
+*********************************************
+* jQWidgets v10.1.2 Release, Sept-07-2020   *
+*********************************************
+
+What's Fixed:
+
+- jqxGrid - fixed a rendering issue regarding the 'autofill' behavior, when the parent element of jqxGrid is with margin.
+
+*********************************************
+* jQWidgets v10.1.0 Release, Sept-04-2020   *
+*********************************************
+
+What's New:
+
+- Blazor UI Components. Demos: https://blazor.jqwidgets.com/. Docs: https://blazor.jqwidgets.com/documentation/.
+- jqxGrid - Excel-like Horizontal and Vertical auto-fill.
+- jqxGrid - Undo and Redo with Ctrl+Z, Ctrl+Y.
+- jqxGrid - Ctrl+D. Pressing Ctrl+D fills the cell beneath with the contents of the selected cell in a column.
+- jqxGrid - Ctrl+Space. Pressing Ctrl+Space selects the column.
+
+What's Improved:
+
+- Angular Reactive Forms support.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid about the "ensurerowvisible" method. It was not working properly with the "deferred" scrolling mode.
+- Fixed an issue in jqxGrid (Mobile). Fast scrolling throws error in NsBasic app.
+- Fixed an issue in jqxGrid about copy and paste date in the column from date type, it sets current date instead of copied one.
+- Fixed an issue in jqxGrid about using the "ensurecellvisible" method when there are pinned columns.
+- Fixed an issue in jqxGrid about using the "showfilterbar" property with editing.
+- Fixed an issue in jqxGrid about missing "expanded" from "getgroup" method.
+- Fixed an issue in jqxGrid about overlapping labels from sorting and filtering feature.
+- Fixed an issue in jqxGrid about the "autoresizecolumns" method which does not react as it is expected.
+- Fixed an issue in jqxGrid about the localization for the window of the Column Chooser.
+- Fixed an issue in JqxGrid about paste in rowdetails input.
+- Fixed an issue in jqxGrid about using grouping and column chooser. Wrong items were displayed in the column chooser.
+- Fixed an issue in jqxGrid about disabling the exporting feature for just one column it does not have an effect with the "exportview" method.
+- Fixed an issue in jqxGrid about possible security issue reported by Checkmarx utility tool, which scans the code for possible vulnerabilities.
+- Fixed an issue in jqxGrid about changing of themes.
+- Fixed an issue in jqxDataAdapter (FireFox) about formatting of dates appropriately when has comma ("," symbol.
+- Fixed an issue in jqxInput (Angular) about reactive Form with the "reset" method of the forms.
+- Fixed an issue in jqxInput about autocomplete click event, which triggers click on elements behind.
+- Fixed an issue in jqxNumberInput about decimalSeparator and groupSeparator combination.
+- Fixed an issue in jqxNumberInput about using the "decimalSeparator" property with the "," option it set inappropriate value with the "val" method.
+- Fixed an issue in jqxDataTable about the "enableBrowseSelection" property.
+- Fixed an issue in jqxDataTable about possible security issue reported by Checkmarx utility tool, which scans the code for possible vulnerabilities.
+- Fixed an issue in jqxTreeGrid about possible security issue reported by Checkmarx utility tool, which scans the code for possible vulnerabilities.
+- Fixed an issue in jqxKanban about "itemAttrClicked" event not working on mobile devices.
+- Fixed an issue in jqxForm about the "hideComponent" method.
+- Fixed an issue in jqxScheduler about incorrect behavior when trying to click on the current day (today) it does not react from the calendar.
+- Fixed an issue in jqxScheduler about possible security issue reported by Checkmarx utility tool, which scans the code for possible vulnerabilities.
+- Fixed an issue in JqxExpander about the Theme [Frog]. Text appears white on white background.
+- Fixed an issue in jqxComboBox about selection of first item when the ComboBox is in multiple selection mode.
+cannot choose the first item.
+- Fixed an issue in jqxComboBox about incorrect HTML in the ComboBox template.
+- Fixed an issue in jqxComboBox about possible security issue reported by Checkmarx utility tool, which scans the code for possible vulnerabilities.
+- Fixed an issue in jqxDropDownList about the keyboard navigation and incremental search. The numbers from the "Num Lock" keys do not react.
+- Fixed an issue in jqxDropDownList about possible security issue reported by Checkmarx utility tool, which scans the code for possible vulnerabilities.
+- Fixed an issue in jqxListBox about possible security issue reported by Checkmarx utility tool, which scans the code for possible vulnerabilities.
+
+*********************************************
+* jQWidgets v10.0.2 Release, July-22-2020   *
+*********************************************
+
+What's New:
+
+- Angular 10 support.
+- Modern Light and Dark Themes with CSS variables support. 
+- jqxGrid Filter all functionality.
+- jqxGrid Excel import.
+- New demos.
+
+What's Fixed:
+
+- Fixed themes related issues. Centering of Icons, foreground and background colors in hover, active and default states.
+
+
+*********************************************
+* jQWidgets v9.1.6 Release, May-18- 2020    *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid related to IE11 and sorting.
+- Fixed an issue in jqxGrid related to multi-column sorting in Angular.
+- Fixed an issue in jqxComboBox and jqxPanel regarding jQuery 3.5.1.
+- Fixed an issue in jqxForm regarding duplicate ids.
+- Fixed an issue in jqxForm when more than one jqxForm-s on page, dropdown list opens only in last form.
+
+*********************************************
+* jQWidgets v9.1.4 Release, Apr-15- 2020    *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue regarding touch-devices detection.
+- Fixed an issue in the jqx.base.css regarding jqxButton's disabled state.
+
+*********************************************
+* jQWidgets v9.1.3 Release, Apr-09- 2020    *
+*********************************************
+
+What's New:
+
+- Schematics for the Angular CLI - Add and Generation Schematics are added to jqwidgets-ng npm package for easier setup of Angular projects. 
+- jqxGrid Column Chooser. Modal dialog included in the Grid component, which allows you to dynamically show/hide grid columns.
+- jqxScheduler UI Virtualization, which allows you to load thousands of appointments/events in the month and timeline views.
+
+What's Improved:
+
+- Angular Docs & Tutorials.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid charting IE11 support.
+- Fixed an issue in jqxListBox - when using programmatically selection of all item the "getCheckedItems" method does not return all items in the "checkChange" event
+- Fixed an issue in jqxGrid - when having more than 10 columns after the filtering in the next one there has appeared white strip.
+- Fixed an issue in jqxGrid (React) - after filtering it break rendering of columns after 10th
+- Fixed an issue in jqxSwitchButton - checked and unchecked events are swapped
+- Fixed an issue in jqxGrid - when using sorting with option "many" and filtering it throws error
+- Fixed an issue in jqxTree - error message with the newer version of the jQuery (v3.4.1)
+- Fixed an issue in jqxGrid - when select/edit one cell and after that using tabbing it automatically checked the first checkbox
+- Fixed an issue in jqxGrid - when using input inside the "rowdetails" option after tabbing from this input it select first row
+- Fixed an issue in jqxPopover - close buttons closes all popovers on page
+- Fixed an issue in jqxSwitchButton - with some the themes it looks like there is no chosen option
+- Fixed an issue in Disabled button doesn't always block click event
+- Fixed an issue in jqxGrid - keyboard navigation between groups broken when showgroupaggregates == true
+- Fixed an issue in jqxGrid - cannot be grouped after toggling the "filterrow" option
+- Fixed an issue in jqxComboBox - the "multiSelect" property and opening the list will select the first one
+- Fixed an issue in jqxGrid - the "sortMode: 'many'" option only latest sorted column has correct options for its menu
+- Fixed an issue in jqxGrid - not appropriate behavior when it is disabled - possible to change checkboxes
+- Fixed an issue in jqxListBox - cannot be using the dragging feature after adding the new items
+- Fixed an issue in jqxSwitchButton - there is no visual difference between disabled and enabled state
+
+
+*********************************************
+* jQWidgets v9.0.0 Release, Jan-03- 2020    *
+*********************************************
+
+What's New:
+
+- jqxGrid Charting - Data Visualization of Grid data in a Chart.
+- jqxGrid export to .xlsx data format.
+- jqxGrid export with Data Grouping. 
+- jqxGrid Progress and Rating columns.
+- jqxGrid Rating cell editor with jqxRating.
+- jqxGrid Material UI Pager Template.
+
+What's Improved:
+
+- All Angular examples are with Ivy rendering.
+- jqxGrid Data Export performance.
+
+- What's Fixed:
+
+- Fixed various typescript issues related to Angular 9 compatibility.
+- Fixed an issue in jqxGrid regarding the dropdownlist filter component positioning.
+- Fixed an issue in jqxGrid regarding the tabindex of the grid menu, when multiple grids are on the page.
+- Fixed an issue in jqxGrid regarding the row details display in Firefox.
+- Fixed an issue in jqxGrid PDF export when header export is disabled.
+- Fixed an issue in jqxGrid Dropdownlist filter popup position while scrolling.
+- Fixed an issue in jqxGrid regarding the gethroup method results.
+- Fixed an issue in jqxGrid regarding the grouping dragging errors associated with isPassive prop.
+- Fixed an issue in jqxGrid regarding tabbing and editing with enabled RTL mode.
+- Fixed an issue in jqxGrid regarding the multi sorting, when sorting is applied while the Grid data source is empty.
+- Fixed an issue in jqxGrid regarding the editing after addrow method is called, while sorting is applied.
+- Fixed an issue in jqxGrid regarding the addrow method, when the Grid's source is empty.
+- Fixed an issue in jqxGrid regarding the grouping when aggregates and paging are turned on.
+- Fixed an issue in jqxGrid regarding the editing, when the grid is initially empty and an editable row is added by calling addrow.
+- Fixed an issue in jqxWindow regarding the resize method behavior.,
+- Fixed an issue in jqxHeatMap rendering for IE11.
+- Fixed an issue in jqxScheduler regarding the yearly recurrence edit.
+- Fixed an issue in jqxScheduler regarding the work time, when the fromHour is set to 0.
+- Fixed an issue in jqxTabs regarding the tabs rendering with Material themes.
+- Fixed an issue in jqxTabs regarding the tabs close button behavior.
+- Fixed an issue in jqxTreeGrid regarding the expandAll method and the checkboxes appearance after the treegrid is rendered.
+
+
+*********************************************
+* jQWidgets v8.3.2 Release, Oct-17 2019	               *
+*********************************************
+
+What's New:
+
+- Angular Ivy support.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid Angular Component about Grouping error thrown by setbatchgroupstate function.
+- Fixed an issue in jqxGrid about Filtering Dates, when the date format is custom.
+- Fixed an issue in jqxGrid about Filtering with custom source.filter callback function.
+- Fixed an issue in jqxGrid about autoheight rendering overlap.
+- Fixed an issse in jqxGrid about adding new row. The boundindex of the row was not set so editing it was not possible.
+- Fixed an issue in jqxGrid about an error when using showfilterrow, groupable and autoloadstate.
+- Fixed an issue in jqx.black.css about an outdated CSS syntax.
+- Fixed an issue in jqxScheduler about rendering of appointments in TimelineView.
+- Fixed an issue in jqxDataTable and jqxTreeGrid about dynamically changing the columnGroups.
+- Fixed an issue in jqxTreeGrid about dynamically setting the theme property.
+- Fixed an issue in jqxTabs about the enabled "showCloseButtons" option with "reorder" option.
+
+*********************************************
+* jQWidgets v8.2.0 Release, Sep-17 2019	               *
+*********************************************
+
+What's New:
+
+- Added Smart Web Components to the package. 
+
+What's Fixed:
+
+- Fixed Angular 8 related issue in jqxGrid grouping.
+- Fixed Angular 8 related issue in jqxGrid filtering.
+- Fixed Angular 8 related issue in jqxGrid, jqxDataTable and jqxTreeGrid about data export.
+- Fixed Angular 8 related issue in jqxListBox about inserting new items.
+- Fixed Angular 8 related issue in jqxCheckBox about the checked event.
+- Fixed Angular 8 related issue in jqxGrid about the virtualization.
+- Fixed Angular 8 related issue in jqxDateTimeInput about the Localization and Formatting.
+- Fixed Angular 8 related issue in jqxCalendar about the Localization and Formatting.
+
+- Fixed an 
+*********************************************
+* jQWidgets v8.1.4 Release, July-17 2019	               *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxScheduler regarding the rendering of appointments in timelineDayView when "exactTime" is turned on, the scale is 10 minutes and the appointment's duration is less than 5 minutes.
+- Fixed an issue in jqxScheduler resulting in error about globalize.js in Angular 8..
+
+*********************************************
+* jQWidgets v8.1.3 Release, July-15 2019	               *
+*********************************************
+
+What's Improved:
+
+- jqxGrid row details can have variable dynamic height. 
+
+What's Fixed: 
+
+- Fixed an issue in jqxGrid about row details visibility in Firefox when the Grid has many columns.
+- Fixed an issue in jqxGrid about incorrect filtering through checkedlist filter, when there is "null" value in the Grid's data.
+- Fixed an issue in jqxGrid about scrolling right, then the exported data (xls) shows as a blank column.
+- Fixed an issue in jqxScheduler about incorrectly rendered timeline appointment, when the appointment is longer than month, exact-time rendering is enabled and the view is timeline month view.
+- Fixed an issue in jqxKanban about the columns rendering, expand and collapse, when trying to add dynamically new columns.
+- Fixed an issue in jqxKanban addItem method. The kanban-item-id was incorrectly set.
+- Fixed an issue in jqxKanban regarding dynamically setting the source. That may result to duplicated items in some cases.
+- Fixed an issue in jqxDropDownList regarding the label rendering when the width is in percentages.
+- Fixed an issue regarding Angular 8 production build, Globalize.js and jqxCalendar, jqxDateTimeInput and jqxScheduler.
+
+*********************************************
+* jQWidgets v8.1.2 Release, June-19-2019                *
+*********************************************
+
+What's Fixed:
+
+- Fixed issues related to ESLint and Angular 8 production builds.
+
+*********************************************
+* jQWidgets v8.1.1 Release, June-17-2019                *
+*********************************************
+
+What's New: 
+
+- Javascript Time Picker component.
+- Javascript Heatmap component.
+
+What's Fixed: 
+
+- Fixed an issue in several components about Angular 8 production build error.
+- Fixed an issue in jqxPivotGrid's setCellValue method behavior.
+- Fixed an issue in jqxGrid. When scrolling to the last right column and using the "showvalidationpopup" method for the second column.
+- Fixed an issue in jqxGrid. Selection rendering was incorrect after deleting a row.
+- Fixed an issue in jqxGrid regarding the Data Export to Excel of Date Columns exported as Strings. Now, the data is correctly exported.
+- Fixed an issue in jqxGrid when grouping aggregates are dynamically turned on/off.
+- Fixed an issue in jqxNumberInput. When the initial state of the input is empty and the value is null, the editing was not working correctly.
+- Fixed an issue in jqxNumberInput. Initial value is negative and rendering in "advanced" mode is wrong.
+- Fixed an issue in jqxScheduler regarding the localization rendering when showWeekends is false.
+
+*********************************************
+* jQWidgets v8.0.0 Release, May-16-2019                *
+*********************************************
+
+What's New: 
+
+- Material ColorPicker Javascript component.
+
+What's Improved:
+
+- Angular 8 components integration.
+
+What's Fixed:
+
+- Fixed an issue in jqxScheduler regarding the Edit Appointment dialog.
+- Fixed an issue in jqxScheduler regarding the weekly recurring appointments when localization is applied. 
+- Fixed an issue in jqxDateTimeInput Vue component.
+- Fixed an issue in jqxInput regarding the maxlength property with material themes.
+- Fixed an issue in jqxInput regarding its 'close' event.
+- Fixed an issue in jqxNumberInput regarding the Null value support with material themes.
+- Fixed an issue in jqxPasswordInput regarding its placeholder with material themes.
+- Fixed an issue in jqxDateTimeInput Angular component regarding the placeholder property.
+
+
+*********************************************
+* jQWidgets v7.2.0 Release, Apr-15-2019                 *
+*********************************************
+
+What's Improved:
+
+- jqxGrid resizing performance and rendering in responsive layouts.
+
+What's Fixed:
+
+- Fixed an issue in jqxButton regarding the dynamic changing of themes.
+- Fixed an issue in jqxButton for removing an event listener after calling 'destroy'.
+- Fixed an issue in jqxScheduler regarding the dynamic adding of appointments with resources.
+- Fixed an issue in jqxGrid when "removesort" is called and the multi column sorting is enabled.
+- Fixed an issue in jqxGrid when multi sort is enabled and columns height is changed dynamically.
+- Fixed an issue in jqxGrid when multi sort is enabled and "updatebounddata" method is called with parameter "sort".
+- Fixed an issue in jqxGrid when an item in filter row's checked list filter contains "and".
+- Fixed an issue in jqxGrid when filtering currency values with checked list filter.
+- Fixed an issue in jqxGrid when tabbing in case with "selectionmode: 'none'" select the first row.
+- Fixed an issue in jqxGrid regarding the rendering when filtering and grouping are enabled. The grid is grouped by multiple columns and a filter is applied. 
+- Fixed an issue in jqxGrid regarding the rendering while resizing. Sometimes horizontal scrollbar was shown.
+- Fixed an issue in jqxGrid regarding keyboard navigation with pageUp and pageDown and scrolling when grouping is applied.
+- Fixed an issue in jqxTreeGrid regarding the "scrollBarSize" property.
+- Fixed an issue in jqxTreeGrid and jqxDataTable regarding the keyboard navigation with arrow keys and ensureRowVisible method.
+- Fixed an issue in jqxPanel regarding the scrolling on mobile devices.
+- Fixed an issue in jqxTree when ensureVisible is called for the last item and horizontal scrolling is available.
+- Fixed an issue in jqxTree when ensureVisible is called for an item with sub-items.
+- Fixed an issue in jqxChart regarding the formatFunction of the labels settings.
+- Fixed an issue in jqxSlider regarding the moving of thumb after click on the slider's track. The thumb possition had several pixels offset.
+- Fixed an issue with jqxDropDownList dropdown positioning on mobile devices.
+
+*********************************************
+* jQWidgets v7.1.0 Release, Feb-11-2019                *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the ensurerowvisible method when grouping is enabled.
+- Fixed an issue in jqxGrid regarding the keyboard navigation and selection when grouping is enabled. 
+- Fixed an issue in jqxGrid regarding the scrollbarsize property behavior.
+- Fixed an issue in jqxGrid regarding the number input editor when the editor is localized.
+- Fixed an issue in jqxGrid regarding the columnemenuopening column callback function.
+- Fixed an issue in jqxGrid regarding the filter menu with datetimeinput and its popup.
+- Fixed an issue in jqxGrid regarding the filter menu with the "show rows where" and "show rows where date" strings.
+- Fixed an issue in jqxNumberInput regarding its resize rendering behavior.
+- Fixed an issue in jqxScheduler regarding the appointmentOpacity.
+- Fixed an issue in jqxScheduler - the labels of the resources disappeared on changing of the date in 'timeline view
+- Fixed an issue in jqxDateTimeInput with "allowNullDate" and initial 'null'.
+- Fixed an issue in jqxTextArea regarding the 'selectAll' method.
+
+*********************************************
+* jQWidgets v7.0.0 Release, Jan-10-2019                *
+*********************************************
+
+What's New: 
+
+- React components with TSX.
+
+What's Improved:
+
+- jqxGrid Columns and Cells custom styling. A 'style' column property has been introduced to make styling of cells and column headers easier.
+
+What's Fixed:
+
+- Fixed an issue in jqxScheduler recurrenceException thrown error when recurrenceException is not set, but recurrenceRule is.
+- Fixed an issue in jqxScheduler recurrence issue. Reference: https://github.com/jqwidgets/jQWidgets/issues/25
+- Fixed an issue in jqxScheduler TimelineMonthView rendering of appointments with exactTime rendering mode. Appointments were not rendered correctly. https://github.com/jqwidgets/jQWidgets/issues/16
+- Fixed an issue in jqxScheduler Timeline views. Dragging and Resizing of appointments when the Scheduler is with absolute position. https://github.com/jqwidgets/jQWidgets/issues/19
+- Fixed an issue in jqxGrid Time Filtering issue. Reference: https://github.com/jqwidgets/jQWidgets/issues/27
+- Fixed an issue in jqxGrid regarding the validation popup diisplay for last row.
+- Fixed an issue in jqxTreeGrid regarding the Aggregates rendering. https://github.com/jqwidgets/jQWidgets/issues/14
+- Fixed an issue in jqxNumberInput's getvalue method when the decimalSeparator is ','.
+
+
+*********************************************
+* jQWidgets v6.2.0 Release, Dec-4-2018                 *
+*********************************************
+What's New:
+
+- Angular Modules for all components - jqwidgets-ng folder.
+
+What's Improved:
+
+- When the Grid calls the DataAdapter's sort function, it now passes an additional third parameter which contains all sort columns and sort directions. 
+	
+            var source =
+            {
+                localdata: data,
+                sortcolumns: ['productname', 'date'],
+                sortdirections: ['asc', 'asc'],
+                datatype: "array",
+                sort: function (datafield, sortdirection, sortcolumns) {
+                    for (var sortcolumn in sortcolumns) {
+                        var direction = sortcolumns[sortcolumn];
+                    }
+                },
+                datafields:
+                [
+                    { name: 'firstname', type: 'string' },
+                    { name: 'lastname', type: 'string' },
+                    { name: 'productname', type: 'string' },
+                    {
+                        name: 'date',
+                        type: 'date'
+                    },
+                    { name: 'quantity', type: 'number' },
+                    { name: 'price', type: 'number' },
+                    { name: 'total', type: 'number' }
+                ]
+            };
+
+What's Fixed:
+
+- Fixed an issue in the rendering of jqxTree with checkboxes and jqxEditor with Material styles.
+- Fixed an issue in jqxGrid regarding the multiple-column sorting of Date columns.
+- Fixed an issue in jqxGrid regarding the multiple-column sorting in virtual mode. Even when there is no data, the sort arrows are rendered as in the single-sort mode.
+- Fixed an issue in jqxScheduler regarding jQuery 3.3.1 and rendering of appointments on IPad in MonthView.
+- Fixed an issue in jqxDateTimeInput regarding dates selection before 1970.
+- Fixed an issue in jqxTreeGrid regarding the export to excel when aggregates are turned on.
+- Fixed an issue in jqx.base.css file regarding *expression css names.
+
+*********************************************
+* jQWidgets v6.1.0 Release, October-01-2018         *
+*********************************************
+
+What's New:
+
+- Vue JS Components
+
+What's Improved:
+
+- Added options to jqxDataAdapter to define Grid's sortcolumns and sortdirections on initialization.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid React component regarding rendering issues like double-headers, etc in some scenarios.
+- Fixed an issue in jqxGrid regarding the deleterow method when the Grid is sorted by multiple columns.
+- Fixed an issue in jqxGrid regarding duplicating "Please Choose" labels in dropdownlist filters.
+- Fixed an issue in jqxNumberInput regarding the setDecimal method when the value is null.
+- Fixed an issue in jqxNumberInput about wrong behaviour with negative numbers when events are raised.
+- Fixed an issue in jqxEditor regarding the copy/paste.  
+- Fixed an issue in jqxScheduler regarding rendering of MonthView appointments when Schedulers are placed in jqxTabs and the first one is hidden.
+- Fixed an issue in jqxScheduler regarding the firstDay Localization setting.
+- Fixed an issue in jqxFileUpload in Mozilla Firefox regarding the file's url rendering.
+- Fixed an issue in jqxNotification rendering in Angular. 
+- Fixed an issue in jqxInput two-way data binding.
+
+*********************************************
+* jQWidgets v6.0.6 Release, August-13-2018           *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the columns rendering when everpresentrow and showfilterrow are enabled.
+- Fixed an issue in jqxGrid regarding the multi-column sorting when the Grid is empty.
+- Fixed an issue in jqxGrid regarding the multi-column sorting when the Grid column is with key/value pairs.
+- Fixed an issue in jqxGrid data export when exporting a column with currency formatting and the rows count is 1.
+- Fixed an issue in jqxGrid, jqxTreeGrid typescript definitions, when a method or property is set on ngOnInit.
+- Fixed an issue in jqxCalendar rendering when firstDayOfWeek is changed.
+- Fixed an issue in jqxForm Angular Component regarding the imports and resizing.
+- Fixed an issue in jqxForm typescript definitions.
+- Fixed an issue in jqxNumberInput regarding the value initialization when the widget is created.
+- Fixed an issue in jqxDropDownList regarding the rendering of the placeholder in Material themes, when clearSelection method is called.
+- Fixed an issue in jqxChart tooltip arrow positioning.
+- Fixed an issue in jqxListBox rendering when the theme is material and custom rendering function is set.
+- Fixed an issue in jqxScheduler regarding the all day checkbox alignment in the dialog.
+
+*********************************************
+* jQWidgets v6.0.5 Release, August-01-2018           *
+*********************************************
+
+What's Improved:
+
+- jqxGrid Adaptive rendering. Filter dialog is rendered differently on small screens when adaptive mode is turned on.
+
+What's Fixed:
+
+- Fixed an issue in jqxNumberInput when promptChart is set to empty string.
+- Fixed an issue in jqxNumberinput up/down  keys when selection is before number the first number does nothing.
+- Fixed an issue in jqxGrid when multi-column sorting is applied to column with type "float" or "int".
+- Fixed an issue in jqxGrid Pager rendering on small screen devices. Now, some elements are adaptively hidden and shown.
+- Fixed an issue in jqxGrid multi-column sorting when user edits cells.
+- Fixed an issue in jqxGrid regarding auto-scrolling when an editor is opened and the Grid is grouped.
+- Fixed an issue in jqxGrid number editing process. When numeric cell is selected and a numeric key is pressed, the input's caret position was wrong.
+- Fixed an issue in jqxComboBox keyboard navigation.
+- Fixed an issue in jqxInput when the value property is changed dynamically.
+- Fixed an issue in jqxDataAdapter regarding the mapChar option name.
+- Fixed an issue in jqxForm regarding the val() method.
+- Fixed an issue in jqxForm typescript file.
+- Fixed an issue in jqxDateTimeInput regarding the val() method when the Date is in String format.
+- Fixed an issue in jqxDateTimeInput about darkblue theme. Hides navigation buttons at top of Calendar.
+- Fixed an issue in jqxDateTimeInput regarding the validation on initialization. value is always between the min and max range on initialization.
+- Fixed an issue in jqxDateTimeInput regarding the time popup, when the formatString is "HH" or "hh", only the Hour input shoud be visible.
+- Fixed an issue in jqxTree regarding the vertical alignment of Tree Item's text and icons.
+
+*********************************************
+* jQWidgets v6.0.4 Release, July-17-2018                *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding row-details z-index.
+- Fixed an issue in Angular components about duplicate val methods.
+- Fixed an issue in jqxGrid typescript definitions regarding the new Grid properties.
+- Fixed an issue in jqxGrid about border-colors of Grid cell editors in the Light theme.
+- Fixed an issue in jqxGrid filter menu rendering.
+- Fixed an issue in jqxGrid deferred scrolling popup in Firefox.
+- Fixed an issue in jqxForm typescript definitions.
+- Fixed an issue in jqxForm Angular component.
+- Fixed an issue in jqxValidator labels positioning in Inputs with Material theme.
+- Fixed an issue in jqxTextArea args.type property being undefined.
+- Fixed an issue in jqxInput regarding the Material theme in IE11.
+- Fixed an issue in jqxRibbon regarding the Material theme Tab bar rendering.
+- Fixed an issue in jqxTree regarding the checkbox rendering in Indeterminate state.
+
+*********************************************
+* jQWidgets v6.0.0 Release, July-16-2018                *
+*********************************************
+
+What's New:
+
+- jqxForm widget.
+- jqxGrid Multi-Column Sorting.
+- jqxGrid Adaptive Layout Rendering.
+- jqxGrid Column and Row Lines Visibility customization.
+- Material, Material Green and Material Purple themes.
+- jqxChart Multi-Series Tooltips.
+
+What's Improved:
+
+- Light and Dark themes.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid column rendering, when Sort is applied. Column text was not completely rendered due to the sort icon or text ellipsis was not shown even when it should be.
+- Fixed an issue in jqxGrid column rendering, when Filter is applied. Column text was not completely rendered due to the filter icon or text ellipsis was not shown even when it should be.
+- Fixed an issue in jqxGrid ensurerowvisible method when user navigates with keyboard and grouping is enabled.
+- Fixed an issue in jqxGrid with Home/End keyboard selection, when pageable is enabled.
+- Fixed an issue in jqxGrid with PageUp/PageDown keyboard selection and page navigation, when pageable is enabled.
+- Fixed an issue in jqxGrid when a filter is applied by hitting "Enter" key and the displayed rows are 0. The grid throws an error.
+- Fixed an issue in jqxGrid filter panel regarding incorrect margin and padding of the filter widgets.
+- Fixed an issue in jqxGrid regarding the filter row cell widths after filter is applied and column width is set in percentages.
+- Fixed an issue in jqxDropDownButton regarding the popup z-index.
+- Fixed an issue in jqxCalendar regarding the cell size, when the calendar is placed inside TD tag.
+- Fixed an issue in jqxWindow regarding the tab key navigation inside the window. 
+- Fixed an issue in jqxTreeGrid Angular component.
+- Fixed an issue in Inputs regarding the percentage width handling.
+- Fixed an issue in jqxPasswordInput regarding the horizontal resizing.
+- Fixed an issue in jqxDataTable regarding the Advanced filtering rendering.
+- Fixed an issue in jqxDataAdapter issue regarding beforeLoadComplete when used along with loadServerData.
+- Fixed an issue in jqxListBox regarding the rendering of items and their width and offset calculations with and without checkboxes.
+
+Breaking changes:
+
+jqxTreeGrid, jqxDataTable, jqxGrid - increased default row height, column height and pager height. These properties are configurable with the API.
+
+
+
+
+*********************************************
+* jQWidgets v5.7.2 Release, April-20-2018     *
+*********************************************
+
+What's New:
+
+- Users can load jqxListBox, jqxDropDownlist and jqxComboBox by using the Angular *ngFor directive.
+- Users can load jqxGrid and jqxDataTable by using the Angular *ngFor directive.
+- Users can dynamically load Angular components into Grid Cells.
+- New Angular Help tutorials about Routing and Navigation, Dynamic Component Loading and WebPack installation.
+- jqxGrid can be loaded from Table tag by using $.jqx.parseSourceTag method.
+- Angular 6 components integration.
+
+
+What's Fixed:
+
+- Fixed an issue in jqxListBox regarding the loading from Select and UL tags.
+- Fixed an issue in jqwidgets.d.ts file regarding missing jqx:any.
+- Fixed an issue in jqxScheduler regarding the edit dialog's z-index.
+- Fixed an issue in jqxScheduler regarding the firstDay localization setting and showWeekends is set to false.
+- Fixed an issue in jqxNotification regarding the dynamically change of templates.
+- Fixed an issue in jqxGrid regarding the sorting when the Grid is grouped.
+- Fixed an issue in jqxFileUpload cancelFile typescript definition.
+- Fixed an issue in the widgets styles regarding an incorrect image.
+
+jQWidgets v5.6.0 Release, February-09-2018
+
+What's New:
+- Pivot Grid Tag Helper
+- ASP .NET MVC Tag Helpers documentation update
+- ASP .NET MVC Tag Helpers Visual Studio 2017 integration and .NET Standard 2
+- Updated ASP .NET MVC NuGet packages for jQWidgets and the free Bootstrap tag helpers package. 
+
+*********************************************
+* jQWidgets v5.5.0 Release, Dec-05-2017     *
+*********************************************
+
+What's New:
+
+- 500+ Custom Elements demos.
+
+What's Improved:
+
+- jQWidgets Custom Elements behavior.
+- Angular 5 components integration.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the custom filtering keyboard. When the filter menu is customized by the user, an error was raised when 'Enter' key is pressed.
+- Fixed an issue in jqxDraw regarding trying to set invalid NaN params. 
+- Fixed an issue in jqxButton custom element.
+- Fixed issues regarding the Angular components property types.
+
+*********************************************
+* jQWidgets v5.4.0 Release, Oct-11-2017     *
+*********************************************
+
+What's Improved:
+
+- Angular components scripts references are automatically added.
+- Angular @Input properties validation.
+- All Angular examples are updated.
+- jqxGrid keyboard navigation in filter row, filter and sort menu and pager.
+- jqxScheduler ICalendar export  support for X-WR-CALNAME and X-WR-DESC.
+
+What's Fixed: 
+
+- Fixed several issues with missing typescript property definitions.  
+- Fixed an issue in jqxPivotGrid regarding the drag and drop behavior.
+
+*********************************************
+* jQWidgets v5.3.2 Release, Sep-21-2017     *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid related to nested Grids z-index.
+- Fixed an issue in jqxListBox related to item's labels. 
+- Fixed an issue in jqxScheduler related to the getSelection method result when a single all day cell is selected in Day/Week view.
+- Fixed an issue in jqxWindow related to its z-index.
+- Fixed an issue in jqxScheduler related to its dialog z-index.
+
+*********************************************
+* jQWidgets v5.3.0 Release, Sep-17-2017     *
+*********************************************
+
+What's Improved:
+
+- Widgets now use lower default z-index values.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding full row edit and tabbing.
+- Fixed an issue in jqxGrid ever present row when updatebounddata is called.
+- Fixed an issue in jqxGrid regarding the beginrowedit method when called after addrow method.
+- Fixed an issue in jqxGrid horizontal scrollbar appearance when the column widths are not set.
+- Fixed an issue in jqxGrid regarding the uid reset of rows when the column editor is ComboBox or DropDownList. 
+- Fixed an issue in jqxGrid about showing empty rows when virtual mode is turned on and display rows count is greater than the data rows count.
+- Fixed an issue in jqxGrid when grouping aggregates are enabled and a custom aggregate is implemented. The custom aggregate's results are not shown in the group's aggregate.
+- Fixed an issue in jqxScheduler regarding the context menu which opens the edit dialog. 
+- Fixed an issue in jqxListBox regarding the 'clear' method. After calling clear, developers were still able to get an item object by it's value.
+- Fixed an issue in jqxTabs regarding the keyboard navigation.
+- Fixed an issue in jqxTabs regarding hosting dropdown widgets and closing the dropdown when tab is selected and tab reorder is enabled.
+- Fixed an issue in jqxValidator regarding the validation error message display in the TextArea after adding the required value.
+- Fixed an issue in jqxTree regarding the ensureVisible method when the item is the first item, the tree was incorrectly scrolling down.
+- Fixed an issue in jqxComboBox multi select mode which was related to cross site scripting vulnerability.
+- Fixed an issue in jqxListBox and jqxDropDownList which was related to cross site scripting vulnerability.
+
+*********************************************
+* jQWidgets v5.2.0 Release, Sep-04-2017     *
+*********************************************
+
+What's New:
+
+- Angular Pivot Grid
+- React Pivot Grid
+- Pivot Grid Custom Element
+
+What's Improved:
+
+- jqxTabs and jqxRibbon light theme. 
+
+What's Fixed:
+
+- Fixed an issue in jqxListBox and jqxDropDownList regarding the enableSelection property when it is set dynamically.
+- Fixed an issue in jqxCheckBox and jqxRadioButton regarding the event.args.type member when the event is raised.
+- Fixed an issue in jqxPivotGrid regarding the mouse selection when the mouse is released over a scrollbar.
+- Fixed an issue in jqxPivotGrid regarding the hit test functionality.
+- Fixed an issue in jqxTabs regarding removing an event listener when the Tabs is within IFrame.
+- Fixed an issue in jqxToggleButton custom element regarding invoking methods inherited by jqxButton.
+- Fixed an issue in jqxGrid regarding the mouse selection when the area between the vertical and horizontal scrollbar is clicked.
+
+*********************************************
+* jQWidgets v5.1.0 Release, Aug-15-2017     *
+*********************************************
+
+What's New:
+
+- Javascript Pivot Grid
+
+What's Updated:
+
+- Grid icons for settings menu and sorting.
+
+What's Fixed: 
+
+- Fixed an issue related to jqxDropDownButton Custom element.
+- Fixed an issue related to event handling in Custom elements.
+
+*********************************************
+* jQWidgets v5.0.0 Release, Aug-08-2017     *
+*********************************************
+
+What's New:
+
+ - Custom Elements
+
+
+What's Fixed:
+
+- Fixed an issue in jqxTooltip regarding the open method in combination with refresh method. CSS classes were added multiple times.
+- Fixed an issue in jqxDataTable regarding the ensure row visible keys.
+- Fixed an issue in jqxButtonGroup regarding percentage sizing.
+- Fixed an issue in jqxButton regarding dynamically setting the value property, when image is defined.
+- Fixed an issue in jqxDropDownList regarding the initialization from UL list.
+- Fixed an issue in jqxMenu regarding the closeItem method behavior.
+
+*********************************************
+* jQWidgets v4.5.4 Release, June-27-2017    *
+*********************************************
+
+What's New:
+
+1500+ Angular 4 Demos.
+
+What's Fixed:
+
+- Fixed an issue in the CSS styling about DataTable and TreeGrid pager.
+- Fixed an issue in jqxScheduler about the Edit Dialog title showing incorrect results when adding and editing appointments.
+- Fixed an issue in jqxScheduler about the Edit Dialog Delete button visibility.
+
+
+*********************************************
+* jQWidgets v4.5.3 Release, June-01-2017    *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the data editing when the edit mode is 'selectedrow' and selection mode is cell based. 
+- Fixed an issue in jqxGrid regarding loading dates with milliseconds precision.
+- Fixed an issue in jqxGrid regarding the destroy method when filter row is enabled and there are INPUT filters.
+- Fixed an issue in jqxGrid when caps-lock is on and you start editing with a key press.
+- Fixed an issue in jqxGrid when columns reorder is true in RTL mode.
+- Fixed an issue in jqxGrid regarding DatetimeInput editor when it is in time-input mode.
+- Fixed an issue in jqxScheduler regarding the agendaView usage on touch devices.
+- Fixed an issue in jqxListBox about submitting item value when the listbox is empty.
+- Fixed an issue in jqxDateTimeInput regarding showing time popup with Alt + Down key, if calendar button is hidden.
+
+*********************************************
+* jQWidgets v4.5.2 Release, May-04-2017     *
+*********************************************
+
+What's New:
+
+- Added 650+ new React Examples.
+
+*********************************************
+* jQWidgets v4.5.1 Release, April-01-2017   *
+*********************************************
+
+What's Improved:
+- The jqxLayout/jqxDockingLayout "allowClose" setting in is now preserved when pinning tabbedGroups or unpinning autoHideGroups.
+
+What's Fixed:
+
+- Fixed an issue in jqxNumberInput regarding mobile devices behavior when decimalSeparator is ",".
+- Fixed an issue in jqxScheduler regarding the exactTimeRendering functionality, when an appointment is rendered in 2 days.
+- Fixed an issue in jqxScheduler regarding the edit dialog when the dialog is opened when there's no focused cell.
+- Fixed an issue in jqxPopover regarding the showArrowButton property, when it is set dynamically.
+- Fixed an issue in jqxGrid regarding the tooltips in Checkbox column.
+- Fixed an issue in jqxGrid regarding the clipboard paste functionality.
+- Fixed an issue in jqxGrid regarding the toggle arrows display when the grid's row details and grouping with aggregates features are enabled. 
+- Fixed an issue in jqxGrid regarding the grouping aggregates rendering logic.
+- Fixed an issue in jqxGrid regarding the filter row dropdownlist and "select all" item.
+- Fixed an issue in jqxGrid regarding the full row edit when "ESC" is pressed and "updaterow" is defined in the source object.
+- Fixed an issue in jqxDataTable regarding the server-side filtering.
+- Fixed an issue in jqxWindow regarding the dynamic enabling/disabling of window dragging.
+- Fixed an issue in jqxWindow regarding the Tab key navigation after closing modal window.
+- Fixed an issue in jqxTabs regarding the setTitleAt method when close buttons are enabled.
+- Fixed an issue in jqxRibbon about the animationType: "slide".
+- Fixed an issue in jqxWindow regarding the method "destroy" in Internet Explorer.
+
+*********************************************
+* jQWidgets v4.5.0 Release, Jan-13-2017     *
+*********************************************
+
+What's New:
+
+- React UI components.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the DateTimeInput editor in Firefox.
+- Fixed an issue in jqxGrid regarding the Tab-key navigation when the Grid is in edit mode and the editor is checkbox.
+- Fixed an issue in jqxGrid regarding the Esc key behavior when the NumberInput column is in edit mode.
+- Fixed an issue in jqxGrid regarding the auto-scroll behavior after editing and when grouping is turned on.
+- Fixed an issue in jqxGrid regarding the row details expand/collapse behavior after sorting and filtering.
+- Fixed an issue in jqxGrid regarding the filter row's date range filter display after the grid is re-rendered.
+- Fixed an issue in jqxScheduler regarding the columns rendering in timeline views after navigation.
+- Fixed an issue in jqxTreeGrid regarding the auto-height calculation after cell editing when autoRowHeight is true.
+- Fixed an issue in jqxCalendar and jqxDateTimeInput regarding their destroy method.
+- Fixed an issue in jqxMaskedInput regarding the value property during initialization.
+- Fixed an issue in jqxChart regarding the tooltip's z-index. 
+
+Breaking changes: 
+
+Component selectors for Angular now start with "jqx" instead of "angular".
+ASP .NET Tag Helpers now use dash style instead of camel case for creating helpers and setting attributes.
+
+*********************************************
+* jQWidgets v4.4.0 Release, Nov-24-2016     *
+*********************************************
+
+- 30+ new examples for Angular 2.
+- Angular 2 Web Pack support.
+- Initialize jQWidgets Angular 2 Components through attributes.
+- Angular 2 ngModel support.
+
+*********************************************
+* jQWidgets v4.3.0 Release, Oct-07-2016     *
+*********************************************
+
+What's New:
+
+- Angular 2.0 Final version support.
+- ASP .NET Core MVC Tag Helpers
+- ASP .NET Core MVC Bootstrap Tag Helpers.
+
+What's Improved:
+
+- jqxDateTimeInput, jqxNumberInput Esc key behavior.
+
+What's Fixed:
+
+- Fixed an issue in jqxTabs regarding the changing of tab titles dynamically.
+- Fixed an issue in jqxWindow regarding the changing of its content dynamically.
+- Fixed an issue in jqxProgressBar regarding its text layout.
+- Fixed an issue in jqxLayout regarding its rendering.
+- Fixed an issue in jqxRibbon regarding the z-index of its scroll buttons.
+
+*********************************************
+* jQWidgets v4.2.1 Release, Aug-26-2016     *
+*********************************************
+
+What's Fixed:
+
+- Fixed issues in Angular 2 and Typescript Examples.
+- Fixed an issue in jqxScheduler regarding the legend area rendering.
+- Fixed an issue in jqxScheduler regarding the auto-height behavior.
+- Fixed an issue in jqxRibbon regarding the scrolling behavior.
+- Fixed an issue in jqxProgressBar regarding the value updates.
+
+*********************************************
+* jQWidgets v4.2.0 Release, Aug-24-2016     *
+*********************************************
+What's New:
+
+- Typescript Definitions.
+- AngularJS 2.0 Components.
+- More than 150 Examples about New Typescript and AngularJS 2.0
+- jQuery 3.1.0 support.
+- jqxGrid Grouping Aggregates.
+- New layout options in jqxLayout and jqxDockingLayout widgets. It is not possible to set the size of the content part of an autoHideGroup's pop-up.
+- New jqxDockingLayout event - "floatGroupClosed", which is triggered when a float group has been closed.
+
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the getrowid method results.
+- Fixed an issue in jqxGrid regarding the data export of aggregates when selection mode is set to "checkbox".
+- Fixed an issue in jqxGrid regarding the initwidget callback function parameters.
+- Fixed an issue in jqxGrid regarding the data export rendering when some columns is pinned.
+- Fixed an issue in jqxGrid regarding the jqxDateTimeInput editor when editing begins with key press.
+- Fixed an issue in jqxGrid regarding the jqxDateTimeInput editor selection positioning.
+- Fixed an issue in jqxDateTimeInput regarding the AM/PM editing.
+- Fixed an issue in jqxKanban regarding the rendering when kanban items overflow and the kanban widget is resized.
+- Fixed an issue in jqxComboBox regarding the showArrow property when it is set dynamically.
+- Fixed an issue in jqxScheduler regarding the auto-height of monthView cells.
+- Fixed an issue in jqxBarGauge regarding the dynamic changing of values.
+- Fixed an issue in jqxKanban regarding the dynamic changing of resources property.
+- Fixed an issue in jqxRibbon regarding the "reorder" event being called incorrectly and causing an error to be thrown in jqxDockingLayout.
+- Fixed an issue in jqxLayout/jqxDockingLayout occurring when resizing groups with relatively small width/height.
+- Fixed an issue in jqxDockingLayout resulting in content of docked float groups not being loaded by the method "loadLayout".
+
+*********************************************
 * jQWidgets v4.1.2 Release, April-28-2016   *
 *********************************************
 

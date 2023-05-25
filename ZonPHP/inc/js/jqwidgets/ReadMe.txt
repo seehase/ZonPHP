@@ -1,3 +1,30 @@
+Installation through NPM:
+
+The jQWidgets framework is available as NPM package:
+
+jQuery, Javascript, Angular, Vue, React, Web Components:
+
+https://www.npmjs.com/package/jqwidgets-scripts - source files.
+https://www.npmjs.com/package/jqwidgets-framework - source files, demos, docs, images. 
+
+Web Components:
+
+https://www.npmjs.com/package/smart-webcomponents - web components source files. 
+
+Angular Modules:
+
+https://www.npmjs.com/package/jqwidgets-ng
+https://www.npmjs.com/package/smart-webcomponents-angular
+
+React:
+
+https://www.npmjs.com/package/smart-webcomponents-react
+
+Blazor:
+
+dotnet add package Smart.Blazor
+
+
 1. The SDK files are located in the jqwidgets directory
  
  In general you need to use files from this directory only.
@@ -12,6 +39,9 @@
 
   styles/jqx.base.css: Stylesheet for the base Theme. The jqx.base.css file should be always included in your project.
   
+  styles/jqx.material.css: Stylesheet for the Material Theme
+  styles/jqx.material-purple.css: Stylesheet for the Material Purple Theme
+  styles/jqx.material-green.css: Stylesheet for the Material Green Theme
   styles/jqx.android.css: Stylesheet for the Android Theme
   styles/jqx.arctic.css: Stylesheet for the Arctic Theme
   styles/jqx.web.css: Stylesheet for the Web Theme
@@ -24,7 +54,8 @@
   styles/jqx.energyblue.css: Stylesheet for the EnergyBlue Theme
   styles/jqx.fresh.css: Stylesheet for the Fresh Theme
   styles/jqx.highcontrast.css: Stylesheet for the High Contrast Theme
-  styles/jqx.light.css: Stylesheet for the LightTheme
+  styles/jqx.light.css: Stylesheet for the Light Theme
+  styles/jqx.flat.css: Stylesheet for the Flat Theme
   styles/jqx.metro.css: Stylesheet for the Metro Theme
   styles/jqx.metrodark.css: Stylesheet for the Metro Dark Theme
   styles/jqx.mobile.css: Stylesheet for the Mobile Theme
@@ -77,6 +108,7 @@
   jqxexpander.js: Expander widget
   jqxfileupload.js: FileUpload widget
   jqxformattedinput.js: Binary, Octal, Hex TextBox widget
+  jqxform.js: Form widget.
   jqxgrid.js: Grid widget
   jqxgrid.sort.js: Grid Sort plug-in
   jqxgrid.filter.js: Grid Filter plug-in
@@ -106,6 +138,7 @@
   jqxpopover.js: Popover widget
   jqxprogressbar.js: ProgressBar widget
   jqxpasswordinput.js: Password input widget
+  jqxpivotgrid.js: Pivot Grid widget.
   jqxrating.js: Rating widget
   jqxradiobutton.js: RadioButton widget
   jqxrangeselector.js: RangeSelector widget
@@ -136,17 +169,21 @@
 
 2.Examples
 
-  The index.htm file starts the demo/examples browser
-  Individual widget examples are located in the /demos directory
-  The mobile examples are located in the /mobiledemos directory
-  The php & mysql integration demos are located in the /phpdemos and demos/php directories. 
+  Individual widget/component examples are located in the /demos directory
+  The mobile examples are located in the /demos/Javascript & JQuery/mobiledemos directory
+  The php & mysql integration demos are located in the demos/PHP directory.. 
   All php integration samples use and require the Northwind Database(/phpdemos/Northwind.MySQL5.sql).  
-  Any examples that use Ajax need to be on a Web Server in order to work correctly. 
+  Any examples that use Ajax need to be on a Web Server/LocalHost in order to work correctly. 
+  Angular examples are located in the /demos/Angular directory.
+  Vue examples are located in the /demos/Vue.js directory.
+  React examples are location in the /demos/React directory.
+  ASP .NET examples are located in the /demos/ASP.NET MVC and /demos/ASP.NET Tag Helpers directories.
+  JSP examples are in /demos/JSP directory.
+  Custom Elements/Web Components are in /demos/Web Components directory.
 
 3.Documentation
 
-  Browse the documentation and examples through the index.htm file
-  Individual documentation files are located in the /documentation directory
+  Browse the documentation and examples online on our website: https://www.jqwidgets.com/
    
 4.Other files
 
@@ -155,5 +192,4 @@
 
 5.License & Purchase
 
-   For more information regarding the licensing, please visit: http://www.jqwidgets.com/license
-
+   For more information regarding the licensing, please visit: https://www.jqwidgets.com/license
