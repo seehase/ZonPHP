@@ -5,7 +5,7 @@ $txt["autorefresh"] = "Auto reload der Website in Sekunden default = 300 (0=disa
 $txt["available_languages"] = "Definiere welchen Sprachen der Benutzer zur Auswahl haben soll";
 $txt["back_to_today"] = "Zur&uuml;ck zu heute";
 $txt["beste"] = "Top";
-$txt["bestezonphp"] = "Sehr geehrter Nutzer von zonPHP";
+$txt["bestezonphp"] = "Sehr geehrter Nutzer von ZonPHP";
 $txt["chart_31days"] = "Top 31 Tage";
 $txt["chart_allyearoverview"] = "Alle Jahre";
 $txt["chart_cumulativeoverview"] = "Cumulative &Uuml;berblick";
@@ -36,7 +36,7 @@ $txt["foutconnect"] = 'Es ist ein Fehler bei der Verbindung mit dem MySQL-Server
 $txt["foutdatabase"] = 'Es ist ein Fehler beim Lesen der Datenbank aufgetreten.<br />Blijkbaar is die niet aanwezig.<br /><br />Je kan deze aanmaken in phpMyAdmin (bv <a href="https://dbadmin.one.com/" TARGET="_blank">dbadmin bij one.com</a>)';
 $txt["foutparameter"] = 'Parameter nicht vorhanden<br />Verbindung zur Datenbank OK<br /><br />Bitte einloggen und Parameter bearbeiten : <a href="par_edit.php" TARGET="_self">click hier.</a>';
 $txt["foutref"] = 'Sie haben Ihre Referenzwerte noch nicht eingegeben.<br /><a href="install/par_referencevalues.php" TARGET="_self">Klicken Sie hier</a>, um sie einzugeben.';
-$txt["fouttable"] = 'Datenbank Tabellen nicht vorhanden<br />Connect zur Datenbank erfolgreich<br /><br />bitte mit SQL Passwort einloggen und Tabellen neu erstellen : <a href="./par_welcome.php" TARGET="_self">klicken sie hier.</a>';
+$txt["fouttable"] = 'Connect zur Datenbank erfolgreich.<br />Datenbank Tabellen nicht vorhanden.<br /><br />Bitte mit SQL Passwort einloggen und Tabellen neu erstellen : <a href="./par_welcome.php" TARGET="_self">klicken sie hier.</a>';
 $txt["gegevensinstallatie"] = "Die Daten aus Ihrem System";
 $txt["gem"] = "Durchschnitt";
 $txt["google_tracking"] = "Gib dein Google Tracking ID an, wenn du Google Analytics nutzen willst";
@@ -48,9 +48,9 @@ $txt["image2"] = "Bild 2, bitte Pfad zur image Datei angeben. z.b. image2.jpg we
 $txt["imagemissing"] = "Bild fehlt, bitte in den Parametern &auml;ndern";
 $txt["inlezenbestand"] = "Welche Dateien wollen Sie verwenden?";
 $txt["installatie"] = "Installation";
-$txt["installdattab"] = "Dieses Skript erstellt alle f&uuml;r ZONPHP ben&ouml;tigten MySQL-Datenbank-Tabellen.";
+$txt["installdattab"] = "Dieses Skript erstellt alle f&uuml;r ZonPHP ben&ouml;tigten MySQL-Datenbank-Tabellen.";
 $txt["installresettabel"] = "W&auml;hlen Sie die Tabelle, die Sie erstellen m&ouml;chten <br />oder nichts, wenn Sie alle Tabellen neu erstellen wollen.<br />";
-$txt["installscript"] = "Installations-Skript zonphp";
+$txt["installscript"] = "Installations-Skript ZonPHP";
 $txt["installtd"] = "Tabelle Tage ";
 $txt["installtdnt"] = "Tabelle Tag-Nacht-Z&auml;hler ";
 $txt["installtm"] = "Tabelle Monat ";
@@ -133,7 +133,7 @@ $txt["watpiek"] = "Welche Kapazit&auml;t hat die Anlage in Wp? <br />durch ein K
 $txt["watverkeerd"] = "Eingabe Fehler ";
 $txt["websitefirma"] = "Webseite Hersteller";
 $txt["welkomconf"] = "Hier k&ouml;nnen Sie ZonPHP konfigurieren";
-$txt["welkomcre"] = "Tabellen erstellen: Dieses Skript erstellt alle ben&ouml;tigten MySQL-Datenbank-Tabellen f&uuml;r zonphp";
+$txt["welkomcre"] = "Tabellen erstellen: Dieses Skript erstellt alle ben&ouml;tigten MySQL-Datenbank-Tabellen f&uuml;r ZonPHP";
 $txt["welkomdebug"] = "Debug: Alle Parameter anzeigen";
 $txt["welkomIndex"] = "Index: Startseite von ZonPHP";
 $txt["welkominl"] = "Sie sind jetzt angemeldet";
