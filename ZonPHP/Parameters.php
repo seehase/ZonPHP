@@ -1,5 +1,15 @@
 <?php
-
+/*****************************************************************************
+ * Set constants to get absolute paths when needed.
+ * This is based on the relative position of this Parameter.php file
+ * ROOT_DIR gives the full absolute path to a file, including the install directory  
+ * SUFFIX gives the extension for use in href
+ * ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] + SUFFIX
+ *****************************************************************************/
+define('ROOT_DIR', realpath(__DIR__.'/'));
+define ('SUFFIX', str_replace($_SERVER['DOCUMENT_ROOT'],"", ROOT_DIR));
+define ('UFFIX', ltrim( SUFFIX , '/'));//remove first forward slash from SUFFIX
+echo ROOT_DIR,'<BR>';//check correct path, can be removed later
 // read version and debug configuration
 include_once "inc/version_info.php";
 
