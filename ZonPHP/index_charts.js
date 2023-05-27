@@ -1,5 +1,16 @@
 var grid = [];
-document.addEventListener('DOMContentLoaded', function () {
+
+function docReady(fn) {
+    // see if DOM is already available
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+        // call on next available tick
+        setTimeout(fn, 1);
+    } else {
+        document.addEventListener("DOMContentLoaded", fn);
+    }
+}
+
+function load_charts() {
     grid = new Muuri('.grid', {
         dragEnabled: false,
         layout: {
@@ -307,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     loadCharts();
-});
+};
 
 function myTest() {
     var layout = window.localStorage.getItem('layout');

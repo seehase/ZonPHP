@@ -31,10 +31,6 @@ if (isset($use_weewx) && $use_weewx == true) {
 <div id="page-content">
 
     <script type="text/javascript">
-        $(document).ready(function () {
-
-        });
-
         $(function () {
             // pass txt to JavaScript
             txt = <?php echo json_encode($txt); ?>;
@@ -50,8 +46,11 @@ if (isset($use_weewx) && $use_weewx == true) {
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/muuri/0.4.0/muuri.min.js"></script>
 
     <script type="text/javascript" src="index_charts.js"></script>
-
-
+    <script type="text/javascript">
+        $(document).ready(function () {
+            docReady(load_charts());
+        });
+    </script>
     <!-- here comes all the charts-->
     <div class="grid">
         <!-- The Modal -->
