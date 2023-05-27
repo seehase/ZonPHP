@@ -36,31 +36,34 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
 
 
     <!-- use googleapis CDN -->
-	<link type="text/css" rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-	<!-- jquery version 2.2.4 is the latest 2.x version but works with current index page
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> -->
-	
-	<!-- All versions 3.x break the index page, because the index_charts.js is loaded before the index.php is fully loaded. 
-	Change the document.addEventListener('DOMContentLoaded to window.addEventListener('DOMContentLoaded fixes this for Chrome 
-	on a Mac but Safari keeps throwing errors, because it runs the index_charts.js nonetheless.  -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>    
+    <link type="text/css" rel="stylesheet"
+          href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <!-- jquery version 2.2.4 is the latest 2.x version but works with current index page
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> -->
+
+    <!-- All versions 3.x break the index page, because the index_charts.js is loaded before the index.php is fully loaded.
+    Change the document.addEventListener('DOMContentLoaded to window.addEventListener('DOMContentLoaded fixes this for Chrome
+    on a Mac but Safari keeps throwing errors, because it runs the index_charts.js nonetheless.  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-    
-	<!-- New version Bootstrap includes toggle. Works but detailing on colours and chart headers is needed     -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+    <!-- New version Bootstrap includes toggle. Works but detailing on colours and chart headers is needed     -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+            integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+            crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
     <script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
     <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
     <script type="text/javascript" src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.base.css">
-    <link type="text/css" rel="stylesheet" href="inc/js/jqwidgets/jqwidgets/styles/jqx.zonphp.css">
-
+    <link type="text/css" rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css">
+    <link type="text/css" rel="stylesheet" href="<?php echo HTML_PATH ?>/inc/styles/jqx.zonphp.css">
 
     <!-- read default styles (static) -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo HTML_PATH ?>/inc/styles/style.css">
 
     <!-- override dynamic with parameter -->
     <style type="text/css">
@@ -155,7 +158,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <?php
     // use google analytics if ID is set in paramaters
     if (isset($param['google_tracking']) && strlen($param['google_tracking']) > 1) {
-        include_once(ROOT_DIR . "/inc/misc/analyticstracking.php");
+        include_once(ROOT_DIR . "/inc/analyticstracking.php");
     }
     ?>
 

@@ -16,15 +16,12 @@ if (isset($use_weewx) && $use_weewx == true) {
 }
 
 ?>
-
-<script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxcore.js"></script>
-<script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxscrollbar.js"></script>
-<script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxpanel.js"></script>
-
-
-<script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxchart.js"></script>
-<script type="text/javascript" src="inc/js/jqwidgets/jqwidgets/jqxgauge.js"></script>
+<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxpanel.js"></script>
+<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxchart.js"></script>
+<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxgauge.js"></script>
 
 <?php include "inc/menu.php"; ?>
 

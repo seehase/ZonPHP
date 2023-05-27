@@ -1,11 +1,4 @@
 <?php
-//
-//include "Parameters.php";
-//include "sessionstart.php";
-//include "startup.php";
-
-?>
-<?php
 
 $sql = "SELECT *
 	FROM " . $table_prefix . "_dag 
@@ -21,7 +14,7 @@ if (mysqli_num_rows($result) == 0) {
         $dateTime = $row['Datum_Dag'];
 }
 //echo $dateTime;	
-$directory = "" . $_SESSION['Wie'] . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
 $aday = array();
 for ($tel = 0; $tel <= 60; $tel++) {
     $num = (date("y-m-d", strtotime("+" . $tel . " day", strtotime($dateTime))));//echo $num."<br />";echo $directory.$num.'.csv'."<br />";

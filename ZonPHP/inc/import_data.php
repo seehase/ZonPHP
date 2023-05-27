@@ -3,58 +3,58 @@ switch ($param['sInvullen_gegevens']) {
     case "none":
         break;
     case "Invullen_gegevens_xls":
-        include "importer/Invullen_gegevens_xls.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_xls.php";
         break;
     case "Invullen_gegevens_suo":
-        include "importer/Invullen_gegevens_suo.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_suo.php";
         break;
     case "Invullen_gegevens_suo_custom2":
-        include "importer/Invullen_gegevens_suo2.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_suo2.php";
         break;
     case "Invullen_gegevens_solarlog":
-        include "importer/Invullen_gegevens_solarlog.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_solarlog.php";
         break;
     case "Invullen_gegevens_solarlogjs":
-        include "importer/Invullen_gegevens_solarlogjs.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_solarlogjs.php";
         break;
     case "Invullen_gegevens_solarlogXomvorm":
-        include "importer/Invullen_gegevens_solarlogXomvorm.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_solarlogXomvorm.php";
         break;
     case "Invullen_gegevens_solarlogXomvormjs":
-        include "importer/Invullen_gegevens_solarlogXomvormjs.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_solarlogXomvormjs.php";
         break;
     case "Invullen_gegevens_sunny_explorer":
-        include "importer/Invullen_gegevens_sunny_explorer.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_sunny_explorer.php";
         break;
     case "Invullen_gegevens_sunny_explorer_2WR":
-        include "importer/Invullen_gegevens_sunny_explorer_2WR.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_sunny_explorer_2WR.php";
         break;
     case "sunny_explorer_seehase":
-        include "importer/sunny_explorer_seehase.php";
+        include ROOT_DIR."/importer/sunny_explorer_seehase.php";
         break;
     case "sunny_explorer_utf16":
-        include "importer/Invullen_gegevens_sunny_explorer_utf16.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_sunny_explorer_utf16.php";
         break;
     case "sunny_explorer_thomas":
-        include "importer/Invullen_gegevens_sunny_explorer_thomas.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_sunny_explorer_thomas.php";
         break;
     case "sunny_explorer_manuel":
-        include "importer/Invullen_gegevens_sunny_explorer_manuel.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_sunny_explorer_manuel.php";
         break;
     case "Invullen_gegevens_sunnybeam_bt":
-        include "importer/Invullen_gegevens_sunnybeam_bt.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_sunnybeam_bt.php";
         break;
     case "Invullen_gegevens_sunny_webbox_csv":
-        include "importer/Invullen_gegevens_sunny_webbox_csv.php";
+        include ROOT_DIR."/importer/Invullen_gegevens_sunny_webbox_csv.php";
         break;
     case "Import_sunny_webbox_csv_thorsten":
-        include "importer/sunny_webbox_csv_thorsten.php";
+        include ROOT_DIR."/importer/sunny_webbox_csv_thorsten.php";
         break;
     case "Import_von_Hyperion":
-        include "importer/Import_von_Hyperion.php";
+        include ROOT_DIR."/importer/Import_von_Hyperion.php";
         break;
     case "Import_von_Hyperion_christian":
-        include "importer/stromzaehler.php";
+        include ROOT_DIR."/importer/stromzaehler.php";
         break;
     default:
         echo 'Verkeerd';

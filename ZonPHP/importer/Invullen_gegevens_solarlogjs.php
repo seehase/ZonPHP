@@ -13,7 +13,7 @@ if (mysqli_num_rows($result) == 0) {
     }
 }
 $adag = array(); //CVDK
-$directory = $_SESSION['Wie'] . '/solarlog/'; //CVDK
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/solarlog/'; //CVDK
 
 $aantaldagen = 60; //aantal dagen dat hij moet inladen (enkel bij initiele load) normaal gelijk aan 2
 //echo "-----------------------------".$dateTime."<br>";

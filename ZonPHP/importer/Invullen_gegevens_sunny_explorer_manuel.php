@@ -19,7 +19,7 @@ else {
     }
 }
 
-$directory = 'WR1/';
+$directory = ROOT_DIR . "/" . 'WR1/';
 
 $aday = array();
 for ($tel = 0; $tel <= 150; $tel++) {

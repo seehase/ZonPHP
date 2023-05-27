@@ -16,7 +16,7 @@ else {
 }
 
 //$directory = "" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
-$directory = "../SolarlogData/";
+$directory = ROOT_DIR . "/SolarlogData/";
 
 
 $aday = array();

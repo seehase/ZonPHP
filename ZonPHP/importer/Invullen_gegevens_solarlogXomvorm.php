@@ -20,7 +20,7 @@ else {
 }
 //echo $dateTime;	
 $adag = array();
-$directory = "" . $_SESSION['Wie'] . '/';//echo $directory;
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';//echo $directory;
 for ($tel = 0; $tel <= 60; $tel++) {
     $num = (date("ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));//echo $num."<br />";
     if (file_exists($directory . "min" . $num . '.csv')) {

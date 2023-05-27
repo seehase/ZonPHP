@@ -36,13 +36,13 @@ if (isset($param['hide_menu'])) {
                     <li class="sub-heading"><?php echo $txt["grafiekoverzicht"]; ?><label for="fof" class="toggle"
                                                                                           onclick="" title="Back">&#9658;</label>
                     </li>
-                    <li><a href="./day_overview.php"><?php echo $txt["chart_dayoverview"]; ?></a></li>
-                    <li><a href="./month_overview.php"><?php echo $txt['chart_monthoverview']; ?></a></li>
-                    <li><a href="./year_overview.php"><?php echo $txt['chart_yearoverview']; ?></a></li>
-                    <li><a href="./all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
-                    <li><a href="./last_years_overview.php"><?php echo $txt["chart_lastyearoverview"]; ?></a></li>
-                    <li><a href="./cumulative_overview.php"><?php echo $txt["chart_cumulativeoverview"]; ?></a></li>
-                    <li><a href="./top31.php"><?php echo $txt["chart_31days"]; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/day_overview.php"><?php echo $txt["chart_dayoverview"]; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/month_overview.php"><?php echo $txt['chart_monthoverview']; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/year_overview.php"><?php echo $txt['chart_yearoverview']; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/last_years_overview.php"><?php echo $txt["chart_lastyearoverview"]; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/cumulative_overview.php"><?php echo $txt["chart_cumulativeoverview"]; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/top31.php"><?php echo $txt["chart_31days"]; ?></a></li>
                 </ul>
             </li>
             <li><a href="#" style="display: flex">&nbsp;</a> <label for="themes" class="toggle-sub" onclick="">&nbsp;Themes&nbsp;&nbsp;&nbsp;&#9658;</label>
@@ -65,9 +65,9 @@ if (isset($param['hide_menu'])) {
                 <ul id="info-sub" class="sub-nav">
                     <li class="sub-heading"><?= $version ?><label for="info" class="toggle" onclick="" title="Back">&#9658;</label>
                     </li>
-                    <li><a href="install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
-                    <li><a href="./about.php">About</a></li>
-                    <li><a href="./show_plant.php"><?php echo $txt["installatie"]; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/about.php">About</a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/show_plant.php"><?php echo $txt["installatie"]; ?></a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/archive/master.zip">download ZonPHP</a></li>
                     <li><a href="inc/destroy.php"><?php echo $txt["clearsession"]; ?> </a></li>
@@ -79,14 +79,14 @@ if (isset($param['hide_menu'])) {
 </div>
 <div class="container">
     <div id="header">
-        <input type="image" src="./inc/image/logo.png" onClick="location.href='index.php'"
-               style="position:absolute; top:21px; left:136px;  border:0" value='Vandaag'>
+
+        <a href='<?php echo HTML_PATH ?>/index.php' style="position:absolute; top:14px; left:130px;  border:0"><img src="<?php echo HTML_PATH ?>/inc/image/logo.png"></a>"
         <?php if ($show_menu) echo '<label for="main-nav-check" class="toggle" onclick="" title="Menu">&#x2261;</label>'; ?>
         <span style="margin-left: 330px;">&nbsp;</span>
-        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='./inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'></a>"; ?>
-        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='./inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
-        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='./inc/image/blank.gif' class='flag flag-fr' alt='français' title='français'/></a>" ?>
-        <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='./inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'/></a>" ?>
+        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='". HTML_PATH ."./inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'></a>"; ?>
+        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='". HTML_PATH ."./inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
+        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='". HTML_PATH ."./inc/image/blank.gif' class='flag flag-fr' alt='français' title='français'/></a>" ?>
+        <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='". HTML_PATH ."./inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'/></a>" ?>
         <?php
         if ($iveromvormers == 1) {
             echo '<p id="headerinverter" style="margin: -22px 460px 10px">' .

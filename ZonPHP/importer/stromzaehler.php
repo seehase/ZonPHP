@@ -19,7 +19,7 @@ $TagesErtrag = 0;
 $Jahrlastenrty = $lastJahr . "-12-31 23:59";//Datum und Uhrzeit vom letzten Eintrag im Jahr
 $Impulse = 400; //400;//Wieviele Impulse werden Pro KW ausgegeben?? Standard 400
 $pfad = "stromzaehler"; // Pfad zu den Logdaten; ohne abschliessendes "/"
-$directory = $_SESSION['Wie'] . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
 
 if ($directory == "import/" or $directory == "export/" or $directory == "20KW-Fronius/") {// Prüfen ob Session für Stromzähler ist
     //echo "Import oder Export - Stromzähler ist aktiv"."<br />";
@@ -81,7 +81,7 @@ if ($directory == "import/" or $directory == "export/" or $directory == "20KW-Fr
     }
 //echo "Jahr für import ".$Jahr."<br />";
 //$Jahr="2200";  //nur für Testzwecke damit nichts importiert wird
-    $directory = $_SESSION['Wie'] . '/';
+    $directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
     $directoryImport = $pfad . '/import/';
     $directoryExport = $pfad . '/export/';
 

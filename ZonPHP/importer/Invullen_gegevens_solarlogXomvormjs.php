@@ -1,11 +1,4 @@
 <?php
-//
-//include "Parameters.php";
-//include "sessionstart.php";
-//include "startup.php";
-
-?>
-<?php
 
 // Changed by JP Gregoire to support multiple inverters combined with JS files reading
 
@@ -26,7 +19,7 @@ else {
 //echo $dateTime;
 
 $adag = array();
-$directory = "" . $_SESSION['Wie'] . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
 //echo $directory;
 
 // 2. Store the filenames of the data files that will be used to update, starting from the value in 1.

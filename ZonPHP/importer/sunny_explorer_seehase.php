@@ -18,7 +18,7 @@ if (mysqli_num_rows($result) == 0) {
     }
 }
 
-$directory = "" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
 
 
 $adag = array();
@@ -184,7 +184,7 @@ else {
     }
 }
 
-$directory = $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
 
 $adag = array();
 for ($tel = 0; $tel <= 160; $tel++) {

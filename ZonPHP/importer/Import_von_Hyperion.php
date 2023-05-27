@@ -1,8 +1,4 @@
 <?php
-
-//include "Parameters.php";
-//include "sessionstart.php";
-//include "startup.php";
 $Uhrzeit = 0;
 $FehlerUhrzeit = 0;
 $DC1 = 0;
@@ -33,8 +29,8 @@ if ($Tag == 31 && $Monat == 12) {
     $Jahr++;
 }
 
-$directory = "" . $_SESSION['Wie'] . '/';
-$directoryImport = "" . $_SESSION['Wie'] . '/' . $Jahr . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
+$directoryImport = ROOT_DIR . "/" . $_SESSION['Wie'] . '/' . $Jahr . '/';
 //echo "directory=".$directory."<br />";
 //echo "directoryimport=".$directoryImport."<br />";
 
