@@ -1,7 +1,7 @@
 <?php
 /*****************************************************************************
  * Set constants to get absolute paths when needed.
- * This is based on the relative position of this Parameter.php file
+ * This is based on the relative position of this parameter.php file
  * ROOT_DIR gives the full absolute path to a file, including the install directory  
  * SUFFIX gives the extension for use in href
  * ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] + SUFFIX
