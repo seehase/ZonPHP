@@ -7,7 +7,7 @@ include_once "inc/import_data.php";
 include_once "inc/header.php";
 include_once "charts/day_chart.php";
 ?>
-<?php include_once "menu.php"; ?>
+<?php include_once "inc/menu.php"; ?>
 <script type="text/javascript">
     $(function () {
         $("#startdate, #enddate").datepicker({

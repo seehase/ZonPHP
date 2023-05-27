@@ -591,19 +591,19 @@ code {
 }
 
 .flag.flag-fr {
-    background: url('inc/image/fr.svg') no-repeat;
+    background: url('image/fr.svg') no-repeat;
 }
 
 .flag.flag-gb {
-    background: url('inc/image/en.svg') no-repeat;
+    background: url('image/en.svg') no-repeat;
 }
 
 .flag.flag-nl {
-    background: url('inc/image/nl.svg') no-repeat;
+    background: url('image/nl.svg') no-repeat;
 }
 
 .flag.flag-de {
-    background: url('inc/image/de.svg') no-repeat;
+    background: url('image/de.svg') no-repeat;
 }
 
 /*  dropdown stuff*/

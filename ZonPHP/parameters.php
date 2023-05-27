@@ -9,7 +9,6 @@
 define('ROOT_DIR', realpath(__DIR__.'/'));
 define ('SUFFIX', str_replace($_SERVER['DOCUMENT_ROOT'],"", ROOT_DIR));
 define ('UFFIX', ltrim( SUFFIX , '/'));//remove first forward slash from SUFFIX
-echo ROOT_DIR,'<BR>';//check correct path, can be removed later
 // read version and debug configuration
 include_once "inc/version_info.php";
 

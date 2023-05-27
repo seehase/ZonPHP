@@ -6,7 +6,7 @@ include_once "inc/import_data.php";
 include_once "inc/header.php";
 include_once "charts/cumulative_chart.php";
 ?>
-<?php include "menu.php"; ?>
+<?php include "inc/menu.php"; ?>
 <div id="page-content">
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">

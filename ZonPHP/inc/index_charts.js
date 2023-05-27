@@ -87,7 +87,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div  class="item-content card"> ' +
-            '<a href="day_overview.php"><div class="' + headerclass + '">' + daytext + '</div> </a> ' +
+            '<a href="./day_overview.php"><div class="' + headerclass + '">' + daytext + '</div> </a> ' +
             '<div id="' + id + '">' +
 
             '</div>' +
@@ -115,7 +115,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div  class="item-content card"> ' +
-            '<a href="month_overview.php"><div class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
+            '<a href="./month_overview.php"><div class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
             '<div id="' + id + '">' +
 
             '</div>' +
@@ -143,7 +143,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div  class="item-content card"> ' +
-            '<a href="all_years_overview.php"><div class="' + headerclass + '">' + txt["chart_allyearoverview"] + '</div></a>' +
+            '<a href="./all_years_overview.php"><div class="' + headerclass + '">' + txt["chart_allyearoverview"] + '</div></a>' +
             '<div id="' + id + '">' +
 
             '</div>' +
@@ -171,7 +171,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<a href="top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["slechtste"] + '</div></a>' +
+            '<a href="./top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["slechtste"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
             '</div>';
@@ -196,7 +196,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<a href="top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["beste"] + '</div></a>' +
+            '<a href="./top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["beste"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
             '</div>';
@@ -221,7 +221,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<a href="year_overview.php"><div class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
+            '<a href="./year_overview.php"><div class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
             '</div>';
@@ -246,7 +246,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<a href="cumulative_overview.php"><div class="' + headerclass + '">' + txt["chart_cumulativeoverview"] + '</div></a>' +
+            '<a href="./cumulative_overview.php"><div class="' + headerclass + '">' + txt["chart_cumulativeoverview"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
             '</div>';
@@ -271,7 +271,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<a href="last_years_overview.php"><div class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
+            '<a href="./last_years_overview.php"><div class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
             '</div>';

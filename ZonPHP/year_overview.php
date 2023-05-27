@@ -34,7 +34,7 @@ $chartyeardatestring = date("Y-01-01", strtotime("+0 year", $date_maximum));
 
 ?>
 
-<?php include "menu.php"; ?>
+<?php include "inc/menu.php"; ?>
 
 <?php
 $paramstr_choose = '';

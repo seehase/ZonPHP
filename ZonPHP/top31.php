@@ -18,7 +18,7 @@ $myLabel = "Top ";
 $currentview = "top";
 $myLabel = " " . $txt["beste"] . "  " . $txt["chart_31days"] . " ";
 ?>
-<?php include "menu.php"; ?>
+<?php include "inc/menu.php"; ?>
 <?php
 $paramstr_choose = '';
 $paramstr_day = '';

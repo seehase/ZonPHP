@@ -5,7 +5,7 @@ include_once "inc/load_cache.php";
 
 include_once "inc/header.php";
 ?>
-<?php include_once "menu.php"; ?>
+<?php include_once "inc/menu.php"; ?>
 
 <div id="page-content">
 
@@ -22,10 +22,8 @@ include_once "inc/header.php";
 
             <div>
                 <h2> Weiterentwicklung von ZonPHP </h2>
-                Ich nutze ZonPHP seit Jahren und bin begeistert von der der Software. Leider wurde sie bisher nicht
-                mehr
-                weiter
-                entwickelt, so dass ich mich
+                Ich nutze ZonPHP seit Jahren und bin begeistert von der Software. Leider wurde sie bisher nicht
+                mehr weiter entwickelt, so dass ich mich
                 mal hingesetzt habe und nun eine neue Version vorstellen will <br/>
                 Die ZonPHP 2016 basiert vollständig auf ZonPHP.V12.12 von rallyhammer und wurde nur erweitert <br/>
                 Der größter Vorteil ist, dass jetzt vollständig auf FLASH verzichtet wird, damit kann nun ZonPHP

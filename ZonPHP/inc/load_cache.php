@@ -70,17 +70,17 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     if ($debugmode) error_log("cache failed --> need to reload data");
 
     // load lanaguages -----------------------------------------------------------------------------------------------
-    include "inc/language/en.php";
+    include ROOT_DIR."/inc/language/en.php";
     if (isset($_SESSION['sestaal'])) {
-        include "inc/language/" . $_SESSION['sestaal'] . ".php";
+        include ROOT_DIR."/inc/language/" . $_SESSION['sestaal'] . ".php";
     }
     $_SESSION['txt'] = $txt;
 
     // load parameters from DB
-    include_once "load_parameters.php";
+    include_once ROOT_DIR."/inc/load_parameters.php";
 
     // load color and theme
-    include_once "load_colors.php";
+    include_once ROOT_DIR."/inc/load_colors.php";
 
     // fixme: integrate into cache... after importing data force reload of paramater
     // load first and last date of date

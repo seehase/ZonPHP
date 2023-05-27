@@ -30,7 +30,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 }
 ?>
 
-<?php include "menu.php"; ?>
+<?php include "inc/menu.php"; ?>
 <div id="page-content">
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 66px; ">

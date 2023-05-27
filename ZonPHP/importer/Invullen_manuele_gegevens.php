@@ -10,7 +10,7 @@ include_once "inc/header.php";
 ?>
 
     <div id="menus">
-        <?php include_once "menu.php"; ?>
+        <?php include_once "inc/menu.php"; ?>
     </div>
     <div id="container">
         <div id="bodytext">

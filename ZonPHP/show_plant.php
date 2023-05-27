@@ -10,7 +10,7 @@ if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
 
 ?>
 
-<?php include "menu.php"; ?>
+<?php include "inc/menu.php"; ?>
 <div id="page-content">
 
     <div id='id_install' class="bigCharts" style="<?= WINDOW_STYLE_BIG ?>">

@@ -155,7 +155,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <?php
     // use google analytics if ID is set in paramaters
     if (isset($param['google_tracking']) && strlen($param['google_tracking']) > 1) {
-        include_once("analyticstracking.php");
+        include_once(ROOT_DIR . "/inc/misc/analyticstracking.php");
     }
     ?>
 

@@ -17,7 +17,7 @@ if (isset($_SESSION['lastupdate'])) {
 ?>
 
 
-<?php include "menu.php"; ?>
+<?php include "inc/menu.php"; ?>
 
 <?php
 $paramstr_choose = '';

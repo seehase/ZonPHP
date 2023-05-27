@@ -19,7 +19,7 @@ $prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
 
 ?>
 
-<?php include_once "menu.php"; ?>
+<?php include_once "inc/menu.php"; ?>
 
 <?php
 $paramstr_choose = '';
