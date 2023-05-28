@@ -3,13 +3,13 @@
  * Set constants to get absolute paths when needed.
  * This is based on the relative position of this parameter.php file
  * ROOT_DIR gives the full absolute path to a file, including the install directory  
- * SUFFIX gives the extension for use in href
+ * HTML_PATH gives the extension for use in href
+ * PHP_PATH is HTML_PATH without the forward slash
  * ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] + SUFFIX
  *****************************************************************************/
 define('ROOT_DIR', realpath(__DIR__.'/'));
-define ('SUFFIX', str_replace($_SERVER['DOCUMENT_ROOT'],"", ROOT_DIR));
-define ('UFFIX', ltrim( SUFFIX , '/'));//remove first forward slash from SUFFIX
 define ('HTML_PATH',substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
+define ('PHP_PATH', ltrim( HTML_PATH, '/')); 
 // read version and debug configuration
 include_once "inc/version_info.php";
 
