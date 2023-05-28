@@ -238,12 +238,15 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
             $max_last_val = $time;
         }
     }
-    $str_max = substr($str_max, 0, -1);
-    $str_max .= "]}, 
+    if (count($all_valarraymax) > 0) {
+        $str_max = substr($str_max, 0, -1);
+        $str_max .= "]}, 
                     ";
+    } else {
+        $str_max .= "]},";
+    }
 
 }
-
 $str_max = substr($str_max, 0, -1);
 $strgegmax = substr($strgegmax, 0, -1);
 $external_sensors = isset($param['external_sensors']);
