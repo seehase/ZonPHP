@@ -616,6 +616,7 @@ code {
 
 .h2, h2 {
     font-size: 12pt;
+    padding: 12px;
 !important;
     font-weight: bolder;
     line-height: 0px;

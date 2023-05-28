@@ -1,7 +1,7 @@
 ﻿.jqx-widget-zonphp{border-color:#222}
 /*.jqx-widget-content-zonphp{color:#222; border-color:#262626; background-color: #888; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px}*/
 .jqx-widget-content-zonphp{color:#222; border-color:#262626; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px}
-.jqx-window-header-zonphp{border-top-left-radius: 7px; border-top-right-radius: 7px}
+.jqx-window-header-zonphp{border-top-left-radius: 7px; border-top-right-radius: 7px;}
 
 
 
@@ -28,7 +28,7 @@
 .jqx-scrollbar-button-state-normal-zonphp{border:1px solid #555; background:#555}
 .jqx-scrollbar-button-state-hover-zonphp{background:#555 url(images/bg_blackhover.png) left top scroll repeat-x; border:1px solid #000}
 .jqx-scrollbar-button-state-pressed-zonphp{background:#555 url(images/bg_blackpressed.png) left top scroll repeat-x; border:1px solid #000}
-.jqx-scrollbar-thumb-state-normal-horizontal-zonphp{background:#555 url(inc/image/bg_black.png) left top scroll repeat-x; border:1px solid #000}
+.jqx-scrollbar-thumb-state-normal-horizontal-zonphp{background:#555 url(images/bg_black.png) left top scroll repeat-x; border:1px solid #000}
 .jqx-scrollbar-thumb-state-hover-horizontal-zonphp{ background:#555 url(images/bg_blackhover.png) left top scroll repeat-x; border:1px solid #000}
 .jqx-scrollbar-thumb-state-pressed-horizontal-zonphp{background:#555 url(images/bg_blackpressed.png) left top scroll repeat-x; border:1px solid #000}
 .jqx-scrollbar-thumb-state-normal-zonphp{background:#555 url(images/bg_black_horizontal.png) left top scroll repeat-x; border:1px solid #000}
