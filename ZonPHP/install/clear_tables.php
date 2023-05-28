@@ -1,6 +1,6 @@
 <?php
 
-include_once "../Parameters.php";
+include_once "../parameters.php";
 include_once "../inc/sessionstart.php";
 
 if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")

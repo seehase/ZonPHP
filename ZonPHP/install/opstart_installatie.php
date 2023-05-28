@@ -1,6 +1,6 @@
 <?php
 
-include_once "../Parameters.php";
+include_once "../parameters.php";
 include_once "../inc/sessionstart.php";
 
 include_once "par_header.php";

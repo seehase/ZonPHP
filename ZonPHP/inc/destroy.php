@@ -1,5 +1,5 @@
 <?php
-include_once "../Parameters.php";
+include_once "../parameters.php";
 include_once "../inc/sessionstart.php";
 
 $_SESSION['passok'] = "nothing";

@@ -32,7 +32,7 @@ $txt["flyout_menu"] = "Menu- en voettekst opties";
 $txt["flyout0"] = "Move page content";
 $txt["flyout1"] = "Move titel only";
 $txt["flyout2"] = "Over the page";
-$txt["foutconnect"] = 'Er is een fout tijdens het verbinden met de MySQL server.<br /><br />Van uw provider krijgt u een MySQL Hostname , MySQL Username en een MySQL Password<br /><br />Controleer het volgende in Parameters.php<br />Open deze met een txt editor en bekijk het volgende:<br /><br />$sserver = "MySQL Hostname";        &nbsp;&nbsp;&nbsp;=bv: localhost        <br />$susername = "MySQL Username"; &nbsp;&nbsp;&nbsp;=bv: slaper        <br />$spassword = "MySQL Password";&nbsp;&nbsp;&nbsp;=bv:zonPHP        <br />';
+$txt["foutconnect"] = 'Er is een fout tijdens het verbinden met de MySQL server.<br /><br />Van uw provider krijgt u een MySQL Hostname , MySQL Username en een MySQL Password<br /><br />Controleer het volgende in parameters.php<br />Open deze met een txt editor en bekijk het volgende:<br /><br />$sserver = "MySQL Hostname";        &nbsp;&nbsp;&nbsp;=bv: localhost        <br />$susername = "MySQL Username"; &nbsp;&nbsp;&nbsp;=bv: slaper        <br />$spassword = "MySQL Password";&nbsp;&nbsp;&nbsp;=bv:zonPHP        <br />';
 $txt["foutdatabase"] = 'Er is een fout tijdens het lezen van de database.<br />Blijkbaar is die niet aanwezig.<br /><br />Kijk bij uw webhoster wat hiervoor de juiste procedure is';
 $txt["foutparameter"] = 'Parameter missing<br />connect to database sucessfully<br /><br />Please login and edit parameter : <a href="par_edit.php" TARGET="_self">click here.</a>';
 $txt["foutref"] = 'U hebt vergeten uw referentiewaarden op te geven.<br /> <a href="install/par_referencevalues.php" TARGET="_self">Klik hier </a>om ze in te vullen.';

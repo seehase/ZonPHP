@@ -1,6 +1,6 @@
 <?php
 //
-//include "Parameters.php";
+//include "parameters.php";
 //include "sessionstart.php";
 //include "startup.php";
 ?>
