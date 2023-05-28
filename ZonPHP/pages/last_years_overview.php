@@ -47,7 +47,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
-            <h2 align="center">
+            <h2>
                 <?php
                 //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
                 echo "All Years Overview";

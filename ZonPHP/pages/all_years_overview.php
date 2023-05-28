@@ -47,7 +47,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px;">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
-            <h2 align="center"><?php echo $txt["totaaloverzicht"] . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
+            <h2><?php echo $txt["totaaloverzicht"] . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
         </div>
 
         <div id="total_chart_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>

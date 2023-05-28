@@ -37,8 +37,8 @@ if (isset($param['hide_menu'])) {
                                                                                           onclick="" title="Back">&#9658;</label>
                     </li>
                     <li><a href="<?php echo HTML_PATH ?>/pages/day_overview.php"><?php echo $txt["chart_dayoverview"]; ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/month_overview.php"><?php echo $txt['chart_monthoverview']; ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/year_overview.php"><?php echo $txt['chart_yearoverview']; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/month_overview.php"><?php echo $txt["chart_monthoverview"]; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/year_overview.php"><?php echo $txt["chart_yearoverview"]; ?></a></li>
                     <li><a href="<?php echo HTML_PATH ?>/pages/all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
                     <li><a href="<?php echo HTML_PATH ?>/pages/last_years_overview.php"><?php echo $txt["chart_lastyearoverview"]; ?></a></li>
                     <li><a href="<?php echo HTML_PATH ?>/pages/cumulative_overview.php"><?php echo $txt["chart_cumulativeoverview"]; ?></a></li>

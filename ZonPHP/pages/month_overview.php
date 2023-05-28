@@ -36,7 +36,7 @@ if (strpos($paramstr_choose, "?") == 0) {
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 66px; ">
 
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
-            <h2 align="center">
+            <h2>
                 <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
                     <?php if (date('Y-m', $date_minimum) < date('Y-m', $chartdate))
                         echo '<button class="btn btn-zonphp" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("-1 months", $chartdate)) . '  >  < </button>';
@@ -56,16 +56,6 @@ if (strpos($paramstr_choose, "?") == 0) {
         <div id="month_chart_<?php echo $inverter_id ?>" style="width:100%; !important; height:100%; !important;"></div>
     </div>
 
-
-    <div id="kalender">
-
-    </div>
-
-    <div id="tabelgeg">
-        <div id="toggeldiv" class="collapse1">
-
-        </div>
-    </div>
 </div>
 
 <script type="text/javascript">

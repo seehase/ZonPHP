@@ -10,7 +10,7 @@ include_once "../charts/cumulative_chart.php";
 <div id="page-content">
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
-            <h2 align="center">
+            <h2>
                 <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
                    <button class="btn btn-zonphp" name='add' type="submit" value='+'>+</button>
                     <?php echo "&nbsp";

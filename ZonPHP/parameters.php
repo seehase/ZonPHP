@@ -53,7 +53,7 @@ $admin_password = " ";
 $sserver = "localhost";                     /*  Database server   --> default: "localhost"               */
 $susername = "root";                        /*  Database user     --> default: "root"                    */
 $spassword = "";                            /*  Database password --> default: ""                        */
-$sdatabase_name = "solar";                  /*  Database name     --> default: "solar"                   */
+$sdatabase_name = "zzz";                  /*  Database name     --> default: "solar"                   */
 $default_language = "de";                   /*  preferred language --> values: en, de, fr, nl            */
 /*-------------------------------------------------------------------------------------------------------*/
 /***               suggested defaults, change only when needed                                         ***/

@@ -4,7 +4,7 @@
 define('HEADER_CLASS', 'jqx-window-header jqx-window-header-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp');
 define('CONTENT_CLASS', 'jqx-window-content jqx-window-content-zonphp jqx-widget-content jqx-widget-content-zonphp jqx-rc-b jqx-rc-b-zonphp ');
 define('WINDOW_STYLE_BIG', 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 10px 3px 35px 10px; border-width: 1px; border-style: solid; border-radius: 10px;');
-define('WINDOW_STYLE_CHART', 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 0px 0px 0px 0px;border-width: 1px; border-style: solid; border-radius: 10px; width:100%; height:400');
+define('WINDOW_STYLE_CHART', 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 0px 0px 0px 0px;border-width: 1px; border-style: solid; border-radius: 10px; width:100%; height:400px');
 define('WINDOW_STYLE', 'padding: 0px; border: 2px; border-color: #000; margin: 3px; border-width: 1px; border-style: solid; border-radius: 10px; color:#000000;');
 define('CHART_STYLE', 'background-color: #' . $colors['color_chartbackground'] . ';');
 define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-left:  width: 100%; height: auto; overflow: hidden; background-color:#' . $colors['color_background'] . ';');
@@ -13,12 +13,11 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="UTF-8" />
     <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
     <meta name="description" content="PV Anlagen Monitoring">
     <meta name="author" content="seehase">
-    <meta http-equiv="Cache-Control" content="no-cache">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+
 
     <?php
     if (isset($param['autorefresh'])) {
@@ -66,7 +65,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <link rel="stylesheet" type="text/css" href="<?php echo HTML_PATH ?>/inc/styles/style.css">
 
     <!-- override dynamic with parameter -->
-    <style type="text/css">
+    <style>
         .ui-widget-content {
             background: #<?php echo $colors['color_menubackground'] ?>;
         }
@@ -82,7 +81,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
         .jqx-widget-header-zonphp {
             color: #<?php echo $colors['color_windowfont'] ?>;
             border-color: #ffffff;
-            background: # <?php echo $colors['color_windowcolor'] ?> url(<?php echo $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
+            background: #<?php echo $colors['color_windowcolor'] ?> url(<?php echo $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
 
         #footer a, #id_about a, #id_links a, #id_install a {
@@ -121,38 +120,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     <script type="text/javascript">
         $(document).ready(function () {
             $("#resize").resizable({autoHide: true});
-            $("#resize").resizable("option", "autoHide", true);
         });
-
-        $(document).ready(function () {
-            $("#toggelbutton").click(function () {
-                var mydiv = $("#toggeldiv");
-                var ishidden = true;
-
-                if (mydiv.is(':hidden')) {
-                    $("#toggeldiv").show();
-                } else {
-                    $("#toggeldiv").hide();
-                }
-
-
-            });
-        });
-    </script>
-
-    <script>
-        $(function () {
-            $('#toggle-one').change(function () {
-                var mydiv = $("#toggeldiv");
-                var ishidden = true;
-
-                if (mydiv.is(':hidden')) {
-                    $("#toggeldiv").show();
-                } else {
-                    $("#toggeldiv").hide();
-                }
-            })
-        })
     </script>
 
     <?php

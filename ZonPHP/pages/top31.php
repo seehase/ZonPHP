@@ -45,7 +45,7 @@ if (strpos($paramstr_choose, "?") == 0) {
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
 
-            <h2 align="center"><?php echo $myLabel; ?></h2>
+            <h2><?php echo $myLabel; ?></h2>
         </div>
         <div id="top31_chart" style="width:100%; height:100%;"></div>
     </div>
