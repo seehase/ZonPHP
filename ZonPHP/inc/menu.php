@@ -83,10 +83,10 @@ if (isset($param['hide_menu'])) {
         <a href='<?php echo HTML_PATH ?>/index.php' style="position:absolute; top:14px; left:130px;  border:0"><img src="<?php echo HTML_PATH ?>/inc/image/logo.png"></a>"
         <?php if ($show_menu) echo '<label for="main-nav-check" class="toggle" onclick="" title="Menu">&#x2261;</label>'; ?>
         <span style="margin-left: 330px;">&nbsp;</span>
-        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='". HTML_PATH ."./inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'></a>"; ?>
-        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='". HTML_PATH ."./inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
-        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='". HTML_PATH ."./inc/image/blank.gif' class='flag flag-fr' alt='français' title='français'/></a>" ?>
-        <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='". HTML_PATH ."./inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'/></a>" ?>
+        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'></a>"; ?>
+        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'/></a>" ?>
+        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-fr' alt='français' title='français'/></a>" ?>
+        <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'/></a>" ?>
         <?php
         if ($iveromvormers == 1) {
             echo '<p id="headerinverter" style="margin: -22px 460px 10px">' .
