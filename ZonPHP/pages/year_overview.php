@@ -62,7 +62,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 59px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
-            <h2 align="center">
+            <h2>
                 <?php
                 if ($prevyearvisible) {
                     echo '<a class="btn btn-zonphp" href="year_overview.php' . $paramstr_day . 'jaar=' . $prevyearstring . '"> < </a>';
@@ -82,12 +82,6 @@ if (strpos($paramstr_choose, "?") == 0) {
         <div id="year_chart_<?php echo $inverter_id ?>" style=":width100%; height:100%;"></div>
     </div>
 
-
-    <div id="tabelgeg">
-        <div id="toggeldiv" class="collapse1">
-
-        </div>
-    </div>
 </div>
 
 <script type="text/javascript">
