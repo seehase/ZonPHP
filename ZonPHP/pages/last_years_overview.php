@@ -49,9 +49,9 @@ if (strpos($paramstr_choose, "?") == 0) {
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2 align="center">
                 <?php
-                //echo '<a class="btn btn-primary" href="last_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
+                //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
                 echo "All Years Overview";
-                //echo '<a class="btn btn-primary" href="last_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
+                //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
                 ?>
             </h2>
         </div>

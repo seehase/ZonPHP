@@ -12,7 +12,7 @@ include_once "../charts/cumulative_chart.php";
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2 align="center">
                 <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-                   <button class="btn btn-primary" name='add' type="submit" value='+'>+</button>
+                   <button class="btn btn-zonphp" name='add' type="submit" value='+'>+</button>
                     <?php echo "&nbsp";
                     echo "  " . $title . " "; ?>
                 </form>

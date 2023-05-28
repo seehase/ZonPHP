@@ -65,18 +65,18 @@ if (strpos($paramstr_choose, "?") == 0) {
             <h2 align="center">
                 <?php
                 if ($prevyearvisible) {
-                    echo '<a class="btn btn-primary" href="year_overview.php' . $paramstr_day . 'jaar=' . $prevyearstring . '"> < </a>';
+                    echo '<a class="btn btn-zonphp" href="year_overview.php' . $paramstr_day . 'jaar=' . $prevyearstring . '"> < </a>';
                 }
                 echo " " . $txt["jaar"] . " " . $datum . " ";
                 if ($nextyearvisible) {
-                    echo '<a class="btn btn-primary" href="year_overview.php' . $paramstr_day . 'jaar=' . $nextyearstring . '"> > </a>';
+                    echo '<a class="btn btn-zonphp" href="year_overview.php' . $paramstr_day . 'jaar=' . $nextyearstring . '"> > </a>';
                 }
                 ?>
             </h2>
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
             <a href="<?php echo "year_overview.php" . $paramstr_day . "jaar=" . $chartyeardatestring ?>" target="_self">
-                <button class="btn btn-primary"><?php echo $txt["back_to_today"] ?></button>
+                <button class="btn btn-zonphp"><?php echo $txt["back_to_today"] ?></button>
             </a>
         </div>
         <div id="year_chart_<?php echo $inverter_id ?>" style=":width100%; height:100%;"></div>

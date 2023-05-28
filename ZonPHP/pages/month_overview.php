@@ -39,17 +39,17 @@ if (strpos($paramstr_choose, "?") == 0) {
             <h2 align="center">
                 <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
                     <?php if (date('Y-m', $date_minimum) < date('Y-m', $chartdate))
-                        echo '<button class="btn btn-primary" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("-1 months", $chartdate)) . '  >  < </button>';
+                        echo '<button class="btn btn-zonphp" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("-1 months", $chartdate)) . '  >  < </button>';
                     echo " " . $datum . " ";
                     if (date('Y-m', $date_maximum) > date('Y-m', $chartdate))
-                        echo '<button class="btn btn-primary" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("+1 months", $chartdate)) . '  >  > </button>';
+                        echo '<button class="btn btn-zonphp" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("+1 months", $chartdate)) . '  >  > </button>';
                     ?>
                 </form>
             </h2>
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
-                <button class="btn btn-primary" type="submit" id="txt" name="dag"
+                <button class="btn btn-zonphp" type="submit" id="txt" name="dag"
                         value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt["terugnaarvandaag"] ?></button>
             </form>
         </div>

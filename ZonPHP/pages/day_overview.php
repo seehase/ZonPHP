@@ -64,17 +64,17 @@ $formatter->setPattern("d LLL yyyy");
             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
                 <h2 align="center" class="notopgap">
                     <?php if ($date_minimum < $chartcurrentdate)
-                        echo '<button class="btn btn-primary" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '  >  <  </button>';
+                        echo '<button class="btn btn-zonphp" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '  >  <  </button>';
                     echo " " . $formatter->format(strtotime($datum)) . " ";
                     if (date("y-m-d", $date_maximum) > date("y-m-d", $chartdate))
-                        echo '<button class="btn btn-primary" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '  >  > </button>';
+                        echo '<button class="btn btn-zonphp" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '  >  > </button>';
                     ?>
                 </h2>
             </form>
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 10px;  left: 15px;">
             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
-                <button class="btn btn-primary" type="submit" id="txt" name="dag"
+                <button class="btn btn-zonphp" type="submit" id="txt" name="dag"
                         value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt["back_to_today"] ?></button>
             </form>
         </div>

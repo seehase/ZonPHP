@@ -126,7 +126,7 @@ include_once ROOT_DIR."/inc/header.php";
             <br/>
             <hr>
             <div style="height: auto;">
-                <a class="btn btn-primary" href="https://github.com/seehase/ZonPHP/archive/master.zip"><b>Download
+                <a class="btn btn-zonphp" href="https://github.com/seehase/ZonPHP/archive/master.zip"><b>Download
                         current
                         Version
                         ZonPHP from github</b></a>
