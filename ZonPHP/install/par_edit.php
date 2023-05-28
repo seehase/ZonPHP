@@ -1,22 +1,11 @@
 <?php
-include_once "../Parameters.php";
+include_once "../parameters.php";
 include_once "../inc/sessionstart.php";
 
 if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
 
 include_once "../inc/connect.php";
-
-// check if tables exists and save next_mail_threshold value
-$sqlpar = "SELECT Waarde FROM " . $table_prefix . "_parameters where variable = \"next_mail_threshold\" limit 1";
-$result = mysqli_query($con, $sqlpar) or die(header('location:opstart_installatie.php?fout=table'));
-
-$_POST['next_mail_threshold'] = 1;
-if (mysqli_num_rows($result) != 0) {
-    $row = mysqli_fetch_array($result);
-    $_POST['next_mail_threshold'] = $row['Waarde'];
-}
-
 include_once "par_header.php";
 
 ?>
@@ -352,23 +341,11 @@ include_once "par_header.php";
                        size='63'><br/>
 
                 <hr>
-
-                <?php echo $txt["uwmailadres"]; ?>:
-                <input type='text' name='email'
-                       value='<?php if (!empty($_POST['email'])) echo $_POST['email']; else echo "nobody@localhost" ?>'
-                       size='63'><br/>
-                <?php echo $txt["intervalmail"]; ?>:
-                <input type='text' name='mailinterval'
-                       value='<?php if (!empty($_POST['mailinterval'])) echo $_POST['mailinterval']; else echo 1000 ?>'>
-                <br/>
-                <hr>
                 <?php echo $txt["google_tracking"]; ?>:
                 <input type='text' name='google_tracking' size='40'
                        value='<?php if (!empty($_POST['google_tracking'])) echo $_POST['google_tracking'] ?>'>
                 <br/>
                 <hr>
-
-
                 <?php
                 if (empty($_POST['colortheme'])) {
                     $_POST['colortheme'] = "user";
@@ -412,7 +389,6 @@ include_once "par_header.php";
                 <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo $txt["save"]; ?>"
                        onClick="return confirmSubmit()">
             </FORM>
-
         </div>
     </div>
 </div>
