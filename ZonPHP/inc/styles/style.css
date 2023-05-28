@@ -622,7 +622,9 @@ code {
     line-height: 0px;
 }
 
-.btn {
+.btn-zonphp {
+    background-color: #286090;
+  	color: #fff;
     padding: 3px 11px;
     margin-bottom: 0;
     font-size: 12px;
