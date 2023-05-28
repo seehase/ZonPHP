@@ -48,7 +48,7 @@ if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
 </div>
 
 </div><!-- closing ".container" -->
-<?php include_once "inc/footer.php"; ?>
+<?php include_once ROOT_DIR."/inc/footer.php"; ?>
 
 </body>
 </html>
