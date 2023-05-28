@@ -5,7 +5,7 @@
  * ROOT_DIR gives the full absolute path to a file, including the install directory  
  * HTML_PATH gives the extension for use in href
  * PHP_PATH is HTML_PATH without the forward slash
- * ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] + SUFFIX
+ * ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] + HTML_PATH
  *****************************************************************************/
 define('ROOT_DIR', realpath(__DIR__.'/'));
 define ('HTML_PATH',substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
@@ -14,9 +14,9 @@ define ('PHP_PATH', ltrim( HTML_PATH, '/'));
 include_once "inc/version_info.php";
 
 /******************************************************************************
- * Hier kan u server , username , password , database naam ingeven van uw database
- * Here you can server, username, password, database name for enter your database
- * Ici, vous pouvez serveur, nom d'utilisateur, mot de passe, nom de la base pour l'entre le database
+ * Hier kunt u server , username , password , database naam ingeven van uw database
+ * Here you can enter server, username, password, database name for your database
+ * Ici, vous pouvez donner serveur, nom d'utilisateur, mot de passe, nom de la base pour l'entre le database
  *
  * Hier können Sie Server, Benutzername, Passwort, Datenbank-Namen geben für Ihre Datenbank
  * $spassword wordt gebruikt voor inloggen in de database
