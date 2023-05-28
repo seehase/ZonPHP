@@ -55,7 +55,7 @@ $susername = "root";                        /*  Database user     --> default: "
 $spassword = "";                            /*  Database password --> default: ""                        */
 $sdatabase_name = "solar";                  /*  Database name     --> default: "solar"                   */
 $default_language = "de";                   /*  preferred language --> values: en, de, fr, nl            */
-/--------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
 /***               suggested defaults, change only when needed                                         ***/
 $table_prefix = "tgeg";                     /*  table name prefix --> default: "tgeg"                    */
 $use_utf8 = true;                           /*  set this to true if your server is configured using UTF8 */
