@@ -51,7 +51,12 @@ if (mysqli_num_rows($result) == 0) {
     }
 }
 $acdatum = array_values(array_unique($acdatum));
-$firstYear = reset($acdatum);
+if (count($acdatum) > 0) {
+    $firstYear = reset($acdatum);
+} else {
+    $firstYear = 1970;
+}
+
 
 //  new average
 $sqlavg = "SELECT Naam, MONTH( Datum_Maand ) AS Maand, ROUND( SUM( Geg_Maand ) / COUNT( DISTINCT (
