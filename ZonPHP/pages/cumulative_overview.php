@@ -28,6 +28,6 @@ include_once "../charts/cumulative_chart.php";
 </script>
 </div><!-- closing ".page-content" -->
 </div><!-- closing ".container" -->
-<?php include_once "inc/footer.php"; ?>
+<?php include_once ROOT_DIR."/inc/footer.php"; ?>
 </body>
 </html>
