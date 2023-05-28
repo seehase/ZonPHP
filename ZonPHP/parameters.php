@@ -7,32 +7,16 @@
  * PHP_PATH is HTML_PATH without the forward slash
  * ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] + HTML_PATH
  *****************************************************************************/
+
 define('ROOT_DIR', realpath(__DIR__.'/'));
 define ('HTML_PATH',substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
 define ('PHP_PATH', ltrim( HTML_PATH, '/')); 
 // read version and debug configuration
 include_once "inc/version_info.php";
 
-/******************************************************************************
- * Hier kunt u server , username , password , database naam ingeven van uw database
- * Here you can enter server, username, password, database name for your database
- * Ici, vous pouvez donner serveur, nom d'utilisateur, mot de passe, nom de la base pour l'entre le database
- *
- * Hier können Sie Server, Benutzername, Passwort, Datenbank-Namen geben für Ihre Datenbank
- * $spassword wordt gebruikt voor inloggen in de database
- *
- * $spassword is used for logging into the database
- *
- * $spassword est utilisé pour la connexion à la base de données *
- *
- * sample: https://solar.seehausen.org
- *
- * more infos under
- * https://github.com/seehase/ZonPHP
- ******************************************************************************/
-
 /*****************************************************************************
- * Configuration
+ * #### REQUIRED ####
+ * Username and password configuration
  *
  *     admin username and password must be set to be able to login,
  *     with empty password login is restricted
@@ -43,22 +27,43 @@ include_once "inc/version_info.php";
 $admin_username = "admin";
 $admin_password = " ";
 
-/*****************************************************************************/
-/* Database configuration                                                    */
-/*****************************************************************************/
+/******************************************************************************
+ * #### REQUIRED ####
+ * Database credentials and connection details  
+ ******************************************************************************
+ *
+ * Hier kunt u server, username, password en databasenaam ingeven van uw database
+ * $spassword wordt gebruikt voor inloggen in de database
+ * 
+ * Here you can enter server, username, password, database name for your database
+ * $spassword is used for logging into the database
+ * 
+ * Ici, vous pouvez donner serveur, nom d'utilisateur, mot de passe, nom de la base 
+ * pour l'entrée la base de données
+ * $spassword est utilisé pour la connexion à la base de données *
+ *
+ * Hier können Sie Server, Benutzername, Passwort, Datenbank-Namen geben für Ihre Datenbank
+ *
+ * sample: https://solar.seehausen.org
+ *
+ * more infos under
+ * https://github.com/seehase/ZonPHP
+ ******************************************************************************/
+
 $sserver = "localhost";                     /*  Database server   --> default: "localhost"               */
 $susername = "root";                        /*  Database user     --> default: "root"                    */
 $spassword = "";                            /*  Database password --> default: ""                        */
 $sdatabase_name = "solar";                  /*  Database name     --> default: "solar"                   */
-
-$table_prefix = "tgeg";                     /*  table name prefix --> default: "tgeg"                    */
-
 $default_language = "de";                   /*  preferred language --> values: en, de, fr, nl            */
+/--------------------------------------------------------------------------------------------------------*/
+/***               suggested defaults, change only when needed                                         ***/
+$table_prefix = "tgeg";                     /*  table name prefix --> default: "tgeg"                    */
 $use_utf8 = true;                           /*  set this to true if your server is configured using UTF8 */
 
-/*****************************************************************************/
-/* weatherstation weewx configuration          OPTIONAL                      */
-/*****************************************************************************/
+/*****************************************************************************
+* #### OPTIONAL ####                                                         *
+* weatherstation weewx configuration                                         *
+******************************************************************************/
 $use_weewx = false;
 $weewx_server = "localhost";              /*  weewx Database server   --> default: "localhost"         */
 $weewx_username = "weewx";                /*  weewx Database user     --> default: "weewx"             */
@@ -67,5 +72,5 @@ $weewx_database_name = "weewx";           /*  weewx Database name     --> defaul
 $weewx_table_name = "archive";            /*  weewx table name     --> default: "archive"              */
 $weewx_temp_column = "outTemp";           /*  weewx temp column name     --> default: "outTemp"        */
 $weewx_timestamp_column = "dateTime";     /*  weewx timestamp column name     --> default: "dateTime"  */
-$weewx_temp_is_farenheit = true           /*  weewx temp is in fahrenheit     --> default: "true"       */
+$weewx_temp_is_farenheit = true           /*  weewx temp is in fahrenheit     --> default: "true"      */
 ?>
