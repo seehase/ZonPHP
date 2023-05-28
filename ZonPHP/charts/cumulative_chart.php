@@ -99,9 +99,11 @@ for ($i = 0; $i < count($years); $i++) {
 							data: [" . $strdata . "]},
 						";
 }
-//print "<pre>";
-//print_r($peryear);
-//print "</pre>";
+$hasdata = "true";
+if (strlen($strdataseries) == 0) {
+    $strdataseries = "{}";
+    $hasdata = "false";
+}
 ?>
 <?php
 $show_legende = "true";
@@ -127,19 +129,21 @@ $categories = $shortmonthcategories;
                         });
                     },
                     render() {
-                        var ticks = this.xAxis[0].ticks,
-                            ticksPositions = this.xAxis[0].tickPositions,
-                            tick0x,
-                            tick1x,
-                            getPosition = function (tick) {
-                                var axis = tick.axis;
-                                return Highcharts.Tick.prototype.getPosition.call(tick, axis.horiz, tick.pos, axis.tickmarkOffset);
-                            };
+                        if (<?php echo $hasdata ?>) {
+                            var ticks = this.xAxis[0].ticks,
+                                ticksPositions = this.xAxis[0].tickPositions,
+                                tick0x,
+                                tick1x,
+                                getPosition = function (tick) {
+                                    var axis = tick.axis;
+                                    return Highcharts.Tick.prototype.getPosition.call(tick, axis.horiz, tick.pos, axis.tickmarkOffset);
+                                };
 
-                        tick0x = getPosition(ticks[ticksPositions[0]]).x;
-                        tick1x = getPosition(ticks[ticksPositions[1]]).x;
+                            tick0x = getPosition(ticks[ticksPositions[0]]).x;
+                            tick1x = getPosition(ticks[ticksPositions[1]]).x;
 
-                        this.xAxis[0].labelGroup.translate((tick1x - tick0x) / 2)
+                            this.xAxis[0].labelGroup.translate((tick1x - tick0x) / 2)
+                        }
                     }
                 }
             },

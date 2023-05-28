@@ -61,6 +61,7 @@ if (mysqli_num_rows($result) == 0) {
 }
 
 //new year average per inverter in clean array
+$avg_data = array();
 $sqltotal = "SELECT ROUND((SUM( Geg_Maand ) /  COUNT( Geg_Maand ))* 365 , 0 ) AS grand_total_average 
 FROM " . $table_prefix . "_maand
 GROUP BY naam";
@@ -112,7 +113,6 @@ $current_bars = "";
 $categories = "";
 $best_year = 0;
 $strdataseries = "";
-
 $myColors = array();
 for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
@@ -170,7 +170,9 @@ foreach ($inveter_list as $inverter_name) {
                     ";
 
 }
-
+if (strlen($strdataseries) == 0) {
+    $strdataseries = "{}";
+}
 // strip last ","
 $strgeg = substr($strgeg, 0, -1);
 $strxas = substr($strxas, 0, -1);
