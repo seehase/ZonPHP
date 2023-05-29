@@ -166,37 +166,13 @@ function load_charts() {
         });
     }
 
-    function addWorst() {
-        var id = "id_Worst";
-        var itemTemplate = '' +
-            '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card"> ' +
-            '<a href="./pages/top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["slechtste"] + '</div></a>' +
-            '<div id="' + id + '">' +
-            '</div>' +
-            '</div>';
-        var itemElem = document.createElement('div');
-        itemElem.innerHTML = itemTemplate;
-        grid.add(itemElem.firstChild);
-
-        var container = $('#' + id);
-        $.ajax({
-            url: 'charts/top31_chart.php',
-            type: 'post',
-            data: {'action': 'indexpage', 'topflop': 'flop'},
-            cache: false,
-            success: function (chart) {
-                $(container).append(chart);
-            }
-        });
-    }
-
+    
     function addBest() {
         var id = "id_Best";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
-            '<a href="./pages/top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["beste"] + '</div></a>' +
+            '<a href="./pages/top31.php?Max_Min=top"><div class="' + headerclass + '">' + $txt["chart_31days"] + '</div></a>' +
             '<div id="' + id + '">' +
             '</div>' +
             '</div>';
