@@ -1,11 +1,8 @@
 <?php
-
 include_once "../parameters.php";
 include_once "../inc/sessionstart.php";
-
 if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
-
 include_once "../inc/connect.php";
 include_once "par_header.php";
 ?>
@@ -14,7 +11,6 @@ include_once "par_header.php";
 </div>
 <div id="container">
     <div id="bodytextparm">
-
         <div class="inside">
             <h2 class="notopgap" align="center"><?php echo $txt["installscript"]; ?></h2>
             <hr>
@@ -33,21 +29,16 @@ include_once "par_header.php";
 	<select NAME="resettabel">
 			<option  SELECTED>';
                     if (!empty($_POST['resettabel'])) echo $_POST['resettabel'];
-                    echo '<option value="' . $txt["installtdnt"] . '">' . $txt["installtdnt"] . ' </option>'//table day/night counter, to be removed;
                     echo '<option value="' . $txt["installtd"] . '">' . $txt["installtd"] . ' </option>';
                     echo '<option value="' . $txt["installtm"] . '">' . $txt["installtm"] . ' </option>';
-                    echo '<option value="' . $txt["installtp"] . '">' . $txt["installtp"] . ' </option>'// table price, to be removed;
                     echo '<option value="' . $txt["installtr"] . '">' . $txt["installtr"] . ' </option>';
                     echo '<option value="' . $txt["installtpar"] . '">' . $txt["installtpar"] . ' </option>';
                     echo '<option value="' . $txt["installts"] . '">' . $txt["installts"] . ' </option>'// table sensordata, we already skipped this?;
                     echo '</select><br /><br />';
                 }
                 ?>
-
                 <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo $txt["save"]; ?>"
                        onClick="return confirmSubmit()">
-
-
             </form>
             <?php
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -62,7 +53,6 @@ include_once "par_header.php";
 						  Dag_Refer float NOT NULL,
 						  Naam varchar(21) NOT NULL
 						) ENGINE=MyISAM DEFAULT CHARSET=latin1";
-
                 /****************************************************************************
                  * aanmaken tabel voor daggegevens
                  ****************************************************************************/
@@ -75,7 +65,6 @@ include_once "par_header.php";
 				  Naam varchar(21) NOT NULL,
 				  UNIQUE KEY IndexDag (IndexDag)
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
-
                 /****************************************************************************
                  * aanmaken tabel voor maandgegevens
                  ****************************************************************************/
@@ -110,7 +99,6 @@ include_once "par_header.php";
                     CONSTRAINT tgeg_sensor_ix1 UNIQUE (logtime, sensorid, sensortype)
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
-
                 echo "<b>" . $txt["installuitg"] . ".</b><br /><br />";
                 if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtd"]) {
                     mysqli_query($con, $sql_wisDag) or die("Query failed. sql_wisDag: " . mysqli_error($con));
@@ -137,10 +125,8 @@ include_once "par_header.php";
                     mysqli_query($con, $sql_maakSensordata) or die("Query failed. sql_maakSensordata: " . mysqli_error($con));
                     echo $txt["installts"] . "ok<br />";
                 }
-
                 echo "<br /><br /><hr>";
                 echo '<b><a href="par_edit.php">' . $txt["installtping"] . '.</a></b><br />';
-
             }
             ?>
         </div>
