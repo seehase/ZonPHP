@@ -6,15 +6,6 @@
             navarray[i].checked = false
         }
     }
-
-    $('#setQuickVar1').on('click', function () {
-        var checkStatus = this.checked ? 'ON' : 'OFF';
-
-        $.post("inc/toggle.php", {"quickVar1a": checkStatus},
-            function (data) {
-                $('#resultQuickVar1').html(data);
-            });
-    });
 </script>
 <?php
 $menu_display_style = "clear:both; ";
