@@ -70,7 +70,7 @@ if (isset($param['hide_menu'])) {
                     <li><a href="<?php echo HTML_PATH ?>/pages/show_plant.php"><?php echo $txt["installatie"]; ?></a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/archive/master.zip">download ZonPHP</a></li>
-                    <li><a href="inc/destroy.php"><?php echo $txt["clearsession"]; ?> </a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/inc/destroy.php"><?php echo $txt["clearsession"]; ?> </a></li>
                 </ul>
             </li>
         </ul>
