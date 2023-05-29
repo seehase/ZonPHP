@@ -64,7 +64,7 @@ if (!isset ($colors['color_inverter9_chartbar_min'])) $colors['color_inverter9_c
 if (!isset ($colors['color_inverter9_chartbar_max'])) $colors['color_inverter9_chartbar_max'] = "3366AA";
 if (!isset ($colors['color_chartbar_piek1'])) $colors['color_chartbar_piek1'] = "730073";
 if (!isset ($colors['color_chartbar_piek2'])) $colors['color_chartbar_piek2'] = "FF00FF";
-if (!isset ($colors['color_image_windowtitle'])) $colors['color_image_windowtitle'] = "inc/styles/images/bg_black.png";
+if (!isset ($colors['color_image_windowtitle'])) $colors['color_image_windowtitle'] = HTML_PATH."/inc/styles/images/bg_black.png";
 if (!isset ($colors['color_chart_labels_xaxis1'])) $colors['color_chart_labels_xaxis1'] = "323070";
 if (!isset ($colors['color_chart_title_yaxis1'])) $colors['color_chart_title_yaxis1'] = "1D2599";
 if (!isset ($colors['color_chart_title_yaxis2'])) $colors['color_chart_title_yaxis2'] = "0E6C7A";
@@ -100,7 +100,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_menufont'] = "000000";
     $colors['color_windowfont'] = "ffffff";
     $colors['color_windowcolor'] = "000000";
-    $colors['color_image_windowtitle'] = "inc/image/bg_black.png";
+    $colors['color_image_windowtitle'] = HTML_PATH."/inc/image/bg_black.png";
     $colors['color_chartbackground'] = "888888";
     $colors['color_chartbar1'] = "003399";
     $colors['color_chartbar2'] = "3366AA";
@@ -159,7 +159,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_menufont'] = "000000";
     $colors['color_windowfont'] = "ffffff";
     $colors['color_windowcolor'] = "616161";
-    $colors['color_image_windowtitle'] = "inc/styles/images/bg_black.png";
+    $colors['color_image_windowtitle'] = HTML_PATH."/inc/styles/images/bg_black.png";
     $colors['color_chartbackground'] = "616161";
     $colors['color_chartbar1'] = "f4ff1c";
     $colors['color_chartbar2'] = "FF000D";
@@ -225,7 +225,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_menufont'] = "000000";
     $colors['color_windowfont'] = "ffffff";
     $colors['color_windowcolor'] = "FFBF87";
-    $colors['color_image_windowtitle'] = "inc/styles/images/bg_brown.png";
+    $colors['color_image_windowtitle'] = HTML_PATH."/inc/styles/images/bg_blueenergy.png";
     $colors['color_chartbackground'] = "FFDCBC";
     $colors['color_chartbar1'] = "FF1C33";
     $colors['color_chartbar2'] = "700000";
@@ -265,7 +265,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_menufont'] = "000000";
     $colors['color_windowfont'] = "ffffff";
     $colors['color_windowcolor'] = "ffffff";
-    $colors['color_image_windowtitle'] = "inc/styles/images/bg_black.png";
+    $colors['color_image_windowtitle'] = HTML_PATH."/inc/styles/images/bg_black.png";
     $colors['color_chartbackground'] = "ffffff";
     $colors['color_chartbar1'] = "f4ff1c";
     $colors['color_chartbar2'] = "ff000d";
@@ -311,7 +311,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_menufont'] = "000000";
     $colors['color_windowfont'] = "78cbff";
     $colors['color_windowcolor'] = "0003a6";
-    $colors['color_image_windowtitle'] = "inc/styles/images/bg_brownzzz.png";
+    $colors['color_image_windowtitle'] = HTML_PATH."/inc/styles/images/bg_darkblue.png";
     $colors['color_chartbackground'] = "78cbff";
     $colors['color_chartbar1'] = "00a3f6";
     $colors['color_chartbar2'] = "0003a6";
