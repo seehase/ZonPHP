@@ -29,8 +29,6 @@ if ($result->num_rows > 0) {
         $names[] = $row["naam"];
         $years[] = date("Y", strtotime($row["Datum_Maand"]));
     }
-} else {
-    echo "0 results";
 }
 $names = array_values(array_unique($names));
 $years = array_values(array_unique($years));

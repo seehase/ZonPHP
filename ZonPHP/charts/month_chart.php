@@ -109,7 +109,7 @@ for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
 }
 // collect data array
-$myurl = "day_overview.php?dag=";
+$myurl = HTML_PATH."/pages/day_overview.php?dag=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;

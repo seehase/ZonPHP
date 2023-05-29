@@ -116,9 +116,9 @@ $chart_options =
                     point: {
                         events: {
                             click: function () {
-                            if (this.options.url.length > 0)
-                            {
-                                location.href = this.options.url;
+                                if (this.options.url.length > 0)
+                                {
+                                    location.href = this.options.url;
                                 }
                             }
                         }

@@ -9,7 +9,7 @@
  *****************************************************************************/
 
 define('ROOT_DIR', realpath(__DIR__.'/'));
-define ('HTML_PATH',substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
+define ('HTML_PATH',str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT']))));
 define ('PHP_PATH', ltrim( HTML_PATH, '/')); 
 // read version and debug configuration
 include_once "inc/version_info.php";
@@ -53,7 +53,7 @@ $admin_password = " ";
 $sserver = "localhost";                     /*  Database server   --> default: "localhost"               */
 $susername = "root";                        /*  Database user     --> default: "root"                    */
 $spassword = "";                            /*  Database password --> default: ""                        */
-$sdatabase_name = "zzz";                  /*  Database name     --> default: "solar"                   */
+$sdatabase_name = "solar";                  /*  Database name     --> default: "solar"                   */
 $default_language = "de";                   /*  preferred language --> values: en, de, fr, nl            */
 /*-------------------------------------------------------------------------------------------------------*/
 /***               suggested defaults, change only when needed                                         ***/
