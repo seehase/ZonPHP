@@ -42,7 +42,7 @@ if (isset($use_weewx) && $use_weewx == true) {
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/muuri/0.4.0/muuri.min.js"></script>
 
-    <script type="text/javascript" src="inc/index_charts.js"></script>
+    <script type="text/javascript" src="inc/js/index_charts.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             docReady(load_charts());
