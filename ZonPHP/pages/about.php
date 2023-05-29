@@ -1,11 +1,11 @@
 <?php
 include_once "../parameters.php";
-include_once ROOT_DIR."/inc/sessionstart.php";
-include_once ROOT_DIR."/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/sessionstart.php";
+include_once ROOT_DIR . "/inc/load_cache.php";
 
-include_once ROOT_DIR."/inc/header.php";
+include_once ROOT_DIR . "/inc/header.php";
 ?>
-<?php include_once ROOT_DIR."/inc/menu.php"; ?>
+<?php include_once ROOT_DIR . "/inc/menu.php"; ?>
 
 <div id="page-content">
 
@@ -21,40 +21,33 @@ include_once ROOT_DIR."/inc/header.php";
             </div>
 
             <div>
-                <h2> Weiterentwicklung von ZonPHP </h2>
-                Ich nutze ZonPHP seit Jahren und bin begeistert von der Software. Leider wurde sie bisher nicht
-                mehr weiter entwickelt, so dass ich mich
-                mal hingesetzt habe und nun eine neue Version vorstellen will <br/>
-                Die ZonPHP 2016 basiert vollständig auf ZonPHP.V12.12 von rallyhammer und wurde nur erweitert <br/>
-                Der größter Vorteil ist, dass jetzt vollständig auf FLASH verzichtet wird, damit kann nun ZonPHP
-                auch auf MAC, iPhone oder Android ohne Probleme benutzt werden<br/>
-                Das Layout habe ich angefangen etwas zu modernisieren, ansonsten sind noch kleiner Bugfixes
-                eingeflossen.<br/>
+                <h2> Development of ZonPHP </h2>
+                I uses ZonPHP since many years, unfortunately it was not maintained anymore, so I decided to continue
+                and refactor the code
+                First major change was to remove Adobe Flash and use JavaScript chart library
+                The project is OpenSource, if you want to participate, just contribute on GitHub
+                <a href="https://github.com/seehase/ZonPHP"><b>https://github.com/seehase/ZonPHP</b></a>
                 <br/>
-                Ich würde mich sehr über Feedback freuen oder Anregungen zur Weiterentwicklung<br/>
-                Fragen oder Anregungen gerne per Mail an <a href="mailto:zonphp@seehausen.org?Subject=ZonPHP"
-                                                            target="_top">zonphp@seehausen.org</a>
+                Questions or feedback <a href="mailto:zonphp@seehausen.org?Subject=ZonPHP"
+                                         target="_top">zonphp@seehausen.org</a>
                 <br/><br/>
-                Versionshistorie: <br/>
+                Versionshistory: <br/>
                 <strong>ZonPHP.12.12:</strong> (2013-12-13)
                 <ul>
-                    <li>letzte offizielle Version von Rally</li>
+                    <li>Last official version from Rally</li>
                 </ul>
                 <strong>ZonPHP.2016.06.00:</strong> (2016-06-05)
                 <ul>
-                    <li>erste öffentliche Version ohne Flash</li>
+                    <li>First FLASH-FREE version</li>
                 </ul>
                 <strong>ZonPHP.2016.06.15: </strong> (2016-06-26)
                 <ul>
-                    <li>Update der Index.PHP, Charts werden nun asynchron nachgeladen</li>
-                    <li>Support für Multi-Wechselrichter</li>
-                    <li>Installationsroutinen überarbeitet</li>
+                    <li>Reworked installation</li>
                 </ul>
                 <strong>ZonPHP.2016.08.03: </strong> (2016-08-14)
                 <ul>
-                    <li>Gui angepasst, Drag&amp;Drop</li>
                     <li>Session Handling</li>
-                    <li>Support für Hyperion.-Wechselrichter</li>
+                    <li>Support for Hyperion-converter</li>
                 </ul>
                 <strong>ZonPHP.2016.09.02: </strong> (2016-09-02)
                 <ul>
@@ -62,49 +55,23 @@ include_once ROOT_DIR."/inc/header.php";
                 </ul>
                 <strong>ZonPHP.2016.12.04: </strong> (2016-12-04)
                 <ul>
-                    <li>Performace Optimierung und Caching</li>
-                    <li>komplettes refactoring</li>
-                    <li>neue Datei Struktur</li>
-                    <li>neue Chart Library <a href="http://http://www.highcharts.com/" target="_blank">http://www.highcharts.com/</a>
+                    <li>Performace optimization and caching</li>
+                    <li>complete refactoring</li>
+                    <li>New Chart Library <a href="http://http://www.highcharts.com/" target="_blank">http://www.highcharts.com/</a>
                     </li>
-                    <li>alle Grafike umgestellt</li>
-                    <li>überflüssigen Code entfernt</li>
-                    <li>bessere Konfigurierbarkeit</li>
+                    <li>Improved config</li>
                 </ul>
                 <strong>ZonPHP.2016.12.08: </strong> (2016-12-08)
                 <ul>
-                    <li>Installation überarbeite</li>
-                    <li>Kompatibilität zu PHP 7 und MySQL 5.7 hergestellt</li>
-                </ul>
-                <strong>ZonPHP.2016.12.11: </strong> (2016-12-11)
-                <ul>
-                    <li>GUI einheitlich angepasst, auf allen Detail Seiten</li>
-                    <li>Einheiten in den Chart korrigiert</li>
-                    <li>Tooltips erweitert</li>
-                    <li>Bilder für die Intallations Seite jetzt in den Parametern pflegbar</li>
+                    <li>Compatibility with PHP 7 and MySQL 5.7</li>
                 </ul>
                 <strong>ZonPHP.2016.12.18: </strong> (2016-12-11)
                 <ul>
-                    <li>Mehrer Themes möglich, wenn jemand ein schönen Theme erstellt hat, bitte mir bescheid sagen,
-                        dann baue ich es ein
-                    </li>
-                    <li>Alle Farben sind jetzt konfigurierbar</li>
-                    <li>Anzeige welche Chats angezeigt werden, kann jetzt konfiguriert werden</li>
+                    <li>Introduced "Themes"</li>
                 </ul>
-                <strong>ZonPHP.2016.12.24: </strong> (2016-12-24)
-                <ul>
-                    <li>Frohe Weihnachten an alle, besonderen Dank an Michael und Christian, für ihre Geduld und das
-                        viele Testen
-                    </li>
-                    <li>Neues Menu, noch nicht perfekt aber gut bedienbar an Tablet und Handy</li>
-                    <li>viele kleinen Bugfixes und Verbesserungen</li>
-                    <li>Test von weewx</li>
-                </ul>
-
                 <strong>ZonPHP.2017.01.01: </strong> (2017-01-01)
                 <ul>
-                    <li>Integration von weewx zur Anzeige von Daten aus verschiedenen Wettersationen</li>
-                    <li>Anschluss Wetterstation an RaspberryPI und Datensynchronisation zur Web Site von ZonPHP</li>
+                    <li>Integration of weewx to show weather data</li>
                     <li><a href="http://www.weewx.com/" target="_blank">http://www.weewx.com/</a></li>
                 </ul>
 
@@ -143,7 +110,7 @@ include_once ROOT_DIR."/inc/header.php";
 
 
 </div><!-- closing ".container"  opened in menu.php-->
-<?php include_once ROOT_DIR."/inc/footer.php"; ?>
+<?php include_once ROOT_DIR . "/inc/footer.php"; ?>
 
 </body>
 </html>
