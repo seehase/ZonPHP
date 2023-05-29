@@ -1,6 +1,6 @@
 # Changelog
 ### 2018.01.02
-* smaller bugfixes and improvments from last year
+* smaller bugfixes and improvements from last year
 
 ### 2017.02.01.01
 * configurable Wounderground station ID in parameters
@@ -15,3 +15,7 @@
 ### 2017.03
 * better weewx integration
 * gui changes from christian
+
+### 2023.05
+* PHP8 compliant
+* cleanup and refactoring
