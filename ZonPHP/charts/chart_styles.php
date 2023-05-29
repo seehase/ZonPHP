@@ -2,14 +2,10 @@
 /**
  * general options for all charts
  */
-
 $chart_lang_de = "lang: {
                      decimalPoint: ',',
                      thousandsSep: '.',
                      loading: 'Daten werden geladen...',
-                     months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-                     weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
-                     shortMonths: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
                      exportButtonTitle: \"Exportieren\",
                      printButtonTitle: \"Drucken\",
                      rangeSelectorFrom: \"Von\",
@@ -25,9 +21,6 @@ $chart_lang_de = "lang: {
 
 $chart_lang_nl = "lang: {
                     loading: 'Wordt geladen...',
-                    months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-                    weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-                    shortMonths: ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
                     exportButtonTitle: \"Exporteren\",
                     printButtonTitle: \"Printen\",
                     rangeSelectorFrom: \"Vanaf\",
@@ -45,9 +38,6 @@ $chart_lang_nl = "lang: {
 
 $chart_lang_fr = "lang: {
                     loading: 'Chargement...',
-                    months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
-                    weekdays: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
-                    shortMonths: ['jan', 'fév', 'mar', 'avr', 'mai', 'juin', 'juil', 'aoû', 'sep', 'oct', 'nov', 'déc'],
                     exportButtonTitle: \"Exporter\",
                     printButtonTitle: \"Imprimer\",
                     rangeSelectorFrom: \"Du\",
@@ -187,7 +177,7 @@ $formatter->setPattern('LLL');
 $shortmonthcategories = "";
 for ($i = 1; $i <= 12; $i++) {
     // get month names in current locale
-    $shortmonthcategories .= '"' . str_replace('.', '', datefmt_format($formatter, mktime(0, 0, 0, $i))) . '",';
+    $shortmonthcategories .= '"' . str_replace('.', '', datefmt_format($formatter, mktime(0, 0, 0, $i,15))) . '",';
 }
 $shortmonthcategories = substr($shortmonthcategories, 0, -1);
 ?>
