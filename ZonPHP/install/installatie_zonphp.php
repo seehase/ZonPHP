@@ -33,8 +33,7 @@ include_once "par_header.php";
                     echo '<option value="' . $txt["installtm"] . '">' . $txt["installtm"] . ' </option>';
                     echo '<option value="' . $txt["installtr"] . '">' . $txt["installtr"] . ' </option>';
                     echo '<option value="' . $txt["installtpar"] . '">' . $txt["installtpar"] . ' </option>';
-                    echo '<option value="' . $txt["installts"] . '">' . $txt["installts"] . ' </option>';// table sensordata, we already skipped this?;
-                    echo '</select><br /><br />';
+                     echo '</select><br /><br />';
                 }
                 ?>
                 <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo $txt["save"]; ?>"
@@ -84,20 +83,6 @@ include_once "par_header.php";
 				  Variable varchar(60) NOT NULL,
 				  Waarde varchar(120) NOT NULL
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
-// do we need a table sensordata?
-                /****************************************************************************
-                 * Tabel structuur 'tgeg_sensordata'
-                 ****************************************************************************/
-                $sql_wisSensordata = "DROP TABLE IF EXISTS " . $table_prefix . "_sensordata";
-                $sql_maakSensordata = "CREATE TABLE " . $table_prefix . "_sensordata (
-				    id VARCHAR(20),
-                    logtime DATETIME,
-                    measurevalue FLOAT,
-                    sensorid INT,
-                    sensortype INT,
-                    PRIMARY KEY (id),
-                    CONSTRAINT tgeg_sensor_ix1 UNIQUE (logtime, sensorid, sensortype)
-				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
                 echo "<b>" . $txt["installuitg"] . ".</b><br /><br />";
                 if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtd"]) {
@@ -119,11 +104,6 @@ include_once "par_header.php";
                     mysqli_query($con, $sql_wisParameters) or die("Query failed. sql_wisParameters: " . mysqli_error($con));
                     mysqli_query($con, $sql_maakParameters) or die("Query failed. sql_maakParameters: " . mysqli_error($con));
                     echo $txt["installtpar"] . "ok<br />";
-                }
-                if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installts"]) {
-                    mysqli_query($con, $sql_wisSensordata) or die("Query failed. sql_wisSensordata: " . mysqli_error($con));
-                    mysqli_query($con, $sql_maakSensordata) or die("Query failed. sql_maakSensordata: " . mysqli_error($con));
-                    echo $txt["installts"] . "ok<br />";
                 }
                 echo "<br /><br /><hr>";
                 echo '<b><a href="par_edit.php">' . $txt["installtping"] . '.</a></b><br />';
