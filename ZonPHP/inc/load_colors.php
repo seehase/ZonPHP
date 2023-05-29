@@ -100,7 +100,7 @@ if ($_SESSION['theme'] == "default") {
     $colors['color_menufont'] = "000000";
     $colors['color_windowfont'] = "ffffff";
     $colors['color_windowcolor'] = "000000";
-    $colors['color_image_windowtitle'] = HTML_PATH."/inc/image/bg_black.png";
+    $colors['color_image_windowtitle'] = HTML_PATH."/inc/styles/images/bg_black.png";
     $colors['color_chartbackground'] = "888888";
     $colors['color_chartbar1'] = "003399";
     $colors['color_chartbar2'] = "3366AA";
