@@ -13,10 +13,6 @@ unset($adatum);
 
 include_once ROOT_DIR."/inc/header.php";
 include_once "../charts/top31_chart.php";
-$myLabel = "Top ";
-
-$currentview = "top";
-$myLabel = " " . $txt["beste"] . "  " . $txt["chart_31days"] . " ";
 ?>
 <?php include ROOT_DIR."/inc/menu.php"; ?>
 <?php
@@ -45,7 +41,7 @@ if (strpos($paramstr_choose, "?") == 0) {
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
 
-            <h2><?php echo $myLabel; ?></h2>
+            <h2><?php echo $txt["chart_31days"]; ?></h2>
         </div>
         <div id="top31_chart" style="width:100%; height:100%;"></div>
     </div>

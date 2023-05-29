@@ -29,11 +29,13 @@ include_once "par_header.php";
 	<select NAME="resettabel">
 			<option  SELECTED>';
                     if (!empty($_POST['resettabel'])) echo $_POST['resettabel'];
+                    echo '<option value="' . $txt["installtdnt"] . '">' . $txt["installtdnt"] . ' </option>'//table day/night counter, to be removed;
                     echo '<option value="' . $txt["installtd"] . '">' . $txt["installtd"] . ' </option>';
                     echo '<option value="' . $txt["installtm"] . '">' . $txt["installtm"] . ' </option>';
+                    echo '<option value="' . $txt["installtp"] . '">' . $txt["installtp"] . ' </option>'// table price, to be removed;
                     echo '<option value="' . $txt["installtr"] . '">' . $txt["installtr"] . ' </option>';
                     echo '<option value="' . $txt["installtpar"] . '">' . $txt["installtpar"] . ' </option>';
-                    echo '<option value="' . $txt["installts"] . '">' . $txt["installts"] . ' </option>'// table sensordata, we already skipped this?;
+                    echo '<option value="' . $txt["installts"] . '">' . $txt["installts"] . ' </option>';// table sensordata, we already skipped this?;
                     echo '</select><br /><br />';
                 }
                 ?>

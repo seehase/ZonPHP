@@ -16,11 +16,12 @@ if (strpos($version, "(dev)") > 0) {
 <div id="footer"
      style="background-color: #<?php echo $colors['color_footerbackground'] . "; " . $footer_display_style ?>;">
 
-    <?php echo "ZonPHP " . $version ?> <b> wewwx integration - Non Flash Version</b>
+    <?php echo "ZonPHP " . $version ?> &nbsp; - &nbsp; <b>PHP8 compliant</b>
     <a style="display:block;float:right;width:60%;margin-left:10px;" class="blink"
        href="<?php echo $downloadlink ?>"><b><?php echo $new_version_label ?></b></a>
-    <br/>
-    <a href="http://solar.seehausen.org/about.php">solar.seehausen.org</a>&nbsp;
+   &nbsp; - &nbsp;
+    <a href="https://solar.seehausen.org/about.php">solar.seehausen.org</a>&nbsp;
+    &nbsp; - &nbsp;
     <a href="https://github.com/seehase/ZonPHP" onclick="target='_blank'">https://github.com/seehase/ZonPHP</a>&nbsp;
 </div>
 

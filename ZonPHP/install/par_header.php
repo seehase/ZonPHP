@@ -11,7 +11,6 @@
 
     <title>ZonPHP Installation</title>
     <link rel="stylesheet" type="text/css" href="par_style.css">
-    <script type="text/javascript" src="../inc/js/jscolor/jscolor.min.js"></script>
     <script type="text/javascript">
         function confirmSubmit() {
             var agree = confirm("<?php echo $txt["scriptjava"];?>?");
