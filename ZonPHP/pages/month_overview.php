@@ -32,34 +32,30 @@ if (strpos($paramstr_choose, "?") == 0) {
 
 <?php include ROOT_DIR . "/inc/menu.php"; ?>
 <?php
-$link_back = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date('Y-m-d', strtotime("-1 months", $chartdate)) . "'";
-$link_next = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date('Y-m-d', strtotime("+1 months", $chartdate)) . "'";
-$link_today = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date('Y-m-d', $chartcurrentdate) . "'";
-
+$link_back = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date('Y-m-d', strtotime("-1 months", $chartdate)) . "'\";>";
+$link_next = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date('Y-m-d', strtotime("+1 months", $chartdate)) . "'\";>";
+$link_today = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date('Y-m-d', $chartcurrentdate) . "'\";>";
 ?>
 <div id="page-content">
-
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 66px; ">
-
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <?php if (date('Y-m', $date_minimum) < date('Y-m', $chartdate)) {
-                    echo '<button class="btn btn-zonphp" onclick="' . $link_back . ';"> <- </button>';
+                    echo '<button class="btn btn-zonphp" onclick="' . $link_back . '<- </button>';
                 }
                 echo " " . $datum . " ";
                 if (date('Y-m', $date_maximum) > date('Y-m', $chartdate)) {
-                    echo '<button class="btn btn-zonphp" onclick="' . $link_next . ';"> -> </button>';
+                    echo '<button class="btn btn-zonphp" onclick="' . $link_next . '-></button>';
                 }
                 ?>
             </h2>
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
-            <button class="btn btn-zonphp" onclick="<?php echo $link_today ?>";><?php echo $txt["terugnaarvandaag"] ?>
+            <button class="btn btn-zonphp" onclick="<?php echo $link_today ?><?php echo $txt["terugnaarvandaag"] ?>
             </button>
         </div>
         <div id="month_chart" style="width:100%; !important; height:100%; !important;"></div>
     </div>
-
 </div>
 
 <script>
