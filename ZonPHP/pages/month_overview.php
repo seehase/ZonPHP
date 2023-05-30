@@ -1,10 +1,10 @@
 <?php
 include_once "../parameters.php";
-include_once ROOT_DIR."/inc/sessionstart.php";
-include_once ROOT_DIR."/inc/load_cache.php";
-include_once ROOT_DIR."/inc/import_data.php";
+include_once ROOT_DIR . "/inc/sessionstart.php";
+include_once ROOT_DIR . "/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/import_data.php";
 
-include_once ROOT_DIR."/inc/header.php";
+include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/month_chart.php";
 ?>
 
@@ -30,28 +30,32 @@ if (strpos($paramstr_choose, "?") == 0) {
 }
 ?>
 
-<?php include ROOT_DIR."/inc/menu.php"; ?>
+<?php include ROOT_DIR . "/inc/menu.php"; ?>
+<?php
+$link_back = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date('Y-m-d', strtotime("-1 months", $chartdate)) . "'";
+$link_next = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date('Y-m-d', strtotime("+1 months", $chartdate)) . "'";
+$link_today = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date('Y-m-d', $chartcurrentdate) . "'";
+
+?>
 <div id="page-content">
 
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 66px; ">
 
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
-                <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
-                    <?php if (date('Y-m', $date_minimum) < date('Y-m', $chartdate))
-                        echo '<button class="btn btn-zonphp" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("-1 months", $chartdate)) . '  >  < </button>';
-                    echo " " . $datum . " ";
-                    if (date('Y-m', $date_maximum) > date('Y-m', $chartdate))
-                        echo '<button class="btn btn-zonphp" type="submit" name="maand" value= ' . date('Y-m-d', strtotime("+1 months", $chartdate)) . '  >  > </button>';
-                    ?>
-                </form>
+                <?php if (date('Y-m', $date_minimum) < date('Y-m', $chartdate)) {
+                    echo '<button class="btn btn-zonphp" onclick="' . $link_back . ';"> <- </button>';
+                }
+                echo " " . $datum . " ";
+                if (date('Y-m', $date_maximum) > date('Y-m', $chartdate)) {
+                    echo '<button class="btn btn-zonphp" onclick="' . $link_next . ';"> -> </button>';
+                }
+                ?>
             </h2>
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
-            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
-                <button class="btn btn-zonphp" type="submit" id="txt" name="dag"
-                        value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt["terugnaarvandaag"] ?></button>
-            </form>
+            <button class="btn btn-zonphp" onclick="<?php echo $link_today ?>";><?php echo $txt["terugnaarvandaag"] ?>
+            </button>
         </div>
         <div id="month_chart" style="width:100%; !important; height:100%; !important;"></div>
     </div>
@@ -68,7 +72,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 
 </div><!-- closing ".container" -->
 
-<?php include_once ROOT_DIR."/inc/footer.php"; ?>
+<?php include_once ROOT_DIR . "/inc/footer.php"; ?>
 
 </body>
 </html>
