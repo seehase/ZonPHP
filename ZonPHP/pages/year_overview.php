@@ -1,5 +1,4 @@
 <?php
-
 include_once "../parameters.php";
 include_once ROOT_DIR."/inc/sessionstart.php";
 include_once ROOT_DIR."/inc/load_cache.php";
@@ -79,21 +78,17 @@ if (strpos($paramstr_choose, "?") == 0) {
                 <button class="btn btn-zonphp"><?php echo $txt["back_to_today"] ?></button>
             </a>
         </div>
-        <div id="year_chart_<?php echo $inverter_id ?>" style=":width100%; height:100%;"></div>
+        <div id="year_chart" style=":width100%; height:100%;"></div>
     </div>
 
 </div>
-
 <script type="text/javascript">
     $(document).ready(function () {
         $("#resize ").height(<?php echo $big_chart_height ?>);
     });
 </script>
-
 </div><!-- closing ".page-content" -->
-
 </div><!-- closing ".container" -->
-
 <?php include_once ROOT_DIR."/inc/footer.php"; ?>
 </body>
 </html>

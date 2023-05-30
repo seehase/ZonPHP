@@ -78,7 +78,7 @@ $formatter->setPattern("d LLL yyyy");
                         value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt["back_to_today"] ?></button>
             </form>
         </div>
-        <div id="mycontainer_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
+        <div id="mycontainer" style="width:100%; height:100%;"></div>
     </div>
 
     <div id="kalender">

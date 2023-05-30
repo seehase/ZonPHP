@@ -10,7 +10,6 @@ $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$inverter_id = "all";
 
 // -----------------------------  get data from DB -----------------------------------------------------------------
 $datum = "";
@@ -181,7 +180,7 @@ $myKeys = array_keys($sum_per_year);
 
 $show_legende = "true";
 if ($isIndexPage == true) {
-    echo ' <div class = "index_chart" id="total_chart_' . $inverter_id . '"></div>';
+    echo ' <div class = "index_chart" id="total_chart"></div>';
     $show_legende = "false";
 }
 include_once "chart_styles.php";
@@ -205,7 +204,7 @@ include_once "chart_styles.php";
         var txt_gem = '<?php echo $txt["gem"] ?>';
         var avg = <?php echo json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
         var ref = <?php echo json_encode($ref_data, JSON_NUMERIC_CHECK) ?>;
-        var mychart = new Highcharts.Chart('total_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.Chart('total_chart', Highcharts.merge(myoptions, {
 
             chart: {
                 events: {
@@ -428,7 +427,7 @@ include_once "chart_styles.php";
             ]
         }));
         setInterval(function () {
-            $("#total_chart_<?php echo $inverter_id ?>").highcharts().reflow();
+            $("#total_chart").highcharts().reflow();
         }, 500);
     });
 </script>

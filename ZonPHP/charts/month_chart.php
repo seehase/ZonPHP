@@ -10,7 +10,7 @@ $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$inverter_id = "all";
+
 
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
@@ -165,7 +165,7 @@ $categories = substr($categories, 0, -1);
 
 $show_legende = "true";
 if ($isIndexPage == true) {
-    echo '<div class = "index_chart" id="month_chart_' . $inverter_id . '"></div>';
+    echo '<div class = "index_chart" id="month_chart"></div>';
     $show_legende = "false";
 }
 
@@ -401,7 +401,7 @@ include_once "chart_styles.php";
         }));
 
         setInterval(function () {
-            $("#month_chart_<?php echo $inverter_id ?>").highcharts().reflow();
+            $("#month_chart").highcharts().reflow();
         }, 500);
 
 

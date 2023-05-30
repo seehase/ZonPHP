@@ -50,7 +50,7 @@ if (strpos($paramstr_choose, "?") == 0) {
             <h2><?php echo $txt["totaaloverzicht"] . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
         </div>
 
-        <div id="total_chart_<?php echo $inverter_id ?>" style="width:100%; height:100%;"></div>
+        <div id="total_chart" style="width:100%; height:100%;"></div>
     </div>
 
 

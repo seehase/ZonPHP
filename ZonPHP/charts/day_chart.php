@@ -24,7 +24,6 @@ $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$inverter_id = "all";
 
 $sqlref = "SELECT *
 	FROM " . $table_prefix . "_refer
@@ -184,9 +183,7 @@ foreach ($inveter_list as $inverter_name) {
     $series_isVisible = "false";
     if ($showAllInverters) {
         $series_isVisible = "true";
-    } else if ($inverter_id == $inverter_name) {
-        $series_isVisible = "true";
-    };
+    } ;
     $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 1, y2: 0}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
     foreach ($all_valarray as $time => $valarray) {
@@ -280,7 +277,7 @@ if (max($aoplopendkwdag) < 2) $aoplopendkwdag1 = 2;
 else $aoplopendkwdag1 = round((max($aoplopendkwdag) + 0.5), 0);
 $show_legende = "true";
 if ($isIndexPage == true) {
-    echo '<div class = "index_chart" id="mycontainer_' . $inverter_id . '"></div>';
+    echo '<div class = "index_chart" id="mycontainer"></div>';
     $show_legende = "false";
 }
 
@@ -319,7 +316,7 @@ if (strlen($temp_serie) > 0) {
         var txt_peak = '<?php echo $txt["peak"] ?>';
 
         Highcharts.setOptions({<?php echo $chart_lang ?>});
-        var mychart = new Highcharts.Chart('mycontainer_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.Chart('mycontainer', Highcharts.merge(myoptions, {
             chart: {
                 events: {
                     render() {
@@ -568,7 +565,7 @@ if (strlen($temp_serie) > 0) {
             mychart.forRender = true
         });
         setInterval(function () {
-            $("#mycontainer_<?php echo $inverter_id ?>").highcharts().reflow();
+            $("#mycontainer").highcharts().reflow();
         }, 500);
     });
 </script>

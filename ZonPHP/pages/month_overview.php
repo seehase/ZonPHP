@@ -53,7 +53,7 @@ if (strpos($paramstr_choose, "?") == 0) {
                         value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt["terugnaarvandaag"] ?></button>
             </form>
         </div>
-        <div id="month_chart_<?php echo $inverter_id ?>" style="width:100%; !important; height:100%; !important;"></div>
+        <div id="month_chart" style="width:100%; !important; height:100%; !important;"></div>
     </div>
 
 </div>

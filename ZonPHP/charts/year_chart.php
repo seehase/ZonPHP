@@ -7,7 +7,6 @@ if (strpos(getcwd(), "charts") > 0) {
 }
 
 $isIndexPage = false;
-$inverter_id = "all";
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
@@ -238,7 +237,7 @@ $current_bars = substr($current_bars, 0, -1);
 $reflines = substr($reflines, 0, -1);
 $show_legende = "true";
 if ($isIndexPage == true) {
-    echo '<div class = "index_chart" id="year_chart_' . $inverter_id . '"></div>';
+    echo '<div class = "index_chart" id="year_chart"></div>';
     $show_legende = "false";
 };
 
@@ -263,7 +262,7 @@ $categories = $shortmonthcategories;
         var avg = <?php echo json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
         var ref = <?php echo json_encode($nfreftot, JSON_NUMERIC_CHECK) ?>;
         var txt_gem = '<?php echo $txt["gem"] ?>';
-        var mychart = new Highcharts.Chart('year_chart_<?php echo $inverter_id ?>', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.Chart('year_chart', Highcharts.merge(myoptions, {
 
             chart: {
                 events: {
@@ -501,7 +500,7 @@ $categories = $shortmonthcategories;
         }));
 
         setInterval(function () {
-            $("#year_chart_<?php echo $inverter_id ?>").highcharts().reflow();
+            $("#year_chart").highcharts().reflow();
         }, 500);
 
     });
