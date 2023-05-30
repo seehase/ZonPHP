@@ -56,7 +56,7 @@ if (isset($use_weewx) && $use_weewx == true) {
 
 </div><!-- closing ".page-content" -->
 <div id="spacer" style="float: left; height: 40px; width: 400px; display: block">
-    <br/>&nbsp;
+    <br>&nbsp;
 </div>
 
 </div><!-- closing ".container" -->
