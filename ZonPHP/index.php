@@ -16,18 +16,18 @@ if (isset($use_weewx) && $use_weewx == true) {
 }
 
 ?>
-<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxcore.js"></script>
-<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxscrollbar.js"></script>
-<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxchart.js"></script>
-<script type="text/javascript" src="https://jqwidgets.com/public/jqwidgets/jqxgauge.js"></script>
+<script src="https://jqwidgets.com/public/jqwidgets/jqxcore.js"></script>
+<script src="https://jqwidgets.com/public/jqwidgets/jqxscrollbar.js"></script>
+<script src="https://jqwidgets.com/public/jqwidgets/jqxbuttons.js"></script>
+<script src="https://jqwidgets.com/public/jqwidgets/jqxpanel.js"></script>
+<script src="https://jqwidgets.com/public/jqwidgets/jqxchart.js"></script>
+<script src="https://jqwidgets.com/public/jqwidgets/jqxgauge.js"></script>
 
 <?php include "inc/menu.php"; ?>
 
 <div id="page-content">
 
-    <script type="text/javascript">
+    <script>
         $(function () {
             // pass txt to JavaScript
             txt = <?php echo json_encode($txt); ?>;
@@ -38,12 +38,12 @@ if (isset($use_weewx) && $use_weewx == true) {
 
     </script>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/muuri/0.4.0/muuri.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/muuri/0.4.0/muuri.min.js"></script>
 
-    <script type="text/javascript" src="inc/js/index_charts.js"></script>
-    <script type="text/javascript">
+    <script src="inc/js/index_charts.js"></script>
+    <script>
         $(document).ready(function () {
             docReady(load_charts());
         });

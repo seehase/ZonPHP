@@ -56,7 +56,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 
 </div>
 
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $("#resize ").height(500);
     });

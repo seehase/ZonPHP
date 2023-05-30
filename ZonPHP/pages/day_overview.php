@@ -8,7 +8,7 @@ include_once ROOT_DIR."/inc/header.php";
 include_once "../charts/day_chart.php";
 ?>
 <?php include_once ROOT_DIR."/inc/menu.php"; ?>
-<script type="text/javascript">
+<script>
     $(function () {
         $("#startdate, #enddate").datepicker({
             changeMonth: true,
@@ -86,7 +86,7 @@ $formatter->setPattern("d LLL yyyy");
     <div id="tabelgeg">
     </div>
 </div>
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $("#resize ").height(<?php echo $big_chart_height ?>);
     });

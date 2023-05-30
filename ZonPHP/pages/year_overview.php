@@ -82,7 +82,7 @@ if (strpos($paramstr_choose, "?") == 0) {
     </div>
 
 </div>
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $("#resize ").height(<?php echo $big_chart_height ?>);
     });

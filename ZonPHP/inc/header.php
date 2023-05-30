@@ -53,10 +53,10 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
             integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
             crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
-    <script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
-    <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script type="text/javascript" src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
     <link type="text/css" rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css">
     <link type="text/css" rel="stylesheet" href="<?php echo HTML_PATH ?>/inc/styles/jqx.zonphp.css">
@@ -117,7 +117,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     </style>
 
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
             $("#resize").resizable({autoHide: true});
         });

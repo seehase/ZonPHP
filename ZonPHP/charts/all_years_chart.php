@@ -185,7 +185,7 @@ if ($isIndexPage == true) {
 }
 include_once "chart_styles.php";
 ?>
-<script type="text/javascript">
+<script>
 
     $(function () {
         function add(accumulator, a) {

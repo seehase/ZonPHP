@@ -11,7 +11,7 @@
 
     <title>ZonPHP Installation</title>
     <link rel="stylesheet" type="text/css" href="par_style.css">
-    <script type="text/javascript">
+    <script>
         function confirmSubmit() {
             var agree = confirm("<?php echo $txt["scriptjava"];?>?");
             return !!agree;
@@ -19,7 +19,7 @@
 
     </script>
 
-    <script type="text/javascript">
+    <script>
         sfHover = function () {
             var sfEls = document.getElementById("nav").getElementsByTagName("LI");
             for (var i = 0; i < sfEls.length; i++) {

@@ -112,7 +112,7 @@ if ($isIndexPage == true) {
 include_once "chart_styles.php";
 $categories = $shortmonthcategories;
 ?>
-<script type="text/javascript">
+<script>
     $(function () {
         var myoptions = <?php echo $chart_options ?>;
         Highcharts.setOptions({<?php echo $chart_lang ?>});

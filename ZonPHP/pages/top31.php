@@ -46,7 +46,7 @@ if (strpos($paramstr_choose, "?") == 0) {
         <div id="top31_chart" style="width:100%; height:100%;"></div>
     </div>
 </div>
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $("#resize").height(<?php echo $big_chart_height ?>);
     });

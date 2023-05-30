@@ -245,7 +245,7 @@ include_once "chart_styles.php";
 $categories = $shortmonthcategories;
 ?>
 
-<script type="text/javascript">
+<script>
     $(function () {
         function add(accumulator, a) {
             return accumulator + a;

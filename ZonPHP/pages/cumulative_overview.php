@@ -21,7 +21,7 @@ include_once "../charts/cumulative_chart.php";
         <div id="universal" style="width:100%; !important; height:100%; !important;"></div>
     </div>
 </div>
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $("#resize ").height(<?php echo $big_chart_height ?>);
     });

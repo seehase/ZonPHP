@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
     document.documentElement.className = 'js'; // adds class="js" to <html> element
     function uncheckboxes(nav) {
         var navarray = document.getElementsByName(nav);

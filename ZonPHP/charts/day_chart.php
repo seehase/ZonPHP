@@ -292,7 +292,7 @@ if (strlen($temp_serie) > 0) {
 
 
 ?>
-<script type="text/javascript">
+<script>
     $(function () {
         function add(accumulator, a) {
             return accumulator + a;
