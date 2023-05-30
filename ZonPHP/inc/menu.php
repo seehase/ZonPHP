@@ -22,7 +22,7 @@ if (isset($param['hide_menu'])) {
         <ul>
             <li><a href="#" style="display: flex">&nbsp;</a> <label for="fof" class="toggle-sub" onclick="">
                     &nbsp;<?php echo $txt["grafiekoverzicht"]; ?>&nbsp;&nbsp;&nbsp;&#9658;</label>
-                <input type="checkbox" name="nav" id="fof" class="sub-nav-check"/>
+                <input type="checkbox" name="nav" id="fof" class="sub-nav-check">
                 <ul id="fof-sub" class="sub-nav">
                     <li class="sub-heading"><?php echo $txt["grafiekoverzicht"]; ?><label for="fof" class="toggle"
                                                                                           onclick="" title="Back">&#9658;</label>
@@ -37,7 +37,7 @@ if (isset($param['hide_menu'])) {
                 </ul>
             </li>
             <li><a href="#" style="display: flex">&nbsp;</a> <label for="themes" class="toggle-sub" onclick="">&nbsp;Themes&nbsp;&nbsp;&nbsp;&#9658;</label>
-                <input type="checkbox" name="nav" id="themes" class="sub-nav-check"/>
+                <input type="checkbox" name="nav" id="themes" class="sub-nav-check">
                 <ul id="themes-sub" class="sub-nav">
                     <li class="sub-heading">Themes<label for="themes" class="toggle" onclick=""
                                                          title="Back">&#9658;</label>
@@ -52,7 +52,7 @@ if (isset($param['hide_menu'])) {
             </li>
             <li><a href="#" style="display: flex">&nbsp;</a> <label for="info" class="toggle-sub" onclick=""><span
                         style="text-align: right">&nbsp;Info&nbsp;&nbsp;&nbsp;&#9658;</span></label>
-                <input type="checkbox" name="nav" id="info" class="sub-nav-check"/>
+                <input type="checkbox" name="nav" id="info" class="sub-nav-check">
                 <ul id="info-sub" class="sub-nav">
                     <li class="sub-heading"><?= $version ?><label for="info" class="toggle" onclick="" title="Back">&#9658;</label>
                     </li>
@@ -76,7 +76,7 @@ if (isset($param['hide_menu'])) {
         <span style="margin-left: 230px;">&nbsp;</span>
         <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'></a>"; ?>
         <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'></a>" ?>
-        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-fr' alt='français' title='français'/></a>" ?>
+        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-fr' alt='français' title='français'></a>" ?>
         <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'></a>" ?>
         <?php
         if ($iveromvormers == 1) {
