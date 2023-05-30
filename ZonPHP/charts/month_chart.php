@@ -191,7 +191,7 @@ include_once "chart_styles.php";
         var txt_ref = '<?php echo $txt["ref"] ?>';
         var gem2;
         var totamth = 0;
-        var mychart = new Highcharts.Chart('month_chart_all', Highcharts.merge(myoptions, {
+        var mychart = new Highcharts.Chart('month_chart', Highcharts.merge(myoptions, {
 
             chart: {
                 events: {
