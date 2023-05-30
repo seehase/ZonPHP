@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
+    <meta name="description" content="PV Anlagen Monitoring">
+    <meta name="author" content="seehase">
 <?php
 //header('Content-Type: text/html; charset=UTF-8');
 // make css file static for caching, define variable styles as constants
@@ -8,17 +15,7 @@ define('WINDOW_STYLE_CHART', 'padding: 0px; background-color: inherit; border: 2
 define('WINDOW_STYLE', 'padding: 0px; border: 2px; border-color: #000; margin: 3px; border-width: 1px; border-style: solid; border-radius: 10px; color:#000000;');
 define('CHART_STYLE', 'background-color: #' . $colors['color_chartbackground'] . ';');
 define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-left:  width: 100%; height: auto; overflow: hidden; background-color:#' . $colors['color_background'] . ';');
-
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
-    <meta name="description" content="PV Anlagen Monitoring">
-    <meta name="author" content="seehase">
-
-
     <?php
     if (isset($param['autorefresh'])) {
         $autorefresh = intval($param['autorefresh']);
@@ -30,23 +27,13 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
         echo '<meta http-equiv="refresh" content="' . $autorefresh . '" >';
     }
     ?>
-
     <title><?php echo $param['sNaamVoorOpWebsite']; ?></title>
-
-
     <!-- use googleapis CDN -->
     <link type="text/css" rel="stylesheet"
           href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-    <!-- jquery version 2.2.4 is the latest 2.x version but works with current index page
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> -->
-
-    <!-- All versions 3.x break the index page, because the index_charts.js is loaded before the index.php is fully loaded.
-    Change the document.addEventListener('DOMContentLoaded to window.addEventListener('DOMContentLoaded fixes this for Chrome
-    on a Mac but Safari keeps throwing errors, because it runs the index_charts.js nonetheless.  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 
-    <!-- New version Bootstrap includes toggle. Works but detailing on colours and chart headers is needed     -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
@@ -115,23 +102,17 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
         }
 
     </style>
-
-
     <script>
         $(document).ready(function () {
             $("#resize").resizable({autoHide: true});
         });
     </script>
-
     <?php
     // use google analytics if ID is set in paramaters
     if (isset($param['google_tracking']) && strlen($param['google_tracking']) > 1) {
         include_once(ROOT_DIR . "/inc/analyticstracking.php");
     }
     ?>
-
     <?php $showflop = "#top31_chart"; ?>
-
-
 </head>
 <body>
