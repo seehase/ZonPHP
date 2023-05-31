@@ -51,7 +51,6 @@ if (strpos($paramstr_choose, "?") == 0) {
     });
 </script>
 </div><!-- closing ".page-content" -->
-</div><!-- closing ".container" -->
 <?php include_once ROOT_DIR."/inc/footer.php"; ?>
 </body>
 </html>
