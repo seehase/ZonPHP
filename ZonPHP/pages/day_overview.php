@@ -3,7 +3,6 @@ include_once "../parameters.php";
 include_once ROOT_DIR."/inc/sessionstart.php";
 include_once ROOT_DIR."/inc/load_cache.php";
 include_once ROOT_DIR."/inc/import_data.php";
-
 include_once ROOT_DIR."/inc/header.php";
 include_once "../charts/day_chart.php";
 ?>
@@ -53,37 +52,22 @@ if (strpos($paramstr_day, "?") == 0) {
 if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
-
-$formatter->setPattern("d LLL yyyy");
-
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 46px; ">
-
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
-            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
-                <h2 align="center" class="notopgap">
-                    <?php if ($date_minimum < $chartcurrentdate)
-                        echo '<button class="btn btn-zonphp" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '  >  <  </button>';
-                    echo " " . $formatter->format(strtotime($datum)) . " ";
-                    if (date("y-m-d", $date_maximum) > date("y-m-d", $chartdate))
-                        echo '<button class="btn btn-zonphp" type="submit" name="dag" value= ' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '  >  > </button>';
-                    ?>
-                </h2>
-            </form>
+               <h2 align="center" class="notopgap">
+                <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"' ;
+				if (date('Y-m-d', $date_minimum) > date('Y-m-d', $chartdate)) echo " hidden";	?>><i class="arrow left"></i></button>
+				<?php echo $datum ?>
+                <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '\'"' ;
+				if (date('Y-m-d', $date_maximum) < date('Y-m-d', $chartdate)) echo " hidden";	?>><i class="arrow right"></i></button>
+               </h2> 
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 10px;  left: 15px;">
-            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="GET">
-                <button class="btn btn-zonphp" type="submit" id="txt" name="dag"
-                        value="<?php echo date('Y-m-d', $chartcurrentdate); ?>"><?php echo $txt["back_to_today"] ?></button>
-            </form>
+            <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo $txt["terugnaarvandaag"] ?></button>
         </div>
         <div id="mycontainer" style="width:100%; height:100%;"></div>
-    </div>
-
-    <div id="kalender">
-    </div>
-    <div id="tabelgeg">
     </div>
 </div>
 <script>

@@ -47,12 +47,15 @@ $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, STR_TO_DATE( CONCAT( DATE( Datum_Dag
     " ORDER BY datumtijd ASC";
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
-    $datum = date("d M Y", $chartdate);
+    $formatter->setPattern('d LLLL yyyy');
+    $datum = $txt["nodata"] . datefmt_format($formatter, $chartdate);
     $tlaatstetijd = time();
     $geengevdag = 0;
     $agegevens[] = 0;
     $aoplopendkwdag[] = 0;
 } else {
+    $formatter->setPattern('d LLL yyyy');
+    $datum = datefmt_format($formatter, $chartdate);
     $geengevdag = 1;
     $fsomoplopend = 0;
     while ($row = mysqli_fetch_array($result)) {
@@ -70,8 +73,7 @@ if (mysqli_num_rows($result) == 0) {
             }
         };
     }
-    $datum = date("d M Y", $chartdate);
-}
+ }
 //--------------------------------------------------------------------------------------------------
 // get best day for current month (max value over all years for current month) per each inverter
 $maxdays = array();
