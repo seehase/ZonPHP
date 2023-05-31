@@ -72,7 +72,7 @@ $result = mysqli_query($con, $sql) or die("Query failed. jaar " . mysqli_error($
 $all_valarray = array();
 $inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
-    $datum = date("Y", $chartdate) . " geen data.";
+    $datum = $txt["nodata"] . date("Y", $chartdate);
     $agegevens = array();
     $fgemiddelde = 0;
     $agegaantal = array();
