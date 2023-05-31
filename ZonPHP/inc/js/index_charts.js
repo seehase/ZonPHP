@@ -65,7 +65,7 @@ function load_charts() {
         console.log("Layout loaded");
     }
 
-    var headerclass = "jqx-window-header jqx-window-header-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp"
+    var headerclass = "jqx-window-header jqx-window-header-index-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp"
 
     /* load all charts according order */
     function loadCharts() {
