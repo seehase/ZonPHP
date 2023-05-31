@@ -107,7 +107,6 @@ $txt["scriptjava"] = "Is this correct?";
 $txt["startdatum"] = "Startdatum";
 $txt["tabelverkeerd"] = "<br />The table prefix ";
 $txt["tabelverkeerd1"] = " does not exist. Create tables in the menu on the left";
-$txt["terugnaarvandaag"] = "Back to Today";
 $txt["top31"] = "Best";
 $txt["totaal"] = "Total";
 $txt["totaaloverzicht"] = "Overview";

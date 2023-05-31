@@ -107,7 +107,6 @@ $txt["scriptjava"] = "Sind diese Angaben korrekt";
 $txt["startdatum"] = "Startdatum";
 $txt["tabelverkeerd"] = "<br />Das Pr&auml;fix ";
 $txt["tabelverkeerd1"] = " existiert nicht. Erstellen Sie das Men&uuml; in der linken Tabelle";
-$txt["terugnaarvandaag"] = "Zur&uuml;ck zu Heute";
 $txt["top31"] = "Topliste";
 $txt["totaal"] = "Gesamt";
 $txt["totaaloverzicht"] = "Gesamt &Uuml;bersicht";
