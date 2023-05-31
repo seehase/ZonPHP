@@ -56,7 +56,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 <div id="page-content">
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 46px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
-               <h2 align="center" class="notopgap">
+               <h2>
                 <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"' ;
 				if (date('Y-m-d', $date_minimum) > date('Y-m-d', $chartdate)) echo " hidden";	?>><i class="arrow left"></i></button>
 				<?php echo $datum ?>
@@ -66,7 +66,7 @@ if (strpos($paramstr_choose, "?") == 0) {
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 10px;  left: 15px;">
             <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo $txt["terugnaarvandaag"] ?></button>
-        </div>
+    </div>
         <div id="mycontainer" style="width:100%; height:100%;"></div>
     </div>
 </div>
@@ -76,7 +76,6 @@ if (strpos($paramstr_choose, "?") == 0) {
     });
 </script>
 </div><!-- closing ".page-content" -->
-</div><!-- closing ".container" -->
 <?php include_once ROOT_DIR."/inc/footer.php"; ?>
 </body>
 </html>
