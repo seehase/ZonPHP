@@ -65,7 +65,7 @@ if (strpos($paramstr_choose, "?") == 0) {
                </h2> 
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 10px;  left: 15px;">
-            <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo $txt["terugnaarvandaag"] ?></button>
+            <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo $txt["back_to_today"] ?></button>
         </div>
         <div id="mycontainer" style="width:100%; height:100%;"></div>
     </div>
