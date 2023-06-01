@@ -54,7 +54,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 }
 ?>
 <div id="page-content">
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 46px; ">
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 57px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
                <h2>
                 <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"' ;
