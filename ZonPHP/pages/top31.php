@@ -3,14 +3,12 @@ include_once "../parameters.php";
 include_once ROOT_DIR."/inc/sessionstart.php";
 include_once ROOT_DIR."/inc/load_cache.php";
 include_once ROOT_DIR."/inc/import_data.php";
-
 unset($agegevens);
 unset($frefmaand);
 unset($adatum);
 unset($fgemiddelde);
 unset($amaxref);
 unset($adatum);
-
 include_once ROOT_DIR."/inc/header.php";
 include_once "../charts/top31_chart.php";
 ?>
@@ -35,7 +33,6 @@ if (strpos($paramstr_day, "?") == 0) {
 if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
-
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 41px; ">
@@ -52,7 +49,6 @@ if (strpos($paramstr_choose, "?") == 0) {
     });
 </script>
 </div><!-- closing ".page-content" -->
-</div><!-- closing ".container" -->
 <?php include_once ROOT_DIR."/inc/footer.php"; ?>
 </body>
 </html>
