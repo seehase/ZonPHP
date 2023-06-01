@@ -143,6 +143,9 @@ include_once "par_header.php";
                 $autorefresh = 300;
                 if (isset($_POST['autorefresh']) && is_numeric($_POST['autorefresh'])) {
                     $autorefresh = intval($_POST['autorefresh']);
+                    if ($autorefresh < 0) {
+                        $autorefresh = 300;
+                    }
                 }
 
                 ?> <br/>
