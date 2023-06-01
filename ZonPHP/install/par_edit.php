@@ -139,9 +139,15 @@ include_once "par_header.php";
                     src="../inc/image/en.svg" border='0' width='16' height='12' alt="en"/>
                 <br/>
                 <hr>
-                <?php echo $txt["autorefresh"]; ?> <br/>
+                <?php echo $txt["autorefresh"];
+                $autorefresh = 300;
+                if (isset($_POST['autorefresh']) && is_numeric($_POST['autorefresh'])) {
+                    $autorefresh = intval($_POST['autorefresh']);
+                }
+
+                ?> <br/>
                 <input type='text' name='autorefresh'
-                       value='<?php if (!empty($_POST['autorefresh'])) echo $_POST['autorefresh']; else echo "300" ?>'
+                       value='<?php echo $autorefresh ?>'
                        size='63'>
                 <br/>
                 <hr>
