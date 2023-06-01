@@ -27,11 +27,11 @@ include_once ROOT_DIR . "/inc/header.php";
                 First major change was to remove Adobe Flash and use JavaScript chart library
                 The project is OpenSource, if you want to participate, just contribute on GitHub
                 <a href="https://github.com/seehase/ZonPHP"><b>https://github.com/seehase/ZonPHP</b></a>
-                <br/>
+                <br>
                 Questions or feedback <a href="mailto:zonphp@seehausen.org?Subject=ZonPHP"
                                          target="_top">zonphp@seehausen.org</a>
-                <br/><br/>
-                Versionshistory: <br/>
+                <br><br>
+                Versionshistory: <br>
                 <strong>ZonPHP.12.12:</strong> (2013-12-13)
                 <ul>
                     <li>Last official version from Rally</li>
@@ -89,8 +89,8 @@ include_once ROOT_DIR . "/inc/header.php";
                     <li>Multi converter support</li>
                 </ul>
             </div>
-            <br/>
-            <br/>
+            <br>
+            <br>
             <hr>
             <div style="height: auto;">
                 <a class="btn btn-zonphp" href="https://github.com/seehase/ZonPHP/archive/master.zip"><b>Download
@@ -99,16 +99,14 @@ include_once ROOT_DIR . "/inc/header.php";
                         ZonPHP from github</b></a>
                 <hr>
             </div>
-            <br/>
+            <br>
 
         </div>
     </div>
 </div><!-- closing ".page-content" -->
 <div id="spacer" style="float: left; height: 1px; width: 400px; display: block">
-    <br/>&nbsp;
+    <br>&nbsp;
 </div>
-
-
 </div><!-- closing ".container"  opened in menu.php-->
 <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
 
