@@ -1,6 +1,6 @@
 <?php
 //
-//include "Parameters.php";
+//include "parameters.php";
 //include "sessionstart.php";
 //include "startup.php";
 ?>
@@ -20,7 +20,7 @@ else {
 }
 //echo $dateTime;	
 $adag = array();
-$directory = "" . $_SESSION['Wie'] . '/';//echo $directory;
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';//echo $directory;
 for ($tel = 0; $tel <= 60; $tel++) {
     $num = (date("ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));//echo $num."<br />";
     if (file_exists($directory . "min" . $num . '.csv')) {
@@ -174,7 +174,7 @@ function omzetdatum($date)
 function controledatum($idag, $imaand, $ijaar)
 {
     //echo $idag.$imaand.$ijaar;
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

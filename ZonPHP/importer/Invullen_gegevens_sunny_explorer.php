@@ -15,7 +15,7 @@ else {
     }
 }
 
-$directory = "" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
 
 
 $aday = array();
@@ -179,7 +179,7 @@ function omzetdatum($date)
 
 function controledatum($idag, $imaand, $ijaar)
 {
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

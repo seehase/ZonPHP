@@ -12,7 +12,7 @@ else {
     }
 }
 
-$directory = "" . $_SESSION['Wie'] . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
 for ($tel = 0; $tel <= 60; $tel++) {  //2009-12-19.csv
     $num = (date("Y-m-d", strtotime("+" . $tel . " day", strtotime($dateTime))));
     if (file_exists($directory . $num . '.csv')) {
@@ -171,7 +171,7 @@ function omzetdatum($date)
 <?php
 function controledatum($idag, $imaand, $ijaar)
 {
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

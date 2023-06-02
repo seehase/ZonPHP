@@ -13,7 +13,7 @@ if (mysqli_num_rows($result) == 0) {
     }
 }
 $adag = array(); //CVDK
-$directory = $_SESSION['Wie'] . '/solarlog/'; //CVDK
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/solarlog/'; //CVDK
 
 $aantaldagen = 60; //aantal dagen dat hij moet inladen (enkel bij initiele load) normaal gelijk aan 2
 //echo "-----------------------------".$dateTime."<br>";
@@ -46,7 +46,9 @@ for ($tel = 0; $tel <= $aantaldagen; $tel++) {
 <?php
 
 foreach ($adag as $v) {    //CVDK
-    $teller=1;$teller2=1;	$teller2=1; //CVDK
+    $teller = 1;
+    $teller2 = 1;
+    $teller2 = 1; //CVDK
     $string = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
     $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
     while (!feof($file)) {
@@ -179,7 +181,7 @@ function omzetdatum($date)
 function controledatum($idag, $imaand, $ijaar)
 {
     //echo $idag.$imaand.$ijaar;
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;
