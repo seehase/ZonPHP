@@ -1,6 +1,6 @@
 <?php
 
-include_once "../Parameters.php";
+include_once "../parameters.php";
 include_once "../inc/sessionstart.php";
 include_once "../inc/connect.php";
 
@@ -8,10 +8,7 @@ include_once "../inc/connect.php";
 $sqlpar = "SELECT *	FROM " . $table_prefix . "_parameters limit 1";
 $result = mysqli_query($con, $sqlpar) or die(header('location:opstart_installatie.php?fout=table'));
 
-
-$statoe = 1;
-
-if (!isset($_SESSION['passok']))
+if (!isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder")
     header('location:install/par_welcome.php');
 
 
@@ -53,7 +50,6 @@ if (mysqli_num_rows($resultrefer) != 0) {
     }
 }
 
-
 $bkannietsave = 0;
 for ($i = 1; $i <= 12; $i++) {
     if (!empty($_POST[$i])) {
@@ -72,11 +68,12 @@ for ($i = 1; $i <= 12; $i++) {
     <?php include "par_menu.php"; ?>
 </div>
 <div id="container">
-    <div id="bodytext">
+    <div id="bodytextparm">
         <div class="inside">
-
+            <h2 class="notopgap" align="center"><?php echo $txt["reference"]; ?></h2>
+            <hr>
             <?php echo $txt["refwaarden"]; ?>
-            <a href="http://sunbird.jrc.it/pvgis/apps/pvest.php?europe=" TARGET="_blank"><?php echo $txt["klik"]; ?>
+            <a href="https://re.jrc.ec.europa.eu/pvg_tools/en/#api_5.1" TARGET="_blank"><?php echo $txt["klik"]; ?>
                 .</a><br/><br/>
             <?php echo "Name: " . $current_name . "<br />"; ?>
             <?php

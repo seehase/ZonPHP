@@ -1,11 +1,4 @@
 <?php
-//
-//include "Parameters.php";
-//include "sessionstart.php";
-//include "startup.php";
-?>
-
-<?php
 $sql = "SELECT *
 	FROM " . $table_prefix . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
@@ -20,7 +13,7 @@ else {
 }
 
 //echo $dateTime;	
-$directory = "" . $_SESSION['Wie'] . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
 for ($tel = 0; $tel <= 60; $tel++) {//2009-12-19.csv
     $num = (date("Y-m-d", strtotime("+" . $tel . " day", strtotime($dateTime))));//echo $num."<br />";
     if (file_exists($directory . $num . '.csv')) {
@@ -166,7 +159,7 @@ function omzetdatum($date)
 function controledatum($idag, $imaand, $ijaar)
 {
     //echo $idag.$imaand.$ijaar;
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

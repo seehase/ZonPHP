@@ -19,7 +19,7 @@ else {
     }
 }
 
-$directory = 'WR1/';
+$directory = ROOT_DIR . "/" . 'WR1/';
 
 $aday = array();
 for ($tel = 0; $tel <= 150; $tel++) {
@@ -120,8 +120,7 @@ if (!empty($adag)) {
         }
         fclose($file);
         if ($insertStringValues != "") {
-            if ($odatum[0] != "geen")
-            {
+            if ($odatum[0] != "geen") {
                 $sql = "DELETE FROM " . $table_prefix . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
                 mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con) . $sql);
                 $insertStringDayTotalValue = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . "WR1','" . $odatum[0] . "'," . number_format($latestDayTotal[0], 3) . ",'WR1')";
@@ -226,7 +225,7 @@ function omzetdatum($date)
 <?php
 function controledatum($idag, $imaand, $ijaar)
 {
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

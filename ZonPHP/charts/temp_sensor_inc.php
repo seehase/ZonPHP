@@ -2,14 +2,7 @@
 
 // ---Temperature SENSOR -----------------------------------------------------------------------------------------------------------
 
-if ($external_sensors) {
-    $tablename = $table_prefix . "_sensordata";
-    $result = mysqli_query($con, "SHOW TABLES LIKE '" . $tablename . "'");
-    if ($result->num_rows == 0) {
-        $external_sensors = false;
-    }
-}
-$sensor_available = ($external_sensors == true) || ($use_weewx == true);
+$sensor_available = ($use_weewx == true);
 
 $sensor_values = array();
 $sensorid = 197190;
@@ -37,19 +30,7 @@ $temp_unit = "°C";
 
 if ($sensor_available) {
     $val_avg = 0;
-    if (isset($param['external_sensors_for_daychart'])) {
-        // use external arexx sensors
-        $sql_sensor =
-            "  SELECT 
-                   AVG( measurevalue ) AS val,
-                   STR_TO_DATE( CONCAT( DATE( logtime ) ,  ' ',HOUR( logtime ) , ':', LPAD( FLOOR( MINUTE( logtime ) /5 ) *5, 2, '0' ) , ':00' ) ,
-                       '%Y-%m-%d %H:%i:%s' ) AS nicedate 
-                FROM $tablename 
-                WHERE logtime  LIKE '" . $chartdatestring . "%' AND sensorid= $sensorid AND sensortype = $sensortype
-                GROUP BY nicedate ORDER BY nicedate ASC";
-        $result_sensor = mysqli_query($con, $sql_sensor) or die("Query failed. dag " . mysqli_error($con));
-        $sensor_success = true;
-    } else if ($use_weewx == true) {
+    if ($use_weewx == true) {
         // use weewx connection and table
         $sql_sensor =
             "   SELECT 
@@ -90,8 +71,6 @@ if ($sensor_available) {
             $val_max = $val_max + 3;
         };
     }
-
-
 }
 // ---SENSOR -----------------------------------------------------------------------------------------------------------
 // temp line --------------------------------------------------------------
@@ -108,16 +87,10 @@ if ($sensor_success) {
         }
     }
     $str_temp_vals = substr($str_temp_vals, 0, -1);
-
-
     $temp_serie = "    {  name: 'Temp', id: 'Temp', type: 'spline', yAxis: 2, color: '#" . $colors['color_chart_temp_line'] . "',                       
                         data: [" . $str_temp_vals . "] } ";
 }
 
 $temp_serie = $temp_serie . "";
-
-
-//$temp_serie = "    {  name: 'Temp', id: 'Temp', type: 'spline', yAxis: 2,   color: '#". $colors['color_chart_temp_line']."',
-//                         data: [" . $str_temp_vals ."] } ";
 
 ?>

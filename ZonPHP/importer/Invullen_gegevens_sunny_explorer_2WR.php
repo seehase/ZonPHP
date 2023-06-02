@@ -16,7 +16,7 @@ else {
 }
 
 //$directory = "" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
-$directory = "../SolarlogData/";
+$directory = ROOT_DIR . "/SolarlogData/";
 
 
 $aday = array();
@@ -49,7 +49,7 @@ if (!empty($adag)) {
                 if (!empty($geg_suo)) {
 
                     $p = explode(";", $geg_suo);
-                    list($TimeStamp, $GridMsTotW, $MeteringDykWh,$GridMsTotW2,$MeteringDykWh2) = explode(";", $geg_suo);    //,$rest
+                    list($TimeStamp, $GridMsTotW, $MeteringDykWh, $GridMsTotW2, $MeteringDykWh2) = explode(";", $geg_suo);    //,$rest
                     $oTimeStamp = omzetdatum($TimeStamp);      //date("Y-m-d H:i:s",strtotime($TimeStamp));
                     $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
                     $GridMsTotW = str_replace(array(','), '.', $GridMsTotW);
@@ -57,7 +57,7 @@ if (!empty($adag)) {
                     $GridMsTotW2 = str_replace(array(','), '.', $GridMsTotW2);
                     if ($start == 0) {
                         $startkw = $GridMsTotW;
-                        $startkw2=$GridMsTotW2;
+                        $startkw2 = $GridMsTotW2;
                         $start = 1;
                     }
                     if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
@@ -91,7 +91,7 @@ if (!empty($adag)) {
                     }
 
                     if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
-                        $houdeeindwaarde2=0;
+                        $houdeeindwaarde2 = 0;
                         $startend2 = 0;
 
                         if ($MeteringDykWh2 != 0) {
@@ -129,7 +129,7 @@ if (!empty($adag)) {
         fclose($file);
         if ($string1 != "") {
             $string_vals = substr($string_vals, 0, -1);
-            mysqli_query($con, "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" ."WR1" . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
+            mysqli_query($con, "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . "WR1" . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
             mysqli_query($con, $string_vals) or die("Query failed. ERROR: " . mysqli_error($con));
             mysqli_query($con, $string1) or die("Query failed. ERROR: " . mysqli_error($con));
 
@@ -197,7 +197,6 @@ if (mysqli_num_rows($result) == 0) {
 }
 
 
-
 function omzetdatum($date)
 {
     $date = str_replace(array('.', '/', '-', ' ', ':'), '/', $date);
@@ -228,7 +227,7 @@ function omzetdatum($date)
 
 function controledatum($idag, $imaand, $ijaar)
 {
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

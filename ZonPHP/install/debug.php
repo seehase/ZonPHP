@@ -1,10 +1,10 @@
 <?php
 
 
-include_once "../Parameters.php";
+include_once "../parameters.php";
 include_once "../inc/sessionstart.php";
 
-if (!isset($_SESSION['passok']))
+if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
 
 include_once "../inc/connect.php";
@@ -47,19 +47,6 @@ if ($tables_exists) {
         }
     }
 
-    $sqleuro = "SELECT *
-	FROM " . $table_prefix . "_euro 
-	ORDER BY Datum_Euro ASC";
-
-    $resulteuro = mysqli_query($con, $sqleuro) or die("Query failed. ERROR: " . mysqli_error($con));
-    if (mysqli_num_rows($resulteuro) == 0) {
-        $aeuro[date('d/m/y G:i', time())] = "Geen data";
-    } else {
-        while ($row = mysqli_fetch_array($resulteuro)) {
-            $aeuro[date('d/m/y G:i', strtotime($row['Datum_Euro']))] = $row['Geg_Euro'];
-        }
-    }
-//echo '<pre>'.print_r($aeuro, true).'</pre>';
     $sqlrefer = "SELECT *
 	FROM " . $table_prefix . "_refer 
 	ORDER BY Datum_Refer ASC";
@@ -107,17 +94,17 @@ include "par_header.php";
                 switch ($last) {
                     // The 'G' modifier is available since PHP 5.1.0
                     case 'g':
-                        $val = floatval($val)*1024;
+                        $val = floatval($val) * 1024;
                     case 'm':
-                        $val = floatval($val)*1024;
+                        $val = floatval($val) * 1024;
                     case 'k':
-                        $val = floatval($val)*1024;
+                        $val = floatval($val) * 1024;
                 }
 
                 return $val;
             }
 
-            echo "<hr><h2>Connetion parameter: </h2>";
+            echo "<hr><h2>Connection parameter: </h2>";
             echo "sserver: $sserver<br />";
             echo "susername: $susername<br />";
             echo "sdatabase_name: $sdatabase_name<br />";
@@ -155,24 +142,6 @@ include "par_header.php";
                 echo "<br />";
                 echo 'sURL_link' . '=' . $param['sURL_link'];
                 echo "<br />";
-                echo 'iwidth' . '=' . $param['iwidth'];
-                echo "<br />";
-                echo 'iheight' . '=' . $param['iheight'];
-                echo "<br />";
-                echo 'iwidthklein' . '=' . $param['iwidthklein'];
-                echo "<br />";
-                echo 'iheightklein' . '=' . $param['iheightklein'];
-                echo "<br />";
-                echo 'color_chartbackground' . '=' . $colors['color_chartbackground'];
-                echo "<br />";
-                echo 'color_chartbar1' . '=' . $colors['color_chartbar1'];
-                echo "<br />";
-                echo "color_chartbar_piek1" . '=' . $colors['color_chartbar_piek1'];
-                echo "<br />";
-                echo 'izonphpse' . "=" . $param['izonphpse'];
-                echo "<br />";
-                echo 'ivergroten' . '=' . $param['ivergroten'];
-                echo "<br />";
                 echo '$iveromvormers=' . $iveromvormers;
                 echo "<br />";
                 echo 'sNaamVoorOpWebsite' . '=' . $param['sNaamVoorOpWebsite'];
@@ -188,10 +157,6 @@ include "par_header.php";
                 echo 'sData_Captatie' . '=' . $param['sData_Captatie'];
                 echo "<br />";
                 echo 'sPlaats' . '=' . $param['sPlaats'];
-                echo "<br />";
-                echo 'idagboek' . '=' . $param['idagboek'];
-                echo "<br />";
-                echo 'iTonendagnacht' . '=' . $param['iTonendagnacht'];
                 echo "<br />";
                 echo "<hr><h2>Database sample values: </h2>";
             };
@@ -274,32 +239,6 @@ include "par_header.php";
 						<td><font size='-1'>" . $axas . "</font></td>
 						<td><font size='-1'>" . $ayas . "</font></td>
 						<td><font size='-1'>" . $areferdag[$axas] . "</font></td>
-						</tr>");
-                        };
-                    }
-                    ?>
-                    </tbody>
-                </table>
-            </div>
-            <div id="euro">
-                <br/>
-                <table>
-                    <tbody>
-                    <tr>
-                        <td colspan="3">
-                            <center>Records tabel tgeg_euro</center>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><font size="-1">Datum_Euro</font></td>
-                        <td><font size="-1">Geg_Euro</font></td>
-                    </tr>
-                    <?php
-                    if ($tables_exists) {
-                        foreach ($aeuro as $axas => $ayas) {
-                            echo("<tr>
-						<td><font size='-1'>" . $axas . "</font></td>
-						<td><font size='-1'>" . $ayas . "</font></td>
 						</tr>");
                         };
                     }

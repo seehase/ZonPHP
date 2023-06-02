@@ -1,5 +1,5 @@
 <?php
-include_once "../Parameters.php";
+include_once "../parameters.php";
 include_once "../inc/sessionstart.php";
 include_once "../inc/connect.php";
 
@@ -7,11 +7,8 @@ include_once "../inc/connect.php";
 $sqlpar = "SELECT *	FROM " . $table_prefix . "_parameters limit 1";
 $result = mysqli_query($con, $sqlpar) or die(header('location:opstart_installatie.php?fout=table'));
 
-
-$statoe = 1;
-
-if (!isset($_SESSION['passok']))
-   header('location:par_welcome.php');
+if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
+    header('location:par_welcome.php');
 
 
 include_once "par_header.php";
@@ -38,79 +35,76 @@ if (isset($_GET['naam'])) {
 ?>
 
 <div id="menus">
-	<?php include "par_menu.php";?>
-</div> 
+    <?php include "par_menu.php"; ?>
+</div>
 
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><u><?php echo $txt["parupdate"];?></u></h2>
+            <h2 class="notopgap" align="center"><?php echo $txt["parupdate"]; ?></h2>
+            <hr>
+            <div id="bodytextloschen">
+                <form action="actionupdate.php" method="get">
 
-  <div id="bodytextloschen">	
-	<form action="actionupdate.php" method="get">
+                    <p></p>
+                    <br>
+                    <?php echo $txt["parinverter"]; ?>
+                    <label>
+                        <select name="wr">
+                            <option SELECTED>
+                                <?php
+                                if (isset($_GET['naam'])) echo $_GET['naam'];
+                                foreach ($akommanamen as $key => $naam)
+                                    echo '<option value="' . $naam . '">' . $naam . ' </option>';
 
-  <p> </p>
-  <br>
-  <?php echo $txt["parinverter"]; ?>
-           <label>
-             <select name="wr">
-					<option  SELECTED>
-                    <?php
-                if (isset($_GET['naam'])) echo $_GET['naam'];
-                foreach ($akommanamen as $key => $naam)
-                    echo '<option value="' . $naam . '">' . $naam . ' </option>';
-                
-				?>
-			        </select>
-
-            
-            <br/>
-            <br/>
-                <label><?php echo $txt["parupdatedag"]; ?> </label>
-                <select name="year">
-                    <option SELECTED><?php if (!empty($_POST['year'])) echo $_POST['year']; ?>
-                        <?php
-                        for ($i = date('Y'); $i >= 2006; $i--) {
-                            echo '<option value="' . $i . '">' . $i . '</option>';
-                        }
-                        ?>
-                </select>
-
-                <select name="month">
-                    <option SELECTED><?php if (!empty($_POST['month'])) echo $_POST['month']; ?>
-                        <?php
-                        for ($i = 1; $i <= 12; $i++) {
-                            echo '<option value="' . $i . '">' . $i . '</option>';
-                        }
-                        ?>
-                </select>
-                <select name="day">
-                    <option SELECTED><?php if (!empty($_POST['day'])) echo $_POST['day']; ?>
-                        <?php
-                        for ($i = 1; $i <= 31; $i++) {
-                            echo '<option value="' . $i . '">' . $i . '</option>';
-                        }
-                        ?>
-                </select>
-            
+                                ?>
+                        </select>
 
 
- <p><?php echo $txt["parupdatetimee"];?><input type="text" name="time" /></p>
- <p><?php echo $txt["parupdatetimeinfo"]?></p>
- 
- <p><?php echo $txt["parupdatevalue"]?><input type="text" name="value" /></p>
- 
- <p><?php echo $txt["parupdateearningsinfo"]?></p>
- <p><?php echo $txt["parupdateearnings"]?><input type="text" name="earnings" /></p>
+                        <br/>
+                        <br/>
+                        <label><?php echo $txt["datum"]; ?> </label>
+                        <select name="year">
+                            <option SELECTED><?php if (!empty($_POST['year'])) echo $_POST['year']; ?>
+                                <?php
+                                for ($i = date('Y'); $i >= 2006; $i--) {
+                                    echo '<option value="' . $i . '">' . $i . '</option>';
+                                }
+                                ?>
+                        </select>
 
-  
- 
- 
- <p><input type="submit" VALUE="<?php echo $txt["save"]; ?>" /></p>  
-</form>
+                        <select name="month">
+                            <option SELECTED><?php if (!empty($_POST['month'])) echo $_POST['month']; ?>
+                                <?php
+                                for ($i = 1; $i <= 12; $i++) {
+                                    echo '<option value="' . $i . '">' . $i . '</option>';
+                                }
+                                ?>
+                        </select>
+                        <select name="day">
+                            <option SELECTED><?php if (!empty($_POST['day'])) echo $_POST['day']; ?>
+                                <?php
+                                for ($i = 1; $i <= 31; $i++) {
+                                    echo '<option value="' . $i . '">' . $i . '</option>';
+                                }
+                                ?>
+                        </select>
 
 
-			</div>
+                        <p><?php echo $txt["parupdatetime"]; ?><input type="text" name="time"/></p>
+                        <p><?php echo $txt["parupdatetimeinfo"] ?></p>
+
+                        <p><?php echo $txt["parupdatevalue"] ?><input type="text" name="value"/></p>
+
+                        <p><?php echo $txt["parupdateearningsinfo"] ?></p>
+                        <p><?php echo $txt["parupdateearnings"] ?><input type="text" name="earnings"/></p>
+
+
+                        <p><input type="submit" VALUE="<?php echo $txt["save"]; ?>"/></p>
+                </form>
+
+
+            </div>
         </div>
     </div>
 </div>

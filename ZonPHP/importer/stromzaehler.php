@@ -1,7 +1,7 @@
 <?php
 
 //
-//include "Parameters.php";
+//include "parameters.php";
 //include "sessionstart.php";
 //include "startup.php";
 $Zeitumstellungaktiv = 0;
@@ -19,13 +19,13 @@ $TagesErtrag = 0;
 $Jahrlastenrty = $lastJahr . "-12-31 23:59";//Datum und Uhrzeit vom letzten Eintrag im Jahr
 $Impulse = 400; //400;//Wieviele Impulse werden Pro KW ausgegeben?? Standard 400
 $pfad = "stromzaehler"; // Pfad zu den Logdaten; ohne abschliessendes "/"
-$directory = $_SESSION['Wie'] . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
 
-If ($directory == "import/" or $directory == "export/" or $directory == "20KW-Fronius/") {// Prüfen ob Session für Stromzähler ist
+if ($directory == "import/" or $directory == "export/" or $directory == "20KW-Fronius/") {// Prüfen ob Session für Stromzähler ist
     //echo "Import oder Export - Stromzähler ist aktiv"."<br />";
-    If ($directory == "import/") include "importstromzaehler.php";
-    If ($directory == "export/") include "exportstromzaehler.php";
-    If ($directory == "20KW-Fronius/") include "import20KW-Fronius.php";
+    if ($directory == "import/") include "importstromzaehler.php";
+    if ($directory == "export/") include "exportstromzaehler.php";
+    if ($directory == "20KW-Fronius/") include "import20KW-Fronius.php";
 
 } else {
 
@@ -81,7 +81,7 @@ If ($directory == "import/" or $directory == "export/" or $directory == "20KW-Fr
     }
 //echo "Jahr für import ".$Jahr."<br />";
 //$Jahr="2200";  //nur für Testzwecke damit nichts importiert wird
-    $directory = $_SESSION['Wie'] . '/';
+    $directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
     $directoryImport = $pfad . '/import/';
     $directoryExport = $pfad . '/export/';
 
@@ -216,20 +216,20 @@ If ($directory == "import/" or $directory == "export/" or $directory == "20KW-Fr
 
                             $zstdmin = $zstd . $zmin;
                             //echo $zstdmin."<br />";
-                            If ($Zeitumstellungaktiv == 1) {
+                            if ($Zeitumstellungaktiv == 1) {
                                 //echo "Zeitumstellung aktiv ist 1 und Zeit = ".$Uhrzeit."<br />";
 
                                 $Uhrzeit = $Uhrzeit . ":01";
                                 //echo "Uhrzeit neu = ".$Uhrzeit."<br />";
 
-                                If ($zstdmin == "0259") {
+                                if ($zstdmin == "0259") {
                                     //echo "Zeitumstellung wird deaktiviert"."<br />";
                                     $Zeitumstellungaktiv = 0;
                                     $Durchlauf1 = "0";
                                 }
                             }
 
-                            If ($zstdmin == "0259" and $Durchlauf1 == "1") {
+                            if ($zstdmin == "0259" and $Durchlauf1 == "1") {
                                 //echo "Zeitumstellung wird aktiviert"."<br />";
                                 $Zeitumstellungaktiv = 1;
                             }
@@ -241,7 +241,7 @@ If ($directory == "import/" or $directory == "export/" or $directory == "20KW-Fr
                         if ($Pac == "-1" or $leereintragerstellt == 0) {//Prüfung ob Aktuelle Leistung "Null" ist, wenn Ja erfolgt kein Eintrag in die Datenbank //--- Dies wurde mit -1 statt 0 deaktiviert da es beim Stromzähler auch im Winter nie den Wert null geben kann!!
                             //echo "Pac ist leer= ".$Pac." ".$Uhrzeit."<br />";
                             ##############################################
-                            If ($leereintragerstellt == 0) {
+                            if ($leereintragerstellt == 0) {
                                 $Datum = $dat . " " . $Uhrzeit;
                                 $oDatumTijd = ($Datum);
                                 if ((strtotime($oDatumTijd) <= strtotime($dateTime)) and ($oDatumTijd != "geen datumtijd")) {
@@ -268,7 +268,7 @@ If ($directory == "import/" or $directory == "export/" or $directory == "20KW-Fr
 //Prüfung ob eine Zeile mit dem Gleichen Datum und Uhrzeit existiert, wenn Ja Fehler bei der Uhrzeitprüfung
 // sonst wird else (ganz normal weiter) ausgeführt.
 // Ich hoffe es funktioniert, wenn nicht dann folgende Zeile löschen: 91 - 96	;eine Klammer } in 138.					
-                            If ($Uhrzeit == $UhrPrufung) {
+                            if ($Uhrzeit == $UhrPrufung) {
                                 //echo "Fehler bei der Uhrzeitprufung="."<br />";
                                 //echo"Prufung=".$UhrPrufung."<br />";
                                 //echo"Uhrzeit=".$Uhrzeit."<br />";
@@ -480,7 +480,7 @@ function omzetdatum1($date)
 function controledatum1($idag, $imaand, $ijaar)
 {
     //echo $idag.$imaand.$ijaar;
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;
