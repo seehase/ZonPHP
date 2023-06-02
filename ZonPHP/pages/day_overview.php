@@ -8,13 +8,17 @@ include_once "../charts/day_chart.php";
 ?>
 <?php include_once ROOT_DIR."/inc/menu.php"; ?>
 <script>
-    $(function () {
+	var start = '<?php echo $dstartdatum ?>';
+    $(document).ready(function () {
+              
         $("#startdate, #enddate").datepicker({
             changeMonth: true,
             changeYear: true,
             showOn: "button",
             gotoCurrent: false,
-            showButtonPanel: true,
+            maxDate: 0,
+            
+            minDate: new Date(start),
             buttonImage: "inc/image/calendar.gif",
             buttonImageOnly: true,
             buttonText: "Select date",
@@ -23,6 +27,11 @@ include_once "../charts/day_chart.php";
                 window.open(url, "_self");
             },
         });
+        $(".ui-datepicker-trigger").mouseover(function() {
+    		$(this).css('cursor', 'pointer');
+		});
+		$(".ui-datepicker-trigger").css("margin-bottom","-5px");
+        
         var _gotoToday = jQuery.datepicker._gotoToday;
         jQuery.datepicker._gotoToday = function (a) {
             var target = jQuery(a);
@@ -31,7 +40,7 @@ include_once "../charts/day_chart.php";
             jQuery.datepicker._selectDate(a, jQuery.datepicker._formatDate(inst, inst.selectedDay, inst.selectedMonth, inst.selectedYear));
         };
     });
-</script>
+    </script>
 <?php
 $paramstr_choose = '';
 $paramstr_day = '';
@@ -57,16 +66,19 @@ if (strpos($paramstr_choose, "?") == 0) {
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 57px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
                <h2>
-                <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"' ;
+                <button class="btn btn-zonphp " onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"' ;
 				if (date('Y-m-d', $date_minimum) > date('Y-m-d', $chartdate)) echo " hidden";	?>><i class="arrow left"></i></button>
 				<?php echo $datum ?>
                 <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '\'"' ;
-				if (date('Y-m-d', $date_maximum) < date('Y-m-d', $chartdate)) echo " hidden";	?>><i class="arrow right"></i></button>
+				if (date('Y-m-d', $date_maximum) < date('Y-m-d', $chartdate)) echo " hidden";	?>><i class="arrow right text-align-top" ></i></button>
                </h2> 
         </div>
-        <div class="backtoday" style="float:none; position: absolute;  top: 10px;  left: 15px;">
-            <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo $txt["back_to_today"] ?></button>
-        </div>
+  		<div class="backtoday align-top" style="none:left; position: absolute;  left: 15px;">
+            		<button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo $txt["back_to_today"] ?></button>
+		     			<div class="buttonbox" >
+        					<input type="hidden" id="startdate" value="' . strftime("%d-%m-%Y", time()) . '" readonly>
+        				</div>
+ 		</div>
         <div id="mycontainer" style="width:100%; height:100%;"></div>
     </div>
 </div>
