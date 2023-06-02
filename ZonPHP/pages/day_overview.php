@@ -19,7 +19,7 @@ include_once "../charts/day_chart.php";
             maxDate: 0,
             
             minDate: new Date(start),
-            buttonImage: "inc/image/calendar.gif",
+            buttonImage: "../inc/image/calendar.gif",
             buttonImageOnly: true,
             buttonText: "Select date",
             onSelect: function () {
