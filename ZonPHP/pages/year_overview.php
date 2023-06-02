@@ -42,7 +42,7 @@ if (strpos($paramstr_choose, "?") == 0) {
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
             <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?jaar='.date('Y', $chartcurrentdate); ?>'"><?php echo $txt["back_to_today"] ?></button>
         </div>
-        <div id="year_chart" style=":width100%; height:100%;"></div>
+        <div id="year_chart" style="width:100%; height:100%;"></div>
     </div>
 </div>
 <script>
@@ -51,7 +51,6 @@ if (strpos($paramstr_choose, "?") == 0) {
     });
 </script>
 </div><!-- closing ".page-content" -->
-</div><!-- closing ".container" -->
 <?php include_once ROOT_DIR."/inc/footer.php"; ?>
 </body>
 </html>

@@ -71,7 +71,7 @@
 .backtoday {
     float: none !important;
     position: absolute !important;
-    top: 15px !important;
+    top: 17px !important;
     left: 15px !important;
 }
 
@@ -93,10 +93,6 @@
     background: none repeat scroll 0 0 #EFEFEF;
     top: 42px;
     width: 680px;
-}
-
-.hasDatepicker {
-    color: #2ac06d;
 }
 
 #startdate {
@@ -627,14 +623,6 @@ code {
     line-height: 0px;
 }
 
-.btn-zonphp {
-    background-color: #286090;
-  	color: #fff;
-    padding: 3px 11px;
-    margin-bottom: 0;
-    font-size: 12px;
-}
-
 #menu .toggle-sub {
     width: 14.25em;
 }
@@ -963,3 +951,30 @@ input:checked + .slider:before {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
   }  
+
+.btn-zonphp {
+    background-color: #286090;
+  	color: #fff;
+    padding: 3px 11px;
+    margin-bottom: 0;
+    font-size: 12px;
+}
+
+.btn-zonphp:hover{
+    background-color: #286090 !important;
+    color: #FFF !important;
+}
+  
+  /*Datepicker testing */
+  .hasDatepicker {
+    color: #2ac06d;
+}
+
+  .buttonbox{
+	display: inline-block;
+	width: 33px;
+	height: 25.14px;
+	background-color: #286090;
+	border-radius: 0.375rem;
+	vertical-align:top;
+}

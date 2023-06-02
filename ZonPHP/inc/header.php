@@ -21,7 +21,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     if (isset($param['autorefresh'])) {
         $autorefresh = intval($param['autorefresh']);
     } else {
-        $autorefresh = 301;
+        $autorefresh = 300;
     }
 
     if ($autorefresh > 0) {

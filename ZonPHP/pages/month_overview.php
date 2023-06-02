@@ -29,7 +29,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 ?>
 <?php include ROOT_DIR."/inc/menu.php"; ?>
 <div id="page-content">
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 66px; ">
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 56px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?maand=' . date('Y-m', strtotime("-1 months", $chartdate)) . '\'"' ;
@@ -45,7 +45,7 @@ if (strpos($paramstr_choose, "?") == 0) {
         <div id="month_chart" style="width:100%; !important; height:100%; !important;"></div>
     </div>
 </div>
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $("#resize ").height(<?php echo $big_chart_height ?>);
     });
