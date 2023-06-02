@@ -1,8 +1,4 @@
 <?php
-
-//include "Parameters.php";
-//include "sessionstart.php";
-//include "startup.php";
 $Uhrzeit = 0;
 $FehlerUhrzeit = 0;
 $DC1 = 0;
@@ -33,8 +29,8 @@ if ($Tag == 31 && $Monat == 12) {
     $Jahr++;
 }
 
-$directory = "" . $_SESSION['Wie'] . '/';
-$directoryImport = "" . $_SESSION['Wie'] . '/' . $Jahr . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
+$directoryImport = ROOT_DIR . "/" . $_SESSION['Wie'] . '/' . $Jahr . '/';
 //echo "directory=".$directory."<br />";
 //echo "directoryimport=".$directoryImport."<br />";
 
@@ -110,7 +106,7 @@ if (!empty($adag)) {
 //Prüfung ob eine Zeile mit dem Gleichen Datum und Uhrzeit existiert, wenn Ja Fehler bei der Uhrzeitprüfung
 // sonst wird else (ganz normal weiter) ausgeführt.
 // Ich hoffe es funktioniert, wenn nicht dann folgende Zeile löschen: 91 - 96	;eine Klammer } in 138.					
-                        If ($Uhrzeit == $UhrPrufung) {
+                        if ($Uhrzeit == $UhrPrufung) {
                             //echo "Fehler bei der Uhrzeitprufung="."<br />";
                             //echo"Prufung=".$UhrPrufung."<br />";
                             //echo"Uhrzeit=".$Uhrzeit."<br />";
@@ -273,7 +269,7 @@ function omzetdatum($date)
 function controledatum($idag, $imaand, $ijaar)
 {
     //echo $idag.$imaand.$ijaar;
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

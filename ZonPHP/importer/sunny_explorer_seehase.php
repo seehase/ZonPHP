@@ -18,7 +18,7 @@ if (mysqli_num_rows($result) == 0) {
     }
 }
 
-$directory = "" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
 
 
 $adag = array();
@@ -54,42 +54,43 @@ if (!empty($adag)) {
             // skip first 10 lines of CSV file
             if ($teller > 10) {
                 if (!empty($geg_suo)) {
-
                     $p = explode(";", $geg_suo);
-                    list($TimeStamp, $GridMsTotW, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
-                    $oTimeStamp = omzetdatum($TimeStamp);      //date("Y-m-d H:i:s",strtotime($TimeStamp));
-                    $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
-                    $GridMsTotW = str_replace(array(','), '.', $GridMsTotW);
-                    if ($start == 0) {
-                        $startkw = $GridMsTotW;
-                        $start = 1;
-                    }
-                    if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
-                        if ($MeteringDykWh != 0) {
-                            if ($MeteringDykWh == 0) {
-                                $startend = 1;
-                                $odatum = explode(" ", $oTimeStamp);
-                                $stringend .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
-                                $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                    $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . $_SESSION['Wie'] . "')";
-                            } else {
-                                $odatum = explode(" ", $oTimeStamp);
-                                if ($startend == 0) {
-                                    $string .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                    if (count($p) > 2) {
+                        list($TimeStamp, $GridMsTotW, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
+                        $oTimeStamp = omzetdatum($TimeStamp);      //date("Y-m-d H:i:s",strtotime($TimeStamp));
+                        $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
+                        $GridMsTotW = str_replace(array(','), '.', $GridMsTotW);
+                        if ($start == 0) {
+                            $startkw = $GridMsTotW;
+                            $start = 1;
+                        }
+                        if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
+                            if ($MeteringDykWh != 0) {
+                                if ($MeteringDykWh == 0) {
+                                    $startend = 1;
+                                    $odatum = explode(" ", $oTimeStamp);
+                                    $stringend .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                        $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . $_SESSION['Wie'] . "')";
                                 } else {
-                                    $string .= $stringend . "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    $odatum = explode(" ", $oTimeStamp);
+                                    if ($startend == 0) {
+                                        $string .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    } else {
+                                        $string .= $stringend . "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    }
+                                    $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                        $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . $_SESSION['Wie'] . "')";
+                                    $stringend = "";
+                                    $startend = 0;
+                                    $houdeeindwaarde = 1;
+                                    $voegnulltoe = 0;
                                 }
-                                $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                    $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . $_SESSION['Wie'] . "')";
-                                $stringend = "";
-                                $startend = 0;
-                                $houdeeindwaarde = 1;
-                                $voegnulltoe = 0;
-                            }
-                        } else {
-                            if ($houdeeindwaarde != 0 && $voegnulltoe == 0) {
-                                $string .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "',0," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
-                                $voegnulltoe = 1;
+                            } else {
+                                if ($houdeeindwaarde != 0 && $voegnulltoe == 0) {
+                                    $string .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "',0," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    $voegnulltoe = 1;
+                                }
                             }
                         }
                     }
@@ -100,9 +101,10 @@ if (!empty($adag)) {
         fclose($file);
         if ($string1 != "") {
             $string = substr($string, 0, -1);
-            mysqli_query($con, "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . $_SESSION['Wie'] . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
-            mysqli_query($con, $string) or die("Query failed. ERROR: " . mysqli_error($con));
-            mysqli_query($con, $string1) or die("Query failed. ERROR: " . mysqli_error($con));
+            $del = "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . $_SESSION['Wie'] . "' AND Datum_Maand='" . $odatum[0] . "'";
+            mysqli_query($con, $del) or die("Query failed. ERROR1: " . $del . mysqli_error($con));
+            mysqli_query($con, $string) or die("Query failed. ERROR2: " . $string . mysqli_error($con));
+            mysqli_query($con, $string1) or die("Query failed. ERROR3: " . $string1 . mysqli_error($con));
 
         }
     }
@@ -119,20 +121,20 @@ $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
 
-$result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
+$result = mysqli_query($con, $sql) or die("Query failed. ERROR4: " . $sql . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
 } else {
-   if ($fp = fopen($directory . 'months.js', "w+")) {
-       while ($row = mysqli_fetch_array($result)) {
-           $datfile = date("d.m.y", strtotime($row['maxi']));
-           $dateTime = 'mo[mx++]="' . $datfile . "|" . floor($row['som'] * 1000) . '"';//echo $dateTime; //datum omzetten
-           //$fp = fopen('months1.js',"r+");
-           fwrite($fp, $dateTime . "\r\n");
-       }
-       fclose($fp);
-   }
+    if ($fp = fopen($directory . 'months.js', "w+")) {
+        while ($row = mysqli_fetch_array($result)) {
+            $datfile = date("d.m.y", strtotime($row['maxi']));
+            $dateTime = 'mo[mx++]="' . $datfile . "|" . floor($row['som'] * 1000) . '"';//echo $dateTime; //datum omzetten
+            //$fp = fopen('months1.js',"r+");
+            fwrite($fp, $dateTime . "\r\n");
+        }
+        fclose($fp);
+    }
 }
 
 /******************************************************************************
@@ -144,7 +146,7 @@ $sql = "SELECT *
 	WHERE Naam='" . $_SESSION['Wie'] . "'
 	ORDER BY Datum_Maand DESC";
 
-$result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
+$result = mysqli_query($con, $sql) or die("Query failed. ERROR5: " . $sql . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
@@ -182,7 +184,7 @@ else {
     }
 }
 
-$directory = $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
 
 $adag = array();
 for ($tel = 0; $tel <= 160; $tel++) {
@@ -211,42 +213,43 @@ if (!empty($adag)) {
             // skip first 10 lines of CSV file
             if ($teller > 10) {
                 if (!empty($geg_suo)) {
-
                     $p = explode(";", $geg_suo);
-                    list($TimeStamp, $GridMsTotW, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
-                    $oTimeStamp = omzetdatum($TimeStamp);      //date("Y-m-d H:i:s",strtotime($TimeStamp));
-                    $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
-                    $GridMsTotW = str_replace(array(','), '.', $GridMsTotW);
-                    if ($start == 0) {
-                        $startkw = $GridMsTotW;
-                        $start = 1;
-                    }
-                    if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
-                        if ($MeteringDykWh != 0) {
-                            if ($MeteringDykWh == 0) {
-                                $startend = 1;
-                                $odatum = explode(" ", $oTimeStamp);
-                                $stringend .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
-                                $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                    $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . $_SESSION['Wie'] . "')";
-                            } else {
-                                $odatum = explode(" ", $oTimeStamp);
-                                if ($startend == 0) {
-                                    $string .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                    if (count($p) > 2) {
+                        list($TimeStamp, $GridMsTotW, $MeteringDykWh) = explode(";", $geg_suo);    //,$rest
+                        $oTimeStamp = omzetdatum($TimeStamp);      //date("Y-m-d H:i:s",strtotime($TimeStamp));
+                        $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
+                        $GridMsTotW = str_replace(array(','), '.', $GridMsTotW);
+                        if ($start == 0) {
+                            $startkw = $GridMsTotW;
+                            $start = 1;
+                        }
+                        if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
+                            if ($MeteringDykWh != 0) {
+                                if ($MeteringDykWh == 0) {
+                                    $startend = 1;
+                                    $odatum = explode(" ", $oTimeStamp);
+                                    $stringend .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                        $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . $_SESSION['Wie'] . "')";
                                 } else {
-                                    $string .= $stringend . "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    $odatum = explode(" ", $oTimeStamp);
+                                    if ($startend == 0) {
+                                        $string .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    } else {
+                                        $string .= $stringend . "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    }
+                                    $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                        $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . $_SESSION['Wie'] . "')";
+                                    $stringend = "";
+                                    $startend = 0;
+                                    $houdeeindwaarde = 1;
+                                    $voegnulltoe = 0;
                                 }
-                                $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                    $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . $_SESSION['Wie'] . "')";
-                                $stringend = "";
-                                $startend = 0;
-                                $houdeeindwaarde = 1;
-                                $voegnulltoe = 0;
-                            }
-                        } else {
-                            if ($houdeeindwaarde != 0 && $voegnulltoe == 0) {
-                                $string .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "',0," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
-                                $voegnulltoe = 1;
+                            } else {
+                                if ($houdeeindwaarde != 0 && $voegnulltoe == 0) {
+                                    $string .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "',0," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['Wie'] . "'),";
+                                    $voegnulltoe = 1;
+                                }
                             }
                         }
                     }
@@ -257,9 +260,10 @@ if (!empty($adag)) {
         fclose($file);
         if ($string1 != "") {
             $string = substr($string, 0, -1);
-            mysqli_query($con, "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . $_SESSION['Wie'] . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
-            mysqli_query($con, $string) or die("Query failed. ERROR: " . mysqli_error($con));
-            mysqli_query($con, $string1) or die("Query failed. ERROR: " . mysqli_error($con));
+            $del = "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . $_SESSION['Wie'] . "' AND Datum_Maand='" . $odatum[0] . "'";
+            mysqli_query($con, $del) or die("Query failed. ERROR6: " . $del . mysqli_error($con));
+            mysqli_query($con, $string) or die("Query failed. ERROR7: " . $sql . mysqli_error($con));
+            mysqli_query($con, $string1) or die("Query failed. ERROR8: " . $sql . mysqli_error($con));
 
         }
     }
@@ -277,7 +281,7 @@ $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
 
-$result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
+$result = mysqli_query($con, $sql) or die("Query failed. ERROR9: " . $sql . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
@@ -301,7 +305,7 @@ $sql = "SELECT *
 	WHERE Naam='" . $_SESSION['Wie'] . "'
 	ORDER BY Datum_Maand DESC";
 
-$result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
+$result = mysqli_query($con, $sql) or die("Query failed. ERROR10: " . $sql . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
@@ -356,7 +360,7 @@ function omzetdatum($date)
 <?php
 function controledatum($idag, $imaand, $ijaar)
 {
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

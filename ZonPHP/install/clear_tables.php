@@ -1,9 +1,9 @@
 <?php
 
-include_once "../Parameters.php";
+include_once "../parameters.php";
 include_once "../inc/sessionstart.php";
 
-if (!isset($_SESSION['passok']))
+if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
 
 include_once "../inc/connect.php";
@@ -17,16 +17,6 @@ include_once "par_header.php";
 
         <div class="inside">
             <h2 class="notopgap" align="center"><?php echo $txt["installscript"]; ?></h2>
-            <center>
-                Uw Taal:<a href='?taal=nl' TARGET='_self'><img src="../inc/image/nl.png" alt="nl" border="0" width="16"
-                                                               height="11"></a>&nbsp;&nbsp;
-                Your language:<a href='?taal=en' TARGET='_self'><img src="../inc/image/en.png" alt="en" border="0"
-                                                                     width="16" height="11"></a>&nbsp;&nbsp;
-                Votre langue:<a href='?taal=fr' TARGET='_self'><img src="../inc/image/fr.png" alt="fr" border="0"
-                                                                    width="16" height="11"></a>&nbsp;&nbsp;
-                Ihre Sprache:<a href='?taal=de' TARGET='_self'><img src="../inc/image/de.png" alt="de" border="0"
-                                                                    width="16" height="11"></a>
-            </center>
             <hr>
             <?php echo $txt["cleartables"] . "<br /><br />" .
                 $table_prefix . "_dag<br /> " .
@@ -40,7 +30,7 @@ include_once "par_header.php";
                        onClick="return confirmSubmit()">
 
             </form>
-            <br />
+            <br/>
             <?php
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stringdelete = "DELETE FROM " . $table_prefix . "_dag";

@@ -1,10 +1,4 @@
 <?php
-//
-//include "Parameters.php";
-//include "sessionstart.php";
-//include "startup.php";
-?>
-<?php
 
 $sql = "SELECT *
 	FROM " . $table_prefix . "_dag
@@ -21,7 +15,7 @@ else {
 $dateTime = date("Y-m-d H:i:s", strtotime($dateTime));
 $dateTime1 = $dateTime;
 
-$directory = "" . $_SESSION['Wie'] . "/";
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . "/";
 $aday = array();
 
 for ($tel = 0; $tel <= 60; $tel++) {
@@ -525,7 +519,7 @@ function omzetdatum($date)
 function controledatum($idag, $imaand, $ijaar)
 {
     //echo $idag.$imaand.$ijaar;
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

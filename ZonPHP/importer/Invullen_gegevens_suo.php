@@ -1,11 +1,4 @@
 <?php
-//
-//include "Parameters.php";
-//include "sessionstart.php";
-//include "startup.php";
-
-?>
-<?php
 $sql = "SELECT *
 	FROM " . $table_prefix . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
@@ -18,7 +11,7 @@ if (mysqli_num_rows($result) == 0) {
     }
 }
 
-$directory = "" . $_SESSION['Wie'] . "/";
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . "/";
 $adag = array();
 for ($tel = 0; $tel <= 60; $tel++) {
     $num = (date("ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));//echo $num."<br />";
@@ -161,7 +154,7 @@ function omzetdatum($date)
 function controledatum($idag, $imaand, $ijaar)
 {
     //echo $idag.$imaand.$ijaar;
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

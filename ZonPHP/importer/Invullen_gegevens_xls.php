@@ -1,8 +1,4 @@
 <?php
-//
-//include "Parameters.php";
-//include "sessionstart.php";
-//include "startup.php";
 /******************************************************************************
  * Zoek naar de records met TIME='00:00:00' ***_maand =delete
  * ****************************************************************************
@@ -58,7 +54,7 @@ error_reporting(E_ALL ^ E_NOTICE);
  * Zoek naar de SDT xls files
  * ****************************************************************************
  */
-$directory = "" . $_SESSION['Wie'] . "/";
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . "/";
 $ajaar = array();
 for ($tel = 0; $tel <= 5; $tel++) {
     $num = (date("y", strtotime("+" . $tel . " year", strtotime($dateTime))));//echo $num."<br />";

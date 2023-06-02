@@ -19,6 +19,7 @@ $param['image1'] = "inc/image/image1.jpg";
 $param['image2'] = "inc/image/image2.jpg";
 
 $charts = array();
+$charts['chart_date_format'] = "";
 
 if (!isset($colors)) $colors = array();
 $teller = 0;
@@ -33,10 +34,8 @@ if (mysqli_num_rows($resultpar) != 0) {
         // to arrays for Parameters, charts and Colors
         if (stripos($var, "color") === 0) {
             $colors[$var] = $value;
-        } else if (stripos($var, "chart") === 0) {
-            $charts[$var] = $value;
         } else {
-            $param[$var] = $row['Waarde'];
+            $param[$var] = $value;
         }
     }
     if (!isset($param['sNaamSaveDatabasest']) || strlen($param['sNaamSaveDatabasest']) < 2) {
@@ -54,16 +53,6 @@ if (mysqli_num_rows($resultpar) != 0) {
     else
         $iveromvormers = 0;
     $dstartdatum = $param['jaar'] . "-" . $param['maand'] . "-" . $param['dag'];
-
-    if (count($charts) == 0){
-        $charts['chart_31days'] = 'on';
-        $charts['chart_allyearoverview'] = 'on';
-        $charts['chart_lastyearoverview'] = 'on';
-        $charts['chart_monthoverview'] = 'on';
-        $charts['chart_solar_temp'] = 'on';
-        $charts['chart_weekoverview'] = 'on';
-        $charts['chart_yearoverview'] = 'on';
-    }
 
     $_SESSION['charts'] = $charts;
     $_SESSION['ieffectief_kwpiek'] = $ieffectief_kwpiek;
@@ -84,8 +73,11 @@ foreach ($sNaamSaveDatabase as $keynaam => $snaam) {
         $_SESSION['Wie'] = $snaam;
 }
 
-$ieffectiefkwpiek = $anaam_wattpiek[$_SESSION['Wie']];
+if (isset($_SESSION['Wie']) && isset($anaam_wattpiek[$_SESSION['Wie']])) {
+    $ieffectiefkwpiek = $anaam_wattpiek[$_SESSION['Wie']];
+} else {
+    $ieffectiefkwpiek = 0.0;
+}
 $_SESSION['ieffectiefkwpiek'] = $ieffectiefkwpiek;
-
 
 ?>

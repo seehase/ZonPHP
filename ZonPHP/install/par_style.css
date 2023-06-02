@@ -1,6 +1,11 @@
 #bodytextparm {
     width: 700px;
+    background: #EFEFEF;
     font-size: 12px;
+    margin-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #C00000;
+    padding: 1px;
     font-family: Verdana, Arial, Helvetica, sans-serif, Trebuchet;
 }
 
@@ -16,37 +21,15 @@
 
 #bodytext {
     width: 700px;
-}
-
-.top-left, .top-right, .bottom-left, .bottom-right {
-    height: 9px; /* CHANGE: replace by the height of one of your corners (= 1/2 height of the image) */
-    font-size: 2px; /* DNC: correction IE for height of the <div>'s */
-}
-
-.top-left, .bottom-left {
-    margin-right: 9px; /* CHANGE: replace by the width of one of your corners */
-}
-
-.top-right, .bottom-right {
-    margin-left: 9px; /* CHANGE: replace by the width of one of your corners */
-    margin-top: -9px; /* CHANGE: replace by the height of one of your corners */
-}
-
-.top-right {
-    background-position: 100% 0; /* DNC: position right corner at right side, no vertical changes */
-}
-
-.bottom-left {
-    background-position: 0 -9px; /* CHANGE: replace second number by negative height of one of your corners */
-}
-
-.bottom-right {
-    background-position: 100% -9px; /* CHANGE: replace second number by negative height of one of your corners */
+    background: #EFEFEF;
+    margin-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #C00000;
+    padding: 1px;
 }
 
 .inside {
-    border-left: 1px solid #C00000; /* YCC: color & properties of the left-borderline */
-    border-right: 1px solid #C00000; /* YCC: color & properties of the right-borderline */
+
     background: #EFEFEF; /* YCC: background-color of the inside */
     color: #000000; /* YCC: default text-color of the inside */
     padding-left: 10px; /* YCC: all texts at some distance of the left border */
@@ -70,8 +53,6 @@
     margin: 0;
 }
 
-
-
 .notopgap {
     margin-top: 0;
 }
@@ -82,14 +63,16 @@
     padding-bottom: 1px;
 }
 
-/* DNC: to avoid splitting of the box */
-
 body {
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 #container1 {
+    background: #EFEFEF;
     margin-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #C00000;
+    padding: 1px;
     width: 160px;
 }
 
@@ -170,7 +153,6 @@ TD:hover a {
     background: url('../inc/image/flags.png') no-repeat;
 }
 
-
 .flag.flag-fr {
     background-position: 0 -11px;
 }
@@ -187,12 +169,6 @@ TD:hover a {
     background-position: -32px -11px;
 }
 
-.flag.flag-at {
-    background-position: 0 0;
-}
-
 .flag.flag-de {
     background-position: -32px 0;
 }
-
-	

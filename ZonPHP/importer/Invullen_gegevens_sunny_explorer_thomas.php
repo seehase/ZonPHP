@@ -32,7 +32,7 @@ else {
     }
 }
 
-$directory = "" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
+$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
 
 $adag = array();
 for ($tel = 0; $tel <= 160; $tel++) {
@@ -79,7 +79,7 @@ if (!empty($adag)) {
                         $startpos = strpos($v, "Tag_");
                         $myDateStr = substr($v, $startpos + 4, 10);
                         $myDate = strtotime($myDateStr);
-                        $myDateStr = strftime("%d.%m.%Y", $myDate);
+                        $myDateStr = date("d.m.Y", $myDate);
                         $TimeStamp = $myDateStr . " " . $mytime;
                         $MeteringDykWh = str_replace(array(','), '.', $MeteringDykWh);
                         $GridMsTotW = $GridMsTotW + ($MeteringDykWh / 60 * 15);
@@ -112,9 +112,8 @@ if (!empty($adag)) {
                         $startkw = $GridMsTotW;
                         $start = 1;
                     }
-                    if ($GridMsTotW < $startkw)
-                    {
-                        $GridMsTotW =  $startkw;
+                    if ($GridMsTotW < $startkw) {
+                        $GridMsTotW = $startkw;
                     }
 
                     if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
@@ -242,7 +241,7 @@ function omzetdatum($date)
 
 function controledatum($idag, $imaand, $ijaar)
 {
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;

@@ -1,120 +1,137 @@
 <?php
 if (strpos(getcwd(), "charts") > 0) {
     chdir("../");
-    include_once "Parameters.php";
+    include_once "parameters.php";
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
-
+//echo $_SESSION['theme'];
 $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$inverter = $_SESSION['Wie'];
-if (isset($_POST['inverter'])) {
-    $inverter = $_POST['inverter'];
+$inverter = $sNaamSaveDatabase[0];
+if (isset($_GET['naam'])) {
+    $inverter = $_GET['naam'];
 }
 
 $chartdate = time();
-$chartdatestring = strftime("%Y-%m-%d", $chartdate);
+$chartdatestring = date("Y-m-d", $chartdate);
 
 if (isset($_GET['jaar'])) {
     $chartdatestring = html_entity_decode($_GET['jaar']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
-    $chartdatestring = strftime("%Y-%m-%d", $chartdate);
+    $chartdatestring = date("Y-m-d", $chartdate);
 }
 $cur_year_month = "" . date('Y-m', $chartdate);
-$color_yearchart = array($colors['color_yearchart0'], $colors['color_yearchart1'], $colors['color_yearchart2'], $colors['color_yearchart3'], $colors['color_yearchart4']);
+$paramnw['jaar'] = date("Y", $chartdate);
 
-// ---------------------------------------------------------------------------------------------------------------------
-
-$param['jaar'] = date("Y", $chartdate);
-$sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $inverter . "'
-	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
-	ORDER BY 1 asc";
-
+$sql = "SELECT MAX( Datum_Maand ) AS maxi, YEAR(Datum_Maand) as year, ROUND(SUM( Geg_Maand ),0) AS som, naam
+FROM " . $table_prefix . "_maand 
+GROUP BY naam, DATE_FORMAT( Datum_Maand,  '%y-%m' ) 
+ORDER BY maxi, naam ASC";
+//echo $sql;
 $aTotaaljaar = array();
 $result = mysqli_query($con, $sql) or die("Query failed. alle_jaren: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
     $adatum[][] = 0;
     $aTotaaljaar[] = 0;
+    $acdatum = array();
 } else {
     while ($row = mysqli_fetch_array($result)) {
         $adatum[date("Y", strtotime($row['maxi']))][date("n", strtotime($row['maxi']))] = $row['som'];
-        if (!isset($aTotaaljaar[date("Y", strtotime($row['maxi']))])) $aTotaaljaar[date("Y", strtotime($row['maxi']))] = 0;
-        $aTotaaljaar[date("Y", strtotime($row['maxi']))] += $row['som'];
+        $acdatum[] = $row['year'];
+        if (!isset($abdatum[$row['naam']][date("Y", strtotime($row['maxi']))])) $abdatum[$row['naam']][date("Y", strtotime($row['maxi']))][date("n", strtotime($row['maxi']))] = 0;
+
+        $abdatum[$row['naam']][date("Y", strtotime($row['maxi']))][date("n", strtotime($row['maxi']))] = $row['som'];
+        //$aTotaaljaar[date("Y", strtotime($row['maxi']))] += $row['som'];
+        if (!isset($abTotaaljaar[$row['naam']][date("Y", strtotime($row['maxi']))])) $abTotaaljaar[$row['naam']][date("Y", strtotime($row['maxi']))] = 0;
+        $abTotaaljaar[$row['naam']][date("Y", strtotime($row['maxi']))] += $row['som'];
     }
 }
+$acdatum = array_values(array_unique($acdatum));
+if (count($acdatum) > 0) {
+    $firstYear = reset($acdatum);
+} else {
+    $firstYear = 1970;
+}
 
-$avarage = array_sum($aTotaaljaar) / count($aTotaaljaar) / 12;
 
-$sqlref = "SELECT Geg_Refer,Datum_Refer
-		FROM " . $table_prefix . "_refer
-		WHERE Naam='" . $inverter . "'";
-$resultref = mysqli_query($con, $sqlref) or die("Query failed. alle_jaren-ref: " . mysqli_error($con));
+//  new average
+$sqlavg = "SELECT Naam, MONTH( Datum_Maand ) AS Maand, ROUND( SUM( Geg_Maand ) / COUNT( DISTINCT (
+YEAR( Datum_Maand ) ) ) , 0
+) AS AVG
+FROM " . $table_prefix . "_maand
+GROUP BY Naam, MONTH( Datum_Maand ) 
+ORDER BY naam ASC ";
+$result = mysqli_query($con, $sqlavg) or die("Query failed (gemiddelde) " . mysqli_error($con));
+while ($row = mysqli_fetch_array($result)) {
+    $avg_data[$row['Naam']][$row['Maand']] = $row['AVG'];
+}
+
+//	new reference
+$sqlref = "SELECT Naam, SUM(Geg_Refer) as sum_geg_refer, SUM(Dag_Refer) as sum_dag_refer, Datum_Refer
+	FROM " . $table_prefix . "_refer " .
+    " GROUP BY Naam, Datum_refer
+	  ORDER BY Naam, Datum_Refer ASC";
+//echo $sqlref;
+$nfrefmaand = array();
+$nfrefdagmaand = array();
+$nfreftot = array();
+$resultref = mysqli_query($con, $sqlref) or die("Query failed. jaar-ref " . mysqli_error($con));
 if (mysqli_num_rows($resultref) == 0) {
     $frefmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+    $frefdagmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 } else {
+    $frefmaand = array();
+    $frefdagmaand = array();
+
     while ($row = mysqli_fetch_array($resultref)) {
-        $frefmaand[date("n", strtotime($row['Datum_Refer']))] = $row['Geg_Refer'];
+        $frefmaand[date("n", strtotime($row['Datum_Refer']))] = $row['sum_geg_refer'];
+        $frefdagmaand[date("n", strtotime($row['Datum_Refer']))] = $row['sum_dag_refer'];
+        $nfrefmaand[date("n", strtotime($row['Datum_Refer']))][$row['Naam']] = $row['sum_geg_refer'];
+        $x = $row['Naam'];
+        if (!isset($nfreftot[$x])) {
+            $nfreftot[$x] = 0;
+        }
+        $nfreftot[$x] += $row['sum_geg_refer'];
+        $nfrefdagmaand[date("n", strtotime($row['Datum_Refer']))][$row['Naam']] = $row['sum_dag_refer'];
+
     }
+    $iyasaanpassen = (round(0.5 + max($frefmaand) / 50) * 50);
 }
 
-$sqlmax = "SELECT MAX( som ) AS maxsom, DATE_FORMAT( maxi, '%c' ) AS maand
-		FROM (
-			SELECT MAX( Datum_Maand ) AS maxi, SUM( Geg_Maand ) AS som
-			FROM " . $table_prefix . "_maand
-			WHERE Naam = '" . $inverter . "'
-			GROUP BY DATE_FORMAT( Datum_Maand, '%y-%c' )
-			) AS allemax
-		GROUP BY maand ";
-$resultmax = mysqli_query($con, $sqlmax) or die("Query failed. ERROR: " . mysqli_error($con));
+$nfreftot = array_values($nfreftot);
 
+//max for all inverters
+$sqlmax = "SELECT maand,jaar,som, Name FROM 
+(SELECT naam as Name, month(Datum_Maand) AS maand,year(Datum_Maand) AS jaar, sum(Geg_Maand) AS som FROM " . $table_prefix . "_maand GROUP BY naam, maand,jaar ) AS somquery JOIN (SELECT maand as tmaand, max( som ) AS maxgeg FROM ( SELECT naam, maand, jaar, som FROM ( SELECT naam, month( Datum_Maand ) AS maand, year( Datum_Maand ) AS jaar, sum( Geg_Maand ) AS som FROM " . $table_prefix . "_maand GROUP BY naam, maand, jaar ) AS somqjoin ) AS maxqjoin GROUP BY naam,tmaand )AS maandelijks ON (somquery.maand= maandelijks.tmaand AND maandelijks.maxgeg = somquery.som) ORDER BY Name, maand";
+$resultmax = mysqli_query($con, $sqlmax) or die("Query failed. ERROR: " . mysqli_error($con));
 
 for ($i = 1; $i <= 12; $i++) {
     $maxmaand[$i] = 0;
+
 }
 
 if (mysqli_num_rows($resultmax) == 0) {
     $maxmaand[] = 0;
+    $nmaxmaand[][] = 0;
 } else {
     while ($row = mysqli_fetch_array($resultmax)) {
-        $maxmaand[$row['maand']] = $row['maxsom'];
+        $maxmaand[$row['maand']] = $row['som'];
+        $nmaxmaand[$row['maand']][$row['Name']] = Round($row['som'], 0);
+        $nmaxmaand_jaar[$row['maand']][$row['Name']] = $row['jaar'];
     }
 }
-
-
 ?>
-
-
 <?php
 // ----------------------------------------------------------------------------
-$strgeg = "";
 $strxas = "";
-$strgemiddelde = "";
-$strref = "";
-$strmax = "";
 $tellerkleuren = 0;
-$strbar3d = "";
-$max = 0;
-
-$on_click = "allejaar";
-$str_data = "";
-
-$str_ticks = "";
-$href = "month_overview.php?maand=";
-$max_per_month = "";
-$tip_max_month = "";
-$tip_ref_month = "";
+$href = HTML_PATH."/pages/month_overview.php?maand=";
 $sum_per_month = array();
 $cnt_per_month = array();
-
-$avg_per_month = "";
-$gridlines = "";
-
 $frefjaar = 0;
 for ($i = 1; $i <= 12; $i++) {
     $sum_per_month[$i] = 0.0;
@@ -122,165 +139,213 @@ for ($i = 1; $i <= 12; $i++) {
     $frefjaar = $frefjaar + $frefmaand[$i];
 }
 $frefjaar = $frefjaar / 12;
-
-
+$my_year = date("Y", $chartdate);
+$dummy = "";
 $max_bars = "";
-$categories = "";
-// grey max data chart
-for ($i = 1; $i <= 12; $i++) {
-    $categories .= '"' . ($months[$i])  . '",';
-    $max_bars .= "
-                    { 
-                      y: $maxmaand[$i] ,                       
-                      color: '#" . $colors['color_chart_max_bar']. "',
-                    },";
-}
-$categories = substr($categories, 0, -1);
-
-
-$cnt = 0;
-$fsomeuro = 0;
+$reflines = "";
+$avglines = "";
 $value_series = "";
-foreach ($adatum as $asx => $asy) {
+$zz = 0;
+$colorzz = 0;
+$year = $firstYear - 1;
+$i = 0;
+$colori = 1;
+$newLine = '';
+$dummyyears = '';
+$dyear = '';
+$dummyyears .= "{name: $firstYear , newLine: 'true', type: 'column', grouping: false, id: 'year', zIndex: -1,color: '" . $colors['color_palettes'][$colori - 1][2] . "',  data:[] },";
+$isFirst = true;
+foreach ($acdatum as $i => $dyear) {
+    if ($isFirst) {
+        $isFirst = false;
+        continue;
+    }
+    $dummyyears .= "{name: $dyear ,type: 'column', grouping: false, id: 'year', zIndex: -1, color: '" . $colors['color_palettes'][$colori][2] . "', data:[] },";
+    if ($colori == 4) {
+        $colori = 0;
+    } else $colori++;
+}
 
-    if ($asx <= $param['jaar'] && $asx > ($param['jaar'] - 5)) {
+foreach ($sNaamSaveDatabase as $zz => $inverter_name) {
+    if ($zz == 0) {
+        $dash = "dashStyle: 'solid',";
+    } elseif ($zz > 0) {
+        $dash = "dashStyle: 'shortdash',";
+    }
+    $link = 0;
+    $cnt = 0;
+    $colorcnt = 0;
+    $bdatum = array();
+    if (isset($abdatum[$inverter_name])) {
+        $bdatum = $abdatum[$inverter_name];
+    }
 
+    $dummy .= "{name: '$inverter_name', id: '$inverter_name dummy',type: 'column',  zIndex: -1, stacking: 'normal', color: '" . $colors['color_palettes'][5][$colorzz] . "',data: [";
 
+    $max_bars .= "{name: '$inverter_name max', type: 'column',  zIndex: -1, linkedTo: '$inverter_name',  grouping: false, pointPlacement: 0.048, stacking: 'normal', color: \"#" . $colors['color_chart_max_bar'] . "\" ,data: [";
 
-        $mydata = "";
-        $current_bars = "";
-        for ($i = 1; $i <= 12; $i++) {
+    $reflines .= "{ name: '$inverter_name ref', type:'line', $dash linkedTo: '$inverter_name', pointPlacement: 0.048, color: '#" . $colors['color_chart_reference_line'] . "',
+         stacking: 'normal', stack: 'ref', data: [";
+    $avglines .= "{ name: '$inverter_name avg', type:'line', $dash linkedTo: '$inverter_name', pointPlacement: 0.048, color: '#" . $colors['color_chart_average_line'] . "',
+         stacking: 'normal', stack: 'avg', data: [";
 
-            if (array_key_exists($i, $asy)) {
-                $cur_year = $asy[$i];
-                $cur_max = $maxmaand[$i];
-            } else {
-                if (array_key_exists($i, $maxmaand)) {
-                    $cur_year = 0;
+// empty series to overcome a LinkedTo bug in Highcharts
+    $value_series .= "{ name: '$inverter_name',
+                    id: '$inverter_name',
+                    linkedTo: '$inverter_name dummy', 
+                    type: 'column',
+                    stack: $year,
+                    stacking: 'normal',
+                    data: []
+            		},";
+
+    foreach ($bdatum as $asx => $asy) {
+
+        if ($asx <= $paramnw['jaar'] && $asx >= ($param['jaar'])) {
+            //echo ($asx);echo '<BR>';
+            $mydata = "";
+            $current_bars = "";
+            $my_year = 0;
+            for ($i = 1; $i <= 12; $i++) {
+
+                if (array_key_exists($i, $asy)) {
+                    $cur_year = $asy[$i];
                     $cur_max = $maxmaand[$i];
                 } else {
-                    $cur_year = 0;
-                    $cur_max = 0;
+                    if (array_key_exists($i, $maxmaand)) {
+                        $cur_year = 0;
+                        $cur_max = $maxmaand[$i];
+                    } else {
+                        $cur_year = 0;
+                        $cur_max = 0;
+                    }
                 }
-            }
 
-            $aclickxas[$tellerkleuren][] = $asx . '-' . $i . '-1';
-            $mydata .= '["' . $i . '", ' . $cur_year . '], ';
+                if (!isset($nmaxmaand[$i][$inverter_name])) {
+                    $nmaxmaand[$i][$inverter_name] = 0;
+                }
+                $val = round($nmaxmaand[$i][$inverter_name], 2);
+                //@$my_year= $nmaxmaand_jaar[$i][$inverter_name];
 
-            $sum_per_month[$i] = $sum_per_month[$i] + $cur_year;
-            if ($cur_year > 0.0) {
-                $cnt_per_month[$i]++;
-            }
+                $max_bars .= "  { 
+                          y:  $val, 
+                          url: \"$href$my_year-$i-01\",
+                          color: \"#" . $colors['color_chart_max_bar'] . "\"
+                        },";
+                $aclickxas[$tellerkleuren][] = $asx . '-' . $i . '-1';
+                $mydata .= '["' . $i . '", ' . $cur_year . '], ';
 
-            $current_bars .= "
+                $sum_per_month[$i] = $sum_per_month[$i] + $cur_year;
+                if ($cur_year > 0.0) {
+                    $cnt_per_month[$i]++;
+                }
+
+                if (!isset($avg_data[$inverter_name][$i])) {
+                    $avg_data[$inverter_name][$i] = 0;
+                }
+                $av = $avg_data[$inverter_name][$i];
+
+                $avglines .= "$av, $av, $av, null,";
+                //refline
+                if (count($nfrefmaand) > 0) {
+                    $z = $nfrefmaand[$i][$inverter_name];
+                    $reflines .= "$z, $z, $z, null,";
+                }
+                $current_bars .= "
                     { x: $i-1,
                       y: $cur_year , 
+                      
                       url: \"$href$asx-$i-01\",
-                      color: '#$color_yearchart[$cnt]', 
+                      color: '" . $colors['color_palettes'][$colorcnt][$colorzz] . "', 
                     },";
+                $tellerkleuren++;
 
-            $tellerkleuren++;
-            $strgeg = "";
-
-        }
-        $value_series .= "
+            }
+            $value_series .= "
             {
-                    name: '$asx',
-                    color: '#$color_yearchart[$cnt]',
+                    name: '$inverter_name',
+                    id: '$inverter_name',
+                    linkedTo: '$inverter_name dummy',
+                    color: '" . $colors['color_palettes'][5][$colorzz] . "', 
                     type: 'column',
-                    data: [$current_bars],
+                    stack: $asx,
+                    stacking: 'normal',
+                    data: [$current_bars]
             },
             ";
-        $cnt++;
+            //echo $colorcnt;
+            $cnt++;
+            if ($colorcnt == 4) {
+                $colorcnt = 0;
+            } else $colorcnt++;
+        }
     }
+    $dummy .= "]},";
+    $max_bars .= "]},";
+    $reflines .= "]},";
+    $avglines .= "]},";
+//echo $colorzz;
+    if ($colorzz == 3) {
+        $colorzz = 0;
+    } else $colorzz++;
 }
-
-
-// ref lines per month
-$i = 0;
-
-$lines_per_month = "";
-for ($i = 1; $i <= 12; $i++) {
-    if ($cnt_per_month[$i] == 0) {
-        $cnt_per_month[$i] = 1;
-    }
-    $cursum = ($sum_per_month[$i] / $cnt_per_month[$i]);
-    $cursum = number_format($cursum, 0, ',', '.');
-    $avg_per_month .= "[$cursum],";
-
-
-    $gridlines .= '{xaxis: {from:  ' . ($i - 1 + 0.5) . ', to: ' . ($i - 1 + 1.5) . '}, yaxis: {from: ' . $cursum . ', to: ' . $cursum . '}, color: "#34F02F", lineWidth: 1.5},';
-
-    // avarage lines
-    $lines_per_month .= "{ name: 'ref_avg[$i]', type: 'line', color: '#" . $colors['color_chart_avarage_line']. "', data: [{ x: ($i -1.3), y: $cursum}, { x: ($i - 0.7), y: $cursum }], showInLegend: false},";
-    // reflines
-    $lines_per_month .= "{ name: 'ref_avg[$i]', type: 'line', color: '#" . $colors['color_chart_reference_line']. "', data: [{ x: ($i -1.3), y: $frefmaand[$i]}, { x: ($i - 0.7), y: $frefmaand[$i] }], showInLegend: false},";
-}
-
-// ----------------------------------------------------------------------------
 
 $strxas = substr($strxas, 0, -1);
 $slinkdoorgeven = "/year_overviewt.php?jaar=";
 
-
 $sub_title = "";
-
-
-$myKeys = array_keys($sum_per_year);
-
-
-$sub_title .= ("<b>" . $txt["totaal"] . ": <\/b>"
-    . number_format($total_sum_for_all_years, 1, ',', '.') . " kWh = "
-    . number_format($total_sum_for_all_years * 4086 / 10000, 2, ',', '.') . "€; = "
-    . number_format(1000 * $total_sum_for_all_years / $ieffectiefkwpiek, 0, ',', '.') . " kWh/kWp<br />");
-$sub_title .= ("<b>" . $txt["max"] . ": <\/b>"
-    . number_format($max_month, 0, ',', '.') . " kWh = "
-    . number_format(1000 * $max_month / $ieffectiefkwpiek, 0, ',', '.') . " kWh = "
-    . number_format(100 * $max_month / $frefjaar, 0, ',', '.') . "%<br />");
-$sub_title .= ("<b>" . $txt["gem"] . ": <\/b>" . number_format($avarage, 0, ',', '.') . " kWh");
-$sub_title .= ("<b>" . $txt["ref"] . ": <\/b>" . number_format($frefjaar, 0, ',', '.') . " kWh");
-
-$sub_title = "";
-
 $show_legende = "true";
 if ($isIndexPage == true) {
     echo '<div class = "index_chart" id="all_years_chart_' . $inverter . '"></div>';
     $show_legende = "false";
 }
-
+//echo $max_bars;
 include_once "chart_styles.php";
+$categories = $shortmonthcategories;
 ?>
-
-<script type="text/javascript">
+<script>
 
     $(function () {
-
-        var avg = <?php echo $avarage ?>;
-        var ref = <?php echo $frefjaar ?>;
+        var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        var first = <?php echo $firstYear ?>;
+        var nmbr = khhWp.length //misused to get the inverter count
         var sub_title = '<?php echo $sub_title ?>';
         var myoptions = <?php echo $chart_options ?>;
-
         var mychart = new Highcharts.Chart('all_years_chart_<?php echo $inverter ?>', Highcharts.merge(myoptions, {
 
-            subtitle: {
-                text: sub_title,
-                style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
-                },
-            },
             plotOptions: {
+                line: {
+                    lineWidth: 1,
+                    zIndex: 1,
+                    pointStart: -0.25,
+                    pointInterval: 0.25
+                },
+                series: {
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineWidth: 0,
+                        },
+                        inactive: {
+                            opacity: 1
+                        }
+                    },
+                },
                 column: {
+                    stacking: 'normal',
                     grouping: true,
                 },
             },
+
             xAxis: [{
                 labels: {
-                    rotation: 270,
                     step: 1,
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                        fontSize: '0.7em'
                     },
                 },
+
                 min: 0,
                 max: 11,
                 categories: [<?php echo $categories ?>],
@@ -304,57 +369,40 @@ include_once "chart_styles.php";
             }],
             tooltip: {
                 formatter: function () {
-                    if (this.series.name == 'Maximum' || this.series.name == 'Reference' || this.series.name == 'Avarage') {
-                        return this.series.name + ' ' + this.y.toFixed(0) + 'kWh';
+                    var chart = this.series.chart,
+                        x = this.x,
+
+                        stackName = this.series.userOptions.stack,
+                        contribuants = '';
+                    //console.log(x);
+
+                    chart.series.forEach(function (series) {
+                        series.points.forEach(function (point) {
+                            if (point.category === x && stackName === point.series.userOptions.stack && point.series.visible) {
+                                contribuants += '<span style="color:' + point.series.color + '">\u25CF</span>' + point.series.name + ': ' + point.y + ' kWh' + '<br/>'
+                            }
+                        })
+                    })
+                    if (stackName === undefined) {
+                        stackName = '';
                     }
-                    else {
-                        if (this.series.name.indexOf("ref_") == 0)
-                        {
-                            return 'Ref ' + this.y.toFixed(0) + 'kWh';
-                        }
-                        else
-                        {
-                            return this.x + ' ' + this.series.name + ' -> ' + this.y.toFixed(0) + 'kWh';
-                        }
-                    }
+                    //if (x.match[0-9]){x = 'test';}
+                    return '<b>' + x + ' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal + ' kWh';
                 }
             },
+
             series: [
-                {
-                    name: "Maximum",
-                    type: "column",
-                    grouping: false,
-                    color: '#<?php echo $colors['color_chart_max_bar'] ?>',
-                    data: [<?php echo $max_bars; ?>],
-                },
+                <?php echo $dummy; ?>
+                <?php echo $reflines; ?>
+                <?php echo $avglines; ?>
+                <?php echo $dummyyears; ?>
+                <?php echo $max_bars; ?>
                 <?php echo $value_series ?>
-                {
-                    name: 'Reference',
-                    type: 'line',
-                    color: '#<?php echo $colors['color_chart_reference_line'] ?>',
-                    data: [
-                        {x: -0.6, y: ref},
-                        {x: 11.4, y: ref}
-                    ]
-                }, {
-                    name: 'Avarage',
-                    type: 'line',
-                    color: '#<?php echo $colors['color_chart_avarage_line'] ?>',
-                    data: [
-                        {x: -0.6, y: avg},
-                        {x: 11.4, y: avg}
-                    ]
-                },
-                <?php echo $lines_per_month; ?>
             ]
         }));
+        setInterval(function () {
+            $("#all_years_chart_<?php echo $inverter ?>").highcharts().reflow();
+        }, 500);
 
-        $("#all_years_chart_<?php echo $inverter ?>").resize(function () {
-            mychart.reflow();
-        });
     });
-
-
 </script>
-
-
