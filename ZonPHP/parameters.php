@@ -6,9 +6,8 @@
  *
  * more infos under
  * https://github.com/seehase/ZonPHP
- ******************************************************************************/
-
-/*****************************************************************************
+ *
+ *
  * #### REQUIRED ####
  * Username and password configuration
  *
@@ -17,9 +16,8 @@
  *
  *****************************************************************************/
 
-//fixme: set pw to "" as default in final version,
-$admin_username = "admin";
-$admin_password = " ";
+$admin_username = "";
+$admin_password = "";
 
 /******************************************************************************
  * #### REQUIRED ####

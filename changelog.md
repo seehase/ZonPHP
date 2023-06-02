@@ -16,6 +16,6 @@
 * better weewx integration
 * gui changes from christian
 
-### 2023.05
+### 2023.06
 * PHP8 compliant
 * cleanup and refactoring
