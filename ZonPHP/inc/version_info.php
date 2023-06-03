@@ -23,5 +23,6 @@ $zonPHPSessionID = "SOLAR";
 $cache_timeout = 500;
 $time_offset = 7200;  // offest in seconds e.g. 2h
 $big_chart_height = 500;
+
 ?>
 

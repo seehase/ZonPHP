@@ -24,11 +24,11 @@ if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
             </div>
             <div id="foto" style="float:none;">
                 <p>
-                    <img src="<?php echo HTML_PATH ."/". $param['image1'] ?>" alt="<?php echo $txt["imagemissing"] ?>"
+                    <img src="<?php echo HTML_PATH ."/". $param['image1'] ?>" alt="<?php echo getTxt("imagemissing") ?>"
                          style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px; width: 600px">
                 </p>
                 <p>
-                    <img src="<?php echo HTML_PATH ."/".$param['image2'] ?>" alt="<?php echo $txt["imagemissing"] ?>"
+                    <img src="<?php echo HTML_PATH ."/".$param['image2'] ?>" alt="<?php echo getTxt("imagemissing") ?>"
                          style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px;  width: 600px">
                 </p>
             </div>

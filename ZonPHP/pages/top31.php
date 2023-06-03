@@ -39,7 +39,7 @@ if (strpos($paramstr_choose, "?") == 0) {
 <div id="page-content">
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 56px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>" style = "display: grid; align-content: center; " >
-            <h2><?php echo $txt["chart_31days"]; ?></h2>
+            <h2><?php echo getTxt("chart_31days"); ?></h2>
         </div>
         <div id="top31_chart" style="width:100%; height:100%;"></div>
     </div>

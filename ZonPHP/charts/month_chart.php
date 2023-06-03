@@ -56,7 +56,7 @@ $all_valarray = array();
 $inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
     $formatter->setPattern('LLLL yyyy');
-    $datum = $txt["nodata"] . datefmt_format($formatter, $chartdate);
+    $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
     $agegevens[] = 0;
     //$iyasaanpassen = $frefmaand * 1.5;
     $geengevmaand = 0;
@@ -186,9 +186,9 @@ include_once "chart_styles.php";
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
-        var txt_max = '<?php echo $txt["max"] ?>';
-        var txt_gem = '<?php echo $txt["gem"] ?>';
-        var txt_ref = '<?php echo $txt["ref"] ?>';
+        var txt_max = '<?php echo getTxt("max") ?>';
+        var txt_gem = '<?php echo getTxt("gem") ?>';
+        var txt_ref = '<?php echo getTxt("ref") ?>';
         var gem2;
         var totamth = 0;
         var mychart = new Highcharts.Chart('month_chart', Highcharts.merge(myoptions, {

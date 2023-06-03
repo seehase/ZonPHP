@@ -40,7 +40,7 @@ if (strpos($paramstr_choose, "?") == 0) {
             </h2>
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
-            <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?jaar='.date('Y', $chartcurrentdate); ?>'"><?php echo $txt["back_to_today"] ?></button>
+            <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?jaar='.date('Y', $chartcurrentdate); ?>'"><?php echo getTxt("back_to_today") ?></button>
         </div>
         <div id="year_chart" style="width:100%; height:100%;"></div>
     </div>

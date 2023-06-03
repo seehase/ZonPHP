@@ -8,7 +8,6 @@ if (strpos(getcwd(), "charts") > 0) {
 
 
 $DESC_ASC = "DESC";
-$txt["top31"] = "Top";
 $showTopFlop = "top31_chart";
 $isIndexPage = false;
 

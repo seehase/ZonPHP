@@ -12,31 +12,31 @@ include_once "par_header.php";
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><?php echo $txt["installscript"]; ?></h2>
+            <h2 class="notopgap" align="center"><?php echo getTxt("installscript"); ?></h2>
             <hr>
-            <?php echo $txt["installdattab"]; ?><br/>
+            <?php echo getTxt("installdattab"); ?><br/>
             <br/>
 
             <FORM METHOD="post" ACTION="">
                 <?php
-                echo $txt["prefix"] . "<br /><br />database prefix:<b> " . $table_prefix . "</b><br /><br />";
+                echo getTxt("prefix") . "<br /><br />database prefix:<b> " . $table_prefix . "</b><br /><br />";
 
                 $sql = "SELECT * FROM " . $table_prefix . "_parameters";
                 $result = mysqli_query($con, $sql);
                 if ($result) {
 
-                    echo '<br /><br /><label>' . $txt["installresettabel"] . '</label>
+                    echo '<br /><br /><label>' . getTxt("installresettabel") . '</label>
 	<select NAME="resettabel">
 			<option  SELECTED>';
                     if (!empty($_POST['resettabel'])) echo $_POST['resettabel'];
-                    echo '<option value="' . $txt["installtd"] . '">' . $txt["installtd"] . ' </option>';
-                    echo '<option value="' . $txt["installtm"] . '">' . $txt["installtm"] . ' </option>';
-                    echo '<option value="' . $txt["installtr"] . '">' . $txt["installtr"] . ' </option>';
-                    echo '<option value="' . $txt["installtpar"] . '">' . $txt["installtpar"] . ' </option>';
+                    echo '<option value="' .getTxt("installtd") . '">' . getTxt("installtd") . ' </option>';
+                    echo '<option value="' . getTxt("installtm") . '">' . getTxt("installtm") . ' </option>';
+                    echo '<option value="' . getTxt("installtr") . '">' . getTxt("installtr") . ' </option>';
+                    echo '<option value="' . getTxt("installtpar") . '">' . getTxt("installtpar") . ' </option>';
                      echo '</select><br /><br />';
                 }
                 ?>
-                <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo $txt["save"]; ?>"
+                <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo getTxt("save"); ?>"
                        onClick="return confirmSubmit()">
             </form>
             <?php
@@ -84,29 +84,29 @@ include_once "par_header.php";
 				  Waarde varchar(120) NOT NULL
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
-                echo "<b>" . $txt["installuitg"] . ".</b><br /><br />";
-                if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtd"]) {
+                echo "<b>" . getTxt("installuitg") . ".</b><br /><br />";
+                if (empty($_POST['resettabel']) || $_POST['resettabel'] == getTxt("installtd")) {
                     mysqli_query($con, $sql_wisDag) or die("Query failed. sql_wisDag: " . mysqli_error($con));
                     mysqli_query($con, $sql_maakDag) or die("Query failed. sql_maakDag: " . mysqli_error($con));
-                    echo $txt["installtd"] . "ok<br />";
+                    echo getTxt("installtd") . "ok<br />";
                 }
-                if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtm"]) {
+                if (empty($_POST['resettabel']) || $_POST['resettabel'] == getTxt("installtm")) {
                     mysqli_query($con, $sql_wisMaand) or die("Query failed. sql_wisMaand: " . mysqli_error($con));
                     mysqli_query($con, $sql_maakMaand) or die("Query failed. sql_maakMaand: " . mysqli_error($con));
-                    echo $txt["installtm"] . "ok<br />";
+                    echo getTxt("installtm") . "ok<br />";
                 }
-                if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtr"]) {
+                if (empty($_POST['resettabel']) || $_POST['resettabel'] == getTxt("installtr")) {
                     mysqli_query($con, $sql_wisRefkWMaand) or die("Query failed. sql_wisRefkWMaand: " . mysqli_error($con));
                     mysqli_query($con, $sql_maakRefkWMaand) or die("Query failed. sql_maakRefkWMaand: " . mysqli_error($con));
-                    echo $txt["installtr"] . "ok<br />";
+                    echo getTxt("installtr") . "ok<br />";
                 }
-                if (empty($_POST['resettabel']) || $_POST['resettabel'] == $txt["installtpar"]) {
+                if (empty($_POST['resettabel']) || $_POST['resettabel'] == getTxt("installtpar")) {
                     mysqli_query($con, $sql_wisParameters) or die("Query failed. sql_wisParameters: " . mysqli_error($con));
                     mysqli_query($con, $sql_maakParameters) or die("Query failed. sql_maakParameters: " . mysqli_error($con));
-                    echo $txt["installtpar"] . "ok<br />";
+                    echo getTxt("installtpar") . "ok<br />";
                 }
                 echo "<br /><br /><hr>";
-                echo '<b><a href="par_edit.php">' . $txt["installtping"] . '.</a></b><br />';
+                echo '<b><a href="par_edit.php">' . getTxt("installtping") . '.</a></b><br />';
             }
             ?>
         </div>
