@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div id="bodytextparm">
         <div class="inside">
             <br/>
-            <h1 class="notopgap" align="center"><?php echo $txt["bestezonphp"]; ?>,</h1>
+            <h1 class="notopgap" align="center"><?php echo getTxt("bestezonphp"); ?>,</h1>
 
             <center>
                 <?php
@@ -44,27 +44,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </center>
             <hr>
             <br/>
-            <?php echo $txt["welkomconf"]; ?><br/>
+            <?php echo getTxt("welkomconf"); ?><br/>
             <br/>
             <?php
             if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder") {
-                echo $txt["welkomlinks"], '<BR>';
+                echo getTxt("welkomlinks"), '<BR>';
                 echo "<dl>";
                 echo "<dt><b>" . "Index" . "</b></dt>";
-                echo "<dd>" . $txt["welkomIndex"] . "</dd>";
-                echo "<dt><b>" . $txt["insteltabel"] . "</b></dt>";
-                echo "<dd>" . $txt["welkomcre"] . "</dd>";
-                echo "<dt><b>" . $txt["deletevalues"] . "</b></dt>";
+                echo "<dd>" . getTxt("welkomIndex") . "</dd>";
+                echo "<dt><b>" . getTxt("insteltabel") . "</b></dt>";
+                echo "<dd>" . getTxt("welkomcre") . "</dd>";
+                echo "<dt><b>" . getTxt("deletevalues") . "</b></dt>";
                 echo "<dd>" . "Wis gegevens (txt variable to be added to language files)" . "</dd>";
-                echo "<dt><b>" . $txt["parameters"] . "</b></dt>";
-                echo "<dd>" . $txt["welkomvis"] . "</dd>";
-                echo "<dt><b>" . $txt["parref"] . "</b></dt>";
-                echo "<dd>" . $txt["welkomref"] . "</dd>";
+                echo "<dt><b>" . getTxt("parameters") . "</b></dt>";
+                echo "<dd>" . getTxt("welkomvis") . "</dd>";
+                echo "<dt><b>" . getTxt("parref") . "</b></dt>";
+                echo "<dd>" . getTxt("welkomref") . "</dd>";
                 echo "<dt><b>" . "Debug" . "</b></dt>";
-                echo "<dd>" . $txt["welkomdebug"] . "</dd>";
-                echo "<dt><b>" . $txt["pardelete"] . "</b></dt>";
+                echo "<dd>" . getTxt("welkomdebug") . "</dd>";
+                echo "<dt><b>" . getTxt("pardelete") . "</b></dt>";
                 echo "<dd>" . "Delete (txt variable to be added to language files)" . "</dd>";
-                echo "<dt><b>" . $txt["parupdate"] . "</b></dt>";
+                echo "<dt><b>" . getTxt("parupdate") . "</b></dt>";
                 echo "<dd>" . "Update (txt variable to be added to language files)" . "</dd>";
                 echo "</dl>";
             }
@@ -75,10 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder")
                     echo "";
                 else
-                    echo $txt["welkominlog"];
+                    echo getTxt("welkominlog");
 
                 if ($admin_password == "" || $admin_username == "") {
-                    echo " <br /><br />" . $txt["noadminpassword"];
+                    echo " <br /><br />" . getTxt("noadminpassword");
                 } else {
                     echo '
                     </b><br /><br />
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </tr>
                         <table>
                         <br />
-                        <input name="savecontrole" type="submit" value="' . $txt["save"] . '>">                        
+                        <input name="savecontrole" type="submit" value="' . getTxt("save") . '>">                        
                     </form>
                     ';
                 }
@@ -102,9 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <br/>
                 <?php
                 if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder")
-                    echo "<br /><br /><b>" . $txt["welkominl"] . ".</b><br />";
+                    echo "<br /><br /><b>" . getTxt("welkominl") . ".</b><br />";
                 else
-                    echo "<br /><br /><b>" . $txt["welkomverk"] . ".</b><br />";
+                    echo "<br /><br /><b>" . getTxt("welkomverk") . ".</b><br />";
                 ?>
                 <br/>
         </div>

@@ -11,7 +11,7 @@ include_once "../charts/cumulative_chart.php";
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 57px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>" style = "display: grid; align-content: center; " >
             <h2>
-  				<?php echo $txt["omvormer"]," ", $title;?>
+  				<?php echo getTxt("omvormer")," ", $title;?>
             </h2>
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">

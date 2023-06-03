@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="par_style.css">
     <script>
         function confirmSubmit() {
-            var agree = confirm("<?php echo $txt["scriptjava"];?>?");
+            var agree = confirm("<?php echo getTxt("scriptjava");?>?");
             return !!agree;
         }
 

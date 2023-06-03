@@ -16,8 +16,8 @@
  *
  *****************************************************************************/
 
-$admin_username = "";
-$admin_password = "";
+$admin_username = "admin";
+$admin_password = " ";
 
 /******************************************************************************
  * #### REQUIRED ####
@@ -64,4 +64,5 @@ define ('HTML_PATH',str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOC
 define ('PHP_PATH', ltrim( HTML_PATH, '/'));
 // read version and debug configuration
 include_once "inc/version_info.php";
+
 ?>

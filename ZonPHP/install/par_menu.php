@@ -8,15 +8,15 @@
                 <?php
                 if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder") {
                     echo '                    
-					<li><a href="par_edit.php">&raquo;&nbsp;' . $txt["parameters"] . '</a></li>
-					<li><a href="par_referencevalues.php">&raquo;&nbsp;' . $txt["parref"] . '</a></li>
+					<li><a href="par_edit.php">&raquo;&nbsp;' . getTxt("parameters") . '</a></li>
+					<li><a href="par_referencevalues.php">&raquo;&nbsp;' . getTxt("parref") . '</a></li>
 					<li><a href="debug.php">&raquo;&nbsp;Debug</a></li> 
-					<li><a href="installatie_zonphp.php">&raquo;&nbsp;' . $txt["insteltabel"] . '</a></li>
-					<li><a href="clear_tables.php">&raquo;&nbsp;' . $txt["deletevalues"] . '</a></li>
-					<li><a href="delete.php">&raquo;&nbsp;' . $txt["pardelete"] . '</a></li>
-					<li><a href="update.php">&raquo;&nbsp;' . $txt["parupdate"] . '</a></li>
+					<li><a href="installatie_zonphp.php">&raquo;&nbsp;' . getTxt("insteltabel") . '</a></li>
+					<li><a href="clear_tables.php">&raquo;&nbsp;' . getTxt("deletevalues") . '</a></li>
+					<li><a href="delete.php">&raquo;&nbsp;' . getTxt("pardelete") . '</a></li>
+					<li><a href="update.php">&raquo;&nbsp;' . getTxt("parupdate") . '</a></li>
 					<hr>
-					<li><a href="../inc/destroy.php">&raquo;&nbsp;' . $txt["clearsession"] . '</a></li>
+					<li><a href="../inc/destroy.php">&raquo;&nbsp;' . getTxt("clearsession") . '</a></li>
 					<li><a href="par_logout.php">&raquo;&nbsp;Logout</a></li>
 					';
                 } else if (isset($con) && $con) {

@@ -70,9 +70,9 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     if ($debugmode) error_log("cache failed --> need to reload data");
 
     // load lanaguages -----------------------------------------------------------------------------------------------
-    include ROOT_DIR."/inc/language/en.php";
+    $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
     if (isset($_SESSION['sestaal'])) {
-        include ROOT_DIR."/inc/language/" . $_SESSION['sestaal'] . ".php";
+        $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $taal . ".ini", false);
     }
     $_SESSION['txt'] = $txt;
 

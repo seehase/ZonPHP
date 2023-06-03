@@ -72,7 +72,7 @@ $result = mysqli_query($con, $sql) or die("Query failed. jaar " . mysqli_error($
 $all_valarray = array();
 $inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
-    $datum = $txt["nodata"] . date("Y", $chartdate);
+    $datum = getTxt("nodata") . date("Y", $chartdate);
     $agegevens = array();
     $fgemiddelde = 0;
     $agegaantal = array();
@@ -257,11 +257,11 @@ $categories = $shortmonthcategories;
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
-        var txt_max = '<?php echo $txt["max"] ?>';
+        var txt_max = '<?php echo getTxt("max") ?>';
         var totayr = 0;
         var avg = <?php echo json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
         var ref = <?php echo json_encode($nfreftot, JSON_NUMERIC_CHECK) ?>;
-        var txt_gem = '<?php echo $txt["gem"] ?>';
+        var txt_gem = '<?php echo getTxt("gem") ?>';
         var mychart = new Highcharts.Chart('year_chart', Highcharts.merge(myoptions, {
 
             chart: {

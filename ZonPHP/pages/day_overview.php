@@ -74,7 +74,7 @@ if (strpos($paramstr_choose, "?") == 0) {
                </h2> 
         </div>
   		<div class="backtoday align-top" style="none:left; position: absolute;  left: 15px;">
-            		<button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo $txt["back_to_today"] ?></button>
+            		<button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo getTxt("back_to_today") ?></button>
 		     			<div class="buttonbox" >
         					<input type="hidden" id="startdate" readonly>
         				</div>

@@ -54,7 +54,7 @@ $bkannietsave = 0;
 for ($i = 1; $i <= 12; $i++) {
     if (!empty($_POST[$i])) {
         if (!is_numeric($_POST[$i])) {
-            $_POST[$i] = $txt["verkeerd"];
+            $_POST[$i] = getTxt("verkeerd");
             $bkannietsave = 1;
         }
     } else {
@@ -70,10 +70,10 @@ for ($i = 1; $i <= 12; $i++) {
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><?php echo $txt["reference"]; ?></h2>
+            <h2 class="notopgap" align="center"><?php echo getTxt("reference"); ?></h2>
             <hr>
-            <?php echo $txt["refwaarden"]; ?>
-            <a href="https://re.jrc.ec.europa.eu/pvg_tools/en/#api_5.1" TARGET="_blank"><?php echo $txt["klik"]; ?>
+            <?php echo getTxt("refwaarden"); ?>
+            <a href="https://re.jrc.ec.europa.eu/pvg_tools/en/#api_5.1" TARGET="_blank"><?php echo getTxt("klik"); ?>
                 .</a><br/><br/>
             <?php echo "Name: " . $current_name . "<br />"; ?>
             <?php
@@ -87,7 +87,7 @@ for ($i = 1; $i <= 12; $i++) {
                     }
                     $sqlsave = substr($sqlsave, 0, -1);
                     mysqli_query($con, $sqlsave) or die("Query failed. sql_save: " . mysqli_error($con));
-                    echo "<font size='0'color='#00AA00'>" . $txt["opgeslagen"] . "</font><br />";
+                    echo "<font size='0'color='#00AA00'>" . getTxt("opgeslagen") . "</font><br />";
                     $sqlrefer = "SELECT *
 							FROM " . $table_prefix . "_refer 
 							WHERE Naam='" . $current_name . "'
@@ -102,7 +102,7 @@ for ($i = 1; $i <= 12; $i++) {
                         }
                     }
                 } else
-                    echo "<font size='0'color='#ff0000'>" . $txt["verkeerd"] . "</font><br />";
+                    echo "<font size='0'color='#ff0000'>" . getTxt("verkeerd") . "</font><br />";
             }
             ?>
 
@@ -125,9 +125,9 @@ for ($i = 1; $i <= 12; $i++) {
                 <table>
                     <tbody>
                     <tr>
-                        <td><?php echo $txt["datum"]; ?></td>
-                        <td><?php echo $txt["waarde"]; ?></td>
-                        <td><?php echo $txt["nieuwewaarde"]; ?></td>
+                        <td><?php echo getTxt("datum"); ?></td>
+                        <td><?php echo getTxt("waarde"); ?></td>
+                        <td><?php echo getTxt("nieuwewaarde"); ?></td>
                     </tr>
                     <?php
                     $teller = 1;
@@ -147,7 +147,7 @@ for ($i = 1; $i <= 12; $i++) {
                     </tbody>
                 </table>
                 <br/>
-                <INPUT TYPE="submit" VALUE="<?php echo $txt["save"]; ?>" onClick="return confirmSubmit()">
+                <INPUT TYPE="submit" VALUE="<?php echo getTxt("save"); ?>" onClick="return confirmSubmit()">
             </FORM>
 
 

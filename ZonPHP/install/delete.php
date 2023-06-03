@@ -41,14 +41,14 @@ if (isset($_GET['naam'])) {
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><?php echo $txt["pardelete"]; ?></h2>
+            <h2 class="notopgap" align="center"><?php echo getTxt("pardelete"); ?></h2>
             <hr>
             <div id="bodytextdelete">
                 <form action="actiondelete.php" method="get">
 
                     <p></p>
                     <br>
-                    <?php echo $txt["parinverter"]; ?>
+                    <?php echo getTxt("parinverter"); ?>
 
                     <label>
                         <select name="wr">
@@ -63,7 +63,7 @@ if (isset($_GET['naam'])) {
 
                         <br/>
                         <br/>
-                        <label><?php echo $txt["pardeletetag"]; ?> :</label>
+                        <label><?php echo getTxt("pardeletetag"); ?> :</label>
                         <select name="day">
                             <option SELECTED><?php if (!empty($_POST['dag'])) echo $_POST['dag']; ?>
                                 <?php
@@ -72,7 +72,7 @@ if (isset($_GET['naam'])) {
                                 }
                                 ?>
                         </select><br/><br/>
-                        <label><?php echo $txt["pardeletemonat"]; ?> :</label>
+                        <label><?php echo getTxt("pardeletemonat"); ?> :</label>
                         <select name="month">
                             <option SELECTED><?php if (!empty($_POST['maand'])) echo $_POST['maand']; ?>
                                 <?php
@@ -81,7 +81,7 @@ if (isset($_GET['naam'])) {
                                 }
                                 ?>
                         </select><br/><br/>
-                        <label><?php echo $txt["pardeletejahr"]; ?> :</label>
+                        <label><?php echo getTxt("pardeletejahr"); ?> :</label>
                         <select name="year">
                             <option SELECTED><?php if (!empty($_POST['jaar'])) echo $_POST['jaar']; ?>
                                 <?php
@@ -95,7 +95,7 @@ if (isset($_GET['naam'])) {
                         <br/>
 
 
-                        <p><input type="submit" VALUE="<?php echo $txt["save"]; ?>"/></p>
+                        <p><input type="submit" VALUE="<?php echo getTxt("save"); ?>"/></p>
                 </form>
 
 

@@ -41,14 +41,14 @@ if (isset($_GET['naam'])) {
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><?php echo $txt["parupdate"]; ?></h2>
+            <h2 class="notopgap" align="center"><?php echo getTxt("parupdate"); ?></h2>
             <hr>
             <div id="bodytextloschen">
                 <form action="actionupdate.php" method="get">
 
                     <p></p>
                     <br>
-                    <?php echo $txt["parinverter"]; ?>
+                    <?php echo getTxt("parinverter"); ?>
                     <label>
                         <select name="wr">
                             <option SELECTED>
@@ -63,7 +63,7 @@ if (isset($_GET['naam'])) {
 
                         <br/>
                         <br/>
-                        <label><?php echo $txt["datum"]; ?> </label>
+                        <label><?php echo getTxt("datum"); ?> </label>
                         <select name="year">
                             <option SELECTED><?php if (!empty($_POST['year'])) echo $_POST['year']; ?>
                                 <?php
@@ -91,16 +91,16 @@ if (isset($_GET['naam'])) {
                         </select>
 
 
-                        <p><?php echo $txt["parupdatetime"]; ?><input type="text" name="time"/></p>
-                        <p><?php echo $txt["parupdatetimeinfo"] ?></p>
+                        <p><?php echo getTxt("parupdatetime"); ?><input type="text" name="time"/></p>
+                        <p><?php echo getTxt("parupdatetimeinfo") ?></p>
 
-                        <p><?php echo $txt["parupdatevalue"] ?><input type="text" name="value"/></p>
+                        <p><?php echo getTxt("parupdatevalue") ?><input type="text" name="value"/></p>
 
-                        <p><?php echo $txt["parupdateearningsinfo"] ?></p>
-                        <p><?php echo $txt["parupdateearnings"] ?><input type="text" name="earnings"/></p>
+                        <p><?php echo getTxt("parupdateearningsinfo") ?></p>
+                        <p><?php echo getTxt("parupdateearnings") ?><input type="text" name="earnings"/></p>
 
 
-                        <p><input type="submit" VALUE="<?php echo $txt["save"]; ?>"/></p>
+                        <p><input type="submit" VALUE="<?php echo getTxt("save"); ?>"/></p>
                 </form>
 
 

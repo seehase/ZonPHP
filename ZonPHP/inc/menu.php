@@ -21,19 +21,19 @@ if (isset($param['hide_menu'])) {
         <label for="main-nav-check" class="toggle" onclick="" title="Close"></label>
         <ul>
             <li><a href="#" style="display: flex">&nbsp;</a> <label for="fof" class="toggle-sub" onclick="">
-                    &nbsp;<?php echo $txt["grafiekoverzicht"]; ?>&nbsp;&nbsp;&nbsp;&#9658;</label>
+                    &nbsp;<?php echo getTxt("grafiekoverzicht"); ?>&nbsp;&nbsp;&nbsp;&#9658;</label>
                 <input type="checkbox" name="nav" id="fof" class="sub-nav-check">
                 <ul id="fof-sub" class="sub-nav">
-                    <li class="sub-heading"><?php echo $txt["grafiekoverzicht"]; ?><label for="fof" class="toggle"
+                    <li class="sub-heading"><?php echo getTxt("grafiekoverzicht"); ?><label for="fof" class="toggle"
                                                                                           onclick="" title="Back">&#9658;</label>
                     </li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/day_overview.php"><?php echo $txt["chart_dayoverview"]; ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/month_overview.php"><?php echo $txt["chart_monthoverview"]; ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/year_overview.php"><?php echo $txt["chart_yearoverview"]; ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/all_years_overview.php"><?php echo $txt["chart_allyearoverview"]; ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/last_years_overview.php"><?php echo $txt["chart_lastyearoverview"]; ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/cumulative_overview.php"><?php echo $txt["chart_cumulativeoverview"]; ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/top31.php"><?php echo $txt["chart_31days"]; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/day_overview.php"><?php echo getTxt("chart_dayoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/month_overview.php"><?php echo getTxt("chart_monthoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/year_overview.php"><?php echo getTxt("chart_yearoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/all_years_overview.php"><?php echo getTxt("chart_allyearoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/last_years_overview.php"><?php echo getTxt("chart_lastyearoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/cumulative_overview.php"><?php echo getTxt("chart_cumulativeoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/top31.php"><?php echo getTxt("chart_31days"); ?></a></li>
                 </ul>
             </li>
             <li><a href="#" style="display: flex">&nbsp;</a> <label for="themes" class="toggle-sub" onclick="">&nbsp;Themes&nbsp;&nbsp;&nbsp;&#9658;</label>
@@ -56,12 +56,12 @@ if (isset($param['hide_menu'])) {
                 <ul id="info-sub" class="sub-nav">
                     <li class="sub-heading"><?= $version ?><label for="info" class="toggle" onclick="" title="Back">&#9658;</label>
                     </li>
-                    <li><a href="<?php echo HTML_PATH ?>/install/par_welcome.php"><?php echo $txt["login"]; ?> </a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/install/par_welcome.php"><?php echo getTxt("login"); ?> </a></li>
                     <li><a href="<?php echo HTML_PATH ?>/pages/about.php">About</a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/show_plant.php"><?php echo $txt["installatie"]; ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/pages/show_plant.php"><?php echo getTxt("installatie"); ?></a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/archive/master.zip">download ZonPHP</a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/inc/destroy.php"><?php echo $txt["clearsession"]; ?> </a></li>
+                    <li><a href="<?php echo HTML_PATH ?>/inc/destroy.php"><?php echo getTxt("clearsession"); ?> </a></li>
                 </ul>
             </li>
         </ul>

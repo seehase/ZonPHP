@@ -22,7 +22,7 @@ include_once "par_header.php";
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><u><?php echo $txt["parupdate"]; ?></u></h2>
+            <h2 class="notopgap" align="center"><u><?php echo getTxt("parupdate"); ?></u></h2>
 
             <?php
             $stringdelete = "";
@@ -41,10 +41,10 @@ include_once "par_header.php";
             $value = str_replace(',', '.', $value);
 
             if ($day == "" or $mon == "" or $year == "" or $wr == "" or $value == "") {
-                echo $txt["parupdateerror"] . "<br>" . "<br>";
+                echo getTxt("parupdateerror") . "<br>" . "<br>";
                 ?>
                 <form>
-                    <input type="button" value="<?php echo $txt["parback"]; ?>"
+                    <input type="button" value="<?php echo getTxt("parback"); ?>"
                            onclick="window.location.href='update.php'"/>
                 </form>
                 <?php
@@ -57,7 +57,7 @@ include_once "par_header.php";
                 $date = $year . "-" . $mon . "-" . $day;
 
                 if ($time == "") {
-                    echo $txt["parupdatetimeinfo1"] . "<br>";
+                    echo getTxt("parupdatetimeinfo1") . "<br>";
                     $date00 = $date . " 00:00:00";
 
 
@@ -67,10 +67,10 @@ include_once "par_header.php";
                     mysqli_query($con, $string11) or die("Query failed. ERROR: string11 " . mysqli_error($con));
 
                     echo "<br>" . "<br>" . "<br>" . "<br>";
-                    echo $txt["parupdateready"] . "<br>" . "<br>";
-                    echo $txt["omvormer"] . ": " . $wr . "<br>";
-                    echo $txt["datum"] . ": " . $date . "<br>";
-                    echo $txt["waarde"] . ": " . $value . "<br>" . "<br>";
+                    echo getTxt("parupdateready") . "<br>" . "<br>";
+                    echo getTxt("omvormer") . ": " . $wr . "<br>";
+                    echo getTxt("datum") . ": " . $date . "<br>";
+                    echo getTxt("waarde") . ": " . $value . "<br>" . "<br>";
                 } else {
 
                     if ($dayearnings == "") $dayearnings = 0;
@@ -94,12 +94,12 @@ include_once "par_header.php";
                     mysqli_query($con, $string) or die("Query failed. ERROR: string " . mysqli_error($con));
 
                     echo "<br>" . "<br>" . "<br>" . "<br>";
-                    echo $txt["parupdateready"] . "<br>" . "<br>";
-                    echo $txt["omvormer"] . ": " . $wr . "<br>";
-                    echo $txt["datum"] . ": " . $date . "<br>";
-                    echo $txt["parupdatetime"] . ": " . $time . "<br>";
-                    echo $txt["waarde"] . ": " . $value . "<br>";
-                    if ($dayearnings !== 0) echo $txt["parupdatedayearnings"] . $dayearnings . "<br>" . "<br>" . "<br>";
+                    echo getTxt("parupdateready") . "<br>" . "<br>";
+                    echo getTxt("omvormer") . ": " . $wr . "<br>";
+                    echo getTxt("datum") . ": " . $date . "<br>";
+                    echo getTxt("parupdatetime") . ": " . $time . "<br>";
+                    echo getTxt("waarde") . ": " . $value . "<br>";
+                    if ($dayearnings !== 0) echo getTxt("parupdatedayearnings") . $dayearnings . "<br>" . "<br>" . "<br>";
 
                 }
 
