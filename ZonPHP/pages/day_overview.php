@@ -8,7 +8,7 @@ include_once "../charts/day_chart.php";
 ?>
 <?php include_once ROOT_DIR."/inc/menu.php"; ?>
 <script>
-	var start = '<?php echo $dstartdatum ?>';
+	var start = '<?php echo date('Y-m-d', $date_minimum) ?>';
     $(document).ready(function () {
               
         $("#startdate, #enddate").datepicker({
@@ -61,16 +61,17 @@ if (strpos($paramstr_day, "?") == 0) {
 if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
+
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 57px; ">
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
                <h2>
                 <button class="btn btn-zonphp " onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"' ;
-				if (date('Y-m-d', $date_minimum) > date('Y-m-d', $chartdate)) echo " hidden";	?>><i class="arrow left"></i></button>
+				if ($date_minimum >= $chartdate) echo " hidden";	?>><i class="arrow left"></i></button>
 				<?php echo $datum ?>
                 <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '\'"' ;
-				if (date('Y-m-d', $date_maximum) < date('Y-m-d', $chartdate)) echo " hidden";	?>><i class="arrow right text-align-top" ></i></button>
+				if ($date_maximum <= $chartdate) echo " hidden";	?>><i class="arrow right text-align-top" ></i></button>
                </h2> 
         </div>
   		<div class="backtoday align-top" style="none:left; position: absolute;  left: 15px;">
