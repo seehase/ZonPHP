@@ -304,48 +304,213 @@ include_once "chart_styles.php";
 $categories = $shortmonthcategories;
 ?>
 <script>
+	(function(H) {
+  H.wrap(H.Legend.prototype, 'layoutItem', function(proceed, item) {
+    const options = this.options,
+      padding = this.padding,
+      horizontal = options.layout === 'horizontal',
+      itemHeight = item.itemHeight,
+      itemMarginBottom = this.itemMarginBottom,
+      itemMarginTop = this.itemMarginTop,
+      itemDistance = horizontal ? H.pick(options.itemDistance, 20) : 0,
+      maxLegendWidth = this.maxLegendWidth,
+      itemWidth = (options.alignColumns &&
+		this.totalItemWidth > maxLegendWidth) ?
+		this.maxItemWidth :
+      	item.itemWidth,
+      legendItem = item.legendItem || {};
 
+    if (
+	  horizontal &&
+      (
+	    this.itemX - padding + itemWidth > maxLegendWidth ||
+        item.userOptions.newLine
+	  )
+	) {
+      this.itemX = padding;
+      if (this.lastLineHeight) {
+        this.itemY += (itemMarginTop +
+          this.lastLineHeight +
+          itemMarginBottom);
+      }
+      this.lastLineHeight = 0;
+    }
+    this.lastItemY = itemMarginTop + this.itemY + itemMarginBottom;
+    this.lastLineHeight = Math.max(
+      itemHeight, this.lastLineHeight);
+	  legendItem.x = this.itemX;
+	  legendItem.y = this.itemY;
+    if (horizontal) {
+      this.itemX += itemWidth;
+    } else {
+      this.itemY +=
+        itemMarginTop + itemHeight + itemMarginBottom;
+      this.lastLineHeight = itemHeight;
+    }
+    this.offsetWidth = this.widthOption || Math.max((horizontal ? this.itemX - padding - (item.checkbox ?
+      0 :
+      itemDistance) : itemWidth) + padding, this.offsetWidth);
+  })
+})(Highcharts);
+    
     $(function () {
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var first = <?php echo $firstYear ?>;
-        var nmbr = khhWp.length //misused to get the inverter count
+        var nmbr =  khhWp.length //misused to get the inverter count
         var sub_title = '<?php echo $sub_title ?>';
         var myoptions = <?php echo $chart_options ?>;
-        var mychart = new Highcharts.Chart('all_years_chart_<?php echo $inverter ?>', Highcharts.merge(myoptions, {
-
+	    var mychart = new Highcharts.Chart('all_years_chart_<?php echo $inverter ?>', Highcharts.merge(myoptions, {
+            
             plotOptions: {
-                line: {
-                    lineWidth: 1,
-                    zIndex: 1,
-                    pointStart: -0.25,
-                    pointInterval: 0.25
-                },
-                series: {
-                    states: {
+            	line: {
+            		lineWidth: 1,
+            		zIndex : 1,
+            		pointStart: -0.25,
+            		pointInterval: 0.25
+        			},
+                series: { 
+                	states: {
                         hover: {
-                            enabled: true,
+                        enabled: true,
                             lineWidth: 0,
-                        },
+                        		},
                         inactive: {
-                            opacity: 1
-                        }
-                    },
-                },
+                    		opacity: 1
+                				}
+                			},
+			              },
                 column: {
-                    stacking: 'normal',
-                    grouping: true,
+                	stacking: 'normal',
+      				grouping: true,
+                	
+                	events: {
+        			
+        			legendItemClick: function(e) {
+          			
+          			let chart = this.chart;
+          			let ThisClick=this.userOptions.id;
+          			var NamesYearsBefore =[];
+          			var NamesYearsAfter = [];
+          			var clickedSeries = this,
+            		
+            		lineSeries = clickedSeries.chart.series.filter(series => series.type === 'line' && series.name.includes('ref') ),            		
+            		visibleLineSeries = [];//console.log(clickedSeries.index)
+          			lineSeries2 = clickedSeries.chart.series.filter(series => series.type === 'line' && series.name.includes('avg') ),            		
+            		visibleLineSeries2 = [];
+          			//console.log (lineSeries)
+          			//serie 1
+          			lineSeries.forEach(function(series) {
+          			
+            // Set all series to "dot"
+            		if (series.options.dashStyle === 'solid') {
+              			//console.log('case solid',series.index)
+              			series.update({
+                		dashStyle: 'shortdash'
+              			})
+            			}
+            // Push all visible series to an array except the one that was clicked
+            		if (series.visible && series.index  !== clickedSeries.index+nmbr ) {
+              			visibleLineSeries.push(series) 
+            			}//console.log ('case a',  series.index  )
+            		if (!series.visible && series.index  === clickedSeries.index+nmbr) {
+              			visibleLineSeries.push(series) 
+            			}//console.log ('case b', clickedSeries.index)
+          				})
+          			
+          			
+          			//serie 2
+          			lineSeries2.forEach(function(series) {
+            // Set all series to "dot"
+            		if (series.options.dashStyle === 'solid') {
+              			series.update({
+                		dashStyle: 'shortdash'
+              			})
+            			}
+            // Push all visible series to an array except the one that was clicked
+            		if (series.visible && series.index  !== clickedSeries.index+nmbr * 2) {
+              			visibleLineSeries2.push(series) 
+            			}//console.log ('case c', series.index  )
+            		if (!series.visible && series.index  === clickedSeries.index+nmbr * 2) {
+              			visibleLineSeries2.push(series) 
+            			}//console.log ('case d', series.index)
+          				})	
+          				
+          	// Set first visible series to "solid"
+          			
+					if (visibleLineSeries.length) {
+            			//console.log(visibleLineSeries);
+            			visibleLineSeries[0].update({
+              			dashStyle: 'solid'
+          				})
+         				
+          				}
+          			if (visibleLineSeries2.length) {
+            			visibleLineSeries2[0].update({
+              			dashStyle: 'solid'
+          				})
+          				}	
+
+          			chart.series.forEach(s => {
+            		console.log(s.index,s.name)
+            		if (s.userOptions.stack && s.visible && s.type === 'column') {
+              			
+              			NamesYearsBefore.push(s.name,s.userOptions.stack);
+            			} else if (s.userOptions.stack && s.type === 'column' ) {
+              			
+              			NamesYearsAfter.push(s.name,s.userOptions.stack);
+            				}
+          				})
+          				NamesYearsBefore = [...new Set(NamesYearsBefore)]
+          				NamesYearsAfter = [...new Set(NamesYearsAfter)]
+          				
+         			if (NamesYearsBefore.length == 0   && ThisClick.includes('dummy') ) {
+           				NamesYearsBefore = NamesYearsAfter; //console.log ('k')
+          				}          
+          			else if (NamesYearsBefore.length == 0  && ThisClick.includes('year') ) {
+           				NamesYearsBefore = NamesYearsAfter; //console.log ('m')
+          				} 
+          				
+          			chart.series.forEach(s => {
+            		
+            		if (this.name == s.userOptions.stack && s.visible && NamesYearsBefore.includes(s.name) ) {
+              			if (this.name == 2000 ) {}
+              			else {
+              			
+              			s.hide();
+              			this.legendItem.symbol.element.style.fill = '#cccccc'}
+            			} 
+            		else if (this.name == s.userOptions.stack && !s.visible && NamesYearsBefore.includes(s.name)) {
+              			this.legendItem.symbol.element.style.fill = this.color
+              			s.show();
+            			} 
+            		else if (this.name == s.userOptions.id && NamesYearsBefore.includes(s.userOptions.stack) && s.visible) {
+              			this.legendItem.symbol.element.style.fill = '#cccccc'
+              			
+              			s.hide();
+            			} 
+            		else if (this.name == s.userOptions.id && NamesYearsBefore.includes(s.userOptions.stack) && !s.visible) {
+              			this.legendItem.symbol.element.style.fill = this.color
+              			
+              			s.show();
+	            			}
+          				})
+          			
+          			e.preventDefault()
+        			  }
+      				}, 
                 },
             },
-
+            
             xAxis: [{
+                
                 labels: {
+                    
                     step: 1,
                     style: {
                         color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
-                        fontSize: '0.7em'
                     },
                 },
-
+                
                 min: 0,
                 max: 11,
                 categories: [<?php echo $categories ?>],
@@ -368,41 +533,37 @@ $categories = $shortmonthcategories;
                 gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
             }],
             tooltip: {
-                formatter: function () {
-                    var chart = this.series.chart,
-                        x = this.x,
+    		formatter: function() {
+		      var chart = this.series.chart,
+        		x = this.x,
+        
+        		stackName = this.series.userOptions.stack,
+        		contribuants = '';
+        		//console.log(x);
 
-                        stackName = this.series.userOptions.stack,
-                        contribuants = '';
-                    //console.log(x);
-
-                    chart.series.forEach(function (series) {
-                        series.points.forEach(function (point) {
-                            if (point.category === x && stackName === point.series.userOptions.stack && point.series.visible) {
-                                contribuants += '<span style="color:' + point.series.color + '">\u25CF</span>' + point.series.name + ': ' + point.y + ' kWh' + '<br/>'
-                            }
-                        })
-                    })
-                    if (stackName === undefined) {
-                        stackName = '';
-                    }
-                    //if (x.match[0-9]){x = 'test';}
-                    return '<b>' + x + ' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal + ' kWh';
-                }
-            },
+      			chart.series.forEach(function(series) {
+        		series.points.forEach(function(point) {
+          		if (point.category === x && stackName === point.series.userOptions.stack && point.series.visible) {
+            	contribuants += '<span style="color:'+ point.series.color +'">\u25CF</span>' + point.series.name + ': ' + point.y + ' kWh'+'<br/>'
+          			}
+       			 })
+      			})
+				if (stackName === undefined ) {stackName = '';}
+				//if (x.match[0-9]){x = 'test';}
+      			return '<b>'+ x +' ' + stackName + '<br/>' + '<br/>' + contribuants + 'Total: ' + this.point.stackTotal + ' kWh';
+    			}
+			},
 
             series: [
-                <?php echo $dummy; ?>
-                <?php echo $reflines; ?>
-                <?php echo $avglines; ?>
+            	<?php echo $dummy; ?>
+            	<?php echo $reflines; ?>
+                <?php echo $avglines; ?> 
                 <?php echo $dummyyears; ?>
                 <?php echo $max_bars; ?>
                 <?php echo $value_series ?>
-            ]
+            	]
         }));
-        setInterval(function () {
-            $("#all_years_chart_<?php echo $inverter ?>").highcharts().reflow();
-        }, 500);
-
+		setInterval(function() { $("#all_years_chart_<?php echo $inverter ?>").highcharts().reflow();  }, 500);
+        
     });
 </script>
