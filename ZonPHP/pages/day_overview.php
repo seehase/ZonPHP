@@ -58,11 +58,16 @@ if (strpos($paramstr_choose, "?") == 0) {
 				if ($date_maximum <= $chartdate) echo " hidden";	?>><i class="fa fa-angle-right fa-lg"></i></button>
                </h2>
         </div>
+<<<<<<< HEAD
   		<div class="backtoday align-top" style="none:left; position: absolute;  left: 15px;">
            		<button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo getTxt()"back_to_today") ?></button>
+=======
+  		<div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
+           		<button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?dag='.date('Y-m-d', $chartcurrentdate); ?>'"><?php echo $txt["back_to_today"] ?></button>
+>>>>>>> 9e54b29 (Update day_overview.php)
 		    <div class="buttonbox" >
   				<div class="input-group date" id="datepicker" data-date-format="yyyy-mm-dd">	
-  					<input type='hidden' id='untilDate' class="form-control"   />
+  					<input type='hidden' id='untilDate' class="form-control"   >
     				<button class="btn btn-zonphp" ><i class="fa fa-calendar"></i></button>
    				</div>
 	 		</div>
