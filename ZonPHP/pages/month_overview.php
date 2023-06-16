@@ -33,10 +33,10 @@ if (strpos($paramstr_choose, "?") == 0) {
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?maand=' . date('Y-m', strtotime("-1 months", $chartdate)) . '\'"' ;
-				if (date('Y-m', $date_minimum) >= date('Y-m', $chartdate)) echo " hidden";	?>><i class="arrow left"></i></button>
+				if (date('Y-m', $date_minimum) >= date('Y-m', $chartdate)) echo " hidden";	?>><i class="fa fa-angle-left fa-lg"></i></button>
 				<?php echo $datum ?>
                 <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?maand=' . date('Y-m', strtotime("+1 months", $chartdate)) . '\'"' ;
-				if (date('Y-m', $date_maximum) <= date('Y-m', $chartdate)) echo " hidden";	?>><i class="arrow right"></i></button>
+				if (date('Y-m', $date_maximum) <= date('Y-m', $chartdate)) echo " hidden";	?>><i class="fa fa-angle-right fa-lg"></i></button>
             </h2>
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
