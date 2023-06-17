@@ -53,16 +53,16 @@ if (isset($_GET['taal']) || (!isset($_SESSION['months']))) {
 }
 // date_default_timezone_set('Europe/Brussels');
 if ($taal == "nl") {
-    $locale = 'nl_NL'; // For IntlDateFormatter
+    $locale = 'nl-NL'; // For IntlDateFormatter
 }
 if ($taal == "fr") {
-    $locale = 'fr_FR'; // For IntlDateFormatter
+    $locale = 'fr-FR'; // For IntlDateFormatter
 }
 if ($taal == "de") {
-    $locale = 'de_DE'; // For IntlDateFormatter
+    $locale = 'de-DE'; // For IntlDateFormatter
 }
 if ($taal == "en") {
-    $locale = 'en_US'; // For IntlDateFormatter
+    $locale = 'en-US'; // For IntlDateFormatter
 }
 // preparing a localized month array
 $formatter = new IntlDateFormatter($locale, IntlDateFormatter::NONE,
