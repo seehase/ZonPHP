@@ -6,6 +6,29 @@ include_once ROOT_DIR."/inc/import_data.php";
 include_once ROOT_DIR."/inc/header.php";
 include_once "../charts/month_chart.php";
 ?>
+<script>
+	var start = '<?php echo date('Y-m-d',$date_minimum) ?>';
+	var language = '<?php echo substr($locale,0,2) ?>';
+    $(document).ready(function(){
+	$('#datepicker').datepicker( {
+    setDate: new Date(),
+    startDate: start,
+    endDate: '+0d',
+    language: language ,
+    startView: "months",
+    minViewMode: "months",
+    autoclose: true,
+ 	});
+	
+	$('#datepicker').datepicker().on('changeMonth', function (e) {    
+   	var d = new Date(e.date.valueOf());
+	var zonP = (d.getFullYear() + '-' + (d.getMonth()+1) );
+	var url = "month_overview.php?maand=" + zonP;
+                window.open(url, "_self");
+	//alert(language);
+	}); 
+	});
+    </script>
 <?php
 $paramstr_choose = '';
 $paramstr_day = '';
@@ -38,10 +61,19 @@ if (strpos($paramstr_choose, "?") == 0) {
                 <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?maand=' . date('Y-m', strtotime("+1 months", $chartdate)) . '\'"' ;
 				if (date('Y-m', $date_maximum) <= date('Y-m', $chartdate)) echo " hidden";	?>><i class="fa fa-angle-right fa-lg"></i></button>
             </h2>
-        </div>
-        <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
-            <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?maand='.date('Y-m', $chartcurrentdate); ?>'"><?php echo getTxt("back_to_today") ?></button>
-        </div>
+  
+			<div class="block2">
+				<div class="inner">
+					<button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?maand='.date('Y-m', $chartcurrentdate); ?>'"><?php echo $txt["back_to_today"] ?></button>
+				<div class="inner" >
+				<div class="input-group date" id="datepicker" data-date-format="yyyy-mm-dd" >	
+					<input type='hidden' id='untilDate' class="form-control"   >
+					<button class="btn btn-zonphp" ><i class="fa fa-calendar"></i></button>
+				</div>
+			</div>
+		</div>
+	 	</div>
+ 		</div>
         <div id="month_chart" style="width:100%; !important; height:100%; !important;"></div>
     </div>
 </div>
