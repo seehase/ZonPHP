@@ -86,7 +86,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
         .jqx-widget-header-zonphp {
             color: #<?php echo $colors['color_windowfont'] ?>;
             border-color: #ffffff;
-            background: #<?php echo $colors['color_windowcolor'] ?> url(<?php echo $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
+            background: #<?php echo $colors['color_windowcolor'] ?> url(<?php echo HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
 
         #footer a, #id_about a, #id_links a, #id_install a {

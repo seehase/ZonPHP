@@ -2,10 +2,9 @@
 include_once "../parameters.php";
 include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
-
 include_once ROOT_DIR . "/inc/header.php";
+include_once ROOT_DIR . "/inc/menu.php";
 ?>
-<?php include_once ROOT_DIR . "/inc/menu.php"; ?>
 
 <div id="page-content">
 
