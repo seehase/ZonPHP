@@ -61,7 +61,8 @@ $weewx_temp_is_farenheit = true;          /*  weewx temp is in fahrenheit     --
 
 define('ROOT_DIR', realpath(__DIR__.'/'));
 $tmpHTMLPath = str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
-if (!str_starts_with($tmpHTMLPath, "/")) {
+if (strlen($tmpHTMLPath) == 0) $tmpHTMLPath = "/";
+if (substr($tmpHTMLPath, 0, 1) != "/") {
     $tmpHTMLPath = "/" . $tmpHTMLPath;
 }
 define ('HTML_PATH', $tmpHTMLPath);
