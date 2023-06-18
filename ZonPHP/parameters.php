@@ -60,9 +60,15 @@ $weewx_temp_is_farenheit = true;          /*  weewx temp is in fahrenheit     --
  *****************************************************************************/
 
 define('ROOT_DIR', realpath(__DIR__.'/'));
-define ('HTML_PATH',str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT']))));
+$tmpHTMLPath = str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
+if (!str_starts_with($tmpHTMLPath, "/")) {
+    $tmpHTMLPath = "/" . $tmpHTMLPath;
+}
+define ('HTML_PATH', $tmpHTMLPath);
 define ('PHP_PATH', ltrim( HTML_PATH, '/'));
 // read version and debug configuration
 include_once "inc/version_info.php";
-
+//echo "HTML_PATH: " .  HTML_PATH. "<br>";
+//echo "ROOT_DIR: " .  ROOT_DIR. "<br>";
+//echo "PHP_PATH: " .  PHP_PATH. "<br>";
 ?>
