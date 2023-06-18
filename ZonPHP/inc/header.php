@@ -131,6 +131,5 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
         include_once(ROOT_DIR . "/inc/analyticstracking.php");
     }
     ?>
-    <?php $showflop = "#top31_chart"; ?>
 </head>
 <body>
