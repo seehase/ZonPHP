@@ -129,7 +129,7 @@ if (mysqli_num_rows($resultmax) == 0) {
 // ----------------------------------------------------------------------------
 $strxas = "";
 $tellerkleuren = 0;
-$href = HTML_PATH."/pages/month_overview.php?maand=";
+$href = HTML_PATH."pages/month_overview.php?maand=";
 $sum_per_month = array();
 $cnt_per_month = array();
 $frefjaar = 0;

@@ -54,7 +54,7 @@ $weewx_temp_is_farenheit = true;          /*  weewx temp is in fahrenheit     --
  * Set constants to get absolute paths when needed.
  * This is based on the relative position of this parameter.php file
  * ROOT_DIR gives the full absolute path to a file, including the install directory
- * HTML_PATH gives the extension for use in href
+ * HTML_PATH gives the extension for use in href and ends with "/"
  * PHP_PATH is HTML_PATH without the forward slash
  * ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] + HTML_PATH
  *****************************************************************************/
@@ -62,8 +62,12 @@ $weewx_temp_is_farenheit = true;          /*  weewx temp is in fahrenheit     --
 define('ROOT_DIR', realpath(__DIR__.'/'));
 $tmpHTMLPath = str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
 if (strlen($tmpHTMLPath) == 0) $tmpHTMLPath = "/";
-if (substr($tmpHTMLPath, 0, 1) != "/") {
+// if (substr($tmpHTMLPath, 0, 1) != "/") {
+if ($tmpHTMLPath[0] != "/") {
     $tmpHTMLPath = "/" . $tmpHTMLPath;
+}
+if ($tmpHTMLPath[strlen($tmpHTMLPath) - 1] != "/") {
+    $tmpHTMLPath = $tmpHTMLPath . "/" ;
 }
 define ('HTML_PATH', $tmpHTMLPath);
 define ('PHP_PATH', ltrim( HTML_PATH, '/'));

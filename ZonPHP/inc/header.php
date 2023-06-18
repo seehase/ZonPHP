@@ -64,10 +64,10 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
 
     <!-- jqwidgets -->
     <link type="text/css" rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css">
-    <link type="text/css" rel="stylesheet" href="<?php echo HTML_PATH ?>/inc/styles/jqx.zonphp.css">
+    <link type="text/css" rel="stylesheet" href="<?php echo HTML_PATH ?>inc/styles/jqx.zonphp.css">
 	
 	<!-- read default styles (static) -->
-    <link rel="stylesheet" type="text/css" href="<?php echo HTML_PATH ?>/inc/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo HTML_PATH ?>inc/styles/style.css">
 
     <!-- override dynamic with parameter -->
     <style>

@@ -205,7 +205,7 @@ if (sizeof($_GET) > 0) {
 if (strpos($paramstr_day, "?") == 0) {
     $paramstr_day = '?' . $paramstr_day;
 }
-$maxlink = '<a href= ' . HTML_PATH . '/pages/day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '><span style="font-family:Arial,Verdana;font-size:12px;font-weight:12px;color:' .$colors['color_chart_text_subtitle'].' ;">'. $nice_max_date .'</span></a>';
+$maxlink = '<a href= ' . HTML_PATH . 'pages/day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '><span style="font-family:Arial,Verdana;font-size:12px;font-weight:12px;color:' .$colors['color_chart_text_subtitle'].' ;">'. $nice_max_date .'</span></a>';
 //print_r($maxlink);
 include_once "chart_styles.php";
 $show_temp_axis = "false";
