@@ -2,8 +2,9 @@
 /*.jqx-widget-content-zonphp{color:#222; border-color:#262626; background-color: #888; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px}*/
 .jqx-widget-content-zonphp{color:#222; border-color:#262626; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px}
 .jqx-window-header-zonphp{border-top-left-radius: 7px; border-top-right-radius: 7px; padding: 5px; height: 45px;}
+.jqx-window-header-menu{border-top-left-radius: 9.5px; border-top-right-radius: 9.5px; padding: 5px; height: 45px;display:flex; align-items:center; justify-content: center;}
+.jqx-window-header-index-menu{border-top-left-radius: 9.5px; border-top-right-radius: 9.5px; border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px; padding: 5px; height: 45px;display:flex; align-items:center; justify-content: center;}
 .jqx-window-header-index-zonphp{border-top-left-radius: 7px; border-top-right-radius: 7px; height: 17px;}
-
 
 
 .jqx-fill-state-normal-zonphp, .jqx-widget-header-zonphp{color: #ffe2ea; border-color:#000; background:#000 url(images/bg_black.png) left center scroll repeat-x}

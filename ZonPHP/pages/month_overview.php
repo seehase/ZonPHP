@@ -49,10 +49,23 @@ if (strpos($paramstr_day, "?") == 0) {
 if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
+$footer_display_style = "clear:both; ";
+if (isset($param['hide_footer'])) {
+    $padding = '- 35px';
+    $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
+}
+else 
+{$padding = '- 0px';
+$corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';}
 ?>
-<?php include ROOT_DIR."/inc/menu.php"; ?>
+<?php include ROOT_DIR."/inc/sidemenu.php"; ?>
 <div id="page-content">
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 56px; ">
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding;?>); ">
+		<div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+		<?php include_once ROOT_DIR."/inc/topmenu.php"; ?>
+		</div>
+        
+        
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp" onclick="window.location.href='<?php echo '?maand=' . date('Y-m', strtotime("-1 months", $chartdate)) . '\'"' ;
@@ -74,8 +87,9 @@ if (strpos($paramstr_choose, "?") == 0) {
 		</div>
 	 	</div>
  		</div>
-        <div id="month_chart" style="width:100%; !important; height:100%; !important;"></div>
-    </div>
+        <div id="month_chart" style="width:100%; background-color: #<?php echo $colors['color_chartbackground']?>;height:100%; <?php echo $corners;?>">
+    
+    </div> <?php include_once ROOT_DIR."/inc/footer.php"; ?>
 </div>
 <script>
     $(document).ready(function () {
@@ -83,6 +97,6 @@ if (strpos($paramstr_choose, "?") == 0) {
     });
 </script>
 </div><!-- closing ".page-content" -->
-<?php include_once ROOT_DIR."/inc/footer.php"; ?>
+
 </body>
 </html>
