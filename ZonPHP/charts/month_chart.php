@@ -48,7 +48,7 @@ $DaysPerMonth = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
 $sql = "SELECT Datum_Maand, Geg_Maand, naam
         FROM " . $table_prefix . "_maand
         where Datum_Maand like '" . $current_year_month . "%'
-        GROUP BY Datum_Maand, naam
+        GROUP BY Naam, Datum_Maand, Geg_Maand
         ORDER BY Naam, Datum_Maand ASC";
 $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
 $daycount = 0;
