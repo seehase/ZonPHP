@@ -66,7 +66,7 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
     $data = "";
     for ($i = 0; $i <= 30; $i++) {
         $var = 0.0;
-        if (isset($adatum[$i])) {
+        if (isset($adatum[$i]) && isset($all_valarray[$adatum[$i]][$inverter_name])) {
             $var = round($all_valarray[$adatum[$i]][$inverter_name], 2);
             $data .= '[\'' . $adatum[$i] . '\', ' . $var . '],';
         }
