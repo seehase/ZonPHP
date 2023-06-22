@@ -2,14 +2,22 @@
 include_once "../parameters.php";
 include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
+
 include_once ROOT_DIR . "/inc/header.php";
-include_once ROOT_DIR . "/inc/menu.php";
 ?>
+<?php include_once ROOT_DIR . "/inc/sidemenu.php"; ?>
 
 <div id="page-content">
 
     <div id='id_about' class="bigCharts" style="<?= WINDOW_STYLE_BIG ?>">
+         <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+		<?php include_once ROOT_DIR."/inc/topmenu.php"; ?>
+		</div>
+      
+        
         <div class="<?= HEADER_CLASS ?>"><h2>I N F O</h2> <?= $version ?></div>
+
+        
         <div id='id_about_content' class="<?= CONTENT_CLASS ?>"
              style="background-color: #<?php echo $colors['color_chartbackground'] ?> ">
 
