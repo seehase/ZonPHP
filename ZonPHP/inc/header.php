@@ -113,7 +113,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
         }
 
         html, body {
-            background-color: #<?php echo $colors['color_background'] ?>;
+            background-color: #<?php echo $colors['color_background_body'] ?>;
         }
 
         #headerinverter {
