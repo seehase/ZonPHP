@@ -6,9 +6,14 @@ include_once ROOT_DIR."/inc/header.php";
 if (!isset($param['image1'])) $param['image1'] = "inc/image/image1.jpg";
 if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
 ?>
-<?php include ROOT_DIR."/inc/menu.php"; ?>
+<?php include ROOT_DIR."/inc/sidemenu.php"; ?>
 <div id="page-content">
     <div id='id_install' class="bigCharts" style="<?= WINDOW_STYLE_BIG ?>">
+		<div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+		<?php include_once ROOT_DIR."/inc/topmenu.php"; ?>
+		</div>
+
+
         <div class="<?= HEADER_CLASS ?>"><h2>I N S T A L L A T I O N</h2></div>
         <div id='id_install_content' class="<?= CONTENT_CLASS ?>">
             <div>
@@ -24,11 +29,11 @@ if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
             </div>
             <div id="foto" style="float:none;">
                 <p>
-                    <img src="<?php echo HTML_PATH . $param['image1'] ?>" alt="<?php echo getTxt("imagemissing") ?>"
+                    <img src="<?php echo HTML_PATH ."/". $param['image1'] ?>" alt="<?php echo $txt["imagemissing"] ?>"
                          style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px; width: 600px">
                 </p>
                 <p>
-                    <img src="<?php echo HTML_PATH . $param['image2'] ?>" alt="<?php echo getTxt("imagemissing") ?>"
+                    <img src="<?php echo HTML_PATH ."/".$param['image2'] ?>" alt="<?php echo $txt["imagemissing"] ?>"
                          style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px;  width: 600px">
                 </p>
             </div>
