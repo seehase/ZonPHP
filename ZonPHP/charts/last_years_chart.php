@@ -29,7 +29,7 @@ $paramnw['jaar'] = date("Y", $chartdate);
 
 $sql = "SELECT MAX( Datum_Maand ) AS maxi, YEAR(Datum_Maand) as year, ROUND(SUM( Geg_Maand ),0) AS som, naam
 FROM " . $table_prefix . "_maand 
-GROUP BY naam, DATE_FORMAT( Datum_Maand,  '%y-%m' ) 
+GROUP BY  naam, DATE_FORMAT( Datum_Maand,  '%y-%m' ), year
 ORDER BY maxi, naam ASC";
 //echo $sql;
 $aTotaaljaar = array();
