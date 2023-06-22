@@ -57,7 +57,6 @@ if (isset($param['hide_menu'])) {
                     <li class="sub-heading"><?= $version ?><label for="info" class="toggle" onclick="" title="Back">&#9658;</label>
                     </li>
                     <li><a href="<?php echo HTML_PATH ?>install/par_welcome.php"><?php echo getTxt("login"); ?> </a></li>
-                    <li><a href="<?php echo HTML_PATH ?>pages/about.php">About</a></li>
                     <li><a href="<?php echo HTML_PATH ?>pages/show_plant.php"><?php echo getTxt("installatie"); ?></a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/archive/master.zip">download ZonPHP</a></li>
