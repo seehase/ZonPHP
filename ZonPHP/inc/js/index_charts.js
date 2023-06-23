@@ -80,7 +80,7 @@ function load_charts() {
         addLastYears();
         addBest();
         addPlantInfo();
-
+        addImage1();
         // loadLayout(grid, layout);
     }
 
@@ -288,6 +288,29 @@ function load_charts() {
             '                                      Inbetriebnahme: ' + plantInfo['dstartdatum'] + '<br>' +
             '                                      Ausrichtung: ' + plantInfo['sOrientatie'] + '<br>' +
             '                                      Data Logger: ' + plantInfo['sData_Captatie'] + '<br> <br>' +
+            '                           </div>' +
+            '                      </div>' +
+            '               </div>' +
+            '          </div>' +
+            '    </div>' +
+            '</div>';
+        var itemElem = document.createElement('div');
+        itemElem.innerHTML = itemTemplate;
+        grid.add(itemElem.firstChild);
+    }
+
+    function addImage1() {
+        var id = "id_Image1";
+        var itemTemplate = '' +
+            '<div class="item h4 w4" data-id="' + id + '">' +
+            '    <div class="item-content card" style="background-color: aqua;"> ' +
+            '          <a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
+            '          <div id="' + id + '">' +
+            '               <div class="index_chart" id="' + id + '" ">' +
+            '                      <div class="highcharts-container" >' +
+            '                           <br><p> Hello World</p> ' +
+            '                           <div style="color:blue">' +
+            '                               <img src="./inc/image/image1.jpg" alt="Italian Trulli"> ' +
             '                           </div>' +
             '                      </div>' +
             '               </div>' +
