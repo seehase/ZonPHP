@@ -49,9 +49,9 @@ if (isset($use_weewx) && $use_weewx == true) {
 <div class="grid" ><!-- The Modal --></div>
 </div><!-- closing ".page-content" -->
 <div id="spacer" style="float: left; height: 5px; width: 400px; display: block; "><br>&nbsp;</div>
-</div><!-- closing ".container" -->
 <div id="footer_index">
 <?php include_once "inc/footer.php"; ?>
 </div>
+</div><!-- closing ".container" -->
 </body>
 </html>
