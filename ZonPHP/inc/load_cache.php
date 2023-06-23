@@ -39,6 +39,14 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
         $param = $_SESSION['param'];
     }
 
+    $plantInfo = array("sNaamVoorOpWebsite" => $param['sNaamVoorOpWebsite'],
+        "sPlaats" => $param['sPlaats'],
+        "sSoort_pannel_aantal" => $param['sSoort_pannel_aantal'],
+        "sOmvormer" => $param['sOmvormer'],
+        "dstartdatum" => $_SESSION['dstartdatum'],
+        "sOrientatie" => $param['sOrientatie'],
+        "sData_Captatie" => $param['sData_Captatie']);
+
     $charts = $_SESSION['charts'];
     if (!isset($charts['chart_date_format'])) {
         $charts['chart_date_format'] = "";
