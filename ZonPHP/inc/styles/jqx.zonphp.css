@@ -14,6 +14,8 @@
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     padding: 5px;
+    padding-top: 6px;
+    padding-bottom: 4px;
     height: 45px;
     display: flex;
     align-items: center;
@@ -36,7 +38,8 @@
     border-bottom: 0px;
     border-bottom-left-radius: 9.5px;
     border-bottom-right-radius: 9.5px;
-    padding: 5px;
+    padding-top: 5px;
+    padding-bottom:7px;
     height: 45px;
     display: flex;
     align-items: center;

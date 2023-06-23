@@ -20,7 +20,7 @@ if (isset($use_weewx) && $use_weewx == true) {
 <script src="https://jqwidgets.com/public/jqwidgets/jqxgauge.js"></script>
 
 <?php include "inc/sidemenu.php"; ?>
-<div id="page-content">
+<div id="page-content" style="margin-left: 0px;">
 <script>
     $(function () {
         // pass txt to JavaScript

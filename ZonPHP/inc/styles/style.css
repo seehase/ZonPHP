@@ -37,6 +37,7 @@
     text-align: center;
     font-size: 8pt;
     margin-bottom: 15px;
+    margin-left: 5px;
     width: 98%;
     color: #2ac06d;
 }
@@ -52,6 +53,7 @@
     height: 600px;
     padding: 0 1px 1px 0;
     margin-top: 10px;
+    
     height: 100%;
 }
 
@@ -123,7 +125,7 @@ body {
 
 #menu, #menu .sub-nav {
     position: absolute;
-    top: 0;
+    top: 10px;
     bottom: 0;
     width: 13.75em;
     background: #222;
@@ -142,7 +144,7 @@ body {
     text-decoration: none;
     padding: 0;
     list-style: none;
-    margin-top: 55px;
+    margin-top: 57px;
     border-top: 1px solid #ccc
 }
 
@@ -218,7 +220,6 @@ body {
     width: 1em
 }
 
-
 /* #### - define ids of animated container, menu and sub-menus here - #### */
 #main-nav-check:checked ~ .container,
 #main-nav-check:checked ~ #menu,
@@ -227,23 +228,9 @@ body {
     transform: translate(13.75em, 0)
 }
 
-.page-content {
-    padding: 0 1em 1em;
-    max-width: 64em;
-    margin: auto;
-    float: left;
-    top: 40px;
-    width: 100%;
-    margin-left: 0px;
-    height: auto;
-    overflow: hidden;
-    background-color: #C00000;
-}
+#page-content {
+	margin-left: 5px ;
 
-.page-content:after {
-    display: block;
-    content: "";
-    height: 1px
 }
 
 .flag {
@@ -340,6 +327,8 @@ body {
     height: 412px;
     /* line-height: 100px; */
     margin: 5px;
+    margin-top: 3px;
+    margin-bottom:7px;
     z-index: 1;
     transition: opacity 0.8s linear 1s;
     will-change: transform;
