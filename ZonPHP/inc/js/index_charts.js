@@ -78,8 +78,8 @@ function load_charts() {
         addAllYears();
         addCumulative();
         addLastYears();
-        addPlantInfo();
         addBest();
+        addPlantInfo();
 
         // loadLayout(grid, layout);
     }
@@ -275,8 +275,8 @@ function load_charts() {
             '<div class="item h4 w4" data-id="' + id + '">' +
             '<div class="item-content card"> ' +
             '<a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
-
-            '<div class="index_chart" id="' + id + '">' +
+            '<div id="' + id + '">' +
+            '<div class="index_chart" id="' + id + '" style="background-color: aqua;">' +
             '<br><p> Hello World</p> ' +
             '<div style="color:blue">' +
             '                <h1>Anlage von ' + plantInfo['sNaamVoorOpWebsite'] + '</h1>' +
@@ -289,7 +289,6 @@ function load_charts() {
             '                Data Logger: ' + plantInfo['sData_Captatie'] + '<br> <br>' +
             '            </div>'
             '</div>' +
-
             '</div>';
         var itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
