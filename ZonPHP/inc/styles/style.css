@@ -64,6 +64,11 @@
     float: left;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 html, body {
     margin: 0;
     padding: 0;
