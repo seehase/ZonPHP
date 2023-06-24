@@ -45,7 +45,9 @@ if ($params['useWeewx'] ) {
     <!-- here comes all the charts-->
 
 <div id="menu_header_index" class="<?= MENU_INDEX_CLASS ?>" style="height: 45px; background: #222; vertical-align: ">
+<div id="shift" style="position: absolute; left: 1px; top: 1px; "> 
 <?php include_once ROOT_DIR."/inc/topmenu.php"; ?>
+</div>
 </div>
 <div class="grid" ><!-- The Modal --></div>
 </div><!-- closing ".page-content" -->
