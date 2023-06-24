@@ -60,9 +60,7 @@ if (mysqli_num_rows($resultref) == 0) {
 }
 
 $nfreftot = array_values($nfreftot);
-//print_r ($nfreftot);
 
-//oude gemiddelde
 $sql = "SELECT MAX( Datum_Maand ) AS maxi, SUM( Geg_Maand ) AS som, COUNT(Geg_Maand) AS aantal, naam
 	FROM " . TABLE_PREFIX . "_maand
 	where DATE_FORMAT(Datum_Maand,'%y')='" . date('y', $chartdate) . "'

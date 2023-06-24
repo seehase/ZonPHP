@@ -69,27 +69,8 @@ while ($row = mysqli_fetch_array($result)) {
     $avg_data[] = $row['grand_total_average'];
 }
 
-$sqlref = "SELECT month( Datum_Refer ) AS maand, Geg_Refer, Dag_Refer
-        FROM " . TABLE_PREFIX . "_refer ";
 
-$resultref = mysqli_query($con, $sqlref) or die("Query failed. totaal-ref " . mysqli_error($con));
-$frefjaar = 0;
-$arefjaar = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-if (mysqli_num_rows($resultref) != 0) {
-    while ($row = mysqli_fetch_array($resultref)) {
-        $frefjaar += $row['Geg_Refer'];
-        $arefjaar[$row['maand']] = $row['Dag_Refer'];
-    }
-} else
-    $frefjaar = 1;
 
-$ref_data = array();
-$sqlreftot = "SELECT SUM(Geg_Refer) as total_ref FROM " . TABLE_PREFIX . "_refer GROUP by naam ORDER by naam";
-
-$result = mysqli_query($con, $sqlreftot) or die("Query failed (total average) " . mysqli_error($con));
-while ($row = mysqli_fetch_array($result)) {
-    $ref_data[] = $row['total_ref'];
-}
 
 $sqlgem = "SELECT month( Datum_Maand ) AS maand, AVG( Geg_Maand ) AS gem, naam
         FROM " . TABLE_PREFIX . "_maand 
@@ -198,12 +179,12 @@ include_once "chart_styles.php";
         var txt_max = '<?php echo getTxt("max") ?>';
         var txt_ref = '<?php echo getTxt("ref") ?>';
         var avrg = <?php echo round($average_per_month, 0); ?>;
-        var ref = <?php echo round($frefjaar, 0); ?>;
+        var ref = <?php echo round($params['totalExpectedYield'], 0); ?>;
         var years = <?php echo $yearcount ?>;
         var myoptions = <?php echo $chart_options ?>;
         var txt_gem = '<?php echo getTxt("gem") ?>';
         var avg = <?php echo json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
-        var ref = <?php echo json_encode($ref_data, JSON_NUMERIC_CHECK) ?>;
+        var ref = <?php echo json_encode($params['expectedYield'], JSON_NUMERIC_CHECK) ?>;
         var mychart = new Highcharts.Chart('total_chart', Highcharts.merge(myoptions, {
 
             chart: {

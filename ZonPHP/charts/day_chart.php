@@ -25,17 +25,6 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
 
-$sqlref = "SELECT *
-	FROM " . TABLE_PREFIX . "_refer
-	WHERE Month(Datum_Refer)='" . date("m", $chartdate) . "'";
-$resultref = mysqli_query($con, $sqlref) or die("Query failed. dag-ref " . mysqli_error($con));
-if (mysqli_num_rows($resultref) == 0)
-    $frefmaand = 1;
-else {
-    while ($row = mysqli_fetch_array($resultref)) {
-        $frefmaand = $row['Dag_Refer'];
-    }
-}
 $valarray = array();
 $all_valarray = array();
 $inveter_list = array();

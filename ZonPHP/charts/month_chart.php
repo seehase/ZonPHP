@@ -24,23 +24,14 @@ if (isset($_GET['maand'])) {
 }
 // -----------------------------  get data from DB -----------------------------------------------------------------
 $current_year = date('Y', $chartdate);
-$current_month = date('m', $chartdate);
+$current_month = intval(date('m', $chartdate));
 $current_year_month = "" . date('Y-m', $chartdate);
 
 // get reference values
-$sqlref = "SELECT *
-        FROM " . TABLE_PREFIX . "_refer
-        WHERE DATE_FORMAT(Datum_Refer,'%m')='" . $current_month . "'" . "
-        ORDER BY Naam, Datum_Refer ASC";
-$resultref = mysqli_query($con, $sqlref) or die("Query failed. maand-ref " . mysqli_error($con));
-
 $nfrefmaand = array();
-if (mysqli_num_rows($resultref) == 0) {
-    $frefmaand = 1;
-} else {
-    while ($row = mysqli_fetch_array($resultref)) {
-        $nfrefmaand[] = $row['Dag_Refer'];
-    }
+foreach (PLANTS as $plant) {
+    $tmp = $params[$plant]['referenceYield'][$current_month-1] / 30;
+    $nfrefmaand[] = $tmp;
 }
 
 $DaysPerMonth = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
@@ -58,7 +49,6 @@ if (mysqli_num_rows($result) == 0) {
     $formatter->setPattern('LLLL yyyy');
     $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
     $agegevens[] = 0;
-    //$iyasaanpassen = $frefmaand * 1.5;
     $geengevmaand = 0;
     $fgemiddelde = 0;
 } else {
