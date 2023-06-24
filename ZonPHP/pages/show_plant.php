@@ -1,10 +1,9 @@
 <?php
-include_once "../parameters.php";
+include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 include_once ROOT_DIR . "/inc/header.php";
-if (!isset($param['image1'])) $param['image1'] = "inc/image/image1.jpg";
-if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
+
 ?>
 <?php include ROOT_DIR . "/inc/sidemenu.php"; ?>
 <div id="page-content">
@@ -17,25 +16,26 @@ if (!isset($param['image2'])) $param['image2'] = "inc/image/image2.jpg";
         <div class="<?= HEADER_CLASS ?>"><h2>I N S T A L L A T I O N</h2></div>
         <div id='id_install_content' class="<?= CONTENT_CLASS ?>">
             <div>
-                <h1>Anlage von <?php echo $param['sNaamVoorOpWebsite'] ?></h1>
+                <h1>Anlage von <?php echo $params['plant']['name'] ?></h1>
                 <?php echo '
-                Standort: ' . $param['sPlaats'] . '<br>
-                Module: ' . $param['sSoort_pannel_aantal'] . '<br>
-                Wechselrichter: ' . $param['sOmvormer'] . '<br>
-                Inbetriebnahme: ' . date("Y-m-d", strtotime($dstartdatum)) . '<br>
-                Ausrichtung: ' . $param['sOrientatie'] . '<br>
-                Data Logger: ' . $param['sData_Captatie'] . '<br> <br>';
+                Website: ' . $params['plant']['website']. '<br>
+                Standort: ' . $params['plant']['location'] . '<br>
+                Module: ' . $params['plant']['panels'] . '<br>
+                Wechselrichter: ' . $params['plant']['converter']. '<br>
+                Inbetriebnahme: ' . $params['plant']['installationDate'] . '<br>
+                Ausrichtung: ' . $params['plant']['orientation']. '<br>
+                Data Logger: ' . $params['plant']['importer'] . '<br> <br>';
                 ?>
             </div>
             <div id="foto" style="float:none;">
-                <p>
-                    <img src="<?php echo HTML_PATH . "/" . $param['image1'] ?>" alt="<?php echo $txt["imagemissing"] ?>"
-                         style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px; width: 600px">
-                </p>
-                <p>
-                    <img src="<?php echo HTML_PATH . "/" . $param['image2'] ?>" alt="<?php echo $txt["imagemissing"] ?>"
-                         style="border: 2px solid #000000; border-radius: 10px 10px 10px 10px;  width: 600px">
-                </p>
+                <?php
+                foreach (PLANTS as $plant) {
+                    echo "<p>" . $params[$plant]['name'] . "<br>" .
+                        "<img src=" . HTML_PATH . "/" . $params[$plant]['image'] . " alt=" . $params[$plant]['name'] .
+                        "style=\"border: 2px solid #000000; border-radius: 10px 10px 10px 10px; width: 600px\">
+                        </p>";
+                     }
+                ?>
             </div>
             <div id="mycontainer" class="demo"
                  style="width:100%; background-color: #<?php echo $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">

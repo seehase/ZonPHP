@@ -1,18 +1,15 @@
 <?php
-//
-//include "parameters.php";
-//include "sessionstart.php";
-//include "startup.php";
+
 ?>
 
 <?php
 $sql = "SELECT *
-	FROM " . $table_prefix . "_dag 
+	FROM " . TABLE_PREFIX . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
 //echo $sql;
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0)
-    $dateTime = $dstartdatum;
+    $dateTime = STARTDATE;
 else {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
@@ -20,7 +17,7 @@ else {
 }
 //echo $dateTime;	
 $adag = array();
-$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';//echo $directory;
+$directory = ROOT_DIR . "/" . $_SESSION['plant'] . '/';//echo $directory;
 for ($tel = 0; $tel <= 60; $tel++) {
     $num = (date("ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));//echo $num."<br />";
     if (file_exists($directory . "min" . $num . '.csv')) {
@@ -35,8 +32,8 @@ for ($tel = 0; $tel <= 60; $tel++) {
 foreach ($adag as $v) {
     $teller = 1;
     $teller2 = 1;
-    $string = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
-    $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
+    $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
+    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
     $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
     while (!feof($file)) {
         $geg_solar = fgets($file, 1024);
@@ -56,21 +53,21 @@ foreach ($adag as $v) {
                     $odatum = explode(" ", $oDatumTijd);
                     if ((strtotime($oDatumTijd) > strtotime($dateTime)) and ($oDatumTijd != "geen datumtijd")) {
                         if ($teller2 == 1) {
-                            for ($i = 0; $i < count($sNaamSaveDatabase); $i++) {
+                            for ($i = 0; $i < count(PLANTS); $i++) {
                                 $Pac = $alist[3 + ($i * 8)];
                                 $DaySum = $alist[4 + ($i * 8)];
-                                $DaySum = $DaySum * $param['coefficient'];
-                                $string .= "('" . $oDatumTijd . $sNaamSaveDatabase[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . $sNaamSaveDatabase[$i] . "'),";
-                                $string1 .= "('" . $odatum[0] . $sNaamSaveDatabase[$i] . "','" . $odatum[0] . "'," . ($DaySum / 1000) . ",'" . $sNaamSaveDatabase[$i] . "'),";
-                                $stringdelete = "DELETE FROM " . $table_prefix . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
+                                $DaySum = $DaySum * $params['coefficient'];
+                                $string .= "('" . $oDatumTijd . PLANTS[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . PLANTS[$i] . "'),";
+                                $string1 .= "('" . $odatum[0] . PLANTS[$i] . "','" . $odatum[0] . "'," . ($DaySum / 1000) . ",'" . PLANTS[$i] . "'),";
+                                $stringdelete = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
                                 $teller2 = 0;
                             }
                         } else {
-                            for ($i = 0; $i < count($sNaamSaveDatabase); $i++) {
+                            for ($i = 0; $i < count(PLANTS); $i++) {
                                 $Pac = $alist[3 + ($i * 8)];
                                 $DaySum = $alist[4 + ($i * 8)];
-                                $DaySum = $DaySum * $param['coefficient'];
-                                $string .= "('" . $oDatumTijd . $sNaamSaveDatabase[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . $sNaamSaveDatabase[$i] . "'),";
+                                $DaySum = $DaySum * $params['coefficient'];
+                                $string .= "('" . $oDatumTijd . PLANTS[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . PLANTS[$i] . "'),";
                             }
                         }
                     }
@@ -99,8 +96,8 @@ foreach ($adag as $v) {
  * ****************************************************************************
  */
 $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
@@ -122,8 +119,8 @@ if (mysqli_num_rows($result) == 0) {
  * ****************************************************************************
  */
 $sql = "SELECT *
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Maand DESC";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {

@@ -1,10 +1,10 @@
 <?php
-include_once "../parameters.php";
+include_once "../inc/init.php";
 include_once "../inc/sessionstart.php";
 include_once "../inc/connect.php";
 
 // check if tables exists
-$sqlpar = "SELECT *	FROM " . $table_prefix . "_parameters limit 1";
+$sqlpar = "SELECT *	FROM " . TABLE_PREFIX . "_parameters limit 1";
 $result = mysqli_query($con, $sqlpar) or die(header('location:opstart_installatie.php?fout=table'));
 
 if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
@@ -15,7 +15,7 @@ include_once "par_header.php";
 
 
 $sqlpar = "SELECT * 
-	FROM " . $table_prefix . "_parameters
+	FROM " . TABLE_PREFIX . "_parameters
 	WHERE Variable = 'sNaamSaveDatabasest'";
 $resultpar = mysqli_query($con, $sqlpar) or die("Query failed. ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($resultpar) != 0) {

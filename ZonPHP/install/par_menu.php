@@ -9,8 +9,7 @@
                 if (isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder") {
                     echo '                    
 					<li><a href="par_edit.php">&raquo;&nbsp;' . getTxt("parameters") . '</a></li>
-					<li><a href="par_referencevalues.php">&raquo;&nbsp;' . getTxt("parref") . '</a></li>
-					<li><a href="debug.php">&raquo;&nbsp;Debug</a></li> 
+					<li><a href="par_referencevalues.php">&raquo;&nbsp;' . getTxt("parref") . '</a></li>					
 					<li><a href="installatie_zonphp.php">&raquo;&nbsp;' . getTxt("insteltabel") . '</a></li>
 					<li><a href="clear_tables.php">&raquo;&nbsp;' . getTxt("deletevalues") . '</a></li>
 					<li><a href="delete.php">&raquo;&nbsp;' . getTxt("pardelete") . '</a></li>

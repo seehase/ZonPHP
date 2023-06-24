@@ -6,7 +6,7 @@ define( 'TIMEZONE', 'UTC' );
 date_default_timezone_set( TIMEZONE );
 if (strpos(getcwd(), "charts") > 0) {
     chdir("../");
-    include_once "parameters.php";
+    include_once "inc/init.php";
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
@@ -36,8 +36,8 @@ $valarray = array();
 $all_valarray = array();
 $inveter_list = array();
 $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, Datum_Dag, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) , ' ',HOUR( Datum_Dag ) , ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" .
-    $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd " .
-    " FROM " . $table_prefix . "_dag " .
+    $params['displayInterval'] . " ) *" . $params['displayInterval'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd " .
+    " FROM " . TABLE_PREFIX . "_dag " .
     " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' " .
     " GROUP BY datumtijd, naam " .
     " ORDER BY datumtijd ASC";
@@ -67,7 +67,7 @@ if (mysqli_num_rows($result) == 0) {
        
         
         if (!in_array($inverter_name, $inveter_list)) {
-            if (in_array($inverter_name, $sNaamSaveDatabase)) {
+            if (in_array($inverter_name, PLANTS)) {
                 // add to list only if it configured (ignore db entries)
                 $inveter_list[] = $inverter_name;
             }
@@ -78,10 +78,10 @@ if (mysqli_num_rows($result) == 0) {
 //--------------------------------------------------------------------------------------------------
 // get best day and kWh for current month (max value over all years for current month)
 $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
-	 FROM " . $table_prefix . "_maand
-	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . $table_prefix . "_maand WHERE 
+	 FROM " . TABLE_PREFIX . "_maand
+	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . TABLE_PREFIX . "_maand WHERE 
      DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . " GROUP BY naam, maand )AS maandelijks ON (month(" .
-    $table_prefix . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . $table_prefix . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
+    TABLE_PREFIX . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . TABLE_PREFIX . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
 if (mysqli_num_rows($resultmaxdag) == 0) {
     $maxdag = date("m-d", time());
@@ -96,8 +96,8 @@ $nice_max_date = date("Y-m-d", strtotime($maxdag));
 
 //-----------------------------------------------------
 //query for the best day
-$sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $param['isorteren'] . " ) *" . $param['isorteren'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
-FROM " . $table_prefix . "_dag
+$sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $params['displayInterval'] . " ) *" . $params['displayInterval'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
+FROM " . TABLE_PREFIX . "_dag
 WHERE Datum_Dag LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%'
 ORDER BY Name, datumtijd ASC";
 $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
@@ -124,13 +124,13 @@ $strgegmax = "";
 $strsomkw = "";
 // build colors per inverter array
 $myColors = array();
-for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
+    $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
+    $myColors[PLANTS[$k]]['max'] = $col1;
 }
 $str_dataserie = "";
 $cnt = 0;
@@ -152,7 +152,7 @@ foreach ($inveter_list as $inverter_name) {
 $str_max = "";
 $cnt = 0;
 
-foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
+foreach (PLANTS as $key=>$inverter_name) {
     if($key == 0) { 
         $dash = '';
     } elseif($key> 0) { 
@@ -179,12 +179,12 @@ foreach ($sNaamSaveDatabase as $key=>$inverter_name) {
 $max_last_val = $time;
 $str_max = substr($str_max, 0, -1);
 $strgegmax = substr($strgegmax, 0, -1);
-$external_sensors = isset($param['external_sensors']);
+
 $temp_serie = "";
 $temp_unit = "°C";
 $val_max = 0;
 $val_min = 0;
-if ($external_sensors) {
+if ($params['useWeewx' == true]) {
     include "charts/temp_sensor_inc.php";
 }
 
@@ -220,7 +220,7 @@ if (strlen($temp_serie) > 0) {
         function add(accumulator, a) { return accumulator + a;	}
         
         var myoptions = <?php echo $chart_options ?>;
-        var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        var khhWp = [<?php echo $params['plantskWp'] ?>];
         var nmbr =  khhWp.length //misused to get the inverter count
         var maxmax = <?php echo json_encode($maxkwh) ?>;
         

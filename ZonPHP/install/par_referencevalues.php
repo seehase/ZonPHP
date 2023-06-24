@@ -1,11 +1,11 @@
 <?php
 
-include_once "../parameters.php";
+include_once "../inc/init.php";
 include_once "../inc/sessionstart.php";
 include_once "../inc/connect.php";
 
 // check if tables exists
-$sqlpar = "SELECT *	FROM " . $table_prefix . "_parameters limit 1";
+$sqlpar = "SELECT *	FROM " . TABLE_PREFIX . "_parameters limit 1";
 $result = mysqli_query($con, $sqlpar) or die(header('location:opstart_installatie.php?fout=table'));
 
 if (!isset($_SESSION['passok']) && $_SESSION['passok'] == "passinorder")
@@ -16,7 +16,7 @@ include "par_header.php";
 
 
 $sqlpar = "SELECT * 
-	FROM " . $table_prefix . "_parameters
+	FROM " . TABLE_PREFIX . "_parameters
 	WHERE Variable = 'sNaamSaveDatabasest'";
 $resultpar = mysqli_query($con, $sqlpar) or die("Query failed. ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($resultpar) != 0) {
@@ -39,7 +39,7 @@ $arefer[date('d/m/y G:i', time())] = "Geen data";
 $areferdag[date('d/m/y G:i', time())] = "Geen data";
 
 $sqlrefer = "SELECT *
-	FROM " . $table_prefix . "_refer 
+	FROM " . TABLE_PREFIX . "_refer 
 	WHERE Naam='" . $current_name . "'
 	ORDER BY Datum_Refer ASC";
 
@@ -79,9 +79,9 @@ for ($i = 1; $i <= 12; $i++) {
             <?php
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if ($bkannietsave == 0) {
-                    $sqldel = "DELETE FROM " . $table_prefix . "_refer WHERE Naam = '" . $current_name . "'";
+                    $sqldel = "DELETE FROM " . TABLE_PREFIX . "_refer WHERE Naam = '" . $current_name . "'";
                     mysqli_query($con, $sqldel) or die("Query failed. sql_wis: " . mysqli_error($con));
-                    $sqlsave = "INSERT INTO " . $table_prefix . "_refer(Datum_Refer,Geg_Refer,Dag_Refer,Naam)values";
+                    $sqlsave = "INSERT INTO " . TABLE_PREFIX . "_refer(Datum_Refer,Geg_Refer,Dag_Refer,Naam)values";
                     for ($i = 1; $i <= 12; $i++) {
                         $sqlsave .= "('2009-" . $i . "-01'," . $_POST[$i] . "," . ($_POST[$i] / cal_days_in_month(CAL_GREGORIAN, $i, 2009)) . ",'" . $current_name . "'),";
                     }
@@ -89,7 +89,7 @@ for ($i = 1; $i <= 12; $i++) {
                     mysqli_query($con, $sqlsave) or die("Query failed. sql_save: " . mysqli_error($con));
                     echo "<font size='0'color='#00AA00'>" . getTxt("opgeslagen") . "</font><br />";
                     $sqlrefer = "SELECT *
-							FROM " . $table_prefix . "_refer 
+							FROM " . TABLE_PREFIX . "_refer 
 							WHERE Naam='" . $current_name . "'
 							ORDER BY Datum_Refer ASC";
                     $resultrefer = mysqli_query($con, $sqlrefer) or die("Query failed. ERROR: " . mysqli_error($con));

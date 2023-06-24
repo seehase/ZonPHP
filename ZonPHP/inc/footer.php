@@ -1,6 +1,6 @@
 <?php
 $footer_display_style = "clear:both; ";
-if (isset($param['hide_footer'])) {
+if ($params['hideFooter'] == true) {
     $footer_display_style = "display: none;";
 }
 

@@ -1,5 +1,5 @@
 <?php
-include_once "../parameters.php";
+include_once "../inc/init.php";
 include_once "../inc/sessionstart.php";
 
 if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
@@ -38,12 +38,12 @@ include_once "par_header.php";
                 }
             }
             if (($_SERVER['REQUEST_METHOD'] == 'POST') && $vlag == 0) {
-                $sqldel = "DELETE FROM " . $table_prefix . "_parameters";
+                $sqldel = "DELETE FROM " . TABLE_PREFIX . "_parameters";
                 $resultdel = mysqli_query($con, $sqldel);
                 if (!$resultdel)
-                    echo "<font size='0'color='#ff0000'>" . getTxt("verkeerd") . getTxt("tabelverkeerd") . $table_prefix . getTxt("tabelverkeerd1") . "</font><br/>";
+                    echo "<font size='0'color='#ff0000'>" . getTxt("verkeerd") . getTxt("tabelverkeerd") . TABLE_PREFIX . getTxt("tabelverkeerd1") . "</font><br/>";
                 else {
-                    $sqlsave = "INSERT INTO " . $table_prefix . "_parameters(Variable,Waarde)values";
+                    $sqlsave = "INSERT INTO " . TABLE_PREFIX . "_parameters(Variable,Waarde)values";
                     foreach ($_POST as $key => $waarden) {
                         $sqlsave .= "('" . $key . "','" . $waarden . "'),";
                     }
@@ -55,16 +55,16 @@ include_once "par_header.php";
 
 
             if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-                if (isset($table_prefix)) {
-                    $sqlrefer = "SELECT * FROM " . $table_prefix . "_parameters";
 
-                    $resultrefer = mysqli_query($con, $sqlrefer) or die("Query failed. ERROR: " . mysqli_error($con));
-                    if (mysqli_num_rows($resultrefer) != 0) {
-                        while ($row = mysqli_fetch_array($resultrefer)) {
-                            $_POST[$row['Variable']] = $row['Waarde'];
-                        }
+                $sqlrefer = "SELECT * FROM " . TABLE_PREFIX . "_parameters";
+
+                $resultrefer = mysqli_query($con, $sqlrefer) or die("Query failed. ERROR: " . mysqli_error($con));
+                if (mysqli_num_rows($resultrefer) != 0) {
+                    while ($row = mysqli_fetch_array($resultrefer)) {
+                        $_POST[$row['Variable']] = $row['Waarde'];
                     }
                 }
+
             }
             $_SESSION['lastupdate'] = 0;
             ?>
@@ -91,7 +91,7 @@ include_once "par_header.php";
                 <br/>
                 <hr>
                 <?php echo getTxt("prefix"); ?><br/>
-                <?php echo getTxt("prefix_name") . ": <strong>" . $table_prefix . "</strong>"; ?>
+                <?php echo getTxt("prefix_name") . ": <strong>" . TABLE_PREFIX . "</strong>"; ?>
                 <br/>
                 <hr>
                 <label><?php echo getTxt("startdatum"); ?> :</label>

@@ -1,5 +1,5 @@
 <?php
-switch ($param['sInvullen_gegevens']) {
+switch ($params['importer']) {
     case "none":
         break;
     case "Invullen_gegevens_xls":

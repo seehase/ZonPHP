@@ -11,7 +11,6 @@ if (!isset($_SESSION['theme'])) {
 
 if (isset($_GET['theme'])) {
     $_SESSION['theme'] = $_GET['theme'];
-    include_once "load_parameters.php";
 }
 
 $defaultColors = parse_ini_file(ROOT_DIR . "/inc/themes/default.theme", false);

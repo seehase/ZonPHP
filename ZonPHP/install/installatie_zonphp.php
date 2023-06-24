@@ -1,5 +1,5 @@
 <?php
-include_once "../parameters.php";
+include_once "../inc/init.php";
 include_once "../inc/sessionstart.php";
 if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
     header('location:par_welcome.php');
@@ -19,9 +19,9 @@ include_once "par_header.php";
 
             <FORM METHOD="post" ACTION="">
                 <?php
-                echo getTxt("prefix") . "<br /><br />database prefix:<b> " . $table_prefix . "</b><br /><br />";
+                echo getTxt("prefix") . "<br /><br />database prefix:<b> " . TABLE_PREFIX . "</b><br /><br />";
 
-                $sql = "SELECT * FROM " . $table_prefix . "_parameters";
+                $sql = "SELECT * FROM " . TABLE_PREFIX . "_parameters";
                 $result = mysqli_query($con, $sql);
                 if ($result) {
 
@@ -45,8 +45,8 @@ include_once "par_header.php";
                 /****************************************************************************
                  * aanmaken tabel voor ref kW per maand
                  ****************************************************************************/
-                $sql_wisRefkWMaand = "DROP TABLE IF EXISTS " . $table_prefix . "_refer";
-                $sql_maakRefkWMaand = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "_refer (
+                $sql_wisRefkWMaand = "DROP TABLE IF EXISTS " . TABLE_PREFIX . "_refer";
+                $sql_maakRefkWMaand = "CREATE TABLE IF NOT EXISTS " . TABLE_PREFIX . "_refer (
 						  Datum_Refer datetime NOT NULL,
 						  Geg_Refer float NOT NULL,
 						  Dag_Refer float NOT NULL,
@@ -55,8 +55,8 @@ include_once "par_header.php";
                 /****************************************************************************
                  * aanmaken tabel voor daggegevens
                  ****************************************************************************/
-                $sql_wisDag = "DROP TABLE IF EXISTS " . $table_prefix . "_dag";
-                $sql_maakDag = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "_dag (
+                $sql_wisDag = "DROP TABLE IF EXISTS " . TABLE_PREFIX . "_dag";
+                $sql_maakDag = "CREATE TABLE IF NOT EXISTS " . TABLE_PREFIX . "_dag (
 				  IndexDag varchar(40) NOT NULL,
 				  Datum_Dag datetime NOT NULL,
 				  Geg_Dag float NOT NULL,
@@ -67,8 +67,8 @@ include_once "par_header.php";
                 /****************************************************************************
                  * aanmaken tabel voor maandgegevens
                  ****************************************************************************/
-                $sql_wisMaand = "DROP TABLE IF EXISTS " . $table_prefix . "_maand";
-                $sql_maakMaand = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "_maand (
+                $sql_wisMaand = "DROP TABLE IF EXISTS " . TABLE_PREFIX . "_maand";
+                $sql_maakMaand = "CREATE TABLE IF NOT EXISTS " . TABLE_PREFIX . "_maand (
 				  IndexMaand varchar(40) NOT NULL,
 				  Datum_Maand datetime NOT NULL,
 				  Geg_Maand float NOT NULL,
@@ -78,8 +78,8 @@ include_once "par_header.php";
                 /****************************************************************************
                  * Tabel structuur voor tabel 'tgeg_parameters'
                  ****************************************************************************/
-                $sql_wisParameters = "DROP TABLE IF EXISTS " . $table_prefix . "_parameters";
-                $sql_maakParameters = "CREATE TABLE " . $table_prefix . "_parameters (
+                $sql_wisParameters = "DROP TABLE IF EXISTS " . TABLE_PREFIX . "_parameters";
+                $sql_maakParameters = "CREATE TABLE " . TABLE_PREFIX . "_parameters (
 				  Variable varchar(60) NOT NULL,
 				  Waarde varchar(120) NOT NULL
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";

@@ -10,7 +10,7 @@
 <?php
 $menu_display_style = "clear:both; ";
 $show_menu = true;
-if (isset($param['hide_menu'])) {
+if ($params['hideMenu'] == true) {
     $menu_display_style = "display: none;";
     $show_menu = false;
 }

@@ -1,16 +1,16 @@
 <?php
-include_once "../parameters.php";
-include_once ROOT_DIR."/inc/sessionstart.php";
-include_once ROOT_DIR."/inc/load_cache.php";
-include_once ROOT_DIR."/inc/import_data.php";
-include_once ROOT_DIR."/inc/header.php";
+include_once "../inc/init.php";
+include_once ROOT_DIR . "/inc/sessionstart.php";
+include_once ROOT_DIR . "/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/import_data.php";
+include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/all_years_chart.php";
 // force reload caches
 if (isset($_SESSION['lastupdate'])) {
     $_SESSION['lastupdate'] = 0;
 }
 ?>
-<?php include ROOT_DIR."/inc/sidemenu.php"; ?>
+<?php include ROOT_DIR . "/inc/sidemenu.php"; ?>
 <?php
 $paramstr_choose = '';
 $paramstr_day = '';
@@ -32,34 +32,36 @@ if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
 $footer_display_style = "clear:both; ";
-if (isset($param['hide_footer'])) {
+if ($params['hideFooter'] == true) {
     $padding = '- 35px';
     $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
+} else {
+    $padding = '- 0px';
+    $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
 }
-else 
-{$padding = '- 0px';
-$corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';}
 ?>
 <div id="page-content">
     <?php $myKeys = array_keys($sum_per_year); ?>
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding;?>); ">
- 		<div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
-		<?php include_once ROOT_DIR."/inc/topmenu.php"; ?>
-		</div>
-       
-        
-        <div id="week_chart_header" class="<?= HEADER_CLASS ?>" style = "display: grid; align-content: center; ">
+    <div id='resize' class="bigCharts"
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
+        <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+            <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
+        </div>
+
+
+        <div id="week_chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
             <h2><?php echo $txt["totaaloverzicht"] . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
         </div>
-        <div id="total_chart" style="width:100%;background-color: #<?php echo $colors['color_chartbackground']?>;height:100%; <?php echo $corners;?>">
+        <div id="total_chart"
+             style="width:100%;background-color: #<?php echo $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
+        </div>
+        <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>
-<?php include_once ROOT_DIR."/inc/footer.php"; ?>
-</div>
-<script>
-    $(document).ready(function () {
-        $("#resize ").height(500);
-    });
-</script>
+    <script>
+        $(document).ready(function () {
+            $("#resize ").height(500);
+        });
+    </script>
 </div><!-- closing ".page-content" -->
 
 </body>

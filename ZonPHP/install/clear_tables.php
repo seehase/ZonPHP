@@ -1,6 +1,6 @@
 <?php
 
-include_once "../parameters.php";
+include_once "../inc/init.php";
 include_once "../inc/sessionstart.php";
 
 if (!isset($_SESSION['passok']) || $_SESSION['passok'] != "passinorder")
@@ -19,11 +19,11 @@ include_once "par_header.php";
             <h2 class="notopgap" align="center"><?php echo getTxt("installscript"); ?></h2>
             <hr>
             <?php echo getTxt("cleartables") . "<br /><br />" .
-                $table_prefix . "_dag<br /> " .
-                $table_prefix . "_maand<br />";
+                TABLE_PREFIX . "_dag<br /> " .
+                TABLE_PREFIX . "_maand<br />";
             ?>
             <FORM METHOD="post" ACTION="">
-                <?php echo "<br />" . getTxt("prefix_name") . ": <b>" . $table_prefix . "</b><br /><br />" ?>
+                <?php echo "<br />" . getTxt("prefix_name") . ": <b>" . TABLE_PREFIX . "</b><br /><br />" ?>
 
 
                 <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo getTxt("save"); ?>"
@@ -33,8 +33,8 @@ include_once "par_header.php";
             <br/>
             <?php
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $stringdelete = "DELETE FROM " . $table_prefix . "_dag";
-                $stringdelete2 = "DELETE FROM " . $table_prefix . "_maand";
+                $stringdelete = "DELETE FROM " . TABLE_PREFIX . "_dag";
+                $stringdelete2 = "DELETE FROM " . TABLE_PREFIX . "_maand";
 
                 mysqli_query($con, $stringdelete) or die ('SQL Error stringdelete:' . mysqli_error($con));
                 mysqli_query($con, $stringdelete2) or die ('SQL Error stringdelete2:' . mysqli_error($con));

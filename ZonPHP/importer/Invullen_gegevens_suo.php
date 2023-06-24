@@ -1,17 +1,17 @@
 <?php
 $sql = "SELECT *
-	FROM " . $table_prefix . "_dag 
+	FROM " . TABLE_PREFIX . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
-    $dateTime = $dstartdatum;
+    $dateTime = STARTDATE;
 } else {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
     }
 }
 
-$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . "/";
+$directory = ROOT_DIR . "/" . $_SESSION['plant'] . "/";
 $adag = array();
 for ($tel = 0; $tel <= 60; $tel++) {
     $num = (date("ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));//echo $num."<br />";
@@ -29,11 +29,12 @@ for ($tel = 0; $tel <= 60; $tel++) {
 ?>
 
 <?php
+$ieffectiefkwpiek = $params[$_SESSION['plant']]['capacity'];
 foreach ($adag as $v) {
     $teller = 1;
     $string1 = "";
-    //$string="insert into ".$table_prefix."_dag(Datum_Dag,Geg_Dag,KwH_Dag)values";
-    $string = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
+    //$string="insert into ".TABLE_PREFIX."_dag(Datum_Dag,Geg_Dag,KwH_Dag)values";
+    $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
     $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
     while (!feof($file)) {
         $geg_suo = fgets($file, 1024);
@@ -46,10 +47,10 @@ foreach ($adag as $v) {
                 //echo $oTimeStamp.'<br />';
                 if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
                     $odatum = explode(" ", $oTimeStamp);
-                    $MeteringDykWh = $MeteringDykWh * $param['coefficient'];
+                    $MeteringDykWh = $MeteringDykWh * $params['coefficient'];
                     if ($GridMsTotW < 2 * $ieffectiefkwpiek) {
-                        $string .= "('" . $oTimeStamp . $_SESSION['Wie'] . "','" . $oTimeStamp . "'," . $GridMsTotW . "," . $MeteringDykWh . ",'" . $_SESSION['Wie'] . "'),";
-                        $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['Wie'] . "','" . $odatum[0] . "'," . $MeteringDykWh . ",'" . $_SESSION['Wie'] . "') ON DUPLICATE KEY UPDATE Geg_Maand=" . $MeteringDykWh . "";
+                        $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . $GridMsTotW . "," . $MeteringDykWh . ",'" . $_SESSION['plant'] . "'),";
+                        $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . $MeteringDykWh . ",'" . $_SESSION['plant'] . "') ON DUPLICATE KEY UPDATE Geg_Maand=" . $MeteringDykWh . "";
                     }
                 }
             }
@@ -61,7 +62,7 @@ foreach ($adag as $v) {
         $string = substr($string, 0, -1);
         //echo $string;echo "<br />";
         //echo $string1;echo "<br />";
-        //mysqli_query($con,"DELETE FROM ".$table_prefix."_maand WHERE Datum_Maand='".$odatum[0]."'") or die("Query failed. ERROR: ".mysqli_error($con));
+        //mysqli_query($con,"DELETE FROM ".TABLE_PREFIX."_maand WHERE Datum_Maand='".$odatum[0]."'") or die("Query failed. ERROR: ".mysqli_error($con));
         mysqli_query($con, $string) or die("Query string failed. ERROR: " . mysqli_error($con));
         mysqli_query($con, $string1) or die("Query string1 failed. ERROR: " . mysqli_error($con));
     }
@@ -75,8 +76,8 @@ foreach ($adag as $v) {
  * ****************************************************************************
  */
 $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
@@ -98,8 +99,8 @@ if (mysqli_num_rows($result) == 0) {
  * ****************************************************************************
  */
 $sql = "SELECT *
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Maand DESC";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {

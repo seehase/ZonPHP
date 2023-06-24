@@ -1,7 +1,7 @@
 <?php
 if (strpos(getcwd(), "charts") > 0) {
     chdir("../");
-    include_once "parameters.php";
+    include_once "inc/init.php";
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
@@ -10,7 +10,7 @@ $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$inverter = $sNaamSaveDatabase[0];
+$inverter = PLANTS[0];
 if (isset($_GET['naam'])) {
     $inverter = $_GET['naam'];
 }
@@ -28,7 +28,7 @@ $cur_year_month = "" . date('Y-m', $chartdate);
 $paramnw['jaar'] = date("Y", $chartdate);
 
 $sql = "SELECT MAX( Datum_Maand ) AS maxi, YEAR(Datum_Maand) as year, ROUND(SUM( Geg_Maand ),0) AS som, naam
-FROM " . $table_prefix . "_maand 
+FROM " . TABLE_PREFIX . "_maand 
 GROUP BY  naam, DATE_FORMAT( Datum_Maand,  '%y-%m' ), year
 ORDER BY maxi, naam ASC";
 //echo $sql;
@@ -62,7 +62,7 @@ if (count($acdatum) > 0) {
 $sqlavg = "SELECT Naam, MONTH( Datum_Maand ) AS Maand, ROUND( SUM( Geg_Maand ) / COUNT( DISTINCT (
 YEAR( Datum_Maand ) ) ) , 0
 ) AS AVG
-FROM " . $table_prefix . "_maand
+FROM " . TABLE_PREFIX . "_maand
 GROUP BY Naam, MONTH( Datum_Maand ) 
 ORDER BY naam ASC ";
 $result = mysqli_query($con, $sqlavg) or die("Query failed (gemiddelde) " . mysqli_error($con));
@@ -72,7 +72,7 @@ while ($row = mysqli_fetch_array($result)) {
 
 //	new reference
 $sqlref = "SELECT Naam, SUM(Geg_Refer) as sum_geg_refer, SUM(Dag_Refer) as sum_dag_refer, Datum_Refer
-	FROM " . $table_prefix . "_refer " .
+	FROM " . TABLE_PREFIX . "_refer " .
     " GROUP BY Naam, Datum_refer
 	  ORDER BY Naam, Datum_Refer ASC";
 //echo $sqlref;
@@ -106,7 +106,7 @@ $nfreftot = array_values($nfreftot);
 
 //max for all inverters
 $sqlmax = "SELECT maand,jaar,som, Name FROM 
-(SELECT naam as Name, month(Datum_Maand) AS maand,year(Datum_Maand) AS jaar, sum(Geg_Maand) AS som FROM " . $table_prefix . "_maand GROUP BY naam, maand,jaar ) AS somquery JOIN (SELECT maand as tmaand, max( som ) AS maxgeg FROM ( SELECT naam, maand, jaar, som FROM ( SELECT naam, month( Datum_Maand ) AS maand, year( Datum_Maand ) AS jaar, sum( Geg_Maand ) AS som FROM " . $table_prefix . "_maand GROUP BY naam, maand, jaar ) AS somqjoin ) AS maxqjoin GROUP BY naam,tmaand )AS maandelijks ON (somquery.maand= maandelijks.tmaand AND maandelijks.maxgeg = somquery.som) ORDER BY Name, maand";
+(SELECT naam as Name, month(Datum_Maand) AS maand,year(Datum_Maand) AS jaar, sum(Geg_Maand) AS som FROM " . TABLE_PREFIX . "_maand GROUP BY naam, maand,jaar ) AS somquery JOIN (SELECT maand as tmaand, max( som ) AS maxgeg FROM ( SELECT naam, maand, jaar, som FROM ( SELECT naam, month( Datum_Maand ) AS maand, year( Datum_Maand ) AS jaar, sum( Geg_Maand ) AS som FROM " . TABLE_PREFIX . "_maand GROUP BY naam, maand, jaar ) AS somqjoin ) AS maxqjoin GROUP BY naam,tmaand )AS maandelijks ON (somquery.maand= maandelijks.tmaand AND maandelijks.maxgeg = somquery.som) ORDER BY Name, maand";
 $resultmax = mysqli_query($con, $sqlmax) or die("Query failed. ERROR: " . mysqli_error($con));
 
 for ($i = 1; $i <= 12; $i++) {
@@ -166,7 +166,7 @@ foreach ($acdatum as $i => $dyear) {
     } else $colori++;
 }
 
-foreach ($sNaamSaveDatabase as $zz => $inverter_name) {
+foreach (PLANTS as $zz => $inverter_name) {
     if ($zz == 0) {
         $dash = "dashStyle: 'solid',";
     } elseif ($zz > 0) {
@@ -199,9 +199,10 @@ foreach ($sNaamSaveDatabase as $zz => $inverter_name) {
                     data: []
             		},";
 
+    $firstYear = date("Y", strtotime($params['installationDate']));
     foreach ($bdatum as $asx => $asy) {
 
-        if ($asx <= $paramnw['jaar'] && $asx >= ($param['jaar'])) {
+        if ($asx <= $paramnw['jaar'] && $asx >= ($firstYear)) {
             //echo ($asx);echo '<BR>';
             $mydata = "";
             $current_bars = "";
@@ -354,7 +355,7 @@ $categories = $shortmonthcategories;
 })(Highcharts);
     
     $(function () {
-        var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        var khhWp = [<?php echo $params['plantskWp'] ?>];
         var first = <?php echo $firstYear ?>;
         var nmbr =  khhWp.length //misused to get the inverter count
         var sub_title = '<?php echo $sub_title ?>';
