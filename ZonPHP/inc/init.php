@@ -36,11 +36,24 @@ function vadidateParams(&$params)
 
     $plants_kWp = json_decode('[' . $params['plantskWp'] . ']', true);
     define('PLANTS_kWp', $plants_kWp);
+    $totalExpectedYield = 0.0;
+    $expectedYield = array();
+    foreach (PLANTS as $plant) {
+        $temp = json_decode('[' . $params[$plant]['expectedYield'] . ']', true);
+        $params[$plant]['referenceYield'] = $temp;
+        $totalSum = array_sum($temp);
+        $params[$plant]['totalExpectedYield'] = $totalSum;
+        $totalExpectedYield += $totalSum;
+        $expectedYield[] = $totalSum;
+    }
+    $params['totalExpectedYield'] = $totalExpectedYield;
+    $params['expectedYield'] = $expectedYield;
 
     $languages = preg_split('/\s*,\s*/', trim($params['supportedLanguages']));
     $languages = array_map('strtolower', $languages);
     define('LANGUAGES', $languages);
     define('CHART_DATE_FORMAT', array("chart_date_format" => ""));
+
 }
 
 

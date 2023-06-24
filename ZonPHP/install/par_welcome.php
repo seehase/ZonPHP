@@ -4,14 +4,8 @@ include_once "../inc/init.php";
 include_once "../inc/sessionstart.php";
 
 include "par_header.php";
+$_SESSION['passok'] = "passinorder";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (($_POST['pass'] == $admin_password) && ($_POST['user'] == $admin_username)) {
-        $_SESSION['passok'] = "passinorder";
-    } else {
-        $_SESSION['passok'] = "fail";
-    }
-}
 ?>
 
 <div id="menus">

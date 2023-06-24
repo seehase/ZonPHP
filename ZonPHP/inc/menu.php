@@ -73,7 +73,7 @@ if ($params['hideMenu'] == true) {
                     <li><a href="<?php echo HTML_PATH ?>pages/show_plant.php"><?php echo getTxt("installatie"); ?></a>
                     </li>
                     <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
-                    <li><a href="https://github.com/seehase/ZonPHP/archive/master.zip">download ZonPHP</a></li>
+                    <li><a target="_blank" href="https://github.com/seehase/ZonPHP/releases">ZonPHP Release</a></li>
                     <li><a href="<?php echo HTML_PATH ?>inc/destroy.php"><?php echo getTxt("clearsession"); ?> </a></li>
                 </ul>
             </li>

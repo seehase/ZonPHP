@@ -306,14 +306,12 @@ function load_charts() {
             '<div class="item h4 w4" data-id="' + id + '">' +
             '    <div class="item-content card" style="background-color: aqua;"> ' +
             '          <a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
-            '          <div id="' + id + '">' +
-            '               <div class="index_chart" id="' + id + '" ">' +
-            '                      <div class="highcharts-container" >' +
-            '                           <br><p> Hello World</p> ' +
-            '                           <div style="color:blue">' +
-            '                               <img src="./inc/image/solar.png" alt="Italian Trulli" width="400" height="300"> ' +
-            '                           </div>' +
-            '                      </div>' +
+            '          <div class="index_chart" id="' + id + '" ">' +
+            '               <div class="highcharts-container" >' +
+            '                   <br><p> Hello World</p> ' +
+            '                   <div style="color:blue">' +
+            '                      <img src="./inc/image/solar.png" alt="Italian Trulli" width="400" height="300"> ' +
+            '                   </div>' +
             '               </div>' +
             '          </div>' +
             '    </div>' +
