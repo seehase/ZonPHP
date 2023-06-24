@@ -1,4 +1,5 @@
 <?php
+
 // php8.0 ready
 $taal = "en";
 if (isset($default_language)) {
@@ -22,14 +23,14 @@ date_default_timezone_set("UTC");
 if (isset($_GET['taal']) || (!isset($_SESSION['months']))) {
     if ($debugmode) error_log("calling load_language --> reload needed");
     // load default language
-    include ROOT_DIR . "/inc/language/en.php";
+    $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
     // than override with new language
     if (isset($_GET['taal'])) {
         $taal = $_GET['taal'];
         unset($_GET['taal']);
     }
     $_SESSION['sestaal'] = $taal;
-    include ROOT_DIR . "/inc/language/" . $taal . ".php";
+    $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $taal . ".ini", false);
     $_SESSION['txt'] = $txt;
 
 } else {
@@ -39,9 +40,10 @@ if (isset($_GET['taal']) || (!isset($_SESSION['months']))) {
         $txt = $_SESSION['txt'];
     } else {
         // nothing set reload from scratch
-        include ROOT_DIR . "/inc/language/en.php";
+
+        $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
         if (isset($_SESSION['sestaal'])) {
-            include ROOT_DIR . "/inc/language/" . $_SESSION['sestaal'] . ".php";
+            $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $taal . ".ini", false);
         }
         $_SESSION['txt'] = $txt;
     }
@@ -51,18 +53,27 @@ if (isset($_GET['taal']) || (!isset($_SESSION['months']))) {
 }
 // date_default_timezone_set('Europe/Brussels');
 if ($taal == "nl") {
-    $locale = 'nl_NL'; // For IntlDateFormatter
+    $locale = 'nl-NL'; // For IntlDateFormatter
 }
 if ($taal == "fr") {
-    $locale = 'fr_FR'; // For IntlDateFormatter
+    $locale = 'fr-FR'; // For IntlDateFormatter
 }
 if ($taal == "de") {
-    $locale = 'de_DE'; // For IntlDateFormatter
+    $locale = 'de-DE'; // For IntlDateFormatter
 }
 if ($taal == "en") {
-    $locale = 'en_US'; // For IntlDateFormatter
+    $locale = 'en-US'; // For IntlDateFormatter
 }
 // preparing a localized month array
 $formatter = new IntlDateFormatter($locale, IntlDateFormatter::NONE,
     IntlDateFormatter::NONE, NULL, NULL, "MMMM");
-?>
+
+function getTxt($key)
+{
+    if (isset($_SESSION["txt"]) && isset($_SESSION["txt"][$key])) {
+        return $_SESSION["txt"][$key];
+    } else {
+        return "undefined key: " . $key;
+    }
+}
+

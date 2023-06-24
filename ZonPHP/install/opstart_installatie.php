@@ -18,7 +18,7 @@ if (isset($_GET["fout"])) {
 <div id="container">
     <div id="bodytext">
         <div class="inside">
-            <h1 class="notopgap" align="center"><?php echo $txt["bestezonphp"]; ?>,</h1>
+            <h1 class="notopgap" align="center"><?php echo getTxt("bestezonphp"); ?>,</h1>
             <center>
                 Uw Taal:<a href='?taal=nl&amp;fout=<?php echo $error ?>' TARGET='_self'><img
                         src="../inc/image/nl.svg" alt="nl" border="0" width="16" height="11"></a>&nbsp;&nbsp;
@@ -32,24 +32,24 @@ if (isset($_GET["fout"])) {
             <hr>
             <br/>
             <?php
-            echo $txt["volfout"] . ".<br /><br />";
+            echo getTxt("volfout") . ".<br /><br />";
 
             if (isset($_GET["fout"])) {
                 if ($_GET["fout"] == "connect") {
-                    echo $txt["foutconnect"];
+                    echo getTxt("foutconnect");
                 } else if ($_GET["fout"] == "database") {
-                    echo $txt["foutdatabase"];
+                    echo getTxt("foutdatabase");
                 } else if ($_GET["fout"] == "table") {
-                    echo $txt["fouttable"];
+                    echo getTxt("fouttable");
                 } else if ($_GET["fout"] == "ref") {
-                    echo $txt["foutref"];
+                    echo getTxt("foutref");
                 } else if ($_GET["fout"] == "parameter") {
-                    echo $txt["foutparameter"];
+                    echo getTxt("foutparameter");
                 } else {
-                    echo "<br />" . $txt["undefined"];
+                    echo "<br />" . getTxt("undefined");
                 }
             } else {
-                echo "<br />" . $txt["undefined"];
+                echo "<br />" . getTxt("undefined");
             }
             echo "<br />";
             ?>

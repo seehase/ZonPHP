@@ -48,7 +48,7 @@ $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, STR_TO_DATE( CONCAT( DATE( Datum_Dag
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
     $formatter->setPattern('d LLLL yyyy');
-    $datum = $txt["nodata"] . datefmt_format($formatter, $chartdate);
+    $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
     $tlaatstetijd = time();
     $geengevdag = 0;
     $agegevens[] = 0;
@@ -128,7 +128,7 @@ foreach ($maxdays as $inverter => $maxday) {
     $maxkwh[] = $maxval;
 
     $nice_max_date = date("Y-m-d", strtotime($maxday));
-    $maxlinks .= '\'<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . $txt["max"] . " " . $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>\',';
+    $maxlinks .= '\'<a href="day_overview.php?naam=' . $inverter . '&dag=' . $nice_max_date . '">' . getTxt("max") . " " . $inverter . ": " . $nice_max_date . " - " . $maxval . 'kWh</a>\',';
 }
 $maxlinks .= ']';
 
@@ -312,10 +312,10 @@ if (strlen($temp_serie) > 0) {
 
         var temp_max = <?php echo $val_max ?>;
         var temp_min = <?php echo $val_min ?>;
-        var txt_actueel = '<?php echo $txt["actueel"] ?>';
-        var txt_totaal = '<?php echo $txt["totaal"] ?>';
-        var txt_max = '<?php echo $txt["max"] ?>';
-        var txt_peak = '<?php echo $txt["peak"] ?>';
+        var txt_actueel = '<?php echo getTxt("actueel") ?>';
+        var txt_totaal = '<?php echo getTxt("totaal") ?>';
+        var txt_max = '<?php echo getTxt("max") ?>';
+        var txt_peak = '<?php echo getTxt("peak") ?>';
 
         Highcharts.setOptions({<?php echo $chart_lang ?>});
         var mychart = new Highcharts.Chart('mycontainer', Highcharts.merge(myoptions, {

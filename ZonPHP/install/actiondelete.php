@@ -21,7 +21,7 @@ include_once "par_header.php";
 <div id="container">
     <div id="bodytextparm">
         <div class="inside">
-            <h2 class="notopgap" align="center"><u><?php echo $txt["pardelete"]; ?></u></h2>
+            <h2 class="notopgap" align="center"><u><?php echo getTxt("pardelete"); ?></u></h2>
             <?php
 
             $year = $_GET['year'];
@@ -31,13 +31,13 @@ include_once "par_header.php";
             $finish = false;
 
             if ($wr == "" or $year == "") {
-                echo $txt["pardeleteinput1"] . $year . "<br>";
-                echo $txt["pardeleteinput2"] . $wr . "<br>" . "<br>";
-                echo $txt["pardeleteerror"] . "<br>" . "<br>";
+                echo getTxt("pardeleteinput1") . $year . "<br>";
+                echo getTxt("pardeleteinput2") . $wr . "<br>" . "<br>";
+                echo getTxt("pardeleteerror") . "<br>" . "<br>";
 
                 ?>
                 <form>
-                    <input type="button" value="<?php echo $txt["parback"]; ?>"
+                    <input type="button" value="<?php echo getTxt("parback"); ?>"
                            onclick="window.location.href='update.php'"/>
                 </form>
                 <?php
@@ -49,8 +49,8 @@ include_once "par_header.php";
             $wrdat = $year . "-" . $mon . "-" . $day;
             if ($mon == "") $wrdat = $year . "-";
 
-            echo $txt["pardeleteinput1"] . $wrdat . "<br>";
-            echo $txt["pardeleteinput2"] . $wr . "<br>" . "<br>";
+            echo getTxt("pardeleteinput1") . $wrdat . "<br>";
+            echo getTxt("pardeleteinput2") . $wr . "<br>" . "<br>";
             ?>
             <?php
             $tableday = $table_prefix . "_dag";
@@ -60,9 +60,9 @@ include_once "par_header.php";
                 $delstring = "DELETE FROM $tableday WHERE Datum_Dag LIKE '$wrdat%' AND Naam like '$wr'";
                 $delstringmaand = "DELETE FROM $tablemonth WHERE Datum_Maand like '$wrdat%' AND Naam= '$wr'";
 
-                mysqli_query($con, $delstring) or die($txt["pardeletesqlerror"] . $delstring . " <--" . mysqli_error($delstring));
-                mysqli_query($con, $delstringmaand) or die($txt["pardeletesqlerror"] . $delstring . " <--" . mysqli_error($delstring));
-                $deldat = $txt["jaar"];
+                mysqli_query($con, $delstring) or die(getTxt("pardeletesqlerror") . $delstring . " <--" . mysqli_error($delstring));
+                mysqli_query($con, $delstringmaand) or die(getTxt("pardeletesqlerror") . $delstring . " <--" . mysqli_error($delstring));
+                $deldat = getTxt("jaar");
                 $finish = true;
             }
 
@@ -70,9 +70,9 @@ include_once "par_header.php";
                 $delstring = "DELETE FROM $tableday WHERE Datum_Dag LIKE '$wrdat%' AND Naam like '$wr'";
                 $delstringmaand = "DELETE FROM $tablemonth WHERE Datum_Maand like '$wrdat%' AND Naam= '$wr'";
 
-                mysqli_query($con, $delstring) or die($txt["pardeletesqlerror"] . $delstring . " <--" . mysqli_error($delstring));
-                mysqli_query($con, $delstringmaand) or die($txt["pardeletesqlerror"] . $delstring . " <--" . mysqli_error($delstring));
-                $deldat = $txt["maand"];
+                mysqli_query($con, $delstring) or die(getTxt("pardeletesqlerror") . $delstring . " <--" . mysqli_error($delstring));
+                mysqli_query($con, $delstringmaand) or die(getTxt("pardeletesqlerror") . $delstring . " <--" . mysqli_error($delstring));
+                $deldat = getTxt("maand");
                 $finish = true;
             }
 
@@ -80,15 +80,15 @@ include_once "par_header.php";
                 $delstring = "DELETE FROM $tableday WHERE Datum_Dag LIKE '$wrdat%' AND Naam like '$wr'";
                 $delstringmaand = "DELETE FROM $tablemonth WHERE Datum_Maand like '$wrdat%' AND Naam= '$wr'";
 
-                mysqli_query($con, $delstring) or die($txt["pardeletesqlerror"] . $delstring . " <--" . mysqli_error($delstring));
-                mysqli_query($con, $delstringmaand) or die($txt["pardeletesqlerror"] . $delstring . " <--" . mysqli_error($delstring));
-                $deldat = $txt["dag"];
+                mysqli_query($con, $delstring) or die(getTxt("pardeletesqlerror") . $delstring . " <--" . mysqli_error($delstring));
+                mysqli_query($con, $delstringmaand) or die(getTxt("pardeletesqlerror") . $delstring . " <--" . mysqli_error($delstring));
+                $deldat = getTxt("dag");
                 $finish = true;
             }
 
             echo "<br>" . "<br>" . "<br>" . "<br>";
-            echo $txt["pardeleteready"] . $deldat . "<br>";
-            echo $txt["omvormer"] . ": " . $wr . "<br>";
+            echo getTxt("pardeleteready") . $deldat . "<br>";
+            echo getTxt("omvormer") . ": " . $wr . "<br>";
             ?>
         </div>
     </div>

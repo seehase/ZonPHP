@@ -20,8 +20,6 @@ if (strpos($version, "(dev)") > 0) {
     <a style="display:block;float:right;width:60%;margin-left:10px;" class="blink"
        href="<?php echo $downloadlink ?>"><b><?php echo $new_version_label ?></b></a>
    &nbsp; - &nbsp;
-    <a href="https://solar.seehausen.org/about.php">solar.seehausen.org</a>&nbsp;
-    &nbsp; - &nbsp;
     <a href="https://github.com/seehase/ZonPHP" onclick="target='_blank'">https://github.com/seehase/ZonPHP</a>&nbsp;
 </div>
 

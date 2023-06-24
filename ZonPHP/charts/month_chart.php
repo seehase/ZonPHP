@@ -48,7 +48,7 @@ $DaysPerMonth = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
 $sql = "SELECT Datum_Maand, Geg_Maand, naam
         FROM " . $table_prefix . "_maand
         where Datum_Maand like '" . $current_year_month . "%'
-        GROUP BY Datum_Maand, naam
+        GROUP BY Naam, Datum_Maand, Geg_Maand
         ORDER BY Naam, Datum_Maand ASC";
 $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
 $daycount = 0;
@@ -56,7 +56,7 @@ $all_valarray = array();
 $inveter_list = array();
 if (mysqli_num_rows($result) == 0) {
     $formatter->setPattern('LLLL yyyy');
-    $datum = $txt["nodata"] . datefmt_format($formatter, $chartdate);
+    $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
     $agegevens[] = 0;
     //$iyasaanpassen = $frefmaand * 1.5;
     $geengevmaand = 0;
@@ -109,7 +109,7 @@ for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
 }
 // collect data array
-$myurl = HTML_PATH."/pages/day_overview.php?dag=";
+$myurl = HTML_PATH."pages/day_overview.php?dag=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;
@@ -186,9 +186,9 @@ include_once "chart_styles.php";
         var myoptions = <?php echo $chart_options ?>;
         var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
-        var txt_max = '<?php echo $txt["max"] ?>';
-        var txt_gem = '<?php echo $txt["gem"] ?>';
-        var txt_ref = '<?php echo $txt["ref"] ?>';
+        var txt_max = '<?php echo getTxt("max") ?>';
+        var txt_gem = '<?php echo getTxt("gem") ?>';
+        var txt_ref = '<?php echo getTxt("ref") ?>';
         var gem2;
         var totamth = 0;
         var mychart = new Highcharts.Chart('month_chart', Highcharts.merge(myoptions, {

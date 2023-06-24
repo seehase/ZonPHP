@@ -21,27 +21,27 @@ include_once "par_header.php";
             $vlag = 0;
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $txt["watverkeerd"] = "";
+                $watverkeerd = "";
                 foreach ($_POST as $key => $waarden) {
-                    if (strlen($waarden) == 0 || ($_POST[$key] == $txt["verkeerd"])) {
+                    if (strlen($waarden) == 0 || ($_POST[$key] == getTxt("verkeerd"))) {
                         if ($key == 'plantname' || $key == 'google_tracking' || $key == 'chart_date_format') {
                             // plantname, google_tracking ... could be empty
                         } else {
-                            $_POST[$key] = $txt["verkeerd"];
-                            $txt["watverkeerd"] .= "<br/>" . $key;
+                            $_POST[$key] = getTxt("verkeerd");
+                            $watverkeerd .= "<br/>" . $key;
                             $vlag = 1;
                         }
                     }
                 }
                 if ($vlag == 1) {
-                    echo "<font size='0'color='#c00000'>" . $txt["verkeerd"] . $txt["watverkeerd"] . "</font><br/>";
+                    echo getTxt("verkeerd") . $watverkeerd;
                 }
             }
             if (($_SERVER['REQUEST_METHOD'] == 'POST') && $vlag == 0) {
                 $sqldel = "DELETE FROM " . $table_prefix . "_parameters";
                 $resultdel = mysqli_query($con, $sqldel);
                 if (!$resultdel)
-                    echo "<font size='0'color='#ff0000'>" . $txt["verkeerd"] . $txt["tabelverkeerd"] . $table_prefix . $txt["tabelverkeerd1"] . "</font><br/>";
+                    echo "<font size='0'color='#ff0000'>" . getTxt("verkeerd") . getTxt("tabelverkeerd") . $table_prefix . getTxt("tabelverkeerd1") . "</font><br/>";
                 else {
                     $sqlsave = "INSERT INTO " . $table_prefix . "_parameters(Variable,Waarde)values";
                     foreach ($_POST as $key => $waarden) {
@@ -49,7 +49,7 @@ include_once "par_header.php";
                     }
                     $sqlsave = substr($sqlsave, 0, -1);
                     mysqli_query($con, $sqlsave) or die("Query failed. sql_save: " . mysqli_error($con));
-                    echo "<font size='0'color='#00AA00'>" . $txt["opgeslagen"] . "</font><br/>";
+                    echo "<font size='0'color='#00AA00'>" . getTxt("opgeslagen") . "</font><br/>";
                 }
             }
 
@@ -72,7 +72,7 @@ include_once "par_header.php";
             <FORM name="formulier" METHOD="post" ACTION="">
 
                 <hr>
-                <?php echo $txt["kiestijd"]; ?><br/>
+                <?php echo getTxt("kiestijd"); ?><br/>
                 <select NAME="isorteren">
                     <option SELECTED><?php if (!empty($_POST['isorteren'])) echo $_POST['isorteren']; else echo "5" ?>
                     <option>1
@@ -90,11 +90,11 @@ include_once "par_header.php";
                 </select>
                 <br/>
                 <hr>
-                <?php echo $txt["prefix"]; ?><br/>
-                <?php echo $txt["prefix_name"] . ": <strong>" . $table_prefix . "</strong>"; ?>
+                <?php echo getTxt("prefix"); ?><br/>
+                <?php echo getTxt("prefix_name") . ": <strong>" . $table_prefix . "</strong>"; ?>
                 <br/>
                 <hr>
-                <label><?php echo $txt["startdatum"]; ?> :</label>
+                <label><?php echo getTxt("startdatum"); ?> :</label>
                 <select name="dag">
                     <option SELECTED><?php if (!empty($_POST['dag'])) echo $_POST['dag']; ?>
                         <?php
@@ -121,25 +121,25 @@ include_once "par_header.php";
                 </select>
                 <br/>
                 <hr>
-                <?php echo $txt["available_languages"]; ?>?<br>
+                <?php echo getTxt("available_languages"); ?>?<br>
                 <input type='checkbox' name='lang_de'
                        size='5' <?php if (isset($_POST['lang_de'])) echo "checked"; ?> >DE <img
-                    src="../inc/image/de.svg" border='0' width='16' height='12' alt="de"/>
+                        src="../inc/image/de.svg" border='0' width='16' height='12' alt="de"/>
                 <br/>
                 <input type='checkbox' name='lang_nl'
                        size='5' <?php if (isset($_POST['lang_nl'])) echo "checked"; ?> >NL <img
-                    src="../inc/image/nl.svg" border='0' width='16' height='12' alt="nl"/>
+                        src="../inc/image/nl.svg" border='0' width='16' height='12' alt="nl"/>
                 <br/>
                 <input type='checkbox' name='lang_fr'
                        size='5' <?php if (isset($_POST['lang_fr'])) echo "checked"; ?> >FR <img
-                    src="../inc/image/fr.svg" border='0' width='16' height='12' alt="fr"/>
+                        src="../inc/image/fr.svg" border='0' width='16' height='12' alt="fr"/>
                 <br/>
                 <input type='checkbox' name='lang_en'
                        size='5' <?php if (isset($_POST['lang_en'])) echo "checked"; ?> >EN <img
-                    src="../inc/image/en.svg" border='0' width='16' height='12' alt="en"/>
+                        src="../inc/image/en.svg" border='0' width='16' height='12' alt="en"/>
                 <br/>
                 <hr>
-                <?php echo $txt["autorefresh"];
+                <?php echo getTxt("autorefresh");
                 $autorefresh = 300;
                 if (isset($_POST['autorefresh']) && is_numeric($_POST['autorefresh'])) {
                     $autorefresh = intval($_POST['autorefresh']);
@@ -154,19 +154,19 @@ include_once "par_header.php";
                        size='63'>
                 <br/>
                 <hr>
-                <?php echo $txt["keuzenaam"]; ?> (,) bv: SLAPER,SIRA,FJORD<br/>
+                <?php echo getTxt("keuzenaam"); ?> (,) bv: SLAPER,SIRA,FJORD<br/>
                 <input type='text' name='sNaamSaveDatabasest'
                        value='<?php if (!empty($_POST['sNaamSaveDatabasest'])) echo $_POST['sNaamSaveDatabasest']; ?>'
                        size='63'>
                 <br/>
                 <hr>
-                <?php echo $txt["watpiek"]; ?> (,) bv: 4500,10210,6880<br/>
+                <?php echo getTxt("watpiek"); ?> (,) bv: 4500,10210,6880<br/>
                 <input type='text' name='ieffectief_kwpiekst'
                        value='<?php if (!empty($_POST['ieffectief_kwpiekst'])) echo $_POST['ieffectief_kwpiekst']; else echo "5000" ?>'
                        size='63'>
                 <br/>
                 <hr>
-                <?php echo $txt["coefficient"]; ?>.<br/>
+                <?php echo getTxt("coefficient"); ?>.<br/>
                 <input type='text' name='coefficient'
                        value='<?php if (!empty($_POST['coefficient'])) echo $_POST['coefficient']; else echo "1" ?>'
                        size='20'>
@@ -177,7 +177,7 @@ include_once "par_header.php";
                     $_POST['sInvullen_gegevens'] = "Invullen_gegevens_sunny_explorer";
                 }
                 $selectedInverter = $_POST['sInvullen_gegevens'];
-                echo $txt["inlezenbestand"];
+                echo getTxt("inlezenbestand");
                 ?>:
                 <select NAME="sInvullen_gegevens">
                     <option <?php if ($selectedInverter == "none") echo "selected "; ?> >
@@ -244,7 +244,7 @@ include_once "par_header.php";
                 $pageURL = 'http://';
                 $pageURL .= $_SERVER["SERVER_NAME"] . '/';
                 ?>
-                <div id="toverdiv"><?php echo $txt["plantname"]; ?>
+                <div id="toverdiv"><?php echo getTxt("plantname"); ?>
                     <input type="text" name='plantname'
                            value='<?php if (empty($_POST['plantname'])) echo ""; else echo $_POST['plantname']; ?>'
                            size='20'>
@@ -258,61 +258,61 @@ include_once "par_header.php";
                        size='63'>
                 <br/>
                 <hr>
-                <?php echo $txt["gegevensinstallatie"]; ?>.<br/>
+                <?php echo getTxt("gegevensinstallatie"); ?>.<br/>
                 <table>
                     <tbody>
 
                     <tr>
-                        <td><?php echo $txt["naamwebsite"]; ?>:</td>
+                        <td><?php echo getTxt("naamwebsite"); ?>:</td>
                         <td><input type='text' name='sNaamVoorOpWebsite'
                                    value='<?php if (!empty($_POST['sNaamVoorOpWebsite'])) echo $_POST['sNaamVoorOpWebsite']; else echo "your name" ?>'
                                    size='63'></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["firmanaam"]; ?>:</td>
+                        <td><?php echo getTxt("firmanaam"); ?>:</td>
                         <td><input type='text' name='sNaam_Installateur'
                                    value='<?php if (!empty($_POST['sNaam_Installateur'])) echo $_POST['sNaam_Installateur']; else echo "your installateur" ?>'
                                    size='63'></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["websitefirma"]; ?>:</td>
+                        <td><?php echo getTxt("websitefirma"); ?>:</td>
                         <td><input type='text' name='sWebsite_Installateur'
                                    value='<?php if (!empty($_POST['sWebsite_Installateur'])) echo $_POST['sWebsite_Installateur']; else echo "your website admin" ?>'
                                    size='63'></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["aantalsoortpaneel"]; ?>:</td>
+                        <td><?php echo getTxt("aantalsoortpaneel"); ?>:</td>
                         <td><input type='text' name='sSoort_pannel_aantal'
                                    value='<?php if (!empty($_POST['sSoort_pannel_aantal'])) echo $_POST['sSoort_pannel_aantal']; else echo "your panels" ?>'
                                    size='63'></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["omvormer"]; ?>:</td>
+                        <td><?php echo getTxt("omvormer"); ?>:</td>
                         <td><input type='text' name='sOmvormer'
                                    value='<?php if (!empty($_POST['sOmvormer'])) echo $_POST['sOmvormer']; else echo " your converter" ?>'
                                    size='63'></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["orientatie"]; ?>:</td>
+                        <td><?php echo getTxt("orientatie"); ?>:</td>
                         <td><input type='text' name='sOrientatie'
                                    value='<?php if (!empty($_POST['sOrientatie'])) echo $_POST['sOrientatie']; else echo "your orientation" ?>'
                                    size='63'></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["datacaptatie"]; ?>:</td>
+                        <td><?php echo getTxt("datacaptatie"); ?>:</td>
                         <td><input type='text' name='sData_Captatie'
                                    value='<?php if (!empty($_POST['sData_Captatie'])) echo $_POST['sData_Captatie']; else echo "your data capture" ?>'
                                    size='63'></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["woonplaats"]; ?>:</td>
+                        <td><?php echo getTxt("woonplaats"); ?>:</td>
                         <td><input type='text' name='sPlaats'
                                    value='<?php if (!empty($_POST['sPlaats'])) echo $_POST['sPlaats']; else echo "your location" ?>'
                                    size='63'>
                         </td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["image1"]; ?>:</td>
+                        <td><?php echo getTxt("image1"); ?>:</td>
                         <td><input type='text' name='image1'
                                    value='<?php if (!empty($_POST['image1'])) echo $_POST['image1']; else {
                                        $_POST['image1'] = "inc/image/image1.jpg";
@@ -321,7 +321,7 @@ include_once "par_header.php";
                                    size='63'></td>
                     </tr>
                     <tr>
-                        <td><?php echo $txt["image2"]; ?>:</td>
+                        <td><?php echo getTxt("image2"); ?>:</td>
                         <td><input type='text' name='image2'
                                    value='<?php if (!empty($_POST['image2'])) echo $_POST['image2']; else {
                                        $_POST['image2'] = "inc/image/image2.jpg";
@@ -333,24 +333,24 @@ include_once "par_header.php";
                     </tbody>
                 </table>
                 <hr>
-                <?php echo $txt["flyout_menu"]; ?>?
+                <?php echo getTxt("flyout_menu"); ?>?
                 <br>
-                <?php echo $txt["hide_menu"]; ?>?
+                <?php echo getTxt("hide_menu"); ?>?
                 <input type='checkbox' name='hide_menu'
                        size='5' <?php if (isset($_POST['hide_menu'])) echo "checked"; ?> >
                 <br/>
-                <?php echo $txt["hide_footer"]; ?>?
+                <?php echo getTxt("hide_footer"); ?>?
                 <input type='checkbox' name='hide_footer'
                        size='5' <?php if (isset($_POST['hide_footer'])) echo "checked"; ?> >
                 <br>
                 <hr>
-                <?php echo $txt["chart_date_format"]; ?>:
+                <?php echo getTxt("chart_date_format"); ?>:
                 <input type='text' name='chart_date_format'
                        value='<?php if (!empty($_POST['chart_date_format'])) echo $_POST['chart_date_format']; ?>'
                        size='63'><br/>
 
                 <hr>
-                <?php echo $txt["google_tracking"]; ?>:
+                <?php echo getTxt("google_tracking"); ?>:
                 <input type='text' name='google_tracking' size='40'
                        value='<?php if (!empty($_POST['google_tracking'])) echo $_POST['google_tracking'] ?>'>
                 <br/>
@@ -360,7 +360,7 @@ include_once "par_header.php";
                     $_POST['colortheme'] = "user";
                 }
                 $theme = $_POST['colortheme'];
-                echo $txt["choose"] . " " . $txt["colortheme"] . ":";
+                echo getTxt("choose") . " " . getTxt("colortheme") . ":";
                 ?>
 
                 <select NAME="colortheme">
@@ -374,28 +374,28 @@ include_once "par_header.php";
                 </select>
 
                 <hr>
-                <?php echo $txt["CustomFields"]; ?>:<br>
-                <?php echo $txt["EMU_Offset"]; ?>: <input type='text' name='EMU_Offset'
-                                                          value='<?php if (!empty($_POST['EMU_Offset'])) echo $_POST['EMU_Offset']; else echo "0" ?>'
-                                                          size='5'><br/>
-                <?php echo $txt["Path_EMU"]; ?>: <input type='text' name='Path_EMU'
-                                                        value='<?php if (!empty($_POST['Path_EMU'])) echo $_POST['Path_EMU']; else echo "-" ?>'
-                                                        size='60'><br/>
-                <?php echo $txt["Path_Webroot"]; ?>: <input type='text' name='Path_Webroot'
-                                                            value='<?php if (!empty($_POST['Path_Webroot'])) echo $_POST['Path_Webroot']; else echo "-" ?>'
-                                                            size='60'><br/>
-                <?php echo $txt["Path_Zonphp"]; ?>: <input type='text' name='Path_Zonphp'
-                                                           value='<?php if (!empty($_POST['Path_Zonphp'])) echo $_POST['Path_Zonphp']; else echo "-" ?>'
-                                                           size='60'><br/>
-                <?php echo $txt["PVO_API"]; ?>: <input type='text' name='PVO_API'
-                                                       value='<?php if (!empty($_POST['PVO_API'])) echo $_POST['PVO_API']; else echo "-" ?>'
-                                                       size='60'><br/>
-                <?php echo $txt["PVO_SYS_ID"]; ?>: <input type='text' name='PVO_SYS_ID'
-                                                          value='<?php if (!empty($_POST['PVO_SYS_ID'])) echo $_POST['PVO_SYS_ID']; else echo "-" ?>'
+                <?php echo getTxt("CustomFields"); ?>:<br>
+                <?php echo getTxt("EMU_Offset"); ?>: <input type='text' name='EMU_Offset'
+                                                            value='<?php if (!empty($_POST['EMU_Offset'])) echo $_POST['EMU_Offset']; else echo "0" ?>'
+                                                            size='5'><br/>
+                <?php echo getTxt("Path_EMU"); ?>: <input type='text' name='Path_EMU'
+                                                          value='<?php if (!empty($_POST['Path_EMU'])) echo $_POST['Path_EMU']; else echo "-" ?>'
                                                           size='60'><br/>
+                <?php echo getTxt("Path_Webroot"); ?>: <input type='text' name='Path_Webroot'
+                                                              value='<?php if (!empty($_POST['Path_Webroot'])) echo $_POST['Path_Webroot']; else echo "-" ?>'
+                                                              size='60'><br/>
+                <?php echo getTxt("Path_Zonphp"); ?>: <input type='text' name='Path_Zonphp'
+                                                             value='<?php if (!empty($_POST['Path_Zonphp'])) echo $_POST['Path_Zonphp']; else echo "-" ?>'
+                                                             size='60'><br/>
+                <?php echo getTxt("PVO_API"); ?>: <input type='text' name='PVO_API'
+                                                         value='<?php if (!empty($_POST['PVO_API'])) echo $_POST['PVO_API']; else echo "-" ?>'
+                                                         size='60'><br/>
+                <?php echo getTxt("PVO_SYS_ID"); ?>: <input type='text' name='PVO_SYS_ID'
+                                                            value='<?php if (!empty($_POST['PVO_SYS_ID'])) echo $_POST['PVO_SYS_ID']; else echo "-" ?>'
+                                                            size='60'><br/>
                 <hr>
 
-                <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo $txt["save"]; ?>"
+                <INPUT name="savecontrole" TYPE="submit" VALUE="<?php echo getTxt("save"); ?>"
                        onClick="return confirmSubmit()">
             </FORM>
         </div>

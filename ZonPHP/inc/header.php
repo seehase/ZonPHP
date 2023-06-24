@@ -5,11 +5,14 @@
     <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
     <meta name="description" content="PV Anlagen Monitoring">
     <meta name="author" content="seehase">
+    <meta name=”apple-mobile-web-app-capable” content=”yes“>
 <?php
 //header('Content-Type: text/html; charset=UTF-8');
 // make css file static for caching, define variable styles as constants
 define('HEADER_CLASS', 'jqx-window-header jqx-window-header-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp');
 define('HEADER_INDEX_CLASS', 'jqx-window-header jqx-window-header-index-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp');
+define('MENU_CLASS', 'jqx-window-header jqx-window-header-menu jqx-widget-header jqx-widget-header-menu jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp');
+define('MENU_INDEX_CLASS', 'jqx-window-header jqx-window-header-index-menu jqx-widget-header jqx-widget-header-index-menu jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp');
 define('CONTENT_CLASS', 'jqx-window-content jqx-window-content-zonphp jqx-widget-content jqx-widget-content-zonphp jqx-rc-b jqx-rc-b-zonphp ');
 define('WINDOW_STYLE_BIG', 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 10px 3px 35px 10px; border-width: 1px; border-style: solid; border-radius: 10px;');
 define('WINDOW_STYLE_CHART', 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 0px 0px 0px 0px;border-width: 1px; border-style: solid; border-radius: 10px; width:100%; height:400px');
@@ -23,34 +26,51 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     } else {
         $autorefresh = 300;
     }
-
     if ($autorefresh > 0) {
         echo '<meta http-equiv="refresh" content="' . $autorefresh . '" >';
     }
     ?>
     <title><?php echo $param['sNaamVoorOpWebsite']; ?></title>
     <!-- use googleapis CDN -->
-    <link type="text/css" rel="stylesheet"
-          href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <!-- jquery -->
+	<link type="text/css" rel="stylesheet"
+	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/blitzer/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-            integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-            crossorigin="anonymous"></script>
+	<!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	
+	<!-- Datepicker -->
+	<link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css' rel='stylesheet' type='text/css'>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js'></script>
+	
+	<!-- Language files for Datepicker -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.de.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.en-GB.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.fr.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.nl.min.js"></script>
+	
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/all.css" integrity="sha512-ajhUYg8JAATDFejqbeN7KbF2zyPbbqz04dgOLyGcYEk/MJD3V+HJhJLKvJ2VVlqrr4PwHeGTTWxbI+8teA7snw==" crossorigin="anonymous" referrerpolicy="no-referrer" >
 
+    <!-- Highcharts -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css">
-    <link type="text/css" rel="stylesheet" href="<?php echo HTML_PATH ?>/inc/styles/jqx.zonphp.css">
+    <!-- moment (used by Highcharts for UTC to local time) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data-1970-2030.js"></script>
 
-    <!-- read default styles (static) -->
-    <link rel="stylesheet" type="text/css" href="<?php echo HTML_PATH ?>/inc/styles/style.css">
+    <!-- jqwidgets -->
+    <link type="text/css" rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css">
+    <link type="text/css" rel="stylesheet" href="<?php echo HTML_PATH ?>inc/styles/jqx.zonphp.css">
+	
+	<!-- read default styles (static) -->
+    <link rel="stylesheet" type="text/css" href="<?php echo HTML_PATH ?>inc/styles/style.css">
 
     <!-- override dynamic with parameter -->
     <style>
@@ -69,7 +89,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
         .jqx-widget-header-zonphp {
             color: #<?php echo $colors['color_windowfont'] ?>;
             border-color: #ffffff;
-            background: #<?php echo $colors['color_windowcolor'] ?> url(<?php echo $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
+            background: #<?php echo $colors['color_windowcolor'] ?> url(<?php echo HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
 
         #footer a, #id_about a, #id_links a, #id_install a {
@@ -94,7 +114,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
         }
 
         html, body {
-            background-color: #<?php echo $colors['color_background'] ?>;
+            background-color: #<?php echo $colors['color_background_body'] ?>;
         }
 
         #headerinverter {
@@ -114,6 +134,5 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
         include_once(ROOT_DIR . "/inc/analyticstracking.php");
     }
     ?>
-    <?php $showflop = "#top31_chart"; ?>
 </head>
 <body>

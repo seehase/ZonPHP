@@ -51,7 +51,7 @@ $link_today = "window.location.href='" . $_SERVER['PHP_SELF'] . "?maand=" . date
             </h2>
         </div>
         <div class="backtoday" style="float:none; position: absolute;  top: 15px;  left: 15px;">
-            <button class="btn btn-zonphp" onclick="<?php echo $link_today ?><?php echo $txt["terugnaarvandaag"] ?>
+            <button class="btn btn-zonphp" onclick="<?php echo $link_today ?><?php echo getTxt("terugnaarvandaag") ?>
             </button>
         </div>
         <div id="month_chart" style="width:100%; !important; height:100%; !important;"></div>
