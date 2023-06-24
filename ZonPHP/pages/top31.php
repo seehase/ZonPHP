@@ -5,7 +5,6 @@ include_once ROOT_DIR."/inc/load_cache.php";
 include_once ROOT_DIR."/inc/import_data.php";
 
 unset($agegevens);
-unset($frefmaand);
 unset($adatum);
 unset($fgemiddelde);
 unset($amaxref);

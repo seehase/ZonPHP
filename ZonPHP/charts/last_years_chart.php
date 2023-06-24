@@ -77,32 +77,18 @@ $sqlref = "SELECT Naam, SUM(Geg_Refer) as sum_geg_refer, SUM(Dag_Refer) as sum_d
 	  ORDER BY Naam, Datum_Refer ASC";
 //echo $sqlref;
 $nfrefmaand = array();
-$nfrefdagmaand = array();
-$nfreftot = array();
+
 $resultref = mysqli_query($con, $sqlref) or die("Query failed. jaar-ref " . mysqli_error($con));
 if (mysqli_num_rows($resultref) == 0) {
     $frefmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-    $frefdagmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 } else {
     $frefmaand = array();
-    $frefdagmaand = array();
 
     while ($row = mysqli_fetch_array($resultref)) {
         $frefmaand[date("n", strtotime($row['Datum_Refer']))] = $row['sum_geg_refer'];
-        $frefdagmaand[date("n", strtotime($row['Datum_Refer']))] = $row['sum_dag_refer'];
         $nfrefmaand[date("n", strtotime($row['Datum_Refer']))][$row['Naam']] = $row['sum_geg_refer'];
-        $x = $row['Naam'];
-        if (!isset($nfreftot[$x])) {
-            $nfreftot[$x] = 0;
-        }
-        $nfreftot[$x] += $row['sum_geg_refer'];
-        $nfrefdagmaand[date("n", strtotime($row['Datum_Refer']))][$row['Naam']] = $row['sum_dag_refer'];
-
     }
-    $iyasaanpassen = (round(0.5 + max($frefmaand) / 50) * 50);
 }
-
-$nfreftot = array_values($nfreftot);
 
 //max for all inverters
 $sqlmax = "SELECT maand,jaar,som, Name FROM 
