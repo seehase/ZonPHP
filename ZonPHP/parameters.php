@@ -16,8 +16,8 @@
  *
  *****************************************************************************/
 
-$admin_username = "admin";
-$admin_password = " ";
+$admin_username = "";
+$admin_password = "";
 
 /******************************************************************************
  * #### REQUIRED ####
@@ -49,6 +49,7 @@ $weewx_table_name = "archive";            /*  weewx table name     --> default: 
 $weewx_temp_column = "outTemp";           /*  weewx temp column name     --> default: "outTemp"        */
 $weewx_timestamp_column = "dateTime";     /*  weewx timestamp column name     --> default: "dateTime"  */
 $weewx_temp_is_farenheit = true;          /*  weewx temp is in fahrenheit     --> default: "true"      */
+
 
 /*****************************************************************************
  * Set constants to get absolute paths when needed.

@@ -79,8 +79,8 @@ function load_charts() {
         addCumulative();
         addLastYears();
         addBest();
-        addPlantInfo();
-        addImage1();
+      //  addPlantInfo();
+      //  addImage1();
         // loadLayout(grid, layout);
     }
 
