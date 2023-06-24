@@ -66,8 +66,10 @@ if (isset($_SESSION['language'])) {
 
 if ($isIndexPage == true) {
     $displayType = "'none'";
+	$export = "false";
 } else {
     $displayType = "'block'";
+	$export = "true";
 }
 
 $chart_options =
@@ -75,6 +77,9 @@ $chart_options =
      accessibility: {
      	  enabled: false
   	 },
+     exporting: {
+        enabled: $export
+     },
      title: {
          text: '',    
          style: {
