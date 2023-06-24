@@ -10,7 +10,7 @@ if (isset($_GET['naam']))
 
 // get theme
 if (isset($_GET['theme'])) {
-    include_once "load_colors.php";
+    include_once "load_themes.php";
 }
 
 // check if tables exists
@@ -39,13 +39,21 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
         $param = $_SESSION['param'];
     }
 
+    $plantInfo = array("sNaamVoorOpWebsite" => $param['sNaamVoorOpWebsite'],
+        "sPlaats" => $param['sPlaats'],
+        "sSoort_pannel_aantal" => $param['sSoort_pannel_aantal'],
+        "sOmvormer" => $param['sOmvormer'],
+        "dstartdatum" => $_SESSION['dstartdatum'],
+        "sOrientatie" => $param['sOrientatie'],
+        "sData_Captatie" => $param['sData_Captatie']);
+
     $charts = $_SESSION['charts'];
     if (!isset($charts['chart_date_format'])) {
         $charts['chart_date_format'] = "";
     }
 
     if (!isset($_SESSION['colors'])) {
-        include_once "load_colors.php";
+        include_once "load_themes.php";
     } else {
         $colors = $_SESSION['colors'];
     }
@@ -80,7 +88,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     include_once ROOT_DIR."/inc/load_parameters.php";
 
     // load color and theme
-    include_once ROOT_DIR."/inc/load_colors.php";
+    include_once ROOT_DIR."/inc/load_themes.php";
 
     // fixme: integrate into cache... after importing data force reload of paramater
     // load first and last date of date

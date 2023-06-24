@@ -72,6 +72,9 @@ if ($isIndexPage == true) {
 
 $chart_options =
     "{     
+     accessibility: {
+     	  enabled: false
+  	 },
      title: {
          text: '',    
          style: {

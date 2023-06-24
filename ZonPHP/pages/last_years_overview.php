@@ -12,7 +12,7 @@ if (isset($_POST['inverter'])) {
 $nextyear = date("Y-m-d", strtotime("+1 year", $chartdate));
 $prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
 ?>
-<?php include_once ROOT_DIR."/inc/menu.php"; ?>
+<?php include_once ROOT_DIR."/inc/sidemenu.php"; ?>
 <?php
 $paramstr_choose = '';
 $paramstr_day = '';
@@ -33,20 +33,34 @@ if (strpos($paramstr_day, "?") == 0) {
 if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
+$footer_display_style = "clear:both; ";
+if (isset($param['hide_footer'])) {
+    $padding = '- 35px';
+    $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
+}
+else 
+{$padding = '- 0px';
+$corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';}
 ?>
 <div id="page-content">
-    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: 56.5px; ">
+    <div id='resize' class="bigCharts" style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding;?>); ">
+		<div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+		<?php include_once ROOT_DIR."/inc/topmenu.php"; ?>
+		</div>
+        
+        
         <div id="chart_header" class="<?= HEADER_CLASS ?>" style = "display: grid; align-content: center; ">
             <h2>
                 <?php
                 //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
-                echo getTxt("chart_lastyearoverview");
+                echo $txt["chart_lastyearoverview"];
                 //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
                 ?>
             </h2>
         </div>
-        <div id="all_years_chart_<?php echo $inverter ?>" style="width:100%; height:100%; "></div>
+        <div id="all_years_chart_<?php echo $inverter ?>" style="width:100%; background-color: #<?php echo $colors['color_chartbackground']?>;height:100%; <?php echo $corners;?>">
     </div>
+<?php include_once ROOT_DIR."/inc/footer.php"; ?>
 </div>
 <script>
     $(document).ready(function () {
@@ -54,6 +68,6 @@ if (strpos($paramstr_choose, "?") == 0) {
     });
 </script>
 </div><!-- closing ".page-content" -->
-<?php include_once ROOT_DIR."/inc/footer.php"; ?>
+
 </body>
 </html>

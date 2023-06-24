@@ -18,6 +18,7 @@ $param = array();
 $param['image1'] = "inc/image/image1.jpg";
 $param['image2'] = "inc/image/image2.jpg";
 
+
 $charts = array();
 $charts['chart_date_format'] = "";
 
@@ -61,7 +62,6 @@ if (mysqli_num_rows($resultpar) != 0) {
     $_SESSION['sNaamSaveDatabase'] = $sNaamSaveDatabase;
     $_SESSION['param'] = $param;
 } else {
-
     die(header('location:install/opstart_installatie.php?fout=parameter'));
 }
 

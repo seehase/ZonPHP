@@ -27,13 +27,13 @@ if (isset($param['hide_menu'])) {
                     <li class="sub-heading"><?php echo getTxt("grafiekoverzicht"); ?><label for="fof" class="toggle"
                                                                                           onclick="" title="Back">&#9658;</label>
                     </li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/day_overview.php"><?php echo getTxt("chart_dayoverview"); ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/month_overview.php"><?php echo getTxt("chart_monthoverview"); ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/year_overview.php"><?php echo getTxt("chart_yearoverview"); ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/all_years_overview.php"><?php echo getTxt("chart_allyearoverview"); ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/last_years_overview.php"><?php echo getTxt("chart_lastyearoverview"); ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/cumulative_overview.php"><?php echo getTxt("chart_cumulativeoverview"); ?></a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/top31.php"><?php echo getTxt("chart_31days"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>pages/day_overview.php"><?php echo getTxt("chart_dayoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>pages/month_overview.php"><?php echo getTxt("chart_monthoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>pages/year_overview.php"><?php echo getTxt("chart_yearoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>pages/all_years_overview.php"><?php echo getTxt("chart_allyearoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>pages/last_years_overview.php"><?php echo getTxt("chart_lastyearoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>pages/cumulative_overview.php"><?php echo getTxt("chart_cumulativeoverview"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>pages/top31.php"><?php echo getTxt("chart_31days"); ?></a></li>
                 </ul>
             </li>
             <li><a href="#" style="display: flex">&nbsp;</a> <label for="themes" class="toggle-sub" onclick="">&nbsp;Themes&nbsp;&nbsp;&nbsp;&#9658;</label>
@@ -56,12 +56,11 @@ if (isset($param['hide_menu'])) {
                 <ul id="info-sub" class="sub-nav">
                     <li class="sub-heading"><?= $version ?><label for="info" class="toggle" onclick="" title="Back">&#9658;</label>
                     </li>
-                    <li><a href="<?php echo HTML_PATH ?>/install/par_welcome.php"><?php echo getTxt("login"); ?> </a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/about.php">About</a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/pages/show_plant.php"><?php echo getTxt("installatie"); ?></a></li>
+                    <li><a href="<?php echo HTML_PATH ?>install/par_welcome.php"><?php echo getTxt("login"); ?> </a></li>
+                    <li><a href="<?php echo HTML_PATH ?>pages/show_plant.php"><?php echo getTxt("installatie"); ?></a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/">sourcecode</a></li>
                     <li><a href="https://github.com/seehase/ZonPHP/archive/master.zip">download ZonPHP</a></li>
-                    <li><a href="<?php echo HTML_PATH ?>/inc/destroy.php"><?php echo getTxt("clearsession"); ?> </a></li>
+                    <li><a href="<?php echo HTML_PATH ?>inc/destroy.php"><?php echo getTxt("clearsession"); ?> </a></li>
                 </ul>
             </li>
         </ul>
@@ -71,13 +70,13 @@ if (isset($param['hide_menu'])) {
 <div class="container">
     <div id="header">
 
-        <a href='<?php echo HTML_PATH ?>/index.php' style="position:absolute; top:13px; left:80px;  border:0"><img src="<?php echo HTML_PATH ?>/inc/image/logo.png" alt="ZonPHP logo"></a>
+        <a href='<?php echo HTML_PATH ?>index.php' style="position:absolute; top:13px; left:80px;  border:0"><img src="<?php echo HTML_PATH ?>/inc/image/logo.png" alt="ZonPHP logo"></a>
         <?php if ($show_menu) echo '<label for="main-nav-check" class="toggle" onclick="" title="Menu">&#x2261;</label>'; ?>
         <span style="margin-left: 230px;">&nbsp;</span>
-        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'></a>"; ?>
-        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'></a>" ?>
-        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-fr' alt='français' title='français'></a>" ?>
-        <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='". HTML_PATH ."/inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'></a>" ?>
+        <?php if (isset($param['lang_nl'])) echo "<a href='?taal=nl' onclick=\"target='_self'\"><img src='". HTML_PATH ."inc/image/blank.gif' class='flag flag-nl' alt='Nederlands' title='Nederlands'></a>"; ?>
+        <?php if (isset($param['lang_en'])) echo "<a href='?taal=en' onclick=\"target='_self'\"><img src='". HTML_PATH ."inc/image/blank.gif' class='flag flag-gb' alt='english' title='english'></a>" ?>
+        <?php if (isset($param['lang_fr'])) echo "<a href='?taal=fr' onclick=\"target='_self'\"><img src='". HTML_PATH ."inc/image/blank.gif' class='flag flag-fr' alt='français' title='français'></a>" ?>
+        <?php if (isset($param['lang_de'])) echo "<a href='?taal=de' onclick=\"target='_self'\"><img src='". HTML_PATH ."inc/image/blank.gif' class='flag flag-de' alt='deutsch' title='deutsch'></a>" ?>
         <?php
         if ($iveromvormers == 1) {
             echo '<p id="headerinverter" style="margin: -24px 360px 10px">' .

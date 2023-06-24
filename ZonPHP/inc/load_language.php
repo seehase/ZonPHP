@@ -73,8 +73,7 @@ function getTxt($key)
     if (isset($_SESSION["txt"]) && isset($_SESSION["txt"][$key])) {
         return $_SESSION["txt"][$key];
     } else {
-        return "undefinde: " . $key;
+        return "undefined key: " . $key;
     }
 }
 
-?>

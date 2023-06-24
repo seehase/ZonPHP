@@ -101,7 +101,7 @@ while ($row = mysqli_fetch_array($resultgem)) {
 ?>
 <?php
 // ----------------------------- build data for chart -----------------------------------------------------------------
-$href = HTML_PATH . "/pages/year_overview.php?jaar=";
+$href = HTML_PATH . "pages/year_overview.php?jaar=";
 $my_year = date("Y", time());
 $strgeg = "";
 $strxas = "";

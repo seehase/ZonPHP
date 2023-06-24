@@ -17,7 +17,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
 //echo $_GET['Max_Min'];
 $sql = 'SELECT db1.*
 FROM ' . $table_prefix . '_maand AS db1
-JOIN (SELECT Datum_Maand, Geg_Maand, sum(Geg_Maand) as mysum FROM tgeg_maand  Group by Datum_Maand ORDER BY mysum ' . $DESC_ASC . ' LIMIT 0,31) AS db2
+JOIN (SELECT Datum_Maand, Geg_Maand, sum(Geg_Maand) as mysum FROM tgeg_maand  Group by Datum_Maand, Geg_Maand ORDER BY mysum ' . $DESC_ASC . ' LIMIT 0,31) AS db2
 ON db1.Datum_Maand = db2.Datum_Maand order by mysum desc';
 
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
@@ -39,7 +39,7 @@ $adatum = array_values(array_unique($adatum));
 // -----------------------------  build data for chart -----------------------------------------------------------------
 // build colors per inverter array
 //
-$myurl = HTML_PATH . "/pages/day_overview.php?dag=";
+$myurl = HTML_PATH . "pages/day_overview.php?dag=";
 $myMetadata = array();
 $myColors = array();
 
@@ -66,7 +66,7 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
     $data = "";
     for ($i = 0; $i <= 30; $i++) {
         $var = 0.0;
-        if (isset($adatum[$i])) {
+        if (isset($adatum[$i]) && isset($all_valarray[$adatum[$i]][$inverter_name])) {
             $var = round($all_valarray[$adatum[$i]][$inverter_name], 2);
             $data .= '[\'' . $adatum[$i] . '\', ' . $var . '],';
         }

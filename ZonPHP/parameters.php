@@ -16,8 +16,8 @@
  *
  *****************************************************************************/
 
-$admin_username = "admin";
-$admin_password = " ";
+$admin_username = "";
+$admin_password = "";
 
 /******************************************************************************
  * #### REQUIRED ####
@@ -50,19 +50,31 @@ $weewx_temp_column = "outTemp";           /*  weewx temp column name     --> def
 $weewx_timestamp_column = "dateTime";     /*  weewx timestamp column name     --> default: "dateTime"  */
 $weewx_temp_is_farenheit = true;          /*  weewx temp is in fahrenheit     --> default: "true"      */
 
+
 /*****************************************************************************
  * Set constants to get absolute paths when needed.
  * This is based on the relative position of this parameter.php file
  * ROOT_DIR gives the full absolute path to a file, including the install directory
- * HTML_PATH gives the extension for use in href
+ * HTML_PATH gives the extension for use in href and ends with "/"
  * PHP_PATH is HTML_PATH without the forward slash
  * ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] + HTML_PATH
  *****************************************************************************/
 
 define('ROOT_DIR', realpath(__DIR__.'/'));
-define ('HTML_PATH',str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT']))));
+$tmpHTMLPath = str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
+if (strlen($tmpHTMLPath) == 0) $tmpHTMLPath = "/";
+// if (substr($tmpHTMLPath, 0, 1) != "/") {
+if ($tmpHTMLPath[0] != "/") {
+    $tmpHTMLPath = "/" . $tmpHTMLPath;
+}
+if ($tmpHTMLPath[strlen($tmpHTMLPath) - 1] != "/") {
+    $tmpHTMLPath = $tmpHTMLPath . "/" ;
+}
+define ('HTML_PATH', $tmpHTMLPath);
 define ('PHP_PATH', ltrim( HTML_PATH, '/'));
 // read version and debug configuration
 include_once "inc/version_info.php";
-
+//echo "HTML_PATH: " .  HTML_PATH. "<br>";
+//echo "ROOT_DIR: " .  ROOT_DIR. "<br>";
+//echo "PHP_PATH: " .  PHP_PATH. "<br>";
 ?>

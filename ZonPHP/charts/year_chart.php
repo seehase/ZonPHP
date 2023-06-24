@@ -145,7 +145,7 @@ for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
     $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
 }
 $my_year = date("Y", $chartdate);
-$href = HTML_PATH . "/pages/month_overview.php?maand=";
+$href = HTML_PATH . "pages/month_overview.php?maand=";
 $gridlines = "";
 $reflines = "";
 $max_bars = "";
