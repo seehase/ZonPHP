@@ -87,8 +87,6 @@ function vadidateParams(&$params)
     define('LANGUAGES', $languages);
     define('CHART_DATE_FORMAT', array("chart_date_format" => ""));
 
+    $cards = preg_split('/\s*,\s*/', trim($params['layout']['cards']));
+    define('CARDS', $cards);
 }
-
-
-?>
-

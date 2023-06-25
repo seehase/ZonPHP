@@ -68,19 +68,47 @@ function load_charts() {
     var headerclass = "jqx-window-header jqx-window-header-index-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp"
 
     /* load all charts according order */
-    function loadCharts() {
-        // todo: only load activted charts
-        /// addWeewx();
 
-        addDay();
-        addMonth();
-        addYear();
-        addAllYears();
-        addCumulative();
-        addLastYears();
-        addBest();
-        addPlantInfo();
-        addImage1();
+    function loadCard(name) {
+        console.log('loadCard ${name}.');
+        name = name.toUpperCase();
+        switch (name) {
+            case 'DAY':
+                addDay();
+                break;
+            case 'MONTH':
+                addMonth();
+                break;
+            case 'YEAR':
+                addYear();
+                break;
+            case 'ALLYEARS':
+                addAllYears();
+                break;
+            case 'CUMULATIVE':
+                addCumulative();
+                break;
+            case 'YEARPERMONTH':
+                addLastYears();
+                break;
+            case 'INFO':
+                addPlantInfo();
+                break;
+            case 'IMAGE':
+                addImage1();
+                break;
+            case 'TOP':
+                addBest();
+                break;
+            default:
+                console.log('Sorry, we are out of ${name}.');
+        }
+    }
+
+    function loadCharts() {
+        cardlayout.map((function(element){
+            loadCard(element);
+        }))
         // loadLayout(grid, layout);
     }
 
@@ -89,7 +117,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div  class="item-content card"> ' +
-            '       <a href="./page s/day_overview.php"><div class="' + headerclass + '">' + daytext + '</div> </a> ' +
+            '       <a href="./pages/day_overview.php"><div class="' + headerclass + '">' + daytext + '</div> </a> ' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
