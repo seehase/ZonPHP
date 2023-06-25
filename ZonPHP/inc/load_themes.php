@@ -16,8 +16,8 @@ if (isset($_GET['theme'])) {
 $defaultColors = parse_ini_file(ROOT_DIR . "/inc/themes/default.theme", false);
 $themeColors = array();
 
-// TODO: find better solution when par_edit is removed
-// define theme name directly in parameter.ini and add ".theme" and rework session handling
+// FIXME: find better solution when par_edit is removed
+// define theme name directly in parameters.php and add ".theme" and rework session handling
 if ($_SESSION['theme'] == "theme1") {
     $themeColors = parse_ini_file(ROOT_DIR . "/inc/themes/darkgreyfire.theme", false);
 } else if ($_SESSION['theme'] == "theme2") {
