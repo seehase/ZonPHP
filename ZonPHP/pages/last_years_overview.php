@@ -54,7 +54,7 @@ if ($params['hideFooter'] == true) {
             <h2>
                 <?php
                 //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
-                echo $txt["chart_lastyearoverview"];
+                echo getTxt("chart_lastyearoverview");
                 //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
                 ?>
             </h2>

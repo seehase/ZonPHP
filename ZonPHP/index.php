@@ -6,9 +6,9 @@ include_once "inc/import_data.php";
 $aoplopendkwdag[] = 0;
 include_once "inc/header.php";
 
-$daytext = $txt["chart_dayoverview"];
+$daytext = getTxt("chart_dayoverview");
 if ($params['useWeewx'] ) {
-    $daytext = $txt["chart_solar_temp"];
+    $daytext = getTxt("chart_solar_temp");
 }
 
 ?>

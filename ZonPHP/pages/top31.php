@@ -49,7 +49,7 @@ $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radiu
 		<?php include_once ROOT_DIR."/inc/topmenu.php"; ?>
 		</div>
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>" style = "display: grid; align-content: center; " >
-            <h2><?php echo $txt["chart_31days"]; ?></h2>
+            <h2><?= getTxt("chart_31days"); ?></h2>
         </div>
         <div id="top31_chart" style="width:100%; background-color: #<?php echo $colors['color_chartbackground']?>;height:100%; <?php echo $corners;?>">
     </div>

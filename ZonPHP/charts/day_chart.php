@@ -1,10 +1,9 @@
 <?php
-if (strpos(getcwd(), "charts") > 0) {
-    chdir("../");
-    include_once "inc/init.php";
-    include_once "inc/sessionstart.php";
-    include_once "inc/load_cache.php";
-}
+
+include_once "../inc/init.php";
+include_once ROOT_DIR . "/inc/sessionstart.php";
+include_once ROOT_DIR . "/inc/load_cache.php";
+
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
 $chartdatestring = date("Y-m-d", $chartdate);

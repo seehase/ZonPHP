@@ -1,7 +1,8 @@
 
 <?php
-/*
-// test
+
+die();
+?>
 
 [first_section]
 one = 1
@@ -20,5 +21,4 @@ phpversion[] = "5.3"
 
 urls[svn] = "http://svn.php.net"
 urls[git] = "http://git.php.net"
-*/
-?>
+

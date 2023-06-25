@@ -1,10 +1,9 @@
 <?php
-if (strpos(getcwd(), "charts") > 0) {
-    chdir("../");
-    include_once "inc/init.php";
-    include_once "inc/sessionstart.php";
-    include_once "inc/load_cache.php";
-}
+
+include_once "../inc/init.php";
+include_once ROOT_DIR . "/inc/sessionstart.php";
+include_once ROOT_DIR . "/inc/load_cache.php";
+
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
@@ -30,7 +29,7 @@ $current_year_month = "" . date('Y-m', $chartdate);
 // get reference values
 $nfrefmaand = array();
 foreach (PLANTS as $plant) {
-    $tmp = $params[$plant]['referenceYield'][$current_month-1] / 30;
+    $tmp = $params[$plant]['referenceYield'][$current_month - 1] / 30;
     $nfrefmaand[] = $tmp;
 }
 
@@ -99,7 +98,7 @@ for ($k = 0; $k < count(PLANTS); $k++) {
     $myColors[PLANTS[$k]]['max'] = $col1;
 }
 // collect data array
-$myurl = HTML_PATH."pages/day_overview.php?dag=";
+$myurl = HTML_PATH . "pages/day_overview.php?dag=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;

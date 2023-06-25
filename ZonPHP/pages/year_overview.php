@@ -86,7 +86,7 @@ if ($params['hideFooter'] == true) {
             <div class="block2">
                 <div class="inner">
                     <button class="btn btn-zonphp"
-                            onclick="window.location.href='<?php echo '?jaar=' . date('Y', $chartcurrentdate); ?>'"><?php echo $txt["back_to_today"] ?></button>
+                            onclick="window.location.href='<?php echo '?jaar=' . date('Y', $chartcurrentdate); ?>'"><?= getTxt("back_to_today") ?></button>
                     <div class="inner">
                         <div class="input-group date" id="datepicker" data-date-format="yyyy-mm-dd">
                             <input type='hidden' id='untilDate' class="form-control">

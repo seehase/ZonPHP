@@ -1,10 +1,9 @@
 <?php
-if (strpos(getcwd(), "charts") > 0) {
-    chdir("../");
-    include_once "inc/init.php";
-    include_once "inc/sessionstart.php";
-    include_once "inc/load_cache.php";
-}
+
+include_once "../inc/init.php";
+include_once ROOT_DIR . "/inc/sessionstart.php";
+include_once ROOT_DIR . "/inc/load_cache.php";
+
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
@@ -68,8 +67,6 @@ $result = mysqli_query($con, $sqltotal) or die("Query failed (total average) " .
 while ($row = mysqli_fetch_array($result)) {
     $avg_data[] = $row['grand_total_average'];
 }
-
-
 
 
 $sqlgem = "SELECT month( Datum_Maand ) AS maand, AVG( Geg_Maand ) AS gem, naam
