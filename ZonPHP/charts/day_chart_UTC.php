@@ -38,7 +38,7 @@ $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, Datum_Dag, STR_TO_DATE( CONCAT( DATE
     $params['displayInterval'] . " ) *" . $params['displayInterval'] . ", 2, '0' ) , ':00' ) , '%Y-%m-%d %H:%i:%s' ) AS datumtijd " .
     " FROM " . TABLE_PREFIX . "_dag " .
     " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' " .
-    " GROUP BY datumtijd, naam " .
+    " GROUP BY datumtijd, naam, Datum_Dag " .
     " ORDER BY datumtijd ASC";
 //echo $sql,'<BR>';
 
@@ -79,7 +79,7 @@ if (mysqli_num_rows($result) == 0) {
 $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
 	 FROM " . TABLE_PREFIX . "_maand
 	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . TABLE_PREFIX . "_maand WHERE 
-     DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . " GROUP BY naam, maand )AS maandelijks ON (month(" .
+     DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . " GROUP BY naam, maand ) AS maandelijks ON (month(" .
     TABLE_PREFIX . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . TABLE_PREFIX . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
 if (mysqli_num_rows($resultmaxdag) == 0) {
@@ -183,7 +183,7 @@ $temp_serie = "";
 $temp_unit = "°C";
 $val_max = 0;
 $val_min = 0;
-if ($params['useWeewx' == true]) {
+if ($params['useWeewx'] == true) {
     include "charts/temp_sensor_inc.php";
 }
 
