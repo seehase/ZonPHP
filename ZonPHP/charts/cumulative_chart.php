@@ -1,7 +1,7 @@
 <?php
 if (strpos(getcwd(), "charts") > 0) {
     chdir("../");
-    include_once "parameters.php";
+    include_once "inc/init.php";
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
@@ -14,7 +14,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
 $currentdate = date("Y-m-d");
 $sql = "SELECT YEAR(Datum_Maand) AS DYEAR, DATEDIFF(max(Datum_Maand),min(Datum_Maand)) AS Days, ((UNIX_TIMESTAMP(DATE_FORMAT(DATE_ADD(Datum_Maand,INTERVAL (YEAR('$currentdate') - YEAR(Datum_Maand)) YEAR), '%Y-%m-%d'))*1000)+86400000) AS timestamp, IFNULL( Datum_Maand, 'TOTAAL' ) AS Datum_Maand, 
 		ROUND(SUM( Geg_Maand ),2) Total, IFNULL( naam, 'ALL' ) AS naam, '0' AS 'STotal'
-        FROM " . $table_prefix . "_maand
+        FROM " . TABLE_PREFIX . "_maand
         GROUP BY Datum_Maand, naam
 		WITH ROLLUP";
 //echo $sql;

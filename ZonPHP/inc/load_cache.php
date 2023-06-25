@@ -5,20 +5,17 @@
 include_once "connect.php";
 
 // set default inverter
-if (isset($_GET['naam']))
-    $_SESSION['Wie'] = $_GET['naam'];
-
+if (isset($_GET['naam'])) {
+    $_SESSION['plant'] = $_GET['naam'];
+}
 // get theme
 if (isset($_GET['theme'])) {
     include_once "load_themes.php";
 }
 
-// check if tables exists
-$tablename = $table_prefix . "_parameters";
-$result = mysqli_query($con, "SHOW TABLES LIKE '" . $tablename . "'");
-if ($result->num_rows != 1) {
-    die(header('location:install/opstart_installatie.php?fout=table'));
-}
+// set default plant
+if (!isset($_SESSION['plant']))
+    $_SESSION['plant'] = PLANTS[0];
 
 $github_version = "unknown";
 $new_version_label = "";
@@ -33,37 +30,13 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     $txt = $_SESSION['txt'];
 
-    if (!isset($_SESSION['param'])) {
-        include_once "load_parameters.php";
-    } else {
-        $param = $_SESSION['param'];
-    }
-
-    $plantInfo = array("sNaamVoorOpWebsite" => $param['sNaamVoorOpWebsite'],
-        "sPlaats" => $param['sPlaats'],
-        "sSoort_pannel_aantal" => $param['sSoort_pannel_aantal'],
-        "sOmvormer" => $param['sOmvormer'],
-        "dstartdatum" => $_SESSION['dstartdatum'],
-        "sOrientatie" => $param['sOrientatie'],
-        "sData_Captatie" => $param['sData_Captatie']);
-
-    $charts = $_SESSION['charts'];
-    if (!isset($charts['chart_date_format'])) {
-        $charts['chart_date_format'] = "";
-    }
-
     if (!isset($_SESSION['colors'])) {
         include_once "load_themes.php";
     } else {
         $colors = $_SESSION['colors'];
     }
-    $sNaamSaveDatabase = $_SESSION['sNaamSaveDatabase'];
-    $dstartdatum = $_SESSION['dstartdatum'];
-    $iveromvormers = $_SESSION['iveromvormers'];
-    $ieffectief_kwpiek = $_SESSION['ieffectief_kwpiek'];
-    $ieffectiefkwpiek = $_SESSION['ieffectiefkwpiek'];
-    $colors = $_SESSION['colors'];
 
+    $colors = $_SESSION['colors'];
     $date_minimum = $_SESSION['date_minimum'];
     $date_maximum = $_SESSION['date_maximum'];
 
@@ -79,24 +52,21 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     // load lanaguages -----------------------------------------------------------------------------------------------
     $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
-    if (isset($_SESSION['sestaal'])) {
-        $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $taal . ".ini", false);
+    if (isset($_SESSION['language'])) {
+        $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $language . ".ini", false);
     }
     $_SESSION['txt'] = $txt;
 
-    // load parameters from DB
-    include_once ROOT_DIR."/inc/load_parameters.php";
-
     // load color and theme
-    include_once ROOT_DIR."/inc/load_themes.php";
+    include_once ROOT_DIR . "/inc/load_themes.php";
 
     // fixme: integrate into cache... after importing data force reload of paramater
     // load first and last date of date
     $sqlminmax = "SELECT   
                     DATE_FORMAT(MAX(Datum_Dag), '%Y-%m-%d') AS maxi,
                     DATE_FORMAT(MIN(Datum_Dag), '%Y-%m-%d') AS mini
-               FROM " . $table_prefix . "_dag
-               WHERE Naam='" . $_SESSION['Wie'] . "'";
+               FROM " . TABLE_PREFIX . "_dag
+               WHERE Naam='" . $_SESSION['plant'] . "'";
     $resultminmax = mysqli_query($con, $sqlminmax) or die("Query failed. dag-minmax " . mysqli_error($con));
 
     $date_minimum = strtotime('2038-01-01 00:00:00');
@@ -119,8 +89,8 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
         $sqlminmax = "SELECT   
                     DATE_FORMAT(MAX(Datum_maand), '%Y-%m-%d') AS maxi,
                     DATE_FORMAT(MIN(Datum_maand), '%Y-%m-%d') AS mini
-               FROM " . $table_prefix . "_maand
-               WHERE Naam='" . $_SESSION['Wie'] . "'";
+               FROM " . TABLE_PREFIX . "_maand
+               WHERE Naam='" . $_SESSION['plant'] . "'";
         $resultminmax = mysqli_query($con, $sqlminmax) or die("Query failed. maand-minmax " . mysqli_error($con));
         while ($row = mysqli_fetch_array($resultminmax)) {
             if ($row['mini'] != null) {
@@ -132,23 +102,25 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
         }
     }
 
-    // get latest Version from github
+    // get latest Version from github can cause error on some provider e.g.bplaced do not allow file_get_content
     $github_version = "unkown";
     $homepage = "";
-    try {
-        if (strpos($version, "(dev)") > 0) {
-            $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/development/ZonPHP/inc/version_info.php');
-        } else {
-            $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/master/ZonPHP/inc/version_info.php');
-        }
-        $pos_start = strpos($homepage, '"v');
-        $pos_end = strpos($homepage, '";', $pos_start + 2);
+    if ($params['checkVersion'] == true) {
+        try {
+            if (strpos($version, "(dev)") > 0) {
+                $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/development/ZonPHP/inc/version_info.php');
+            } else {
+                $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/master/ZonPHP/inc/version_info.php');
+            }
+            $pos_start = strpos($homepage, '"v');
+            $pos_end = strpos($homepage, '";', $pos_start + 2);
 
-        if ($pos_start > 0) {
-            $github_version = substr($homepage, $pos_start + 1, $pos_end - $pos_start - 1);
-        }
-    } catch (Throwable $e) {
+            if ($pos_start > 0) {
+                $github_version = substr($homepage, $pos_start + 1, $pos_end - $pos_start - 1);
+            }
+        } catch (Throwable $e) {
 
+        }
     }
     $_SESSION['github_version'] = $github_version;
 

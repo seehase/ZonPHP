@@ -79,8 +79,8 @@ function load_charts() {
         addCumulative();
         addLastYears();
         addBest();
-      //  addPlantInfo();
-      //  addImage1();
+        addPlantInfo();
+        addImage1();
         // loadLayout(grid, layout);
     }
 
@@ -280,14 +280,15 @@ function load_charts() {
             '                      <div class="highcharts-container" >' +
             '                           <br><p> Hello World</p> ' +
             '                           <div style="color:blue">' +
-            '                                      <h1>Anlage von ' + plantInfo['sNaamVoorOpWebsite'] + '</h1>' +
+            '                                      <h1>Anlage von ' + plantInfo['name'] + '</h1>' +
             '                                      <br>' +
-            '                                      Standort: ' + plantInfo['sPlaats'] + '<br>' +
-            '                                      Module: ' + plantInfo['sSoort_pannel_aantal'] + '<br>' +
-            '                                      Wechselrichter: ' + plantInfo['sOmvormer'] + '<br>' +
-            '                                      Inbetriebnahme: ' + plantInfo['dstartdatum'] + '<br>' +
-            '                                      Ausrichtung: ' + plantInfo['sOrientatie'] + '<br>' +
-            '                                      Data Logger: ' + plantInfo['sData_Captatie'] + '<br> <br>' +
+            '                                      WebSite: ' + plantInfo['website'] + '<br>' +
+            '                                      Standort: ' + plantInfo['location'] + '<br>' +
+            '                                      Module: ' + plantInfo['panels'] + '<br>' +
+            '                                      Wechselrichter: ' + plantInfo['converter'] + '<br>' +
+            '                                      Inbetriebnahme: ' + plantInfo['installationDate'] + '<br>' +
+            '                                      Ausrichtung: ' + plantInfo['orientation'] + '<br>' +
+            '                                      Data Logger: ' + plantInfo['importer'] + '<br> <br>' +
             '                           </div>' +
             '                      </div>' +
             '               </div>' +
@@ -305,14 +306,12 @@ function load_charts() {
             '<div class="item h4 w4" data-id="' + id + '">' +
             '    <div class="item-content card" style="background-color: aqua;"> ' +
             '          <a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
-            '          <div id="' + id + '">' +
-            '               <div class="index_chart" id="' + id + '" ">' +
-            '                      <div class="highcharts-container" >' +
-            '                           <br><p> Hello World</p> ' +
-            '                           <div style="color:blue">' +
-            '                               <img src="./inc/image/image1.jpg" alt="Italian Trulli"> ' +
-            '                           </div>' +
-            '                      </div>' +
+            '          <div class="index_chart" id="' + id + '" ">' +
+            '               <div class="highcharts-container" >' +
+            '                   <br><p> Hello World</p> ' +
+            '                   <div style="color:blue">' +
+            '                      <img src="./inc/image/solar.png" alt="Italian Trulli" width="400" height="300"> ' +
+            '                   </div>' +
             '               </div>' +
             '          </div>' +
             '    </div>' +

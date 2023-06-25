@@ -1,7 +1,7 @@
 <?php
 if (strpos(getcwd(), "charts") > 0) {
     chdir("../");
-    include_once "parameters.php";
+    include_once "inc/init.php";
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
@@ -24,29 +24,20 @@ if (isset($_GET['maand'])) {
 }
 // -----------------------------  get data from DB -----------------------------------------------------------------
 $current_year = date('Y', $chartdate);
-$current_month = date('m', $chartdate);
+$current_month = intval(date('m', $chartdate));
 $current_year_month = "" . date('Y-m', $chartdate);
 
 // get reference values
-$sqlref = "SELECT *
-        FROM " . $table_prefix . "_refer
-        WHERE DATE_FORMAT(Datum_Refer,'%m')='" . $current_month . "'" . "
-        ORDER BY Naam, Datum_Refer ASC";
-$resultref = mysqli_query($con, $sqlref) or die("Query failed. maand-ref " . mysqli_error($con));
-
 $nfrefmaand = array();
-if (mysqli_num_rows($resultref) == 0) {
-    $frefmaand = 1;
-} else {
-    while ($row = mysqli_fetch_array($resultref)) {
-        $nfrefmaand[] = $row['Dag_Refer'];
-    }
+foreach (PLANTS as $plant) {
+    $tmp = $params[$plant]['referenceYield'][$current_month-1] / 30;
+    $nfrefmaand[] = $tmp;
 }
 
 $DaysPerMonth = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
 
 $sql = "SELECT Datum_Maand, Geg_Maand, naam
-        FROM " . $table_prefix . "_maand
+        FROM " . TABLE_PREFIX . "_maand
         where Datum_Maand like '" . $current_year_month . "%'
         GROUP BY Naam, Datum_Maand, Geg_Maand
         ORDER BY Naam, Datum_Maand ASC";
@@ -58,7 +49,6 @@ if (mysqli_num_rows($result) == 0) {
     $formatter->setPattern('LLLL yyyy');
     $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
     $agegevens[] = 0;
-    //$iyasaanpassen = $frefmaand * 1.5;
     $geengevmaand = 0;
     $fgemiddelde = 0;
 } else {
@@ -70,9 +60,9 @@ if (mysqli_num_rows($result) == 0) {
     for ($i = 1; $i <= $DaysPerMonth; $i++) {
         $agegevens[$i] = 0;
     }
-    for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+    for ($k = 0; $k < count(PLANTS); $k++) {
         for ($i = 1; $i <= $DaysPerMonth; $i++) {
-            $all_valarray[$i][$sNaamSaveDatabase[$k]] = 0;
+            $all_valarray[$i][PLANTS[$k]] = 0;
         }
     }
     while ($row = mysqli_fetch_array($result)) {
@@ -100,20 +90,20 @@ if (mysqli_num_rows($result) == 0) {
 // -----------------------------  build data for chart -----------------------------------------------------------------
 // build colors per inverter array
 $myColors = array();
-for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
+    $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
+    $myColors[PLANTS[$k]]['max'] = $col1;
 }
 // collect data array
 $myurl = HTML_PATH."pages/day_overview.php?dag=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;
-foreach ($sNaamSaveDatabase as $inverter_name) {
+foreach (PLANTS as $inverter_name) {
 
     $strdata = "";
     $local_max = 0;
@@ -184,7 +174,7 @@ include_once "chart_styles.php";
         var daycount2 = <?php echo $daycount ?>;
         var nref = <?php echo json_encode($nfrefmaand, JSON_NUMERIC_CHECK) ?>;
         var myoptions = <?php echo $chart_options ?>;
-        var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        var khhWp = [<?php echo $params['plantskWp'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?php echo getTxt("max") ?>';
         var txt_gem = '<?php echo getTxt("gem") ?>';

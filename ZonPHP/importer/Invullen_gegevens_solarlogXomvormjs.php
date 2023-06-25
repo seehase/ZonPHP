@@ -4,13 +4,13 @@
 
 // 1. Get the last time the data was updated
 $sql = "SELECT *
-	FROM " . $table_prefix . "_dag 
+	FROM " . TABLE_PREFIX . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
 //echo $sql;
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0)
-    $dateTime = $dstartdatum;
+    $dateTime = STARTDATE;
 else {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
@@ -19,7 +19,7 @@ else {
 //echo $dateTime;
 
 $adag = array();
-$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['plant'] . '/';
 //echo $directory;
 
 // 2. Store the filenames of the data files that will be used to update, starting from the value in 1.
@@ -45,8 +45,8 @@ if (!empty($adag)) {
 foreach ($adag as $v) {
     $teller = 1;
     $teller2 = 1;
-    $string = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
-    $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
+    $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
+    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
     $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
     while (!feof($file)) {
         // Parsing line per line
@@ -67,29 +67,29 @@ foreach ($adag as $v) {
                 if ((strtotime($oDatumTijd) > strtotime($dateTime)) and ($oDatumTijd != "geen datumtijd")) {
 
                     if ($teller2 == 1) {
-                        for ($i = 0; $i < count($sNaamSaveDatabase); $i++) {
+                        for ($i = 0; $i < count(PLANTS); $i++) {
 
                             $omdata = explode(";", $alist[$i + 1]);
                             // Get the useful values
                             $Pac = $omdata[0];
                             $DaySum = $omdata[2];
-                            $DaySum = floatval($DaySum) * $param['coefficient'];
-                            //echo "------------------------------>".$Datum."XXX".$Uhrzeit."XXX".$Pac."XXX".$DaySum."XXX".$sNaamSaveDatabase[$i];echo"<br />";
+                            $DaySum = floatval($DaySum) * $params['coefficient'];
+                            //echo "------------------------------>".$Datum."XXX".$Uhrzeit."XXX".$Pac."XXX".$DaySum."XXX".PLANTS[$i];echo"<br />";
                             //Prepare the SQL queries
-                            $string .= "('" . $oDatumTijd . $sNaamSaveDatabase[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . $sNaamSaveDatabase[$i] . "'),";
-                            $string1 .= "('" . $odatum[0] . $sNaamSaveDatabase[$i] . "','" . $odatum[0] . "'," . ($DaySum / 1000) . ",'" . $sNaamSaveDatabase[$i] . "'),";
-                            $stringdelete = "DELETE FROM " . $table_prefix . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
+                            $string .= "('" . $oDatumTijd . PLANTS[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . PLANTS[$i] . "'),";
+                            $string1 .= "('" . $odatum[0] . PLANTS[$i] . "','" . $odatum[0] . "'," . ($DaySum / 1000) . ",'" . PLANTS[$i] . "'),";
+                            $stringdelete = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
                         }
                         $teller2 = 0;
                     } else {
-                        for ($i = 0; $i < count($sNaamSaveDatabase); $i++) {
+                        for ($i = 0; $i < count(PLANTS); $i++) {
 
                             $omdata = explode(";", $alist[$i + 1]);
                             $Pac = $omdata[0];
                             $DaySum = $omdata[2];
-                            $DaySum = floatval($DaySum) * $param['coefficient'];
-                            $string .= "('" . $oDatumTijd . $sNaamSaveDatabase[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . $sNaamSaveDatabase[$i] . "'),";
-                            //echo "------------------------------>".$Datum."XXX".$Uhrzeit."XXX".$Pac."XXX".$DaySum."XXX".$sNaamSaveDatabase[$i];echo"<br />";
+                            $DaySum = floatval($DaySum) * $params['coefficient'];
+                            $string .= "('" . $oDatumTijd . PLANTS[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . PLANTS[$i] . "'),";
+                            //echo "------------------------------>".$Datum."XXX".$Uhrzeit."XXX".$Pac."XXX".$DaySum."XXX".PLANTS[$i];echo"<br />";
                         }
                     }
                 }
@@ -120,8 +120,8 @@ foreach ($adag as $v) {
  * ****************************************************************************
  */
 $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
 
@@ -130,7 +130,7 @@ $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
 } else {
-    $fp = fopen($_SESSION['Wie'] . '/months.js', "w+");
+    $fp = fopen($_SESSION['plant'] . '/months.js', "w+");
     while ($row = mysqli_fetch_array($result)) {
         $datfile = date("d.m.y", strtotime($row['maxi']));
         $dateTime = 'mo[mx++]="' . $datfile . "|" . floor($row['som'] * 1000) . '"';//echo $dateTime; //datum omzetten
@@ -145,8 +145,8 @@ if (mysqli_num_rows($result) == 0) {
  * ****************************************************************************
  */
 $sql = "SELECT *
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Maand DESC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
@@ -154,7 +154,7 @@ $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
 } else {
-    $fp = fopen($_SESSION['Wie'] . '/days_hist.js', "w+");
+    $fp = fopen($_SESSION['plant'] . '/days_hist.js', "w+");
     while ($row = mysqli_fetch_array($result)) {
         $datfile = date("d.m.y", strtotime($row['Datum_Maand']));
         //echo $datfile."<br />";

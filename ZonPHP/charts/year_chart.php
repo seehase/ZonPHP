@@ -1,7 +1,7 @@
 <?php
 if (strpos(getcwd(), "charts") > 0) {
     chdir("../");
-    include_once "parameters.php";
+    include_once "inc/init.php";
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
@@ -24,47 +24,11 @@ if (isset($_GET['jaar'])) {
 }
 // -------------------------------------------------------------------------------------------------------------
 $current_year = date('Y', $chartdate);
+$expectedYield = $params['expectedYield'];
+$totalExpectedMonth = $params['totalExpectedMonth'];
 
-$sqlref = "SELECT Naam, SUM(Geg_Refer) as sum_geg_refer, SUM(Dag_Refer) as sum_dag_refer, Datum_Refer
-	FROM " . $table_prefix . "_refer " .
-    " GROUP BY Naam, Datum_refer
-	  ORDER BY Naam, Datum_Refer ASC";
-//echo $sqlref;
-$nfrefmaand = array();
-$nfrefdagmaand = array();
-$nfreftot = array();
-for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
-    $nfreftot[$sNaamSaveDatabase[$k]] = 0;
-}
-$resultref = mysqli_query($con, $sqlref) or die("Query failed. jaar-ref " . mysqli_error($con));
-if (mysqli_num_rows($resultref) == 0) {
-    $frefmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-    $frefdagmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-    $nfrefmaand = array(0 => array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), 1 => array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1));
-    $nfrefdagmaand = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-    $nfreftot = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-} else {
-    $frefmaand = array();
-    $frefdagmaand = array();
-
-    while ($row = mysqli_fetch_array($resultref)) {
-        $frefmaand[date("n", strtotime($row['Datum_Refer']))] = $row['sum_geg_refer'];
-        $frefdagmaand[date("n", strtotime($row['Datum_Refer']))] = $row['sum_dag_refer'];
-        $nfrefmaand[date("n", strtotime($row['Datum_Refer']))][$row['Naam']] = $row['sum_geg_refer'];
-        $x = $row['Naam'];
-        @$nfreftot[$x] += $row['sum_geg_refer'];
-        $nfrefdagmaand[date("n", strtotime($row['Datum_Refer']))][$row['Naam']] = $row['sum_dag_refer'];
-
-    }
-    $iyasaanpassen = (round(0.5 + max($frefmaand) / 50) * 50);
-}
-
-$nfreftot = array_values($nfreftot);
-//print_r ($nfreftot);
-
-//oude gemiddelde
 $sql = "SELECT MAX( Datum_Maand ) AS maxi, SUM( Geg_Maand ) AS som, COUNT(Geg_Maand) AS aantal, naam
-	FROM " . $table_prefix . "_maand
+	FROM " . TABLE_PREFIX . "_maand
 	where DATE_FORMAT(Datum_Maand,'%y')='" . date('y', $chartdate) . "'
 	GROUP BY naam, month(Datum_Maand)
 	ORDER BY naam ASC";
@@ -85,7 +49,7 @@ if (mysqli_num_rows($result) == 0) {
 
         $all_valarray[date("n", strtotime($row['maxi']))][$inverter_name] = $row['som'];
         if (!in_array($inverter_name, $inveter_list)) {
-            if (in_array($inverter_name, $sNaamSaveDatabase)) {
+            if (in_array($inverter_name, PLANTS)) {
                 // add to list only if it configured (ignore db entries)
                 $inveter_list[] = $inverter_name;
             }
@@ -93,12 +57,11 @@ if (mysqli_num_rows($result) == 0) {
     }
     $fgemiddelde = array_sum($agegevens) / count($agegevens);
     $datum = date("Y", $chartdate);
-    $iyasaanpassen = (round(0.5 + max($agegevens) / 50) * 50);
 }
 //nieuwe gemiddelde
 //print_r ($agegevens);
 $sqlavg = "SELECT ROUND( SUM( Geg_Maand ) / ( COUNT( Geg_Maand ) /30 ) , 0 ) AS aantal
-FROM " . $table_prefix . "_maand
+FROM " . TABLE_PREFIX . "_maand
 WHERE DATE_FORMAT( Datum_Maand,  '%y' ) =  '" . date('y', $chartdate) . "'
 GROUP BY naam
 ORDER BY naam ASC";
@@ -109,7 +72,7 @@ while ($row = mysqli_fetch_array($result)) {
     $avg_data[] = $row['aantal'];
 }
 //print_r ($avg_data);
-$sqlmax = "SELECT maand,jaar,som, Name FROM (SELECT naam as Name, month(Datum_Maand) AS maand,year(Datum_Maand) AS jaar,sum(Geg_Maand) AS som FROM " . $table_prefix . "_maand GROUP BY naam, maand,jaar ) AS somquery JOIN (SELECT maand as tmaand, max( som ) AS maxgeg FROM ( SELECT naam, maand, jaar, som FROM ( SELECT naam, month( Datum_Maand ) AS maand, year( Datum_Maand ) AS jaar, sum( Geg_Maand ) AS som FROM " . $table_prefix . "_maand GROUP BY naam, maand, jaar ) AS somqjoin ) AS maxqjoin GROUP BY naam,tmaand )AS maandelijks ON (somquery.maand= maandelijks.tmaand AND maandelijks.maxgeg = somquery.som) ORDER BY Name, maand";
+$sqlmax = "SELECT maand,jaar,som, Name FROM (SELECT naam as Name, month(Datum_Maand) AS maand,year(Datum_Maand) AS jaar,sum(Geg_Maand) AS som FROM " . TABLE_PREFIX . "_maand GROUP BY naam, maand,jaar ) AS somquery JOIN (SELECT maand as tmaand, max( som ) AS maxgeg FROM ( SELECT naam, maand, jaar, som FROM ( SELECT naam, month( Datum_Maand ) AS maand, year( Datum_Maand ) AS jaar, sum( Geg_Maand ) AS som FROM " . TABLE_PREFIX . "_maand GROUP BY naam, maand, jaar ) AS somqjoin ) AS maxqjoin GROUP BY naam,tmaand )AS maandelijks ON (somquery.maand= maandelijks.tmaand AND maandelijks.maxgeg = somquery.som) ORDER BY Name, maand";
 for ($i = 1; $i <= 12; $i++) {
     $maxmaand[$i] = 0;
 }
@@ -125,24 +88,18 @@ if (mysqli_num_rows($resultmax) == 0) {
         $nmaxmaand_jaar[$row['maand']][$row['Name']] = $row['jaar'];
 
     }
-    $iyasaanpassen = (round(0.5 + max($maxmaand) / 50) * 50);
 }
-//print_r ($nmaxmaand);
-if (max($frefmaand) < max($maxmaand)) {
-    $iyasaanpassen = (round(0.5 + max($maxmaand) / 50) * 50);
-} else {
-    $iyasaanpassen = (round(0.5 + max($frefmaand) / 50) * 50);
-}
+
 ?>
 <?php
 $myColors = array();
-for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
+    $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
+    $myColors[PLANTS[$k]]['max'] = $col1;
 }
 $my_year = date("Y", $chartdate);
 $href = HTML_PATH . "pages/month_overview.php?maand=";
@@ -152,7 +109,7 @@ $max_bars = "";
 $expected_bars = "";
 $current_bars = "";
 $strdataseries = "";
-foreach ($sNaamSaveDatabase as $key => $inverter_name) {
+foreach (PLANTS as $key => $inverter_name) {
     if ($key == 0) {
         $dash = '';
     } elseif ($key > 0) {
@@ -209,10 +166,7 @@ foreach ($sNaamSaveDatabase as $key => $inverter_name) {
                         },";
         }
         // refline per bar
-        $z = 0;
-        if (isset($nfrefmaand[$i][$inverter_name])) {
-            $z = $nfrefmaand[$i][$inverter_name];
-        }
+        $z = $totalExpectedMonth[$i][$inverter_name];
         $reflines .= "$z, $z, $z, null,";
     }
 
@@ -255,12 +209,12 @@ $categories = $shortmonthcategories;
         var year = '<?php echo date("Y", $chartdate) ?>';
         var avrg =<?php echo round($fgemiddelde, 2) ?>;
         var myoptions = <?php echo $chart_options ?>;
-        var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        var khhWp = [<?php echo $params['plantskWp'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?php echo getTxt("max") ?>';
         var totayr = 0;
         var avg = <?php echo json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
-        var ref = <?php echo json_encode($nfreftot, JSON_NUMERIC_CHECK) ?>;
+        var ref = <?php echo json_encode($expectedYield, JSON_NUMERIC_CHECK) ?>;
         var txt_gem = '<?php echo getTxt("gem") ?>';
         var mychart = new Highcharts.Chart('year_chart', Highcharts.merge(myoptions, {
 

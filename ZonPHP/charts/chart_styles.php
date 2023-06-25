@@ -54,20 +54,22 @@ $chart_lang_fr = "lang: {
                     },";
 
 $chart_lang = "";
-if (isset($_SESSION['sestaal'])) {
-    if ($_SESSION['sestaal'] == 'de') {
+if (isset($_SESSION['language'])) {
+    if ($_SESSION['language'] == 'de') {
         $chart_lang = $chart_lang_de;
-    } else if ($_SESSION['sestaal'] == 'nl') {
+    } else if ($_SESSION['language'] == 'nl') {
         $chart_lang = $chart_lang_nl;
-    } else if ($_SESSION['sestaal'] == 'fr') {
+    } else if ($_SESSION['language'] == 'fr') {
         $chart_lang = $chart_lang_fr;
     }
 }
 
 if ($isIndexPage == true) {
     $displayType = "'none'";
+	$export = "false";
 } else {
     $displayType = "'block'";
+	$export = "true";
 }
 
 $chart_options =
@@ -75,6 +77,9 @@ $chart_options =
      accessibility: {
      	  enabled: false
   	 },
+     exporting: {
+        enabled: $export
+     },
      title: {
          text: '',    
          style: {
@@ -101,7 +106,7 @@ $chart_options =
                 enabled: $show_legende,
      },                                
      tooltip: {
-                    xDateFormat: '" . $charts['chart_date_format'] . "'
+                    xDateFormat: '" . CHART_DATE_FORMAT['chart_date_format'] . "'
               },
      plotOptions: {
                 series: {

@@ -1,29 +1,29 @@
 <?php
 
 $sql = "SELECT *
-	FROM " . $table_prefix . "_dag 
-	WHERE Naam ='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_dag 
+	WHERE Naam ='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Dag DESC LIMIT 1";
 // get latest import date from db
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0)
-    $dateTime = $dstartdatum;
+    $dateTime = STARTDATE;
 else {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
     }
 }
 
-//$directory = "" . $_SESSION['Wie'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
+//$directory = "" . $_SESSION['plant'] . '/'; //sunnyexplorer/Mijn PV-installatie 1-20091129.csv
 $directory = ROOT_DIR . "/SolarlogData/";
 
 
 $aday = array();
 for ($tel = 0; $tel <= 160; $tel++) {
     $num = (date("Ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));
-    if (file_exists($directory . $param['plantname'] . "-" . $num . '.csv')) {
-        $adag[] = $directory . $param['plantname'] . "-" . $num . '.csv';
+    if (file_exists($directory . $params[$_SESSION['plant']]['importPrefix'] . "-" . $num . '.csv')) {
+        $adag[] = $directory . $params[$_SESSION['plant']]['importPrefix'] . "-" . $num . '.csv';
     }
 }
 
@@ -37,8 +37,8 @@ if (!empty($adag)) {
         $houdeeindwaarde = 0;
         $stringend = "";
         $voegnulltoe = 0;
-        $string_vals = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
-        $string_vals2 = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
+        $string_vals = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
+        $string_vals2 = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
 
         $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
         while (!feof($file)) {
@@ -66,8 +66,8 @@ if (!empty($adag)) {
                                 $startend = 1;
                                 $odatum = explode(" ", $oTimeStamp);
                                 $stringend .= "('" . $oTimeStamp . "WR1" . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . "WR1" . "'),";
-                                $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                    "WR1" . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . "WR1" . "')";
+                                $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                    "WR1" . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $params['coefficient'], 3) . ",'" . "WR1" . "')";
                             } else {
                                 $odatum = explode(" ", $oTimeStamp);
                                 if ($startend == 0) {
@@ -75,8 +75,8 @@ if (!empty($adag)) {
                                 } else {
                                     $string_vals .= $stringend . "('" . $oTimeStamp . "WR1" . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . "WR1" . "'),";
                                 }
-                                $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                    "WR1" . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $param['coefficient'], 3) . ",'" . "WR1" . "')";
+                                $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                    "WR1" . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $params['coefficient'], 3) . ",'" . "WR1" . "')";
                                 $stringend = "";
                                 $startend = 0;
                                 $houdeeindwaarde = 1;
@@ -99,8 +99,8 @@ if (!empty($adag)) {
                                 $startend2 = 1;
                                 $odatum = explode(" ", $oTimeStamp);
                                 $stringend2 .= "('" . $oTimeStamp . "WR2" . "','" . $oTimeStamp . "'," . ($MeteringDykWh2 * 1000) . "," . number_format($GridMsTotW2 - $startkw2, 3) . ",'" . "WR2" . "'),";
-                                $string12 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                    "WR2" . "','" . $odatum[0] . "'," . number_format(($GridMsTotW2 - $startkw2) * $param['coefficient'], 3) . ",'" . "WR2" . "')";
+                                $string12 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                    "WR2" . "','" . $odatum[0] . "'," . number_format(($GridMsTotW2 - $startkw2) * $params['coefficient'], 3) . ",'" . "WR2" . "')";
                             } else {
                                 $odatum = explode(" ", $oTimeStamp);
                                 if ($startend2 == 0) {
@@ -108,8 +108,8 @@ if (!empty($adag)) {
                                 } else {
                                     $string_vals2 .= $stringend . "('" . $oTimeStamp . "WR2" . "','" . $oTimeStamp . "'," . ($MeteringDykWh2 * 1000) . "," . number_format($GridMsTotW2 - $startkw2, 3) . ",'" . "WR2" . "'),";
                                 }
-                                $string12 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                    "WR2" . "','" . $odatum[0] . "'," . number_format(($GridMsTotW2 - $startkw2) * $param['coefficient'], 3) . ",'" . "WR2" . "')";
+                                $string12 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                    "WR2" . "','" . $odatum[0] . "'," . number_format(($GridMsTotW2 - $startkw2) * $params['coefficient'], 3) . ",'" . "WR2" . "')";
                                 $stringend2 = "";
                                 $startend2 = 0;
                                 $houdeeindwaarde2 = 1;
@@ -129,14 +129,14 @@ if (!empty($adag)) {
         fclose($file);
         if ($string1 != "") {
             $string_vals = substr($string_vals, 0, -1);
-            mysqli_query($con, "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . "WR1" . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
+            mysqli_query($con, "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Naam ='" . "WR1" . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
             mysqli_query($con, $string_vals) or die("Query failed. ERROR: " . mysqli_error($con));
             mysqli_query($con, $string1) or die("Query failed. ERROR: " . mysqli_error($con));
 
         }
         if ($string12 != "") {
             $string_vals2 = substr($string_vals2, 0, -1);
-            mysqli_query($con, "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . "WR2" . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
+            mysqli_query($con, "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Naam ='" . "WR2" . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
             mysqli_query($con, $string_vals2) or die("Query failed. ERROR: " . mysqli_error($con));
             mysqli_query($con, $string12) or die("Query failed. ERROR: " . mysqli_error($con));
 
@@ -149,8 +149,8 @@ if (!empty($adag)) {
  * ****************************************************************************
  */
 $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
 
@@ -175,8 +175,8 @@ if (mysqli_num_rows($result) == 0) {
  * ****************************************************************************
  */
 $sql = "SELECT *
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Maand DESC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));

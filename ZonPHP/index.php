@@ -1,5 +1,5 @@
 <?php
-include_once "parameters.php";
+include_once "inc/init.php";
 include_once "inc/sessionstart.php";
 include_once "inc/load_cache.php";
 include_once "inc/import_data.php";
@@ -7,7 +7,7 @@ $aoplopendkwdag[] = 0;
 include_once "inc/header.php";
 
 $daytext = $txt["chart_dayoverview"];
-if (isset($use_weewx) && $use_weewx == true) {
+if ($params['useWeewx'] ) {
     $daytext = $txt["chart_solar_temp"];
 }
 
@@ -25,9 +25,9 @@ if (isset($use_weewx) && $use_weewx == true) {
     $(function () {
         // pass txt to JavaScript
         txt = <?php echo json_encode($txt); ?>;
-        plantInfo = <?php echo json_encode($plantInfo); ?>;
+        plantInfo = <?php echo json_encode(($params['plant'])); ?>;
         daytext = <?php echo '"' . $daytext . '"'; ?>;
-        charts = <?php echo json_encode($charts); ?>;
+        charts = <?php echo json_encode(CHART_DATE_FORMAT); ?>;
         colors = <?php echo json_encode($colors); ?>;
     });
 </script>
@@ -45,7 +45,9 @@ if (isset($use_weewx) && $use_weewx == true) {
     <!-- here comes all the charts-->
 
 <div id="menu_header_index" class="<?= MENU_INDEX_CLASS ?>" style="height: 45px; background: #222; vertical-align: ">
+<div id="shift" style="position: absolute; left: 1px; top: 1px; "> 
 <?php include_once ROOT_DIR."/inc/topmenu.php"; ?>
+</div>
 </div>
 <div class="grid" ><!-- The Modal --></div>
 </div><!-- closing ".page-content" -->

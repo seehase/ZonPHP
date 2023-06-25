@@ -485,8 +485,8 @@ body {
 
 #menu_header_index label {
 	position: absolute;
-    left: 5px;
-    top: -5px;
+    left: 4px;
+    top: -6px;
     padding: 0 0.125em;
     font: 58px Arial;
 }

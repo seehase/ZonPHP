@@ -1,11 +1,11 @@
 <?php
 $sql = "SELECT *
-	FROM " . $table_prefix . "_dag 
+	FROM " . TABLE_PREFIX . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
 //echo $sql;
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0)
-    $dateTime = $dstartdatum;
+    $dateTime = STARTDATE;
 else {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
@@ -13,7 +13,7 @@ else {
 }
 
 //echo $dateTime;	
-$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['plant'] . '/';
 for ($tel = 0; $tel <= 60; $tel++) {//2009-12-19.csv
     $num = (date("Y-m-d", strtotime("+" . $tel . " day", strtotime($dateTime))));//echo $num."<br />";
     if (file_exists($directory . $num . '.csv')) {
@@ -30,7 +30,7 @@ if (!empty($adag)) {
         $teller = 1;
         $teller2 = 1;
         $begindagEtotaal = 0;
-        $string = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
+        $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
         $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
         while (!feof($file)) {
             $geg_solar = fgets($file, 1024);
@@ -50,15 +50,15 @@ if (!empty($adag)) {
                     if ((strtotime($oDatumTijd) > strtotime($dateTime)) and ($oDatumTijd != "geen datumtijd")) {
                         //$Pac=$alist[21];
                         //$DaySum=$alist[8];
-                        $DaySum = ($DaySum - $begindagEtotaal) * $param['coefficient'];
+                        $DaySum = ($DaySum - $begindagEtotaal) * $params['coefficient'];
                         if ($teller2 == 1) {
-                            $string .= "('" . $oDatumTijd . $_SESSION['Wie'] . "','" . $oDatumTijd . "'," . $Pac . "," . number_format($DaySum, 3) . ",'" . $_SESSION['Wie'] . "')";
-                            $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format($DaySum, 3) . ",'" . $_SESSION['Wie'] . "')";
-                            $stringdelete = "DELETE FROM " . $table_prefix . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
+                            $string .= "('" . $oDatumTijd . $_SESSION['plant'] . "','" . $oDatumTijd . "'," . $Pac . "," . number_format($DaySum, 3) . ",'" . $_SESSION['plant'] . "')";
+                            $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format($DaySum, 3) . ",'" . $_SESSION['plant'] . "')";
+                            $stringdelete = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
                             $teller2 = 0;
                         } else {
-                            $string .= ",('" . $oDatumTijd . $_SESSION['Wie'] . "','" . $oDatumTijd . "'," . $Pac . "," . number_format($DaySum, 3) . ",'" . $_SESSION['Wie'] . "')";
-                            $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['Wie'] . "','" . $odatum[0] . "'," . number_format($DaySum, 3) . ",'" . $_SESSION['Wie'] . "')";
+                            $string .= ",('" . $oDatumTijd . $_SESSION['plant'] . "','" . $oDatumTijd . "'," . $Pac . "," . number_format($DaySum, 3) . ",'" . $_SESSION['plant'] . "')";
+                            $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format($DaySum, 3) . ",'" . $_SESSION['plant'] . "')";
                         }
                     }
                 }
@@ -84,8 +84,8 @@ if (!empty($adag)) {
  * ****************************************************************************
  */
 $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
@@ -107,8 +107,8 @@ if (mysqli_num_rows($result) == 0) {
  * ****************************************************************************
  */
 $sql = "SELECT *
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Maand DESC";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {

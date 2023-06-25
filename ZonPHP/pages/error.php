@@ -1,9 +1,8 @@
 <?php
 
-include_once "../parameters.php";
-include_once "../inc/sessionstart.php";
-
-include_once "par_header.php";
+include_once "../inc/init.php";
+include_once ROOT_DIR."/inc/sessionstart.php";
+include_once ROOT_DIR."/inc/error_header.php";
 
 $error = "";
 if (isset($_GET["fout"])) {
@@ -13,7 +12,7 @@ if (isset($_GET["fout"])) {
 ?>
 
 <div id="menus">
-    <?php include "par_menu.php"; ?>
+    <?php include ROOT_DIR."/inc/error_menu.php"; ?>
 </div>
 <div id="container">
     <div id="bodytext">
@@ -21,13 +20,13 @@ if (isset($_GET["fout"])) {
             <h1 class="notopgap" align="center"><?php echo getTxt("bestezonphp"); ?>,</h1>
             <center>
                 Uw Taal:<a href='?taal=nl&amp;fout=<?php echo $error ?>' TARGET='_self'><img
-                        src="../inc/image/nl.svg" alt="nl" border="0" width="16" height="11"></a>&nbsp;&nbsp;
+                            src="../inc/image/nl.svg" alt="nl" border="0" width="16" height="11"></a>&nbsp;&nbsp;
                 Your language:<a href='?taal=en&amp;fout=<?php echo $error ?>' TARGET='_self'><img
-                        src="../inc/image/en.svg" alt="en" border="0" width="16" height="11"></a>&nbsp;&nbsp;
+                            src="../inc/image/en.svg" alt="en" border="0" width="16" height="11"></a>&nbsp;&nbsp;
                 Votre langue:<a href='?taal=fr&amp;fout=<?php echo $error ?>' TARGET='_self'><img
-                        src="../inc/image/fr.svg" alt="fr" border="0" width="16" height="11"></a>&nbsp;&nbsp;
+                            src="../inc/image/fr.svg" alt="fr" border="0" width="16" height="11"></a>&nbsp;&nbsp;
                 Ihre Sprache:<a href='?taal=de&amp;fout=<?php echo $error; ?>' TARGET='_self'><img
-                        src="../inc/image/de.svg" alt="de" border="0" width="16" height="11"></a>
+                            src="../inc/image/de.svg" alt="de" border="0" width="16" height="11"></a>
             </center>
             <hr>
             <br/>

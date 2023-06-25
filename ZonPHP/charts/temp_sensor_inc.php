@@ -2,7 +2,7 @@
 
 // ---Temperature SENSOR -----------------------------------------------------------------------------------------------------------
 
-$sensor_available = ($use_weewx == true);
+$sensor_available = ($params['useWeewx'] == true);
 
 $sensor_values = array();
 $sensorid = 197190;
@@ -20,17 +20,17 @@ $val_max = -500;
 //    }
 //}
 
-if (!isset($weewx_table_name)) $weewx_table_name = "archive";
-if (!isset($weewx_temp_column)) $weewx_temp_column = "outTemp";
-if (!isset($weewx_timestamp_column)) $weewx_timestamp_column = "dateTime";
-if (!isset($weewx_temp_is_farenheit)) $weewx_temp_is_farenheit = true;
+$weewx_table_name = $params['weewx']['tableName'];
+$weewx_temp_column = $params['weewx']['tempColumn'];;
+$weewx_timestamp_column = $params['weewx']['timestampColumn'];;
+$weewx_temp_is_farenheit = $params['weewx']['tempInFarenheit'];;
 
 $sensor_success = false;
 $temp_unit = "°C";
 
 if ($sensor_available) {
     $val_avg = 0;
-    if ($use_weewx == true) {
+    if ($params['useWeewx'] == true) {
         // use weewx connection and table
         $sql_sensor =
             "   SELECT 
@@ -79,11 +79,7 @@ if ($sensor_success) {
     $str_temp_vals = "";
     foreach ($temp_vals as $time => $val) {
         if (($time > $max_first_val) && ($time < $max_last_val)) {
-            if (isset($param['no_units'])) {
-                $str_temp_vals .= "[" . $time * 1000 . "," . number_format($val, 1, '.', '') . "],";
-            } else {
-                $str_temp_vals .= "{x:" . $time * 1000 . ", y:" . number_format($val, 1, '.', '') . ", unit: '" . $temp_unit . "' },";
-            }
+            $str_temp_vals .= "{x:" . $time * 1000 . ", y:" . number_format($val, 1, '.', '') . ", unit: '" . $temp_unit . "' },";
         }
     }
     $str_temp_vals = substr($str_temp_vals, 0, -1);

@@ -8,13 +8,13 @@ $TagesErtrag = 0;
 
 <?php
 $sql = "SELECT *
-	FROM " . $table_prefix . "_dag
-	WHERE Naam ='" . $_SESSION['Wie'] . "' 
+	FROM " . TABLE_PREFIX . "_dag
+	WHERE Naam ='" . $_SESSION['plant'] . "' 
 	ORDER BY Datum_Dag DESC LIMIT 1";
 //echo $sql;
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0)
-    $dateTime = $dstartdatum;
+    $dateTime = STARTDATE;
 else {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
@@ -29,8 +29,8 @@ if ($Tag == 31 && $Monat == 12) {
     $Jahr++;
 }
 
-$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . '/';
-$directoryImport = ROOT_DIR . "/" . $_SESSION['Wie'] . '/' . $Jahr . '/';
+$directory = ROOT_DIR . "/" . $_SESSION['plant'] . '/';
+$directoryImport = ROOT_DIR . "/" . $_SESSION['plant'] . '/' . $Jahr . '/';
 //echo "directory=".$directory."<br />";
 //echo "directoryimport=".$directoryImport."<br />";
 
@@ -52,7 +52,7 @@ if (!empty($adag)) {
         $teller = 1;
         $teller2 = 1;
         $begindagEtotaal = 0;
-        $string = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
+        $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
         $stringtest = $string;
 
 
@@ -122,8 +122,8 @@ if (!empty($adag)) {
                             if ((strtotime($oDatumTijd) > strtotime($dateTime)) and ($oDatumTijd != "geen datumtijd")) {
                                 //$Pac=$alist[21];
                                 //$DaySum=$alist[8];
-                                $DaySum = ($DaySum - $begindagEtotaal) * $param['coefficient'];
-                                $TagesErtrag = $TagesErtrag * $param['coefficient'];
+                                $DaySum = ($DaySum - $begindagEtotaal) * $params['coefficient'];
+                                $TagesErtrag = $TagesErtrag * $params['coefficient'];
                                 /*	if ($TagesErtragPrufung>$TagesErtrag){//Prüfung ob TagesErtrag nicht null ist,wenn ja dann wird er auf den letzten Eintrag zurückgesetzt.
                                     echo "TagesErtragPrufung=$TagesErtragPrufung > TagesErtrag=$TagesErtrag"."<br />";
                                     echo "TagesErtrag wird auf TagesErtragPrufung gesetzt"."<br />";
@@ -132,31 +132,31 @@ if (!empty($adag)) {
 
 
                                 if ($teller2 == 1) {
-                                    $string .= "('" . $oDatumTijd . $_SESSION['Wie'] . "','" . $oDatumTijd . "'," . $Pac . "," . $TagesErtrag . ",'" . $_SESSION['Wie'] . "')";
-                                    $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['Wie'] . "','" . $odatum[0] . "'," . $TagesErtrag . ",'" . $_SESSION['Wie'] . "')";
-                                    $stringdelete = "DELETE FROM " . $table_prefix . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
+                                    $string .= "('" . $oDatumTijd . $_SESSION['plant'] . "','" . $oDatumTijd . "'," . $Pac . "," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
+                                    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
+                                    $stringdelete = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
                                     $teller2 = 0;
                                     $stringtest = $string;
                                     //echo "Gesammter String",$string."<br />"."<br />";
-                                    //echo "1. Feld ",$oDatumTijd.$_SESSION['Wie']."<br />";
+                                    //echo "1. Feld ",$oDatumTijd.$_SESSION['plant']."<br />";
                                     //echo "2, Feld ",$oDatumTijd."<br />";
                                     //echo "3, Feld Aktelle Leistung= ",$Pac."<br />";
                                     //echo "4, Feld Aktueller TagesErtrag= ",$TagesErtrag."<br />";
                                     //echo "4, Feld Tagesgesammtsumme",$DaySum."<br />";
                                     //echo "4, Feld Formartierte Tagessumme",number_format($DaySum,3)."<br />";// Formatieren funktioniert nicht
-                                    //echo "5, Feld ",$_SESSION['Wie']."<br />"."<br />";
+                                    //echo "5, Feld ",$_SESSION['plant']."<br />"."<br />";
                                 } else {
-                                    $string .= ",('" . $oDatumTijd . $_SESSION['Wie'] . "','" . $oDatumTijd . "'," . $Pac . "," . $TagesErtrag . ",'" . $_SESSION['Wie'] . "')";
-                                    $string1 = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['Wie'] . "','" . $odatum[0] . "'," . $TagesErtrag . ",'" . $_SESSION['Wie'] . "')";
+                                    $string .= ",('" . $oDatumTijd . $_SESSION['plant'] . "','" . $oDatumTijd . "'," . $Pac . "," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
+                                    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
                                     $stringtest = $string;
                                     //echo "Gesammter String",$string."<br />"."<br />";
-                                    //echo "1. Feld ",$oDatumTijd.$_SESSION['Wie']."<br />";
+                                    //echo "1. Feld ",$oDatumTijd.$_SESSION['plant']."<br />";
                                     //echo "2, Feld ",$oDatumTijd."<br />";
                                     //echo "3, Feld Aktelle Leistung= ",$Pac."<br />";
                                     //echo "4, Feld Aktueller TagesErtrag= ",$TagesErtrag."<br />";
                                     //echo "4, Feld Tagesgesammtsumme",$DaySum."<br />";
                                     //echo "4, Feld Formartierte Tagessumme",number_format($DaySum,3)."<br />";// Formatieren funktioniert nicht
-                                    //echo "5, Feld ",$_SESSION['Wie']."<br />"."<br />";
+                                    //echo "5, Feld ",$_SESSION['plant']."<br />"."<br />";
 
                                 }
                             }
@@ -176,8 +176,8 @@ if (!empty($adag)) {
             //mysql_query($string)or die ('SQL Error string:'. mysql_error());
             //mysql_query($string1)or die ('SQL Error string1:'. mysql_error());
 
-//added by AVB : WHERE Naam ='".$_SESSION['Wie']."' 
-            mysqli_query($con, "DELETE FROM " . $table_prefix . "_maand WHERE Naam ='" . $_SESSION['Wie'] . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
+//added by AVB : WHERE Naam ='".$_SESSION['plant']."' 
+            mysqli_query($con, "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Naam ='" . $_SESSION['plant'] . "' AND Datum_Maand='" . $odatum[0] . "'") or die("Query failed. ERROR: " . mysqli_error($con));
             mysqli_query($con, $string) or die("Query failed. ERROR: " . mysqli_error($con));
             mysqli_query($con, $string1) or die("Query failed. ERROR: " . mysqli_error($con));
             //echo $oDatum;echo "<br />";
@@ -192,8 +192,8 @@ if (!empty($adag)) {
  * ****************************************************************************
  */
 $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
@@ -215,8 +215,8 @@ if (mysqli_num_rows($result) == 0) {
  * ****************************************************************************
  */
 $sql = "SELECT *
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Maand DESC";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {

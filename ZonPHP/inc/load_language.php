@@ -1,21 +1,18 @@
 <?php
 
 // php8.0 ready
-$taal = "en";
+$language = "en";
 if (isset($default_language)) {
     $default_language = strtolower($default_language);
     if ($default_language === "de" || $default_language === "en" || $default_language === "fr" || $default_language === "nl") {
-        $taal = $default_language;
+        $language = $default_language;
     }
 }
 
-if (isset($_SESSION['sestaal'])) {
-    $taal = $_SESSION['sestaal'];
+if (isset($_SESSION['language'])) {
+    $language = $_SESSION['language'];
 }
 
-if (!isset($use_utf8)) {
-    $use_utf8 = false;
-}
 // set default timezone
 date_default_timezone_set("UTC");
 
@@ -26,11 +23,11 @@ if (isset($_GET['taal']) || (!isset($_SESSION['months']))) {
     $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
     // than override with new language
     if (isset($_GET['taal'])) {
-        $taal = $_GET['taal'];
+        $language = $_GET['taal'];
         unset($_GET['taal']);
     }
-    $_SESSION['sestaal'] = $taal;
-    $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $taal . ".ini", false);
+    $_SESSION['language'] = $language;
+    $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $language . ".ini", false);
     $_SESSION['txt'] = $txt;
 
 } else {
@@ -42,26 +39,26 @@ if (isset($_GET['taal']) || (!isset($_SESSION['months']))) {
         // nothing set reload from scratch
 
         $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
-        if (isset($_SESSION['sestaal'])) {
-            $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $taal . ".ini", false);
+        if (isset($_SESSION['language'])) {
+            $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $language . ".ini", false);
         }
         $_SESSION['txt'] = $txt;
     }
-    if (isset($_SESSION['sestaal'])) {
-        $taal = $_SESSION['sestaal'];
+    if (isset($_SESSION['language'])) {
+        $language = $_SESSION['language'];
     }
 }
 // date_default_timezone_set('Europe/Brussels');
-if ($taal == "nl") {
+if ($language == "nl") {
     $locale = 'nl-NL'; // For IntlDateFormatter
 }
-if ($taal == "fr") {
+if ($language == "fr") {
     $locale = 'fr-FR'; // For IntlDateFormatter
 }
-if ($taal == "de") {
+if ($language == "de") {
     $locale = 'de-DE'; // For IntlDateFormatter
 }
-if ($taal == "en") {
+if ($language == "en") {
     $locale = 'en-US'; // For IntlDateFormatter
 }
 // preparing a localized month array
@@ -76,4 +73,16 @@ function getTxt($key)
         return "undefined key: " . $key;
     }
 }
+
+
+function isActive($language)
+{
+    if (in_array(strtolower($language), LANGUAGES)) {
+        return true;
+    } else {
+        return false;
+    };
+
+}
+
 

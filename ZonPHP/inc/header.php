@@ -21,16 +21,11 @@ define('CHART_STYLE', 'background-color: #' . $colors['color_chartbackground'] .
 define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-left:  width: 100%; height: auto; overflow: hidden; background-color:#' . $colors['color_background'] . ';');
 ?>
     <?php
-    if (isset($param['autorefresh'])) {
-        $autorefresh = intval($param['autorefresh']);
-    } else {
-        $autorefresh = 300;
-    }
-    if ($autorefresh > 0) {
-        echo '<meta http-equiv="refresh" content="' . $autorefresh . '" >';
+    if ($params['autoReload'] > 0) {
+        echo '<meta http-equiv="refresh" content="' . $params['autoReload'] . '" >';
     }
     ?>
-    <title><?php echo $param['sNaamVoorOpWebsite']; ?></title>
+    <title><?php echo $params['plant']['name']; ?></title>
     <!-- use googleapis CDN -->
     <!-- jquery -->
 	<link type="text/css" rel="stylesheet"
@@ -130,7 +125,7 @@ define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-lef
     </script>
     <?php
     // use google analytics if ID is set in paramaters
-    if (isset($param['google_tracking']) && strlen($param['google_tracking']) > 1) {
+    if (strlen($params['googleTrackingId']) > 1) {
         include_once(ROOT_DIR . "/inc/analyticstracking.php");
     }
     ?>

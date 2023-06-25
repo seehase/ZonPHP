@@ -1,5 +1,5 @@
 <?php
-include_once "../parameters.php";
+include_once "../inc/init.php";
 include_once ROOT_DIR."/inc/sessionstart.php";
 include_once ROOT_DIR."/inc/load_cache.php";
 include_once ROOT_DIR."/inc/import_data.php";
@@ -10,7 +10,7 @@ include_once "../charts/cumulative_chart.php";
 
 <?php
 $footer_display_style = "clear:both; ";
-if (isset($param['hide_footer'])) {
+if ($params['hideFooter'] == true) {
     $padding = '- 35px';
     $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
 }

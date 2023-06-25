@@ -1,7 +1,7 @@
 <?php
 if (strpos(getcwd(), "charts") > 0) {
     chdir("../");
-    include_once "parameters.php";
+    include_once "inc/init.php";
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
@@ -16,7 +16,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
 }
 //echo $_GET['Max_Min'];
 $sql = 'SELECT db1.*
-FROM ' . $table_prefix . '_maand AS db1
+FROM ' . TABLE_PREFIX . '_maand AS db1
 JOIN (SELECT Datum_Maand, Geg_Maand, sum(Geg_Maand) as mysum FROM tgeg_maand  Group by Datum_Maand, Geg_Maand ORDER BY mysum ' . $DESC_ASC . ' LIMIT 0,31) AS db2
 ON db1.Datum_Maand = db2.Datum_Maand order by mysum desc';
 
@@ -43,20 +43,20 @@ $myurl = HTML_PATH . "pages/day_overview.php?dag=";
 $myMetadata = array();
 $myColors = array();
 
-for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
+    $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
+    $myColors[PLANTS[$k]]['max'] = $col1;
 }
 
 
 $dataseries = "";
 $maxval_yaxis = 0;
 
-foreach ($sNaamSaveDatabase as $key => $inverter_name) {
+foreach (PLANTS as $key => $inverter_name) {
     $data = "";
     $local_max = 0;
     $myColor1 = $myColors[$inverter_name]['min'];
@@ -109,7 +109,7 @@ include_once "chart_styles.php";
         const categories = data[0].map(d => d[0]);
         const myurl = '<?php echo $myurl ?>';
         series = this.series;
-        const khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        const khhWp = [<?php echo $params['plantskWp'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
         const kwptot = khhWp.reduce(add, 0);
         var sub_title;

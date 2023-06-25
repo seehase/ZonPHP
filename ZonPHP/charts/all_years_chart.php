@@ -1,7 +1,7 @@
 <?php
 if (strpos(getcwd(), "charts") > 0) {
     chdir("../");
-    include_once "parameters.php";
+    include_once "inc/init.php";
     include_once "inc/sessionstart.php";
     include_once "inc/load_cache.php";
 }
@@ -19,7 +19,7 @@ $inveter_list = array();
 // load sum per month for all years --------------------------------------------------------------------------------
 $sql = "SELECT SUM( Geg_Maand ) AS sum_month, year( Datum_Maand ) AS year, month( Datum_Maand ) AS month, naam, 
             count( Datum_Maand ) AS tdag_maand
-        FROM " . $table_prefix . "_maand     
+        FROM " . TABLE_PREFIX . "_maand     
         GROUP BY year, month, naam";
 
 $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
@@ -45,7 +45,7 @@ if (mysqli_num_rows($result) == 0) {
         $missingdays = $days_per_month - $row['tdag_maand'];
         $missing_days_month_year[$row['year']][$row['month']] = $missingdays;
         if (!in_array($inverter_name, $inveter_list)) {
-            if (in_array($inverter_name, $sNaamSaveDatabase)) {
+            if (in_array($inverter_name, PLANTS)) {
                 // add to list only if it configured (ignore db entries)
                 $inveter_list[] = $inverter_name;
             }
@@ -62,37 +62,18 @@ if (mysqli_num_rows($result) == 0) {
 //new year average per inverter in clean array
 $avg_data = array();
 $sqltotal = "SELECT ROUND((SUM( Geg_Maand ) /  COUNT( Geg_Maand ))* 365 , 0 ) AS grand_total_average 
-FROM " . $table_prefix . "_maand
+FROM " . TABLE_PREFIX . "_maand
 GROUP BY naam";
 $result = mysqli_query($con, $sqltotal) or die("Query failed (total average) " . mysqli_error($con));
 while ($row = mysqli_fetch_array($result)) {
     $avg_data[] = $row['grand_total_average'];
 }
 
-$sqlref = "SELECT month( Datum_Refer ) AS maand, Geg_Refer, Dag_Refer
-        FROM " . $table_prefix . "_refer ";
 
-$resultref = mysqli_query($con, $sqlref) or die("Query failed. totaal-ref " . mysqli_error($con));
-$frefjaar = 0;
-$arefjaar = array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-if (mysqli_num_rows($resultref) != 0) {
-    while ($row = mysqli_fetch_array($resultref)) {
-        $frefjaar += $row['Geg_Refer'];
-        $arefjaar[$row['maand']] = $row['Dag_Refer'];
-    }
-} else
-    $frefjaar = 1;
 
-$ref_data = array();
-$sqlreftot = "SELECT SUM(Geg_Refer) as total_ref FROM " . $table_prefix . "_refer GROUP by naam ORDER by naam";
-
-$result = mysqli_query($con, $sqlreftot) or die("Query failed (total average) " . mysqli_error($con));
-while ($row = mysqli_fetch_array($result)) {
-    $ref_data[] = $row['total_ref'];
-}
 
 $sqlgem = "SELECT month( Datum_Maand ) AS maand, AVG( Geg_Maand ) AS gem, naam
-        FROM " . $table_prefix . "_maand 
+        FROM " . TABLE_PREFIX . "_maand 
         GROUP BY maand, naam";
 $resultgem = mysqli_query($con, $sqlgem) or die("Query failed. totaal-ref " . mysqli_error($con));
 while ($row = mysqli_fetch_array($resultgem)) {
@@ -113,13 +94,13 @@ $categories = "";
 $best_year = 0;
 $strdataseries = "";
 $myColors = array();
-for ($k = 0; $k < count($sNaamSaveDatabase); $k++) {
+for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['min'] = $col1;
+    $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'#" . $colors[$col1] . "'";
-    $myColors[$sNaamSaveDatabase[$k]]['max'] = $col1;
+    $myColors[PLANTS[$k]]['max'] = $col1;
 }
 //print_r($myColors);
 foreach ($inveter_list as $inverter_name) {
@@ -193,17 +174,17 @@ include_once "chart_styles.php";
         }
 
         var txt = '<?php echo getTxt("totaal") ?>';
-        var khhWp = [<?php echo $param['ieffectief_kwpiekst'] ?>];
+        var khhWp = [<?php echo $params['plantskWp'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?php echo getTxt("max") ?>';
         var txt_ref = '<?php echo getTxt("ref") ?>';
         var avrg = <?php echo round($average_per_month, 0); ?>;
-        var ref = <?php echo round($frefjaar, 0); ?>;
+        var ref = <?php echo round($params['totalExpectedYield'], 0); ?>;
         var years = <?php echo $yearcount ?>;
         var myoptions = <?php echo $chart_options ?>;
         var txt_gem = '<?php echo getTxt("gem") ?>';
         var avg = <?php echo json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
-        var ref = <?php echo json_encode($ref_data, JSON_NUMERIC_CHECK) ?>;
+        var ref = <?php echo json_encode($params['expectedYield'], JSON_NUMERIC_CHECK) ?>;
         var mychart = new Highcharts.Chart('total_chart', Highcharts.merge(myoptions, {
 
             chart: {

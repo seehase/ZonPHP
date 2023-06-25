@@ -6,13 +6,13 @@
 $wr = "WR1";
 
 
-$sql = "SELECT * FROM " . $table_prefix . "_dag ORDER BY Datum_Dag DESC LIMIT 1";
+$sql = "SELECT * FROM " . TABLE_PREFIX . "_dag ORDER BY Datum_Dag DESC LIMIT 1";
 
 // get latest import date from db
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0)
-    $dateTime = $dstartdatum;
+    $dateTime = STARTDATE;
 else {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
@@ -24,8 +24,8 @@ $directory = ROOT_DIR . "/" . 'WR1/';
 $aday = array();
 for ($tel = 0; $tel <= 150; $tel++) {
     $num = (date("Ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));
-    if (file_exists($directory . $param['plantname'] . "-" . $num . '.csv')) {
-        $adag[] = $directory . $param['plantname'] . "-" . $num . '.csv';
+    if (file_exists($directory . $params[$_SESSION['plant']]['importPrefix'] . "-" . $num . '.csv')) {
+        $adag[] = $directory . $params[$_SESSION['plant']]['importPrefix'] . "-" . $num . '.csv';
     }
 }
 
@@ -42,7 +42,7 @@ if (!empty($adag)) {
         $skip = true;
         $startkw = [0, 0, 0];
         $latestDayTotal = [0, 0, 0];
-        $insertStringStatement = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
+        $insertStringStatement = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
         $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
         while (!feof($file)) {
             $geg_suo = fgets($file, 1024);
@@ -95,10 +95,10 @@ if (!empty($adag)) {
                                 if ($currentWattValue != 0) {
                                     $insertStringValues .= "('" . $oTimeStamp . $wrname . "','" . $oTimeStamp . "'," . ($currentWattValue * 1000) . "," . number_format($totalValuekWh - $startkw[$i - 1], 3) . ",'" . $wrname . "'),";
 
-                                    $latestDayTotal[$i - 1] = ($totalValuekWh - $startkw[$i - 1]) * $param['coefficient'];
+                                    $latestDayTotal[$i - 1] = ($totalValuekWh - $startkw[$i - 1]) * $params['coefficient'];
 
-                                    $insertStringDayTotalValue = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                        $wrname . "','" . $odatum[0] . "'," . number_format(($totalValuekWh - $startkw[$i - 1]) * $param['coefficient'], 3) . ",'" . $wrname . "')";
+                                    $insertStringDayTotalValue = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                        $wrname . "','" . $odatum[0] . "'," . number_format(($totalValuekWh - $startkw[$i - 1]) * $params['coefficient'], 3) . ",'" . $wrname . "')";
                                     $stringend = "";
                                     $houdeeindwaarde = 1;
                                     $voegnulltoe = 0;
@@ -108,7 +108,7 @@ if (!empty($adag)) {
                                         $insertStringValues .= "('" . $oTimeStamp . $wrname . "','" . $oTimeStamp . "',0," . number_format($totalValuekWh - $startkw[$i - 1], 3) . ",'" . $wrname . "'),";
                                         $voegnulltoe = 1;
                                     }
-                                    $insertStringDayTotalValue = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                    $insertStringDayTotalValue = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
                                         $wrname . "','" . $odatum[0] . "'," . number_format(0.0, 3) . ",'" . $wrname . "')";
                                 }
                             }
@@ -121,13 +121,13 @@ if (!empty($adag)) {
         fclose($file);
         if ($insertStringValues != "") {
             if ($odatum[0] != "geen") {
-                $sql = "DELETE FROM " . $table_prefix . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
+                $sql = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
                 mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con) . $sql);
-                $insertStringDayTotalValue = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . "WR1','" . $odatum[0] . "'," . number_format($latestDayTotal[0], 3) . ",'WR1')";
+                $insertStringDayTotalValue = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . "WR1','" . $odatum[0] . "'," . number_format($latestDayTotal[0], 3) . ",'WR1')";
                 mysqli_query($con, $insertStringDayTotalValue) or die("Query failed. ERROR: " . $insertStringDayTotalValue);
-                $insertStringDayTotalValue = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . "WR2','" . $odatum[0] . "'," . number_format($latestDayTotal[1], 3) . ",'WR2')";
+                $insertStringDayTotalValue = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . "WR2','" . $odatum[0] . "'," . number_format($latestDayTotal[1], 3) . ",'WR2')";
                 mysqli_query($con, $insertStringDayTotalValue) or die("Query failed. ERROR: " . $insertStringDayTotalValue);
-                $insertStringDayTotalValue = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . "WR3','" . $odatum[0] . "'," . number_format($latestDayTotal[2], 3) . ",'WR3')";
+                $insertStringDayTotalValue = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . "WR3','" . $odatum[0] . "'," . number_format($latestDayTotal[2], 3) . ",'WR3')";
                 mysqli_query($con, $insertStringDayTotalValue) or die("Query failed. ERROR: " . $insertStringDayTotalValue);
             }
             $insertStringValues = substr($insertStringValues, 0, -1);
@@ -143,7 +143,7 @@ if (!empty($adag)) {
  * ****************************************************************************
  */
 $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
-	FROM " . $table_prefix . "_maand
+	FROM " . TABLE_PREFIX . "_maand
 	WHERE Naam='" . $wr . "'
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
@@ -168,7 +168,7 @@ if (mysqli_num_rows($result) == 0) {
  * ****************************************************************************
  */
 $sql = "SELECT *
-	FROM " . $table_prefix . "_maand
+	FROM " . TABLE_PREFIX . "_maand
 	WHERE Naam='" . $wr . "'
 	ORDER BY Datum_Maand DESC";
 

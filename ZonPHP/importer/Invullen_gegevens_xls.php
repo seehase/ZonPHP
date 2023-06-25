@@ -4,8 +4,8 @@
  * ****************************************************************************
  */
 $sql = "SELECT * 
-	FROM " . $table_prefix . "_maand
-	WHERE Naam ='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam ='" . $_SESSION['plant'] . "'
 	AND TIME( Datum_Maand ) = '00:00:00'
 	ORDER BY Datum_Maand DESC";
 //echo $sql."<br />";
@@ -31,8 +31,8 @@ if (mysqli_num_rows($result) != 0) {
  */
 
 $sql = "SELECT * 
-	FROM " . $table_prefix . "_maand
-	WHERE Naam ='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam ='" . $_SESSION['plant'] . "'
 	AND TIME( Datum_Maand ) = '23:59:59'
 	ORDER BY Datum_Maand DESC 
 	LIMIT 1 ";
@@ -40,7 +40,7 @@ $sql = "SELECT *
 
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR:laatste dag in maand " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
-    $dateTime = date('Y-m-d', strtotime($dstartdatum));
+    $dateTime = date('Y-m-d', strtotime(STARTDATE));
 } else {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Maand']; //datum omzetten
@@ -54,7 +54,7 @@ error_reporting(E_ALL ^ E_NOTICE);
  * Zoek naar de SDT xls files
  * ****************************************************************************
  */
-$directory = ROOT_DIR . "/" . $_SESSION['Wie'] . "/";
+$directory = ROOT_DIR . "/" . $_SESSION['plant'] . "/";
 $ajaar = array();
 for ($tel = 0; $tel <= 5; $tel++) {
     $num = (date("y", strtotime("+" . $tel . " year", strtotime($dateTime))));//echo $num."<br />";
@@ -76,7 +76,7 @@ foreach ($ajaar as $v) {
     $data->setOutputEncoding('CP1251');
     $data->read($v);
 
-    $string = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
+    $string = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
 
     $buitvoeren = false;
     for ($i = 8; $i <= $data->sheets[0]['numRows']; $i++) {
@@ -85,8 +85,8 @@ foreach ($ajaar as $v) {
         //echo $dateTime."---".$dtomzet;
         if ($dateTime < $dtomzet) {
             //$string=$string."('".$dtomzet."',";
-            $string .= "('" . $dtomzet . $_SESSION['Wie'] . "','" . $dtomzet . "',";
-            $string .= $param['coefficient'] * ($data->sheets[0]['cells'][$i][2]) . ",'" . $_SESSION['Wie'] . "'),";
+            $string .= "('" . $dtomzet . $_SESSION['plant'] . "','" . $dtomzet . "',";
+            $string .= $params['coefficient'] * ($data->sheets[0]['cells'][$i][2]) . ",'" . $_SESSION['plant'] . "'),";
             $buitvoeren = true;
         }
     }
@@ -106,15 +106,15 @@ foreach ($ajaar as $v) {
 
 
 $sql = "SELECT *
-	FROM " . $table_prefix . "_dag 
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_dag 
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Dag DESC LIMIT 1";
 //echo $sql."<br />";
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0) {
-    $dateTime = date('Y-m-d', strtotime($dstartdatum));
-    $firstmonth = date('Y-m-01', strtotime($dstartdatum));//echo $firstmonth."<br />";
+    $dateTime = date('Y-m-d', strtotime(STARTDATE));
+    $firstmonth = date('Y-m-01', strtotime(STARTDATE));//echo $firstmonth."<br />";
     $laatsterecord = 0;
 } else {
     while ($row = mysqli_fetch_array($result)) {
@@ -130,8 +130,8 @@ if (mysqli_num_rows($result) == 0) {
  * ****************************************************************************
  */
 $sql = "SELECT * 
-	FROM " . $table_prefix . "_maand
-	WHERE Naam ='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam ='" . $_SESSION['plant'] . "'
 	AND TIME( Datum_Maand ) = '23:59:59'
 	ORDER BY Datum_Maand DESC 
 	LIMIT 1 ";
@@ -139,7 +139,7 @@ $sql = "SELECT *
 
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
-    $dlaatstedagmaand = $dstartdatum;
+    $dlaatstedagmaand = STARTDATE;
 } else {
     while ($row = mysqli_fetch_array($result)) {
         $dlaatstedagmaand = $row['Datum_Maand']; //datum omzetten
@@ -173,8 +173,8 @@ foreach ($tmp_months as $v) {
     // Set output Encoding.
     $data->setOutputEncoding('CP1251');
     $data->read($v);
-    $string = "insert into " . $table_prefix . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
-    $stringMaand = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
+    $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
+    $stringMaand = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
     //echo $string."<br />";
     //echo $v;
     $buitvoeren = 0;
@@ -189,8 +189,8 @@ foreach ($tmp_months as $v) {
             if (date("y-m-d", strtotime($dtomzet)) != date("y-m-d", strtotime($geheugen))) {
                 //echo '---------->'.$geheugen.'+++'.$dtomzet."<br />";
                 if (date("y-m-d", strtotime($dlaatstedagmaand)) < date("y-m-d", strtotime($geheugen)) && $vlag == 0) {
-                    $stringMaand .= "('" . date("Y-m-d 23:59:59", strtotime($geheugen)) . $_SESSION['Wie'] . "','" . date("Y-m-d", strtotime($geheugen)) . "',";
-                    $stringMaand .= $laatsterecord . ",'" . $_SESSION['Wie'] . "'),";
+                    $stringMaand .= "('" . date("Y-m-d 23:59:59", strtotime($geheugen)) . $_SESSION['plant'] . "','" . date("Y-m-d", strtotime($geheugen)) . "',";
+                    $stringMaand .= $laatsterecord . ",'" . $_SESSION['plant'] . "'),";
                     $bgegevensgevonden = 1;
                     //echo "<br />";
                     //echo 'bgeg'.$bgegevensgevonden;
@@ -205,11 +205,11 @@ foreach ($tmp_months as $v) {
                 $vlag = 0;
             }
             if ($dtomzet != date("Y-m-d 23:59:59", strtotime($dtomzet))) {
-                $string .= "('" . $dtomzet . $_SESSION['Wie'] . "','" . $dtomzet . "',";
-                $laatsterecord += $param['coefficient'] * ($data->sheets[0]['cells'][$i][2]) / (1000 * 60 / $param['isorteren']);
-                $string .= $data->sheets[0]['cells'][$i][2] . "," . $laatsterecord . ",'" . $_SESSION['Wie'] . "'),";
+                $string .= "('" . $dtomzet . $_SESSION['plant'] . "','" . $dtomzet . "',";
+                $laatsterecord += $params['coefficient'] * ($data->sheets[0]['cells'][$i][2]) / (1000 * 60 / $params['displayInterval']);
+                $string .= $data->sheets[0]['cells'][$i][2] . "," . $laatsterecord . ",'" . $_SESSION['plant'] . "'),";
                 $buitvoeren = 1;
-                //echo $data->sheets[0]['cells'][$i][2].",".$laatsterecord.",'".$_SESSION['Wie']."'),"."<br />";
+                //echo $data->sheets[0]['cells'][$i][2].",".$laatsterecord.",'".$_SESSION['plant']."'),"."<br />";
             }
         }
     }
@@ -217,8 +217,8 @@ foreach ($tmp_months as $v) {
     if ($buitvoeren == 1) {
         $vlag = 1;
         if (date("y-m-d", strtotime($dlaatstedagmaand)) < date("y-m-d", strtotime($geheugen))) {
-            $stringMaand .= "('" . date("Y-m-d 23:59:59", strtotime($geheugen)) . $_SESSION['Wie'] . "','" . date("Y-m-d", strtotime($geheugen)) . "',";
-            $stringMaand .= $laatsterecord . ",'" . $_SESSION['Wie'] . "'),";
+            $stringMaand .= "('" . date("Y-m-d 23:59:59", strtotime($geheugen)) . $_SESSION['plant'] . "','" . date("Y-m-d", strtotime($geheugen)) . "',";
+            $stringMaand .= $laatsterecord . ",'" . $_SESSION['plant'] . "'),";
             $bgegevensgevonden = 1;
             //echo '*-'.$geheugen.'-'.$laatsterecord.'-*<br />';
             //echo $stringMaand.'-*<br />';
@@ -237,9 +237,9 @@ foreach ($tmp_months as $v) {
     }
     //echo 'vlag:'.$vlag;echo "<br />";echo '$dcontrolebijvoeg:'.$dcontrolebijvoeg;echo "<br />";
     if ($vlag == 0 && $dcontrolebijvoeg != "geen") {
-        $stringMaand = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
-        $stringMaand .= "('" . date("Y-m-d 23:59:59", strtotime($dcontrolebijvoeg)) . $_SESSION['Wie'] . "','" . date("Y-m-d", strtotime($dcontrolebijvoeg)) . "',";
-        $stringMaand .= $fcontrolebijvoeg . ",'" . $_SESSION['Wie'] . "')";
+        $stringMaand = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values";
+        $stringMaand .= "('" . date("Y-m-d 23:59:59", strtotime($dcontrolebijvoeg)) . $_SESSION['plant'] . "','" . date("Y-m-d", strtotime($dcontrolebijvoeg)) . "',";
+        $stringMaand .= $fcontrolebijvoeg . ",'" . $_SESSION['plant'] . "')";
         //echo '2'.$stringMaand;echo "<br />";echo "<br />";
         mysqli_query($con, $stringMaand) or die("Query failed. ERROR: " . mysqli_error($con));
     }
@@ -252,8 +252,8 @@ foreach ($tmp_months as $v) {
  * ****************************************************************************
  */
 $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY 1 DESC";
 
@@ -277,8 +277,8 @@ if (mysqli_num_rows($result) == 0) {
  * ****************************************************************************
  */
 $sql = "SELECT *
-	FROM " . $table_prefix . "_maand
-	WHERE Naam='" . $_SESSION['Wie'] . "'
+	FROM " . TABLE_PREFIX . "_maand
+	WHERE Naam='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Maand DESC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));

@@ -1,11 +1,10 @@
 <?php
-include_once "../parameters.php";
+include_once "../inc/init.php";
 include_once ROOT_DIR."/inc/sessionstart.php";
 include_once ROOT_DIR."/inc/load_cache.php";
 include_once ROOT_DIR."/inc/import_data.php";
 
 unset($agegevens);
-unset($frefmaand);
 unset($adatum);
 unset($fgemiddelde);
 unset($amaxref);
@@ -36,7 +35,7 @@ if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
 $footer_display_style = "clear:both; ";
-if (isset($param['hide_footer'])) {
+if (isset($params['hideFooter'])) {
     $padding = '- 35px';
     $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
 }
