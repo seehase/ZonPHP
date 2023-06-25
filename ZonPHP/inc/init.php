@@ -38,14 +38,21 @@ function vadidateParams(&$params)
     define('PLANTS_kWp', $plants_kWp);
     $totalExpectedYield = 0.0;
     $expectedYield = array();
+    $totalExpectedMonth = array();
     foreach (PLANTS as $plant) {
-        $temp = json_decode('[' . $params[$plant]['expectedYield'] . ']', true);
-        $params[$plant]['referenceYield'] = $temp;
-        $totalSum = array_sum($temp);
+        $totalExpectedMonth[0][$plant] = 0;
+        $values = json_decode('[' . $params[$plant]['expectedYield'] . ']', true);
+        $params[$plant]['referenceYield'] = $values;
+        $totalSum = array_sum($values);
+        foreach ($values as $id => $value) {
+            $totalExpectedMonth[$id+1][$plant] = $value;
+        }
         $params[$plant]['totalExpectedYield'] = $totalSum;
         $totalExpectedYield += $totalSum;
         $expectedYield[] = $totalSum;
     }
+    $params['totalExpectedMonth'] = $totalExpectedMonth;
+
     $params['totalExpectedYield'] = $totalExpectedYield;
     $params['expectedYield'] = $expectedYield;
 
