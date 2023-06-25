@@ -273,7 +273,7 @@ function load_charts() {
         var id = "id_PlantInfo";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '    <div class="item-content card" style="background-color: aqua;"> ' +
+            '    <div class="item-content card" style="background-color: #' + theme['color_chartbackground'] +';"> ' +
             '          <a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
             '          <div id="' + id + '">' +
             '               <div class="index_chart" id="' + id + '" ">' +
@@ -304,13 +304,13 @@ function load_charts() {
         var id = "id_Image1";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '    <div class="item-content card" style="background-color: aqua;"> ' +
+            '    <div class="item-content card" style="background-color: #' + theme['color_chartbackground'] +';"> ' +
             '          <a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
             '          <div class="index_chart" id="' + id + '" ">' +
             '               <div class="highcharts-container" >' +
             '                   <br><p> Hello World</p> ' +
             '                   <div style="color:blue">' +
-            '                      <img src="./inc/image/solar.png" alt="Italian Trulli" width="400" height="300"> ' +
+            '                      <img src="./inc/image/image1.jpg" alt="Italian Trulli" width="400" height="300"> ' +
             '                   </div>' +
             '               </div>' +
             '          </div>' +

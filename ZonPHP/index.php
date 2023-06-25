@@ -25,6 +25,7 @@ if ($params['useWeewx'] ) {
     $(function () {
         // pass txt to JavaScript
         txt = <?php echo json_encode($txt); ?>;
+        theme = <?php echo json_encode($colors); ?>;
         plantInfo = <?php echo json_encode(($params['plant'])); ?>;
         daytext = <?php echo '"' . $daytext . '"'; ?>;
         charts = <?php echo json_encode(CHART_DATE_FORMAT); ?>;
