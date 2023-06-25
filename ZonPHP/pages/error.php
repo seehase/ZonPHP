@@ -1,8 +1,8 @@
 <?php
 
 include_once "../inc/init.php";
-include_once ROOT_DIR."/inc/sessionstart.php";
-include_once ROOT_DIR."/inc/error_header.php";
+include_once ROOT_DIR . "/inc/sessionstart.php";
+include_once ROOT_DIR . "/inc/error_header.php";
 
 $error = "";
 if (isset($_GET["fout"])) {
@@ -12,7 +12,7 @@ if (isset($_GET["fout"])) {
 ?>
 
 <div id="menus">
-    <?php include ROOT_DIR."/inc/error_menu.php"; ?>
+    <?php include ROOT_DIR . "/inc/error_menu.php"; ?>
 </div>
 <div id="container">
     <div id="bodytext">

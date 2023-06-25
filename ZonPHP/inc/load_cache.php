@@ -105,6 +105,9 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     // get latest Version from github can cause error on some provider e.g.bplaced do not allow file_get_content
     $github_version = "unkown";
     $homepage = "";
+    if (!isset($version) || strlen($version) < 6) {
+        $version = "unkown";
+    }
     if ($params['checkVersion'] == true) {
         try {
             if (strpos($version, "(dev)") > 0) {
