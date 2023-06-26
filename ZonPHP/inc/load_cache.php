@@ -69,7 +69,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
                WHERE Naam='" . $_SESSION['plant'] . "'";
     $resultminmax = mysqli_query($con, $sqlminmax) or die("Query failed. dag-minmax " . mysqli_error($con));
 
-    $date_minimum = strtotime('2038-01-01 00:00:00');
+    $date_minimum = strtotime('2138-01-01 00:00:00');
     $date_maximum = strtotime('1990-01-01 00:00:00');
     $_SESSION['date_minimum'] = $date_minimum;
     $_SESSION['date_maximum'] = $date_maximum;
@@ -129,7 +129,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     $new_version_label = "";
     if ($github_version > $version) {
-        $new_version_label = "new version available!!!! -> " . $github_version;
+        $new_version_label = " - new version " . $github_version;
     }
     $_SESSION['new_version_label'] = $new_version_label;
 
