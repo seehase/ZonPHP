@@ -1,6 +1,7 @@
 <?php
 /*
  * load  only if changed or invalid cache in session
+ * import data always
  */
 include_once "connect.php";
 
@@ -136,4 +137,5 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     // -----------------------------------------------------------------------------------------------------------------
     $_SESSION['lastupdate'] = time();
 }
-?>
+// import new data
+include_once ROOT_DIR . "/inc/import_data.php";

@@ -46,6 +46,7 @@ vadidateParams($params);
 
 // FIXME: enhance validation
 //   style-cards: remove duplicates, if null add all
+//   importer check (ifExists)
 /**
  *
  * Check parameter, and set defaults.
