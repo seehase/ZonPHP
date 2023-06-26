@@ -196,7 +196,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card"> ' +
-            '       <a hre  f="./pages/top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["chart_31days"] + '</div></a>' +
+            '       <a href="./pages/top31.php"><div class="' + headerclass + '">' + txt["chart_31days"] + '</div></a>' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '   </div>';
@@ -208,7 +208,7 @@ function load_charts() {
         $.ajax({
             url: 'charts/top31_chart.php',
             type: 'post',
-            data: {'action': 'indexpage', 'topflop': 'top'},
+            data: {'action': 'indexpage'},
             cache: false,
             success: function (chart) {
                 $(container).append(chart);
