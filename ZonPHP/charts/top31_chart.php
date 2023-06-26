@@ -15,7 +15,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
 //echo $_GET['Max_Min'];
 $sql = 'SELECT db1.*
 FROM ' . TABLE_PREFIX . '_maand AS db1
-JOIN (SELECT Datum_Maand, Geg_Maand, sum(Geg_Maand) as mysum FROM tgeg_maand  Group by Datum_Maand ORDER BY mysum ' . $DESC_ASC . ' LIMIT 0,31) AS db2
+JOIN (SELECT Datum_Maand, Geg_Maand, sum(Geg_Maand) as mysum FROM tgeg_maand  Group by Datum_Maand, Geg_Maand ORDER BY mysum ' . $DESC_ASC . ' LIMIT 0,31) AS db2
 ON db1.Datum_Maand = db2.Datum_Maand order by mysum desc'; 
 
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
@@ -61,8 +61,11 @@ foreach (PLANTS as $key =>$inverter_name) {
 	$myMetadata[] = "{name: '$inverter_name', color: {linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 }, stops: [[0, $myColor1], [1, $myColor2]]}, stacking: 'normal', keys: ['name', 'y'], data: data[$key]}";	 
 	
 	for ($i = 0; $i <= 30; $i++) {
-        $var = round($all_valarray[$adatum[$i]][$inverter_name], 2);
-        $data .= '[\''. $adatum[$i] .'\', ' . $var .'],';
+        $var = 0.0;
+        if (isset($adatum[$i]) && isset($all_valarray[$adatum[$i]][$inverter_name])) {
+            $var = round($all_valarray[$adatum[$i]][$inverter_name], 2);
+            $data .= '[\'' . $adatum[$i] . '\', ' . $var . '],';
+        }
     }
 	$maxval_yaxis += $local_max;
 	$data = substr($data, 0, -1);
