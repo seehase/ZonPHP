@@ -31,7 +31,7 @@ include_once ROOT_DIR . "/inc/header.php";
                 <?php
                 foreach (PLANTS as $plant) {
                     echo "<p>" . $params[$plant]['name'] . "<br>" .
-                        "<img src=" . HTML_PATH . "/" . $params[$plant]['image'] . " alt=" . $params[$plant]['name'] .
+                        "<img src=" . HTML_PATH . $params[$plant]['image'] . " alt=" . $params[$plant]['name'] .
                         "style=\"border: 2px solid #000000; border-radius: 10px 10px 10px 10px; width: 600px\">
                         </p>";
                      }

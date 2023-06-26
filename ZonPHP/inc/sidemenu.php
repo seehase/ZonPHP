@@ -28,7 +28,7 @@ if ($params['hideMenu'] == true) {
                                                                                           onclick="" title="Back">&#9658;</label>
                     </li>
                     <li>
-                        <a href="<? HTML_PATH ?>pages/day_overview.php"><?= getTxt("chart_dayoverview") ?></a>
+                        <a href="<?= HTML_PATH ?>pages/day_overview.php"><?= getTxt("chart_dayoverview") ?></a>
                     </li>
                     <li>
                         <a href="<?= HTML_PATH ?>pages/month_overview.php"><?= getTxt("chart_monthoverview") ?></a>
