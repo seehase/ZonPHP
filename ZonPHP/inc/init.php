@@ -45,6 +45,7 @@ $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
 vadidateParams($params);
 
 // FIXME: enhance validation
+//   style-cards: remove duplicates, if null add all
 /**
  *
  * Check parameter, and set defaults.
