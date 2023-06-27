@@ -184,7 +184,7 @@ $temp_unit = "°C";
 $val_max = 0;
 $val_min = 0;
 if ($params['useWeewx'] == true) {
-    include "charts/temp_sensor_inc.php";
+    include ROOT_DIR . "/charts/temp_sensor_inc.php";
 }
 
 $show_legende = "true";
