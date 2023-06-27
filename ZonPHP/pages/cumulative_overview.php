@@ -29,7 +29,7 @@ if ($params['hideFooter'] == true) {
                 <?php echo getTxt("omvormer") . " " . $title; ?>
             </h2>
 
-            <div class="backtoday" style="float:none; position:  left: 15px;">
+            <div class="backtoday" style="float:none;">
                 <form method="POST">
                     <button class="btn btn-zonphp" name='add' type="submit" value='+'>+</button>
                 </form>
