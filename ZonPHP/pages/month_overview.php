@@ -64,8 +64,6 @@ if ($params['hideFooter'] == true) {
         <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
-
-
         <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp"
@@ -96,7 +94,6 @@ if ($params['hideFooter'] == true) {
         </div>
         <div id="month_chart"
              style="width:100%; background-color: #<?php echo $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
-
         </div> <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>
     <script>
@@ -105,6 +102,6 @@ if ($params['hideFooter'] == true) {
         });
     </script>
 </div><!-- closing ".page-content" -->
-
+</div><!-- closing "container" -->
 </body>
 </html>

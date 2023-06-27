@@ -95,6 +95,7 @@ if ($params['hideFooter'] == true) {
     });
 </script>
 </div><!-- closing ".page-content" -->
-<?php include_once ROOT_DIR . "/inc/footer.php"; ?>
+</div><!-- closing "container" -->
+
 </body>
 </html>

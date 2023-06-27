@@ -62,6 +62,7 @@ if ($params['hideFooter'] == true) {
         });
     </script>
 </div><!-- closing ".page-content" -->
+</div><!-- closing "container" -->
 
 </body>
 </html>
