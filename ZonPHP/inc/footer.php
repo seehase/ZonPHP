@@ -10,7 +10,7 @@ if ($params['hideFooter'] == true) {
      style="background-color: #<?= $colors['color_footerbackground'] . "; " . $footer_display_style ?>;">
 
     <?= "ZonPHP " . $version ?> &nbsp; - &nbsp; <b>PHP8 compliant</b>
-    <span class="blink">  <?= $new_version_label ?> </span>
+    <?= $new_version_label ?>
     &nbsp; - &nbsp;
     <a href="https://github.com/seehase/ZonPHP" onclick="target='_blank'">https://github.com/seehase/ZonPHP</a>
 </div>
