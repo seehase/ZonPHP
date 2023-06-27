@@ -491,9 +491,19 @@ body {
     font: 58px Arial;
 }
 
+/*
 @media only screen and (max-width: 870px) {
     #footer_index, #menu_header_index {
         width: 870px;
+    }
+}
+*/
+@media only screen and (max-width: 929px) and (min-width: 500px){
+    #footer_index, #menu_header_index {
+        width: 424px;
+    }
+    #headerinverter {
+        display: none;
     }
 }
 @media only screen and (max-width: 1360px) and (min-width: 930px){
