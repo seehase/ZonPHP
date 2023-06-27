@@ -106,11 +106,10 @@ function load_charts() {
     }
 
     function loadCharts() {
-        cardlayout.map((function(element){
-            loadCard(element);
-        }))
-        // loadLayout(grid, layout);
+        cardlayout.map(it => loadCard(it) )
     }
+
+    // loadLayout(grid, layout);
 
     function addDay() {
         var id = "id_Day";
