@@ -34,7 +34,7 @@ if (strpos($paramstr_choose, "?") == 0) {
     $paramstr_choose = '?' . $paramstr_choose;
 }
 $footer_display_style = "clear:both; ";
-if (isset($params['hideFooter'])) {
+if ($params['hideFooter'] == true) {
     $padding = '- 35px';
     $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
 }
