@@ -17,14 +17,14 @@ if (isset($_SESSION['language'])) {
 date_default_timezone_set("UTC");
 
 // if new language is set via URL parameter
-if (isset($_GET['taal']) || (!isset($_SESSION['months']))) {
+if (isset($_GET['language'])) {
     if ($debugmode) error_log("calling load_language --> reload needed");
     // load default language
     $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
     // than override with new language
-    if (isset($_GET['taal'])) {
-        $language = $_GET['taal'];
-        unset($_GET['taal']);
+    if (isset($_GET['language'])) {
+        $language = $_GET['language'];
+        unset($_GET['language']);
     }
     $_SESSION['language'] = $language;
     $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $language . ".ini", false);
