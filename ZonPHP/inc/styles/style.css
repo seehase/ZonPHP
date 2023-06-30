@@ -2,8 +2,8 @@
     margin-left: 12px;
     margin-top: 20px;
 }
+
 #footer {
-    
     height: 35px;
     border-bottom-left-radius: 9.5px;
     border-bottom-right-radius: 9.5px;
@@ -56,8 +56,8 @@
 }
 
 .index_chart {
-    width: 435px;
-    height: 382px;
+    width: 433px;
+    height: 380px;
     margin-top: 0px;
     float: left;
 }
@@ -88,27 +88,11 @@ body {
     background: #222
 }
 
-#menu label {
-    padding: 0 0.25em;
-    font: 3.125em/1.375em Arial;
-}
 
-#menu .sub-nav .toggle {
-    padding: 0 0.3125em;
-    font: 2em/2em Arial;
-    top: 0;
-    transform: scale(-1, 1)
-}
-
-#header label:hover, #menu label:hover {
+#header label:hover {
     color: #ccc
 }
 
-#main-nav-check, #menu .sub-nav-check {
-    position: absolute;
-    top: -9999px;
-    left: -9999px
-}
 
 .toggle {
     position: absolute;
@@ -124,111 +108,7 @@ body {
     padding: 10px;
     width: 100%;
     max-width: 100%;
-}
-
-#menu, #menu .sub-nav {
-    position: absolute;
-    top: 10px;
-    bottom: 0;
-    width: 13.75em;
-    background: #222;
-    z-index: 500;
-    left: -13.75em
-}
-
-.container, #menu, #menu .sub-nav {
-    /* transform: translate(0, 0); */
     transition: transform .25s ease
-}
-
-#menu ul {
-    background: #000;
-    line-height: 40px;
-    text-decoration: none;
-    padding: 0;
-    list-style: none;
-    margin-top: 57px;
-    border-top: 1px solid #ccc
-}
-
-#menu li {
-    border-bottom: 1px solid #000
-}
-
-#menu li a {
-    background: #000;
-    display: block;
-    font-size: 0.875em;
-    padding-left: 1.5em;
-    color: #fff;
-    text-decoration: none
-}
-
-#menu li a:hover, #menu .toggle-sub:hover {
-    background: #333
-}
-
-#menu .sub-nav {
-    margin-top: 47px
-}
-
-#menu .sub-heading {
-    margin-top: 55px;
-    padding-left: 5px;
-    color: #fff;
-    background-color: #000;
-}
-
-#menu .sub-heading:before {
-    content: "";
-    display: block;
-    height: 1px;
-    width: 13.75em;
-    margin-left: -1.3125em;
-    background: #000;
-}
-
-#menu .toggle-sub {
-    font: bold 1em/2.75em Arial;
-    color: #fff;
-    background: #222;
-    float: right;
-    margin-top: -2.75em;
-    width: 13.25em;
-    border-left: 1px solid #444;
-    cursor: pointer;
-    text-align: left;
-}
-
-.close-all {
-    left: 1px;
-}
-
-#menu .close-all {
-    display: none
-}
-
-
-.js #menu .close-all {
-    display: inline
-}
-
-.js #menu .toggle {
-    top: 0;
-    z-index: 9999
-}
-
-.js #menu .sub-nav .toggle {
-    left: 160px;
-    width: 1em
-}
-
-/* #### - define ids of animated container, menu and sub-menus here - #### */
-#main-nav-check:checked ~ .container,
-#main-nav-check:checked ~ #menu,
-#menu .sub-nav-check:checked ~ [id$="-sub"] /* matches all elements with id ending "-sub" */
-{
-    transform: translate(13.75em, 0)
 }
 
 .flag {
@@ -282,35 +162,7 @@ body {
     margin-bottom: 0px;
 }
 
-#menu .toggle-sub {
-    width: 14.25em;
-}
-
-#menu ul {
-    border-top-width: 3px;
-}
-
-.js #menu .sub-nav .toggle {
-    width: 1.5em;
-}
-
-#menu .sub-heading {
-    background-color: #444;
-}
-
-#menu li a {
-    background-color: #444;
-    border-top-width: 1px;
-    border-top-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-left-width: 5px;
-    border-left-style: solid;
-    border-color: #000;
-}
-
 /* styles for muuri */
-/* Grid */
 .grid {
     position: relative;
     width: 100%;
@@ -324,11 +176,7 @@ body {
     width: 437px;
     height: 412px;
     margin-right: 5px;
-   padding-bottom: 5px;
-    /* line-height: 100px;
-    margin: 5px;
-    margin-top: 3px;
-    margin-bottom: 7px; */
+    padding-bottom: 5px;
     z-index: 1;
     transition: opacity 0.8s linear 1s;
     will-change: transform;
@@ -380,9 +228,7 @@ body {
     background-color: transparent;
     border: 2px solid;
     color: black;
-    background-color: transparent;
     border-radius: 8px;
-    border-width: 1px;
     transition: all 0.2s ease-out;
 }
 
@@ -456,29 +302,6 @@ body {
     background-clip: padding-box;
 }
 
-#menu_header {
-
-}
-
-#menu_header label {
-    position: absolute;
-    left: 4px;
-    top: -6px;
-    padding: 0 0.125em;
-    font: 58px Arial;
-}
-
-#menu_header_index {
-    /*background: #2ac06d; */
-}
-
-#menu_header_index label {
-    position: absolute;
-    left: 4px;
-    top: -6px;
-    padding: 0 0.125em;
-    font: 58px Arial;
-}
 
 #menu_header_index {
     border-bottom-left-radius: 9.5px;
@@ -486,13 +309,6 @@ body {
     height: 55px;
 }
 
-/*
-@media only screen and (max-width: 870px) {
-    #footer_index, #menu_header_index {
-        width: 870px;
-    }
-}
-*/
 @media only screen and (max-width: 929px) and (min-width: 500px) {
     #footer_index, #menu_header_index {
         width: 440px;

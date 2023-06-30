@@ -36,7 +36,9 @@
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"
+            integrity="sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Datepicker -->
     <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css'
@@ -121,7 +123,7 @@
             font-size: 18px;
         }
 
-        #chart_header{
+        #chart_header {
             color: #<?php echo $colors['color_windowfont'] ?>;
             background: #<?php echo $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
