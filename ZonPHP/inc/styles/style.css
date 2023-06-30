@@ -374,3 +374,7 @@ body {
     right: 0 !important;
     left: auto !important;
 }
+
+.dropdown-toggle::after {
+    content: none;
+}

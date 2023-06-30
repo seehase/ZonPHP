@@ -100,9 +100,6 @@
                             <img src="<?= HTML_PATH ?>inc/image/fr.svg" class="flag" alt="Francaise"
                                  title="Francaise">&nbsp;Francaise
                     </li>
-                    <hr class="dropdown-divider">
-
-                    <li><a class="dropdown-item" href="#">clear</a></li>
                 </ul>
             </span>
         </div>
