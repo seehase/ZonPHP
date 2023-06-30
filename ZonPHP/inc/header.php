@@ -121,6 +121,7 @@
         #headerinverter {
             color: <?= $colors['color_menufont'] ?>;
             font-size: 18px;
+
         }
 
         #chart_header {

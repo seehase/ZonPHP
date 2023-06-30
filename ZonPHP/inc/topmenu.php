@@ -14,7 +14,7 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg" style="background-color: <?= $colors['color_menubackground'] ?>;">
+<nav class="navbar navbar-expand-sm" style="background-color: <?= $colors['color_menubackground'] ?>;">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <span class="nav-item dropdown">
@@ -57,7 +57,7 @@
 
                         </span>
             <span class="navbar-nav me-auto mb-2 mb-lg-0">
-                &nbsp;&nbsp;<span id="headerinverter" style>  <?= $params['plant']['name'] ?> </span>
+                &nbsp;&nbsp;<span id="headerinverter">  <?= $params['plant']['name'] ?> </span>
             </span>
 
             <span class="nav-item dropdown">
