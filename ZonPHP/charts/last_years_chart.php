@@ -146,11 +146,11 @@ foreach (PLANTS as $zz => $inverter_name) {
 
     $dummy .= "{name: '$inverter_name', id: '$inverter_name dummy',type: 'column',  zIndex: -1, stacking: 'normal', color: '" . $colors['color_palettes'][5][$colorzz] . "',data: [";
 
-    $max_bars .= "{name: '$inverter_name max', type: 'column',  zIndex: -1, linkedTo: '$inverter_name',  grouping: false, pointPlacement: 0.048, stacking: 'normal', color: \"#" . $colors['color_chart_max_bar'] . "\" ,data: [";
+    $max_bars .= "{name: '$inverter_name max', type: 'column',  zIndex: -1, linkedTo: '$inverter_name',  grouping: false, pointPlacement: 0.048, stacking: 'normal', color: \"" . $colors['color_chart_max_bar'] . "\" ,data: [";
 
-    $reflines .= "{ name: '$inverter_name ref', type:'line', $dash linkedTo: '$inverter_name', pointPlacement: 0.048, color: '#" . $colors['color_chart_reference_line'] . "',
+    $reflines .= "{ name: '$inverter_name ref', type:'line', $dash linkedTo: '$inverter_name', pointPlacement: 0.048, color: '" . $colors['color_chart_reference_line'] . "',
          stacking: 'normal', stack: 'ref', data: [";
-    $avglines .= "{ name: '$inverter_name avg', type:'line', $dash linkedTo: '$inverter_name', pointPlacement: 0.048, color: '#" . $colors['color_chart_average_line'] . "',
+    $avglines .= "{ name: '$inverter_name avg', type:'line', $dash linkedTo: '$inverter_name', pointPlacement: 0.048, color: '" . $colors['color_chart_average_line'] . "',
          stacking: 'normal', stack: 'avg', data: [";
 
 // empty series to overcome a LinkedTo bug in Highcharts
@@ -195,7 +195,7 @@ foreach (PLANTS as $zz => $inverter_name) {
                 $max_bars .= "  { 
                           y:  $val, 
                           url: \"$href$my_year-$i-01\",
-                          color: \"#" . $colors['color_chart_max_bar'] . "\"
+                          color: \"" . $colors['color_chart_max_bar'] . "\"
                         },";
                 $aclickxas[$tellerkleuren][] = $asx . '-' . $i . '-1';
                 $mydata .= '["' . $i . '", ' . $cur_year . '], ';
@@ -469,7 +469,7 @@ $categories = $shortmonthcategories;
 
                     step: 1,
                     style: {
-                        color: '#<?= $colors['color_chart_labels_xaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
                     },
                 },
 
@@ -483,16 +483,16 @@ $categories = $shortmonthcategories;
                         return this.value + 'kWh';
                     },
                     style: {
-                        color: '#<?= $colors['color_chart_labels_yaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 title: {
                     text: 'Total',
                     style: {
-                        color: '#<?= $colors['color_chart_title_yaxis1'] ?>',
+                        color: '<?= $colors['color_chart_title_yaxis1'] ?>',
                     },
                 },
-                gridLineColor: '#<?= $colors['color_chart_gridline_yaxis1'] ?>',
+                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
             }],
             tooltip: {
                 formatter: function () {
