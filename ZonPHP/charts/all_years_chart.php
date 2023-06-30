@@ -170,18 +170,18 @@ include_once "chart_styles.php";
             return accumulator + a;
         }
 
-        var txt = '<?php echo getTxt("totaal") ?>';
-        var khhWp = [<?php echo $params['plantskWp'] ?>];
+        var txt = '<?= getTxt("totaal") ?>';
+        var khhWp = [<?= $params['plantskWp'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
-        var txt_max = '<?php echo getTxt("max") ?>';
-        var txt_ref = '<?php echo getTxt("ref") ?>';
-        var avrg = <?php echo round($average_per_month, 0); ?>;
-        var ref = <?php echo round($params['totalExpectedYield'], 0); ?>;
-        var years = <?php echo $yearcount ?>;
-        var myoptions = <?php echo $chart_options ?>;
-        var txt_gem = '<?php echo getTxt("gem") ?>';
-        var avg = <?php echo json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
-        var ref = <?php echo json_encode($params['expectedYield'], JSON_NUMERIC_CHECK) ?>;
+        var txt_max = '<?= getTxt("max") ?>';
+        var txt_ref = '<?= getTxt("ref") ?>';
+        var avrg = <?= round($average_per_month, 0); ?>;
+        var ref = <?= round($params['totalExpectedYield'], 0); ?>;
+        var years = <?= $yearcount ?>;
+        var myoptions = <?= $chart_options ?>;
+        var txt_gem = '<?= getTxt("gem") ?>';
+        var avg = <?= json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
+        var ref = <?= json_encode($params['expectedYield'], JSON_NUMERIC_CHECK) ?>;
         var mychart = new Highcharts.Chart('total_chart', Highcharts.merge(myoptions, {
 
             chart: {
@@ -344,7 +344,7 @@ include_once "chart_styles.php";
                     },
                 },
                 min: 0,
-                categories: [<?php echo $categories ?>],
+                categories: [<?= $categories ?>],
             }],
             yAxis: [{ // Primary yAxis
                 labels: {
@@ -401,7 +401,7 @@ include_once "chart_styles.php";
 
 
             series: [
-                <?php echo $strdataseries ?>
+                <?= $strdataseries ?>
             ]
         }));
         setInterval(function () {

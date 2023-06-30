@@ -25,7 +25,7 @@
         echo '<meta http-equiv="refresh" content="' . $params['autoReload'] . '" >';
     }
     ?>
-    <title><?php echo $params['plant']['name']; ?></title>
+    <title><?= $params['plant']['name']; ?></title>
     <!-- use googleapis CDN -->
     <!-- jquery -->
     <link type="text/css" rel="stylesheet"

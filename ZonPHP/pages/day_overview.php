@@ -7,8 +7,8 @@ include_once "../charts/day_chart_UTC.php";
 ?>
 
 <script>
-    var start = '<?php echo date('Y-m-d', $date_minimum) ?>';
-    var language = '<?php echo substr($locale, 0, 2) ?>';
+    var start = '<?= date('Y-m-d', $date_minimum) ?>';
+    var language = '<?= substr($locale, 0, 2) ?>';
     $(document).ready(function () {
         $('#datepicker').datepicker({
             setDate: new Date(),
@@ -56,26 +56,26 @@ if ($params['hideFooter'] == true) {
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?= $padding; ?>); ">
         <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp "
-                        onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"';
+                        onclick="window.location.href='<?= '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"';
                         if ($date_minimum >= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-left fa-lg
                 "></i></button>
-                <?php echo $datum ?>
+                <?= $datum ?>
                 <button class="btn btn-zonphp"
-                        onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '\'"';
+                        onclick="window.location.href='<?= '?dag=' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '\'"';
                         if ($date_maximum <= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-right fa-lg
                 "></i></button>
             </h2>
             <div class="block2">
                 <div class="inner">
                     <button class="btn btn-zonphp"
-                            onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', $chartcurrentdate); ?>'"><?= getTxt("back_to_today") ?></button>
+                            onclick="window.location.href='<?= '?dag=' . date('Y-m-d', $chartcurrentdate); ?>'"><?= getTxt("back_to_today") ?></button>
                     <div class="inner">
                         <div class="input-group date" id="datepicker" data-date-format="yyyy-mm-dd">
                             <input type='hidden' id='untilDate' class="form-control">
@@ -86,12 +86,12 @@ if ($params['hideFooter'] == true) {
             </div>
         </div>
         <div id="mycontainer" class="demo"
-             style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
+             style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
         </div> <?php include_once ROOT_DIR . "/inc/footer.php"; ?> </div>
 </div>
 <script>
     $(document).ready(function () {
-        $("#resize ").height(<?php echo $big_chart_height ?>);
+        $("#resize ").height(<?= $big_chart_height ?>);
     });
 </script>
 </div><!-- closing ".page-content" -->

@@ -41,7 +41,7 @@ if ($params['hideFooter'] == true) {
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?= $padding; ?>); ">
         <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
@@ -56,14 +56,14 @@ if ($params['hideFooter'] == true) {
                 ?>
             </h2>
         </div>
-        <div id="all_years_chart_<?php echo $inverter ?>"
-             style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
+        <div id="all_years_chart_<?= $inverter ?>"
+             style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
         </div>
         <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>
     <script>
         $(document).ready(function () {
-            $("#resize ").height(<?php echo $big_chart_height ?>);
+            $("#resize ").height(<?= $big_chart_height ?>);
         });
     </script>
 </div><!-- closing ".page-content" -->

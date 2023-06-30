@@ -7,7 +7,7 @@ include_once ROOT_DIR . "/inc/header.php";
 
 <div id="page-content">
     <div id='id_install' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?= $padding; ?>); ">
         <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
@@ -15,8 +15,8 @@ include_once ROOT_DIR . "/inc/header.php";
         <div class="<?= HEADER_CLASS ?>"><h2>I N S T A L L A T I O N</h2></div>
         <div id='id_install_content' class="<?= CONTENT_CLASS ?>">
             <div>
-                <h1>Anlage von <?php echo $params['plant']['name'] ?></h1>
-                <?php echo '
+                <h1>Anlage von <?= $params['plant']['name'] ?></h1>
+                <?= '
                 Website: ' . $params['plant']['website']. '<br>
                 Standort: ' . $params['plant']['location'] . '<br>
                 Module: ' . $params['plant']['panels'] . '<br>
@@ -37,7 +37,7 @@ include_once ROOT_DIR . "/inc/header.php";
                 ?>
             </div>
             <div id="mycontainer" class="demo"
-                 style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
+                 style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
             </div> <?php include_once ROOT_DIR . "/inc/footer.php"; ?> </div>
         <br>
     </div><!-- closing ".page-content" -->

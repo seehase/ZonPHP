@@ -319,12 +319,12 @@ $categories = $shortmonthcategories;
     })(Highcharts);
 
     $(function () {
-        var khhWp = [<?php echo $params['plantskWp'] ?>];
-        var first = <?php echo $firstYear ?>;
+        var khhWp = [<?= $params['plantskWp'] ?>];
+        var first = <?= $firstYear ?>;
         var nmbr = khhWp.length //misused to get the inverter count
-        var sub_title = '<?php echo $sub_title ?>';
-        var myoptions = <?php echo $chart_options ?>;
-        var mychart = new Highcharts.Chart('all_years_chart_<?php echo $inverter ?>', Highcharts.merge(myoptions, {
+        var sub_title = '<?= $sub_title ?>';
+        var myoptions = <?= $chart_options ?>;
+        var mychart = new Highcharts.Chart('all_years_chart_<?= $inverter ?>', Highcharts.merge(myoptions, {
 
             plotOptions: {
                 line: {
@@ -469,13 +469,13 @@ $categories = $shortmonthcategories;
 
                     step: 1,
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                        color: '#<?= $colors['color_chart_labels_xaxis1'] ?>',
                     },
                 },
 
                 min: 0,
                 max: 11,
-                categories: [<?php echo $categories ?>],
+                categories: [<?= $categories ?>],
             }],
             yAxis: [{ // Primary yAxis
                 labels: {
@@ -483,16 +483,16 @@ $categories = $shortmonthcategories;
                         return this.value + 'kWh';
                     },
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
+                        color: '#<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 title: {
                     text: 'Total',
                     style: {
-                        color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>',
+                        color: '#<?= $colors['color_chart_title_yaxis1'] ?>',
                     },
                 },
-                gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+                gridLineColor: '#<?= $colors['color_chart_gridline_yaxis1'] ?>',
             }],
             tooltip: {
                 formatter: function () {
@@ -519,16 +519,16 @@ $categories = $shortmonthcategories;
             },
 
             series: [
-                <?php echo $dummy; ?>
-                <?php echo $reflines; ?>
-                <?php echo $avglines; ?>
-                <?php echo $dummyyears; ?>
-                <?php echo $max_bars; ?>
-                <?php echo $value_series ?>
+                <?= $dummy; ?>
+                <?= $reflines; ?>
+                <?= $avglines; ?>
+                <?= $dummyyears; ?>
+                <?= $max_bars; ?>
+                <?= $value_series ?>
             ]
         }));
         setInterval(function () {
-            $("#all_years_chart_<?php echo $inverter ?>").highcharts().reflow();
+            $("#all_years_chart_<?= $inverter ?>").highcharts().reflow();
         }, 500);
 
     });

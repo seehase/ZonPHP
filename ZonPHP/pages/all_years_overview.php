@@ -40,17 +40,17 @@ if ($params['hideFooter'] == true) {
 <div id="page-content">
     <?php $myKeys = array_keys($sum_per_year); ?>
     <div id='resize' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?= $padding; ?>); ">
         <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
 
 
         <div id="chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
-            <h2><?php echo getTxt("totaaloverzicht") . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
+            <h2><?= getTxt("totaaloverzicht") . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
         </div>
         <div id="total_chart"
-             style="width:100%;background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
+             style="width:100%;background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
         </div>
         <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>

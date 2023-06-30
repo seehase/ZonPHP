@@ -169,15 +169,15 @@ include_once "chart_styles.php";
         }
 
         var month = '<?php $formatter->setPattern('MMMM'); echo substr(datefmt_format($formatter, $chartdate), 0, 3); ?>';
-        var daycount = <?php echo $DaysPerMonth ?>;
-        var daycount2 = <?php echo $daycount ?>;
-        var nref = <?php echo json_encode($nfrefmaand, JSON_NUMERIC_CHECK) ?>;
-        var myoptions = <?php echo $chart_options ?>;
-        var khhWp = [<?php echo $params['plantskWp'] ?>];
+        var daycount = <?= $DaysPerMonth ?>;
+        var daycount2 = <?= $daycount ?>;
+        var nref = <?= json_encode($nfrefmaand, JSON_NUMERIC_CHECK) ?>;
+        var myoptions = <?= $chart_options ?>;
+        var khhWp = [<?= $params['plantskWp'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
-        var txt_max = '<?php echo getTxt("max") ?>';
-        var txt_gem = '<?php echo getTxt("gem") ?>';
-        var txt_ref = '<?php echo getTxt("ref") ?>';
+        var txt_max = '<?= getTxt("max") ?>';
+        var txt_gem = '<?= getTxt("gem") ?>';
+        var txt_ref = '<?= getTxt("ref") ?>';
         var gem2;
         var totamth = 0;
         var mychart = new Highcharts.Chart('month_chart', Highcharts.merge(myoptions, {
@@ -329,7 +329,7 @@ include_once "chart_styles.php";
                         color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
                     },
                 },
-                categories: [<?php echo $categories ?>],
+                categories: [<?= $categories ?>],
             }],
             yAxis: [{ // Primary yAxis
                 labels: {
@@ -348,7 +348,7 @@ include_once "chart_styles.php";
                     },
                 },
                 gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
-                max: <?php echo $maxval_yaxis ?>,
+                max: <?= $maxval_yaxis ?>,
             }],
             tooltip: {
 
@@ -383,7 +383,7 @@ include_once "chart_styles.php";
             },
 
             series: [
-                <?php echo $strdataseries ?>
+                <?= $strdataseries ?>
 
             ],
 

@@ -204,16 +204,16 @@ $categories = $shortmonthcategories;
         }
 
 
-        var year = '<?php echo date("Y", $chartdate) ?>';
-        var avrg =<?php echo round($fgemiddelde, 2) ?>;
-        var myoptions = <?php echo $chart_options ?>;
-        var khhWp = [<?php echo $params['plantskWp'] ?>];
+        var year = '<?= date("Y", $chartdate) ?>';
+        var avrg =<?= round($fgemiddelde, 2) ?>;
+        var myoptions = <?= $chart_options ?>;
+        var khhWp = [<?= $params['plantskWp'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
-        var txt_max = '<?php echo getTxt("max") ?>';
+        var txt_max = '<?= getTxt("max") ?>';
         var totayr = 0;
-        var avg = <?php echo json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
-        var ref = <?php echo json_encode($expectedYield, JSON_NUMERIC_CHECK) ?>;
-        var txt_gem = '<?php echo getTxt("gem") ?>';
+        var avg = <?= json_encode($avg_data, JSON_NUMERIC_CHECK) ?>;
+        var ref = <?= json_encode($expectedYield, JSON_NUMERIC_CHECK) ?>;
+        var txt_gem = '<?= getTxt("gem") ?>';
         var mychart = new Highcharts.Chart('year_chart', Highcharts.merge(myoptions, {
 
             chart: {
@@ -311,7 +311,7 @@ $categories = $shortmonthcategories;
                 },
                 min: 0,
                 max: 11,
-                categories: [<?php echo $categories ?>],
+                categories: [<?= $categories ?>],
 
             }],
 
@@ -445,9 +445,9 @@ $categories = $shortmonthcategories;
             },
 
             series: [
-                <?php echo $strdataseries ?>
-                <?php echo $reflines; ?>,
-                <?php echo $max_bars; ?>,
+                <?= $strdataseries ?>
+                <?= $reflines; ?>,
+                <?= $max_bars; ?>,
             ]
         }));
 

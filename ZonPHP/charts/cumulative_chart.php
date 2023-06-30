@@ -113,8 +113,8 @@ $categories = $shortmonthcategories;
 ?>
 <script>
     $(function () {
-        var myoptions = <?php echo $chart_options ?>;
-        Highcharts.setOptions({<?php echo $chart_lang ?>});
+        var myoptions = <?= $chart_options ?>;
+        Highcharts.setOptions({<?= $chart_lang ?>});
         var mychart = new Highcharts.Chart('universal', Highcharts.merge(myoptions, {
             chart: {
                 events: {
@@ -126,7 +126,7 @@ $categories = $shortmonthcategories;
                         });
                     },
                     render() {
-                        if (<?php echo $hasdata ?>) {
+                        if (<?= $hasdata ?>) {
                             var ticks = this.xAxis[0].ticks,
                                 ticksPositions = this.xAxis[0].tickPositions,
                                 tick0x,
@@ -190,7 +190,7 @@ $categories = $shortmonthcategories;
                     },
                     min: -0.5,
                     max: 11.5,
-                    categories: [<?php echo $categories ?>],
+                    categories: [<?= $categories ?>],
 
                 }],
 
@@ -236,7 +236,7 @@ $categories = $shortmonthcategories;
             },
 
             series: [
-                <?php echo $strdataseries ?>
+                <?= $strdataseries ?>
 
             ],
         }));

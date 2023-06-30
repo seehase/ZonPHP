@@ -99,16 +99,16 @@ include_once "chart_styles.php";
     $(function () {
     	function add(accumulator, a) {
     	return accumulator + a;    	}  
-		const data = <?php echo $datafin ?>;
+		const data = <?= $datafin ?>;
 		const categories = data[0].map(d => d[0]);
-        const myurl = '<?php echo $myurl ?>';
+        const myurl = '<?= $myurl ?>';
         series = this.series;
-        const khhWp = [<?php echo $params['plantskWp'] ?>];
+        const khhWp = [<?= $params['plantskWp'] ?>];
         var nmbr =  khhWp.length //misused to get the inverter count
         const kwptot = khhWp.reduce(add, 0);
         var sub_title ;
-        var myoptions = <?php echo $chart_options ?>;
-        var mychart = new Highcharts.Chart('<?php echo $id ?>', Highcharts.merge(myoptions, {
+        var myoptions = <?= $chart_options ?>;
+        var mychart = new Highcharts.Chart('<?= $id ?>', Highcharts.merge(myoptions, {
             subtitle: {
                 text: sub_title,
                 style: {
@@ -221,8 +221,8 @@ include_once "chart_styles.php";
       			return '<b>'+ id +'.</b>&emsp;  &emsp;&emsp;&emsp;&emsp;&emsp; &emsp; '+ x +' ' + stackName + '<br/>' + contribuants + 'Total: ' + Highcharts.numberFormat(Totalen, '2', ',') +  ' kWh' + ' = ' + Highcharts.numberFormat(Totalen/(0.001*kwptot), '2', ',') + ' Wh/Wp';
                     }
             },
-            series: [ <?php echo $meta ?>]
+            series: [ <?= $meta ?>]
         }));
-		setInterval(function() { $("#<?php echo $id ?>").highcharts().reflow();  }, 500);
+		setInterval(function() { $("#<?= $id ?>").highcharts().reflow();  }, 500);
     });
 </script>

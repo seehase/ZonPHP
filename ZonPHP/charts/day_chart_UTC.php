@@ -220,20 +220,20 @@ if (strlen($temp_serie) > 0) {
             return accumulator + a;
         }
 
-        var myoptions = <?php echo $chart_options ?>;
-        var khhWp = [<?php echo $params['plantskWp'] ?>];
+        var myoptions = <?= $chart_options ?>;
+        var khhWp = [<?= $params['plantskWp'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
-        var maxmax = <?php echo json_encode($maxkwh) ?>;
+        var maxmax = <?= json_encode($maxkwh) ?>;
 
-        var maxlink = '<?php echo $maxlink ?>';
-        var temp_max = <?php echo $val_max ?>;
-        var temp_min = <?php echo $val_min ?>;
-        var txt_actueel = '<?php echo getTxt("actueel") ?>';
-        var txt_totaal = '<?php echo getTxt('totaal') ?>';
-        var txt_max = '<?php echo getTxt('max') ?>';
-        var txt_peak = '<?php echo getTxt('peak') ?>';
+        var maxlink = '<?= $maxlink ?>';
+        var temp_max = <?= $val_max ?>;
+        var temp_min = <?= $val_min ?>;
+        var txt_actueel = '<?= getTxt("actueel") ?>';
+        var txt_totaal = '<?= getTxt('totaal') ?>';
+        var txt_max = '<?= getTxt('max') ?>';
+        var txt_peak = '<?= getTxt('peak') ?>';
 
-        Highcharts.setOptions({<?php echo $chart_lang ?>
+        Highcharts.setOptions({<?= $chart_lang ?>
             time: {
                 /**
                  * Use moment-timezone.js to return the timezone offset for individual
@@ -329,7 +329,7 @@ if (strlen($temp_serie) > 0) {
                                     yAxis: 1,
                                     unit: 'kWh',
                                     type: "spline",
-                                    color: '#<?php echo $colors['color_chart_cum_line'] ?>',
+                                    color: '#<?= $colors['color_chart_cum_line'] ?>',
                                 })
                             }
                         }
@@ -411,14 +411,14 @@ if (strlen($temp_serie) > 0) {
             subtitle: {
                 style: {
                     wordWrap: 'break-word',
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>'
+                    color: '#<?= $colors['color_chart_text_subtitle'] ?>'
                 }
             },
             xAxis: {
                 type: 'datetime',
                 labels: {
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>'
+                        color: '#<?= $colors['color_chart_labels_xaxis1'] ?>'
                     }
                 }
             },
@@ -426,7 +426,7 @@ if (strlen($temp_serie) > 0) {
                 title: {
                     text: 'Power',
                     style: {
-                        color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>'
+                        color: '#<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
                     visible: false
                 },
@@ -434,62 +434,62 @@ if (strlen($temp_serie) > 0) {
                 labels: {
                     format: '{value} kW',
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>'
+                        color: '#<?= $colors['color_chart_labels_yaxis1'] ?>'
                     },
                     formatter: function () {
                         return Highcharts.numberFormat(this.value / 1000, 1, ',', '.') + " kW";
                     }
                 },
-                gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>'
+                gridLineColor: '#<?= $colors['color_chart_gridline_yaxis1'] ?>'
             },
                 { // cum kWh
                     title: {
                         text: 'Total',
                         style: {
-                            color: '#<?php echo $colors['color_chart_title_yaxis2'] ?>'
+                            color: '#<?= $colors['color_chart_title_yaxis2'] ?>'
                         }
                     },
                     labels: {
                         format: '{value} kWh',
                         style: {
-                            color: '#<?php echo $colors['color_chart_labels_yaxis2'] ?>'
+                            color: '#<?= $colors['color_chart_labels_yaxis2'] ?>'
                         },
                         formatter: function () {
                             return Highcharts.numberFormat(this.value, 1, ',', '.') + " kWh";
                         }
                     },
-                    gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis2'] ?>',
+                    gridLineColor: '#<?= $colors['color_chart_gridline_yaxis2'] ?>',
                     opposite: true,
-                    visible: <?php echo $show_cum_axis ?>
+                    visible: <?= $show_cum_axis ?>
                 },
                 { // temperature
                     title: {
                         text: 'Temperature',
                         style: {
-                            color: '#<?php echo $colors['color_chart_title_yaxis3'] ?>',
+                            color: '#<?= $colors['color_chart_title_yaxis3'] ?>',
                         },
                     },
                     labels: {
-                        format: '{value}<?php echo $temp_unit ?>',
+                        format: '{value}<?= $temp_unit ?>',
                         style: {
-                            color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
+                            color: '#<?= $colors['color_chart_labels_yaxis1'] ?>',
                         },
                         formatter: function () {
-                            return this.value + "<?php echo $temp_unit ?>";
+                            return this.value + "<?= $temp_unit ?>";
                         },
                     },
-                    gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis3'] ?>',
+                    gridLineColor: '#<?= $colors['color_chart_gridline_yaxis3'] ?>',
                     opposite: true,
-                    visible: <?php echo $show_temp_axis ?>,
+                    visible: <?= $show_temp_axis ?>,
                     steps: 5,
                     min: temp_min,
                     max: temp_max,
                 }
             ],
             series: [
-                <?php echo $str_dataserie ?>
-                <?php echo $str_max ?>
-                <?php echo $temp_serie ?>
+                <?= $str_dataserie ?>
+                <?= $str_max ?>
+                <?= $temp_serie ?>
             ]
         }), function (mychart) {
             mychart.forRender = true
