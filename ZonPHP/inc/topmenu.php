@@ -14,7 +14,7 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg" style="background-color: #<?= $colors['color_menubackground'] ?>;">
+<nav class="navbar navbar-expand-lg" style="background-color: <?= $colors['color_menubackground'] ?>;">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <span class="nav-item dropdown">

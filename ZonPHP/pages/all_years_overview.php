@@ -50,7 +50,7 @@ if ($params['hideFooter'] == true) {
             <h2><?php echo getTxt("totaaloverzicht") . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
         </div>
         <div id="total_chart"
-             style="width:100%;background-color: #<?php echo $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
+             style="width:100%;background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
         </div>
         <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>

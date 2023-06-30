@@ -93,7 +93,7 @@ if ($params['hideFooter'] == true) {
             </div>
         </div>
         <div id="month_chart"
-             style="width:100%; background-color: #<?php echo $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
+             style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
         </div> <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>
     <script>

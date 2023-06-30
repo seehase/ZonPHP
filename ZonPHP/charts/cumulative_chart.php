@@ -159,9 +159,9 @@ $categories = $shortmonthcategories;
             },
 
             subtitle: {
-                text: <?php echo $subtitle ?>,
+                text: <?= $subtitle ?>,
                 style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>',
                 },
             },
             xAxis: [{
@@ -185,7 +185,7 @@ $categories = $shortmonthcategories;
                         align: 'left',
                         step: 1,
                         style: {
-                            color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                            color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
                         },
                     },
                     min: -0.5,
@@ -200,17 +200,17 @@ $categories = $shortmonthcategories;
                         return this.value / 1000 + ' MWh';
                     },
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 opposite: true,
                 title: {
                     text: 'Total',
                     style: {
-                        color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>'
+                        color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
                 },
-                gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
 
             }],
             tooltip: {

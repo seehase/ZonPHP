@@ -93,10 +93,10 @@ $strdataseries = "";
 $myColors = array();
 for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['max'] = $col1;
 }
 //print_r($myColors);
@@ -112,8 +112,8 @@ foreach ($inveter_list as $inverter_name) {
         $myColor1 = $myColors[$inverter_name]['min'];
         $myColor2 = $myColors[$inverter_name]['max'];
         if ($fkw >= max($sum_per_year)) {
-            $myColor1 = "'#" . $colors['color_chartbar_piek1'] . "'";
-            $myColor2 = "'#" . $colors['color_chartbar_piek2'] . "'";
+            $myColor1 = "'" . $colors['color_chartbar_piek1'] . "'";
+            $myColor2 = "'" . $colors['color_chartbar_piek2'] . "'";
             $best_year_per_inverter = max($sum_per_year)[$inverter_name];
         }
 
@@ -229,7 +229,7 @@ include_once "chart_styles.php";
                         mychart.yAxis[0].addPlotLine({
                             id: 'Average',
                             value: GEM,
-                            color: '#<?php echo $colors['color_chart_average_line'] ?>',
+                            color: '<?= $colors['color_chart_average_line'] ?>',
                             dashStyle: 'shortdash',
                             events: {
                                 mouseover: function (e) {
@@ -257,7 +257,7 @@ include_once "chart_styles.php";
                         mychart.yAxis[0].addPlotLine({
                             id: 'Reference',
                             value: REF,
-                            color: '#<?php echo $colors['color_chart_reference_line'] ?>',
+                            color: '<?= $colors['color_chart_reference_line'] ?>',
                             dashStyle: 'shortdash',
                             events: {
                                 mouseover: function (e) {
@@ -288,7 +288,7 @@ include_once "chart_styles.php";
             subtitle: {
                 //text: sub_title,
                 style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>',
                 },
             },
 
@@ -337,7 +337,7 @@ include_once "chart_styles.php";
                     rotation: 310,
                     step: 1,
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
                     },
                     formatter: function () {
                         return this.value;
@@ -352,17 +352,17 @@ include_once "chart_styles.php";
                         return this.value / 1000 + ' MWh';
                     },
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 title: {
                     text: 'Total',
                     style: {
-                        color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>'
+                        color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
                 },
                 steps: 100,
-                gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
             }],
             tooltip: {
                 formatter: function () {

@@ -37,7 +37,7 @@ include_once ROOT_DIR . "/inc/header.php";
                 ?>
             </div>
             <div id="mycontainer" class="demo"
-                 style="width:100%; background-color: #<?php echo $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
+                 style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
             </div> <?php include_once ROOT_DIR . "/inc/footer.php"; ?> </div>
         <br>
     </div><!-- closing ".page-content" -->

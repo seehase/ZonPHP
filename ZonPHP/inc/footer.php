@@ -7,7 +7,7 @@ if ($params['hideFooter'] == true) {
 ?>
 
 <div id="footer"
-     style="background-color: #<?= $colors['color_footerbackground'] . "; " . $footer_display_style ?>;">
+     style="background-color: <?= $colors['color_footerbackground'] . "; " . $footer_display_style ?>;">
 
     <?= "ZonPHP " . $version ?> &nbsp; - &nbsp; <b>PHP8 compliant</b>
     <?= $new_version_label ?>

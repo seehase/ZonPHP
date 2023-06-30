@@ -42,10 +42,10 @@ $myColors = array();
 
 for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['max'] = $col1;
 }
 
@@ -112,7 +112,7 @@ include_once "chart_styles.php";
             subtitle: {
                 text: sub_title,
                 style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>',
                 },
             },
 			chart: {    type: 'column', stacking: 'normal'
@@ -177,7 +177,7 @@ include_once "chart_styles.php";
 				categories: categories,
     			labels: {
       				rotation: 270,
-    				style: { color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>'},
+    				style: { color: '<?= $colors['color_chart_labels_xaxis1'] ?>'},
                     },
   					},
             yAxis: [{ // Primary yAxis
@@ -186,16 +186,16 @@ include_once "chart_styles.php";
                         return this.value + 'kWh';
                     },
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 title: {
                     text: 'Total',
                     style: {
-                        color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>'
+                        color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
                 },
-                gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
             }],
             
             tooltip: {

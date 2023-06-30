@@ -125,10 +125,10 @@ $strsomkw = "";
 $myColors = array();
 for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['max'] = $col1;
 }
 $str_dataserie = "";

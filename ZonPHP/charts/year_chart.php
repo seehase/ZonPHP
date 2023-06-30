@@ -93,10 +93,10 @@ if (mysqli_num_rows($resultmax) == 0) {
 $myColors = array();
 for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['max'] = $col1;
 }
 $my_year = date("Y", $chartdate);
@@ -116,11 +116,11 @@ foreach (PLANTS as $key => $inverter_name) {
     // build one serie per inverter
     $current_bars = "";
 
-    $reflines .= "{ name: '$inverter_name ref', type:'line', $dash linkedTo: '$inverter_name', color: '#" . $colors['color_chart_reference_line'] . "',
+    $reflines .= "{ name: '$inverter_name ref', type:'line', $dash linkedTo: '$inverter_name', color: '" . $colors['color_chart_reference_line'] . "',
          stacking: 'normal', data: [";
     //echo $inverter_name;echo ' ';
 
-    $max_bars .= "{name: '$inverter_name max', type: 'column', zIndex: -1,  linkedTo: '$inverter_name', stack: 'max', stacking: 'normal', color: \"#" . $colors['color_chart_max_bar'] . "\" ,data: [";
+    $max_bars .= "{name: '$inverter_name max', type: 'column', zIndex: -1,  linkedTo: '$inverter_name', stack: 'max', stacking: 'normal', color: \"" . $colors['color_chart_max_bar'] . "\" ,data: [";
 
     for ($i = 1; $i <= 12; $i++) {
         //echo $i;echo ' ';    // max bars
@@ -130,7 +130,7 @@ foreach (PLANTS as $key => $inverter_name) {
         $max_bars .= "  { 
                           y:  $val, 
                           url: \"$href$my_year-$i-01\",
-                          color: \"#" . $colors['color_chart_max_bar'] . "\"
+                          color: \"" . $colors['color_chart_max_bar'] . "\"
                         },";
 
         $expected = 0.0;
@@ -142,8 +142,8 @@ foreach (PLANTS as $key => $inverter_name) {
             $myColor1 = $myColors[$inverter_name]['min'];
             $myColor2 = $myColors[$inverter_name]['max'];
             if ($agegevens[$i] == max($agegevens)) {
-                $myColor1 = "'#" . $colors['color_chartbar_piek1'] . "'";
-                $myColor2 = "'#" . $colors['color_chartbar_piek2'] . "'";
+                $myColor1 = "'" . $colors['color_chartbar_piek1'] . "'";
+                $myColor2 = "'" . $colors['color_chartbar_piek2'] . "'";
             }
 
             // normal actual  bar
@@ -265,7 +265,7 @@ $categories = $shortmonthcategories;
                         mychart.yAxis[0].addPlotLine({
                             id: 'Average',
                             value: GEM,
-                            color: '#<?php echo $colors['color_chart_average_line'] ?>',
+                            color: '<?= $colors['color_chart_average_line'] ?>',
                             dashStyle: 'shortdash',
                             events: {
                                 mouseover: function (e) {
@@ -297,7 +297,7 @@ $categories = $shortmonthcategories;
             subtitle: {
                 //text: sub_title,
                 style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>',
                 },
             },
 
@@ -306,7 +306,7 @@ $categories = $shortmonthcategories;
                     rotation: 0,
                     step: 1,
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
                     },
                 },
                 min: 0,
@@ -390,17 +390,17 @@ $categories = $shortmonthcategories;
                         return this.value + 'kWh';
                     },
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 title: {
                     text: 'Total',
                     style: {
-                        color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>'
+                        color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
                 },
                 steps: 100,
-                gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
             }],
             tooltip: {
                 formatter: function () {

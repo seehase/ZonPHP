@@ -83,7 +83,7 @@ if ($sensor_success) {
         }
     }
     $str_temp_vals = substr($str_temp_vals, 0, -1);
-    $temp_serie = "    {  name: 'Temp', id: 'Temp', type: 'spline', yAxis: 2, color: '#" . $colors['color_chart_temp_line'] . "',                       
+    $temp_serie = "    {  name: 'Temp', id: 'Temp', type: 'spline', yAxis: 2, color: '" . $colors['color_chart_temp_line'] . "',                       
                         data: [" . $str_temp_vals . "] } ";
 }
 

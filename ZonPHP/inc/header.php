@@ -17,8 +17,8 @@
     define('WINDOW_STYLE_BIG', 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 10px 3px 35px 10px; border-width: 1px; border-style: solid; border-radius: 10px;');
     define('WINDOW_STYLE_CHART', 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 0px 0px 0px 0px;border-width: 1px; border-style: solid; border-radius: 10px; width:100%; height:400px');
     define('WINDOW_STYLE', 'padding: 0px; border: 2px; border-color: #000; margin: 3px; border-width: 1px; border-style: solid; border-radius: 10px; color:#000000;');
-    define('CHART_STYLE', 'background-color: #' . $colors['color_chartbackground'] . ';');
-    define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-left:  width: 100%; height: auto; overflow: hidden; background-color:#' . $colors['color_background'] . ';');
+    define('CHART_STYLE', 'background-color: ' . $colors['color_chartbackground'] . ';');
+    define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-left:  width: 100%; height: auto; overflow: hidden; background-color: ' . $colors['color_background'] . ';');
     ?>
     <?php
     if ($params['autoReload'] > 0) {
@@ -76,56 +76,56 @@
     <!-- override dynamic with parameter -->
     <style>
         .ui-widget-content {
-            background: #<?php echo $colors['color_menubackground'] ?>;
+            background: <?= $colors['color_menubackground'] ?>;
         }
 
         .ui-menu, .ui-menu-item, .ui-widget-content, .ui-widget-content a {
-            color: #<?php echo $colors['color_menufont'] ?>;
+            color: <?= $colors['color_menufont'] ?>;
         }
 
         .jqx-widget-content-zonphp {
-            background: #<?php echo $colors['color_chartbackground'] ?>;
+            background: <?= $colors['color_chartbackground'] ?>;
         }
 
         .jqx-widget-header-zonphp {
-            color: #<?php echo $colors['color_windowfont'] ?>;
+            color: <?= $colors['color_windowfont'] ?>;
             border-color: #ffffff;
-            background: # <?php echo $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
+            background: <?= $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
 
         #footer a, #id_about a, #id_links a, #id_install a {
-            color: #<?php echo $colors['color_text_link1'] ?>;
+            color: <?= $colors['color_text_link1'] ?>;
         }
 
         #footer a:hover, #id_about a:hover, #id_links a:hover, #id_install a:hover {
-            color: #<?php echo $colors['color_text_link2'] ?>;
+            color: <?= $colors['color_text_link2'] ?>;
         }
 
         .sensorgauge {
-            color: #<?php echo $colors['color_chart_text_subtitle'] ?>;
+            color: <?= $colors['color_chart_text_subtitle'] ?>;
         }
 
         .jqx-gauge-label {
-            fill: #<?php echo $colors['color_chart_labels_xaxis1'] ?>;
-            color: #<?php echo $colors['color_chart_labels_xaxis1'] ?>;
+            fill: <?= $colors['color_chart_labels_xaxis1'] ?>;
+            color: <?= $colors['color_chart_labels_xaxis1'] ?>;
         }
 
         .container {
-            background-color: #<?php echo $colors['color_background'] ?>;
+            background-color: <?= $colors['color_background'] ?>;
         }
 
         html, body {
-            background-color: #<?php echo $colors['color_background_body'] ?>;
+            background-color: <?= $colors['color_background_body'] ?>;
         }
 
         #headerinverter {
-            color: #<?php echo $colors['color_menufont'] ?>;
+            color: <?= $colors['color_menufont'] ?>;
             font-size: 18px;
         }
 
         #chart_header {
-            color: #<?php echo $colors['color_windowfont'] ?>;
-            background: #<?php echo $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
+            color: <?= $colors['color_windowfont'] ?>;
+            background: <?= $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
 
     </style>
