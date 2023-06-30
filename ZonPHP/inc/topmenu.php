@@ -87,18 +87,19 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a class="dropdown-item" href="?language=en" onclick="target='_self'">
-                            <img src="<?= HTML_PATH ?>inc/image/en.svg" class="flag" alt="English" title="English">&nbsp;English
+                            <img src="<?= HTML_PATH ?>inc/image/en.svg" class="flag" alt="English" title="English">&nbsp;English</a>
                     </li>
                     <li><a class="dropdown-item" href="?language=de" onclick="target='_self'">
-                            <img src="<?= HTML_PATH ?>inc/image/de.svg" class="flag" alt="Deutsch" title="Deutsch">&nbsp;Deutsch
+                            <img src="<?= HTML_PATH ?>inc/image/de.svg" class="flag" alt="Deutsch" title="Deutsch">&nbsp;Deutsch</a>
                     </li>
                     <li><a class="dropdown-item" href="?language=nl" onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/image/nl.svg" class="flag" alt="Nederlands"
-                                 title="Nederlands">&nbsp;Nederlands
+                                 title="Nederlands">&nbsp;Nederlands</a>
                     </li>
-                    <li><a class="dropdown-item" href="?language=fr" onclick="target='_self'">
+                    <li>
+                        <a class="dropdown-item" href="?language=fr" onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/image/fr.svg" class="flag" alt="Francaise"
-                                 title="Francaise">&nbsp;Francaise
+                                 title="Francaise">&nbsp;Francaise</a>
                     </li>
                 </ul>
             </span>
