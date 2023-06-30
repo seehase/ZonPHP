@@ -3,13 +3,12 @@ include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 include_once ROOT_DIR . "/inc/header.php";
-
 ?>
-<?php include ROOT_DIR . "/inc/sidemenu.php"; ?>
+
 <div id="page-content">
     <div id='id_install' class="bigCharts"
          style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
-        <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+        <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
 

@@ -57,14 +57,14 @@ if ($params['hideFooter'] == true) {
     $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
 }
 ?>
-<?php include ROOT_DIR . "/inc/sidemenu.php"; ?>
+
 <div id="page-content">
     <div id='resize' class="bigCharts"
          style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
-        <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+        <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
-        <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
+        <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp"
                         onclick="window.location.href='<?php echo '?maand=' . date('Y-m', strtotime("-1 months", $chartdate)) . '\'"';

@@ -8,9 +8,7 @@ include_once "../charts/all_years_chart.php";
 if (isset($_SESSION['lastupdate'])) {
     $_SESSION['lastupdate'] = 0;
 }
-?>
-<?php include ROOT_DIR . "/inc/sidemenu.php"; ?>
-<?php
+
 $paramstr_choose = '';
 $paramstr_day = '';
 # remove naam parameter
@@ -48,7 +46,7 @@ if ($params['hideFooter'] == true) {
         </div>
 
 
-        <div id="week_chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
+        <div id="chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
             <h2><?php echo getTxt("totaaloverzicht") . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
         </div>
         <div id="total_chart"

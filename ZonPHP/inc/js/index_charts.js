@@ -116,7 +116,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div  class="item-content card"> ' +
-            '       <a href="./pages/day_overview.php"><div class="' + headerclass + '">' + daytext + '</div> </a> ' +
+            '       <a href="./pages/day_overview.php"><div id="chart_header" class="' + headerclass + '">' + daytext + '</div> </a> ' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
@@ -142,7 +142,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div  class="item-content card"> ' +
-            '       <a href="./pages/month_overview.php"><div class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
+            '       <a href="./pages/month_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
@@ -168,7 +168,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div  class="item-content card"> ' +
-            '       <a href="./pages/all_years_overview.php"><div class="' + headerclass + '">' + txt["chart_allyearoverview"] + '</div></a>' +
+            '       <a href="./pages/all_years_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_allyearoverview"] + '</div></a>' +
             '       <div id ="' + id + '">' +
             '   </div>' +
             '</div>';
@@ -195,7 +195,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card"> ' +
-            '       <a href="./pages/top31.php"><div class="' + headerclass + '">' + txt["chart_31days"] + '</div></a>' +
+            '       <a href="./pages/top31.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_31days"] + '</div></a>' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '   </div>';
@@ -220,7 +220,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card"> ' +
-            '       <a href="./pages/year_overview.php"><div class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
+            '       <a href="./pages/year_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
             '       <div    id="' + id + '">' +
             '   </div>' +
             '</div>';
@@ -245,7 +245,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class  ="item-content card"> ' +
-            '       <a href="./pages/cumulative_overview.php"><div class="' + headerclass + '">' + txt["chart_cumulativeoverview"] + '</div></a>' +
+            '       <a href="./pages/cumulative_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_cumulativeoverview"] + '</div></a>' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
@@ -270,7 +270,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card"> ' +
-            '       <a href="./pages/last_years_overview.php"><div class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
+            '       <a href="./pages/last_years_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
@@ -295,7 +295,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card" style="background-color: #' + theme['color_chartbackground'] + ';"> ' +
-            '      <a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
+            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
             '      <div class="index_chart" id="' + id + '" ">' +
             '          <div class="highcharts-container" >' +
             '             <br><p> Hello World</p> ' +
@@ -324,7 +324,7 @@ function load_charts() {
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card" style="background-color: #' + theme['color_chartbackground'] + ';"> ' +
-            '      <a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
+            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
             '      <div class="index_chart" id="' + id + '" ">' +
             '         <div class="highcharts-container" >' +
             '            <br><p> Hello World</p> ' +

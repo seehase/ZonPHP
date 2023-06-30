@@ -5,7 +5,7 @@ include_once ROOT_DIR . "/inc/load_cache.php";
 include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/day_chart_UTC.php";
 ?>
-<?php include_once ROOT_DIR . "/inc/sidemenu.php"; ?>
+
 <script>
     var start = '<?php echo date('Y-m-d', $date_minimum) ?>';
     var language = '<?php echo substr($locale, 0, 2) ?>';
@@ -57,10 +57,10 @@ if ($params['hideFooter'] == true) {
 <div id="page-content">
     <div id='resize' class="bigCharts"
          style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
-        <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+        <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
-        <div id="week_chart_header" class="<?= HEADER_CLASS ?>">
+        <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp "
                         onclick="window.location.href='<?php echo '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"';

@@ -11,9 +11,7 @@ unset($adatum);
 
 include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/top31_chart.php";
-?>
-<?php include ROOT_DIR . "/inc/sidemenu.php"; ?>
-<?php
+
 $paramstr_choose = '';
 $paramstr_day = '';
 # remove naam parameter
@@ -45,10 +43,10 @@ if ($params['hideFooter'] == true) {
 <div id="page-content">
     <div id='resize' class="bigCharts"
          style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
-        <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+        <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
-        <div id="week_chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
+        <div id="chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
             <h2><?= getTxt("chart_31days"); ?></h2>
         </div>
         <div id="top31_chart"

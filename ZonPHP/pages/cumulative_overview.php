@@ -3,11 +3,8 @@ include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 include_once ROOT_DIR . "/inc/header.php";
-include_once "../charts/cumulative_chart.php";
-?>
-<?php include ROOT_DIR . "/inc/sidemenu.php"; ?>
+include_once ROOT_DIR . "/charts/cumulative_chart.php";
 
-<?php
 $footer_display_style = "clear:both; ";
 if ($params['hideFooter'] == true) {
     $padding = '- 35px';
@@ -24,7 +21,7 @@ if ($params['hideFooter'] == true) {
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
 
-        <div id="week_chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
+        <div id="chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
             <h2>
                 <?php echo getTxt("omvormer") . " " . $title; ?>
             </h2>
