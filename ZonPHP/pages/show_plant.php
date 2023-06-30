@@ -7,7 +7,7 @@ include_once ROOT_DIR . "/inc/header.php";
 
 <div id="page-content">
     <div id='id_install' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?= $padding; ?>); ">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(136px <?= $padding; ?>); ">
         <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>

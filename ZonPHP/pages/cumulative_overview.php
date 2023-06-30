@@ -16,7 +16,7 @@ if ($params['hideFooter'] == true) {
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?= $padding; ?>); ">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(136px <?= $padding; ?>); ">
         <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>

@@ -56,7 +56,7 @@ if ($params['hideFooter'] == true) {
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?= $padding; ?>); ">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(136px <?= $padding; ?>); ">
         <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
@@ -87,7 +87,8 @@ if ($params['hideFooter'] == true) {
         </div>
         <div id="mycontainer" class="demo"
              style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
-        </div> <?php include_once ROOT_DIR . "/inc/footer.php"; ?> </div>
+        </div>
+        <?php include_once ROOT_DIR . "/inc/footer.php"; ?> </div>
 </div>
 <script>
     $(document).ready(function () {

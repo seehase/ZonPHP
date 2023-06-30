@@ -52,16 +52,16 @@ if (strpos($paramstr_choose, "?") == 0) {
 }
 $footer_display_style = "clear:both; ";
 if ($params['hideFooter'] == true) {
-    $padding = '- 35px';
+    $padding = '-35px';
     $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
 } else {
-    $padding = '- 0px';
+    $padding = '-0px';
     $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
 }
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?= $padding; ?>); ">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(136px <?= $padding; ?>); ">
 
         <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>

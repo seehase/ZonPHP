@@ -36,17 +36,15 @@ if ($params['hideFooter'] == true) {
     $padding = '- 0px';
     $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
 }
+$myKeys = array_keys($sum_per_year);
 ?>
 <div id="page-content">
-    <?php $myKeys = array_keys($sum_per_year); ?>
     <div id='resize' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?= $padding; ?>); ">
-        <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(136px <?= $padding; ?>); ">
+        <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
-
-
-        <div id="chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
+        <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2><?= getTxt("totaaloverzicht") . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
         </div>
         <div id="total_chart"
@@ -54,11 +52,13 @@ if ($params['hideFooter'] == true) {
         </div>
         <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>
-    <script>
-        $(document).ready(function () {
-            $("#resize ").height(500);
-        });
-    </script>
+
+</div>
+<script>
+    $(document).ready(function () {
+        $("#resize ").height(500);
+    });
+</script>
 </div><!-- closing ".page-content" -->
 </div><!-- closing "container" -->
 

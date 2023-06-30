@@ -294,7 +294,7 @@ function load_charts() {
         var id = "id_PlantInfo";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '   <div class="item-content card" style="background-color: #' + theme['color_chartbackground'] + ';"> ' +
+            '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
             '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
             '      <div class="index_chart" id="' + id + '" ">' +
             '          <div class="highcharts-container" >' +
@@ -323,7 +323,7 @@ function load_charts() {
         var id = "id_Image1";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '   <div class="item-content card" style="background-color: #' + theme['color_chartbackground'] + ';"> ' +
+            '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
             '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
             '      <div class="index_chart" id="' + id + '" ">' +
             '         <div class="highcharts-container" >' +
