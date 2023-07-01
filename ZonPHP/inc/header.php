@@ -93,11 +93,11 @@
             background: <?= $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
 
-        #footer a, #id_about a, #id_links a, #id_install a {
+        #footer a, #id_links a {
             color: <?= $colors['color_text_link1'] ?>;
         }
 
-        #footer a:hover, #id_about a:hover, #id_links a:hover, #id_install a:hover {
+        #footer a:hover, #id_links a:hover {
             color: <?= $colors['color_text_link2'] ?>;
         }
 

@@ -52,7 +52,13 @@
                        href="<?= HTML_PATH ?>pages/cumulative_overview.php"><?= getTxt("chart_cumulativeoverview") ?></a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="<?= HTML_PATH ?>pages/top31.php"><?= getTxt("chart_31days") ?></a></li>
+                       href="<?= HTML_PATH ?>pages/top31.php"><?= getTxt("chart_31days") ?></a>
+                </li>
+                <hr>
+                <li>
+                    <a class="dropdown-item"
+                       href="<?= HTML_PATH ?>pages/show_plant.php"><?= getTxt("plant") ?></a>
+                </li>
             </ul>
 
                         </span>

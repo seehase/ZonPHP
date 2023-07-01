@@ -2,6 +2,8 @@
     margin-left: 12px;
     margin-right: 12px;
     margin-top: 20px;
+    text-align: left;
+    ;
 }
 
 #footer {
@@ -91,7 +93,7 @@ body {
 
 
 #header label:hover {
-    color: #ccc
+    color: #95ce24
 }
 
 
@@ -274,7 +276,7 @@ body {
 
 .btn-zonphp:hover {
     background-color: #286090 !important;
-    color: #FFF !important;
+    color: #db1010 !important;
 }
 
 .buttonbox {
