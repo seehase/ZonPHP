@@ -1,3 +1,8 @@
+[info]
+name = "Default Theme"
+author = Seehase
+
+[colors]
 color_background = #888888
 color_background_body = #888888
 color_footerbackground = #C00000

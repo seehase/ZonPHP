@@ -1,3 +1,8 @@
+[info]
+name = "Julia Theme"
+author = Julia
+
+[colors]
 color_background = #824523
 color_background_body = #aaaaaa
 color_footerbackground = #E7A75B

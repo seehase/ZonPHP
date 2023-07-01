@@ -8,10 +8,6 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="<?= HTML_PATH ?>index.php">Home</a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
                         <a class="dropdown-item"
                            href="<?= HTML_PATH ?>pages/day_overview.php"><?= getTxt("chart_dayoverview") ?></a>
                     </li>
@@ -47,7 +43,7 @@
 
             </div>
             <span class="navbar-nav me-auto mb-2 mb-lg-0">
-                &nbsp;&nbsp;<span id="headerinverter">  <?= $params['plant']['name'] ?> </span>
+                &nbsp;&nbsp;<a id="headerinverter" href="<?= HTML_PATH ?>">  <?= $params['plant']['name'] ?> </a>
             </span>
 
             <div class="nav-item dropdown">
@@ -56,12 +52,15 @@
                     <img src="<?= HTML_PATH ?>inc/image/themes.svg" class="flag" alt="English" title="English">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a class="dropdown-item" href='?theme=user'>User</a></li>
-                    <li><a class="dropdown-item" href='?theme=default'>ZonPHP&nbsp;Default</a></li>
-                    <li><a class="dropdown-item" href='?theme=theme1'>DarkGreyFire</a></li>
-                    <li><a class="dropdown-item" href='?theme=theme2'>Julia</a></li>
-                    <li><a class="dropdown-item" href='?theme=theme3'>Fire</a></li>
-                    <li><a class="dropdown-item" href='?theme=theme4'>blue</a></li>
+                    <?php
+                    $themes = $_SESSION['themes'];
+                    $list = "";
+                      foreach ($themes as $key => $theme){
+                          $list .= '<li><a class="dropdown-item" href=?theme=' . $key . '>' . $theme['info']['name'] . '<li></li>
+';
+                      }
+                      echo $list;
+                    ?>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item"
                            href="<?= HTML_PATH ?>inc/destroy.php"><?= getTxt("clearsession") ?> </a>

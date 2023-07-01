@@ -358,6 +358,20 @@ body {
     }
 }
 
+@media screen and (min-width: 593px) {
+    .dropdown .dropdown-menu.show {
+        display: none !important;
+    }
+
+    .dropdown:hover .dropdown-menu {
+        display: block !important;
+    }
+
+    .dropdown:focus .dropdown-menu {
+        display: block !important;
+    }
+}
+
 /*------------------*/
 
 #menu_header .navbar {

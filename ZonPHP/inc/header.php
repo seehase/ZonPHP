@@ -10,15 +10,8 @@
     //header('Content-Type: text/html; charset=UTF-8');
     // make css file static for caching, define variable styles as constants
     define('HEADER_CLASS', 'jqx-window-header jqx-window-header-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp');
-    define('HEADER_INDEX_CLASS', 'jqx-window-header jqx-window-header-index-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp');
-    define('MENU_CLASS', 'jqx-window-header jqx-window-header-menu jqx-widget-header jqx-widget-header-menu jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp');
-    define('MENU_INDEX_CLASS', 'jqx-window-header jqx-window-header-index-menu jqx-widget-header jqx-widget-header-index-menu jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp');
-    define('CONTENT_CLASS', 'jqx-window-content jqx-window-content-zonphp jqx-widget-content jqx-widget-content-zonphp jqx-rc-b jqx-rc-b-zonphp ');
-    define('WINDOW_STYLE_BIG', 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 10px 3px 35px 10px; border-width: 1px; border-style: solid; border-radius: 10px;');
     define('WINDOW_STYLE_CHART', 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 0px 0px 0px 0px;border-width: 1px; border-style: solid; border-radius: 10px; width:100%; height:400px');
     define('WINDOW_STYLE', 'padding: 0px; border: 2px; border-color: #000; margin: 3px; border-width: 1px; border-style: solid; border-radius: 10px; color:#000000;');
-    define('CHART_STYLE', 'background-color: ' . $colors['color_chartbackground'] . ';');
-    define('CONTENT_STYLE', 'float: left; top: 40px; margin-bottom: 85px; margin-left:  width: 100%; height: auto; overflow: hidden; background-color: ' . $colors['color_background'] . ';');
     ?>
     <?php
     if ($params['autoReload'] > 0) {
@@ -128,19 +121,7 @@
             color: <?= $colors['color_windowfont'] ?>;
             background: <?= $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
-        @media screen and (min-width: 593px) {
-            .dropdown .dropdown-menu.show {
-                display: none !important;
-            }
 
-            .dropdown:hover .dropdown-menu {
-                display: block !important;
-            }
-
-            .dropdown:focus .dropdown-menu {
-                display: block !important;
-            }
-        }
 
     </style>
     <script>

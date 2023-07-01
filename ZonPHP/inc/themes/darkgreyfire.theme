@@ -1,3 +1,8 @@
+[info]
+name = "Dark Grey Fire"
+author = Holger
+
+[colors]
 color_background = #000000
 color_background_body = #000000
 color_footerbackground = #b0b0b0

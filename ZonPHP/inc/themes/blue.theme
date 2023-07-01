@@ -1,3 +1,8 @@
+[info]
+name = "Blue Theme"
+author = unknown
+
+[colors]
 color_background = #ffffff
 color_background_body = #eeeeee
 color_footerbackground = #d6d6d6

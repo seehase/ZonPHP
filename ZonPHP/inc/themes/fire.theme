@@ -1,3 +1,8 @@
+[info]
+name = "Fire Theme"
+author = Michael
+
+[colors]
 color_background = #ffffff
 color_background_body = #aaaaaa
 color_footerbackground = #ffffff

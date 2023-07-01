@@ -91,4 +91,5 @@ function vadidateParams(&$params)
 
     $cards = preg_split('/\s*,\s*/', trim($params['layout']['cards']));
     define('CARDS', $cards);
+    $params['userTheme'] = strtolower($params['userTheme']);
 }
