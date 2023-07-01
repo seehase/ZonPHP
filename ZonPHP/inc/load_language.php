@@ -2,12 +2,13 @@
 
 // php8.0 ready
 $language = "en";
-if (isset($default_language)) {
-    $default_language = strtolower($default_language);
-    if ($default_language === "de" || $default_language === "en" || $default_language === "fr" || $default_language === "nl") {
-        $language = $default_language;
-    }
+$default_language = $params['defaultLanguage'];
+
+$default_language = strtolower($default_language);
+if ($default_language === "de" || $default_language === "en" || $default_language === "fr" || $default_language === "nl") {
+    $language = $default_language;
 }
+
 
 if (isset($_SESSION['language'])) {
     $language = $_SESSION['language'];

@@ -3,6 +3,7 @@
  * load  only if changed or invalid cache in session
  * import data always
  */
+include_once "load_language.php";
 include_once "connect.php";
 
 // set default inverter
@@ -46,8 +47,6 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     // error_log("cache is valid  " . ($_SESSION['lastupdate'] + $cache_timeout) . " - " . time());
 } else {
-    // reset login status
-    unset($_SESSION['passok']);
     // reload cache
     if ($debugmode) error_log("cache failed --> need to reload data");
 
