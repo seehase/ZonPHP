@@ -466,7 +466,7 @@ if (strlen($temp_serie) > 0) {
                     title: {
                         text: 'Temperature',
                         style: {
-                            color: '#?= $colors['color_chart_title_yaxis3'] ?>',
+                            color: '<?= $colors['color_chart_title_yaxis3'] ?>',
                         },
                     },
                     labels: {
