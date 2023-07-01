@@ -128,6 +128,19 @@
             color: <?= $colors['color_windowfont'] ?>;
             background: <?= $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
+        @media screen and (min-width: 593px) {
+            .dropdown .dropdown-menu.show {
+                display: none !important;
+            }
+
+            .dropdown:hover .dropdown-menu {
+                display: block !important;
+            }
+
+            .dropdown:focus .dropdown-menu {
+                display: block !important;
+            }
+        }
 
     </style>
     <script>

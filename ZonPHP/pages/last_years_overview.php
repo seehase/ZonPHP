@@ -61,13 +61,13 @@ if ($params['hideFooter'] == true) {
         </div>
         <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>
-    <script>
-        $(document).ready(function () {
-            $("#resize ").height(<?= $big_chart_height ?>);
-        });
-    </script>
+    <br>
 </div><!-- closing ".page-content" -->
-</div><!-- closing "container" -->
+<script>
+    $(document).ready(function () {
+        $("#resize ").height(<?= $big_chart_height ?>);
+    });
+</script>
 
 </body>
 </html>

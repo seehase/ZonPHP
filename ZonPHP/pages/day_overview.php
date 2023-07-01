@@ -88,15 +88,15 @@ if ($params['hideFooter'] == true) {
         <div id="mycontainer" class="demo"
              style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
         </div>
-        <?php include_once ROOT_DIR . "/inc/footer.php"; ?> </div>
+        <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
+    </div>
+    <br>
 </div>
 <script>
     $(document).ready(function () {
         $("#resize ").height(<?= $big_chart_height ?>);
     });
 </script>
-</div><!-- closing ".page-content" -->
-</div><!-- closing "container" -->
 
 </body>
 </html>

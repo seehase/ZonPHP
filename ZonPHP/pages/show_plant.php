@@ -15,7 +15,7 @@ include_once ROOT_DIR . "/inc/header.php";
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>I N S T A L L A T I O N</h2>
         </div>
-        <div id='page-content'>
+        <div id='content'>
             <div >
                 <h1>Anlage von <?= $params['plant']['name'] ?></h1>
                 <?= '
@@ -33,17 +33,16 @@ include_once ROOT_DIR . "/inc/header.php";
                 foreach (PLANTS as $plant) {
                     echo "<p>" . $params[$plant]['name'] . "<br>" .
                         "<img src=" . HTML_PATH . $params[$plant]['image'] . " alt=" . $params[$plant]['name'] .
-                        "style=\"border: 2px solid #000000; border-radius: 10px 10px 10px 10px; width: 600px\">
+                        " style=\" border: 2px solid #000000; border-radius: 10px 10px 10px 10px; width: 600px\">
                         </p>";
                 }
                 ?>
             </div>
         </div>
-        <?php include_once ROOT_DIR . "/inc/footer.php"; ?> </div>
-</div>
-
+        <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
+    </div>
+    <br>
 </div><!-- closing ".page-content" -->
-</div><!-- closing ".container" -->
 
 </body>
 </html>

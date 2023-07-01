@@ -52,15 +52,13 @@ $myKeys = array_keys($sum_per_year);
         </div>
         <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>
-
-</div>
+    <br>
+</div><!-- closing ".page-content" -->
 <script>
     $(document).ready(function () {
-        $("#resize ").height(500);
+        $("#resize ").height(<?= $big_chart_height ?>);
     });
 </script>
-</div><!-- closing ".page-content" -->
-</div><!-- closing "container" -->
 
 </body>
 </html>

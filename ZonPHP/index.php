@@ -52,12 +52,9 @@ if ($params['useWeewx']) {
     <div class="grid"><!-- The Modal --></div>
     <div id="footer_index">
         <?php include_once "inc/footer.php"; ?>
-
     </div>
+    <br>
 </div><!-- closing ".page-content" -->
-<div id="spacer" style="float: left; height: 5px; width: 400px; display: block; "><br>&nbsp;</div>
 
-
-</div><!-- closing ".container" -->
 </body>
 </html>
