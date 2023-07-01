@@ -3,7 +3,7 @@
  * load  only if changed or invalid cache in session
  * import data always
  */
-include_once "load_language.php";
+
 include_once "connect.php";
 
 // set default inverter
@@ -15,6 +15,9 @@ if (isset($_GET['theme'])) {
     include_once "load_themes.php";
 }
 
+if (isset($_GET['language'])) {
+    include_once "load_language.php";
+}
 // set default plant
 if (!isset($_SESSION['plant']))
     $_SESSION['plant'] = PLANTS[0];
@@ -49,13 +52,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 } else {
     // reload cache
     if ($debugmode) error_log("cache failed --> need to reload data");
-
-    // load lanaguages -----------------------------------------------------------------------------------------------
-    $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
-    if (isset($_SESSION['language'])) {
-        $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $language . ".ini", false);
-    }
-    $_SESSION['txt'] = $txt;
+    include_once "load_language.php";
 
     // load color and theme
     include_once ROOT_DIR . "/inc/load_themes.php";

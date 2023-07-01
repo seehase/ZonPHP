@@ -12,6 +12,8 @@ if ($default_language === "de" || $default_language === "en" || $default_languag
 
 if (isset($_SESSION['language'])) {
     $language = $_SESSION['language'];
+} else {
+    $_SESSION['language'] = $default_language;
 }
 
 // set default timezone
@@ -38,52 +40,16 @@ if (isset($_GET['language'])) {
         $txt = $_SESSION['txt'];
     } else {
         // nothing set reload from scratch
-
-        $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
-        if (isset($_SESSION['language'])) {
-            $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $language . ".ini", false);
-        }
+        $defaultTXT = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
+        $userTXT = parse_ini_file(ROOT_DIR . "/inc/language/" . $language . ".ini", false);
+        $txt = array_merge($defaultTXT, $userTXT);
         $_SESSION['txt'] = $txt;
     }
     if (isset($_SESSION['language'])) {
         $language = $_SESSION['language'];
     }
 }
-// date_default_timezone_set('Europe/Brussels');
-if ($language == "nl") {
-    $locale = 'nl-NL'; // For IntlDateFormatter
-}
-if ($language == "fr") {
-    $locale = 'fr-FR'; // For IntlDateFormatter
-}
-if ($language == "de") {
-    $locale = 'de-DE'; // For IntlDateFormatter
-}
-if ($language == "en") {
-    $locale = 'en-US'; // For IntlDateFormatter
-}
-// preparing a localized month array
-$formatter = new IntlDateFormatter($locale, IntlDateFormatter::NONE,
-    IntlDateFormatter::NONE, NULL, NULL, "MMMM");
-
-function getTxt($key)
-{
-    if (isset($_SESSION["txt"]) && isset($_SESSION["txt"][$key])) {
-        return $_SESSION["txt"][$key];
-    } else {
-        return "undefined key: " . $key;
-    }
-}
 
 
-function isActive($language)
-{
-    if (in_array(strtolower($language), LANGUAGES)) {
-        return true;
-    } else {
-        return false;
-    };
-
-}
 
 

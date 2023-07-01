@@ -23,6 +23,8 @@ $big_chart_height = 500;
  * initialize parameters and checks
  *********************************************************************/
 
+include_once "common.php";
+
 define('ROOT_DIR', realpath(substr(realpath(__DIR__ . '/'), 0, -4) . '/'));
 $tmpHTMLPath = str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
 if (strlen($tmpHTMLPath) == 0) $tmpHTMLPath = "/";
@@ -43,6 +45,33 @@ include_once ROOT_DIR . "/inc/version_info.php";
 
 $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
 vadidateParams($params);
+
+
+if (isset($_SESSION['language'])) {
+    $language = $_SESSION['language'];
+} else {
+    $language = $params['defaultLanguage'];
+}
+
+$locale = 'en-US';
+// date_default_timezone_set('Europe/Brussels');
+if ($language == "nl") {
+    $locale = 'nl-NL'; // For IntlDateFormatter
+}
+if ($language == "fr") {
+    $locale = 'fr-FR'; // For IntlDateFormatter
+}
+if ($language == "de") {
+    $locale = 'de-DE'; // For IntlDateFormatter
+}
+if ($language == "en") {
+    $locale = 'en-US'; // For IntlDateFormatter
+}
+
+// preparing a localized month array
+$formatter = new IntlDateFormatter($locale, IntlDateFormatter::NONE,
+    IntlDateFormatter::NONE, NULL, NULL, "MMMM");
+
 
 // FIXME: enhance validation
 //   style-cards: remove duplicates, if null add all
@@ -93,3 +122,4 @@ function vadidateParams(&$params)
     define('CARDS', $cards);
     $params['userTheme'] = strtolower($params['userTheme']);
 }
+
