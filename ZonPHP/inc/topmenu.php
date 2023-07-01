@@ -49,7 +49,7 @@
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false">
-                    <img src="<?= HTML_PATH ?>inc/image/themes.svg" class="flag" alt="English" title="English">
+                    <img src="<?= HTML_PATH ?>inc/image/themes_4x3.svg" class="theme" alt="Theme" title="Theme">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <?php
