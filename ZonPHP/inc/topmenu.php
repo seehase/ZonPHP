@@ -87,8 +87,8 @@
                     </li>
                     <li>
                         <a class="dropdown-item" href="?language=fr" onclick="target='_self'">
-                            <img src="<?= HTML_PATH ?>inc/image/fr.svg" class="flag" alt="Francaise"
-                                 title="Francaise">&nbsp;Francaise</a>
+                            <img src="<?= HTML_PATH ?>inc/image/fr.svg" class="flag" alt="Français"
+                                 title="Français">&nbsp;Français</a>
                     </li>
                 </ul>
             </div>
