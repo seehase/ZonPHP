@@ -114,6 +114,14 @@ body {
     transition: transform .25s ease
 }
 
+.theme {
+    width: 28px;
+    height: 21px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    
+}
+
 .flag {
     width: 20px;
     height: 15px;
