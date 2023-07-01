@@ -1,10 +1,9 @@
 <?php
-if (strpos(getcwd(), "charts") > 0) {
-    chdir("../");
-    include_once "inc/init.php";
-    include_once "inc/sessionstart.php";
-    include_once "inc/load_cache.php";
-}
+
+include_once "../inc/init.php";
+include_once ROOT_DIR . "/inc/sessionstart.php";
+include_once ROOT_DIR . "/inc/load_cache.php";
+
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
@@ -30,7 +29,7 @@ $current_year_month = "" . date('Y-m', $chartdate);
 // get reference values
 $nfrefmaand = array();
 foreach (PLANTS as $plant) {
-    $tmp = $params[$plant]['referenceYield'][$current_month-1] / 30;
+    $tmp = $params[$plant]['referenceYield'][$current_month - 1] / 30;
     $nfrefmaand[] = $tmp;
 }
 
@@ -92,14 +91,14 @@ if (mysqli_num_rows($result) == 0) {
 $myColors = array();
 for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['max'] = $col1;
 }
 // collect data array
-$myurl = HTML_PATH."pages/day_overview.php?dag=";
+$myurl = HTML_PATH . "pages/day_overview.php?dag=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;
@@ -115,8 +114,8 @@ foreach (PLANTS as $inverter_name) {
             $myColor2 = $myColors[$inverter_name]['max'];
 
             if ($agegevens[$i] == max($agegevens)) {
-                $myColor1 = "'#" . $colors['color_chartbar_piek1'] . "'";
-                $myColor2 = "'#" . $colors['color_chartbar_piek2'] . "'";
+                $myColor1 = "'" . $colors['color_chartbar_piek1'] . "'";
+                $myColor2 = "'" . $colors['color_chartbar_piek2'] . "'";
             }
             $var = round($all_valarray[$i][$inverter_name], 2);
             if ($var > $local_max) $local_max = $var;
@@ -170,15 +169,15 @@ include_once "chart_styles.php";
         }
 
         var month = '<?php $formatter->setPattern('MMMM'); echo substr(datefmt_format($formatter, $chartdate), 0, 3); ?>';
-        var daycount = <?php echo $DaysPerMonth ?>;
-        var daycount2 = <?php echo $daycount ?>;
-        var nref = <?php echo json_encode($nfrefmaand, JSON_NUMERIC_CHECK) ?>;
-        var myoptions = <?php echo $chart_options ?>;
-        var khhWp = [<?php echo $params['plantskWp'] ?>];
+        var daycount = <?= $DaysPerMonth ?>;
+        var daycount2 = <?= $daycount ?>;
+        var nref = <?= json_encode($nfrefmaand, JSON_NUMERIC_CHECK) ?>;
+        var myoptions = <?= $chart_options ?>;
+        var khhWp = [<?= $params['plantskWp'] ?>];
         var nmbr = khhWp.length //misused to get the inverter count
-        var txt_max = '<?php echo getTxt("max") ?>';
-        var txt_gem = '<?php echo getTxt("gem") ?>';
-        var txt_ref = '<?php echo getTxt("ref") ?>';
+        var txt_max = '<?= getTxt("max") ?>';
+        var txt_gem = '<?= getTxt("gem") ?>';
+        var txt_ref = '<?= getTxt("ref") ?>';
         var gem2;
         var totamth = 0;
         var mychart = new Highcharts.Chart('month_chart', Highcharts.merge(myoptions, {
@@ -234,7 +233,7 @@ include_once "chart_styles.php";
                         mychart.yAxis[0].addPlotLine({
                             id: 'Average',
                             value: gem2,
-                            color: '#<?php echo $colors['color_chart_average_line'] ?>',
+                            color: '<?= $colors['color_chart_average_line'] ?>',
                             dashStyle: 'shortdash',
                             events: {
                                 mouseover: function (e) {
@@ -262,7 +261,7 @@ include_once "chart_styles.php";
                         mychart.yAxis[0].addPlotLine({
                             id: 'Reference',
                             value: REF,
-                            color: '#<?php echo $colors['color_chart_reference_line'] ?>',
+                            color: '<?= $colors['color_chart_reference_line'] ?>',
                             dashStyle: 'shortdash',
                             //tooltip reference line
                             events: {
@@ -318,7 +317,7 @@ include_once "chart_styles.php";
 
             subtitle: {
                 style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>',
                 },
             },
 
@@ -327,10 +326,10 @@ include_once "chart_styles.php";
                     rotation: 270,
                     step: 1,
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
                     },
                 },
-                categories: [<?php echo $categories ?>],
+                categories: [<?= $categories ?>],
             }],
             yAxis: [{ // Primary yAxis
                 labels: {
@@ -338,18 +337,18 @@ include_once "chart_styles.php";
                         return this.value + ' kWh';
                     },
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 opposite: true,
                 title: {
                     text: 'Total',
                     style: {
-                        color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>'
+                        color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
                 },
-                gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
-                max: <?php echo $maxval_yaxis ?>,
+                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
+                max: <?= $maxval_yaxis ?>,
             }],
             tooltip: {
 
@@ -384,7 +383,7 @@ include_once "chart_styles.php";
             },
 
             series: [
-                <?php echo $strdataseries ?>
+                <?= $strdataseries ?>
 
             ],
 

@@ -22,6 +22,9 @@ hideMenu = false
 checkVersion = true
 googleTrackingId = G-XCE1BK2ZX9
 
+[layout]
+cards = "day, month, year, allYears, cumulative, yearPerMonth,  info, image, top"
+
 [database]
 host =  localhost
 username = root

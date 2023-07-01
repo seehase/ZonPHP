@@ -1,10 +1,9 @@
 <?php
-if (strpos(getcwd(), "charts") > 0) {
-    chdir("../");
-    include_once "inc/init.php";
-    include_once "inc/sessionstart.php";
-    include_once "inc/load_cache.php";
-}
+
+include_once "../inc/init.php";
+include_once ROOT_DIR . "/inc/sessionstart.php";
+include_once ROOT_DIR . "/inc/load_cache.php";
+
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
@@ -114,8 +113,8 @@ $categories = $shortmonthcategories;
 ?>
 <script>
     $(function () {
-        var myoptions = <?php echo $chart_options ?>;
-        Highcharts.setOptions({<?php echo $chart_lang ?>});
+        var myoptions = <?= $chart_options ?>;
+        Highcharts.setOptions({<?= $chart_lang ?>});
         var mychart = new Highcharts.Chart('universal', Highcharts.merge(myoptions, {
             chart: {
                 events: {
@@ -127,7 +126,7 @@ $categories = $shortmonthcategories;
                         });
                     },
                     render() {
-                        if (<?php echo $hasdata ?>) {
+                        if (<?= $hasdata ?>) {
                             var ticks = this.xAxis[0].ticks,
                                 ticksPositions = this.xAxis[0].tickPositions,
                                 tick0x,
@@ -160,9 +159,9 @@ $categories = $shortmonthcategories;
             },
 
             subtitle: {
-                text: <?php echo $subtitle ?>,
+                text: <?= $subtitle ?>,
                 style: {
-                    color: '#<?php echo $colors['color_chart_text_subtitle'] ?>',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>',
                 },
             },
             xAxis: [{
@@ -186,12 +185,12 @@ $categories = $shortmonthcategories;
                         align: 'left',
                         step: 1,
                         style: {
-                            color: '#<?php echo $colors['color_chart_labels_xaxis1'] ?>',
+                            color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
                         },
                     },
                     min: -0.5,
                     max: 11.5,
-                    categories: [<?php echo $categories ?>],
+                    categories: [<?= $categories ?>],
 
                 }],
 
@@ -201,17 +200,17 @@ $categories = $shortmonthcategories;
                         return this.value / 1000 + ' MWh';
                     },
                     style: {
-                        color: '#<?php echo $colors['color_chart_labels_yaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 opposite: true,
                 title: {
                     text: 'Total',
                     style: {
-                        color: '#<?php echo $colors['color_chart_title_yaxis1'] ?>'
+                        color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
                 },
-                gridLineColor: '#<?php echo $colors['color_chart_gridline_yaxis1'] ?>',
+                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
 
             }],
             tooltip: {
@@ -237,7 +236,7 @@ $categories = $shortmonthcategories;
             },
 
             series: [
-                <?php echo $strdataseries ?>
+                <?= $strdataseries ?>
 
             ],
         }));

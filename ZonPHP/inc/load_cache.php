@@ -1,6 +1,7 @@
 <?php
 /*
  * load  only if changed or invalid cache in session
+ * import data always
  */
 include_once "connect.php";
 
@@ -69,7 +70,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
                WHERE Naam='" . $_SESSION['plant'] . "'";
     $resultminmax = mysqli_query($con, $sqlminmax) or die("Query failed. dag-minmax " . mysqli_error($con));
 
-    $date_minimum = strtotime('2038-01-01 00:00:00');
+    $date_minimum = strtotime('2138-01-01 00:00:00');
     $date_maximum = strtotime('1990-01-01 00:00:00');
     $_SESSION['date_minimum'] = $date_minimum;
     $_SESSION['date_maximum'] = $date_maximum;
@@ -103,8 +104,11 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     }
 
     // get latest Version from github can cause error on some provider e.g.bplaced do not allow file_get_content
-    $github_version = "unkown";
+    $github_version = "unknown";
     $homepage = "";
+    if (!isset($version) || strlen($version) < 6) {
+        $version = "unknown";
+    }
     if ($params['checkVersion'] == true) {
         try {
             if (strpos($version, "(dev)") > 0) {
@@ -126,11 +130,12 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
 
     $new_version_label = "";
     if ($github_version > $version) {
-        $new_version_label = "new version available!!!! -> " . $github_version;
+        $new_version_label = " - new version " . $github_version;
     }
     $_SESSION['new_version_label'] = $new_version_label;
 
     // -----------------------------------------------------------------------------------------------------------------
     $_SESSION['lastupdate'] = time();
 }
-?>
+// import new data
+include_once ROOT_DIR . "/inc/import_data.php";

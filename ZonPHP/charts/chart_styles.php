@@ -94,7 +94,7 @@ $chart_options =
      },            
      chart: {
                 zoomType: 'xy',
-                backgroundColor: '#" . $colors['color_chartbackground'] . "',
+                backgroundColor: '" . $colors['color_chartbackground'] . "',
                 alignThresholds: false,
             },
      legend: {
@@ -102,7 +102,7 @@ $chart_options =
                 align: 'center',
                 verticalAlign: 'bottom',
                 floating: false,
-                backgroundColor: '#" . $colors['color_chartbackground'] . "',
+                backgroundColor: '" . $colors['color_chartbackground'] . "',
                 enabled: $show_legende,
      },                                
      tooltip: {

@@ -1,4 +1,28 @@
 <?php
+
+/********************************************************************
+ * Debug
+ *********************************************************************/
+$debugmode = false;
+
+error_reporting(E_ALL);          // place these two lines at the top of
+/// error_reporting (E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+ini_set('display_errors', 1);    // the script you are debugging
+
+
+/*********************************************************************
+ * sessionID  change only when needed
+ *********************************************************************/
+$zonPHPSessionID = "SOLAR3";
+
+$cache_timeout = 500;
+$time_offset = 7200;  // offest in seconds e.g. 2h
+$big_chart_height = 500;
+
+/*********************************************************************
+ * initialize parameters and checks
+ *********************************************************************/
+
 define('ROOT_DIR', realpath(substr(realpath(__DIR__ . '/'), 0, -4) . '/'));
 $tmpHTMLPath = str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
 if (strlen($tmpHTMLPath) == 0) $tmpHTMLPath = "/";
@@ -11,6 +35,8 @@ if ($tmpHTMLPath[strlen($tmpHTMLPath) - 1] != "/") {
 define('HTML_PATH', $tmpHTMLPath);
 define('PHP_PATH', ltrim(HTML_PATH, '/'));
 
+include_once ROOT_DIR . "/inc/version_info.php";
+
 //echo "HTML_PATH: " .  HTML_PATH. "<br>";
 //echo "ROOT_DIR: " .  ROOT_DIR. "<br>";
 //echo "PHP_PATH: " .  PHP_PATH. "<br>";
@@ -19,6 +45,8 @@ $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
 vadidateParams($params);
 
 // FIXME: enhance validation
+//   style-cards: remove duplicates, if null add all
+//   importer check (ifExists)
 /**
  *
  * Check parameter, and set defaults.
@@ -45,7 +73,7 @@ function vadidateParams(&$params)
         $params[$plant]['referenceYield'] = $values;
         $totalSum = array_sum($values);
         foreach ($values as $id => $value) {
-            $totalExpectedMonth[$id+1][$plant] = $value;
+            $totalExpectedMonth[$id + 1][$plant] = $value;
         }
         $params[$plant]['totalExpectedYield'] = $totalSum;
         $totalExpectedYield += $totalSum;
@@ -61,32 +89,6 @@ function vadidateParams(&$params)
     define('LANGUAGES', $languages);
     define('CHART_DATE_FORMAT', array("chart_date_format" => ""));
 
+    $cards = preg_split('/\s*,\s*/', trim($params['layout']['cards']));
+    define('CARDS', $cards);
 }
-
-
-/********************************************************************
- * Version
- *********************************************************************/
-$version = "v2023.07.24";
-
-/********************************************************************
- * Debug
- *********************************************************************/
-$debugmode = false;
-
-error_reporting(E_ALL);          // place these two lines at the top of
-/// error_reporting (E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-ini_set('display_errors', 1);    // the script you are debugging
-
-
-/*********************************************************************
- * sessionID  change only when needed
- *********************************************************************/
-$zonPHPSessionID = "SOLAR";
-
-$cache_timeout = 500;
-$time_offset = 7200;  // offest in seconds e.g. 2h
-$big_chart_height = 500;
-
-?>
-

@@ -10,6 +10,6 @@
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 
     <title>ZonPHP Installation</title>
-    <link type="text/css" rel="stylesheet" href="<?php echo HTML_PATH ?>inc/styles/error_style.css">
+    <link type="text/css" rel="stylesheet" href="<?= HTML_PATH ?>inc/styles/error_style.css">
 </head>
 <body>

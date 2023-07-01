@@ -1,15 +1,12 @@
-#footer_index {
-    position: relative;
-    left: 5px;
-    width: 99%;
-    border-top-left-radius: 9.5px;
-    border-top-right-radius: 9.5px;
-    font: 12px Verdana, Arial, Helvetica, sans-serif;
-    overflow: hidden;
+#page-content, #content {
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top: 20px;
+    text-align: left;
+    ;
 }
 
 #footer {
-    margin-top: 1px;
     height: 35px;
     border-bottom-left-radius: 9.5px;
     border-bottom-right-radius: 9.5px;
@@ -17,7 +14,11 @@
     padding-left: 20px;
     color: black;
     text-align: left;
-    font: 12px Verdana, Arial, Helvetica, sans-serif
+    font: 12px Verdana, Arial, Helvetica, sans-serif;
+}
+
+#footer_index #footer {
+    border-radius: 9.5px;
 }
 
 .smallCharts {
@@ -53,13 +54,13 @@
     height: 600px;
     padding: 0 1px 1px 0;
     margin-top: 10px;
-    
+
     height: 100%;
 }
 
 .index_chart {
-    width: 435px;
-    height: 382px;
+    width: 433px;
+    height: 380px;
     margin-top: 0px;
     float: left;
 }
@@ -90,27 +91,11 @@ body {
     background: #222
 }
 
-#menu label {
-    padding: 0 0.25em;
-    font: 3.125em/1.375em Arial;
+
+#header label:hover {
+    color: #95ce24
 }
 
-#menu .sub-nav .toggle {
-    padding: 0 0.3125em;
-    font: 2em/2em Arial;
-    top: 0;
-    transform: scale(-1, 1)
-}
-
-#header label:hover, #menu label:hover {
-    color: #ccc
-}
-
-#main-nav-check, #menu .sub-nav-check {
-    position: absolute;
-    top: -9999px;
-    left: -9999px
-}
 
 .toggle {
     position: absolute;
@@ -126,123 +111,14 @@ body {
     padding: 10px;
     width: 100%;
     max-width: 100%;
-}
-
-#menu, #menu .sub-nav {
-    position: absolute;
-    top: 10px;
-    bottom: 0;
-    width: 13.75em;
-    background: #222;
-    z-index: 500;
-    left: -13.75em
-}
-
-.container, #menu, #menu .sub-nav {
-    /* transform: translate(0, 0); */
     transition: transform .25s ease
-}
-
-#menu ul {
-    background: #000;
-    line-height: 40px;
-    text-decoration: none;
-    padding: 0;
-    list-style: none;
-    margin-top: 57px;
-    border-top: 1px solid #ccc
-}
-
-#menu li {
-    border-bottom: 1px solid #000
-}
-
-#menu li a {
-    background: #000;
-    display: block;
-    font-size: 0.875em;
-    padding-left: 1.5em;
-    color: #fff;
-    text-decoration: none
-}
-
-#menu li a:hover, #menu .toggle-sub:hover {
-    background: #333
-}
-
-#menu .sub-nav {
-    margin-top: -1px
-}
-
-#menu .sub-heading {
-    margin-top: 55px;
-    padding-left: 5px;
-    color: #fff;
-    background-color: #000;
-}
-
-#menu .sub-heading:before {
-    content: "";
-    display: block;
-    height: 1px;
-    width: 13.75em;
-    margin-left: -1.3125em;
-    background: #000;
-}
-
-#menu .toggle-sub {
-    font: bold 1em/2.75em Arial;
-    color: #fff;
-    background: #222;
-    float: right;
-    margin-top: -2.75em;
-    width: 13.25em;
-    border-left: 1px solid #444;
-    cursor: pointer;
-    text-align: left;
-}
-
-.close-all {
-    left: 1px;
-}
-
-#menu .close-all {
-    display: none
-}
-
-
-.js #menu .close-all {
-    display: inline
-}
-
-.js #menu .toggle {
-    top: 0;
-    z-index: 9999
-}
-
-.js #menu .sub-nav .toggle {
-    left: 160px;
-    width: 1em
-}
-
-/* #### - define ids of animated container, menu and sub-menus here - #### */
-#main-nav-check:checked ~ .container,
-#main-nav-check:checked ~ #menu,
-#menu .sub-nav-check:checked ~ [id$="-sub"] /* matches all elements with id ending "-sub" */
-{
-    transform: translate(13.75em, 0)
-}
-
-#page-content {
-	margin-left: 5px ;
-
 }
 
 .flag {
     width: 20px;
     height: 15px;
     margin-bottom: 0px;
-    margin-top: 20px;
+    margin-top: 0px;
     box-shadow: 0 0 1px 1px white inset;
 }
 
@@ -289,35 +165,7 @@ body {
     margin-bottom: 0px;
 }
 
-#menu .toggle-sub {
-    width: 14.25em;
-}
-
-#menu ul {
-    border-top-width: 5px;
-}
-
-.js #menu .sub-nav .toggle {
-    width: 1.5em;
-}
-
-#menu .sub-heading {
-    background-color: #444;
-}
-
-#menu li a {
-    background-color: #444;
-    border-top-width: 1px;
-    border-top-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-left-width: 5px;
-    border-left-style: solid;
-    border-color: #000;
-}
-
 /* styles for muuri */
-/* Grid */
 .grid {
     position: relative;
     width: 100%;
@@ -330,10 +178,8 @@ body {
     position: absolute;
     width: 437px;
     height: 412px;
-    /* line-height: 100px; */
-    margin: 5px;
-    margin-top: 3px;
-    margin-bottom:7px;
+    margin-right: 5px;
+    padding-bottom: 5px;
     z-index: 1;
     transition: opacity 0.8s linear 1s;
     will-change: transform;
@@ -385,9 +231,7 @@ body {
     background-color: transparent;
     border: 2px solid;
     color: black;
-    background-color: transparent;
     border-radius: 8px;
-    border-width: 1px;
     transition: all 0.2s ease-out;
 }
 
@@ -432,7 +276,7 @@ body {
 
 .btn-zonphp:hover {
     background-color: #286090 !important;
-    color: #FFF !important;
+    color: #db1010 !important;
 }
 
 .buttonbox {
@@ -461,32 +305,84 @@ body {
     background-clip: padding-box;
 }
 
-#menu_header {
-    position: relative;
-    height: 45px;
-    background: #222
-}
-
-#menu_header label {
-    position: absolute;
-    left: 4px;
-    top: -6px;
-    padding: 0 0.125em;
-    font: 58px Arial;
-}
 
 #menu_header_index {
-    position: relative;
-    left: 5px;
-    width: 98%;
-    height: 45px;
-    background: #222
+    border-bottom-left-radius: 9.5px;
+    border-bottom-right-radius: 9.5px;
+    height: 55px;
 }
 
-#menu_header_index label {
-	position: absolute;
-    left: 4px;
-    top: -6px;
-    padding: 0 0.125em;
-    font: 58px Arial;
+@media only screen and (max-width: 929px) and (min-width: 500px) {
+    #footer_index, #menu_header_index {
+        width: 440px;
+    }
+
+    #headerinverter {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1360px) and (min-width: 930px) {
+    #footer_index, #menu_header_index {
+        width: 878px;
+    }
+}
+
+@media only screen and (max-width: 1860px) and (min-width: 1360px) {
+    #footer_index, #menu_header_index {
+        width: 1320px;
+    }
+}
+
+@media only screen and (max-width: 2260px) and (min-width: 1809px) {
+    #footer_index, #menu_header_index {
+        width: 1760px;
+    }
+}
+
+@media only screen and (max-width: 2660px) and (min-width: 2250px) {
+    #footer_index, #menu_header_index {
+        width: 2210px;
+    }
+}
+
+@media only screen and (max-width: 3060px) and (min-width: 2318px) {
+    #footer_index, #menu_header_index {
+        width: 2656px;
+    }
+}
+
+@media only screen and (max-width: 993px)  {
+    #headerinverter {
+        padding-top: 9px;
+    }
+}
+
+/*------------------*/
+
+#menu_header .navbar {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    height: 45px;
+    width: 100%;
+}
+
+.navbar {
+    border-radius: 9.5px;
+    height: 45px;
+    width: 100%;
+}
+
+.dropdown-item {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.dropdown-menu-right {
+    right: 0 !important;
+    left: auto !important;
+}
+
+.dropdown-toggle::after {
+    content: none;
 }

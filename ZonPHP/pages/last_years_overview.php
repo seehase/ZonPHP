@@ -2,7 +2,6 @@
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
-include_once ROOT_DIR . "/inc/import_data.php";
 include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/last_years_chart.php";
 $inverter = $_SESSION['plant'];
@@ -11,9 +10,7 @@ if (isset($_POST['inverter'])) {
 }
 $nextyear = date("Y-m-d", strtotime("+1 year", $chartdate));
 $prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
-?>
-<?php include_once ROOT_DIR . "/inc/sidemenu.php"; ?>
-<?php
+
 $paramstr_choose = '';
 $paramstr_day = '';
 # remove naam parameter
@@ -44,8 +41,8 @@ if ($params['hideFooter'] == true) {
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
-         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(148px <?php echo $padding; ?>); ">
-        <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+         style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(136px <?= $padding; ?>); ">
+        <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
 
@@ -54,22 +51,23 @@ if ($params['hideFooter'] == true) {
             <h2>
                 <?php
                 //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
-                echo $txt["chart_lastyearoverview"];
+                echo getTxt("chart_lastyearoverview");
                 //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
                 ?>
             </h2>
         </div>
-        <div id="all_years_chart_<?php echo $inverter ?>"
-             style="width:100%; background-color: #<?php echo $colors['color_chartbackground'] ?>;height:100%; <?php echo $corners; ?>">
+        <div id="all_years_chart_<?= $inverter ?>"
+             style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
         </div>
         <?php include_once ROOT_DIR . "/inc/footer.php"; ?>
     </div>
-    <script>
-        $(document).ready(function () {
-            $("#resize ").height(<?php echo $big_chart_height ?>);
-        });
-    </script>
+    <br>
 </div><!-- closing ".page-content" -->
+<script>
+    $(document).ready(function () {
+        $("#resize ").height(<?= $big_chart_height ?>);
+    });
+</script>
 
 </body>
 </html>

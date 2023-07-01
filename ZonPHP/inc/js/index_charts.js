@@ -68,32 +68,57 @@ function load_charts() {
     var headerclass = "jqx-window-header jqx-window-header-index-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp"
 
     /* load all charts according order */
-    function loadCharts() {
-        // todo: only load activted charts
-        /// addWeewx();
 
-        addDay();
-        addMonth();
-        addYear();
-        addAllYears();
-        addCumulative();
-        addLastYears();
-        addBest();
-        addPlantInfo();
-        addImage1();
-        // loadLayout(grid, layout);
+    function loadCard(name) {
+        console.log('loadCard ${name}.');
+        name = name.toUpperCase();
+        switch (name) {
+            case 'DAY':
+                addDay();
+                break;
+            case 'MONTH':
+                addMonth();
+                break;
+            case 'YEAR':
+                addYear();
+                break;
+            case 'ALLYEARS':
+                addAllYears();
+                break;
+            case 'CUMULATIVE':
+                addCumulative();
+                break;
+            case 'YEARPERMONTH':
+                addLastYears();
+                break;
+            case 'INFO':
+                addPlantInfo();
+                break;
+            case 'IMAGE':
+                addImage1();
+                break;
+            case 'TOP':
+                addBest();
+                break;
+            default:
+                console.log('Sorry, we are out of ${name}.');
+        }
     }
+
+    function loadCharts() {
+        cardlayout.map(it => loadCard(it) )
+    }
+
+    // loadLayout(grid, layout);
 
     function addDay() {
         var id = "id_Day";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div  class="item-content card"> ' +
-            '<a href="./pages/day_overview.php"><div class="' + headerclass + '">' + daytext + '</div> </a> ' +
-            '<div id="' + id + '">' +
-
-            '</div>' +
-            '</div>' +
+            '   <div  class="item-content card"> ' +
+            '       <a href="./pages/day_overview.php"><div id="chart_header" class="' + headerclass + '">' + daytext + '</div> </a> ' +
+            '       <div id="' + id + '">' +
+            '   </div>' +
             '</div>';
 
         var itemElem = document.createElement('div');
@@ -102,7 +127,7 @@ function load_charts() {
 
         var container = $('#' + id);
         $.ajax({
-            url: 'charts/day_chart.php',
+            url: 'charts/day_chart_UTC.php',
             type: 'post',
             data: {'action': 'indexpage'},
             cache: false,
@@ -116,12 +141,10 @@ function load_charts() {
         var id = "id_Month";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div  class="item-content card"> ' +
-            '<a href="./pages/month_overview.php"><div class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
-            '<div id="' + id + '">' +
-
-            '</div>' +
-            '</div>' +
+            '   <div  class="item-content card"> ' +
+            '       <a href="./pages/month_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
+            '       <div id="' + id + '">' +
+            '   </div>' +
             '</div>';
 
         var itemElem = document.createElement('div');
@@ -144,12 +167,10 @@ function load_charts() {
         var id = "id_AllYears";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div  class="item-content card"> ' +
-            '<a href="./pages/all_years_overview.php"><div class="' + headerclass + '">' + txt["chart_allyearoverview"] + '</div></a>' +
-            '<div id="' + id + '">' +
-
-            '</div>' +
-            '</div>' +
+            '   <div  class="item-content card"> ' +
+            '       <a href="./pages/all_years_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_allyearoverview"] + '</div></a>' +
+            '       <div id ="' + id + '">' +
+            '   </div>' +
             '</div>';
 
         var itemElem = document.createElement('div');
@@ -173,11 +194,11 @@ function load_charts() {
         var id = "id_Best";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card"> ' +
-            '<a href="./pages/top31.php?Max_Min=top"><div class="' + headerclass + '">' + txt["chart_31days"] + '</div></a>' +
-            '<div id="' + id + '">' +
-            '</div>' +
-            '</div>';
+            '   <div class="item-content card"> ' +
+            '       <a href="./pages/top31.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_31days"] + '</div></a>' +
+            '       <div id="' + id + '">' +
+            '   </div>' +
+            '   </div>';
         var itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
@@ -186,7 +207,7 @@ function load_charts() {
         $.ajax({
             url: 'charts/top31_chart.php',
             type: 'post',
-            data: {'action': 'indexpage', 'topflop': 'top'},
+            data: {'action': 'indexpage'},
             cache: false,
             success: function (chart) {
                 $(container).append(chart);
@@ -198,10 +219,10 @@ function load_charts() {
         var id = "id_Year";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card"> ' +
-            '<a href="./pages/year_overview.php"><div class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
-            '<div id="' + id + '">' +
-            '</div>' +
+            '   <div class="item-content card"> ' +
+            '       <a href="./pages/year_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
+            '       <div    id="' + id + '">' +
+            '   </div>' +
             '</div>';
         var itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
@@ -223,10 +244,10 @@ function load_charts() {
         var id = "id_Cumulative";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card"> ' +
-            '<a href="./pages/cumulative_overview.php"><div class="' + headerclass + '">' + txt["chart_cumulativeoverview"] + '</div></a>' +
-            '<div id="' + id + '">' +
-            '</div>' +
+            '   <div class  ="item-content card"> ' +
+            '       <a href="./pages/cumulative_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_cumulativeoverview"] + '</div></a>' +
+            '       <div id="' + id + '">' +
+            '   </div>' +
             '</div>';
         var itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
@@ -248,10 +269,10 @@ function load_charts() {
         var id = "id_LastYears";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '<div class="item-content card"> ' +
-            '<a href="./pages/last_years_overview.php"><div class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
-            '<div id="' + id + '">' +
-            '</div>' +
+            '   <div class="item-content card"> ' +
+            '       <a href="./pages/last_years_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
+            '       <div id="' + id + '">' +
+            '   </div>' +
             '</div>';
         var itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
@@ -273,26 +294,24 @@ function load_charts() {
         var id = "id_PlantInfo";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '    <div class="item-content card" style="background-color: aqua;"> ' +
-            '          <a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
-            '          <div id="' + id + '">' +
-            '               <div class="index_chart" id="' + id + '" ">' +
-            '                      <div class="highcharts-container" >' +
-            '                           <br><p> Hello World</p> ' +
-            '                           <div style="color:blue">' +
-            '                                      <h1>Anlage von ' + plantInfo['name'] + '</h1>' +
-            '                                      <br>' +
-            '                                      WebSite: ' + plantInfo['website'] + '<br>' +
-            '                                      Standort: ' + plantInfo['location'] + '<br>' +
-            '                                      Module: ' + plantInfo['panels'] + '<br>' +
-            '                                      Wechselrichter: ' + plantInfo['converter'] + '<br>' +
-            '                                      Inbetriebnahme: ' + plantInfo['installationDate'] + '<br>' +
-            '                                      Ausrichtung: ' + plantInfo['orientation'] + '<br>' +
-            '                                      Data Logger: ' + plantInfo['importer'] + '<br> <br>' +
-            '                           </div>' +
-            '                      </div>' +
-            '               </div>' +
+            '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
+            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
+            '      <div class="index_chart" id="' + id + '" ">' +
+            '          <div class="highcharts-container" >' +
+            '             <br><p> Hello World</p> ' +
+            '             <div style="color:blue">' +
+            '                 <h1>Anlage von ' + plantInfo['name'] + '</h1>' +
+            '                 <br>' +
+            '                 WebSite: ' + plantInfo['website'] + '<br>' +
+            '                 Standort: ' + plantInfo['location'] + '<br>' +
+            '                 Module: ' + plantInfo['panels'] + '<br>' +
+            '                 Wechselrichter: ' + plantInfo['converter'] + '<br>' +
+            '                 Inbetriebnahme: ' + plantInfo['installationDate'] + '<br>' +
+            '                 Ausrichtung: ' + plantInfo['orientation'] + '<br>' +
+            '                 Data Logger: ' + plantInfo['importer'] + '<br> <br>' +
+            '             </div>' +
             '          </div>' +
+            '       </div>' +
             '    </div>' +
             '</div>';
         var itemElem = document.createElement('div');
@@ -304,17 +323,17 @@ function load_charts() {
         var id = "id_Image1";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
-            '    <div class="item-content card" style="background-color: aqua;"> ' +
-            '          <a href="./pages/show_plant.php"><div class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
-            '          <div class="index_chart" id="' + id + '" ">' +
-            '               <div class="highcharts-container" >' +
-            '                   <br><p> Hello World</p> ' +
-            '                   <div style="color:blue">' +
-            '                      <img src="./inc/image/solar.png" alt="Italian Trulli" width="400" height="300"> ' +
-            '                   </div>' +
-            '               </div>' +
-            '          </div>' +
-            '    </div>' +
+            '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
+            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
+            '      <div class="index_chart" id="' + id + '" ">' +
+            '         <div class="highcharts-container" >' +
+            '            <br><p> Hello World</p> ' +
+            '            <div style="color:blue">' +
+            '               <img src="./inc/image/image1.jpg" alt="Italian Trulli" width="400" height="300"> ' +
+            '            </div>' +
+            '         </div>' +
+            '     </div>' +
+            '   </div>' +
             '</div>';
         var itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;

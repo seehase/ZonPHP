@@ -12,7 +12,7 @@
                 ?>
             </ul>
             <hr>
-            <?php echo $version ?>
+            <?= $version ?>
             <br/>
             <hr>
         </div>

@@ -17,6 +17,9 @@ if ($params['useWeewx']) {
 }
 ob_end_flush();
 
+// clear password, not to be exposed by accident
+$params['database']['password'] = "undefined";
+
 function checkOrCreateTables($con)
 {
     /****************************************************************************
