@@ -13,7 +13,7 @@ ini_set('display_errors', 1);    // the script you are debugging
 /*********************************************************************
  * sessionID  change only when needed
  *********************************************************************/
-$zonPHPSessionID = "SOLAR3";
+$zonPHPSessionID = "SOLAR4";
 
 $cache_timeout = 500;
 $time_offset = 7200;  // offest in seconds e.g. 2h
