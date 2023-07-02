@@ -6,7 +6,7 @@ include_once ROOT_DIR . "/inc/header.php";
 include_once ROOT_DIR . "/charts/month_chart.php";
 ?>
 <script>
-    var start = '<?= date('Y-m-d', $date_minimum) ?>';
+    var start = '<?= date('Y-m-d', $_SESSION['date_minimum']) ?>';
     var language = '<?= substr($locale, 0, 2) ?>';
     $(document).ready(function () {
         $('#datepicker').datepicker({
@@ -68,13 +68,13 @@ if ($params['hideFooter'] == true) {
             <h2>
                 <button class="btn btn-zonphp"
                         onclick="window.location.href='<?= '?maand=' . date('Y-m', strtotime("-1 months", $chartdate)) . '\'"';
-                        if (date('Y-m', $date_minimum) >= date('Y-m', $chartdate)) echo " hidden"; ?>><i class=" fa
+                        if (date('Y-m', $_SESSION['date_minimum']) >= date('Y-m', $chartdate)) echo " hidden"; ?>><i class=" fa
                         fa-angle-left fa-lg
                 "></i></button>
                 <?= $datum ?>
                 <button class="btn btn-zonphp"
                         onclick="window.location.href='<?= '?maand=' . date('Y-m', strtotime("+1 months", $chartdate)) . '\'"';
-                        if (date('Y-m', $date_maximum) <= date('Y-m', $chartdate)) echo " hidden"; ?>><i class=" fa
+                        if (date('Y-m',  $_SESSION['date_maximum']) <= date('Y-m', $chartdate)) echo " hidden"; ?>><i class=" fa
                         fa-angle-right fa-lg
                 "></i></button>
             </h2>

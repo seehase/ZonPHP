@@ -13,9 +13,21 @@ function getTxt($key)
 
 function isActive($language)
 {
-    if (in_array(strtolower($language), LANGUAGES)) {
+    if (in_array(strtolower($language), $_SESSION['LANGUAGES'])) {
         return true;
     } else {
         return false;
     };
+}
+
+function getConstants($myParams){
+    if (!defined("TABLE_PREFIX")) {
+        define('TABLE_PREFIX', $myParams['database']['tablePrefix']);
+    }
+    if (!defined("STARTDATE")) {
+        define('STARTDATE', $myParams['installationDate']);
+    }
+    if (!defined("PLANTS")) {
+        define('PLANTS', $_SESSION['PLANTS']);
+    }
 }

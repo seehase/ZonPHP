@@ -7,7 +7,7 @@ include_once "../charts/day_chart_UTC.php";
 ?>
 
 <script>
-    var start = '<?= date('Y-m-d', $date_minimum) ?>';
+    var start = '<?= date('Y-m-d', $_SESSION['date_minimum']) ?>';
     var language = '<?= substr($locale, 0, 2) ?>';
     $(document).ready(function () {
         $('#datepicker').datepicker({
@@ -64,12 +64,12 @@ if ($params['hideFooter'] == true) {
             <h2>
                 <button class="btn btn-zonphp "
                         onclick="window.location.href='<?= '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"';
-                        if ($date_minimum >= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-left fa-lg
+                        if ($_SESSION['date_minimum'] >= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-left fa-lg
                 "></i></button>
                 <?= $datum ?>
                 <button class="btn btn-zonphp"
                         onclick="window.location.href='<?= '?dag=' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '\'"';
-                        if ($date_maximum <= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-right fa-lg
+                        if ( $_SESSION['date_maximum'] <= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-right fa-lg
                 "></i></button>
             </h2>
             <div class="block2">

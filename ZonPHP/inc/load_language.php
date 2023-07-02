@@ -2,10 +2,11 @@
 
 // php8.0 ready
 $language = "en";
-$default_language = $params['defaultLanguage']; --> auch in init setzten bzw garnicht und immer aus in params lesen
+$default_language = $params['defaultLanguage'];
+// fixme; --> auch in init setzten bzw garnicht und immer aus in params lesen
 
 $default_language = strtolower($default_language);
---> in param validate machen nicht mehr hier
+// fixme; --> in param validate machen nicht mehr hier
 if ($default_language === "de" || $default_language === "en" || $default_language === "fr" || $default_language === "nl") {
     $language = $default_language;
 }
@@ -15,7 +16,7 @@ if (isset($_SESSION['language'])) {
     $language = $_SESSION['language'];
 } else {
     $_SESSION['language'] = $default_language;
-    xxx force load wenn in session nicht gesetzt???
+    // fixme;  xxx force load wenn in session nicht gesetzt???
 }
 
 // if new language is set via URL parameter
@@ -24,7 +25,7 @@ if (isset($_GET['language'])) {
     // load default language
     $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
     // than override with new language
-    xxx
+    // fixme; xxx
     // fixme: check if language is in suppoerted langiuage  you can set ?language=dsfhskdfjhdjshf
 
     $language = $_GET['language'];

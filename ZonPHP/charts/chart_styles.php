@@ -105,9 +105,7 @@ $chart_options =
                 backgroundColor: '" . $colors['color_chartbackground'] . "',
                 enabled: $show_legende,
      },                                
-     tooltip: {
-                    xDateFormat: '" . CHART_DATE_FORMAT['chart_date_format'] . "'
-              },
+     tooltip: {},
      plotOptions: {
                 series: {
                     cursor: 'pointer',

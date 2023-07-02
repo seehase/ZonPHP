@@ -23,13 +23,13 @@ if ($params['useWeewx']) {
     <script>
         $(function () {
             // pass txt to JavaScript
-            txt = <?= json_encode($txt); ?>;
+            txt = <?= json_encode($_SESSION['txt']); ?>;
             theme = <?= json_encode($colors); ?>;
-            cardlayout = <?= json_encode(CARDS); ?>;
+            cardlayout = <?= json_encode($_SESSION['CARDS']); ?>;
             plants = <?= json_encode(PLANTS); ?>;
             plantInfo = <?= json_encode($params['plant']); ?>;
             daytext = <?= '"' . $daytext . '"'; ?>;
-            charts = <?= json_encode(CHART_DATE_FORMAT); ?>;
+            charts = <?= json_encode(array("chart_date_format" => "")); ?>;
             colors = <?= json_encode($colors); ?>;
         });
     </script>
