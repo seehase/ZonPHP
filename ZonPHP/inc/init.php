@@ -54,7 +54,8 @@ if (isset($_SESSION['language'])) {
 }
 
 $locale = 'en-US';
-// date_default_timezone_set('Europe/Brussels');
+date_default_timezone_set("UTC");
+
 if ($language == "nl") {
     $locale = 'nl-NL'; // For IntlDateFormatter
 }
