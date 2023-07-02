@@ -10,17 +10,22 @@ include_once "connect.php";
 if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout) > (time())) {
     // cache still valid --> do not reload cache
     if ($debugmode) error_log("cache hit --> ");
-    // copy data from session into variabls
-
 
     // error_log("cache is valid  " . ($_SESSION['lastupdate'] + $cache_timeout) . " - " . time());
 } else {
     // reload cache
     if ($debugmode) error_log("cache failed --> need to reload data");
-    include_once "load_language.php";
 
-    // load color and theme
+    // force reload language
+    unset($_SESSION['txt']);
+    include_once ROOT_DIR . "/inc/load_language.php";
+    loadLanguage($params);
+
+    // force load theme and color
+    unset($_SESSION['colors']);
     include_once ROOT_DIR . "/inc/load_themes.php";
+    loadTheame($params);
+    $colors = $_SESSION['colors'];
 
     // fixme: integrate into cache... after importing data force reload of paramater
     // load first and last date of date

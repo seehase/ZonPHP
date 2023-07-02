@@ -1,57 +1,30 @@
 <?php
 
-// php8.0 ready
-$language = "en";
-$default_language = $params['defaultLanguage'];
-// fixme; --> auch in init setzten bzw garnicht und immer aus in params lesen
+// force to load missing or changed language
+function loadLanguage($params)
+{
+    // if new language is set via URL parameter and exists, or no text in session --> RELOAD
+    if ((isset($_GET['language']) && isActive($_GET['language'])) || !isset($_SESSION['txt'])) {
+        // user default language for this installation defined in parameters
+        $default_user_language = $params['defaultLanguage'];
 
-$default_language = strtolower($default_language);
-// fixme; --> in param validate machen nicht mehr hier
-if ($default_language === "de" || $default_language === "en" || $default_language === "fr" || $default_language === "nl") {
-    $language = $default_language;
-}
-
-
-if (isset($_SESSION['language'])) {
-    $language = $_SESSION['language'];
-} else {
-    $_SESSION['language'] = $default_language;
-    // fixme;  xxx force load wenn in session nicht gesetzt???
-}
-
-// if new language is set via URL parameter
-if (isset($_GET['language'])) {
-    if ($debugmode) error_log("calling load_language --> reload needed");
-    // load default language
-    $txt = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
-    // than override with new language
-    // fixme; xxx
-    // fixme: check if language is in suppoerted langiuage  you can set ?language=dsfhskdfjhdjshf
-
-    $language = $_GET['language'];
-    unset($_GET['language']);
-
-    $_SESSION['language'] = $language;
-    $txt = parse_ini_file(ROOT_DIR . "/inc/language/" . $language . ".ini", false);
-    $_SESSION['txt'] = $txt;
-
-} else {
-    if ($debugmode) error_log("calling load_language --> cache hit");
-    if (isset($_SESSION['txt'])) {
-        // take txt from session if set (normal case)
-        $txt = $_SESSION['txt'];
-    } else {
-        // nothing set reload from scratch
+        // always load default language
         $defaultTXT = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
-        $userTXT = parse_ini_file(ROOT_DIR . "/inc/language/" . $language . ".ini", false);
-        $txt = array_merge($defaultTXT, $userTXT);
-        $_SESSION['txt'] = $txt;
-    }
-    if (isset($_SESSION['language'])) {
-        $language = $_SESSION['language'];
+
+        // than load and override with new language
+        if (isset($_GET['language'])) {
+            $languageToLoad = strtolower($_GET['language']);
+        } else {
+            // in case on new session or no TXT in session load user default language
+            $languageToLoad = $default_user_language;
+        }
+        $userTXT = array();
+        if ($languageToLoad != "en") {
+            // EN is already loaded, no need to load again
+            $userTXT = parse_ini_file(ROOT_DIR . "/inc/language/" . $languageToLoad . ".ini", false);
+        }
+        $_SESSION['language'] = $languageToLoad;
+        $_SESSION['txt'] = array_merge($defaultTXT, $userTXT);
+        unset($_GET['language']);
     }
 }
-
-
-
-

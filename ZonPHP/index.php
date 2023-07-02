@@ -1,6 +1,5 @@
 <?php
 include_once "inc/init.php";
-include_once "inc/sessionstart.php";
 include_once "inc/load_cache.php";
 
 $aoplopendkwdag[] = 0;
@@ -24,7 +23,7 @@ if ($params['useWeewx']) {
         $(function () {
             // pass txt to JavaScript
             txt = <?= json_encode($_SESSION['txt']); ?>;
-            theme = <?= json_encode($colors); ?>;
+            theme = <?= json_encode($_SESSION['colors']); ?>;
             cardlayout = <?= json_encode($_SESSION['CARDS']); ?>;
             plants = <?= json_encode(PLANTS); ?>;
             plantInfo = <?= json_encode($params['plant']); ?>;

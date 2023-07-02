@@ -1,9 +1,9 @@
 <?php
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/last_years_chart.php";
+
 $inverter = $_SESSION['plant'];
 if (isset($_POST['inverter'])) {
     $inverter = $_POST['inverter'];

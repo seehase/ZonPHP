@@ -4,7 +4,6 @@
  * Information
  ******************************************************************************
 
-
 installationDate = 2011-11-10
 plants = SEEHASE, TILLY
 plantskWp = 5040, 3000
@@ -13,7 +12,6 @@ userTheme = DarkGreyFire
 displayInterval = 5  ;allowed:  1,2,3,4,5,6,10,12,15,20,30,60 sample  xls = 10, SolarLog = 5, SIC = 4
 coefficient = 1
 importer = sunny_explorer_seehase
-supportedLanguages = de, EN, fr ; values DE, FR, NL, EN default all
 autoReload = 0
 useWeewx = false
 emu = false

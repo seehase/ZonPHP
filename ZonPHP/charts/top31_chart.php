@@ -1,11 +1,8 @@
 <?php
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 
-
 $DESC_ASC = "DESC";
-$txt["top31"] = "Top";
 $showTopFlop = "top31_chart";
 $isIndexPage = false;
 

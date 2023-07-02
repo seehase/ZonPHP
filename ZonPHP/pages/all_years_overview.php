@@ -1,6 +1,5 @@
 <?php
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/all_years_chart.php";

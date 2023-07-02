@@ -1,6 +1,6 @@
 <?php
 /**
- common functions
+ * common functions
  */
 function getTxt($key)
 {
@@ -13,21 +13,63 @@ function getTxt($key)
 
 function isActive($language)
 {
-    if (in_array(strtolower($language), $_SESSION['LANGUAGES'])) {
+    if (in_array(strtolower($language), LANGUAGES)) {
         return true;
     } else {
         return false;
     };
 }
 
-function getConstants($myParams){
-    if (!defined("TABLE_PREFIX")) {
-        define('TABLE_PREFIX', $myParams['database']['tablePrefix']);
+
+function checkChangedConfigFiles()
+{
+    // check parameter.php
+    $paramsFileDate = filemtime(ROOT_DIR . "/parameters.php");
+    if (!isset($_SESSION['paramsFileDate'])) {
+        $_SESSION['paramsFileDate'] = $paramsFileDate;
+        return true;
+    } else {
+        if ($_SESSION['paramsFileDate'] < $paramsFileDate) {
+            $_SESSION['paramsFileDate'] = $paramsFileDate;
+            unset($_SESSION['params']);
+            unset($_SESSION['txt']);
+            unset($_SESSION['colors']);
+            return true;
+        }
     }
-    if (!defined("STARTDATE")) {
-        define('STARTDATE', $myParams['installationDate']);
+
+    // check language files
+    $languageFiles = scandir(ROOT_DIR . "/inc/language");
+    $hash = "";
+    foreach ($languageFiles as $file) {
+        $hash .= filemtime(ROOT_DIR . "/inc/language/" . $file);
     }
-    if (!defined("PLANTS")) {
-        define('PLANTS', $_SESSION['PLANTS']);
+    $hash = md5($hash);
+    if (!isset($_SESSION['languageFilesHash'])) {
+        $_SESSION['languageFilesHash'] = $hash;
+    } else {
+        if ($_SESSION['languageFilesHash'] != $hash) {
+            $_SESSION['languageFilesHash'] = $hash;
+            unset($_SESSION['txt']);
+            return true;
+        }
     }
+
+    // check themes files
+    $themeFiles = scandir(ROOT_DIR . "/inc/themes");
+    $hash = "";
+    foreach ($themeFiles as $file) {
+        $hash .= filemtime(ROOT_DIR . "/inc/themes/" . $file);
+    }
+    $hash = md5($hash);
+    if (!isset($_SESSION['themeFilesHash'])) {
+        $_SESSION['themeFilesHash'] = $hash;
+    } else {
+        if ($_SESSION['themeFilesHash'] != $hash) {
+            $_SESSION['themeFilesHash'] = $hash;
+            unset($_SESSION['colors']);
+            return true;
+        }
+    }
+    return false;
 }

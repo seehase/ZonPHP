@@ -1,4 +1,12 @@
 <?php
+/**
+ * Init set default values and constants for this installation
+ * starts session and loads parameter, language and themes without database access
+ * Try to get all values from session and load only when needed
+ *
+ */
+include_once "version_info.php";
+include_once "common.php";  // include common library functions to be used everywhere
 
 $debugmode = false;
 error_reporting(E_ALL);          // place these two lines at the top of
@@ -8,16 +16,15 @@ ini_set('display_errors', 1);    // the script you are debugging
 /*********************************************************************
  * start session change $zonPHPSessionID when needed
  *********************************************************************/
-$zonPHPSessionID = "SOLAR4";
+
 session_name($zonPHPSessionID);
 session_start();
 
+
 /*********************************************************************
- * define pathes
+ * define path's and installed languages
  *********************************************************************/
-
-include_once "common.php";
-
+const LANGUAGES = array("en", "de", "fr", "nl");
 define('ROOT_DIR', realpath(substr(realpath(__DIR__ . '/'), 0, -4) . '/'));
 $tmpHTMLPath = str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
 if (strlen($tmpHTMLPath) == 0) $tmpHTMLPath = "/";
@@ -29,8 +36,10 @@ if ($tmpHTMLPath[strlen($tmpHTMLPath) - 1] != "/") {
 }
 define('HTML_PATH', $tmpHTMLPath);
 define('PHP_PATH', ltrim(HTML_PATH, '/'));
+checkChangedConfigFiles();
 
-include_once ROOT_DIR . "/inc/version_info.php";
+
+
 
 //echo "HTML_PATH: " .  HTML_PATH. "<br>";
 //echo "ROOT_DIR: " .  ROOT_DIR. "<br>";
@@ -42,26 +51,31 @@ include_once ROOT_DIR . "/inc/version_info.php";
  *********************************************************************/
 if (!isset($_SESSION['params']) || isset($_GET['params'])) {
     include_once "load_parameters.php";
-} else {
-    $params = $_SESSION['params'];
+    loadParams();
 }
-getConstants($params);
+$params = $_SESSION['params'];
+if (!defined("TABLE_PREFIX")) {
+    define('TABLE_PREFIX', $params['database']['tablePrefix']);
+}
+if (!defined("STARTDATE")) {
+    define('STARTDATE', $params['installationDate']);
+}
+if (!defined("PLANTS")) {
+    define('PLANTS', $_SESSION['PLANTS']);
+}
 
+// language
 if (!isset($_SESSION['txt']) || isset($_GET['language'])) {
     include_once "load_language.php";
-    // fixme: still needed?
-    $txt = $_SESSION['txt'];
+    loadLanguage($params);
 }
-if (!isset($_SESSION['colors']) || isset($_GET['theme'])) {
+// theme
+if (!isset($_SESSION['colors']) || !isset($_SESSION['theme']) || isset($_GET['theme'])) {
     include_once "load_themes.php";
-} else {
-    $colors = $_SESSION['colors'];
+    loadTheame($params);
 }
-// set default inverter
-// FIXME: still needed?
-if (isset($_GET['naam'])) {
-    $_SESSION['plant'] = $_GET['naam'];
-}
+$colors = $_SESSION['colors'];
+
 // set default plant
 if (!isset($_SESSION['plant'])) {
     $_SESSION['plant'] = PLANTS[0];
@@ -87,26 +101,19 @@ if (isset($_SESSION['new_version_label'])) $new_version_label = $_SESSION['new_v
 // fixme
 $total_sum_for_all_years = 0;
 
-if (isset($_SESSION['language'])) {
-    $language = $_SESSION['language'];
-} else {
-    $language = $params['defaultLanguage'];
-}
-
-$locale = 'en-US';
 date_default_timezone_set("UTC");
-
-if ($language == "nl") {
-    $locale = 'nl-NL'; // For IntlDateFormatter
-}
-if ($language == "fr") {
-    $locale = 'fr-FR'; // For IntlDateFormatter
-}
-if ($language == "de") {
-    $locale = 'de-DE'; // For IntlDateFormatter
-}
-if ($language == "en") {
-    $locale = 'en-US'; // For IntlDateFormatter
+switch ($_SESSION['language']) {
+    case "nl":
+        $locale = 'nl-NL';
+        break;
+    case  "fr":
+        $locale = 'fr-FR';
+        break;
+    case "de":
+        $locale = 'de-DE';
+        break;
+    default:
+        $locale = 'en-US';
 }
 
 // preparing a localized month array

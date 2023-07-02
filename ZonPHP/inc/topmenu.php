@@ -34,7 +34,9 @@
                     <li><a class="dropdown-item"
                            href="<?= HTML_PATH ?>pages/top31.php"><?= getTxt("chart_31days") ?></a>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li>
                         <a class="dropdown-item"
                            href="<?= HTML_PATH ?>pages/show_plant.php"><?= getTxt("plant") ?></a>
@@ -54,14 +56,13 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                     <?php
                     $themes = $_SESSION['themes'];
-                    $list = "";
-                      foreach ($themes as $key => $theme){
-                          $list .= '<li><a class="dropdown-item" href=?theme=' . $key . '>' . $theme['info']['name'] . '<li></li>
-';
-                      }
-                      echo $list;
+                    foreach ($themes as $key => $theme) {
+                        echo "\t" . '<li><a class="dropdown-item" href=?theme=' . $key . ' onclick="target=\'_self\'">' . $theme['info']['name'] . '<li></li>' . "\r\n";
+                    }
                     ?>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li><a class="dropdown-item"
                            href="<?= HTML_PATH ?>inc/destroy.php"><?= getTxt("clearsession") ?> </a>
                     </li>
@@ -71,22 +72,22 @@
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false">
-                    <img src="<?= HTML_PATH ?>inc/image/<?= $language ?>.svg" class="flag" alt="English"
+                    <img src="<?= HTML_PATH ?>inc/image/<?= $_SESSION['language'] ?>.svg" class="flag" alt="English"
                          title="English">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a class="dropdown-item" href="?language=en" onclick="target='_self'">
+                    <li><a class="dropdown-item" href=?language=en onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/image/en.svg" class="flag" alt="English" title="English">&nbsp;English</a>
                     </li>
-                    <li><a class="dropdown-item" href="?language=de" onclick="target='_self'">
+                    <li><a class="dropdown-item" href=?language=de onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/image/de.svg" class="flag" alt="Deutsch" title="Deutsch">&nbsp;Deutsch</a>
                     </li>
-                    <li><a class="dropdown-item" href="?language=nl" onclick="target='_self'">
+                    <li><a class="dropdown-item" href=?language=nl onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/image/nl.svg" class="flag" alt="Nederlands"
                                  title="Nederlands">&nbsp;Nederlands</a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="?language=fr" onclick="target='_self'">
+                        <a class="dropdown-item" href=?language=fr onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/image/fr.svg" class="flag" alt="Français"
                                  title="Français">&nbsp;Français</a>
                     </li>

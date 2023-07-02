@@ -1,8 +1,12 @@
 <?php
 
-$params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
-vadidateParams($params);
-$_SESSION['params'] = $params;
+function loadParams()
+{
+    $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
+    vadidateParams($params);
+    $_SESSION['params'] = $params;
+    return $params;
+}
 
 // FIXME: enhance validation
 //   style-cards: remove duplicates, if null add all
@@ -42,11 +46,13 @@ function vadidateParams(&$params)
     $params['totalExpectedYield'] = $totalExpectedYield;
     $params['expectedYield'] = $expectedYield;
 
-    $languages = preg_split('/\s*,\s*/', trim($params['supportedLanguages']));
-    $languages = array_map('strtolower', $languages);
-    $_SESSION['LANGUAGES'] = $languages;
 
     $cards = preg_split('/\s*,\s*/', trim($params['layout']['cards']));
     $_SESSION['CARDS'] = $cards;
+    // fixme: check if theme exists, else "default"
     $params['userTheme'] = strtolower($params['userTheme']);
+    $params['defaultLanguage'] = strtolower($params['defaultLanguage']);
+    if (!isActive($params['defaultLanguage'])) {
+        $params['defaultLanguage'] = "en";
+    }
 }

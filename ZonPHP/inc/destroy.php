@@ -1,7 +1,10 @@
 <?php
-include_once "../inc/init.php";
-include_once "../inc/sessionstart.php";
+include_once "version_info.php";
 
-$_SESSION = array();
+session_name($zonPHPSessionID);
+session_start();
+unset($_SESSION['params']);
+unset($_SESSION['txt']);
+unset($_SESSION['colors']);
 session_destroy();
 header('location:../index.php');
