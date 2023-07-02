@@ -5,8 +5,8 @@ include_once ROOT_DIR . "/inc/load_cache.php";
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
 $chartdatestring = date("Y-m-d", $chartdate);
-if (isset($_GET['dag'])) {
-    $chartdatestring = html_entity_decode($_GET['dag']);
+if (isset($_GET['date'])) {
+    $chartdatestring = html_entity_decode($_GET['date']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
     $chartdatestring = date("Y-m-d", $chartdate);

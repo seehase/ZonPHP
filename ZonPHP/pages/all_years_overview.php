@@ -8,25 +8,6 @@ if (isset($_SESSION['lastupdate'])) {
     $_SESSION['lastupdate'] = 0;
 }
 
-$paramstr_choose = '';
-$paramstr_day = '';
-# remove naam parameter
-if (sizeof($_GET) > 0) {
-    foreach ($_GET as $key => $value) {
-        if (!(($key == "naam") || ($key == "type"))) {
-            $paramstr_choose .= $key . "=" . $value . "&";
-        }
-        if ($key != "dag") {
-            $paramstr_day .= $key . "=" . $value . "&";
-        }
-    }
-}
-if (strpos($paramstr_day, "?") == 0) {
-    $paramstr_day = '?' . $paramstr_day;
-}
-if (strpos($paramstr_choose, "?") == 0) {
-    $paramstr_choose = '?' . $paramstr_choose;
-}
 $footer_display_style = "clear:both; ";
 if ($params['hideFooter'] == true) {
     $padding = '- 35px';
