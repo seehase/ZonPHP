@@ -12,8 +12,8 @@ $chartdate = $chartcurrentdate;
 
 $chartdatestring = date("Y-m-d", $chartdate);
 
-if (isset($_GET['jaar'])) {
-    $chartdatestring = html_entity_decode($_GET['jaar']);
+if (isset($_GET['dag'])) {
+    $chartdatestring = html_entity_decode($_GET['dag']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
     $chartdatestring = date("Y-m-d", $chartdate);

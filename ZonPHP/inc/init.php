@@ -20,7 +20,6 @@ ini_set('display_errors', 1);    // the script you are debugging
 session_name($zonPHPSessionID);
 session_start();
 
-
 /*********************************************************************
  * define path's and installed languages
  *********************************************************************/
@@ -37,9 +36,6 @@ if ($tmpHTMLPath[strlen($tmpHTMLPath) - 1] != "/") {
 define('HTML_PATH', $tmpHTMLPath);
 define('PHP_PATH', ltrim(HTML_PATH, '/'));
 checkChangedConfigFiles();
-
-
-
 
 //echo "HTML_PATH: " .  HTML_PATH. "<br>";
 //echo "ROOT_DIR: " .  ROOT_DIR. "<br>";
@@ -96,6 +92,8 @@ $big_chart_height = 500;
 //fixme: version check
 $github_version = "unknown";
 $new_version_label = "";
+$_SESSION['date_minimum'] = strtotime($params['installationDate'] . " 00:00:00");
+$_SESSION['date_maximum'] = strtotime('today midnight');
 if (isset($_SESSION['github_version'])) $github_version = $_SESSION['github_version'];
 if (isset($_SESSION['new_version_label'])) $new_version_label = $_SESSION['new_version_label'];
 // fixme

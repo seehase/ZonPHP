@@ -38,7 +38,7 @@ if (sizeof($_GET) > 0) {
         if (!(($key == "naam") || ($key == "type"))) {
             $paramstr_choose .= $key . "=" . $value . "&";
         }
-        if ($key != "jaar") {
+        if ($key == "dag") {
             $paramstr_day .= $key . "=" . $value . "&";
         }
     }
@@ -67,12 +67,12 @@ if ($params['hideFooter'] == true) {
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp "
-                        onclick="window.location.href='<?= '?dag=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"';
+                        onclick="window.location.href='<?= '?dag=' . date('Y-m-d', strtotime("-1 year", $chartdate)) . '\'"';
                         if ($_SESSION['date_minimum'] >= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-left fa-lg
                 "></i></button>
                 <?= $datum ?>
                 <button class="btn btn-zonphp"
-                        onclick="window.location.href='<?= '?dag=' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '\'"';
+                        onclick="window.location.href='<?= '?dag=' . date('Y-m-d', strtotime("+1 year", $chartdate)) . '\'"';
                         if ( $_SESSION['date_maximum'] <= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-right fa-lg
                 "></i></button>
             </h2>
