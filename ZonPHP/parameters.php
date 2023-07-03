@@ -53,6 +53,19 @@ orientation = "180 Grad 30 Grad Neigung"
 location = Ingolstadt
 totalCapacity = 8040 kWp
 
+[images]
+image1[title] = "Wechselrichter"
+image1[description] = "Wechselrichter + Stromzähler"
+image1[uri] = "image1.jpg"
+
+image2[title] = "Dach"
+image2[description] =
+image2[uri] = "image2.jpg"
+
+image3[title] = "internet"
+image3[description] = "source: wikipedia"
+image3[uri] = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
+
 [weewx]
 server = localhost
 username = weewx

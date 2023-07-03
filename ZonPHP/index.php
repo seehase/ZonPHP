@@ -30,6 +30,7 @@ if ($params['useWeewx']) {
             daytext = <?= '"' . $daytext . '"'; ?>;
             charts = <?= json_encode(array("chart_date_format" => "")); ?>;
             colors = <?= json_encode($colors); ?>;
+            images = <?= json_encode($params['images']); ?>;
         });
     </script>
 
