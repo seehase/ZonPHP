@@ -22,25 +22,23 @@ function load_charts() {
 
     var layout = window.localStorage.getItem('layout');
     if (layout) {
-        console.log("stored Layout " + layout);
+
         loadLayout(grid, layout);
     } else {
         grid.layout(true);
-        console.log("Layout default");
+
     }
 
     function serializeLayout(grid) {
         var itemIds = grid.getItems().map(function (item) {
             return item.getElement().getAttribute('data-id');
         });
-        console.log(JSON.stringify(itemIds));
         return JSON.stringify(itemIds);
     }
 
     function saveLayout(grid) {
         var layout = serializeLayout(grid);
         window.localStorage.setItem('layout', layout);
-        console.log("Layout saved");
     }
 
     function loadLayout(grid, serializedLayout) {
@@ -62,7 +60,7 @@ function load_charts() {
         }
 
         grid.sort(newItems, {layout: 'instant'});
-        console.log("Layout loaded");
+
     }
 
     var headerclass = "jqx-window-header jqx-window-header-index-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp"
@@ -70,7 +68,6 @@ function load_charts() {
     /* load all charts according order */
 
     function loadCard(name) {
-        console.log('loadCard ${name}.');
         name = name.toUpperCase();
         switch (name) {
             case 'DAY':
@@ -97,14 +94,14 @@ function load_charts() {
             case 'PLANTS':
                 addPlants();
                 break;
-            case 'IMAGE':
+            case 'IMAGES':
                 addImages();
                 break;
             case 'TOP':
                 addBest();
                 break;
             default:
-                console.log('Sorry, we are out of ${name}.');
+                console.log("Sorry, we are out of " +  name);
         }
     }
 
