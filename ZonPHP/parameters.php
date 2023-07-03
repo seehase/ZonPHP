@@ -34,14 +34,14 @@ tablePrefix = tgeg
 name = Seehase
 capacity = 5040
 importPrefix = seehase
-image = "inc/image/image1.jpg"
+image = "inc/images/image1.jpg"
 expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
 
 [TILLY]
 name = Tillman
 capacity = 3000
 importPrefix = tilly
-image = "inc/image/image2.jpg"
+image = "inc/images/image2.jpg"
 expectedYield = 175,272,395,491,573,542,603,546,443,332,193,131
 
 [plant]

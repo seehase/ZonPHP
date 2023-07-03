@@ -18,13 +18,13 @@ if (isset($_GET["fout"])) {
             <h1 class="notopgap" align="center"><?= getTxt("bestezonphp"); ?>,</h1>
             <center>
                 Uw Taal:<a href='?language=nl&amp;fout=<?= $error ?>' TARGET='_self'><img
-                            src="../inc/image/nl.svg" alt="nl" border="0" width="16" height="11"></a>&nbsp;&nbsp;
+                            src="../inc/images/nl.svg" alt="nl" border="0" width="16" height="11"></a>&nbsp;&nbsp;
                 Your language:<a href='?language=en&amp;fout=<?= $error ?>' TARGET='_self'><img
-                            src="../inc/image/en.svg" alt="en" border="0" width="16" height="11"></a>&nbsp;&nbsp;
+                            src="../inc/images/en.svg" alt="en" border="0" width="16" height="11"></a>&nbsp;&nbsp;
                 Votre langue:<a href='?language=fr&amp;fout=<?= $error ?>' TARGET='_self'><img
-                            src="../inc/image/fr.svg" alt="fr" border="0" width="16" height="11"></a>&nbsp;&nbsp;
+                            src="../inc/images/fr.svg" alt="fr" border="0" width="16" height="11"></a>&nbsp;&nbsp;
                 Ihre Sprache:<a href='?language=de&amp;fout=<?= $error; ?>' TARGET='_self'><img
-                            src="../inc/image/de.svg" alt="de" border="0" width="16" height="11"></a>
+                            src="../inc/images/de.svg" alt="de" border="0" width="16" height="11"></a>
             </center>
             <hr>
             <br/>

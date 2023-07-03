@@ -4,7 +4,7 @@
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false" href="<?= HTML_PATH ?>index.php">
-                    <img src="<?= HTML_PATH ?>inc/image/logo_reverse.svg" alt="ZonPHP logo" height="28">
+                    <img src="<?= HTML_PATH ?>inc/images/logo_reverse.svg" alt="ZonPHP logo" height="28">
                 </a>
                 <ul class="dropdown-menu">
                     <li>
@@ -51,7 +51,7 @@
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false">
-                    <img src="<?= HTML_PATH ?>inc/image/themes_4x3.svg" class="theme" alt="Theme" title="Theme">
+                    <img src="<?= HTML_PATH ?>inc/images/themes_4x3.svg" class="theme" alt="Theme" title="Theme">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <?php
@@ -72,23 +72,23 @@
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false">
-                    <img src="<?= HTML_PATH ?>inc/image/<?= $_SESSION['language'] ?>.svg" class="flag" alt="English"
+                    <img src="<?= HTML_PATH ?>inc/images/<?= $_SESSION['language'] ?>.svg" class="flag" alt="English"
                          title="English">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a class="dropdown-item" href=?language=en onclick="target='_self'">
-                            <img src="<?= HTML_PATH ?>inc/image/en.svg" class="flag" alt="English" title="English">&nbsp;English</a>
+                            <img src="<?= HTML_PATH ?>inc/images/en.svg" class="flag" alt="English" title="English">&nbsp;English</a>
                     </li>
                     <li><a class="dropdown-item" href=?language=de onclick="target='_self'">
-                            <img src="<?= HTML_PATH ?>inc/image/de.svg" class="flag" alt="Deutsch" title="Deutsch">&nbsp;Deutsch</a>
+                            <img src="<?= HTML_PATH ?>inc/images/de.svg" class="flag" alt="Deutsch" title="Deutsch">&nbsp;Deutsch</a>
                     </li>
                     <li><a class="dropdown-item" href=?language=nl onclick="target='_self'">
-                            <img src="<?= HTML_PATH ?>inc/image/nl.svg" class="flag" alt="Nederlands"
+                            <img src="<?= HTML_PATH ?>inc/images/nl.svg" class="flag" alt="Nederlands"
                                  title="Nederlands">&nbsp;Nederlands</a>
                     </li>
                     <li>
                         <a class="dropdown-item" href=?language=fr onclick="target='_self'">
-                            <img src="<?= HTML_PATH ?>inc/image/fr.svg" class="flag" alt="Français"
+                            <img src="<?= HTML_PATH ?>inc/images/fr.svg" class="flag" alt="Français"
                                  title="Français">&nbsp;Français</a>
                     </li>
                 </ul>

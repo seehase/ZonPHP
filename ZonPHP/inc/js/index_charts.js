@@ -326,7 +326,7 @@ function load_charts() {
             if (images[key]['uri'].indexOf("http") >= 0) {
                 uri = images[key]['uri'];
             } else {
-                uri = './inc/image/' + images[key]['uri'];
+                uri = './images/' + images[key]['uri'];
             }
             let id = "id_image_" + key;
             var itemTemplate = '' +
