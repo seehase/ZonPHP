@@ -34,15 +34,25 @@ tablePrefix = tgeg
 name = Seehase
 capacity = 5040
 importPrefix = seehase
-image = "inc/images/image1.jpg"
+image = "image1.jpg"
 expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
+website = https://solar.seehausen.org
+panels = "5040Wq = 21*Trina TSM-240 PC05 Poly"
+converter = "SMA SB 5000TL20 ESS"
+orientation = "180 Grad 30 Grad Neigung"
+location = Ingolstadt
 
 [TILLY]
 name = Tillman
 capacity = 3000
 importPrefix = tilly
-image = "inc/images/image2.jpg"
+image = "image2.jpg"
 expectedYield = 175,272,395,491,573,542,603,546,443,332,193,131
+website = https://solar.seehausen.org
+panels = "3000Wq = 10* panleös"
+converter = "SMA SB 3000TL10"
+orientation = "180 Grad 30 Grad Neigung"
+location = Ingolstadt
 
 [plant]
 name = ZonPHP Seehausen Solar

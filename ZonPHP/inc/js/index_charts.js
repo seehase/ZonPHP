@@ -320,7 +320,6 @@ function load_charts() {
     }
 
     function addImages() {
-
         for (const key in images) {
             let uri = '';
             if (images[key]['uri'].indexOf("http") >= 0) {
