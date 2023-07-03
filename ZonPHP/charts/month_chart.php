@@ -1,7 +1,5 @@
 <?php
-
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 
 $isIndexPage = false;
@@ -15,8 +13,8 @@ $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
 
 $chartdatestring = date("Y-m-d", $chartdate);
-if (isset($_GET['maand'])) {
-    $chartdatestring = html_entity_decode($_GET['maand']);
+if (isset($_GET['date'])) {
+    $chartdatestring = html_entity_decode($_GET['date']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
     $chartdatestring = date("Y-m-d", $chartdate);
@@ -24,7 +22,7 @@ if (isset($_GET['maand'])) {
 // -----------------------------  get data from DB -----------------------------------------------------------------
 $current_year = date('Y', $chartdate);
 $current_month = intval(date('m', $chartdate));
-$current_year_month = "" . date('Y-m', $chartdate);
+$current_year_month = date('Y-m', $chartdate);
 
 // get reference values
 $nfrefmaand = array();

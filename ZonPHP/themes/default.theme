@@ -1,3 +1,8 @@
+[info]
+name = "Default Theme"
+author = Seehase
+
+[colors]
 color_background = #888888
 color_background_body = #888888
 color_footerbackground = #C00000
@@ -5,7 +10,7 @@ color_menubackground = #ffffff
 color_menufont = #000000
 color_windowfont = #ffffff
 color_windowcolor = #000000
-color_image_windowtitle = "inc/image/bg_default.png"
+color_image_windowtitle = "inc/images/bg_default.png"
 color_chartbackground = #888888
 color_chartbar1 = #003399
 color_chartbar2 = #3366AA

@@ -1,3 +1,8 @@
+[info]
+name = "Julia Theme"
+author = Julia
+
+[colors]
 color_background = #824523
 color_background_body = #aaaaaa
 color_footerbackground = #E7A75B
@@ -5,7 +10,7 @@ color_menubackground = #B8895F
 color_menufont = #53402f
 color_windowfont = #ffffff
 color_windowcolor = #FFBF87
-color_image_windowtitle = "inc/image/bg_julia.png"
+color_image_windowtitle = "inc/images/bg_julia.png"
 color_chartbackground = #FFDCBC
 color_chartbar1 = #FF1C33
 color_chartbar2 = #700000

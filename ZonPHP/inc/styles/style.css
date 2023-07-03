@@ -114,12 +114,20 @@ body {
     transition: transform .25s ease
 }
 
+.theme {
+    width: 28px;
+    height: 21px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    
+}
+
 .flag {
     width: 20px;
     height: 15px;
     margin-bottom: 0px;
     margin-top: 0px;
-    box-shadow: 0 0 1px 1px white inset;
+    
 }
 
 .flag.flag-fr {
@@ -276,7 +284,7 @@ body {
 
 .btn-zonphp:hover {
     background-color: #286090 !important;
-    color: #db1010 !important;
+    color: #ffffff !important;
 }
 
 .buttonbox {
@@ -355,6 +363,20 @@ body {
 @media only screen and (max-width: 993px)  {
     #headerinverter {
         padding-top: 9px;
+    }
+}
+
+@media screen and (min-width: 593px) {
+    .dropdown .dropdown-menu.show {
+        display: none !important;
+    }
+
+    .dropdown:hover .dropdown-menu {
+        display: block !important;
+    }
+
+    .dropdown:focus .dropdown-menu {
+        display: block !important;
     }
 }
 

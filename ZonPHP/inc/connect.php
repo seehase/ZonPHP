@@ -23,7 +23,7 @@ $params['database']['password'] = "undefined";
 function checkOrCreateTables($con)
 {
     /****************************************************************************
-     * Create table _dag to store day values per converter
+     * Create table _dag to store day values per inverter
      ****************************************************************************/
     $sql_createDayTable = "CREATE TABLE IF NOT EXISTS " . TABLE_PREFIX . "_dag (
 				  IndexDag varchar(40) NOT NULL,
@@ -35,7 +35,7 @@ function checkOrCreateTables($con)
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
     /****************************************************************************
-     * Create table _maand to store aggregated monthly values per converter
+     * Create table _maand to store aggregated monthly values per inverter
      ****************************************************************************/
     $sql_createMonthTable = "CREATE TABLE IF NOT EXISTS " . TABLE_PREFIX . "_maand (
 				  IndexMaand varchar(40) NOT NULL,

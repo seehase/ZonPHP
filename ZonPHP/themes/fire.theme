@@ -1,3 +1,8 @@
+[info]
+name = "Fire Theme"
+author = Michael
+
+[colors]
 color_background = #ffffff
 color_background_body = #aaaaaa
 color_footerbackground = #ffffff
@@ -5,7 +10,7 @@ color_menubackground = #ffffff
 color_menufont = #000000
 color_windowfont = #ffffff
 color_windowcolor = #ffffff
-color_image_windowtitle = "inc/image/bg_fire.png"
+color_image_windowtitle = "inc/images/bg_fire.png"
 color_chartbackground = #ffffff
 color_chartbar1 = #f4ff1c
 color_chartbar2 = #ff000d

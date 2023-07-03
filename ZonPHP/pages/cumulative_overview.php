@@ -1,6 +1,5 @@
 <?php
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 include_once ROOT_DIR . "/inc/header.php";
 include_once ROOT_DIR . "/charts/cumulative_chart.php";
@@ -17,13 +16,12 @@ if ($params['hideFooter'] == true) {
 <div id="page-content">
     <div id='resize' class="bigCharts"
          style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(136px <?= $padding; ?>); ">
-        <div id="menu_header" class="<?= MENU_CLASS ?>" style="height: 45px; background: #222; vertical-align: middle;">
+        <div id="menu_header">
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
-
-        <div id="chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
+        <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
-                <?= getTxt("omvormer") . " " . $title; ?>
+                <?= getTxt("inverter") . " " . $title; ?>
             </h2>
 
             <div class="backtoday" style="float:none;">
@@ -33,7 +31,6 @@ if ($params['hideFooter'] == true) {
             </div>
 
         </div>
-
         <div id="universal"
              style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
         </div>

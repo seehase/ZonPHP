@@ -1,42 +1,73 @@
 <?php
 
-// TODO: change this!
-if (!isset($_SESSION['theme'])) {
-    if (isset($colors) && isset($colors['colortheme'])) {
-        $_SESSION['theme'] = $colors['colortheme'];
-    } else {
-        $_SESSION['theme'] = "user";
+// forced to load or change theme
+function loadTheame($params)
+{
+    // load available themes
+    $themesFiles = scandir(ROOT_DIR . "/themes");
+    $themes = array();
+    foreach ($themesFiles as $file) {
+        if (strpos($file, ".theme") > 0) {
+            $tempName = strtolower(substr($file, 0, -6));
+            $tempTheme = parse_ini_file(ROOT_DIR . "/themes/" . $file, true);
+            $themes[$tempName] = validatedTheme($tempTheme);
+
+        }
     }
+    $defaultTheme = $themes['default'];
+    $_SESSION['themes'] = $themes;
+    $_SESSION['theme'] = $defaultTheme;
+    $_SESSION['colors'] = $defaultTheme['colors'];
+
+    // request to change theme but only load if not default that is already loaded
+    if (isset($_GET['theme']) && themeExists($themes, $_GET['theme'])) {
+        $themeToLoad = strtolower($_GET['theme']);
+    } else {
+        // get default theme defined in parameters
+        $themeToLoad = $params['userTheme'];
+    }
+    // change only if it is not default, which is already loaded
+    if ($themeToLoad != "default") {
+        $customTheme = $themes[$themeToLoad];
+        // override defaults with values from customTheme
+        $_SESSION['theme'] = $themeToLoad;
+        $_SESSION['colors'] = array_merge($defaultTheme['colors'], $customTheme['colors']);;
+    }
+
+    // build multi dimensional array for palettes
+    $color_palettes = array();
+    foreach ($_SESSION['colors']['color_pal'] as $str) {
+        $color_palettes[] = explode(',', $str);;
+    }
+    $_SESSION['colors']['color_palettes'] = $color_palettes;
+    unset($_GET['theme']);
 }
 
-if (isset($_GET['theme'])) {
-    $_SESSION['theme'] = $_GET['theme'];
+/*********************************************************************
+ * helper functions for themes
+ *********************************************************************/
+// Make a valid theme, at least name and empty colors array is needed
+function validatedTheme(&$theme)
+{
+    if (!isset($theme['info'])) {
+        $theme['info'] = array('name' => "undefined");
+    }
+    if (!isset($theme['info']['name'])) {
+        $theme['info']['name'] = "undefined";
+    }
+    if (!isset($theme['colors'])) {
+        $theme['colors'] = array();
+    }
+    return $theme;
 }
 
-$defaultColors = parse_ini_file(ROOT_DIR . "/inc/themes/default.theme", false);
-$themeColors = array();
+function themeExists($themes, $themeName)
+{
+    $themeName = strtolower($themeName);
+    if (isset($themes[$themeName])) {
+        return true;
+    } else {
+        return false;
+    }
 
-// FIXME: find better solution when par_edit is removed
-// define theme name directly in parameters.php and add ".theme" and rework session handling
-if ($_SESSION['theme'] == "theme1") {
-    $themeColors = parse_ini_file(ROOT_DIR . "/inc/themes/darkgreyfire.theme", false);
-} else if ($_SESSION['theme'] == "theme2") {
-    $themeColors = parse_ini_file(ROOT_DIR . "/inc/themes/julia.theme", false);
-} else if ($_SESSION['theme'] == "theme3") {
-    $themeColors = parse_ini_file(ROOT_DIR . "/inc/themes/fire.theme", false);
-} else if ($_SESSION['theme'] == "theme4") {
-    $themeColors = parse_ini_file(ROOT_DIR . "/inc/themes/blue.theme", false);
 }
-// override defaults with values from theme
-$colors = array_merge($defaultColors, $themeColors);
-
-// build multi dimensional array for palettes
-$color_palettes = array();
-foreach ($colors['color_pal'] as $str) {
-    $a = explode(',', $str);
-    $color_palettes[] = $a;
-}
-$colors['color_palettes'] = $color_palettes;
-
-// save colors in sesion
-$_SESSION['colors'] = $colors;

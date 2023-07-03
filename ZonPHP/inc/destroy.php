@@ -1,14 +1,10 @@
 <?php
-include_once "../inc/init.php";
-include_once "../inc/sessionstart.php";
+include_once "version_info.php";
 
-$_SESSION['passok'] = "nothing";
-unset($_SESSION['passok']);
-unset($_SESSION['lastupdate']);
-
-session_unset();
+session_name($zonPHPSessionID);
+session_start();
+unset($_SESSION['params']);
+unset($_SESSION['txt']);
+unset($_SESSION['colors']);
 session_destroy();
-
-header('location:../index.php')
-
-?>
+header('location:../index.php');

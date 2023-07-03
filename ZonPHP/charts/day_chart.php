@@ -1,14 +1,12 @@
 <?php
-
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
 $chartdatestring = date("Y-m-d", $chartdate);
-if (isset($_GET['dag'])) {
-    $chartdatestring = html_entity_decode($_GET['dag']);
+if (isset($_GET['date'])) {
+    $chartdatestring = html_entity_decode($_GET['date']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
     $chartdatestring = date("Y-m-d", $chartdate);
@@ -158,10 +156,10 @@ $strsomkw = "";
 $myColors = array();
 for ($k = 0; $k < count(PLANTS); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'#" . $colors[$col1] . "'";
+    $col1 = "'" . $colors[$col1] . "'";
     $myColors[PLANTS[$k]]['max'] = $col1;
 }
 $str_dataserie = "";
@@ -380,7 +378,7 @@ if (strlen($temp_serie) > 0) {
                                     yAxis: 1,
                                     unit: 'kWh',
                                     type: "spline",
-                                    color: '#<?= $colors['color_chart_cum_line'] ?>',
+                                    color: '<?= $colors['color_chart_cum_line'] ?>',
                                 })
                             }
                         }
@@ -462,14 +460,14 @@ if (strlen($temp_serie) > 0) {
             subtitle: {
                 style: {
                     wordWrap: 'break-word',
-                    color: '#<?= $colors['color_chart_text_subtitle'] ?>'
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>'
                 }
             },
             xAxis: {
                 type: 'datetime',
                 labels: {
                     style: {
-                        color: '#<?= $colors['color_chart_labels_xaxis1'] ?>',
+                        color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
                         fontSize: '0.7em'
                     }
                 }
@@ -478,7 +476,7 @@ if (strlen($temp_serie) > 0) {
                 title: {
                     text: 'Power',
                     style: {
-                        color: '#<?= $colors['color_chart_title_yaxis1'] ?>'
+                        color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
                     visible: false
                 },
@@ -486,31 +484,31 @@ if (strlen($temp_serie) > 0) {
                 labels: {
                     format: '{value} kW',
                     style: {
-                        color: '#<?= $colors['color_chart_labels_yaxis1'] ?>'
+                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>'
                     },
                     formatter: function () {
                         return Highcharts.numberFormat(this.value / 1000, 1, ',', '.') + " kW";
                     }
                 },
-                gridLineColor: '#<?= $colors['color_chart_gridline_yaxis1'] ?>'
+                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>'
             },
                 { // cum kWh
                     title: {
                         text: 'Total',
                         style: {
-                            color: '#<?= $colors['color_chart_title_yaxis2'] ?>'
+                            color: '<?= $colors['color_chart_title_yaxis2'] ?>'
                         }
                     },
                     labels: {
                         format: '{value} kWh',
                         style: {
-                            color: '#<?= $colors['color_chart_labels_yaxis2'] ?>'
+                            color: '<?= $colors['color_chart_labels_yaxis2'] ?>'
                         },
                         formatter: function () {
                             return Highcharts.numberFormat(this.value, 1, ',', '.') + " kWh";
                         }
                     },
-                    gridLineColor: '#<?= $colors['color_chart_gridline_yaxis2'] ?>',
+                    gridLineColor: '<?= $colors['color_chart_gridline_yaxis2'] ?>',
                     opposite: true,
                     visible: <?= $show_cum_axis ?>
                 },
@@ -518,19 +516,19 @@ if (strlen($temp_serie) > 0) {
                     title: {
                         text: 'Temperature',
                         style: {
-                            color: '#<?= $colors['color_chart_title_yaxis3'] ?>',
+                            color: '<?= $colors['color_chart_title_yaxis3'] ?>',
                         },
                     },
                     labels: {
                         format: '{value}<?= $temp_unit ?>',
                         style: {
-                            color: '#<?= $colors['color_chart_labels_yaxis1'] ?>',
+                            color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                         },
                         formatter: function () {
                             return this.value + "<?= $temp_unit ?>";
                         },
                     },
-                    gridLineColor: '#<?= $colors['color_chart_gridline_yaxis3'] ?>',
+                    gridLineColor: '<?= $colors['color_chart_gridline_yaxis3'] ?>',
                     opposite: true,
                     visible: <?= $show_temp_axis ?>,
                     steps: 5,

@@ -1,7 +1,5 @@
 <?php
-
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 
 $isIndexPage = false;
@@ -14,8 +12,8 @@ $chartdate = $chartcurrentdate;
 
 $chartdatestring = date("Y-m-d", $chartdate);
 
-if (isset($_GET['jaar'])) {
-    $chartdatestring = html_entity_decode($_GET['jaar']);
+if (isset($_GET['date'])) {
+    $chartdatestring = html_entity_decode($_GET['date']);
     $chartdate = strtotime($chartdatestring);
     // reformat string
     $chartdatestring = date("Y-m-d", $chartdate);

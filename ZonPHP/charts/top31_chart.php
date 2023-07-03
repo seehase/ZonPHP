@@ -1,11 +1,8 @@
 <?php
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/sessionstart.php";
 include_once ROOT_DIR . "/inc/load_cache.php";
 
-
 $DESC_ASC = "DESC";
-$txt["top31"] = "Top";
 $showTopFlop = "top31_chart";
 $isIndexPage = false;
 
@@ -36,7 +33,7 @@ $adatum = array_values(array_unique($adatum));
 // -----------------------------  build data for chart -----------------------------------------------------------------
 // build colors per inverter array
 //
-$myurl = 'day_overview.php?dag=';
+$myurl = 'day_overview.php?date=';
 $myMetadata = array();
 $myColors = array();
 

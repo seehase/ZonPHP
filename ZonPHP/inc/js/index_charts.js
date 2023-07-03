@@ -22,25 +22,23 @@ function load_charts() {
 
     var layout = window.localStorage.getItem('layout');
     if (layout) {
-        console.log("stored Layout " + layout);
+
         loadLayout(grid, layout);
     } else {
         grid.layout(true);
-        console.log("Layout default");
+
     }
 
     function serializeLayout(grid) {
         var itemIds = grid.getItems().map(function (item) {
             return item.getElement().getAttribute('data-id');
         });
-        console.log(JSON.stringify(itemIds));
         return JSON.stringify(itemIds);
     }
 
     function saveLayout(grid) {
         var layout = serializeLayout(grid);
         window.localStorage.setItem('layout', layout);
-        console.log("Layout saved");
     }
 
     function loadLayout(grid, serializedLayout) {
@@ -62,7 +60,7 @@ function load_charts() {
         }
 
         grid.sort(newItems, {layout: 'instant'});
-        console.log("Layout loaded");
+
     }
 
     var headerclass = "jqx-window-header jqx-window-header-index-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp"
@@ -70,7 +68,6 @@ function load_charts() {
     /* load all charts according order */
 
     function loadCard(name) {
-        console.log('loadCard ${name}.');
         name = name.toUpperCase();
         switch (name) {
             case 'DAY':
@@ -91,22 +88,25 @@ function load_charts() {
             case 'YEARPERMONTH':
                 addLastYears();
                 break;
-            case 'INFO':
-                addPlantInfo();
+            case 'FARM':
+                addFarm();
                 break;
-            case 'IMAGE':
-                addImage1();
+            case 'PLANTS':
+                addPlants();
+                break;
+            case 'IMAGES':
+                addImages();
                 break;
             case 'TOP':
                 addBest();
                 break;
             default:
-                console.log('Sorry, we are out of ${name}.');
+                console.log("Sorry, we are out of " +  name);
         }
     }
 
     function loadCharts() {
-        cardlayout.map(it => loadCard(it) )
+        cardlayout.map(it => loadCard(it))
     }
 
     // loadLayout(grid, layout);
@@ -290,26 +290,22 @@ function load_charts() {
         });
     }
 
-    function addPlantInfo() {
-        var id = "id_PlantInfo";
+    function addFarm() {
+        var id = "id_farm";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
-            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
+            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_farm_information"] + '</div></a>' +
             '      <div class="index_chart" id="' + id + '" ">' +
             '          <div class="highcharts-container" >' +
-            '             <br><p> Hello World</p> ' +
-            '             <div style="color:blue">' +
-            '                 <h1>Anlage von ' + plantInfo['name'] + '</h1>' +
-            '                 <br>' +
-            '                 WebSite: ' + plantInfo['website'] + '<br>' +
-            '                 Standort: ' + plantInfo['location'] + '<br>' +
-            '                 Module: ' + plantInfo['panels'] + '<br>' +
-            '                 Wechselrichter: ' + plantInfo['converter'] + '<br>' +
-            '                 Inbetriebnahme: ' + plantInfo['installationDate'] + '<br>' +
-            '                 Ausrichtung: ' + plantInfo['orientation'] + '<br>' +
-            '                 Data Logger: ' + plantInfo['importer'] + '<br> <br>' +
-            '             </div>' +
+            '             <br>' +
+            '             <h1>Anlage von ' + farm['name'] + '</h1>' +
+            '             <br>' +
+            '             ' + txt['website'] + ' : ' + farm['website'] + '<br>' +
+            '             ' + txt['location'] + ' : ' + farm['location'] + '<br>' +
+            '             ' + txt['startdate'] + ' : ' + farm['installationDate'] + '<br>' +
+            '             ' + txt['totalcapacity'] + ' : ' + farm['totalCapacity'] + '<br>' +
+            '             ' + txt['importer'] + ' : '  + farm['importer'] + '<br> <br>' +
             '          </div>' +
             '       </div>' +
             '    </div>' +
@@ -319,25 +315,61 @@ function load_charts() {
         grid.add(itemElem.firstChild);
     }
 
-    function addImage1() {
-        var id = "id_Image1";
-        var itemTemplate = '' +
-            '<div class="item h4 w4" data-id="' + id + '">' +
-            '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
-            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
-            '      <div class="index_chart" id="' + id + '" ">' +
-            '         <div class="highcharts-container" >' +
-            '            <br><p> Hello World</p> ' +
-            '            <div style="color:blue">' +
-            '               <img src="./inc/image/image1.jpg" alt="Italian Trulli" width="400" height="300"> ' +
-            '            </div>' +
-            '         </div>' +
-            '     </div>' +
-            '   </div>' +
-            '</div>';
-        var itemElem = document.createElement('div');
-        itemElem.innerHTML = itemTemplate;
-        grid.add(itemElem.firstChild);
+    function addPlants() {
+        let plants = farm['plants'];
+        for (const key in plants) {
+            let id = "id_plant_" + key;
+            var itemTemplate = '' +
+                '<div class="item h4 w4" data-id="' + id + '">' +
+                '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
+                '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt['plant'] + ' - ' + plants[key]['name'] + '</div></a>' +
+                '      <div class="index_chart" id="' + id + '" ">' +
+                '          <div class="highcharts-container" >' +
+                '                 <br>' +
+                '                 ' + txt['website'] + ' : ' + plants[key]['website'] + '<br>' +
+                '                 ' + txt['location'] + ' : ' + plants[key]['location'] + '<br>' +
+                '                 ' + txt['module'] + ' : ' + plants[key]['panels'] + '<br>' +
+                '                 ' + txt['capacity'] + ' : ' + plants[key]['capacity'] + '<br>' +
+                '                 ' + txt['inverter'] + ' : ' + plants[key]['inverter'] + '<br>' +
+                '                 ' + txt['startdate'] + ' : ' + plants[key]['installationDate'] + '<br>' +
+                '                 ' + txt['orientatie'] + ' : ' + plants[key]['orientation'] + '<br>' +
+                '          </div>' +
+                '       </div>' +
+                '    </div>' +
+                '</div>';
+            var itemElem = document.createElement('div');
+            itemElem.innerHTML = itemTemplate;
+            grid.add(itemElem.firstChild);
+        }
+    }
+
+    function addImages() {
+        for (const key in images) {
+            let uri = '';
+            if (images[key]['uri'].indexOf("http") >= 0) {
+                uri = images[key]['uri'];
+            } else {
+                uri = './images/' + images[key]['uri'];
+            }
+            let id = "id_image_" + key;
+            var itemTemplate = '' +
+                '<div class="item h4 w4" data-id="' + id + '">' +
+                '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
+                '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + images[key]['title'] + '</div></a>' +
+                '      <div class="index_chart" id="' + id + '" ">' +
+                '         <div class="highcharts-container" >' +
+                '            <br><p>' + images[key]['description'] + '</p> ' +
+                '            <div style="color:blue">' +
+                '               <img src="' + uri + '" alt="' + images[key]['title'] + '" width="400" height="300"> ' +
+                '            </div>' +
+                '         </div>' +
+                '     </div>' +
+                '   </div>' +
+                '</div>';
+            var itemElem = document.createElement('div');
+            itemElem.innerHTML = itemTemplate;
+            grid.add(itemElem.firstChild);
+        }
     }
 
     loadCharts();
