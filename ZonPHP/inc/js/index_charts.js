@@ -320,20 +320,15 @@ function load_charts() {
     }
 
     function addImages() {
-        console.log(images);
+
         for (const key in images) {
             let uri = '';
-            let tmp = images[key]['uri'];
-            console.log("uri: " + tmp);
-            let result = tmp.indexOf("http");
-            console.log("result: " + result);
-            if (tmp.indexOf("http") >= 0) {
+            if (images[key]['uri'].indexOf("http") >= 0) {
                 uri = images[key]['uri'];
             } else {
                 uri = './inc/image/' + images[key]['uri'];
             }
-            // var id = "id_image_" + key;
-            var id = "id_Image1";
+            let id = "id_image_" + key;
             var itemTemplate = '' +
                 '<div class="item h4 w4" data-id="' + id + '">' +
                 '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +

@@ -49,7 +49,8 @@
 .jqx-window-header-index-zonphp {
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-    height: 17px;
+    height: 30px;
+    padding-top: 6px;
 }
 
 
