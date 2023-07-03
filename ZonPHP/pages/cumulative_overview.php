@@ -21,7 +21,7 @@ if ($params['hideFooter'] == true) {
         </div>
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
-                <?= getTxt("omvormer") . " " . $title; ?>
+                <?= getTxt("inverter") . " " . $title; ?>
             </h2>
 
             <div class="backtoday" style="float:none;">

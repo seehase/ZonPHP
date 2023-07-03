@@ -91,8 +91,11 @@ function load_charts() {
             case 'YEARPERMONTH':
                 addLastYears();
                 break;
-            case 'INFO':
-                addPlantInfo();
+            case 'FARM':
+                addFarm();
+                break;
+            case 'PLANTS':
+                addPlants();
                 break;
             case 'IMAGE':
                 addImages();
@@ -290,26 +293,22 @@ function load_charts() {
         });
     }
 
-    function addPlantInfo() {
-        var id = "id_PlantInfo";
+    function addFarm() {
+        var id = "id_farm";
         var itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
-            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_plant_information"] + '</div></a>' +
+            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_farm_information"] + '</div></a>' +
             '      <div class="index_chart" id="' + id + '" ">' +
             '          <div class="highcharts-container" >' +
-            '             <br><p> Hello World</p> ' +
-            '             <div style="color:blue">' +
-            '                 <h1>Anlage von ' + plantInfo['name'] + '</h1>' +
-            '                 <br>' +
-            '                 WebSite: ' + plantInfo['website'] + '<br>' +
-            '                 Standort: ' + plantInfo['location'] + '<br>' +
-            '                 Module: ' + plantInfo['panels'] + '<br>' +
-            '                 Wechselrichter: ' + plantInfo['converter'] + '<br>' +
-            '                 Inbetriebnahme: ' + plantInfo['installationDate'] + '<br>' +
-            '                 Ausrichtung: ' + plantInfo['orientation'] + '<br>' +
-            '                 Data Logger: ' + plantInfo['importer'] + '<br> <br>' +
-            '             </div>' +
+            '             <br>' +
+            '             <h1>Anlage von ' + farm['name'] + '</h1>' +
+            '             <br>' +
+            '             ' + txt['website'] + ' : ' + farm['website'] + '<br>' +
+            '             ' + txt['location'] + ' : ' + farm['location'] + '<br>' +
+            '             ' + txt['startdate'] + ' : ' + farm['installationDate'] + '<br>' +
+            '             ' + txt['totalcapacity'] + ' : ' + farm['totalCapacity'] + '<br>' +
+            '             ' + txt['importer'] + ' : '  + farm['importer'] + '<br> <br>' +
             '          </div>' +
             '       </div>' +
             '    </div>' +
@@ -317,6 +316,34 @@ function load_charts() {
         var itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
+    }
+
+    function addPlants() {
+        let plants = farm['plants'];
+        for (const key in plants) {
+            let id = "id_plant_" + key;
+            var itemTemplate = '' +
+                '<div class="item h4 w4" data-id="' + id + '">' +
+                '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
+                '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt['plant'] + ' - ' + plants[key]['name'] + '</div></a>' +
+                '      <div class="index_chart" id="' + id + '" ">' +
+                '          <div class="highcharts-container" >' +
+                '                 <br>' +
+                '                 ' + txt['website'] + ' : ' + plants[key]['website'] + '<br>' +
+                '                 ' + txt['location'] + ' : ' + plants[key]['location'] + '<br>' +
+                '                 ' + txt['module'] + ' : ' + plants[key]['panels'] + '<br>' +
+                '                 ' + txt['capacity'] + ' : ' + plants[key]['capacity'] + '<br>' +
+                '                 ' + txt['inverter'] + ' : ' + plants[key]['inverter'] + '<br>' +
+                '                 ' + txt['startdate'] + ' : ' + plants[key]['installationDate'] + '<br>' +
+                '                 ' + txt['orientatie'] + ' : ' + plants[key]['orientation'] + '<br>' +
+                '          </div>' +
+                '       </div>' +
+                '    </div>' +
+                '</div>';
+            var itemElem = document.createElement('div');
+            itemElem.innerHTML = itemTemplate;
+            grid.add(itemElem.firstChild);
+        }
     }
 
     function addImages() {

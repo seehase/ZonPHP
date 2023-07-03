@@ -15,15 +15,11 @@ include_once ROOT_DIR . "/inc/header.php";
         </div>
         <div id='content'>
             <div >
-                <h1>Anlage von <?= $params['plant']['name'] ?></h1>
+                <h1>Anlage von <?= $params['farm']['name'] ?></h1>
                 <?= '
-                Website: ' . $params['plant']['website'] . '<br>
-                Standort: ' . $params['plant']['location'] . '<br>
-                Module: ' . $params['plant']['panels'] . '<br>
-                Wechselrichter: ' . $params['plant']['converter'] . '<br>
-                Inbetriebnahme: ' . $params['plant']['installationDate'] . '<br>
-                Ausrichtung: ' . $params['plant']['orientation'] . '<br>
-                Data Logger: ' . $params['plant']['importer'] . '<br> <br>';
+                Website: ' . $params['farm']['website'] . '<br>
+                Standort: ' . $params['farm']['location'] . '<br>
+                Data Logger: ' . $params['farm']['importer'] . '<br> <br>';
                 ?>
             </div>
             <div id="foto" style="float:none;">

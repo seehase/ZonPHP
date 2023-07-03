@@ -45,7 +45,7 @@
 
             </div>
             <span class="navbar-nav me-auto mb-2 mb-lg-0">
-                &nbsp;&nbsp;<a id="headerinverter" href="<?= HTML_PATH ?>">  <?= $params['plant']['name'] ?> </a>
+                &nbsp;&nbsp;<a id="headerinverter" href="<?= HTML_PATH ?>">  <?= $params['farm']['name'] ?> </a>
             </span>
 
             <div class="nav-item dropdown">

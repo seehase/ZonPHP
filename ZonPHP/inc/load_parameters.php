@@ -21,8 +21,8 @@ function loadParams()
 
 function vadidateParams(&$params)
 {
-    $params['plant']['importer'] = $params['importer'];
-    $params['plant']['installationDate'] = $params['installationDate'];
+    $params['farm']['importer'] = $params['importer'];
+    $params['farm']['installationDate'] = $params['installationDate'];
 
     $plants = preg_split('/\s*,\s*/', trim($params['plants']));
     $_SESSION['PLANTS'] = $plants;
@@ -31,6 +31,7 @@ function vadidateParams(&$params)
     $expectedYield = array();
     $totalExpectedMonth = array();
     foreach ($plants as $plant) {
+        $params['farm']['plants'][$plant] = $params[$plant];
         $totalExpectedMonth[0][$plant] = 0;
         $values = json_decode('[' . $params[$plant]['expectedYield'] . ']', true);
         $params[$plant]['referenceYield'] = $values;

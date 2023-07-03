@@ -18,7 +18,7 @@
         echo '<meta http-equiv="refresh" content="' . $params['autoReload'] . '" >';
     }
     ?>
-    <title><?= $params['plant']['name']; ?></title>
+    <title><?= $params['farm']['name']; ?></title>
     <!-- use googleapis CDN -->
     <!-- jquery -->
     <link type="text/css" rel="stylesheet"

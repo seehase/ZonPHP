@@ -1,6 +1,6 @@
 <?php
 // remove all special chars allow only A-Za-z0-9_-
-$importer = clean($params['plant']['importer']);
+$importer = clean($params['importer']);
 
 // check file is not "", and not index.php
 if ((strlen($importer) > 0) && (strtoupper($importer) != "INDEX.PHP")) {

@@ -26,7 +26,7 @@ if ($params['useWeewx']) {
             theme = <?= json_encode($_SESSION['colors']); ?>;
             cardlayout = <?= json_encode($_SESSION['CARDS']); ?>;
             plants = <?= json_encode(PLANTS); ?>;
-            plantInfo = <?= json_encode($params['plant']); ?>;
+            farm = <?= json_encode($params['farm']); ?>;
             daytext = <?= '"' . $daytext . '"'; ?>;
             charts = <?= json_encode(array("chart_date_format" => "")); ?>;
             colors = <?= json_encode($colors); ?>;

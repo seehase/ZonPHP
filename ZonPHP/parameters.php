@@ -21,7 +21,7 @@ checkVersion = true
 googleTrackingId = G-XCE1BK2ZX9
 
 [layout]
-cards = "day, month, year, allYears, cumulative, yearPerMonth,  info, image, top"
+cards = "day, month, year, allYears, cumulative, yearPerMonth,  farm, image, top, plants"
 
 [database]
 host =  localhost
@@ -32,34 +32,33 @@ tablePrefix = tgeg
 
 [SEEHASE]
 name = Seehase
+installationDate = 2011-11-10
 capacity = 5040
 importPrefix = seehase
 image = "image1.jpg"
 expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
 website = https://solar.seehausen.org
 panels = "5040Wq = 21*Trina TSM-240 PC05 Poly"
-converter = "SMA SB 5000TL20 ESS"
+inverter = "SMA SB 5000TL20 ESS"
 orientation = "180 Grad 30 Grad Neigung"
 location = Ingolstadt
 
 [TILLY]
 name = Tillman
+installationDate = 2012-10-01
 capacity = 3000
 importPrefix = tilly
 image = "image2.jpg"
 expectedYield = 175,272,395,491,573,542,603,546,443,332,193,131
 website = https://solar.seehausen.org
-panels = "3000Wq = 10* panleös"
-converter = "SMA SB 3000TL10"
+panels = "3000Wq = 10* panels"
+inverter = "SMA SB 3000TL10"
 orientation = "180 Grad 30 Grad Neigung"
 location = Ingolstadt
 
-[plant]
+[farm]
 name = ZonPHP Seehausen Solar
 website = https://solar.seehausen.org
-panels = "5040Wq = 21*Trina TSM-240 PC05 Poly"
-converter = "SMA SB 5000TL20 ESS"
-orientation = "180 Grad 30 Grad Neigung"
 location = Ingolstadt
 totalCapacity = 8040 kWp
 
