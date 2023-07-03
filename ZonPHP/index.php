@@ -1,6 +1,6 @@
 <?php
 include_once "inc/init.php";
-include_once "inc/load_cache.php";
+include_once "inc/connect.php";
 
 $aoplopendkwdag[] = 0;
 include_once "inc/header.php";

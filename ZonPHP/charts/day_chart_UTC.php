@@ -6,7 +6,7 @@ define('TIMEZONE', 'UTC');
 date_default_timezone_set(TIMEZONE);
 
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/connect.php";
 
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
