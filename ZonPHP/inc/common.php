@@ -56,10 +56,10 @@ function checkChangedConfigFiles()
     }
 
     // check themes files
-    $themeFiles = scandir(ROOT_DIR . "/inc/themes");
+    $themeFiles = scandir(ROOT_DIR . "/themes");
     $hash = "";
     foreach ($themeFiles as $file) {
-        $hash .= filemtime(ROOT_DIR . "/inc/themes/" . $file);
+        $hash .= filemtime(ROOT_DIR . "/themes/" . $file);
     }
     $hash = md5($hash);
     if (!isset($_SESSION['themeFilesHash'])) {

@@ -4,12 +4,12 @@
 function loadTheame($params)
 {
     // load available themes
-    $themesFiles = scandir(ROOT_DIR . "/inc/themes");
+    $themesFiles = scandir(ROOT_DIR . "/themes");
     $themes = array();
     foreach ($themesFiles as $file) {
         if (strpos($file, ".theme") > 0) {
             $tempName = strtolower(substr($file, 0, -6));
-            $tempTheme = parse_ini_file(ROOT_DIR . "/inc/themes/" . $file, true);
+            $tempTheme = parse_ini_file(ROOT_DIR . "/themes/" . $file, true);
             $themes[$tempName] = validatedTheme($tempTheme);
 
         }
