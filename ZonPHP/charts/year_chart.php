@@ -45,7 +45,7 @@ if (mysqli_num_rows($result) == 0) {
 
         $all_valarray[date("n", strtotime($row['maxi']))][$inverter_name] = $row['som'];
         if (!in_array($inverter_name, $inveter_list)) {
-            if (in_array($inverter_name, PLANTS)) {
+            if (in_array($inverter_name, PLANT_NAMES)) {
                 // add to list only if it configured (ignore db entries)
                 $inveter_list[] = $inverter_name;
             }
@@ -89,13 +89,13 @@ if (mysqli_num_rows($resultmax) == 0) {
 ?>
 <?php
 $myColors = array();
-for ($k = 0; $k < count(PLANTS); $k++) {
+for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['min'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['max'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 $my_year = date("Y", $chartdate);
 $href = HTML_PATH . "pages/month_overview.php?maand=";
@@ -105,7 +105,7 @@ $max_bars = "";
 $expected_bars = "";
 $current_bars = "";
 $strdataseries = "";
-foreach (PLANTS as $key => $inverter_name) {
+foreach (PLANT_NAMES as $key => $inverter_name) {
     if ($key == 0) {
         $dash = '';
     } elseif ($key > 0) {
@@ -205,7 +205,7 @@ $categories = $shortmonthcategories;
         var year = '<?= date("Y", $chartdate) ?>';
         var avrg =<?= round($fgemiddelde, 2) ?>;
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= $params['plantskWp'] ?>];
+        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?= getTxt("max") ?>';
         var totayr = 0;

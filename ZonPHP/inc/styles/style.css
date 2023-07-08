@@ -60,7 +60,7 @@
 
 .index_chart {
     width: 433px;
-    height: 380px;
+    height: 370px;
     margin-top: 0px;
     float: left;
 }
@@ -185,7 +185,7 @@ body {
 .item {
     position: absolute;
     width: 437px;
-    height: 412px;
+    height: 403px;
     margin-right: 5px;
     padding-bottom: 5px;
     z-index: 1;
@@ -313,7 +313,6 @@ body {
     background-clip: padding-box;
 }
 
-
 #menu_header_index {
     border-bottom-left-radius: 9.5px;
     border-bottom-right-radius: 9.5px;
@@ -326,6 +325,9 @@ body {
     }
 
     #headerinverter {
+        display: none;
+    }
+    .smallFooter {
         display: none;
     }
 }

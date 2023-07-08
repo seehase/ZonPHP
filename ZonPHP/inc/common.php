@@ -17,11 +17,31 @@ function isActive($language)
         return true;
     } else {
         return false;
-    };
+    }
 }
 
+function isBool($value)
+{
+    return true;
+}
 
-function checkChangedConfigFiles()
+function addCheckMessage($level, $message, $isFatal = false): void
+{
+    global $params;
+    $params['check'][$level][] = $message;
+    if ($isFatal) {
+        $params['check']['failed'] = true;
+    }
+    $_SESSION['params'] = $params;
+}
+
+function hasFatalErrors()
+{
+    global $params;
+    return $params['check']['failed'];
+}
+
+function checkChangedConfigFiles(): bool
 {
     // check parameter.php
     $paramsFileDate = filemtime(ROOT_DIR . "/parameters.php");

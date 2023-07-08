@@ -56,7 +56,7 @@ try {
 STARTDATE = $params['installationDate'];
 
 foreach (explode(',', $params['plants']) as $key => $stringnaam) {
-    PLANTS[] = $stringnaam;
+    PLANT_NAMES[] = $stringnaam;
     $teller++;
 }
 ?>
@@ -138,8 +138,8 @@ while ($datum <= $now) {
                         //if ($data2[$row][1]-$data3[$row-1][1] == $data2[$row][1])
                         $opbr = "";
                         //else
-                        for ($k = 0; $k < count(PLANTS); ++$k) {
-                            $opbr = "('" . $data2[$row][0] . PLANTS[$k] . "', '" . $data2[$row][0] . "', " . ($data2[$row][$k + 1] - $data3[$row - 1][$k + 1]) * (60 / ((strtotime($data2[$row][0]) - strtotime($data3[$row - 1][0])) / 60)) * 1000 . ", " . $data2[$row][$k + 1] - $data3[$row - 1][$k + 1] . ", '" . PLANTS[$k] . "'), ";
+                        for ($k = 0; $k < count(PLANT_NAMES); ++$k) {
+                            $opbr = "('" . $data2[$row][0] . PLANT_NAMES[$k] . "', '" . $data2[$row][0] . "', " . ($data2[$row][$k + 1] - $data3[$row - 1][$k + 1]) * (60 / ((strtotime($data2[$row][0]) - strtotime($data3[$row - 1][0])) / 60)) * 1000 . ", " . $data2[$row][$k + 1] - $data3[$row - 1][$k + 1] . ", '" . PLANT_NAMES[$k] . "'), ";
                             $dagopbr .= $opbr;
                         }
                     }
@@ -155,9 +155,9 @@ while ($datum <= $now) {
                 //############# dagcijfers #################
 
 
-                for ($k = 0; $k < count(PLANTS); ++$k) {
+                for ($k = 0; $k < count(PLANT_NAMES); ++$k) {
                     $datumkort = date('Y-m-d', strtotime($data3[1][0]));
-                    $dagtotaal = "('" . $datumkort . PLANTS[$k] . "', '" . $data3[$row - 1][0] . "', " . $data3[$row - 1][$k + 1] - $data3[1][$k + 1] . ", '" . PLANTS[$k] . "'),";
+                    $dagtotaal = "('" . $datumkort . PLANT_NAMES[$k] . "', '" . $data3[$row - 1][0] . "', " . $data3[$row - 1][$k + 1] - $data3[1][$k + 1] . ", '" . PLANT_NAMES[$k] . "'),";
                     //echo $dagtotaal;
                     $maandtot .= $dagtotaal;
                 }

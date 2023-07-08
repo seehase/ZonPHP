@@ -9,6 +9,10 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a class="dropdown-item"
+                           href="<?= HTML_PATH ?>index.php"><?= getTxt("index") ?></a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
                            href="<?= HTML_PATH ?>pages/day_overview.php"><?= getTxt("chart_dayoverview") ?></a>
                     </li>
                     <li>
@@ -33,13 +37,6 @@
                     </li>
                     <li><a class="dropdown-item"
                            href="<?= HTML_PATH ?>pages/top31.php"><?= getTxt("chart_31days") ?></a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                        <a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/show_plant.php"><?= getTxt("plant") ?></a>
                     </li>
                 </ul>
 
@@ -91,6 +88,21 @@
                             <img src="<?= HTML_PATH ?>inc/images/fr.svg" class="flag" alt="Français"
                                  title="Français">&nbsp;Français</a>
                     </li>
+                </ul>
+            </div>
+            &nbsp;&nbsp;
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">&nbsp;?&nbsp;
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a class="dropdown-item"
+                           href="<?= HTML_PATH ?>inc/destroy.php"><?= getTxt("clearsession") ?> </a>
+                    </li>
+                    <li><a class="dropdown-item"
+                           href="<?= HTML_PATH ?>pages/validate.php"><?= getTxt("validateparams") ?> </a>
+                    </li>
+
                 </ul>
             </div>
         </div>

@@ -18,6 +18,7 @@ ON db1.Datum_Maand = db2.Datum_Maand order by mysum desc';
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
     $datum = "Geen data";
+    $adatum = array();
 } else {
     while ($row = mysqli_fetch_array($result)) {
         $inverter_name = $row['Naam'];
@@ -37,20 +38,20 @@ $myurl = 'day_overview.php?date=';
 $myMetadata = array();
 $myColors = array();
 
-for ($k = 0; $k < count(PLANTS); $k++) {
+for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['min'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['max'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 
 
 $dataseries = "";
 $maxval_yaxis = 0;
 
-foreach (PLANTS as $key =>$inverter_name) {
+foreach (PLANT_NAMES as $key =>$inverter_name) {
     $data = "";
     $local_max = 0;
     $myColor1 =$myColors[$inverter_name]['min'];
@@ -100,7 +101,7 @@ include_once "chart_styles.php";
 		const categories = data[0].map(d => d[0]);
         const myurl = '<?= $myurl ?>';
         series = this.series;
-        const khhWp = [<?= $params['plantskWp'] ?>];
+        const khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
         var nmbr =  khhWp.length //misused to get the inverter count
         const kwptot = khhWp.reduce(add, 0);
         var sub_title ;

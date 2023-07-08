@@ -5,7 +5,7 @@
  ******************************************************************************
 
 installationDate = 2011-11-10
-plants = SEEHASE, TILLY
+plantNames = SEEHASE, TILLY
 plantskWp = 5040, 3000
 defaultLanguage = de
 userTheme = DarkGreyFire
@@ -14,20 +14,20 @@ coefficient = 1
 importer = sunny_explorer_seehase
 autoReload = 0
 useWeewx = false
-emu = false
+useEMU = false
 hideFooter = false
 hideMenu = false
 checkVersion = true
 googleTrackingId = G-XCE1BK2ZX9
 
 [layout]
-cards = "day, month, year, allYears, cumulative, yearPerMonth,  farm, image, top, plants"
+cards = "day, month, year, allYears, cumulative, yearPerMonth,  farm, images, top, plants"
 
 [database]
 host =  localhost
 username = root
 password = root
-database = solar
+database = bbb
 tablePrefix = tgeg
 
 [SEEHASE]
@@ -76,20 +76,20 @@ image3[description] = "source: wikipedia"
 image3[uri] = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
 
 [weewx]
-server = localhost
+host = localhost
 username = weewx
 password = weewx
 database = weewx
 tableName = archive
 tempColumn = outTemp
 timestampColumn = dateTime
-tempInFarenheit = true
+tempInFahrenheit = true
 
 [EMU]
 path =
 offset =
 webRoot =
-zonPhp =
+webRoot =
 PVO_API =
 PVO_SYS_ID =
 

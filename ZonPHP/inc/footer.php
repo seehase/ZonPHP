@@ -6,13 +6,15 @@ if ($params['hideFooter'] == true) {
 
 ?>
 
-<div id="footer"
-     style="background-color: <?= $colors['color_footerbackground'] . "; " . $footer_display_style ?>;">
+<div id="footer" style="background-color: <?= $colors['color_footerbackground'] . "; " . $footer_display_style ?>;">
 
-    <?= "ZonPHP " . $version ?> &nbsp; - &nbsp; <b>PHP8 compliant</b>
-    <?= $new_version_label ?>
-    &nbsp; - &nbsp;
-    <a href="https://github.com/seehase/ZonPHP" onclick="target='_blank'">https://github.com/seehase/ZonPHP</a>
+    <?= "ZonPHP " . $version ?> &nbsp;
+    <span class="smallFooter">
+    &nbsp; - &nbsp;  <b>PHP8 compliant</b>
+        <?= $new_version_label ?>
+        &nbsp;- &nbsp;
+        <a href="https://github.com/seehase/ZonPHP" onclick="target='_blank'">https://github.com/seehase/ZonPHP</a>
+    </span>
 </div>
 
 

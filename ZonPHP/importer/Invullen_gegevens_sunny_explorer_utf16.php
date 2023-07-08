@@ -37,7 +37,7 @@ $directory = ROOT_DIR . "/" . $_SESSION['plant'] . '/'; //sunnyexplorer/Mijn PV-
 $adag = array();
 for ($tel = 0; $tel <= 160; $tel++) {
     $num = (date("Ymd", strtotime("+" . $tel . " day", strtotime($dateTime))));
-    $fn = $directory . PLANTS['plantname'] . "-" . $num . '.csv';
+    $fn = $directory . PLANT_NAMES['plantname'] . "-" . $num . '.csv';
     $fn = mb_convert_encoding($directory . $params[$_SESSION['plant']]['importPrefix'] . "-" . $num . '.csv', "UTF-8");
     if (file_exists($fn)) {
         $adag[] = $fn;

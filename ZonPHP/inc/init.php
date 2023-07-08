@@ -56,8 +56,8 @@ if (!defined("TABLE_PREFIX")) {
 if (!defined("STARTDATE")) {
     define('STARTDATE', $params['installationDate']);
 }
-if (!defined("PLANTS")) {
-    define('PLANTS', $_SESSION['PLANTS']);
+if (!defined("PLANT_NAMES")) {
+    define('PLANT_NAMES', $_SESSION['PLANT_NAMES']);
 }
 
 // language
@@ -74,7 +74,7 @@ $colors = $_SESSION['colors'];
 
 // set default plant
 if (!isset($_SESSION['plant'])) {
-    $_SESSION['plant'] = PLANTS[0];
+    $_SESSION['plant'] = PLANT_NAMES[0];
 }
 if (!isset($_SESSION['date_minimum'])) {
     $_SESSION['date_minimum'] = strtotime('2138-01-01 00:00:00');

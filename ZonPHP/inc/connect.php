@@ -1,22 +1,31 @@
 <?php
+global $params, $debugmode, $version, $cache_timeout;
 /********************************************************************
- * connect to database, refesh cache and import data
+ * connect to database, refresh cache and import data
  *********************************************************************/
-
 ob_start();
 mysqli_report(MYSQLI_REPORT_OFF);
 
 $con = mysqli_connect($params['database']['host'], $params['database']['username'], $params['database']['password'], $params['database']['database']);
 
 if (!$con) {
-    die(header('location:pages/error.php?fout=connect'));
+    addCheckMessage("ERROR", "Cannot connect to database, check database section in parameter.php", true);
+    die(header('location:' . HTML_PATH . '/pages/validate.php'));
+} else {
+    checkOrCreateTables($con);
 }
 
 if ($params['useWeewx']) {
-    $con_weewx = mysqli_connect($params['weewx']['server'], $params['weewx']['username'], $params['weewx']['password'], $params['weewx']['database']);
+    $con_weewx = mysqli_connect($params['weewx']['host'], $params['weewx']['username'], $params['weewx']['password'], $params['weewx']['database']);
 
     if (!$con_weewx) {
-        die(header('location:pages/error.php?fout=connect'));
+        addCheckMessage("ERROR", "Cannot connect to WEEWX database, check weewx section in parameter.php disabled weewx for now");
+        // continue without weewx
+        $params['useWeewx'] = false;
+        $_SESSION['params'] = $params;
+        //die(header('location:' . HTML_PATH . '/pages/validate.php'));
+    } else {
+        checkWeewxTables($con_weewx);
     }
 }
 ob_end_flush();
@@ -69,7 +78,8 @@ function checkOrCreateTables($con)
     /****************************************************************************
      * Create table _dag to store day values per inverter
      ****************************************************************************/
-    $sql_createDayTable = "CREATE TABLE IF NOT EXISTS " . TABLE_PREFIX . "_dag (
+    $tablename_dag = TABLE_PREFIX . "_dag";
+    $sql_createDayTable = "CREATE TABLE IF NOT EXISTS $tablename_dag (
 				  IndexDag varchar(40) NOT NULL,
 				  Datum_Dag datetime NOT NULL,
 				  Geg_Dag float NOT NULL,
@@ -81,7 +91,8 @@ function checkOrCreateTables($con)
     /****************************************************************************
      * Create table _maand to store aggregated monthly values per inverter
      ****************************************************************************/
-    $sql_createMonthTable = "CREATE TABLE IF NOT EXISTS " . TABLE_PREFIX . "_maand (
+    $tablename_maand = TABLE_PREFIX . "_maand";
+    $sql_createMonthTable = "CREATE TABLE IF NOT EXISTS $tablename_maand (
 				  IndexMaand varchar(40) NOT NULL,
 				  Datum_Maand datetime NOT NULL,
 				  Geg_Maand float NOT NULL,
@@ -90,14 +101,32 @@ function checkOrCreateTables($con)
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
 
-    $result = mysqli_query($con, "SHOW TABLES LIKE '" . TABLE_PREFIX . "_dag'");
+    $result = mysqli_query($con, "SHOW TABLES LIKE '$tablename_dag'");
     if ($result->num_rows != 1) {
-        mysqli_query($con, $sql_createDayTable) or die("Query failed. sql_createDayTable: " . mysqli_error($con));
+        if (!mysqli_query($con, $sql_createDayTable)) {
+            addCheckMessage("ERROR", "Unable to create table'$tablename_dag'", true);
+            die(header('location:' . ROOT_DIR . '/pages/validate.php' . mysqli_error($con)));
+        }
     }
 
-    $result = mysqli_query($con, "SHOW TABLES LIKE '" . TABLE_PREFIX . "_maand'");
+    $result = mysqli_query($con, "SHOW TABLES LIKE '$tablename_maand'");
     if ($result->num_rows != 1) {
-        mysqli_query($con, $sql_createMonthTable) or die("Query failed. sql_createMonthTable: " . mysqli_error($con));
+        if (!mysqli_query($con, $sql_createMonthTable)) {
+            addCheckMessage("ERROR", "Unable to create table'$tablename_maand'", true);
+            die(header('location:' . ROOT_DIR . '/pages/validate.php' . mysqli_error($con)));
+        }
     }
+}
 
+function checkWeewxTables($con_weewx)
+{
+    global $params;
+
+    $tablename = $params['weewx']['tableName'];
+    $result = mysqli_query($con_weewx, "SHOW TABLES LIKE '$tablename'");
+    if ($result->num_rows != 1) {
+        addCheckMessage("WARN", "Weewx table '$tablename' not found, disabled weewx for now", true);
+        $params['useWeewx'] = false;
+        $_SESSION['params'] = $params;
+    }
 }

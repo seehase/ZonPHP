@@ -53,7 +53,7 @@ if (mysqli_num_rows($result) == 0) {
         $fsomoplopend += $row['gem'] * 1000 / (1000 * 60 / $params['displayInterval']);
         $aoplopendkwdag[strtotime($row['datumtijd'])] = $fsomoplopend;
         if (!in_array($inverter_name, $inveter_list)) {
-            if (in_array($inverter_name, PLANTS)) {
+            if (in_array($inverter_name, PLANT_NAMES)) {
                 // add to list only if it configured (ignore db entries) and it has values for the current day
                 $inveter_list[] = $inverter_name;
             }
@@ -154,13 +154,13 @@ $strgegmax = "";
 $strsomkw = "";
 // build colors per inverter array
 $myColors = array();
-for ($k = 0; $k < count(PLANTS); $k++) {
+for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['min'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['max'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 $str_dataserie = "";
 $max_first_val = PHP_INT_MAX;
@@ -195,7 +195,7 @@ foreach ($inveter_list as $inverter_name) {
 }
 // day max line per inverter --------------------------------------------------------------
 $str_max = "";
-foreach (PLANTS as $key => $inverter_name) {
+foreach (PLANT_NAMES as $key => $inverter_name) {
     if ($key == 0) {
         $dash = '';
     } elseif ($key > 0) {
@@ -279,7 +279,7 @@ if (strlen($temp_serie) > 0) {
         }
 
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= $params['plantskWp'] ?>];
+        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
         var nmbr = khhWp.length //misused to get the inverter count
 
         /// to be removed2345

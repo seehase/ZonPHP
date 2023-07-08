@@ -28,7 +28,7 @@ function mysqli_result($res, $row = 0, $col = 0)
 //Output to PVOutput
 //*************************************************
 $sid = explode(",", $params['EMU']['PVO_SYS_ID']);
-for ($j = 0; $j < count(PLANTS); ++$j) {
+for ($j = 0; $j < count(PLANT_NAMES); ++$j) {
     $sqlpvt = "SELECT T_1 FROM logger ORDER BY Datum_Dag DESC LIMIT 1";
     $PVT = mysqli_query($con, $sqlpvt);
     $temp = mysqli_fetch_row($PVT);
@@ -37,7 +37,7 @@ for ($j = 0; $j < count(PLANTS); ++$j) {
 
 //echo TABLE_PREFIX,"<BR>";
 //echo TABLE_PREFIX;
-    $sql = "SELECT Geg_Dag, Datum_Dag FROM " . TABLE_PREFIX . "_dag where Naam = '" . PLANTS[$j] . "' ORDER BY Datum_Dag DESC LIMIT 1";
+    $sql = "SELECT Geg_Dag, Datum_Dag FROM " . TABLE_PREFIX . "_dag where Naam = '" . PLANT_NAMES[$j] . "' ORDER BY Datum_Dag DESC LIMIT 1";
 //echo $sql;
 //echo $sql;
     $PV1v2 = mysqli_query($con, $sql);
@@ -46,7 +46,7 @@ for ($j = 0; $j < count(PLANTS); ++$j) {
     $uploadtijd = substr($row1[1], 11, 5);
     $uploaddatum = str_replace("-", "", substr($row1[1], 0, 10));
 
-    $sql = "SELECT Geg_Maand FROM " . TABLE_PREFIX . "_maand where Naam = '" . PLANTS[$j] . "' ORDER BY Datum_Maand DESC LIMIT 1";
+    $sql = "SELECT Geg_Maand FROM " . TABLE_PREFIX . "_maand where Naam = '" . PLANT_NAMES[$j] . "' ORDER BY Datum_Maand DESC LIMIT 1";
     $PV1v1 = mysqli_query($con, $sql);
     $row2 = mysqli_fetch_array($PV1v1);
     $wattuur = 1000 * $row2[0];

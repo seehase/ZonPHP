@@ -359,7 +359,7 @@ function load_charts() {
                 '      <div class="index_chart" id="' + id + '" ">' +
                 '         <div class="highcharts-container" >' +
                 '            <br><p>' + images[key]['description'] + '</p> ' +
-                '            <div style="color:blue">' +
+                '            <div>' +
                 '               <img src="' + uri + '" alt="' + images[key]['title'] + '" width="400" height="300"> ' +
                 '            </div>' +
                 '         </div>' +

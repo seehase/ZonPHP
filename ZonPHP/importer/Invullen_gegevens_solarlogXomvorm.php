@@ -53,21 +53,21 @@ foreach ($adag as $v) {
                     $odatum = explode(" ", $oDatumTijd);
                     if ((strtotime($oDatumTijd) > strtotime($dateTime)) and ($oDatumTijd != "geen datumtijd")) {
                         if ($teller2 == 1) {
-                            for ($i = 0; $i < count(PLANTS); $i++) {
+                            for ($i = 0; $i < count(PLANT_NAMES); $i++) {
                                 $Pac = $alist[3 + ($i * 8)];
                                 $DaySum = $alist[4 + ($i * 8)];
                                 $DaySum = $DaySum * $params['coefficient'];
-                                $string .= "('" . $oDatumTijd . PLANTS[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . PLANTS[$i] . "'),";
-                                $string1 .= "('" . $odatum[0] . PLANTS[$i] . "','" . $odatum[0] . "'," . ($DaySum / 1000) . ",'" . PLANTS[$i] . "'),";
+                                $string .= "('" . $oDatumTijd . PLANT_NAMES[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . PLANT_NAMES[$i] . "'),";
+                                $string1 .= "('" . $odatum[0] . PLANT_NAMES[$i] . "','" . $odatum[0] . "'," . ($DaySum / 1000) . ",'" . PLANT_NAMES[$i] . "'),";
                                 $stringdelete = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
                                 $teller2 = 0;
                             }
                         } else {
-                            for ($i = 0; $i < count(PLANTS); $i++) {
+                            for ($i = 0; $i < count(PLANT_NAMES); $i++) {
                                 $Pac = $alist[3 + ($i * 8)];
                                 $DaySum = $alist[4 + ($i * 8)];
                                 $DaySum = $DaySum * $params['coefficient'];
-                                $string .= "('" . $oDatumTijd . PLANTS[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . PLANTS[$i] . "'),";
+                                $string .= "('" . $oDatumTijd . PLANT_NAMES[$i] . "','" . $oDatumTijd . "'," . $Pac . "," . ($DaySum / 1000) . ",'" . PLANT_NAMES[$i] . "'),";
                             }
                         }
                     }

@@ -6,7 +6,7 @@ $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$inverter = PLANTS[0];
+$inverter = PLANT_NAMES[0];
 if (isset($_GET['naam'])) {
     $inverter = $_GET['naam'];
 }
@@ -128,7 +128,7 @@ foreach ($acdatum as $i => $dyear) {
     } else $colori++;
 }
 
-foreach (PLANTS as $zz => $inverter_name) {
+foreach (PLANT_NAMES as $zz => $inverter_name) {
     if ($zz == 0) {
         $dash = "dashStyle: 'solid',";
     } elseif ($zz > 0) {
@@ -317,7 +317,7 @@ $categories = $shortmonthcategories;
     })(Highcharts);
 
     $(function () {
-        var khhWp = [<?= $params['plantskWp'] ?>];
+        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
         var first = <?= $firstYear ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         var sub_title = '<?= $sub_title ?>';

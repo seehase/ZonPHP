@@ -2,6 +2,7 @@
 //ZonPHP8 Nieuw
 //converts from UTC to local time
 // Globally define the Timezone
+global $params, $con, $formatter, $colors, $chart_options, $chart_lang;
 define('TIMEZONE', 'UTC');
 date_default_timezone_set(TIMEZONE);
 
@@ -65,7 +66,7 @@ if (mysqli_num_rows($result) == 0) {
 
 
         if (!in_array($inverter_name, $inveter_list)) {
-            if (in_array($inverter_name, PLANTS)) {
+            if (in_array($inverter_name, PLANT_NAMES)) {
                 // add to list only if it configured (ignore db entries)
                 $inveter_list[] = $inverter_name;
             }
@@ -94,6 +95,7 @@ $nice_max_date = date("Y-m-d", strtotime($maxdag));
 
 //-----------------------------------------------------
 //query for the best day
+$all_valarraymax = array();
 $sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $params['displayInterval'] . " ) *" . $params['displayInterval'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
 FROM " . TABLE_PREFIX . "_dag
 WHERE Datum_Dag LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%'
@@ -122,15 +124,17 @@ $strgegmax = "";
 $strsomkw = "";
 // build colors per inverter array
 $myColors = array();
-for ($k = 0; $k < count(PLANTS); $k++) {
+for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['min'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['max'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 $str_dataserie = "";
+$max_first_val = PHP_INT_MAX;
+$max_last_val = 0;
 $cnt = 0;
 foreach ($inveter_list as $inverter_name) {
     $col1 = $myColors[$inverter_name]['min'];
@@ -139,7 +143,15 @@ foreach ($inveter_list as $inverter_name) {
     data:[";
     foreach ($all_valarray as $time => $valarray) {
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
-        $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
+        $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'},';
+
+        // remember first and last date
+        if ($max_first_val > $time) {
+            $max_first_val = $time;
+        }
+        if ($max_last_val < $time) {
+            $max_last_val = $time;
+        }
     }
     $str_dataserie = substr($str_dataserie, 0, -1);
     $str_dataserie .= "]}, 
@@ -150,7 +162,7 @@ foreach ($inveter_list as $inverter_name) {
 $str_max = "";
 $cnt = 0;
 
-foreach (PLANTS as $key => $inverter_name) {
+foreach (PLANT_NAMES as $key => $inverter_name) {
     if ($key == 0) {
         $dash = '';
     } elseif ($key > 0) {
@@ -166,15 +178,18 @@ foreach (PLANTS as $key => $inverter_name) {
             $max_first_val = $time;
         }
         if (!isset($valarraymax[$inverter_name])) $valarraymax[$inverter_name] = 0;
-        $str_max .= '{x:' . ($time * 1000) . ', y:' . $valarraymax[$inverter_name] . ', unit: \'W\'}, ';
+        $str_max .= '{x:' . ($time * 1000) . ', y:' . $valarraymax[$inverter_name] . ', unit: \'W\'},';
     }
-    $str_max = substr($str_max, 0, -1);
-    $str_max .= "]}, 
+    if (count($all_valarraymax) > 0) {
+        $str_max = substr($str_max, 0, -1);
+        $str_max .= "]}, 
                     ";
+    } else {
+        $str_max .= "]},";
+    }
     $cnt++;
 }
 // remember last date
-$max_last_val = $time;
 $str_max = substr($str_max, 0, -1);
 $strgegmax = substr($strgegmax, 0, -1);
 
@@ -220,7 +235,7 @@ if (strlen($temp_serie) > 0) {
         }
 
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= $params['plantskWp'] ?>];
+        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
         var nmbr = khhWp.length //misused to get the inverter count
         var maxmax = <?= json_encode($maxkwh) ?>;
 
@@ -232,7 +247,8 @@ if (strlen($temp_serie) > 0) {
         var txt_max = '<?= getTxt('max') ?>';
         var txt_peak = '<?= getTxt('peak') ?>';
 
-        Highcharts.setOptions({<?= $chart_lang ?>
+        Highcharts.setOptions({
+            <?= $chart_lang ?>
             time: {
                 /**
                  * Use moment-timezone.js to return the timezone offset for individual

@@ -26,7 +26,7 @@ $current_year_month = date('Y-m', $chartdate);
 
 // get reference values
 $nfrefmaand = array();
-foreach (PLANTS as $plant) {
+foreach (PLANT_NAMES as $plant) {
     $tmp = $params[$plant]['referenceYield'][$current_month - 1] / 30;
     $nfrefmaand[] = $tmp;
 }
@@ -57,9 +57,9 @@ if (mysqli_num_rows($result) == 0) {
     for ($i = 1; $i <= $DaysPerMonth; $i++) {
         $agegevens[$i] = 0;
     }
-    for ($k = 0; $k < count(PLANTS); $k++) {
+    for ($k = 0; $k < count(PLANT_NAMES); $k++) {
         for ($i = 1; $i <= $DaysPerMonth; $i++) {
-            $all_valarray[$i][PLANTS[$k]] = 0;
+            $all_valarray[$i][PLANT_NAMES[$k]] = 0;
         }
     }
     while ($row = mysqli_fetch_array($result)) {
@@ -87,20 +87,20 @@ if (mysqli_num_rows($result) == 0) {
 // -----------------------------  build data for chart -----------------------------------------------------------------
 // build colors per inverter array
 $myColors = array();
-for ($k = 0; $k < count(PLANTS); $k++) {
+for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['min'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['max'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 // collect data array
 $myurl = HTML_PATH . "pages/day_overview.php?dag=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;
-foreach (PLANTS as $inverter_name) {
+foreach (PLANT_NAMES as $inverter_name) {
 
     $strdata = "";
     $local_max = 0;
@@ -171,7 +171,7 @@ include_once "chart_styles.php";
         var daycount2 = <?= $daycount ?>;
         var nref = <?= json_encode($nfrefmaand, JSON_NUMERIC_CHECK) ?>;
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= $params['plantskWp'] ?>];
+        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?= getTxt("max") ?>';
         var txt_gem = '<?= getTxt("gem") ?>';

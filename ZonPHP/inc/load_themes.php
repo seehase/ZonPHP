@@ -11,7 +11,6 @@ function loadTheame($params)
             $tempName = strtolower(substr($file, 0, -6));
             $tempTheme = parse_ini_file(ROOT_DIR . "/themes/" . $file, true);
             $themes[$tempName] = validatedTheme($tempTheme);
-
         }
     }
     $defaultTheme = $themes['default'];
@@ -22,9 +21,11 @@ function loadTheame($params)
     // request to change theme but only load if not default that is already loaded
     if (isset($_GET['theme']) && themeExists($themes, $_GET['theme'])) {
         $themeToLoad = strtolower($_GET['theme']);
-    } else {
+    } elseif (themeExists($themes, $params['userTheme'])) {
         // get default theme defined in parameters
         $themeToLoad = $params['userTheme'];
+    } else {
+        addCheckMessage("INFO", "Unknown userTheme: " . $params['userTheme']);
     }
     // change only if it is not default, which is already loaded
     if ($themeToLoad != "default") {
