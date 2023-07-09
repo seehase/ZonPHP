@@ -57,7 +57,7 @@ global $params, $colors, $new_version_label;
                     <?php
                     $themes = $_SESSION['themes'];
                     foreach ($themes as $key => $theme) {
-                        echo "\t" . '<li><a class="dropdown-item" href="?theme=\'' . $key . '\'" onclick="target=\'_self\'">' . $theme['info']['name'] . '</a></li>' . "\r\n";
+                        echo "\t" . '<li><a class="dropdown-item" href="?theme=' . $key . '" onclick="target=\'_self\'">' . $theme['info']['name'] . '</a></li>' . "\r\n";
                     }
                     ?>
                     <li>
