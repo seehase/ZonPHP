@@ -1,6 +1,7 @@
 <?php
+global $chartdate, $params, $colors;
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/connect.php";
 include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/last_years_chart.php";
 
@@ -12,7 +13,7 @@ $nextyear = date("Y-m-d", strtotime("+1 year", $chartdate));
 $prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
 
 $footer_display_style = "clear:both; ";
-if ($params['hideFooter'] == true) {
+if ($params['hideFooter']) {
     $padding = '- 35px';
     $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
 } else {
@@ -46,7 +47,7 @@ if ($params['hideFooter'] == true) {
 </div><!-- closing ".page-content" -->
 <script>
     $(document).ready(function () {
-        $("#resize ").height(<?= $big_chart_height ?>);
+        $("#resize ").height(<?= BIG_CHART_HIGHT ?>);
     });
 </script>
 

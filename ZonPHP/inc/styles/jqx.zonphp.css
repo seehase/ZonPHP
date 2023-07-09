@@ -39,7 +39,7 @@
     border-bottom-left-radius: 9.5px;
     border-bottom-right-radius: 9.5px;
     padding-top: 5px;
-    padding-bottom:7px;
+    padding-bottom: 7px;
     height: 45px;
     display: flex;
     align-items: center;
@@ -49,7 +49,7 @@
 .jqx-window-header-index-zonphp {
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-    height: 30px;
+    height: 18px;
     padding-top: 6px;
 }
 

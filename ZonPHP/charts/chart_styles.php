@@ -1,4 +1,5 @@
 <?php
+global $isIndexPage, $colors, $show_legende, $formatter;
 /**
  * general options for all charts
  */
@@ -64,12 +65,12 @@ if (isset($_SESSION['language'])) {
     }
 }
 
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     $displayType = "'none'";
-	$export = "false";
+    $export = "false";
 } else {
     $displayType = "'block'";
-	$export = "true";
+    $export = "true";
 }
 
 $chart_options =
@@ -183,7 +184,7 @@ $formatter->setPattern('LLL');
 $shortmonthcategories = "";
 for ($i = 1; $i <= 12; $i++) {
     // get month names in current locale
-    $shortmonthcategories .= '"' . str_replace('.', '', datefmt_format($formatter, mktime(0, 0, 0, $i,15))) . '",';
+    $shortmonthcategories .= '"' . str_replace('.', '', datefmt_format($formatter, mktime(0, 0, 0, $i, 15))) . '",';
 }
 $shortmonthcategories = substr($shortmonthcategories, 0, -1);
-?>
+

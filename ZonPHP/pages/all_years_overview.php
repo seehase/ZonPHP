@@ -1,6 +1,7 @@
 <?php
+global $params, $sum_per_year, $colors, $big_chart_height;
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/connect.php";
 include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/all_years_chart.php";
 // force reload caches
@@ -9,7 +10,7 @@ if (isset($_SESSION['lastupdate'])) {
 }
 
 $footer_display_style = "clear:both; ";
-if ($params['hideFooter'] == true) {
+if ($params['hideFooter']) {
     $padding = '- 35px';
     $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
 } else {

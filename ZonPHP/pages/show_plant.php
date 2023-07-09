@@ -1,6 +1,7 @@
 <?php
+global $params;
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/connect.php";
 include_once ROOT_DIR . "/inc/header.php";
 ?>
 
@@ -14,7 +15,7 @@ include_once ROOT_DIR . "/inc/header.php";
             <h2>I N S T A L L A T I O N</h2>
         </div>
         <div id='content'>
-            <div >
+            <div>
                 <h1>Anlage von <?= $params['farm']['name'] ?></h1>
                 <?= '
                 Website: ' . $params['farm']['website'] . '<br>
@@ -24,7 +25,7 @@ include_once ROOT_DIR . "/inc/header.php";
             </div>
             <div id="foto" style="float:none;">
                 <?php
-                foreach (PLANTS as $plant) {
+                foreach (PLANT_NAMES as $plant) {
                     echo "<p>" . $params[$plant]['name'] . "<br>" .
                         "<img src=" . HTML_PATH . $params[$plant]['image'] . " alt=" . $params[$plant]['name'] .
                         " style=\" border: 2px solid #000000; border-radius: 10px 10px 10px 10px; width: 600px\">

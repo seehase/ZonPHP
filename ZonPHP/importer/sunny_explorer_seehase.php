@@ -1,5 +1,6 @@
 <?php
 
+global $con, $params;
 $save = $_SESSION['plant'];
 $_SESSION['plant'] = "SEEHASE";
 
@@ -10,9 +11,8 @@ $sql = "SELECT *
 // get latest import date from db
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
 
-if (mysqli_num_rows($result) == 0) {
-    $dateTime = STARTDATE;
-} else {
+$dateTime = STARTDATE;
+if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
     }
@@ -34,9 +34,7 @@ for ($tel = 0; $tel <= 160; $tel++) {
         $adag[] = $filename;
     }
 }
-
-?>
-<?php
+$odatum = array();
 if (!empty($adag)) {
     foreach ($adag as $v) {
         $teller = 1;
@@ -46,6 +44,7 @@ if (!empty($adag)) {
         $houdeeindwaarde = 0;
         $stringend = "";
         $voegnulltoe = 0;
+        $startkw = 0.0;
         $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
         $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
         while (!feof($file)) {
@@ -66,26 +65,19 @@ if (!empty($adag)) {
                         }
                         if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
                             if ($MeteringDykWh != 0) {
-                                if ($MeteringDykWh == 0) {
-                                    $startend = 1;
-                                    $odatum = explode(" ", $oTimeStamp);
-                                    $stringend .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
-                                    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                        $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $params['coefficient'], 3) . ",'" . $_SESSION['plant'] . "')";
+                                $odatum = explode(" ", $oTimeStamp);
+                                if ($startend == 0) {
+                                    $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
                                 } else {
-                                    $odatum = explode(" ", $oTimeStamp);
-                                    if ($startend == 0) {
-                                        $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
-                                    } else {
-                                        $string .= $stringend . "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
-                                    }
-                                    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                        $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $params['coefficient'], 3) . ",'" . $_SESSION['plant'] . "')";
-                                    $stringend = "";
-                                    $startend = 0;
-                                    $houdeeindwaarde = 1;
-                                    $voegnulltoe = 0;
+                                    $string .= $stringend . "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
                                 }
+                                $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                    $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $params['coefficient'], 3) . ",'" . $_SESSION['plant'] . "')";
+                                $stringend = "";
+                                $startend = 0;
+                                $houdeeindwaarde = 1;
+                                $voegnulltoe = 0;
+
                             } else {
                                 if ($houdeeindwaarde != 0 && $voegnulltoe == 0) {
                                     $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "',0," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
@@ -109,8 +101,7 @@ if (!empty($adag)) {
         }
     }
 }
-?>
-<?php
+
 /******************************************************************************
  * maak months.js bestand aan
  * ****************************************************************************
@@ -194,8 +185,6 @@ for ($tel = 0; $tel <= 160; $tel++) {
     }
 }
 
-?>
-<?php
 if (!empty($adag)) {
     foreach ($adag as $v) {
         $teller = 1;
@@ -205,6 +194,7 @@ if (!empty($adag)) {
         $houdeeindwaarde = 0;
         $stringend = "";
         $voegnulltoe = 0;
+        $startkw = 0.0;
         $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
         $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
         while (!feof($file)) {
@@ -225,26 +215,19 @@ if (!empty($adag)) {
                         }
                         if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
                             if ($MeteringDykWh != 0) {
-                                if ($MeteringDykWh == 0) {
-                                    $startend = 1;
-                                    $odatum = explode(" ", $oTimeStamp);
-                                    $stringend .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
-                                    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                        $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $params['coefficient'], 3) . ",'" . $_SESSION['plant'] . "')";
+                                $odatum = explode(" ", $oTimeStamp);
+                                if ($startend == 0) {
+                                    $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
                                 } else {
-                                    $odatum = explode(" ", $oTimeStamp);
-                                    if ($startend == 0) {
-                                        $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
-                                    } else {
-                                        $string .= $stringend . "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
-                                    }
-                                    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
-                                        $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $params['coefficient'], 3) . ",'" . $_SESSION['plant'] . "')";
-                                    $stringend = "";
-                                    $startend = 0;
-                                    $houdeeindwaarde = 1;
-                                    $voegnulltoe = 0;
+                                    $string .= $stringend . "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . ($MeteringDykWh * 1000) . "," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
                                 }
+                                $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
+                                    $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format(($GridMsTotW - $startkw) * $params['coefficient'], 3) . ",'" . $_SESSION['plant'] . "')";
+                                $stringend = "";
+                                $startend = 0;
+                                $houdeeindwaarde = 1;
+                                $voegnulltoe = 0;
+
                             } else {
                                 if ($houdeeindwaarde != 0 && $voegnulltoe == 0) {
                                     $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "',0," . number_format($GridMsTotW - $startkw, 3) . ",'" . $_SESSION['plant'] . "'),";
@@ -269,8 +252,7 @@ if (!empty($adag)) {
     }
 }
 $_SESSION['plant'] = "SEEHASE";
-?>
-<?php
+
 /******************************************************************************
  * maak months.js bestand aan
  * ****************************************************************************
@@ -323,12 +305,7 @@ if (mysqli_num_rows($result) == 0) {
 
 $_SESSION['plant'] = $save;
 
-
-?>
-
-
-<?php
-function omzetdatum($date)
+function omzetdatum($date): string
 {
     $date = str_replace(array('.', '/', '-', ' ', ':'), '/', $date);
 
@@ -339,9 +316,8 @@ function omzetdatum($date)
     if (!isset($d_m_j_t[3])) return "geen datumtijd";
     if (!isset($d_m_j_t[4])) return "geen datumtijd";
     $d_m_j_t[5] = "00";
-    if (!isset($d_m_j_t[5])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[0])) return "geen datumtijd";
-    if (!is_numeric($d_m_j_t[1])) return "geen datumtijd";;
+    if (!is_numeric($d_m_j_t[1])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[2])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[3])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[4])) return "geen datumtijd";
@@ -355,25 +331,3 @@ function omzetdatum($date)
     else
         return "geen datumtijd";
 }
-
-?>
-<?php
-function controledatum($idag, $imaand, $ijaar)
-{
-    if (!checkdate($imaand, $idag, $ijaar)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-?>
-<?php
-function checktime($hour, $minute, $second)
-{
-    if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60 && $second > -1 && $second < 60) {
-        return true;
-    }
-}
-
-?> 

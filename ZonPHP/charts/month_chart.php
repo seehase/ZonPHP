@@ -1,6 +1,7 @@
 <?php
+global $con, $params, $formatter, $colors, $chart_options;
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/connect.php";
 
 $isIndexPage = false;
 $showAllInverters = true;
@@ -26,7 +27,7 @@ $current_year_month = date('Y-m', $chartdate);
 
 // get reference values
 $nfrefmaand = array();
-foreach (PLANTS as $plant) {
+foreach (PLANT_NAMES as $plant) {
     $tmp = $params[$plant]['referenceYield'][$current_month - 1] / 30;
     $nfrefmaand[] = $tmp;
 }
@@ -57,9 +58,9 @@ if (mysqli_num_rows($result) == 0) {
     for ($i = 1; $i <= $DaysPerMonth; $i++) {
         $agegevens[$i] = 0;
     }
-    for ($k = 0; $k < count(PLANTS); $k++) {
+    for ($k = 0; $k < count(PLANT_NAMES); $k++) {
         for ($i = 1; $i <= $DaysPerMonth; $i++) {
-            $all_valarray[$i][PLANTS[$k]] = 0;
+            $all_valarray[$i][PLANT_NAMES[$k]] = 0;
         }
     }
     while ($row = mysqli_fetch_array($result)) {
@@ -87,20 +88,22 @@ if (mysqli_num_rows($result) == 0) {
 // -----------------------------  build data for chart -----------------------------------------------------------------
 // build colors per inverter array
 $myColors = array();
-for ($k = 0; $k < count(PLANTS); $k++) {
+for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['min'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['max'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 // collect data array
 $myurl = HTML_PATH . "pages/day_overview.php?dag=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;
-foreach (PLANTS as $inverter_name) {
+$myColor1 = "'#FFAABB'";
+$myColor2 = "'#FFAABB'";
+foreach (PLANT_NAMES as $inverter_name) {
 
     $strdata = "";
     $local_max = 0;
@@ -151,7 +154,7 @@ $categories = substr($categories, 0, -1);
 
 
 $show_legende = "true";
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     echo '<div class = "index_chart" id="month_chart"></div>';
     $show_legende = "false";
 }
@@ -171,7 +174,7 @@ include_once "chart_styles.php";
         var daycount2 = <?= $daycount ?>;
         var nref = <?= json_encode($nfrefmaand, JSON_NUMERIC_CHECK) ?>;
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= $params['plantskWp'] ?>];
+        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?= getTxt("max") ?>';
         var txt_gem = '<?= getTxt("gem") ?>';
@@ -219,7 +222,7 @@ include_once "chart_styles.php";
                         } else {
                             PEAK = AX[0];
                         }
-                        ;
+
 
                         this.setSubtitle({
                             text: "<b>" + month + ": </b>" + (Highcharts.numberFormat(totamth, 2, ",", "")) + " kWh = " + (Highcharts.numberFormat((totamth / KWH) * 1000, 2, ",", "")) + " kWh/kWp = " + (Highcharts.numberFormat(percent, 0, ",", "")) + "% <br/><b>" +

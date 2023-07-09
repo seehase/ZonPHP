@@ -1,3 +1,6 @@
+<?php
+global $params, $colors, $new_version_label;
+?>
 <nav class="navbar navbar-expand-sm" style="background-color: <?= $colors['color_menubackground'] ?>;">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -7,6 +10,10 @@
                     <img src="<?= HTML_PATH ?>inc/images/logo_reverse.svg" alt="ZonPHP logo" height="28">
                 </a>
                 <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item"
+                           href="<?= HTML_PATH ?>index.php"><?= getTxt("index") ?></a>
+                    </li>
                     <li>
                         <a class="dropdown-item"
                            href="<?= HTML_PATH ?>pages/day_overview.php"><?= getTxt("chart_dayoverview") ?></a>
@@ -34,13 +41,6 @@
                     <li><a class="dropdown-item"
                            href="<?= HTML_PATH ?>pages/top31.php"><?= getTxt("chart_31days") ?></a>
                     </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                        <a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/show_plant.php"><?= getTxt("plant") ?></a>
-                    </li>
                 </ul>
 
             </div>
@@ -57,7 +57,7 @@
                     <?php
                     $themes = $_SESSION['themes'];
                     foreach ($themes as $key => $theme) {
-                        echo "\t" . '<li><a class="dropdown-item" href=?theme=' . $key . ' onclick="target=\'_self\'">' . $theme['info']['name'] . '<li></li>' . "\r\n";
+                        echo "\t" . '<li><a class="dropdown-item" href="?theme=\'' . $key . '\'" onclick="target=\'_self\'">' . $theme['info']['name'] . '</a></li>' . "\r\n";
                     }
                     ?>
                     <li>
@@ -76,21 +76,49 @@
                          title="English">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a class="dropdown-item" href=?language=en onclick="target='_self'">
+                    <li><a class="dropdown-item" href="?language=en" onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/images/en.svg" class="flag" alt="English" title="English">&nbsp;English</a>
                     </li>
-                    <li><a class="dropdown-item" href=?language=de onclick="target='_self'">
+                    <li><a class="dropdown-item" href="?language=de" onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/images/de.svg" class="flag" alt="Deutsch" title="Deutsch">&nbsp;Deutsch</a>
                     </li>
-                    <li><a class="dropdown-item" href=?language=nl onclick="target='_self'">
+                    <li><a class="dropdown-item" href="?language=nl" onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/images/nl.svg" class="flag" alt="Nederlands"
                                  title="Nederlands">&nbsp;Nederlands</a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href=?language=fr onclick="target='_self'">
+                        <a class="dropdown-item" href="?language=fr" onclick="target='_self'">
                             <img src="<?= HTML_PATH ?>inc/images/fr.svg" class="flag" alt="Français"
                                  title="Français">&nbsp;Français</a>
                     </li>
+                </ul>
+            </div>
+            &nbsp;&nbsp;
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">&nbsp;&nbsp;?&nbsp;
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a class="dropdown-item"
+                           href="<?= HTML_PATH ?>inc/destroy.php"><?= getTxt("clearsession") ?> </a>
+                    </li>
+                    <li><a class="dropdown-item"
+                           href="<?= HTML_PATH ?>pages/validate.php"><?= getTxt("validateparams") ?> </a>
+                    </li>
+                    <?php
+                    if (strlen($new_version_label) > 0) {
+                        $newversion = getTxt("newversion");
+                        echo <<<EOT
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" onclick="target='_blank'"
+                           href="https://github.com/seehase/ZonPHP/releases">$newversion</a>
+                        </li>
+                      EOT;
+                    }
+                    ?>
+
                 </ul>
             </div>
         </div>

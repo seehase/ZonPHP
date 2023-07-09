@@ -1,6 +1,7 @@
 <?php
+global $locale, $params, $datum, $chartcurrentdate, $colors, $chartdate;
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/connect.php";
 include_once ROOT_DIR . "/inc/header.php";
 include_once "../charts/year_chart.php";
 ?>
@@ -31,7 +32,7 @@ include_once "../charts/year_chart.php";
 
 <?php
 $footer_display_style = "clear:both; ";
-if ($params['hideFooter'] == true) {
+if ($params['hideFooter']) {
     $padding = '- 35px';
     $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
 } else {
@@ -48,19 +49,22 @@ if ($params['hideFooter'] == true) {
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp "
-                        onclick="window.location.href='<?= '?date=' . date('Y-m-d', strtotime("-1 year", $chartdate)) . '\'"';
-                        if ($_SESSION['date_minimum'] >= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-left fa-lg
-                "></i></button>
+                        onclick="window.location.href='<?php echo '?date=' . date('Y-m-d', strtotime("-1 year", $chartdate)) . '\'"';
+                        if ($_SESSION['date_minimum'] >= $chartdate) echo " hidden"; ?> >
+                    <i class=" fa fa-angle-left fa-lg"></i>
+                </button>
                 <?= $datum ?>
                 <button class="btn btn-zonphp"
-                        onclick="window.location.href='<?= '?date=' . date('Y-m-d', strtotime("+1 year", $chartdate)) . '\'"';
-                        if ( $_SESSION['date_maximum'] <= $chartdate) echo " hidden"; ?>><i class=" fa fa-angle-right fa-lg
-                "></i></button>
+                        onclick="window.location.href='<?php echo '?date=' . date('Y-m-d', strtotime("+1 year", $chartdate)) . '\'"';
+                        if ($_SESSION['date_maximum'] <= $chartdate) echo " hidden"; ?> >
+                    <i class=" fa fa-angle-right fa-lg"></i>
+                </button>
             </h2>
             <div class="block2">
                 <div class="inner">
                     <button class="btn btn-zonphp"
-                            onclick="window.location.href='<?= '?date=' . date('Y-m-d', $chartcurrentdate); ?>'"><?= getTxt("back_to_today") ?></button>
+                            onclick="window.location.href='<?= '?date=' . date('Y-m-d', $chartcurrentdate); ?>'"><?= getTxt("back_to_today") ?>
+                    </button>
                     <div class="inner">
                         <div class="input-group date" id="datepicker" data-date-format="yyyy-mm-dd">
                             <input type='hidden' id='untilDate' class="form-control">
@@ -79,7 +83,7 @@ if ($params['hideFooter'] == true) {
 </div><!-- closing ".page-content" -->
 <script>
     $(document).ready(function () {
-        $("#resize ").height(<?= $big_chart_height ?>);
+        $("#resize ").height(<?= BIG_CHART_HIGHT ?>);
     });
 </script>
 

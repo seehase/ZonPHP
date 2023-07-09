@@ -2,11 +2,12 @@
 //ZonPHP8 Nieuw
 //converts from UTC to local time
 // Globally define the Timezone
-define('TIMEZONE', 'UTC');
+global $params, $con, $formatter, $colors, $chart_options, $chart_lang;
+const TIMEZONE = 'UTC';
 date_default_timezone_set(TIMEZONE);
 
 include_once "../inc/init.php";
-include_once ROOT_DIR . "/inc/load_cache.php";
+include_once ROOT_DIR . "/inc/connect.php";
 
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
@@ -65,11 +66,11 @@ if (mysqli_num_rows($result) == 0) {
 
 
         if (!in_array($inverter_name, $inveter_list)) {
-            if (in_array($inverter_name, PLANTS)) {
+            if (in_array($inverter_name, PLANT_NAMES)) {
                 // add to list only if it configured (ignore db entries)
                 $inveter_list[] = $inverter_name;
             }
-        };
+        }
     }
 }
 
@@ -81,10 +82,9 @@ $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
      DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . " GROUP BY naam, maand ) AS maandelijks ON (month(" .
     TABLE_PREFIX . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . TABLE_PREFIX . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
-if (mysqli_num_rows($resultmaxdag) == 0) {
-    $maxdag = date("m-d", time());
-    $maxkwh[] = 0;
-} else {
+$maxdag = date("m-d", time());
+$maxkwh[] = 0;
+if (mysqli_num_rows($resultmaxdag) > 0) {
     while ($row = mysqli_fetch_array($resultmaxdag)) {
         $maxdag = $row['Datum_Maand'];
         $maxkwh[] = round($row['Geg_Maand'], 2);
@@ -94,15 +94,14 @@ $nice_max_date = date("Y-m-d", strtotime($maxdag));
 
 //-----------------------------------------------------
 //query for the best day
+$all_valarraymax = array();
 $sqlmdinv = "SELECT Geg_Dag AS gem, STR_TO_DATE( CONCAT( DATE( Datum_Dag ) ,  ' ', HOUR( Datum_Dag ) ,  ':', LPAD( FLOOR( MINUTE( Datum_Dag ) /" . $params['displayInterval'] . " ) *" . $params['displayInterval'] . ", 2,  '0' ) ,  ':00' ) ,  '%Y-%m-%d %H:%i:%s' ) AS datumtijd, Naam AS Name
 FROM " . TABLE_PREFIX . "_dag
 WHERE Datum_Dag LIKE  '" . date("Y-m-d", strtotime($maxdag)) . "%'
 ORDER BY Name, datumtijd ASC";
 $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
-if (mysqli_num_rows($resultmd) == 0) {
-    $maxdagpeak = 0;
-    //$agegevensdag_max[] = 0;
-} else {
+$maxdagpeak = 0;
+if (mysqli_num_rows($resultmd) != 0) {
     $maxdagpeak = 0;
     while ($row = mysqli_fetch_array($resultmd)) {
         $inverter_name = $row['Name'];
@@ -114,7 +113,7 @@ if (mysqli_num_rows($resultmd) == 0) {
         $all_valarraymax[strtotime($today_max_utc)] [$inverter_name] = $row['gem'];
         if ($row['gem'] > $maxdagpeak) {
             $maxdagpeak = $row['gem'];
-        };
+        }
     }
 }
 //--------------------------------------------------------------------------------------------------
@@ -122,15 +121,17 @@ $strgegmax = "";
 $strsomkw = "";
 // build colors per inverter array
 $myColors = array();
-for ($k = 0; $k < count(PLANTS); $k++) {
+for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['min'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
     $col1 = "color_inverter" . $k . "_chartbar_max";
     $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANTS[$k]]['max'] = $col1;
+    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 $str_dataserie = "";
+$max_first_val = PHP_INT_MAX;
+$max_last_val = 0;
 $cnt = 0;
 foreach ($inveter_list as $inverter_name) {
     $col1 = $myColors[$inverter_name]['min'];
@@ -139,7 +140,15 @@ foreach ($inveter_list as $inverter_name) {
     data:[";
     foreach ($all_valarray as $time => $valarray) {
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
-        $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'}, ';
+        $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'},';
+
+        // remember first and last date
+        if ($max_first_val > $time) {
+            $max_first_val = $time;
+        }
+        if ($max_last_val < $time) {
+            $max_last_val = $time;
+        }
     }
     $str_dataserie = substr($str_dataserie, 0, -1);
     $str_dataserie .= "]}, 
@@ -150,10 +159,10 @@ foreach ($inveter_list as $inverter_name) {
 $str_max = "";
 $cnt = 0;
 
-foreach (PLANTS as $key => $inverter_name) {
+foreach (PLANT_NAMES as $key => $inverter_name) {
     if ($key == 0) {
         $dash = '';
-    } elseif ($key > 0) {
+    } else {
         $dash = "dashStyle: 'dash',";
     }
     $str_max .= "{ name: '$inverter_name max',  color : '#15ff24', linkedTo: '$inverter_name', lineWidth: 1,  $dash  type: 'line',  stacking: 'normal', marker: { enabled: false },                           
@@ -166,15 +175,18 @@ foreach (PLANTS as $key => $inverter_name) {
             $max_first_val = $time;
         }
         if (!isset($valarraymax[$inverter_name])) $valarraymax[$inverter_name] = 0;
-        $str_max .= '{x:' . ($time * 1000) . ', y:' . $valarraymax[$inverter_name] . ', unit: \'W\'}, ';
+        $str_max .= '{x:' . ($time * 1000) . ', y:' . $valarraymax[$inverter_name] . ', unit: \'W\'},';
     }
-    $str_max = substr($str_max, 0, -1);
-    $str_max .= "]}, 
+    if (count($all_valarraymax) > 0) {
+        $str_max = substr($str_max, 0, -1);
+        $str_max .= "]}, 
                     ";
+    } else {
+        $str_max .= "]},";
+    }
     $cnt++;
 }
 // remember last date
-$max_last_val = $time;
 $str_max = substr($str_max, 0, -1);
 $strgegmax = substr($strgegmax, 0, -1);
 
@@ -182,12 +194,12 @@ $temp_serie = "";
 $temp_unit = "°C";
 $val_max = 0;
 $val_min = 0;
-if ($params['useWeewx'] == true) {
+if ($params['useWeewx']) {
     include ROOT_DIR . "/charts/temp_sensor_inc.php";
 }
 
 $show_legende = "true";
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     echo '<div class = "index_chart" id="mycontainer"></div>';
     $show_legende = "false";
 }
@@ -220,7 +232,7 @@ if (strlen($temp_serie) > 0) {
         }
 
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= $params['plantskWp'] ?>];
+        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
         var nmbr = khhWp.length //misused to get the inverter count
         var maxmax = <?= json_encode($maxkwh) ?>;
 
@@ -232,7 +244,8 @@ if (strlen($temp_serie) > 0) {
         var txt_max = '<?= getTxt('max') ?>';
         var txt_peak = '<?= getTxt('peak') ?>';
 
-        Highcharts.setOptions({<?= $chart_lang ?>
+        Highcharts.setOptions({
+            <?= $chart_lang ?>
             time: {
                 /**
                  * Use moment-timezone.js to return the timezone offset for individual
@@ -486,9 +499,7 @@ if (strlen($temp_serie) > 0) {
                 }
             ],
             series: [
-                <?= $str_dataserie ?>
-                <?= $str_max ?>
-                <?= $temp_serie ?>
+                <?= $str_dataserie . $str_max . $temp_serie?>
             ]
         }), function (mychart) {
             mychart.forRender = true

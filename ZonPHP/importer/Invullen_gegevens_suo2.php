@@ -1,13 +1,12 @@
 <?php
 
+global $con, $params;
 $sql = "SELECT *
 	FROM " . TABLE_PREFIX . "_dag
 	ORDER BY Datum_Dag DESC LIMIT 1";
-$result = mysql_queryi($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
-
-if (mysqli_num_rows($result) == 0)
-    $dateTime = STARTDATE;
-else {
+$result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
+$dateTime = STARTDATE;
+if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
     }
@@ -35,9 +34,7 @@ for ($tel = 0; $tel <= 60; $tel++) {
             $stHVL_suo = $HVL_suo;
     }
 }
-?>
 
-<?php
 if (!empty($adag)) {
     foreach ($adag as $v) {
         $teller = 1;
@@ -112,7 +109,7 @@ if (!empty($adag)) {
 
                     $oTimeStamp = date("Y-m-d H:i:s", strtotime($TimeStamp));
                     //$oTimeStamp1 = date('Y-m-d H:i:s',strtotime($dateTime1)); //Datenbank letzer eintrag plus 5 Minuten
-                    $oTimeStamp1 = date('Y-m-d H:i:s', strtotime($dateTime1) + ('231')); //Datenbank letzer eintrag plus 5 Minuten
+                    $oTimeStamp1 = date('Y-m-d H:i:s', strtotime($dateTime1) . '231'); //Datenbank letzer eintrag plus 5 Minuten
 
                     /*echo $dateTime.'z1 <br />';
                     echo $oTimeStamp.'z2 <br />';
@@ -435,8 +432,7 @@ if (!empty($adag)) {
         $_SESSION['plant'] = $tempwie;
     }
 }
-?>
-<?php
+
 /******************************************************************************
  * maak months.js bestand aan
  * ****************************************************************************
@@ -484,9 +480,8 @@ if (mysqli_num_rows($result) == 0) {
     }
     fclose($fp);
 }
-?>
-<?php
-function omzetdatum($date)
+
+function omzetdatum($date): string
 {
     //echo $date.'<br />';
     $date = str_replace(array('.', '/', '-', ' ', ':'), '/', $date);
@@ -513,26 +508,3 @@ function omzetdatum($date)
     else
         return "geen datumtijd";
 }
-
-?>
-<?php
-function controledatum($idag, $imaand, $ijaar)
-{
-    //echo $idag.$imaand.$ijaar;
-    if (!checkdate($imaand, $idag, $ijaar)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-?>
-<?php
-function checktime($hour, $minute, $second)
-{
-    if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60 && $second > -1 && $second < 60) {
-        return true;
-    }
-}
-
-?>

@@ -1,7 +1,7 @@
 <?php
 
 // forced to load or change theme
-function loadTheame($params)
+function loadTheame($params): void
 {
     // load available themes
     $themesFiles = scandir(ROOT_DIR . "/themes");
@@ -11,10 +11,10 @@ function loadTheame($params)
             $tempName = strtolower(substr($file, 0, -6));
             $tempTheme = parse_ini_file(ROOT_DIR . "/themes/" . $file, true);
             $themes[$tempName] = validatedTheme($tempTheme);
-
         }
     }
     $defaultTheme = $themes['default'];
+    $themeToLoad = $defaultTheme;
     $_SESSION['themes'] = $themes;
     $_SESSION['theme'] = $defaultTheme;
     $_SESSION['colors'] = $defaultTheme['colors'];
@@ -22,22 +22,24 @@ function loadTheame($params)
     // request to change theme but only load if not default that is already loaded
     if (isset($_GET['theme']) && themeExists($themes, $_GET['theme'])) {
         $themeToLoad = strtolower($_GET['theme']);
-    } else {
+    } elseif (themeExists($themes, $params['userTheme'])) {
         // get default theme defined in parameters
         $themeToLoad = $params['userTheme'];
+    } else {
+        addCheckMessage("INFO", "Unknown userTheme: " . $params['userTheme']);
     }
     // change only if it is not default, which is already loaded
     if ($themeToLoad != "default") {
         $customTheme = $themes[$themeToLoad];
         // override defaults with values from customTheme
         $_SESSION['theme'] = $themeToLoad;
-        $_SESSION['colors'] = array_merge($defaultTheme['colors'], $customTheme['colors']);;
+        $_SESSION['colors'] = array_merge($defaultTheme['colors'], $customTheme['colors']);
     }
 
     // build multi dimensional array for palettes
     $color_palettes = array();
     foreach ($_SESSION['colors']['color_pal'] as $str) {
-        $color_palettes[] = explode(',', $str);;
+        $color_palettes[] = explode(',', $str);
     }
     $_SESSION['colors']['color_palettes'] = $color_palettes;
     unset($_GET['theme']);
@@ -61,7 +63,7 @@ function validatedTheme(&$theme)
     return $theme;
 }
 
-function themeExists($themes, $themeName)
+function themeExists($themes, $themeName): bool
 {
     $themeName = strtolower($themeName);
     if (isset($themes[$themeName])) {
@@ -69,5 +71,4 @@ function themeExists($themes, $themeName)
     } else {
         return false;
     }
-
 }

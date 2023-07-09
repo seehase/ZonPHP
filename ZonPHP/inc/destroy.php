@@ -1,4 +1,5 @@
 <?php
+global $zonPHPSessionID;
 include_once "version_info.php";
 
 session_name($zonPHPSessionID);

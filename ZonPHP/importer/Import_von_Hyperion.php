@@ -1,21 +1,19 @@
 <?php
+global $con, $params;
 $Uhrzeit = 0;
 $FehlerUhrzeit = 0;
 $DC1 = 0;
 $TagesErtragPrufung = 0;
 $TagesErtrag = 0;
-?>
 
-<?php
 $sql = "SELECT *
 	FROM " . TABLE_PREFIX . "_dag
 	WHERE Naam ='" . $_SESSION['plant'] . "' 
 	ORDER BY Datum_Dag DESC LIMIT 1";
 //echo $sql;
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
-if (mysqli_num_rows($result) == 0)
-    $dateTime = STARTDATE;
-else {
+$dateTime = STARTDATE;
+if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
     }
@@ -43,14 +41,10 @@ for ($tel = 0; $tel <= 160; $tel++) {//2009-12-19.csv
         //echo "Datei gefunden=".$directoryImport .$num.'.csv';
     }
 }
-//echo '<pre>'.print_r($adag, true).'</pre>'; 
-?>
 
-<?php
 if (!empty($adag)) {
     foreach ($adag as $v) {
         $teller = 1;
-        $teller2 = 1;
         $begindagEtotaal = 0;
         $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
         $stringtest = $string;
@@ -96,9 +90,10 @@ if (!empty($adag)) {
                     //$Datum=$alist[0];
                     $UhrPrufung = $Uhrzeit;
                     $Uhrzeit = $alist[0];
-                    if ($Pac == 0) {//Prüfung ob Aktuelle Leistung "Null" ist, wenn Ja erfolgt kein Eintrag in die Datenbank
+                    if ($Pac != 0) {
+                        //Prüfung ob Aktuelle Leistung "Null" ist, wenn Ja erfolgt kein Eintrag in die Datenbank
                         //echo "Pac ist leer= ".$Pac." ".$Uhrzeit."<br />";
-                    } else {                    //echo"Leistungs Prüfung ist OK - weiter gehts"."<br />";
+                        //echo"Leistungs Prüfung ist OK - weiter gehts"."<br />";
                         //$Uhrzeit=$alist[0];
                         //$TagesErtragPrufung=$TagesErtrag;
                         $TagesErtrag = str_replace(array(','), '.', $alist[24]);//echo $DaySum."<br />";
@@ -130,35 +125,19 @@ if (!empty($adag)) {
                                     $TagesErtrag=$TagesErtragPrufung;
                                     }*/
 
-
-                                if ($teller2 == 1) {
-                                    $string .= "('" . $oDatumTijd . $_SESSION['plant'] . "','" . $oDatumTijd . "'," . $Pac . "," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
-                                    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
-                                    $stringdelete = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
-                                    $teller2 = 0;
-                                    $stringtest = $string;
-                                    //echo "Gesammter String",$string."<br />"."<br />";
-                                    //echo "1. Feld ",$oDatumTijd.$_SESSION['plant']."<br />";
-                                    //echo "2, Feld ",$oDatumTijd."<br />";
-                                    //echo "3, Feld Aktelle Leistung= ",$Pac."<br />";
-                                    //echo "4, Feld Aktueller TagesErtrag= ",$TagesErtrag."<br />";
-                                    //echo "4, Feld Tagesgesammtsumme",$DaySum."<br />";
-                                    //echo "4, Feld Formartierte Tagessumme",number_format($DaySum,3)."<br />";// Formatieren funktioniert nicht
-                                    //echo "5, Feld ",$_SESSION['plant']."<br />"."<br />";
-                                } else {
-                                    $string .= ",('" . $oDatumTijd . $_SESSION['plant'] . "','" . $oDatumTijd . "'," . $Pac . "," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
-                                    $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
-                                    $stringtest = $string;
-                                    //echo "Gesammter String",$string."<br />"."<br />";
-                                    //echo "1. Feld ",$oDatumTijd.$_SESSION['plant']."<br />";
-                                    //echo "2, Feld ",$oDatumTijd."<br />";
-                                    //echo "3, Feld Aktelle Leistung= ",$Pac."<br />";
-                                    //echo "4, Feld Aktueller TagesErtrag= ",$TagesErtrag."<br />";
-                                    //echo "4, Feld Tagesgesammtsumme",$DaySum."<br />";
-                                    //echo "4, Feld Formartierte Tagessumme",number_format($DaySum,3)."<br />";// Formatieren funktioniert nicht
-                                    //echo "5, Feld ",$_SESSION['plant']."<br />"."<br />";
-
-                                }
+                                $string .= "('" . $oDatumTijd . $_SESSION['plant'] . "','" . $oDatumTijd . "'," . $Pac . "," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
+                                $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . $TagesErtrag . ",'" . $_SESSION['plant'] . "')";
+                                $stringdelete = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
+                                $teller2 = 0;
+                                $stringtest = $string;
+                                //echo "Gesammter String",$string."<br />"."<br />";
+                                //echo "1. Feld ",$oDatumTijd.$_SESSION['plant']."<br />";
+                                //echo "2, Feld ",$oDatumTijd."<br />";
+                                //echo "3, Feld Aktelle Leistung= ",$Pac."<br />";
+                                //echo "4, Feld Aktueller TagesErtrag= ",$TagesErtrag."<br />";
+                                //echo "4, Feld Tagesgesammtsumme",$DaySum."<br />";
+                                //echo "4, Feld Formartierte Tagessumme",number_format($DaySum,3)."<br />";// Formatieren funktioniert nicht
+                                //echo "5, Feld ",$_SESSION['plant']."<br />"."<br />";
                             }
                         }
                     }
@@ -184,9 +163,7 @@ if (!empty($adag)) {
         }
     }
 }
-?>
 
-<?php
 /******************************************************************************
  * maak months.js bestand aan
  * ****************************************************************************
@@ -232,10 +209,8 @@ if (mysqli_num_rows($result) == 0) {
     }
     fclose($fp);
 }
-?>
 
-<?php
-function omzetdatum($date)
+function omzetdatum($date): string
 {
     //echo $date.'b<br />';
     //$date = str_replace(array('.', ' ', ':'), '/', $date);
@@ -249,7 +224,7 @@ function omzetdatum($date)
     if (!isset($m_d_j_t[4])) return "geen datumtijd";
     //if(!isset($m_d_j_t[5]))	return "geen datumtijd";
     if (!is_numeric($m_d_j_t[0])) return "geen datumtijd";
-    if (!is_numeric($m_d_j_t[1])) return "geen datumtijd";;
+    if (!is_numeric($m_d_j_t[1])) return "geen datumtijd";
     if (!is_numeric($m_d_j_t[2])) return "geen datumtijd";
     if (!is_numeric($m_d_j_t[3])) return "geen datumtijd";
     if (!is_numeric($m_d_j_t[4])) return "geen datumtijd";
@@ -262,28 +237,3 @@ function omzetdatum($date)
     else
         return "geen datumtijd";
 }
-
-?>
-
-<?php
-function controledatum($idag, $imaand, $ijaar)
-{
-    //echo $idag.$imaand.$ijaar;
-    if (!checkdate($imaand, $idag, $ijaar)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-?>
-
-<?php
-function checktime($hour, $minute, $second)
-{
-    if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60 && $second > -1 && $second < 60) {
-        return true;
-    }
-}
-
-?> 
