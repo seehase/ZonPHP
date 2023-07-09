@@ -47,7 +47,7 @@ function vadidateParams(&$params): void
         vadidatePlant($plantName, $params[$plantName]);
         $params['farm']['plants'][$plantName] = $params[$plantName];
         $params['PLANTS'][$plantName] = $params[$plantName];
-        $params['PLANTS_KWP'][] = $params[$plantName]['capacity'];
+        $params['PLANTS_KWP'][] = intval($params[$plantName]['capacity']);
         $totalExpectedMonth[0][$plantName] = 0;
         $values = json_decode('[' . $params[$plantName]['expectedYield'] . ']', true);
         $validatedValues = vadidateExpectedYield($plantName, $values);
@@ -331,6 +331,10 @@ function vadidatePlant($name, &$plant): void
     if (!isset($plant['expectedYield'])) {
         addCheckMessage("INFO", "['" . $name . "']['expectedYield'] not set in parameter.php, setting default values ''");
         $plant['expectedYield'] = "170,200,300,500,550,600,600,550,500,300,200,170";
+    }
+    if (!isset($plant['description'])) {
+        addCheckMessage("INFO", "['" . $name . "']['description'] not set in parameter.php, setting default ''");
+        $plant['description'] = "";
     }
 }
 

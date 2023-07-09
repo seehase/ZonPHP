@@ -60,12 +60,6 @@ global $params, $colors, $new_version_label;
                         echo "\t" . '<li><a class="dropdown-item" href="?theme=' . $key . '" onclick="target=\'_self\'">' . $theme['info']['name'] . '</a></li>' . "\r\n";
                     }
                     ?>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item"
-                           href="<?= HTML_PATH ?>inc/destroy.php"><?= getTxt("clearsession") ?> </a>
-                    </li>
                 </ul>
             </div>
             &nbsp;&nbsp;

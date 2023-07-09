@@ -1,5 +1,5 @@
 <?php
-global $version;
+global $version, $new_version_label;
 include_once "../inc/init.php";
 
 ?>
@@ -23,6 +23,7 @@ include_once "../inc/init.php";
         <div id="area"></div>
         <div id="afstand">
             <div class="inside">
+                <br>
                 <ul id="nav">
                     <li><a href="..">&raquo;&nbsp;Index</a></li>
                     <?php
@@ -34,7 +35,6 @@ include_once "../inc/init.php";
                 <hr>
                 <?= $version ?>
                 <br>
-                <hr>
             </div>
         </div>
     </div>
@@ -49,9 +49,9 @@ include_once "../inc/init.php";
             Your language:<a href='?language=en' TARGET='_self'><img
                         src="../inc/images/en.svg" alt="en" width="16" height="11"></a>&nbsp;&nbsp;
             Votre langue:<a href='?language=fr' TARGET='_self'><img
-                        src="../inc/images/fr.svg" alt="fr"  width="16" height="11"></a>&nbsp;&nbsp;
+                        src="../inc/images/fr.svg" alt="fr" width="16" height="11"></a>&nbsp;&nbsp;
             Ihre Sprache:<a href='?language=de' TARGET='_self'><img
-                        src="../inc/images/de.svg" alt="de"  width="16" height="11"></a>
+                        src="../inc/images/de.svg" alt="de" width="16" height="11"></a>
             <hr>
             <br>
             <?php
@@ -69,8 +69,17 @@ include_once "../inc/init.php";
                 echo "<p> $msg </p>";
             }
 
-            echo "<br>";
+            echo "<br><hr>";
+            if (strlen($new_version_label) > 0) {
+                $newversion = getTxt("newversion") . " " . getTxt("available");
+                echo <<<EOT
+                        <a  onclick="target='_blank'"
+                           href="https://github.com/seehase/ZonPHP/releases">$newversion</a>    
+                           <br>                    
+                      EOT;
+            }
             ?>
+            <br>
         </div>
     </div>
 </div>

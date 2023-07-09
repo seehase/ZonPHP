@@ -43,6 +43,7 @@ $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error(
 $daycount = 0;
 $all_valarray = array();
 $inveter_list = array();
+$monthTotal = 0.0;
 if (mysqli_num_rows($result) == 0) {
     $formatter->setPattern('LLLL yyyy');
     $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
@@ -68,6 +69,7 @@ if (mysqli_num_rows($result) == 0) {
         $adatum[] = date("j", strtotime($row['Datum_Maand']));
         $agegevens[date("j", strtotime($row['Datum_Maand']))] += $row['Geg_Maand'];
         $all_valarray[date("j", strtotime($row['Datum_Maand']))] [$inverter_name] = $row['Geg_Maand'];
+        $monthTotal += $row['Geg_Maand'];
         $dmaandjaar[] = $row['Datum_Maand'];
 
     }
@@ -97,7 +99,7 @@ for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 // collect data array
-$myurl = HTML_PATH . "pages/day_overview.php?dag=";
+$myurl = HTML_PATH . "pages/day_overview.php?date=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;
@@ -158,10 +160,15 @@ if ($isIndexPage) {
     echo '<div class = "index_chart" id="month_chart"></div>';
     $show_legende = "false";
 }
-
+$monthTotal = round($monthTotal, 2);
 include_once "chart_styles.php";
 ?>
 <script>
+
+    var fieldNameElement = document.getElementById('chart_header_month');
+    if (fieldNameElement != null) {
+        fieldNameElement.innerHTML =  fieldNameElement.innerHTML + " - " + txt['totaal'] + ": " + <?= $monthTotal ?> + "kW" ;
+    }
 
     $(function () {
 
@@ -174,7 +181,7 @@ include_once "chart_styles.php";
         var daycount2 = <?= $daycount ?>;
         var nref = <?= json_encode($nfrefmaand, JSON_NUMERIC_CHECK) ?>;
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?= getTxt("max") ?>';
         var txt_gem = '<?= getTxt("gem") ?>';

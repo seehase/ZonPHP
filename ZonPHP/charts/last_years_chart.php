@@ -92,7 +92,7 @@ if (mysqli_num_rows($resultmax) == 0) {
 // ----------------------------------------------------------------------------
 $strxas = "";
 $tellerkleuren = 0;
-$href = HTML_PATH . "pages/month_overview.php?maand=";
+$href = HTML_PATH . "pages/month_overview.php?date=";
 $sum_per_month = array();
 $cnt_per_month = array();
 
@@ -315,7 +315,7 @@ $categories = $shortmonthcategories;
     })(Highcharts);
 
     $(function () {
-        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var first = <?= $firstYear ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         var sub_title = '<?= $sub_title ?>';

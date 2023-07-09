@@ -24,7 +24,6 @@ $result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error
 $sum_per_year = array();
 $total_sum_for_all_years = 0;
 $average_per_month = 0;
-
 $missing_days_month_year = array();
 if (mysqli_num_rows($result) == 0) {
     $sum_per_year[date('Y-m-d', time())] = 0;
@@ -89,6 +88,7 @@ $current_bars = "";
 $categories = "";
 $best_year = 0;
 $strdataseries = "";
+
 $myColors = array();
 for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $col1 = "color_inverter" . $k . "_chartbar_min";
@@ -160,17 +160,24 @@ if ($isIndexPage) {
     echo ' <div class = "index_chart" id="total_chart"></div>';
     $show_legende = "false";
 }
+
 include_once "chart_styles.php";
 ?>
 <script>
 
     $(function () {
+
+        var fieldNameElement = document.getElementById('chart_header_allYears');
+        if (fieldNameElement != null) {
+            fieldNameElement.innerHTML =  fieldNameElement.innerHTML + " - " + txt['totaal'] + ": " + <?= round($total_sum_for_all_years,2) ?> + "kW" ;
+        }
+
         function add(accumulator, a) {
             return accumulator + a;
         }
 
-        var txt = '<?= getTxt("totaal") ?>';
-        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        var txt_total = '<?= getTxt("totaal") ?>';
+        var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?= getTxt("max") ?>';
         var txt_ref = '<?= getTxt("ref") ?>';
@@ -220,7 +227,7 @@ include_once "chart_styles.php";
                         }
 
                         this.setSubtitle({
-                            text: "<b>" + txt + ": </b>" + (Highcharts.numberFormat(totayr, 0, ",", "")) + " kWh = " + (Highcharts.numberFormat((totayr / KWH) * 1000, 0, ",", "")) + " kWh/kWp " + " <br/><b>"
+                            text: "<b>" + txt_total + ": </b>" + (Highcharts.numberFormat(totayr, 0, ",", "")) + " kWh = " + (Highcharts.numberFormat((totayr / KWH) * 1000, 0, ",", "")) + " kWh/kWp " + " <br/><b>"
                                 + txt_max + ": </b>" + (Highcharts.numberFormat(PEAK, 0, ",", "")) + " kWh = " +
                                 (Highcharts.numberFormat((PEAK / KWH) * 1000, 0, ",", "")) + " kWh/kWp" + " <b>" +
                                 txt_gem + ": </b>" + (Highcharts.numberFormat(GEM, 0, ",", "")) + " kWh" + " <b>" + txt_ref + ": </b>" + (Highcharts.numberFormat(REF, 0, ",", "")) + " kWh"

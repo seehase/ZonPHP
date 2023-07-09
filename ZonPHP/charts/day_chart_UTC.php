@@ -133,6 +133,7 @@ $str_dataserie = "";
 $max_first_val = PHP_INT_MAX;
 $max_last_val = 0;
 $cnt = 0;
+$totalDay = 0.0;
 foreach ($inveter_list as $inverter_name) {
     $col1 = $myColors[$inverter_name]['min'];
     $col2 = $myColors[$inverter_name]['max'];
@@ -141,7 +142,7 @@ foreach ($inveter_list as $inverter_name) {
     foreach ($all_valarray as $time => $valarray) {
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
         $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'},';
-
+        $totalDay +=  $valarray[$inverter_name];
         // remember first and last date
         if ($max_first_val > $time) {
             $max_first_val = $time;
@@ -215,7 +216,7 @@ if (sizeof($_GET) > 0) {
 if (strpos($paramstr_day, "?") == 0) {
     $paramstr_day = '?' . $paramstr_day;
 }
-$maxlink = '<a href= ' . HTML_PATH . 'pages/day_overview.php' . $paramstr_day . 'dag=' . $nice_max_date . '><span style="font-family:Arial,Verdana;font-size:12px;font-weight:12px;color:' . $colors['color_chart_text_subtitle'] . ' ;">' . $nice_max_date . '</span></a>';
+$maxlink = '<a href= ' . HTML_PATH . 'pages/day_overview.php' . $paramstr_day . 'date=' . $nice_max_date . '><span style="font-family:Arial,Verdana;font-size:12px;font-weight:12px;color:' . $colors['color_chart_text_subtitle'] . ' ;">' . $nice_max_date . '</span></a>';
 //print_r($maxlink);
 include_once "chart_styles.php";
 $show_temp_axis = "false";
@@ -224,15 +225,22 @@ if (strlen($temp_serie) > 0) {
     $show_temp_axis = "true";
     $show_cum_axis = "false";
 }
+
 ?>
 <script>
     $(function () {
+
+        var fieldNameElement = document.getElementById('chart_header_day');
+        if (fieldNameElement != null) {
+            fieldNameElement.innerHTML =  fieldNameElement.innerHTML + " - " + txt['totaal'] + ": " + <?= round($totalDay/12000,2) ?> + "kW" ;
+        }
+
         function add(accumulator, a) {
             return accumulator + a;
         }
 
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         var maxmax = <?= json_encode($maxkwh) ?>;
 

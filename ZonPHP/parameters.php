@@ -42,6 +42,7 @@ panels = "5040Wq = 21*Trina TSM-240 PC05 Poly"
 inverter = "SMA SB 5000TL20 ESS"
 orientation = "180 Grad 30 Grad Neigung"
 location = Ingolstadt
+description = "this is my first solar plant, built in 2011"
 
 [TILLY]
 name = Tillman
@@ -55,6 +56,7 @@ panels = "3000Wq = 10* panels"
 inverter = "SMA SB 3000TL10"
 orientation = "180 Grad 30 Grad Neigung"
 location = Ingolstadt
+descriptopm = "my second plant"
 
 [farm]
 name = ZonPHP Seehausen Solar

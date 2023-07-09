@@ -1,4 +1,4 @@
-var grid = [];
+let grid = [];
 
 function docReady(fn) {
     // see if DOM is already available
@@ -20,7 +20,7 @@ function load_charts() {
         saveLayout(grid);
     });
 
-    var layout = window.localStorage.getItem('layout');
+    const layout = window.localStorage.getItem('layout');
     if (layout) {
 
         loadLayout(grid, layout);
@@ -30,28 +30,28 @@ function load_charts() {
     }
 
     function serializeLayout(grid) {
-        var itemIds = grid.getItems().map(function (item) {
+        const itemIds = grid.getItems().map(function (item) {
             return item.getElement().getAttribute('data-id');
         });
         return JSON.stringify(itemIds);
     }
 
     function saveLayout(grid) {
-        var layout = serializeLayout(grid);
+        const layout = serializeLayout(grid);
         window.localStorage.setItem('layout', layout);
     }
 
     function loadLayout(grid, serializedLayout) {
-        var layout = JSON.parse(serializedLayout);
-        var currentItems = grid.getItems();
-        var currentItemIds = currentItems.map(function (item) {
+        const layout = JSON.parse(serializedLayout);
+        const currentItems = grid.getItems();
+        const currentItemIds = currentItems.map(function (item) {
             return item.getElement().getAttribute('data-id')
         });
-        var newItems = [];
-        var itemId;
-        var itemIndex;
+        const newItems = [];
+        let itemId;
+        let itemIndex;
 
-        for (var i = 0; i < layout.length; i++) {
+        for (let i = 0; i < layout.length; i++) {
             itemId = layout[i];
             itemIndex = currentItemIds.indexOf(itemId);
             if (itemIndex > -1) {
@@ -63,7 +63,7 @@ function load_charts() {
 
     }
 
-    var headerclass = "jqx-window-header jqx-window-header-index-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp"
+    const headerclass = "jqx-window-header jqx-window-header-index-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp";
 
     /* load all charts according order */
 
@@ -112,20 +112,20 @@ function load_charts() {
     // loadLayout(grid, layout);
 
     function addDay() {
-        var id = "id_Day";
-        var itemTemplate = '' +
+        const id = "id_Day";
+        const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div  class="item-content card"> ' +
-            '       <a href="./pages/day_overview.php"><div id="chart_header" class="' + headerclass + '">' + daytext + '</div> </a> ' +
+            '       <a href="./pages/day_overview.php"><div id="chart_header_day" class="' + headerclass + '">' + daytext + '</div> </a> ' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
 
-        var itemElem = document.createElement('div');
+        const itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
 
-        var container = $('#' + id);
+        const container = $('#' + id);
         $.ajax({
             url: 'charts/day_chart_UTC.php',
             type: 'post',
@@ -138,20 +138,20 @@ function load_charts() {
     }
 
     function addMonth() {
-        var id = "id_Month";
-        var itemTemplate = '' +
+        const id = "id_Month";
+        const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div  class="item-content card"> ' +
-            '       <a href="./pages/month_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
+            '       <a href="./pages/month_overview.php"><div id="chart_header_month" class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
 
-        var itemElem = document.createElement('div');
+        const itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
 
-        var container = $('#' + id);
+        const container = $('#' + id);
         $.ajax({
             url: 'charts/month_chart.php',
             type: 'post',
@@ -164,20 +164,20 @@ function load_charts() {
     }
 
     function addAllYears() {
-        var id = "id_AllYears";
-        var itemTemplate = '' +
+        const id = "id_AllYears";
+        const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div  class="item-content card"> ' +
-            '       <a href="./pages/all_years_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_allyearoverview"] + '</div></a>' +
+            '       <a href="./pages/all_years_overview.php"><div id="chart_header_allYears" class="' + headerclass + '">' + txt["chart_allyearoverview"] + '</div></a>' +
             '       <div id ="' + id + '">' +
             '   </div>' +
             '</div>';
 
-        var itemElem = document.createElement('div');
+        const itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
 
-        var container = $('#' + id);
+        const container = $('#' + id);
         $.ajax({
             url: 'charts/all_years_chart.php',
             type: 'post',
@@ -191,19 +191,19 @@ function load_charts() {
 
 
     function addBest() {
-        var id = "id_Best";
-        var itemTemplate = '' +
+        const id = "id_Best";
+        const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card"> ' +
             '       <a href="./pages/top31.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_31days"] + '</div></a>' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '   </div>';
-        var itemElem = document.createElement('div');
+        const itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
 
-        var container = $('#' + id);
+        const container = $('#' + id);
         $.ajax({
             url: 'charts/top31_chart.php',
             type: 'post',
@@ -216,19 +216,19 @@ function load_charts() {
     }
 
     function addYear() {
-        var id = "id_Year";
-        var itemTemplate = '' +
+        const id = "id_Year";
+        const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card"> ' +
-            '       <a href="./pages/year_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
+            '       <a href="./pages/year_overview.php"><div id="chart_header_year" class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
             '       <div    id="' + id + '">' +
             '   </div>' +
             '</div>';
-        var itemElem = document.createElement('div');
+        const itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
 
-        var container = $('#' + id);
+        const container = $('#' + id);
         $.ajax({
             url: 'charts/year_chart.php',
             type: 'post',
@@ -241,19 +241,19 @@ function load_charts() {
     }
 
     function addCumulative() {
-        var id = "id_Cumulative";
-        var itemTemplate = '' +
+        const id = "id_Cumulative";
+        const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class  ="item-content card"> ' +
             '       <a href="./pages/cumulative_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_cumulativeoverview"] + '</div></a>' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
-        var itemElem = document.createElement('div');
+        const itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
 
-        var container = $('#' + id);
+        const container = $('#' + id);
         $.ajax({
             url: 'charts/cumulative_chart.php',
             type: 'post',
@@ -266,19 +266,19 @@ function load_charts() {
     }
 
     function addLastYears() {
-        var id = "id_LastYears";
-        var itemTemplate = '' +
+        const id = "id_LastYears";
+        const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card"> ' +
             '       <a href="./pages/last_years_overview.php"><div id="chart_header" class="' + headerclass + '">' + txt["chart_lastyearoverview"] + '</div></a>' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
-        var itemElem = document.createElement('div');
+        const itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
 
-        var container = $('#' + id);
+        const container = $('#' + id);
         $.ajax({
             url: 'charts/last_years_chart.php',
             type: 'post',
@@ -291,8 +291,16 @@ function load_charts() {
     }
 
     function addFarm() {
-        var id = "id_farm";
-        var itemTemplate = '' +
+        const id = "id_farm";
+        let plants = farm['plants'];
+        let plantText = "";
+        for (const key in plants) {
+            plantText +=  txt['name'] + ' : ' + plants[key]['name'] + '<br>';
+            plantText +=  txt['startdate'] + ' : ' + plants[key]['installationDate'] + '<br>';
+            plantText +=  txt['capacity'] + ' : ' + plants[key]['capacity'] + '<br><hr>'
+        }
+
+        const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
             '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_farm_information"] + '</div></a>' +
@@ -305,12 +313,13 @@ function load_charts() {
             '             ' + txt['location'] + ' : ' + farm['location'] + '<br>' +
             '             ' + txt['startdate'] + ' : ' + farm['installationDate'] + '<br>' +
             '             ' + txt['totalcapacity'] + ' : ' + farm['totalCapacity'] + '<br>' +
-            '             ' + txt['importer'] + ' : ' + farm['importer'] + '<br> <br>' +
+            '             ' + txt['importer'] + ' : ' + farm['importer'] + '<br><br>' +
+            '             ' + txt['plant'] + '<br>' + plantText +
             '          </div>' +
             '       </div>' +
             '    </div>' +
             '</div>';
-        var itemElem = document.createElement('div');
+        const itemElem = document.createElement('div');
         itemElem.innerHTML = itemTemplate;
         grid.add(itemElem.firstChild);
     }
@@ -319,7 +328,7 @@ function load_charts() {
         let plants = farm['plants'];
         for (const key in plants) {
             let id = "id_plant_" + key;
-            var itemTemplate = '' +
+            const itemTemplate = '' +
                 '<div class="item h4 w4" data-id="' + id + '">' +
                 '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
                 '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt['plant'] + ' - ' + plants[key]['name'] + '</div></a>' +
@@ -333,11 +342,12 @@ function load_charts() {
                 '                 ' + txt['inverter'] + ' : ' + plants[key]['inverter'] + '<br>' +
                 '                 ' + txt['startdate'] + ' : ' + plants[key]['installationDate'] + '<br>' +
                 '                 ' + txt['orientatie'] + ' : ' + plants[key]['orientation'] + '<br>' +
+                '                 ' + txt['description'] + ' : ' + plants[key]['description'] + '<br>' +
                 '          </div>' +
                 '       </div>' +
                 '    </div>' +
                 '</div>';
-            var itemElem = document.createElement('div');
+            const itemElem = document.createElement('div');
             itemElem.innerHTML = itemTemplate;
             grid.add(itemElem.firstChild);
         }
@@ -352,7 +362,7 @@ function load_charts() {
                 uri = './images/' + images[key]['uri'];
             }
             let id = "id_image_" + key;
-            var itemTemplate = '' +
+            const itemTemplate = '' +
                 '<div class="item h4 w4" data-id="' + id + '">' +
                 '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
                 '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + images[key]['title'] + '</div></a>' +
@@ -366,124 +376,11 @@ function load_charts() {
                 '     </div>' +
                 '   </div>' +
                 '</div>';
-            var itemElem = document.createElement('div');
+            const itemElem = document.createElement('div');
             itemElem.innerHTML = itemTemplate;
             grid.add(itemElem.firstChild);
         }
     }
 
     loadCharts();
-}
-
-function myTest() {
-    var layout = window.localStorage.getItem('layout');
-    console.log("xxx grid " + grid);
-    console.log("The TEST2");
-    // Get the modal
-
-
-    var modal = document.getElementById("myModal");
-    var btn = document.getElementById("myBtn");
-    var span = document.getElementsByClassName("close")[0];
-    var cnt = document.getElementsByClassName("board")[0];
-
-    var itemElem = document.createElement('div');
-    itemElem.innerHTML =
-        '        <div class="board-column todo">' +
-        '            <div class="board-column-header">Available Charts</div>' +
-        '            <div class="board-column-content-wrapper">' +
-        '                <div class="board-column-content">' +
-        '                    <div class="board-item"><div class="board-item-content">aaa</div></div>' +
-        '                    <div class="board-item"><div class="board-item-content">bbb</div></div>' +
-        '                    <div class="board-item"><div class="board-item-content">ccc</div></div>' +
-        '                    <div class="board-item"><div class="board-item-content">dddd</div></div>' +
-        // '                </div>' +
-        '            </div>';
-    cnt.appendChild(itemElem);
-    itemElem = document.createElement('div');
-    itemElem.innerHTML =
-        '        <div class="board-column working">' +
-        '            <div class="board-column-header">Active Charts</div>' +
-        '            <div class="board-column-content-wrapper">' +
-        '                <div class="board-column-content">' +
-        '                    <div class="board-item"><div class="board-item-content"><span>Item #</span>8</div></div>' +
-        '                    <div class="board-item"><div class="board-item-content"><span>Item #</span>9</div></div>' +
-        '                    <div class="board-item"><div class="board-item-content"><span>Item #</span>10</div></div>' +
-        '            </div>\n';
-    cnt.appendChild(itemElem);
-
-    var boardGrid = new Muuri('.board', {
-        layoutDuration: 400,
-        layoutEasing: 'ease',
-        dragEnabled: false,
-        dragSortInterval: 0,
-        dragStartPredicate: {
-            handle: '.board-column-header'
-        },
-        dragReleaseDuration: 400,
-        dragReleaseEasing: 'ease'
-    });
-
-    modal.style.display = "block";
-    var itemContainers = [].slice.call(document.querySelectorAll('.board-column-content'));
-    var columnGrids = [];
-
-    // Define the column grids to drag those
-    // items around.
-    itemContainers.forEach(function (container) {
-        // Instantiate column grid.
-        var gridLayout = new Muuri(container, {
-            items: '.board-item',
-            layoutDuration: 400,
-            layoutEasing: 'ease',
-            dragEnabled: true,
-            dragSort: function () {
-                return columnGrids;
-            },
-            dragSortInterval: 0,
-            dragContainer: document.body,
-            dragReleaseDuration: 400,
-            dragReleaseEasing: 'ease'
-        })
-            .on('dragStart', function (item) {
-                // Let's set fixed widht/height to the dragged item
-                // so that it does not stretch unwillingly when
-                // it's appended to the document body for the
-                // duration of the drag.
-                item.getElement().style.width = item.getWidth() + 'px';
-                item.getElement().style.height = item.getHeight() + 'px';
-            })
-            .on('dragReleaseEnd', function (item) {
-                // Let's remove the fixed width/height from the
-                // dragged item now that it is back in a grid
-                item.getElement().style.width = '';
-                item.getElement().style.height = '';
-                // Just in case, let's refresh the dimensions of all items
-                // in case dragging the item caused some other items to
-                // be different size.
-                columnGrids.forEach(function (grid) {
-                    grid.refreshItems();
-                });
-            })
-            .on('layoutStart', function () {
-                // Let's keep the board grid up to date with the
-                // dimensions changes of column grids.
-                boardGrid.refreshItems().layout();
-            });
-
-        // Add the column grid reference to the column grids
-        // array, so we can access it later on.
-        columnGrids.push(gridLayout);
-
-    });
-
-    // When the user clicks on the button, open the modal
-    modal.style.display = "block";
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
-
-
 }

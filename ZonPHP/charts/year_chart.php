@@ -99,13 +99,14 @@ for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 $my_year = date("Y", $chartdate);
-$href = HTML_PATH . "pages/month_overview.php?maand=";
+$href = HTML_PATH . "pages/month_overview.php?date=";
 $gridlines = "";
 $reflines = "";
 $max_bars = "";
 $expected_bars = "";
 $current_bars = "";
 $strdataseries = "";
+$totalYear = 0.0;
 foreach (PLANT_NAMES as $key => $inverter_name) {
     if ($key == 0) {
         $dash = '';
@@ -149,6 +150,7 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
             $val = 0.0;
             if (isset($all_valarray[$i][$inverter_name])) {
                 $val = round($all_valarray[$i][$inverter_name], 2);
+                $totalYear += $val;
             }
             $current_bars .= "
                         { x: $i-1, 
@@ -198,6 +200,12 @@ $categories = $shortmonthcategories;
 
 <script>
     $(function () {
+
+        var fieldNameElement = document.getElementById('chart_header_year');
+        if (fieldNameElement != null) {
+            fieldNameElement.innerHTML =  fieldNameElement.innerHTML + " - " + txt['totaal'] + ": " + <?= $totalYear ?> + "kW" ;
+        }
+
         function add(accumulator, a) {
             return accumulator + a;
         }
@@ -206,7 +214,7 @@ $categories = $shortmonthcategories;
         var year = '<?= date("Y", $chartdate) ?>';
         var avrg = <?= round($fgemiddelde, 2) ?>;
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?= getTxt("max") ?>';
         var totayr = 0;
