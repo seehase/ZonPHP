@@ -27,7 +27,7 @@ cards = "day, month, year, allYears, cumulative, yearPerMonth,  farm, images, to
 host =  localhost
 username = root
 password = root
-database = bbb
+database = solar
 tablePrefix = tgeg
 
 [SEEHASE]

@@ -1,4 +1,5 @@
 <?php
+global $zonPHPSessionID;
 /**
  * Init set default values and constants for this installation
  * starts session and loads parameter, language and themes without database access
@@ -36,6 +37,7 @@ if ($tmpHTMLPath[strlen($tmpHTMLPath) - 1] != "/") {
 define('HTML_PATH', $tmpHTMLPath);
 define('PHP_PATH', ltrim(HTML_PATH, '/'));
 checkChangedConfigFiles();
+
 
 //echo "HTML_PATH: " .  HTML_PATH. "<br>";
 //echo "ROOT_DIR: " .  ROOT_DIR. "<br>";
@@ -86,20 +88,22 @@ if (!isset($_SESSION['date_maximum'])) {
 /*********************************************************************
  * define defaults
  *********************************************************************/
-$cache_timeout = 500;
-$time_offset = 7200;  // offest in seconds e.g. 2h
-$big_chart_height = 500;
-//fixme: version check
 $github_version = "unknown";
 $new_version_label = "";
+const CACHE_TIMEOUT = 86400;  // 24h currently only used for version check
+const TIME_OFFSET = 7200;  // offest in seconds e.g. 2h
+const BIG_CHART_HIGHT = 500;
+const HEADER_CLASS = 'jqx-window-header jqx-window-header-zonphp jqx-widget-header jqx-widget-header-zonphp jqx-disableselect jqx-disableselect-zonphp jqx-rc-t jqx-rc-t-zonphp';
+const WINDOW_STYLE_CHART = 'padding: 0px; background-color: inherit; border: 2px; border-color: #000; margin: 0px 0px 0px 0px;border-width: 1px; border-style: solid; border-radius: 10px; width:100%; height:400px';
+const WINDOW_STYLE = 'padding: 0px; border: 2px; border-color: #000; margin: 3px; border-width: 1px; border-style: solid; border-radius: 10px; color:#000000;';
+
 $_SESSION['date_minimum'] = strtotime($params['installationDate'] . " 00:00:00");
 $_SESSION['date_maximum'] = strtotime('today midnight');
 if (isset($_SESSION['github_version'])) $github_version = $_SESSION['github_version'];
 if (isset($_SESSION['new_version_label'])) $new_version_label = $_SESSION['new_version_label'];
-// fixme
-$total_sum_for_all_years = 0;
 
 date_default_timezone_set("UTC");
+/** @noinspection PhpSwitchCanBeReplacedWithMatchExpressionInspection */
 switch ($_SESSION['language']) {
     case "nl":
         $locale = 'nl-NL';

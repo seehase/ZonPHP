@@ -1,19 +1,15 @@
 <?php
-/*
- * Spezial Version für Manuel
- */
+global $con, $params;
 
 $wr = "WR1";
-
 
 $sql = "SELECT * FROM " . TABLE_PREFIX . "_dag ORDER BY Datum_Dag DESC LIMIT 1";
 
 // get latest import date from db
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
 
-if (mysqli_num_rows($result) == 0)
-    $dateTime = STARTDATE;
-else {
+$dateTime = STARTDATE;
+if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
     }
@@ -29,8 +25,6 @@ for ($tel = 0; $tel <= 150; $tel++) {
     }
 }
 
-?>
-<?php
 if (!empty($adag)) {
     foreach ($adag as $v) {
         $teller = 1;
@@ -136,8 +130,7 @@ if (!empty($adag)) {
         }
     }
 }
-?>
-<?php
+
 /******************************************************************************
  * maak months.js bestand aan
  * ****************************************************************************
@@ -187,10 +180,8 @@ if (mysqli_num_rows($result) == 0) {
     }
     fclose($fp);
 }
-?>
 
-<?php
-function omzetdatum($date)
+function omzetdatum($date): string
 {
     if (mb_check_encoding($date, "UCS-2")) {
         $date = ucs2toutf8($date);
@@ -221,25 +212,6 @@ function omzetdatum($date)
         return "geen datumtijd";
 }
 
-?>
-<?php
-function controledatum($idag, $imaand, $ijaar)
-{
-    if (!checkdate($imaand, $idag, $ijaar)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-?>
-<?php
-function checktime($hour, $minute, $second)
-{
-    if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60 && $second > -1 && $second < 60) {
-        return true;
-    }
-}
 
 function ucs2toutf8($str)
 {
@@ -251,6 +223,3 @@ function ucs2toutf8($str)
     }
     return $out;
 }
-
-
-?> 

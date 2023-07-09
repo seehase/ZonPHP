@@ -2,8 +2,7 @@
     margin-left: 12px;
     margin-right: 12px;
     margin-top: 20px;
-    text-align: left;
-    ;
+    text-align: left;;
 }
 
 #footer {
@@ -119,7 +118,7 @@ body {
     height: 21px;
     margin-bottom: 0px;
     margin-top: 0px;
-    
+
 }
 
 .flag {
@@ -127,7 +126,7 @@ body {
     height: 15px;
     margin-bottom: 0px;
     margin-top: 0px;
-    
+
 }
 
 .flag.flag-fr {
@@ -327,6 +326,7 @@ body {
     #headerinverter {
         display: none;
     }
+
     .smallFooter {
         display: none;
     }
@@ -362,7 +362,7 @@ body {
     }
 }
 
-@media only screen and (max-width: 993px)  {
+@media only screen and (max-width: 993px) {
     #headerinverter {
         padding-top: 9px;
     }
@@ -395,6 +395,11 @@ body {
     border-radius: 9.5px;
     height: 45px;
     width: 100%;
+
+}
+
+.dropdown-toggle {
+    color: #C00000; !important;
 }
 
 .dropdown-item {

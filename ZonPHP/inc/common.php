@@ -4,25 +4,16 @@
  */
 function getTxt($key)
 {
-    if (isset($_SESSION["txt"]) && isset($_SESSION["txt"][$key])) {
-        return $_SESSION["txt"][$key];
-    } else {
-        return "undefined key: " . $key;
-    }
+    return $_SESSION["txt"][$key] ?? "undefined key: " . $key;
 }
 
-function isActive($language)
+function isActive($language): bool
 {
     if (in_array(strtolower($language), LANGUAGES)) {
         return true;
     } else {
         return false;
     }
-}
-
-function isBool($value)
-{
-    return true;
 }
 
 function addCheckMessage($level, $message, $isFatal = false): void
@@ -33,12 +24,6 @@ function addCheckMessage($level, $message, $isFatal = false): void
         $params['check']['failed'] = true;
     }
     $_SESSION['params'] = $params;
-}
-
-function hasFatalErrors()
-{
-    global $params;
-    return $params['check']['failed'];
 }
 
 function checkChangedConfigFiles(): bool
@@ -92,4 +77,33 @@ function checkChangedConfigFiles(): bool
         }
     }
     return false;
+}
+
+function controledatum($idag, $imaand, $ijaar) : bool
+{
+    if (!checkdate($imaand, $idag, $ijaar)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function checktime($hour, $minute, $second): bool
+{
+    if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60 && $second > -1 && $second < 60) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * @param $string
+ * @return string
+ * remove all whitespaces, slashes, ... from given string
+ */
+function clean($string): string
+{
+    $string = preg_replace('/[^A-Za-z0-9_\-]/', '', $string); // Removes special chars.
+    return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
 }

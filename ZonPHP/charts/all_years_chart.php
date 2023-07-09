@@ -1,4 +1,5 @@
 <?php
+global $con, $colors, $params, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
@@ -46,7 +47,7 @@ if (mysqli_num_rows($result) == 0) {
                 // add to list only if it configured (ignore db entries)
                 $inveter_list[] = $inverter_name;
             }
-        };
+        }
     }
 
     $total_sum_for_all_years = 0;
@@ -155,7 +156,7 @@ $categories = substr($categories, 0, -1);
 $myKeys = array_keys($sum_per_year);
 
 $show_legende = "true";
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     echo ' <div class = "index_chart" id="total_chart"></div>';
     $show_legende = "false";
 }
@@ -173,8 +174,8 @@ include_once "chart_styles.php";
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?= getTxt("max") ?>';
         var txt_ref = '<?= getTxt("ref") ?>';
-        var avrg = <?= round($average_per_month, 0); ?>;
-        var ref = <?= round($params['totalExpectedYield'], 0); ?>;
+        var avrg = <?= round($average_per_month); ?>;
+        var ref = <?= round($params['totalExpectedYield']); ?>;
         var years = <?= $yearcount ?>;
         var myoptions = <?= $chart_options ?>;
         var txt_gem = '<?= getTxt("gem") ?>';
@@ -217,7 +218,7 @@ include_once "chart_styles.php";
                         } else {
                             PEAK = AX[0];
                         }
-                        ;
+
                         this.setSubtitle({
                             text: "<b>" + txt + ": </b>" + (Highcharts.numberFormat(totayr, 0, ",", "")) + " kWh = " + (Highcharts.numberFormat((totayr / KWH) * 1000, 0, ",", "")) + " kWh/kWp " + " <br/><b>"
                                 + txt_max + ": </b>" + (Highcharts.numberFormat(PEAK, 0, ",", "")) + " kWh = " +

@@ -1,4 +1,5 @@
 <?php
+global $con, $params;
 
 $sql = "SELECT *
 	FROM " . TABLE_PREFIX . "_dag 
@@ -7,9 +8,8 @@ $sql = "SELECT *
 // get latest import date from db
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
 
-if (mysqli_num_rows($result) == 0)
-    $dateTime = STARTDATE;
-else {
+$dateTime = STARTDATE;
+if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
     }
@@ -25,8 +25,6 @@ for ($tel = 0; $tel <= 60; $tel++) {
     }
 }
 
-?>
-<?php
 if (!empty($adag)) {
     foreach ($adag as $v) {
         $teller = 1;
@@ -45,7 +43,7 @@ if (!empty($adag)) {
                 if (!empty($geg_suo)) {
 
                     $p = explode(";", $geg_suo);
-                    if (count($p > 2)) {
+                    if (count($p) > 2) {
 
                         list($TimeStamp, $totalValuekWh, $currentWattValue) = explode(";", $geg_suo);    //,$rest
                         $oTimeStamp = omzetdatum($TimeStamp);
@@ -93,8 +91,7 @@ if (!empty($adag)) {
         }
     }
 }
-?>
-<?php
+
 /******************************************************************************
  * maak months.js bestand aan
  * ****************************************************************************
@@ -144,10 +141,8 @@ if (mysqli_num_rows($result) == 0) {
     }
     fclose($fp);
 }
-?>
 
-<?php
-function omzetdatum($date)
+function omzetdatum($date): string
 {
     $date = str_replace(array('.', '/', '-', ' ', ':'), '/', $date);
 
@@ -160,7 +155,7 @@ function omzetdatum($date)
     $d_m_j_t[5] = "00";
     if (!isset($d_m_j_t[5])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[0])) return "geen datumtijd";
-    if (!is_numeric($d_m_j_t[1])) return "geen datumtijd";;
+    if (!is_numeric($d_m_j_t[1])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[2])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[3])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[4])) return "geen datumtijd";
@@ -174,25 +169,3 @@ function omzetdatum($date)
     else
         return "geen datumtijd";
 }
-
-?>
-<?php
-function controledatum($idag, $imaand, $ijaar)
-{
-    if (!checkdate($imaand, $idag, $ijaar)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-?>
-<?php
-function checktime($hour, $minute, $second)
-{
-    if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60 && $second > -1 && $second < 60) {
-        return true;
-    }
-}
-
-?> 

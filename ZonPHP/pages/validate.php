@@ -1,25 +1,19 @@
 <?php
+global $version;
 include_once "../inc/init.php";
-
-$error = "";
-if (isset($_GET["fout"])) {
-    $error = $_GET["fout"];
-}
 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <meta name="keywords" content="slaper, veracx, zon, SolarLog, Sunny Beam, Datenlogger, Solar, Solaranlage, Photovoltaik,
-	 		SMA,Sanyo, Online, Internet, Banner, Email, SMS, PV, zonnepanelen">
-    <meta name="description" content="Deze site geeft U veel info over het monitoren van PV zonnepanelen,
-			met data en veel interessante info over Belgische zonnepanelen">
-    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
+    <meta name="description" content="PV Anlagen Monitoring">
+    <meta name="author" content="seehase">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <title>ZonPHP Installation</title>
+    <title>ZonPHP Parameter Validation</title>
     <link type="text/css" rel="stylesheet" href="<?= HTML_PATH ?>inc/styles/validate_style.css">
 </head>
 <body>
@@ -30,7 +24,6 @@ if (isset($_GET["fout"])) {
         <div id="afstand">
             <div class="inside">
                 <ul id="nav">
-                    <br/>
                     <li><a href="..">&raquo;&nbsp;Index</a></li>
                     <?php
                     echo '                    
@@ -40,31 +33,29 @@ if (isset($_GET["fout"])) {
                 </ul>
                 <hr>
                 <?= $version ?>
-                <br/>
+                <br>
                 <hr>
             </div>
         </div>
     </div>
-    <br/>
+    <br>
 </div>
 <div id="container">
     <div id="bodytext">
-        <div class="inside">
-            <h1 class="notopgap" align="center"><?= getTxt("bestezonphp"); ?>,</h1>
-            <center>
-                Uw Taal:<a href='?language=nl&amp;fout=<?= $error ?>' TARGET='_self'><img
-                            src="../inc/images/nl.svg" alt="nl" border="0" width="16" height="11"></a>&nbsp;&nbsp;
-                Your language:<a href='?language=en&amp;fout=<?= $error ?>' TARGET='_self'><img
-                            src="../inc/images/en.svg" alt="en" border="0" width="16" height="11"></a>&nbsp;&nbsp;
-                Votre langue:<a href='?language=fr&amp;fout=<?= $error ?>' TARGET='_self'><img
-                            src="../inc/images/fr.svg" alt="fr" border="0" width="16" height="11"></a>&nbsp;&nbsp;
-                Ihre Sprache:<a href='?language=de&amp;fout=<?= $error; ?>' TARGET='_self'><img
-                            src="../inc/images/de.svg" alt="de" border="0" width="16" height="11"></a>
-            </center>
+        <div class="inside" style="text-align: left">
+            <h1 class="notopgap" style="text-align: center"><?= getTxt("bestezonphp"); ?>,</h1>
+            Uw Taal:<a href='?language=nl' TARGET='_self'><img
+                        src="../inc/images/nl.svg" alt="nl" width="16" height="11"></a>&nbsp;&nbsp;
+            Your language:<a href='?language=en' TARGET='_self'><img
+                        src="../inc/images/en.svg" alt="en" width="16" height="11"></a>&nbsp;&nbsp;
+            Votre langue:<a href='?language=fr' TARGET='_self'><img
+                        src="../inc/images/fr.svg" alt="fr"  width="16" height="11"></a>&nbsp;&nbsp;
+            Ihre Sprache:<a href='?language=de' TARGET='_self'><img
+                        src="../inc/images/de.svg" alt="de"  width="16" height="11"></a>
             <hr>
-            <br/>
+            <br>
             <?php
-            echo getTxt("volfout") . ".<br /><br />";
+            echo getTxt("volfout") . ".<br><br>";
             echo "<p> ERRORS </p>";
             foreach ($_SESSION['params']['check']['ERROR'] as $msg) {
                 echo "<p> $msg </p>";
@@ -78,7 +69,7 @@ if (isset($_GET["fout"])) {
                 echo "<p> $msg </p>";
             }
 
-            echo "<br />";
+            echo "<br>";
             ?>
         </div>
     </div>

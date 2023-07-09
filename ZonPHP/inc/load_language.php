@@ -1,7 +1,7 @@
 <?php
 
 // force to load missing or changed language
-function loadLanguage($params)
+function loadLanguage($params): void
 {
     // if new language is set via URL parameter and exists, or no text in session --> RELOAD
     if ((isset($_GET['language']) && isActive($_GET['language'])) || !isset($_SESSION['txt'])) {
@@ -9,7 +9,7 @@ function loadLanguage($params)
         $default_user_language = $params['defaultLanguage'];
 
         // always load default language
-        $defaultTXT = parse_ini_file(ROOT_DIR . "/inc/language/en.ini", false);
+        $defaultTXT = parse_ini_file(ROOT_DIR . "/inc/language/en.ini");
 
         // than load and override with new language
         if (isset($_GET['language'])) {
@@ -21,7 +21,7 @@ function loadLanguage($params)
         $userTXT = array();
         if ($languageToLoad != "en") {
             // EN is already loaded, no need to load again
-            $userTXT = parse_ini_file(ROOT_DIR . "/inc/language/" . $languageToLoad . ".ini", false);
+            $userTXT = parse_ini_file(ROOT_DIR . "/inc/language/" . $languageToLoad . ".ini");
         }
         $_SESSION['language'] = $languageToLoad;
         $_SESSION['txt'] = array_merge($defaultTXT, $userTXT);

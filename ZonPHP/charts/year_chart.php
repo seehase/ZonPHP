@@ -1,4 +1,5 @@
 <?php
+global $params, $con, $colors, $shortmonthcategories, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
@@ -49,7 +50,7 @@ if (mysqli_num_rows($result) == 0) {
                 // add to list only if it configured (ignore db entries)
                 $inveter_list[] = $inverter_name;
             }
-        };
+        }
     }
     $fgemiddelde = array_sum($agegevens) / count($agegevens);
     $datum = date("Y", $chartdate);
@@ -74,9 +75,9 @@ for ($i = 1; $i <= 12; $i++) {
 }
 
 $resultmax = mysqli_query($con, $sqlmax) or die("Query failed. jaar-max " . mysqli_error($con));
-if (mysqli_num_rows($resultmax) == 0) {
-    $maxmaand[] = 0;
-} else {
+$maxmaand[] = 0;
+$nmaxmaand = array();
+if (mysqli_num_rows($resultmax) >0) {
     while ($row = mysqli_fetch_array($resultmax)) {
         $maxmaand[$row['maand']] = $row['som'];
         $maxmaand_jaar[$row['maand']] = $row['jaar'];
@@ -108,7 +109,7 @@ $strdataseries = "";
 foreach (PLANT_NAMES as $key => $inverter_name) {
     if ($key == 0) {
         $dash = '';
-    } elseif ($key > 0) {
+    } else{
         $dash = "dashStyle: 'shortdash',";
     }
     // build one serie per inverter
@@ -184,12 +185,12 @@ $max_bars = substr($max_bars, 0, -1);
 //echo $max_bars;
 $expected_bars = substr($expected_bars, 0, -1);
 $current_bars = substr($current_bars, 0, -1);
-$reflines = substr($reflines, 0, -1);
+// $reflines = substr($reflines, 0, -1);
 $show_legende = "true";
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     echo '<div class = "index_chart" id="year_chart"></div>';
     $show_legende = "false";
-};
+}
 
 include_once "chart_styles.php";
 $categories = $shortmonthcategories;
@@ -203,7 +204,7 @@ $categories = $shortmonthcategories;
 
 
         var year = '<?= date("Y", $chartdate) ?>';
-        var avrg =<?= round($fgemiddelde, 2) ?>;
+        var avrg = <?= round($fgemiddelde, 2) ?>;
         var myoptions = <?= $chart_options ?>;
         var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
         var nmbr = khhWp.length //misused to get the inverter count
@@ -251,7 +252,7 @@ $categories = $shortmonthcategories;
                         } else {
                             PEAK = AX[0];
                         }
-                        ;
+
 
                         this.setSubtitle({
                             text: "<b>" + year + ": </b>" + (Highcharts.numberFormat(totayr, 0, ",", "")) + " kWh = " + (Highcharts.numberFormat((totayr / KWH) * 1000, 0, ",", "")) + " kWh/kWp = " + (Highcharts.numberFormat((totayr / REF * 100), 0, ",", "")) + " % <br/><b>"
@@ -443,9 +444,7 @@ $categories = $shortmonthcategories;
             },
 
             series: [
-                <?= $strdataseries ?>
-                <?= $reflines; ?>,
-                <?= $max_bars; ?>,
+                <?= $strdataseries . $reflines . $max_bars?>
             ]
         }));
 

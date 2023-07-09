@@ -1,7 +1,7 @@
 <?php
 
 // forced to load or change theme
-function loadTheame($params)
+function loadTheame($params): void
 {
     // load available themes
     $themesFiles = scandir(ROOT_DIR . "/themes");
@@ -14,6 +14,7 @@ function loadTheame($params)
         }
     }
     $defaultTheme = $themes['default'];
+    $themeToLoad = $defaultTheme;
     $_SESSION['themes'] = $themes;
     $_SESSION['theme'] = $defaultTheme;
     $_SESSION['colors'] = $defaultTheme['colors'];
@@ -32,13 +33,13 @@ function loadTheame($params)
         $customTheme = $themes[$themeToLoad];
         // override defaults with values from customTheme
         $_SESSION['theme'] = $themeToLoad;
-        $_SESSION['colors'] = array_merge($defaultTheme['colors'], $customTheme['colors']);;
+        $_SESSION['colors'] = array_merge($defaultTheme['colors'], $customTheme['colors']);
     }
 
     // build multi dimensional array for palettes
     $color_palettes = array();
     foreach ($_SESSION['colors']['color_pal'] as $str) {
-        $color_palettes[] = explode(',', $str);;
+        $color_palettes[] = explode(',', $str);
     }
     $_SESSION['colors']['color_palettes'] = $color_palettes;
     unset($_GET['theme']);
@@ -62,7 +63,7 @@ function validatedTheme(&$theme)
     return $theme;
 }
 
-function themeExists($themes, $themeName)
+function themeExists($themes, $themeName): bool
 {
     $themeName = strtolower($themeName);
     if (isset($themes[$themeName])) {
@@ -70,5 +71,4 @@ function themeExists($themes, $themeName)
     } else {
         return false;
     }
-
 }

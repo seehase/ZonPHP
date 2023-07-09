@@ -1,15 +1,14 @@
 <?php
+global $con, $params;
 
 $sql = "SELECT *
 	FROM " . TABLE_PREFIX . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
 //echo $sql;
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
-
-if (mysqli_num_rows($result) == 0) {
-    $dateTime = STARTDATE;
-    $flaatstewaarde = "start";
-} else {
+$dateTime = STARTDATE;
+$flaatstewaarde = "start";
+if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_array($result))
         $dateTime = $row['Datum_Dag'];
 }
@@ -22,12 +21,10 @@ for ($tel = 0; $tel <= 60; $tel++) {
         $adag[] = $directory . $num . '.csv';
     }
 }
-//echo '<pre>'.print_r($adag, true).'</pre>';
 
 $ieffectiefkwpiek = $params[$_SESSION['plant']]['capacity'];
 
-?>
-<?php
+
 if (!empty($adag)) {
     foreach ($adag as $v) {
         $teller = 1;
@@ -80,7 +77,7 @@ if (!empty($adag)) {
                                 $startend = 1;
                                 $odatum = explode(" ", $oTimeStamp);//echo '<pre>'.print_r($odatum,true).'<pre>';
                                 $GridMsTotW = ($MeteringDykWh - $startkw) * $params['coefficient'];
-                                $stringend .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . number_format(($MeteringDykWh - $oploopkw) * (60 / $params['displayInterval']) * 1000, 0) . "," . number_format($MeteringDykWh - $oploopkw, 3) . ",'" . $_SESSION['plant'] . "'),";
+                                $stringend .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . number_format(($MeteringDykWh - $oploopkw) * (60 / $params['displayInterval']) * 1000) . "," . number_format($MeteringDykWh - $oploopkw, 3) . ",'" . $_SESSION['plant'] . "'),";
                                 if ($MeteringDykWh != "")
                                     $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format($GridMsTotW, 3) . ",'" . $_SESSION['plant'] . "')";
                             } else {
@@ -116,8 +113,7 @@ if (!empty($adag)) {
         }
     }
 }
-?>
-<?php
+
 /******************************************************************************
  * maak months.js bestand aan
  * ****************************************************************************
@@ -167,9 +163,8 @@ if (mysqli_num_rows($result) == 0) {
     }
     fclose($fp);
 }
-?>
-<?php
-function omzetdatum($date)
+
+function omzetdatum($date): string
 {
     //echo $date.'b<br />';
     $date = str_replace(array('.', '/', '-', ' ', ':'), '/', $date);
@@ -182,7 +177,7 @@ function omzetdatum($date)
     if (!isset($d_m_j_t[4])) return "geen datumtijd";
     //if(!isset($d_m_j_t[5]))	return "geen datumtijd";
     if (!is_numeric($d_m_j_t[0])) return "geen datumtijd";
-    if (!is_numeric($d_m_j_t[1])) return "geen datumtijd";;
+    if (!is_numeric($d_m_j_t[1])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[2])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[3])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[4])) return "geen datumtijd";
@@ -197,25 +192,3 @@ function omzetdatum($date)
         return "geen datumtijd";
 }
 
-?>
-<?php
-function controledatum($idag, $imaand, $ijaar)
-{
-    //echo $idag.$imaand.$ijaar;
-    if (!checkdate($imaand, $idag, $ijaar)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-?>
-<?php
-function checktime($hour, $minute, $second)
-{
-    if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60 && $second > -1 && $second < 60) {
-        return true;
-    }
-}
-
-?> 

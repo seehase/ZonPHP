@@ -1,4 +1,5 @@
 <?php
+global $con, $shortmonthcategories, $chart_options, $colors, $chart_lang;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
@@ -33,14 +34,14 @@ $strip = array_pop($years);//haalt laatste 'ROLLUP' record uit $years
 $stripped = array_pop($values);//haalt laatste 'ROLLUP' record uit $values
 $Grand_total = 0.0;
 if (isset($stripped['Total'])) {
-    $Grand_total = Round($stripped['Total'], 0);//Total yield
+    $Grand_total = Round($stripped['Total']);//Total yield
 }
 $All_Days = 1;
 if (isset($stripped['Days'])) {
     $All_Days = $stripped['Days'];
 }
 
-$All_Avg = Round($Grand_total / ($All_Days / 365), 0);
+$All_Avg = Round($Grand_total / ($All_Days / 365));
 
 $subtitle = '"<b>Total yield all inverters:</b> ' . $Grand_total . ' kWh <br><b>Average yield per year:</b> ' . $All_Avg . '   kWh"';
 
@@ -102,7 +103,7 @@ if (strlen($strdataseries) == 0) {
 ?>
 <?php
 $show_legende = "true";
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     echo '<div class = "index_chart" id="universal"></div>';
     $show_legende = "false";
 }

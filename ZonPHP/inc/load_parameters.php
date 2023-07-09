@@ -6,7 +6,7 @@ function loadParams(): array
     $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
     vadidateParams($params);
     $_SESSION['params'] = $params;
-    if (hasFatalErrors()) {
+    if ($params['check']['failed']) {
         header('location:' . HTML_PATH . 'pages/validate.php');
     }
 
@@ -15,8 +15,7 @@ function loadParams(): array
 
 // FIXME: enhance validation
 //   farm info list all plants
-//   rename error -> validate
-//   rework setFatalError() as optional value in addCheckMessage($level, $message, FATAL)
+
 
 function vadidateParams(&$params): void
 {
@@ -111,19 +110,19 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "No autoReload set in parameter.php set default to '300'");
         $params['autoReload'] = "300";
     }
-    if (!isset($params['useWeewx']) || !isBool($params['useWeewx'])) {
+    if (!isset($params['useWeewx'])) {
         addCheckMessage("INFO", "No useWeewx set in parameter.php set default to 'false'");
         $params['useWeewx'] = false;
     }
-    if (!isset($params['useEMU']) || !isBool($params['useEMU'])) {
+    if (!isset($params['useEMU'])) {
         addCheckMessage("INFO", "useEMU not set in parameter.php set default to 'false'");
         $params['useEMU'] = false;
     }
-    if (!isset($params['hideFooter']) || !isBool($params['hideFooter'])) {
+    if (!isset($params['hideFooter'])) {
         addCheckMessage("INFO", "No hideFooter set in parameter.php set default to 'false'");
         $params['hideFooter'] = false;
     }
-    if (!isset($params['hideMenu']) || !isBool($params['hideMenu'])) {
+    if (!isset($params['hideMenu'])) {
         addCheckMessage("INFO", "No hideMenu set in parameter.php set default to 'false'");
         $params['hideMenu'] = false;
     }
@@ -224,7 +223,7 @@ function vadidateWeewx(&$params): void
     }
 }
 
-function vadidateEMU(&$params): void
+function vadidateEMU($params): void
 {
     if ($params['useEMU'] && !isset($params['EMU'])) {
         addCheckMessage("ERROR", "No EMU section found and useEMU = true, please check settings", true);
@@ -332,8 +331,6 @@ function vadidatePlant($name, &$plant): void
     if (!isset($plant['expectedYield'])) {
         addCheckMessage("INFO", "['" . $name . "']['expectedYield'] not set in parameter.php, setting default values ''");
         $plant['expectedYield'] = "170,200,300,500,550,600,600,550,500,300,200,170";
-    } else {
-        // fixme: check that there are 12 values in array
     }
 }
 

@@ -1,5 +1,5 @@
 <?php
-global $params, $debugmode, $version, $cache_timeout;
+global $params, $debugmode, $version, $github_version, $new_version_label;
 /********************************************************************
  * connect to database, refresh cache and import data
  *********************************************************************/
@@ -10,7 +10,8 @@ $con = mysqli_connect($params['database']['host'], $params['database']['username
 
 if (!$con) {
     addCheckMessage("ERROR", "Cannot connect to database, check database section in parameter.php", true);
-    die(header('location:' . HTML_PATH . '/pages/validate.php'));
+    header('location:' . HTML_PATH . '/pages/validate.php');
+    die();
 } else {
     checkOrCreateTables($con);
 }
@@ -36,7 +37,7 @@ $params['database']['password'] = "undefined";
 /********************************************************************
  * internal caching (currently only for version check
  *********************************************************************/
-if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout) > (time())) {
+if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + CACHE_TIMEOUT) > (time())) {
     // cache still valid --> do not reload cache
     if ($debugmode) error_log("cache hit --> ");
 } else {
@@ -44,7 +45,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + $cache_timeout)
     if ($debugmode) error_log("cache failed --> need to reload data");
 
     // get latest Version from github can cause error on some provider e.g.bplaced do not allow file_get_content
-    if ($params['checkVersion'] == true) {
+    if ($params['checkVersion']) {
         if (strpos($version, "(dev)") > 0) {
             $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/development/ZonPHP/inc/version_info.php');
         } else {
@@ -73,7 +74,7 @@ include_once ROOT_DIR . "/inc/import_data.php";
 /********************************************************************
  * helper --> could be moved
  *********************************************************************/
-function checkOrCreateTables($con)
+function checkOrCreateTables($con): void
 {
     /****************************************************************************
      * Create table _dag to store day values per inverter
@@ -105,7 +106,8 @@ function checkOrCreateTables($con)
     if ($result->num_rows != 1) {
         if (!mysqli_query($con, $sql_createDayTable)) {
             addCheckMessage("ERROR", "Unable to create table'$tablename_dag'", true);
-            die(header('location:' . ROOT_DIR . '/pages/validate.php' . mysqli_error($con)));
+            header('location:' . ROOT_DIR . '/pages/validate.php' . mysqli_error($con));
+            die();
         }
     }
 
@@ -113,12 +115,13 @@ function checkOrCreateTables($con)
     if ($result->num_rows != 1) {
         if (!mysqli_query($con, $sql_createMonthTable)) {
             addCheckMessage("ERROR", "Unable to create table'$tablename_maand'", true);
-            die(header('location:' . ROOT_DIR . '/pages/validate.php' . mysqli_error($con)));
+            header('location:' . ROOT_DIR . '/pages/validate.php' . mysqli_error($con));
+            die();
         }
     }
 }
 
-function checkWeewxTables($con_weewx)
+function checkWeewxTables($con_weewx): void
 {
     global $params;
 

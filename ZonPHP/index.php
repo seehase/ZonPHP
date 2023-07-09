@@ -1,4 +1,5 @@
 <?php
+global $params, $colors;
 include_once "inc/init.php";
 include_once "inc/connect.php";
 

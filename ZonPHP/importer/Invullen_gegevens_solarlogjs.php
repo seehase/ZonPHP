@@ -1,13 +1,12 @@
 <?php
+global $con, $params;
 $sql = "SELECT Datum_Dag,Geg_Dag 
 	FROM " . TABLE_PREFIX . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
 //echo $sql;
-$result = mysqli_query($con, $sql) or die("invullen gegevens solar_js ERROR: " . mysql_error());
-
-if (mysqli_num_rows($result) == 0) {
-    $dateTime = STARTDATE;
-} else {
+$result = mysqli_query($con, $sql) or die("invullen gegevens solar_js ERROR: " . mysqli_error($con));
+$dateTime = STARTDATE;
+if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_array($result)) {
         $dateTime = $row['Datum_Dag'];
     }
@@ -41,14 +40,10 @@ for ($tel = 0; $tel <= $aantaldagen; $tel++) {
 //CVDK$adag[]=$directory."min_day".'.js';//FIX: Replace the last value with min_day.js (the last value should be the current day)if(!empty($adag)){ //CVDK	$arrcount = count($adag);	$adag[$arrcount-1]=$directory."min_day".'.js';}else{	$adag[]=$directory."min_day".'.js';}
 //echo '<pre>'.print_r($adag, true).'</pre>';
 
-?>
-
-<?php
 
 foreach ($adag as $v) {    //CVDK
     $teller = 1;
     $teller2 = 1;
-    $teller2 = 1; //CVDK
     $string = "insert into " . TABLE_PREFIX . "_dag(IndexDag,Datum_Dag,Geg_Dag,kWh_Dag,Naam)values";
     $file = fopen($v, "r") or die ("Kan " . $v . " niet openen");
     while (!feof($file)) {
@@ -84,14 +79,12 @@ foreach ($adag as $v) {    //CVDK
     if ($teller2 == 0) {        //echo "<br>";echo $stringdelete;
         //echo "<br>";echo $string;
         //echo "<br>";echo $string1;
-        mysqli_query($con, $stringdelete) or die ('SQL Error stringdelete:' . mysql_error());
-        mysqli_query($con, $string) or die ('SQL Error string:' . mysql_error());
-        mysqli_query($con, $string1) or die ('SQL Error string1:' . mysql_error());
+        mysqli_query($con, $stringdelete) or die ('SQL Error stringdelete:' . mysqli_error($con));
+        mysqli_query($con, $string) or die ('SQL Error string:' . mysqli_error($con));
+        mysqli_query($con, $string1) or die ('SQL Error string1:' . mysqli_error($con));
     }
 }
-?>
 
-<?php
 /******************************************************************************
  * maak months.js bestand aan
  * ****************************************************************************
@@ -103,7 +96,7 @@ $sql = "SELECT MAX(Datum_Maand) AS maxi,SUM(Geg_Maand) AS som
 	GROUP BY DATE_FORMAT(Datum_Maand,'%y-%m')
 	ORDER BY Datum_Maand DESC";
 
-$result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysql_error());
+$result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
@@ -128,7 +121,7 @@ $sql = "SELECT *
 	WHERE Naam='" . $_SESSION['plant'] . "'
 	ORDER BY Datum_Maand DESC";
 
-$result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysql_error());
+$result = mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con));
 
 if (mysqli_num_rows($result) == 0) {
     $dateTime = "Leeg";
@@ -144,10 +137,8 @@ if (mysqli_num_rows($result) == 0) {
     }
     fclose($fp);
 }
-?>
 
-<?php
-function omzetdatum($date)
+function omzetdatum($date): string
 {
     //echo $date.'b<br>';
     $date = str_replace(array('.', ' ', ':'), '/', $date);
@@ -160,7 +151,7 @@ function omzetdatum($date)
     if (!isset($d_m_j_t[4])) return "geen datumtijd";
     if (!isset($d_m_j_t[5])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[0])) return "geen datumtijd";
-    if (!is_numeric($d_m_j_t[1])) return "geen datumtijd";;
+    if (!is_numeric($d_m_j_t[1])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[2])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[3])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[4])) return "geen datumtijd";
@@ -174,28 +165,3 @@ function omzetdatum($date)
     else
         return "geen datumtijd";
 }
-
-?>
-
-<?php
-function controledatum($idag, $imaand, $ijaar)
-{
-    //echo $idag.$imaand.$ijaar;
-    if (!checkdate($imaand, $idag, $ijaar)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-?>
-
-<?php
-function checktime($hour, $minute, $second)
-{
-    if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60 && $second > -1 && $second < 60) {
-        return true;
-    }
-}
-
-?>

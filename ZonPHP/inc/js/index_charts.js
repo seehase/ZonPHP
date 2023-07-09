@@ -101,7 +101,7 @@ function load_charts() {
                 addBest();
                 break;
             default:
-                console.log("Sorry, we are out of " +  name);
+                console.log("Sorry, we are out of " + name);
         }
     }
 
@@ -305,7 +305,7 @@ function load_charts() {
             '             ' + txt['location'] + ' : ' + farm['location'] + '<br>' +
             '             ' + txt['startdate'] + ' : ' + farm['installationDate'] + '<br>' +
             '             ' + txt['totalcapacity'] + ' : ' + farm['totalCapacity'] + '<br>' +
-            '             ' + txt['importer'] + ' : '  + farm['importer'] + '<br> <br>' +
+            '             ' + txt['importer'] + ' : ' + farm['importer'] + '<br> <br>' +
             '          </div>' +
             '       </div>' +
             '    </div>' +
@@ -428,7 +428,7 @@ function myTest() {
     var itemContainers = [].slice.call(document.querySelectorAll('.board-column-content'));
     var columnGrids = [];
 
-    // Define the column grids so we can drag those
+    // Define the column grids to drag those
     // items around.
     itemContainers.forEach(function (container) {
         // Instantiate column grid.
@@ -456,8 +456,6 @@ function myTest() {
             .on('dragReleaseEnd', function (item) {
                 // Let's remove the fixed width/height from the
                 // dragged item now that it is back in a grid
-                // column and can freely adjust to it's
-                // surroundings.
                 item.getElement().style.width = '';
                 item.getElement().style.height = '';
                 // Just in case, let's refresh the dimensions of all items

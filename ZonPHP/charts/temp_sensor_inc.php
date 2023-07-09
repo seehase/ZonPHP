@@ -2,6 +2,7 @@
 
 // ---Temperature SENSOR -----------------------------------------------------------------------------------------------------------
 
+global $params, $chartdatestring, $con, $con_weewx, $max_first_val, $max_last_val, $colors;
 $sensor_available = ($params['useWeewx'] == true);
 
 $sensor_values = array();
@@ -21,16 +22,17 @@ $val_max = -500;
 //}
 
 $weewx_table_name = $params['weewx']['tableName'];
-$weewx_temp_column = $params['weewx']['tempColumn'];;
-$weewx_timestamp_column = $params['weewx']['timestampColumn'];;
-$weewx_temp_is_farenheit = $params['weewx']['tempInFahrenheit'];;
+$weewx_temp_column = $params['weewx']['tempColumn'];
+$weewx_timestamp_column = $params['weewx']['timestampColumn'];
+$weewx_temp_is_farenheit = $params['weewx']['tempInFahrenheit'];
 
 $sensor_success = false;
 $temp_unit = "°C";
 
 if ($sensor_available) {
     $val_avg = 0;
-    if ($params['useWeewx'] == true) {
+    $result_sensor = 0;
+    if ($params['useWeewx']) {
         // use weewx connection and table
         $sql_sensor =
             "   SELECT 
@@ -45,7 +47,7 @@ if ($sensor_available) {
         $sensor_success = true;
     }
 
-    if ($sensor_success == true && mysqli_num_rows($result_sensor) != 0) {
+    if ($sensor_success && mysqli_num_rows($result_sensor) != 0) {
         while ($row = mysqli_fetch_array($result_sensor)) {
             if (isset($row['val']) && $row['val'] != 0) {
                 // array time = value only if != null
@@ -69,7 +71,7 @@ if ($sensor_available) {
         if ($val_dif < 5) {
             $val_min = $val_min - 3;
             $val_max = $val_max + 3;
-        };
+        }
     } else {
         // no data found
         $sensor_success = false;
@@ -80,7 +82,6 @@ if ($sensor_available) {
 $str_temp_vals = "";
 $temp_serie = "";
 if ($sensor_success) {
-    $str_temp_vals = "";
     foreach ($temp_vals as $time => $val) {
         if (($time > $max_first_val) && ($time < $max_last_val)) {
             $str_temp_vals .= "{x:" . $time * 1000 . ", y:" . number_format($val, 1, '.', '') . ", unit: '" . $temp_unit . "' },";

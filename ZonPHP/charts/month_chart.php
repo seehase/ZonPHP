@@ -1,4 +1,5 @@
 <?php
+global $con, $params, $formatter, $colors, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
@@ -100,6 +101,8 @@ $myurl = HTML_PATH . "pages/day_overview.php?dag=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;
+$myColor1 = "'#FFAABB'";
+$myColor2 = "'#FFAABB'";
 foreach (PLANT_NAMES as $inverter_name) {
 
     $strdata = "";
@@ -151,7 +154,7 @@ $categories = substr($categories, 0, -1);
 
 
 $show_legende = "true";
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     echo '<div class = "index_chart" id="month_chart"></div>';
     $show_legende = "false";
 }
@@ -219,7 +222,7 @@ include_once "chart_styles.php";
                         } else {
                             PEAK = AX[0];
                         }
-                        ;
+
 
                         this.setSubtitle({
                             text: "<b>" + month + ": </b>" + (Highcharts.numberFormat(totamth, 2, ",", "")) + " kWh = " + (Highcharts.numberFormat((totamth / KWH) * 1000, 2, ",", "")) + " kWh/kWp = " + (Highcharts.numberFormat(percent, 0, ",", "")) + "% <br/><b>" +

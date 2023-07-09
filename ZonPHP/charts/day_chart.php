@@ -1,4 +1,5 @@
 <?php
+global $params, $con, $formatter, $colors, $chart_options, $chart_lang;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
@@ -32,14 +33,13 @@ $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, STR_TO_DATE( CONCAT( DATE( Datum_Dag
     " GROUP BY datumtijd, naam " .
     " ORDER BY datumtijd ASC";
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
-if (mysqli_num_rows($result) == 0) {
-    $formatter->setPattern('d LLLL yyyy');
-    $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
-    $tlaatstetijd = time();
-    $geengevdag = 0;
-    $agegevens[] = 0;
-    $aoplopendkwdag[] = 0;
-} else {
+$formatter->setPattern('d LLLL yyyy');
+$datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
+$tlaatstetijd = time();
+$geengevdag = 0;
+$agegevens[] = 0;
+$aoplopendkwdag[] = 0;
+if (mysqli_num_rows($result) > 0) {
     $formatter->setPattern('d LLL yyyy');
     $datum = datefmt_format($formatter, $chartdate);
     $geengevdag = 1;
@@ -57,7 +57,7 @@ if (mysqli_num_rows($result) == 0) {
                 // add to list only if it configured (ignore db entries) and it has values for the current day
                 $inveter_list[] = $inverter_name;
             }
-        };
+        }
     }
 }
 //--------------------------------------------------------------------------------------------------
@@ -103,12 +103,10 @@ foreach ($maxdays as $inverter => $maxday) {
          WHERE Datum_Maand LIKE  '" . date("Y-m-d", strtotime($maxday)) . "%'
          ORDER BY Naam ASC ";
     $resultmaxkwh = mysqli_query($con, $sqlmaxkwh) or die("Query failed. kwh-max " . mysqli_error($con));
-    if (mysqli_num_rows($resultmaxkwh) == 0) {
-        $maxval = 0;
-    } else {
+    $maxval = 0;
+    if (mysqli_num_rows($resultmaxkwh) > 0) {
         while ($row = mysqli_fetch_array($resultmaxkwh)) {
             $maxval = round($row['Geg_Maand'], 2);
-
         }
     }
     $maxkwh[] = $maxval;
@@ -127,9 +125,8 @@ foreach ($maxdays as $inverter => $maxday) {
                     AND naam = '" . $inverter . "'
                   ORDER BY Name, datumtijd ASC";
     $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
-    if (mysqli_num_rows($resultmd) == 0) {
-        $maxdagpeak = 0;
-    } else {
+    $maxdagpeak = 0;
+    if (mysqli_num_rows($resultmd) != 0) {
         $maxdagpeak = 0;
         while ($row = mysqli_fetch_array($resultmd)) {
             $inverter_name = $row['Name'];
@@ -145,7 +142,7 @@ foreach ($maxdays as $inverter => $maxday) {
 
             if ($row['gem'] > $maxdagpeak) {
                 $maxdagpeak = $row['gem'];
-            };
+            }
         }
     }
 }
@@ -171,7 +168,7 @@ foreach ($inveter_list as $inverter_name) {
     $series_isVisible = "false";
     if ($showAllInverters) {
         $series_isVisible = "true";
-    };
+    }
     $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false }, visible: $series_isVisible, color: { linearGradient: {x1: 0, x2: 0, y1: 1, y2: 0}, stops: [ [0, $col1], [1, $col2]] },                        
     data:[";
     foreach ($all_valarray as $time => $valarray) {
@@ -198,7 +195,7 @@ $str_max = "";
 foreach (PLANT_NAMES as $key => $inverter_name) {
     if ($key == 0) {
         $dash = '';
-    } elseif ($key > 0) {
+    } else {
         $dash = "dashStyle: 'dash',";
     }
     $str_max .= "{ name: '$inverter_name max',  color : '#15ff24', linkedTo: '$inverter_name', lineWidth: 1,  $dash  type: 'line',  stacking: 'normal', marker: { enabled: false },                           
@@ -235,7 +232,7 @@ $temp_serie = "";
 $temp_unit = "°C";
 $val_max = 0;
 $val_min = 0;
-if ($params['useWeewx'] == true) {
+if ($params['useWeewx']) {
     include ROOT_DIR . "/charts/temp_sensor_inc.php";
 }
 // cumulative line --------------------------------------------------------------
@@ -251,12 +248,17 @@ foreach ($aoplopendkwdag as $tuur => $fkw) {
     $cum_max_value = $fkw;
 }
 $str_cum = substr($str_cum, 0, -1);
-if (strlen($str_dataserie) == 0) $str_cum = "";
+if (strlen($str_dataserie) == 0) {
+    $str_cum = "";
+}
 $strsomkw = substr($strsomkw, 0, -1);
-if (max($aoplopendkwdag) < 2) $aoplopendkwdag1 = 2;
-else $aoplopendkwdag1 = round((max($aoplopendkwdag) + 0.5), 0);
+if (max($aoplopendkwdag) < 2) {
+    $aoplopendkwdag1 = 2;
+} else {
+    $aoplopendkwdag1 = round((max($aoplopendkwdag) + 0.5));
+}
 $show_legende = "true";
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     echo '<div class = "index_chart" id="mycontainer"></div>';
     $show_legende = "false";
 }
@@ -537,9 +539,7 @@ if (strlen($temp_serie) > 0) {
                 }
             ],
             series: [
-                <?= $str_dataserie ?>
-                <?= $str_max ?>
-                <?= $temp_serie ?>
+                <?= $str_dataserie . $str_max . $temp_serie?>
             ]
         }), function (mychart) {
             mychart.forRender = true

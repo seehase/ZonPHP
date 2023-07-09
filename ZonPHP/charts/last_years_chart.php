@@ -1,4 +1,5 @@
 <?php
+global $con, $params, $colors, $shortmonthcategories, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
@@ -20,7 +21,7 @@ if (isset($_GET['jaar'])) {
     // reformat string
     $chartdatestring = date("Y-m-d", $chartdate);
 }
-$cur_year_month = "" . date('Y-m', $chartdate);
+$cur_year_month = date('Y-m', $chartdate);
 $paramnw['jaar'] = date("Y", $chartdate);
 
 $sql = "SELECT MAX( Datum_Maand ) AS maxi, YEAR(Datum_Maand) as year, ROUND(SUM( Geg_Maand ),0) AS som, naam
@@ -30,11 +31,10 @@ ORDER BY maxi, naam ASC";
 //echo $sql;
 $aTotaaljaar = array();
 $result = mysqli_query($con, $sql) or die("Query failed. alle_jaren: " . mysqli_error($con));
-if (mysqli_num_rows($result) == 0) {
-    $adatum[][] = 0;
-    $aTotaaljaar[] = 0;
-    $acdatum = array();
-} else {
+$adatum[][] = 0;
+$aTotaaljaar[] = 0;
+$acdatum = array();
+if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_array($result)) {
         $adatum[date("Y", strtotime($row['maxi']))][date("n", strtotime($row['maxi']))] = $row['som'];
         $acdatum[] = $row['year'];
@@ -83,7 +83,7 @@ if (mysqli_num_rows($resultmax) == 0) {
 } else {
     while ($row = mysqli_fetch_array($resultmax)) {
         $maxmaand[$row['maand']] = $row['som'];
-        $nmaxmaand[$row['maand']][$row['Name']] = Round($row['som'], 0);
+        $nmaxmaand[$row['maand']][$row['Name']] = Round($row['som']);
         $nmaxmaand_jaar[$row['maand']][$row['Name']] = $row['jaar'];
     }
 }
@@ -131,7 +131,7 @@ foreach ($acdatum as $i => $dyear) {
 foreach (PLANT_NAMES as $zz => $inverter_name) {
     if ($zz == 0) {
         $dash = "dashStyle: 'solid',";
-    } elseif ($zz > 0) {
+    } else {
         $dash = "dashStyle: 'shortdash',";
     }
     $link = 0;
@@ -174,14 +174,12 @@ foreach (PLANT_NAMES as $zz => $inverter_name) {
                 if (array_key_exists($i, $asy)) {
                     $cur_year = $asy[$i];
                     $cur_max = $maxmaand[$i];
+                } elseif (array_key_exists($i, $maxmaand)) {
+                    $cur_year = 0;
+                    $cur_max = $maxmaand[$i];
                 } else {
-                    if (array_key_exists($i, $maxmaand)) {
-                        $cur_year = 0;
-                        $cur_max = $maxmaand[$i];
-                    } else {
-                        $cur_year = 0;
-                        $cur_max = 0;
-                    }
+                    $cur_year = 0;
+                    $cur_max = 0;
                 }
 
                 if (!isset($nmaxmaand[$i][$inverter_name])) {
@@ -258,7 +256,7 @@ $slinkdoorgeven = "/year_overviewt.php?jaar=";
 
 $sub_title = "";
 $show_legende = "true";
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     echo '<div class = "index_chart" id="all_years_chart_' . $inverter . '"></div>';
     $show_legende = "false";
 }
@@ -517,12 +515,12 @@ $categories = $shortmonthcategories;
             },
 
             series: [
-                <?= $dummy; ?>
-                <?= $reflines; ?>
-                <?= $avglines; ?>
-                <?= $dummyyears; ?>
-                <?= $max_bars; ?>
-                <?= $value_series ?>
+                <?= $dummy .
+                $reflines .
+                $avglines .
+                $dummyyears .
+                $max_bars .
+                $value_series ?>
             ]
         }));
         setInterval(function () {
