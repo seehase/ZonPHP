@@ -299,7 +299,7 @@ if (strlen($temp_serie) > 0) {
 
         var temp_max = <?= $val_max ?>;
         var temp_min = <?= $val_min ?>;
-        var txt_actueel = '<?= getTxt("actueel") ?>';
+        var txt_today = '<?= getTxt("today") ?>';
         var txt_totaal = '<?= getTxt("totaal") ?>';
         var txt_max = '<?= getTxt("max") ?>';
         var txt_peak = '<?= getTxt("peak") ?>';
@@ -344,7 +344,7 @@ if (strlen($temp_serie) > 0) {
                         }
 
                         this.setSubtitle({
-                            text: "<b>" + txt_actueel + ": </b>" + current + " -  " + Highcharts.numberFormat(SUM, 0, ",", "") +
+                            text: "<b>" + txt_today + ": </b>" + current + " -  " + Highcharts.numberFormat(SUM, 0, ",", "") +
                                 "W" + "=" + (Highcharts.numberFormat(100 * SUM / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + PEAK + "W <br/><b>" +
                                 txt_totaal + ":</b> " + (Highcharts.numberFormat(tota, 2, ",", "")) + "kWh = " +
                                 (Highcharts.numberFormat((tota / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>" +

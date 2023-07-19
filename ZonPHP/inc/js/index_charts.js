@@ -341,7 +341,7 @@ function load_charts() {
                 '                 ' + txt['capacity'] + ' : ' + plants[key]['capacity'] + '<br>' +
                 '                 ' + txt['inverter'] + ' : ' + plants[key]['inverter'] + '<br>' +
                 '                 ' + txt['startdate'] + ' : ' + plants[key]['installationDate'] + '<br>' +
-                '                 ' + txt['orientatie'] + ' : ' + plants[key]['orientation'] + '<br>' +
+                '                 ' + txt['orientation'] + ' : ' + plants[key]['orientation'] + '<br>' +
                 '                 ' + txt['description'] + ' : ' + plants[key]['description'] + '<br>' +
                 '          </div>' +
                 '       </div>' +

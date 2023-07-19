@@ -42,7 +42,23 @@ checkChangedConfigFiles();
 //echo "HTML_PATH: " .  HTML_PATH. "<br>";
 //echo "ROOT_DIR: " .  ROOT_DIR. "<br>";
 //echo "PHP_PATH: " .  PHP_PATH. "<br>";
+//echo "DOCUMENT_ROOT: " .  $_SERVER['DOCUMENT_ROOT']. "<br>";
 
+
+/*
+
+HTML_PATH: /
+ROOT_DIR: /mnt/web405/b0/65/52610665/htdocs/zonphp
+PHP_PATH:
+DOCUMENT_ROOT: /home/strato/http/premium/rid/06/65/52610665/htdocs
+
+
+HTML_PATH: /zonphp/
+ROOT_DIR: /mnt/web405/b0/65/52610665/htdocs/zonphp
+PHP_PATH: zonphp/
+DOCUMENT_ROOT: /home/strato/http/premium/rid/06/65/52610665/htdocs
+
+ */
 
 /*********************************************************************
  * init params, language, themes

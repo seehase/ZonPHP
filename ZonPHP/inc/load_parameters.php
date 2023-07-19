@@ -13,10 +13,6 @@ function loadParams(): array
     return $params;
 }
 
-// FIXME: enhance validation
-//   farm info list all plants
-
-
 function vadidateParams(&$params): void
 {
     $params['check']['ERROR'] = array();

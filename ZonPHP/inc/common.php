@@ -107,3 +107,50 @@ function clean($string): string
     $string = preg_replace('/[^A-Za-z0-9_\-]/', '', $string); // Removes special chars.
     return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
 }
+
+function getLastImportDate(string $plantName, $con): string
+{
+    $firstImportDate = STARTDATE;
+    $sql = "SELECT * FROM " . TABLE_PREFIX . "_dag WHERE Naam ='$plantName' ORDER BY Datum_Dag DESC LIMIT 1";
+    // get oldest import date from db
+    $result = mysqli_query($con, $sql) or die("ERROR: getting last date from DB " . mysqli_error($con));
+    $row = mysqli_fetch_array($result);
+    if ($row != null) {
+        $firstImportDate = $row['Datum_Dag'];
+    }
+    return $firstImportDate;
+}
+
+function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): array
+{
+    $directory = ROOT_DIR . "/" . $folderName . '/';
+    $files_to_import = array();
+    $num_today = date("Ymd", time());
+    for ($i = 0; $i <= 160; $i++) {
+        $num = (date("Ymd", strtotime("+" . $i . " day", strtotime($lastImportDate))));
+        if ($num > $num_today) {
+            // skip if date is in future
+            break;
+        }
+        $filename = $directory . $importPrefix . "-" . $num . '.csv';
+        if (file_exists($filename)) {
+            $files_to_import[] = $filename;
+        }
+    }
+    return $files_to_import;
+}
+
+function readImportFile(string $filename, int $linesToSkip) : array {
+    $file = fopen($filename, "r") or die ("Cannot open " . $filename);
+    $lineCounter = 1;
+    $lines = array();
+    while (!feof($file)) {
+        $line = trim(fgets($file, 1024));
+        if ($lineCounter > $linesToSkip && !empty($line)) {
+            $lines[] = $line;
+        }
+        $lineCounter++;
+    }
+    fclose($file);
+    return $lines;
+}

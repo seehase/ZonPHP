@@ -3,6 +3,19 @@ global $params, $colors;
 include_once "inc/init.php";
 include_once "inc/connect.php";
 
+// fixme section ------------------------------------------------------------------------------------
+// fixme: Support different ROOT and DOCUMENT (if not a substring)
+// fixme: possibility to override pathes from parameters.php
+// fixme: generic sunny-explorer importer (without session[plant])
+// fixme: specify dateformat for importer and common function for  omzetdatum()
+// fixme: rename all importer, remove invullen_gegevens prefix
+// fixme: documentation of parameters.php
+// fixme: update images of project README.md
+// fixme: use parameter path in plants for folder location in importer
+// fixme: use parameter separator "-" in plants for folder location in importer
+// fixme: use parameter linestoskip "10" in plants for folder location in importer
+
+
 $aoplopendkwdag[] = 0;
 include_once "inc/header.php";
 
