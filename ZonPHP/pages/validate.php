@@ -59,8 +59,8 @@ include_once "../inc/init.php";
             echo getTxt("paths") . ".<br><br>";
             echo "HTML_PATH: " . HTML_PATH . "<br>";
             echo "ROOT_DIR: " . ROOT_DIR . "<br>";
-            echo "PHP_PATH: " . PHP_PATH . "<br>";
             echo "DOCUMENT_ROOT: " . $_SERVER['DOCUMENT_ROOT'] . "<br><br><hr><br>";
+
             echo getTxt("errors") . ".<br><br>";
             echo "<p> ERRORS </p>";
             foreach ($_SESSION['params']['check']['ERROR'] as $msg) {

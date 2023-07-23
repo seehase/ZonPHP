@@ -26,7 +26,8 @@ session_start();
  *********************************************************************/
 const LANGUAGES = array("en", "de", "fr", "nl");
 define('ROOT_DIR', realpath(substr(realpath(__DIR__ . '/'), 0, -4) . '/'));
-$tmpHTMLPath = str_replace('\\', '/', substr(ROOT_DIR, strlen($_SERVER['DOCUMENT_ROOT'])));
+$tmpHTMLPath = getHTMLPATH(ROOT_DIR, $_SERVER['DOCUMENT_ROOT']);
+
 if (strlen($tmpHTMLPath) == 0) $tmpHTMLPath = "/";
 if ($tmpHTMLPath[0] != "/") {
     $tmpHTMLPath = "/" . $tmpHTMLPath;
@@ -34,31 +35,7 @@ if ($tmpHTMLPath[0] != "/") {
 if ($tmpHTMLPath[strlen($tmpHTMLPath) - 1] != "/") {
     $tmpHTMLPath = $tmpHTMLPath . "/";
 }
-define('HTML_PATH', $tmpHTMLPath);
-define('PHP_PATH', ltrim(HTML_PATH, '/'));
 checkChangedConfigFiles();
-
-
-//echo "HTML_PATH: " .  HTML_PATH. "<br>";
-//echo "ROOT_DIR: " .  ROOT_DIR. "<br>";
-//echo "PHP_PATH: " .  PHP_PATH. "<br>";
-//echo "DOCUMENT_ROOT: " .  $_SERVER['DOCUMENT_ROOT']. "<br>";
-
-
-/*
-
-HTML_PATH: /
-ROOT_DIR: /mnt/web405/b0/65/52610665/htdocs/zonphp
-PHP_PATH:
-DOCUMENT_ROOT: /home/strato/http/premium/rid/06/65/52610665/htdocs
-
-
-HTML_PATH: /zonphp/
-ROOT_DIR: /mnt/web405/b0/65/52610665/htdocs/zonphp
-PHP_PATH: zonphp/
-DOCUMENT_ROOT: /home/strato/http/premium/rid/06/65/52610665/htdocs
-
- */
 
 /*********************************************************************
  * init params, language, themes
@@ -67,6 +44,11 @@ if (!isset($_SESSION['params']) || isset($_GET['params'])) {
     include_once "load_parameters.php";
     loadParams();
 }
+// use default HTML Path if not overwritten
+if (!defined('HTML_PATH')) {
+    define('HTML_PATH', $tmpHTMLPath);
+}
+
 $params = $_SESSION['params'];
 if (!defined("TABLE_PREFIX")) {
     define('TABLE_PREFIX', $params['database']['tablePrefix']);

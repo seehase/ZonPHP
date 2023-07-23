@@ -79,7 +79,7 @@ function checkChangedConfigFiles(): bool
     return false;
 }
 
-function controledatum($idag, $imaand, $ijaar) : bool
+function controledatum($idag, $imaand, $ijaar): bool
 {
     if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
@@ -140,7 +140,11 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
     return $files_to_import;
 }
 
-function readImportFile(string $filename, int $linesToSkip) : array {
+/**
+ * add file-separator and dateformat
+ */
+function readImportFile(string $filename, int $linesToSkip): array
+{
     $file = fopen($filename, "r") or die ("Cannot open " . $filename);
     $lineCounter = 1;
     $lines = array();
@@ -180,3 +184,62 @@ function prepareAndInsertData(array $dbValues, $con): void
         mysqli_query($con, $sqL_insert_month) or die("Query failed. ERROR3: " . $sqL_insert_month . mysqli_error($con));
     }
 }
+
+/**
+ * Find HTML path if they are not a substring, but expecting at least they have a part in common
+ *
+ * Example:
+ * ROOT_DIR:      /mnt/web405/b0/65/52610665/htdocs/zonphp
+ * DOCUMENT_ROOT: /home/strato/http/premium/rid/06/65/52610665/htdocs
+ * ==>
+ * ROOT_DIR:      65/52610665/htdocs/zonphp
+ * DOCUMENT_ROOT: 65/52610665/htdocs
+ * ==> Substing -> /zonphp
+ */
+function getHTMLPATH(string $path1, $path2): string
+{
+    if (strpos($path1, $path2) !== false) {
+        // default case, ROOT_DIR is part of DOCUMENT_ROOT
+        return str_replace('\\', '/', substr($path1, strlen($path2)));
+    } else {
+        if (strlen($path1) > strlen($path2)) {
+            $longerPaths = explode("/", $path1);
+            $shorterPaths = explode("/", $path2);
+        } else {
+            $longerPaths = explode("/", $path2);
+            $shorterPaths = explode("/", $path1);
+        }
+        $cnt = 0;
+        foreach ($longerPaths as $item) {
+            $idx = array_search($item, $shorterPaths);
+            if (!$idx) {
+                unset($longerPaths[$cnt]);
+                $cnt++;
+            } else {
+                break;
+            }
+        }
+        $cnt = 0;
+        foreach ($shorterPaths as $item) {
+            $idx = array_search($item, $longerPaths);
+            if (!$idx) {
+                unset($shorterPaths[$cnt]);
+                $cnt++;
+            } else {
+                break;
+            }
+        }
+        if (count($shorterPaths) > count($longerPaths)) {
+            $longerPath = implode("/", $shorterPaths);
+            $shorterPath = implode("/", $longerPaths);
+        } else {
+            $longerPath = implode("/", $longerPaths);
+            $shorterPath = implode("/", $shorterPaths);
+        }
+        if (stripos($longerPath, $shorterPath) !== false) {
+            return substr($longerPath, strlen($shorterPath));
+        }
+    }
+    return "/";
+}
+

@@ -130,6 +130,11 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "No googleTrackingId set in parameter.php set default to ''");
         $params['googleTrackingId'] = "";
     }
+    if (isset($params['overwrite_HTML_PATH']) && strlen($params['overwrite_HTML_PATH']) > 0) {
+        // overwrite HTML_PATH
+        addCheckMessage("INFO", "HTML_PATH overwritten and set to '" . $params['overwrite_HTML_PATH'] . "'");
+        define('HTML_PATH', $params['overwrite_HTML_PATH']);
+    }
 }
 
 function vadidateLayout(&$params): void

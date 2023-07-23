@@ -1,6 +1,18 @@
 <?php
 global $con, $params;
 
+// Loop over all plants and import each plant separately
+foreach ($params['PLANTS'] as $name => $plant) {
+    $lastImportDate = getLastImportDate($name, $con);
+    $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix']);
+
+    foreach ($files_to_import as $import_filename) {
+        $importData = readImportFile($import_filename, 10);
+        $dbValues = mapLinesToDBValues($importData, $name, $lastImportDate);
+        prepareAndInsertData($dbValues, $con);
+    }
+}
+
 function mapLinesToDBValues(array $lines, string $name, $lastImportDate): array
 {
     $dbValues = array();
@@ -26,16 +38,3 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate): array
     }
     return $dbValues;
 }
-
-foreach ($params['PLANTS'] as $name => $plant) {
-    $lastImportDate = getLastImportDate($name, $con);
-    $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix']);
-
-    foreach ($files_to_import as $import_filename) {
-        $importData = readImportFile($import_filename, 10);
-        $dbValues = mapLinesToDBValues($importData, $name, $lastImportDate);
-        prepareAndInsertData($dbValues, $con);
-    }
-}
-
-

@@ -4,7 +4,7 @@
  * Information
  ******************************************************************************
 
-installationDate = 2023-07-15
+installationDate = 2023-07-14
 plantNames = SEE, TIL
 plantskWp = 5040, 3000
 defaultLanguage = de
@@ -19,6 +19,7 @@ hideFooter = false
 hideMenu = false
 checkVersion = true
 googleTrackingId = G-XCE1BK2ZX9
+; overwrite_HTML_PATH = "/ZonPHP/ZonPHP/" ; // only overwrite if needed, path have tail and leading slashes e.g. "/zone/
 
 [layout]
 cards = "day, month, year, allYears, cumulative, yearPerMonth,  farm, images, top, plants"
