@@ -8,8 +8,6 @@
 /ZonPHP/readme.txt
 /ZonPHP/.project
 /ZonPHP/.buildpath
-/ZonPHP/parameters.php
-/ZonPHP/Craeghs/
 **/.DS_Store
 .DS_Store
-.DS_Store
+/ZonPHP/parameters_dev.php

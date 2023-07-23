@@ -3,7 +3,11 @@
 function loadParams(): array
 {
     global $params;
-    $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
+    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
+        $params = parse_ini_file(ROOT_DIR . "/parameters_dev.php", true);
+    } else {
+        $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
+    }
     vadidateParams($params);
     $_SESSION['params'] = $params;
     if ($params['check']['failed']) {

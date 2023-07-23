@@ -42,6 +42,22 @@ function checkChangedConfigFiles(): bool
             return true;
         }
     }
+    // check parameter_dev.php if exists
+    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
+        $paramsDevFileDate = filemtime(ROOT_DIR . "/parameters_dev.php");
+        if (!isset($_SESSION['paramsDevFileDate'])) {
+            $_SESSION['paramsDevFileDate'] = $paramsDevFileDate;
+            return true;
+        } else {
+            if ($_SESSION['paramsDevFileDate'] < $paramsDevFileDate) {
+                $_SESSION['paramsDevFileDate'] = $paramsDevFileDate;
+                unset($_SESSION['params']);
+                unset($_SESSION['txt']);
+                unset($_SESSION['colors']);
+                return true;
+            }
+        }
+    }
 
     // check language files
     $languageFiles = scandir(ROOT_DIR . "/inc/language");

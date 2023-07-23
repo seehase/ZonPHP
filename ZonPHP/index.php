@@ -6,6 +6,9 @@ include_once "inc/connect.php";
 // fixme section ------------------------------------------------------------------------------------
 // fixme: documentation of parameters.php
 // fixme: update images of project README.md
+// fixme: set importer = none when useEMU = true
+// fixme: do we still need "hideMenue"?
+// remove:  [plant][image]  not used anymore (also check vadidatePlant() )
 
 // IMPROVEMENTS
 // use parameter path in plants for folder location in importer
