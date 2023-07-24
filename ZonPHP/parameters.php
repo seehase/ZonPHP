@@ -1,5 +1,4 @@
 <?php
-/*
 ; ##############################################################################
 ; # ZonPHP CONFIGURATION FILE
 ; #
@@ -207,7 +206,7 @@ description = "this is my first solar plant, built in 2011"
 ; all images need to have an indentifiere and 3 parameters
 ;
 ; imageID[title] = "name"
-; imageID[description] = "description
+; imageID[description] = "description"
 ; imageID[uri] = "image.ext"
 ;
 ; imageId must be different for each image you want to show
