@@ -5,14 +5,18 @@
 # See the file LICENSE for your rights.
 ###############################################################################
 
-# ##############################################################################
-
+###############################################################################
 # This section is for general configuration information.
+###############################################################################
+
+# Name of your farm, this name is shown in menu as title
+name = ZonPHP Seehausen Solar
 
 # specify installation date of your solar farm in format yyyy-mm-dd e.g. 2011-06-23
 installationDate = 2023-07-14
 
-# List all you plantnames, For all plants a separate configuration section is needed, which is named the same as the name
+# List all you plantnames comma separated,for all plants a separate configuration section is needed,
+# which is named the same as the name e.g. PLANT1, PLANT2
 plantNames = PLANT1
 
 # Which should be your default language? possible values: en, de, fr, nl
@@ -22,6 +26,12 @@ defaultLanguage = de
 # you can create new individual themes by placing a new .theme file in this folder. Theme files must be in lower case
 # names can be in any case
 userTheme = DarkGreyFire
+
+# additional website shown in farm-card
+website = "https://solar.seehausen.org"
+
+# additional location shown in farm-card
+location = Ingolstadt
 
 # define display interval, default is 5 for solar log
 # allowed:  1,2,3,4,5,6,10,12,15,20,30,60 sample  xls = 10, SolarLog = 5, SIC = 4
@@ -37,9 +47,9 @@ importer = none
 
 # Number in seconds to auto reload the website in your browser, if value is "0" auto reload is deactivated
 # default 300 = 5min
-autoReload = 0
+autoReload = 300
 
-# if you have a weatherstaion running with WEEWX (https://weewx.com/) you can use temperature data to be displayed
+# if you have a weatherstation running with WEEWX (https://weewx.com/) you can use temperature data to be displayed
 # in the day chart. To use weewx data, set this option to "true" and specify additional parameters in section [weewx]
 # default = false
 useWeewx = false
@@ -64,12 +74,6 @@ googleTrackingId =
 # uncomment if you want to overwrite
 # overwrite_HTML_PATH = ""
 
-# ##############################################################################
-
-#   This section specifies which chart and in which order should be shown on the index page.
-
-[layout]
-
 # Define the individual cards to be shown on the index page
 #  available charts:
 #   day        -> the day chart for today, optional with temperature values
@@ -90,10 +94,9 @@ googleTrackingId =
 cards = "day, month, year, allYears, cumulative, yearPerMonth, farm, images, top, plants"
 
 
-# ##############################################################################
-
+###############################################################################
 #   This section database connections parameters and is mandatory.
-
+###############################################################################
 [database]
 
 # The host where the database is located
@@ -113,37 +116,15 @@ database = solar
 # default = "tgeg"
 tablePrefix = tgeg
 
-# ##############################################################################
 
-#   This section defines information about your solar farm.
-
-# The parameter ar used for display only
-[farm]
-
-# Name of your farm, this name is shown in menu as title
-name = ZonPHP Seehausen Solar
-
-# additional website shown in farm-card
-website = https://solar.seehausen.org
-
-# additional location shown in farm-card
-location = Ingolstadt
-
-# additional total capacity of your farm shown in farm-card
-totalCapacity = 8040 kWp;
-
-# ##############################################################################
-
+###############################################################################
 #   This section defines parameters for a single plant, specified in parameter "plantNames" of general section
-
 # for each name specified in "plantNames" you need a separate section with the corresponding name
 # The section contains configuration and information used by zonPHP
+###############################################################################
 
 # plant "PLANT1"
 [PLANT1]
-
-# Name of this plant, e.g. "roof", or "carport"
-name = Plant1
 
 # specify installation date of this plant in format yyyy-mm-dd e.g. 2011-06-23
 installationDate = 2011-11-10
@@ -156,9 +137,6 @@ capacity = 5040
 # then define importPrefix = "seehase" without separator
 importPrefix = plant1
 
-# TOBEREMOVED
-image = "image1.jpg"
-
 # Specify list of expected values per month
 # you can calculate expected values for your location at
 # https://re.jrc.ec.europa.eu/pvg_tools/en/#api_5.1
@@ -167,40 +145,23 @@ image = "image1.jpg"
 # default = "170,200,300,500,550,600,600,550,500,300,200,170" is used
 expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
 
-# define an additional website (information only)
-# default = ""
-website = https://en.wikipedia.org/wiki/Photovoltaics
-
-# information about the used panels of this plant (information only)
-panels = "5040Wq = 21*Trina TSM-240 PC05 Poly"
-
-# imformation about the used inverter (information only)
-inverter = "SMA SB 5000TL20 ESS"
-
-# information about the orientation of this plant (information only)
-orientation = "180 Grad 30 Grad Neigung"
-
-# where is the plant located (information only)
-location = Earth
-
 # additional information shown on the card (information only)
-description = "this is my first solar plant, built in 2011"
+description = "seehase<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly<br>Inverter: SMA SB 5000TL20 ESS<br>Orientation: 180 Grad 30 Grad Neigung<br>My first solar plant build in 2011"
 
 
-# ##############################################################################
-
+###############################################################################
 #   This section specifies optional images to be shown as cards on index page
-
+###############################################################################
 # specify a list of images that are shown on the index page,
 # you can refere to internal images located in the folder /images or use
 # external images with a complete URL
 # each image is shown as a single card
 # all images need to have an indentifiere and 3 parameters
-;
+
 # imageID[title] = "name"
 # imageID[description] = "description"
 # imageID[uri] = "image.ext"
-;
+
 # imageId must be different for each image you want to show
 
 [images]
@@ -223,11 +184,11 @@ image3[title] = "internet"
 image3[description] = "source: wikipedia"
 image3[uri] = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
 
-# ##############################################################################
-
+###############################################################################
 #   This section specifies parameters to configure use of WEEWX (https://weewx.com/)
+#   only relevant if parameter "useWeewx" = true
+###############################################################################
 
-# only relevant if parameter "useWeewx" = true
 [weewx]
 
 # Database host of your WEWWX database, can be different to the zonPHP database
@@ -256,12 +217,11 @@ timestampColumn = dateTime
 # default = true
 tempInFahrenheit = true
 
-# ##############################################################################
-
+###############################################################################
 #   This section specifies parameters if you use EMU
-
 # only relevant if parameter "useEMU" = true
 # If you use EMU, set "importer" to "none"
+###############################################################################
 [EMU]
 path_CSV_data =
 

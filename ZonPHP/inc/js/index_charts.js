@@ -295,7 +295,7 @@ function load_charts() {
         let plants = farm['plants'];
         let plantText = "";
         for (const key in plants) {
-            plantText +=  txt['name'] + ' : ' + plants[key]['name'] + '<br>';
+            plantText +=  txt['name'] + ' : ' + key + '<br>';
             plantText +=  txt['startdate'] + ' : ' + plants[key]['installationDate'] + '<br>';
             plantText +=  txt['capacity'] + ' : ' + plants[key]['capacity'] + '<br><hr>'
         }
@@ -307,7 +307,7 @@ function load_charts() {
             '      <div class="index_chart" id="' + id + '" ">' +
             '          <div class="highcharts-container" >' +
             '             <br>' +
-            '             <h1>Anlage von ' + farm['name'] + '</h1>' +
+            '             <h1>' + farm['name'] + '</h1>' +
             '             <br>' +
             '             ' + txt['website'] + ' : ' + farm['website'] + '<br>' +
             '             ' + txt['location'] + ' : ' + farm['location'] + '<br>' +
@@ -331,18 +331,11 @@ function load_charts() {
             const itemTemplate = '' +
                 '<div class="item h4 w4" data-id="' + id + '">' +
                 '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
-                '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt['plant'] + ' - ' + plants[key]['name'] + '</div></a>' +
+                '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt['plant'] + ' - ' + key + '</div></a>' +
                 '      <div class="index_chart" id="' + id + '" ">' +
                 '          <div class="highcharts-container" >' +
                 '                 <br>' +
-                '                 ' + txt['website'] + ' : ' + plants[key]['website'] + '<br>' +
-                '                 ' + txt['location'] + ' : ' + plants[key]['location'] + '<br>' +
-                '                 ' + txt['module'] + ' : ' + plants[key]['panels'] + '<br>' +
-                '                 ' + txt['capacity'] + ' : ' + plants[key]['capacity'] + '<br>' +
-                '                 ' + txt['inverter'] + ' : ' + plants[key]['inverter'] + '<br>' +
-                '                 ' + txt['startdate'] + ' : ' + plants[key]['installationDate'] + '<br>' +
-                '                 ' + txt['orientation'] + ' : ' + plants[key]['orientation'] + '<br>' +
-                '                 ' + txt['description'] + ' : ' + plants[key]['description'] + '<br>' +
+                '                 ' + plants[key]['description'] + '<br>' +
                 '          </div>' +
                 '       </div>' +
                 '    </div>' +
