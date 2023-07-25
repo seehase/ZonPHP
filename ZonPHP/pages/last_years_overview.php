@@ -12,14 +12,9 @@ if (isset($_POST['inverter'])) {
 $nextyear = date("Y-m-d", strtotime("+1 year", $chartdate));
 $prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
 
-$footer_display_style = "clear:both; ";
-if ($params['hideFooter']) {
-    $padding = '- 35px';
-    $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
-} else {
-    $padding = '- 0px';
-    $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
-}
+$padding = '- 0px';
+$corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
+
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"

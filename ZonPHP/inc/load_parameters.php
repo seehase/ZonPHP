@@ -3,11 +3,10 @@
 function loadParams(): array
 {
     global $params;
-    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
-        $params = parse_ini_file(ROOT_DIR . "/parameters_dev.php", true);
-    } else {
-        $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
-    }
+
+    $iniString = readParameterFile();
+    $params = parse_ini_string("$iniString",  true);
+
     vadidateParams($params);
     $_SESSION['params'] = $params;
     if ($params['check']['failed']) {
@@ -117,14 +116,6 @@ function vadidateParamsGeneral(&$params): void
     if (!isset($params['useEMU'])) {
         addCheckMessage("INFO", "useEMU not set in parameter.php set default to 'false'");
         $params['useEMU'] = false;
-    }
-    if (!isset($params['hideFooter'])) {
-        addCheckMessage("INFO", "No hideFooter set in parameter.php set default to 'false'");
-        $params['hideFooter'] = false;
-    }
-    if (!isset($params['hideMenu'])) {
-        addCheckMessage("INFO", "No hideMenu set in parameter.php set default to 'false'");
-        $params['hideMenu'] = false;
     }
     if (!isset($params['checkVersion']) || boolval($params['checkVersion']) == 0) {
         addCheckMessage("INFO", "No checkVersion set in parameter.php set default to 'false'");
