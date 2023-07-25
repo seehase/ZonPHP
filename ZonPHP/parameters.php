@@ -263,18 +263,8 @@ tempInFahrenheit = true
 # only relevant if parameter "useEMU" = true
 # If you use EMU, set "importer" to "none"
 [EMU]
+path_CSV_data =
 
-path =
 
-offset =
-
-webRoot =
-
-webRoot =
-
-PVO_API =
-
-PVO_SYS_ID =
-
-------------------------------------------------*/
+    
 
