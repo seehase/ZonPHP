@@ -272,13 +272,7 @@ tempInFahrenheit = true
 ; If you use EMU, set "importer" to "none"
 [EMU]
 
-path =
-
-offset =
-
-webRoot =
-
-webRoot =
+path_CSV_data =
 
 PVO_API =
 
