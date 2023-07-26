@@ -268,6 +268,9 @@ $categories = $shortmonthcategories;
                                 (Highcharts.numberFormat((PEAK / KWH) * 1000, 0, ",", "")) + " kWh/kWp" + " <b>" +
                                 txt_gem + ": </b>" + (Highcharts.numberFormat(GEM, 0, ",", "")) + " kWh" //+ REF //" <b>" +txt_ref + ": </b>" + (Highcharts.numberFormat(REF, 2, ",", "")) + " kWh"
                         }, false, false);
+                        this.setTitle({
+                            text: "<b>" + year + ": </b>" + (Highcharts.numberFormat(totayr, 0, ",", "")) + " kWh = " + (Highcharts.numberFormat((totayr / KWH) * 1000, 0, ",", "")) + " kWh/kWp"
+                        }, false, false);
                         //average plotline
                         mychart.yAxis[0].addPlotLine({
                             id: 'Average',
@@ -298,6 +301,14 @@ $categories = $shortmonthcategories;
                         });
 
                     }
+                }
+            },
+			title: {
+                style: {
+                    wordWrap: 'break-word',
+                    fontWeight: 'normal',
+                    fontSize: '12px',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>'
                 }
             },
 
@@ -394,14 +405,14 @@ $categories = $shortmonthcategories;
             yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
-                        return this.value + 'kWh';
+                        return this.value
                     },
                     style: {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 title: {
-                    text: 'Total',
+                    text: 'Total (kWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },

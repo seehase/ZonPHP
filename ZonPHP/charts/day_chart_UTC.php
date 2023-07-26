@@ -312,6 +312,11 @@ if (strlen($temp_serie) > 0) {
                                 (Highcharts.numberFormat((dataMax / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>" +
                                 txt_max + ": </b>" + maxlink + " " + (Highcharts.numberFormat(MAX, 2, ",", "")) + " kWh"
                         }, false, false);
+						this.setTitle({
+                            text:  "<b>" +
+                                txt_totaal + ":</b> " + (Highcharts.numberFormat(dataMax, 2, ",", "")) + "kWh = " +
+                                (Highcharts.numberFormat((dataMax / KWH) * 1000, 2, ",", "")) + "kWh/kWp"
+                        }, false, false);
 
                         //construct chart
                         total = [];
@@ -434,6 +439,14 @@ if (strlen($temp_serie) > 0) {
                     color: '<?= $colors['color_chart_text_subtitle'] ?>'
                 }
             },
+            title: {
+                style: {
+                    wordWrap: 'break-word',
+                    fontWeight: 'normal',
+                    fontSize: '12px',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>'
+                }
+            },
             xAxis: {
                 type: 'datetime',
                 labels: {
@@ -444,7 +457,7 @@ if (strlen($temp_serie) > 0) {
             },
             yAxis: [{ // Watt
                 title: {
-                    text: 'Power',
+                    text: 'Power (kW)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
@@ -457,14 +470,14 @@ if (strlen($temp_serie) > 0) {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>'
                     },
                     formatter: function () {
-                        return Highcharts.numberFormat(this.value / 1000, 1, ',', '.') + " kW";
+                        return Highcharts.numberFormat(this.value / 1000, 1, ',', '.')
                     }
                 },
                 gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>'
             },
                 { // cum kWh
                     title: {
-                        text: 'Total',
+                        text: 'Total (kWh)',
                         style: {
                             color: '<?= $colors['color_chart_title_yaxis2'] ?>'
                         }
@@ -475,7 +488,7 @@ if (strlen($temp_serie) > 0) {
                             color: '<?= $colors['color_chart_labels_yaxis2'] ?>'
                         },
                         formatter: function () {
-                            return Highcharts.numberFormat(this.value, 1, ',', '.') + " kWh";
+                            return Highcharts.numberFormat(this.value, 1, ',', '.')
                         }
                     },
                     gridLineColor: '<?= $colors['color_chart_gridline_yaxis2'] ?>',
