@@ -4,13 +4,13 @@ include_once "inc/init.php";
 include_once "inc/connect.php";
 
 // fixme section ------------------------------------------------------------------------------------
-// fixme: documentation of parameters.php
+// fixme: documentation of parameters.php (in progress)
 // fixme: update images of project README.md
 // fixme: set importer = none when useEMU = true
 
-// remove:  [plant][image]  not used anymore (also check vadidatePlant() )
+// remove:  ------------------------------------------------------------------------------------
 
-// IMPROVEMENTS
+// IMPROVEMENTS  ------------------------------------------------------------------------------------
 // use parameter path in plants for folder location in importer
 // use parameter separator "-" in plants as filename separator
 // use parameter linestoskip "10" in plants for import file lines to skip

@@ -201,15 +201,9 @@ $categories = $shortmonthcategories;
 <script>
     $(function () {
 
-        var fieldNameElement = document.getElementById('chart_header_year');
-        if (fieldNameElement != null) {
-            fieldNameElement.innerHTML =  fieldNameElement.innerHTML + " - " + txt['totaal'] + ": " + <?= $totalYear ?> + "kW" ;
-        }
-
         function add(accumulator, a) {
             return accumulator + a;
         }
-
 
         var year = '<?= date("Y", $chartdate) ?>';
         var avrg = <?= round($fgemiddelde, 2) ?>;

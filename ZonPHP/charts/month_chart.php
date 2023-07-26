@@ -165,11 +165,6 @@ include_once "chart_styles.php";
 ?>
 <script>
 
-    var fieldNameElement = document.getElementById('chart_header_month');
-    if (fieldNameElement != null) {
-        fieldNameElement.innerHTML =  fieldNameElement.innerHTML + " - " + txt['totaal'] + ": " + <?= $monthTotal ?> + "kW" ;
-    }
-
     $(function () {
 
         function add(accumulator, a) {

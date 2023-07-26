@@ -278,11 +278,6 @@ if (strlen($temp_serie) > 0) {
 <script>
     $(function () {
 
-        var fieldNameElement = document.getElementById('chart_header_day');
-        if (fieldNameElement != null) {
-            fieldNameElement.innerHTML =  fieldNameElement.innerHTML + " - " + txt['totaal'] + ": " + <?= round($totalDay/12000,2) ?> + "kW" ;
-        }
-
         function add(accumulator, a) {
             return accumulator + a;
         }
