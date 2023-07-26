@@ -115,6 +115,11 @@ include_once "chart_styles.php";
                     color: '<?= $colors['color_chart_text_subtitle'] ?>',
                 },
             },
+            title: {
+    			style: {
+      				opacity: 0
+   					 }
+  					},
             chart: {
                 type: 'column', stacking: 'normal'
             },
@@ -185,6 +190,7 @@ include_once "chart_styles.php";
                 },
             },
             yAxis: [{ // Primary yAxis
+                opposite: true,
                 labels: {
                     formatter: function () {
                         return this.value + 'kWh';

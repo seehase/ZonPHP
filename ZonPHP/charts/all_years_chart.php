@@ -291,6 +291,11 @@ include_once "chart_styles.php";
                     }
                 }
             },
+            title: {
+    			style: {
+      				opacity: 0
+   					 }
+  					},
             subtitle: {
                 //text: sub_title,
                 style: {
@@ -355,14 +360,15 @@ include_once "chart_styles.php";
             yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
-                        return this.value / 1000 + ' MWh';
+                        return this.value / 1000
                     },
                     style: {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
+                opposite: true,
                 title: {
-                    text: 'Total',
+                    text: 'Total (MWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },

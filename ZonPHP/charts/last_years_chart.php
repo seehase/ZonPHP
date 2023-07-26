@@ -476,20 +476,26 @@ $categories = $shortmonthcategories;
             yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
-                        return this.value + 'kWh';
+                        return this.value
                     },
                     style: {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
+                opposite: true,
                 title: {
-                    text: 'Total',
+                    text: 'Total (kWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>',
                     },
                 },
                 gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
             }],
+            title: {
+    			style: {
+      				opacity: 0
+   					 }
+  					},
             tooltip: {
                 formatter: function () {
                     var chart = this.series.chart,

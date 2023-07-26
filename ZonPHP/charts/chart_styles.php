@@ -65,12 +65,14 @@ if (isset($_SESSION['language'])) {
     }
 }
 
-if ($isIndexPage) {
+if ($isIndexPage == true) {
     $displayType = "'none'";
-    $export = "false";
+	$displayTitle = "'block'";
+	$export = "false";
 } else {
     $displayType = "'block'";
-    $export = "true";
+	$displayTitle = "'none'";
+	$export = "true";
 }
 
 $chart_options =
@@ -81,10 +83,9 @@ $chart_options =
      exporting: {
         enabled: $export
      },
-     title: {
-         text: '',    
+	 title: {
          style: {
-             display: 'none'
+             display: $displayTitle
          } 
      },
      subtitle: {
