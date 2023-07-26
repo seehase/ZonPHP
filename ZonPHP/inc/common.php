@@ -175,6 +175,37 @@ function readImportFile(string $filename, int $linesToSkip): array
     return $lines;
 }
 
+function readParameterFile(): string
+{
+    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
+        $filename =ROOT_DIR . "/parameters_dev.php";
+    } else {
+        $filename = ROOT_DIR . "/parameters.php";
+    }
+    $file = fopen($filename, "r") or die ("Cannot open " . $filename);
+    $lines = array();
+    while (!feof($file)) {
+        $line = trim(fgets($file, 1024));
+        if ( !isComment($line)) {
+            $lines[] = $line;
+        }
+    }
+    fclose($file);
+    return implode(PHP_EOL, $lines);
+}
+
+function isComment(string $input): bool
+{
+    $a = strlen($input);
+    if (strlen($input) > 0) {
+        $char = substr($input, 0, 1);
+        if ($char === ";" || $char === "#" || $char === "/" || $char === "*" || $char === "<" || $char === "-") {
+            return true;
+        }
+    }
+    return false;
+}
+
 function prepareAndInsertData(array $dbValues, $con): void
 {
     if (count($dbValues) > 0) {

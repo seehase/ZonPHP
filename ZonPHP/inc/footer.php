@@ -1,13 +1,8 @@
 <?php
 global $params, $colors, $version, $new_version_label;
-$footer_display_style = "clear:both; ";
-if ($params['hideFooter']) {
-    $footer_display_style = "display: none;";
-}
-
 ?>
 
-<div id="footer" style="background-color: <?= $colors['color_footerbackground'] . "; " . $footer_display_style ?>;">
+<div id="footer" style="background-color: <?= $colors['color_footerbackground'] ?>; display: none; ">
     <?= "ZonPHP " . $version ?> &nbsp;
     <span class="smallFooter">
         &nbsp; - &nbsp;  <b>PHP8 compliant</b>&nbsp;- &nbsp;

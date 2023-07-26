@@ -3,11 +3,10 @@
 function loadParams(): array
 {
     global $params;
-    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
-        $params = parse_ini_file(ROOT_DIR . "/parameters_dev.php", true);
-    } else {
-        $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
-    }
+
+    $iniString = readParameterFile();
+    $params = parse_ini_string("$iniString", true);
+
     vadidateParams($params);
     $_SESSION['params'] = $params;
     if ($params['check']['failed']) {
@@ -32,7 +31,6 @@ function vadidateParams(&$params): void
     vadidateEMU($params);
     $params['farm']['importer'] = $params['importer'];
     $params['farm']['installationDate'] = $params['installationDate'];
-    vadidateFarm($params);
 
     $plantNames = preg_split('/\s*,\s*/', trim($params['plantNames']));
     $params['PLANT_NAMES'] = $plantNames;
@@ -43,11 +41,13 @@ function vadidateParams(&$params): void
     $totalExpectedYield = 0.0;
     $expectedYield = array();
     $totalExpectedMonth = array();
+    $totalcapacity = 0;
     foreach ($plantNames as $plantName) {
         vadidatePlant($plantName, $params[$plantName]);
         $params['farm']['plants'][$plantName] = $params[$plantName];
         $params['PLANTS'][$plantName] = $params[$plantName];
         $params['PLANTS_KWP'][] = intval($params[$plantName]['capacity']);
+        $totalcapacity += intval($params[$plantName]['capacity']);
         $totalExpectedMonth[0][$plantName] = 0;
         $values = json_decode('[' . $params[$plantName]['expectedYield'] . ']', true);
         $validatedValues = vadidateExpectedYield($plantName, $values);
@@ -63,9 +63,11 @@ function vadidateParams(&$params): void
     $params['totalExpectedMonth'] = $totalExpectedMonth;
     $params['totalExpectedYield'] = $totalExpectedYield;
     $params['expectedYield'] = $expectedYield;
+    $params['totalCapacity'] = $totalcapacity;
 
+    vadidateFarm($params);
 
-    $cards = preg_split('/\s*,\s*/', trim($params['layout']['cards']));
+    $cards = preg_split('/\s*,\s*/', trim($params['cards']));
     $_SESSION['CARDS'] = $cards;
 
     $params['userTheme'] = strtolower($params['userTheme']);
@@ -118,14 +120,6 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "useEMU not set in parameter.php set default to 'false'");
         $params['useEMU'] = false;
     }
-    if (!isset($params['hideFooter'])) {
-        addCheckMessage("INFO", "No hideFooter set in parameter.php set default to 'false'");
-        $params['hideFooter'] = false;
-    }
-    if (!isset($params['hideMenu'])) {
-        addCheckMessage("INFO", "No hideMenu set in parameter.php set default to 'false'");
-        $params['hideMenu'] = false;
-    }
     if (!isset($params['checkVersion']) || boolval($params['checkVersion']) == 0) {
         addCheckMessage("INFO", "No checkVersion set in parameter.php set default to 'false'");
         $params['checkVersion'] = false;
@@ -143,11 +137,11 @@ function vadidateParamsGeneral(&$params): void
 
 function vadidateLayout(&$params): void
 {
-    if (!isset($params['layout']) || !isset($params['layout']['cards'])) {
+    if (!isset($params['cards'])) {
         addCheckMessage("INFO", "No card layout defined in parameter.php set default to 'false'. Set to default values, to configure, set parameter accordingly");
-        $params['layout']['cards'] = "day, month, year, allYears, cumulative, yearPerMonth, top, farm, plants, images";
+        $params['cards'] = "day, month, year, allYears, cumulative, yearPerMonth, top, farm, plants, images";
     } else {
-        $cards = preg_split('/\s*,\s*/', strtolower(trim($params['layout']['cards'])));
+        $cards = preg_split('/\s*,\s*/', strtolower(trim($params['cards'])));
         foreach ($cards as $card) {
             switch ($card) {
                 case "day":
@@ -256,33 +250,15 @@ function vadidateEMU($params): void
 
 function vadidateFarm(&$params): void
 {
-    if (!isset($params['farm'])) {
-        addCheckMessage("INFO", "['farm'] not set in parameter.php, using empty defaults");
-        $params['farm']['name'] = "ZonPHP";
-        $params['farm']['website'] = "";
-        $params['farm']['location'] = "";
-        $params['farm']['totalCapacity'] = "";
-    }
-    if (!isset($params['farm']['name'])) {
-        addCheckMessage("INFO", "['farm']['name'] not set in parameter.php, setting default 'ZonPHP'");
-        $params['farm']['name'] = "ZonPHP";
-    }
-    if (!isset($params['farm']['website'])) {
-        addCheckMessage("INFO", "['farm']['website'] not set in parameter.php, setting default ''");
-        $params['farm']['website'] = "";
-    }
-    if (!isset($params['farm']['location'])) {
-        addCheckMessage("INFO", "['farm']['location'] not set in parameter.php, setting default ''");
-        $params['farm']['location'] = "";
-    }
-    if (!isset($params['farm']['totalCapacity'])) {
-        addCheckMessage("INFO", "['farm']['totalCapacity'] not set in parameter.php, setting default ''");
-        $params['farm']['totalCapacity'] = "";
-    }
+    $params['farm']['name'] = $params['name'];
+    $params['farm']['website'] = $params['website'];
+    $params['farm']['location'] = $params['location'];
+    $params['farm']['totalCapacity'] = $params['totalCapacity'];
 }
 
 function vadidatePlants(&$params): void
 {
+    $totalcapacity = 0;
     foreach ($params['PLANT_NAMES'] as $plant) {
         if (!isset($params[$plant])) {
             addCheckMessage("ERROR", "['" . $plant . "'] section not set in parameter.php, setting default values");
@@ -293,10 +269,6 @@ function vadidatePlants(&$params): void
 
 function vadidatePlant($name, &$plant): void
 {
-    if (!isset($plant['name'])) {
-        addCheckMessage("INFO", "['" . $name . "']['name'] not set in parameter.php, setting default ''");
-        $plant['name'] = "";
-    }
     if (!isset($plant['installationDate'])) {
         addCheckMessage("INFO", "['" . $name . "']['installationDate'] not set in parameter.php, setting default '1970-01-01'");
         $plant['installationDate'] = "1970-01-01";
@@ -308,30 +280,6 @@ function vadidatePlant($name, &$plant): void
     if (!isset($plant['importPrefix'])) {
         addCheckMessage("INFO", "['" . $name . "']['importPrefix'] not set in parameter.php, setting default ''");
         $plant['importPrefix'] = "";
-    }
-    if (!isset($plant['image'])) {
-        addCheckMessage("INFO", "['" . $name . "']['image'] not set in parameter.php, setting default ''");
-        $plant['image'] = "";
-    }
-    if (!isset($plant['website'])) {
-        addCheckMessage("INFO", "['" . $name . "']['website'] not set in parameter.php, setting default ''");
-        $plant['website'] = "";
-    }
-    if (!isset($plant['panels'])) {
-        addCheckMessage("INFO", "['" . $name . "']['panels'] not set in parameter.php, setting default ''");
-        $plant['panels'] = "";
-    }
-    if (!isset($plant['inverter'])) {
-        addCheckMessage("INFO", "['" . $name . "']['inverter'] not set in parameter.php, setting default ''");
-        $plant['inverter'] = "";
-    }
-    if (!isset($plant['orientation'])) {
-        addCheckMessage("INFO", "['" . $name . "']['orientation'] not set in parameter.php, setting default ''");
-        $plant['orientation'] = "";
-    }
-    if (!isset($plant['location'])) {
-        addCheckMessage("INFO", "['" . $name . "']['location'] not set in parameter.php, setting default ''");
-        $plant['location'] = "";
     }
     if (!isset($plant['expectedYield'])) {
         addCheckMessage("INFO", "['" . $name . "']['expectedYield'] not set in parameter.php, setting default values ''");

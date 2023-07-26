@@ -26,14 +26,8 @@ include_once "../charts/day_chart_UTC.php";
     });
 </script>
 <?php
-$footer_display_style = "clear:both; ";
-if ($params['hideFooter']) {
-    $padding = '- 35px';
-    $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
-} else {
-    $padding = '- 0px';
-    $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
-}
+$padding = '- 0px';
+$corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
@@ -46,13 +40,15 @@ if ($params['hideFooter']) {
                 <button class="btn btn-zonphp "
                         onclick="window.location.href='<?php echo '?date=' . date('Y-m-d', strtotime("-1 day", $chartdate)) . '\'"';
                         if ($_SESSION['date_minimum'] >= $chartdate) echo " hidden"; ?> >
-                    <i class=" fa fa-angle-left fa-lg"></i>
+                                <i class=" fa fa-angle-left fa-lg
+                "></i>
                 </button>
                 <?= $datum ?>
                 <button class="btn btn-zonphp"
                         onclick="window.location.href='<?php echo '?date=' . date('Y-m-d', strtotime("+1 day", $chartdate)) . '\'"';
                         if ($_SESSION['date_maximum'] <= $chartdate) echo " hidden"; ?> >
-                    <i class=" fa fa-angle-right fa-lg"></i>
+                                <i class=" fa fa-angle-right fa-lg
+                "></i>
                 </button>
             </h2>
             <div class="block2">

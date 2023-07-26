@@ -29,14 +29,10 @@ include_once ROOT_DIR . "/charts/month_chart.php";
     });
 </script>
 <?php
-$footer_display_style = "clear:both; ";
-if ($params['hideFooter']) {
-    $padding = '- 35px';
-    $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
-} else {
-    $padding = '- 0px';
-    $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
-}
+
+$padding = '- 0px';
+$corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
+
 ?>
 
 <div id="page-content">
@@ -50,13 +46,15 @@ if ($params['hideFooter']) {
                 <button class="btn btn-zonphp"
                         onclick="window.location.href='<?php echo '?date=' . date('Y-m', strtotime("-1 months", $chartdate)) . '\'"';
                         if (date('Y-m', $_SESSION['date_minimum']) >= date('Y-m', $chartdate)) echo " hidden"; ?> >
-                    <i class="fa fa-angle-left fa-lg"></i>
+                                <i class=" fa fa-angle-left fa-lg
+                "></i>
                 </button>
                 <?= $datum ?>
                 <button class="btn btn-zonphp"
                         onclick="window.location.href='<?php echo '?date=' . date('Y-m', strtotime("+1 months", $chartdate)) . '\'"';
                         if (date('Y-m', $_SESSION['date_maximum']) <= date('Y-m', $chartdate)) echo " hidden"; ?> >
-                    <i class=" fa fa-angle-right fa-lg"></i>
+                                <i class=" fa fa-angle-right fa-lg
+                "></i>
                 </button>
             </h2>
 
