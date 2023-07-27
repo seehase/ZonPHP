@@ -33,9 +33,8 @@ $myKeys = array_keys($sum_per_year);
 </div><!-- closing ".page-content" -->
 <script>
     $(document).ready(function () {
-        $("#resize ").height(<?= $big_chart_height ?>);
+        $("#resize ").height(<?= BIG_CHART_HIGHT ?>);
     });
 </script>
-
 </body>
 </html>
