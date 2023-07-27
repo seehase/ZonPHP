@@ -9,35 +9,37 @@
 # This section is for general configuration information.
 ###############################################################################
 
-# Name of your farm, this name is shown in menu as title
+# Name your farm, this name is shown in menu as title
 name = ZonPHP Seehausen Solar
 
-# specify installation date of your solar farm in format yyyy-mm-dd e.g. 2011-06-23
+# specify the installation date of your solar farm in format yyyy-mm-dd
 installationDate = 2023-07-14
 
-# List all you plantnames comma separated,for all plants a separate configuration section is needed,
-# which is named the same as the name e.g. PLANT1, PLANT2
-plantNames = PLANT1
+# List all your plantnames comma separated. For all plants a separate configuration section is needed, the section name
+# is the same as given for plantNames, but within brackets e.g. [SOLAR1]. This name is used in the database and the charts. 
+# Keep it short and without spaces or special characters.
+plantNames = SOLAR1
 
 # Which should be your default language? possible values: en, de, fr, nl
 defaultLanguage = de
 
-# default theme for your installation. Specify a name that correspoond to the *.theme files in folder /themes
-# you can create new individual themes by placing a new .theme file in this folder. Theme files must be in lower case
-# names can be in any case
-userTheme = DarkGreyFire
+# Default theme for your installation. Specify a name that corresponds to the *.theme files in folder /themes
+# available themes at this moment: blue, julia, darkgreyfire, fire
+# you can make your own theme by copy and rename an existing theme file in this folder. Theme files must be named 
+# in lower case
+userTheme = darkgreyfire
 
-# additional website shown in farm-card
+# additional website shown in farm-card (for display only)
 website = "https://solar.seehausen.org"
 
 # additional location shown in farm-card
 location = Ingolstadt
 
-# define display interval, default is 5 for solar log
+# define display interval, default is 5 for solarlog
 # allowed:  1,2,3,4,5,6,10,12,15,20,30,60 sample  xls = 10, SolarLog = 5, SIC = 4
 displayInterval = 5
 
-# define coeffocient factor, default = 1
+# define correction factor, default = 1 (used by importer)
 coefficient = 1
 
 # Choose importer for your data files. Name correspond to a php file in folder /importer
@@ -96,54 +98,51 @@ cards = "day, month, year, allYears, cumulative, yearPerMonth, farm, images, top
 
 ###############################################################################
 #   This section database connections parameters and is mandatory.
+#   tablePrefix defaults to tgeg, only change with multiple ZonPHP instances
 ###############################################################################
 [database]
 
-# The host where the database is located
 host =  localhost
 
-# The user name for logging in to the host
-username = root
+username = admin
 
-# The password (use quotes to guard against parsing errors)
-password = root
+password = "secret" ## Use quotes to guard against parsing errors ##
 
-# The database name
 database = solar
 
-# The tablename prefix, you can define a prefix, e.g. if you want to have multiple instances of zonPHP
-# using the same databas
-# default = "tgeg"
 tablePrefix = tgeg
 
-
 ###############################################################################
-#   This section defines parameters for a single plant, specified in parameter "plantNames" of general section
+#  This section defines parameters for a single plant, specified in parameter "plantNames" of general section
 # for each name specified in "plantNames" you need a separate section with the corresponding name
-# The section contains configuration and information used by zonPHP
+# The section contains configuration and information used by ZonPHP
 ###############################################################################
 
-# plant "PLANT1"
-[PLANT1]
+[SOLAR1]
 
-# specify installation date of this plant in format yyyy-mm-dd e.g. 2011-06-23
-installationDate = 2011-11-10
+# Capacity of this plant in Wp (Wattpeak)
+# This value is used for calculations in several charts! Wrong entries can give strange charts.
 
-# Capacity of this plant
 capacity = 5040
 
-# Prefix of your import files for this plant e.g. sunny-explorer exports file in this
-# format "prefix-yyyymmdd.csv"  e.g. "seehase-20140426.csv"
-# then define importPrefix = "seehase" without separator
-importPrefix = plant1
-
-# Specify list of expected values per month
+# Specify list of expected values in kWh per month
 # you can calculate expected values for your location at
 # https://re.jrc.ec.europa.eu/pvg_tools/en/#api_5.1
 # always provide exactly 12 values one for each month (fist value is for January, ...)
 # if there are less the 12 values or invalid values,
 # default = "170,200,300,500,550,600,600,550,500,300,200,170" is used
+# This value is used for calculations in several charts! Wrong entries can give strange charts.
+
 expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
+
+# specify installation date of this plant in format yyyy-mm-dd (used by importer)
+installationDate = 2011-11-10
+
+# Prefix of your import files for this plant e.g. sunny-explorer exports file in this
+# format "prefix-yyyymmdd.csv"  e.g. "seehase-20140426.csv"
+# then define importPrefix = "seehase" without separator (used by importer)
+
+importPrefix = SOLAR1
 
 # additional information shown on the card (information only)
 description = "seehase<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly<br>Inverter: SMA SB 5000TL20 ESS<br>Orientation: 180 Grad 30 Grad Neigung<br>My first solar plant build in 2011"
@@ -156,7 +155,7 @@ description = "seehase<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly<br>Inverte
 # you can refere to internal images located in the folder /images or use
 # external images with a complete URL
 # each image is shown as a single card
-# all images need to have an indentifiere and 3 parameters
+# all images need to have an indentifier and 3 parameters
 
 # imageID[title] = "name"
 # imageID[description] = "description"
@@ -188,10 +187,9 @@ image3[uri] = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Com
 #   This section specifies parameters to configure use of WEEWX (https://weewx.com/)
 #   only relevant if parameter "useWeewx" = true
 ###############################################################################
-
 [weewx]
 
-# Database host of your WEWWX database, can be different to the zonPHP database
+# Database host of your WEEWX database, can be different to the zonPHP database
 host = localhost
 
 # The user name for logging in to the WEEWX host database
@@ -200,7 +198,7 @@ username = weewx
 # The password of the  WEEWX host database (use quotes to guard against parsing errors)
 password = weewx
 
-# The WEWWX database name
+# The WEEWX database name
 database = weewx
 
 # Tablename which containd the weewx data
@@ -213,7 +211,7 @@ tempColumn = outTemp
 # Name of the column that contains timestamp
 timestampColumn = dateTime
 
-# Are temerature values stored in Fahrenheit
+# Are temperature values stored in Fahrenheit
 # default = true
 tempInFahrenheit = true
 
@@ -223,15 +221,8 @@ tempInFahrenheit = true
 # If you use EMU, set "importer" to "none"
 ###############################################################################
 [EMU]
-<<<<<<< HEAD
-
-=======
->>>>>>> 096b9457243c2cdb83d535ff16fd5548bce14824
 path_CSV_data =
 
 PVO_API =
 
 PVO_SYS_ID =
-
-
-
