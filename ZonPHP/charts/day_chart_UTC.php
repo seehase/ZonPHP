@@ -82,9 +82,10 @@ $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
      DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . " GROUP BY naam, maand ) AS maandelijks ON (month(" .
     TABLE_PREFIX . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . TABLE_PREFIX . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
-$maxdag = date("m-d", time());
-$maxkwh[] = 0;
-if (mysqli_num_rows($resultmaxdag) > 0) {
+if (mysqli_num_rows($resultmaxdag) == 0) {
+    $maxdag = date("m-d", time());
+    $maxkwh[] = 0;
+} else {
     while ($row = mysqli_fetch_array($resultmaxdag)) {
         $maxdag = $row['Datum_Maand'];
         $maxkwh[] = round($row['Geg_Maand'], 2);
