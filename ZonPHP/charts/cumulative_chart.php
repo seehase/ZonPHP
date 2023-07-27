@@ -158,7 +158,9 @@ $categories = $shortmonthcategories;
             },
             title: {
     			style: {
-      				opacity: 0
+                    opacity: 0,
+      				fontWeight: 'normal',
+                    fontSize: '12px'
    					 }
   					},
 
