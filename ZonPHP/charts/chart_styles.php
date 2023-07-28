@@ -65,7 +65,7 @@ if (isset($_SESSION['language'])) {
     }
 }
 
-if ($isIndexPage == true) {
+if ($isIndexPage) {
     $displayType = "'none'";
 	$displayTitle = "'block'";
 	$export = "false";

@@ -1,15 +1,18 @@
 <?php
 /**
- * common functions
+ * common functions and constants
  */
+
+
 function getTxt($key)
 {
     return $_SESSION["txt"][$key] ?? "undefined key: " . $key;
 }
 
-function isActive($language): bool
+function isValidLanguage($language): bool
 {
-    if (in_array(strtolower($language), LANGUAGES)) {
+    $LANGUAGES = array("en", "de", "fr", "nl");
+    if (in_array(strtolower($language), $LANGUAGES)) {
         return true;
     } else {
         return false;
@@ -124,10 +127,26 @@ function clean($string): string
     return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
 }
 
-function getLastImportDate(string $plantName, $con): string
+function getLastImportDateForPlant(string $plantName, $con): string
 {
-    $firstImportDate = STARTDATE;
     $sql = "SELECT * FROM " . TABLE_PREFIX . "_dag WHERE Naam ='$plantName' ORDER BY Datum_Dag DESC LIMIT 1";
+    return getLastImportDate($sql, $con);
+}
+
+function getFirstImportDateForPlant(string $plantName, $con): string
+{
+    $sql = "SELECT * FROM " . TABLE_PREFIX . "_dag WHERE Naam ='$plantName' ORDER BY Datum_Dag ASC LIMIT 1";
+    return getLastImportDate($sql, $con);
+}
+function getStartDate($con): string
+{
+    $sql = "SELECT Datum_Dag FROM " . TABLE_PREFIX . "_dag ORDER BY Datum_Dag ASC LIMIT 1";
+    return getLastImportDate($sql, $con);
+}
+
+function getLastImportDate(string $sql, $con): string
+{
+    $firstImportDate = NODATE;
     // get oldest import date from db
     $result = mysqli_query($con, $sql) or die("ERROR: getting last date from DB " . mysqli_error($con));
     $row = mysqli_fetch_array($result);
@@ -137,12 +156,39 @@ function getLastImportDate(string $plantName, $con): string
     return $firstImportDate;
 }
 
+function prepareFarm(&$params, $con): void
+{
+    $params['farm']['installationDate'] = getStartDate($con);
+    foreach ($params['PLANTS'] as $name => $plant) {
+        $params['farm']['plants'][$name]['installationDate'] = getFirstImportDateForPlant($name, $con);
+    }
+    $_SESSION['params'] = $params;
+}
+
+
 function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): array
 {
     $directory = ROOT_DIR . "/" . $folderName . '/';
     $files_to_import = array();
     $num_today = date("Ymd", time());
-    for ($i = 0; $i <= 160; $i++) {
+
+    if ($lastImportDate == NODATE) {
+        // initial load, no data found in database
+        $files = scandir($directory);
+        $mindate = intval($num_today);
+        foreach ($files as $filename) {
+            // find oldest import file
+            if (strlen($filename) == strlen($importPrefix) + 13) {
+                $filedate = intval(substr($filename, strlen($importPrefix) + 1, 8));
+                if ($filedate < $mindate) {
+                    $mindate = $filedate;
+                }
+            }
+        }
+        $lastImportDate = $mindate . "";
+    }
+
+    for ($i = 0; $i <= 500; $i++) {
         $num = (date("Ymd", strtotime("+" . $i . " day", strtotime($lastImportDate))));
         if ($num > $num_today) {
             // skip if date is in future
@@ -178,7 +224,7 @@ function readImportFile(string $filename, int $linesToSkip): array
 function readParameterFile(): string
 {
     if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
-        $filename =ROOT_DIR . "/parameters_dev.php";
+        $filename = ROOT_DIR . "/parameters_dev.php";
     } else {
         $filename = ROOT_DIR . "/parameters.php";
     }
@@ -186,7 +232,7 @@ function readParameterFile(): string
     $lines = array();
     while (!feof($file)) {
         $line = trim(fgets($file, 1024));
-        if ( !isComment($line)) {
+        if (!isComment($line)) {
             $lines[] = $line;
         }
     }
@@ -196,7 +242,6 @@ function readParameterFile(): string
 
 function isComment(string $input): bool
 {
-    $a = strlen($input);
     if (strlen($input) > 0) {
         $char = substr($input, 0, 1);
         if ($char === ";" || $char === "#" || $char === "/" || $char === "*" || $char === "<" || $char === "-") {
@@ -210,6 +255,7 @@ function prepareAndInsertData(array $dbValues, $con): void
 {
     if (count($dbValues) > 0) {
         $dayValues = "";
+        $name = "";
         $currentDate = date("Y-m-d", strtotime($dbValues[0]['timestamp']));
         $minkWhCounter = $dbValues[0]['cummulatedkWh'];
         $maxkWhCounter = end($dbValues)['cummulatedkWh'];
@@ -242,6 +288,7 @@ function prepareAndInsertData(array $dbValues, $con): void
  * ROOT_DIR:      65/52610665/htdocs/zonphp
  * DOCUMENT_ROOT: 65/52610665/htdocs
  * ==> Substing -> /zonphp
+ * @noinspection PhpStrFunctionsInspection
  */
 function getHTMLPATH(string $path1, $path2): string
 {

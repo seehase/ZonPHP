@@ -10,10 +10,7 @@
 ###############################################################################
 
 # Name your farm, this name is shown in menu as title
-name = ZonPHP Seehausen Solar
-
-# specify the installation date of your solar farm in format yyyy-mm-dd
-installationDate = 2023-07-14
+name = ZonPHP Solar
 
 # List all your plantnames comma separated. For all plants a separate configuration section is needed, the section name
 # is the same as given for plantNames, but within brackets e.g. [SOLAR1]. This name is used in the database and the charts. 
@@ -39,9 +36,6 @@ location = Ingolstadt
 # allowed:  1,2,3,4,5,6,10,12,15,20,30,60 sample  xls = 10, SolarLog = 5, SIC = 4
 displayInterval = 5
 
-# define correction factor, default = 1 (used by importer)
-coefficient = 1
-
 # Choose importer for your data files. Name correspond to a php file in folder /importer
 # and is without ".php" extension and case sensitive
 # default is "none" so no data will be imported
@@ -50,16 +44,6 @@ importer = none
 # Number in seconds to auto reload the website in your browser, if value is "0" auto reload is deactivated
 # default 300 = 5min
 autoReload = 300
-
-# if you have a weatherstation running with WEEWX (https://weewx.com/) you can use temperature data to be displayed
-# in the day chart. To use weewx data, set this option to "true" and specify additional parameters in section [weewx]
-# default = false
-useWeewx = false
-
-# You can use "EMU" to import your data instead of using zonPHP importer. If you want to use EMU,
-# set value to "true" and specify additional parameters in section [EMU] in this file
-# default = false
-useEMU = false
 
 # ZonPHP can check for newer version available on GitHub, if you do not want to check for updates
 # or your provider do not allow php file_get_contents set this option to "false"
@@ -135,9 +119,6 @@ capacity = 5040
 
 expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
 
-# specify installation date of this plant in format yyyy-mm-dd (used by importer)
-installationDate = 2011-11-10
-
 # Prefix of your import files for this plant e.g. sunny-explorer exports file in this
 # format "prefix-yyyymmdd.csv"  e.g. "seehase-20140426.csv"
 # then define importPrefix = "seehase" without separator (used by importer)
@@ -184,10 +165,13 @@ image3[description] = "source: wikipedia"
 image3[uri] = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
 
 ###############################################################################
-#   This section specifies parameters to configure use of WEEWX (https://weewx.com/)
-#   only relevant if parameter "useWeewx" = true
+#  This section specifies parameters to configure use of WEEWX (https://weewx.com/)
+#  if you have a weatherstation running with WEEWX  you can use temperature data to be displayed
+#  in the day chart. To use weewx data, set option enabled to "true" and specify additional parameters in this section
+#  default = false
 ###############################################################################
 [weewx]
+enabled = false
 
 # Database host of your WEEWX database, can be different to the zonPHP database
 host = localhost
@@ -217,10 +201,12 @@ tempInFahrenheit = true
 
 ###############################################################################
 #   This section specifies parameters if you use EMU
-# only relevant if parameter "useEMU" = true
+# only relevant if enabled is set to true
 # If you use EMU, set "importer" to "none"
 ###############################################################################
 [EMU]
+enabled = false
+
 path_CSV_data =
 
 PVO_API =

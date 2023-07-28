@@ -31,14 +31,11 @@ if ($params['useWeewx']) {
 }
 ob_end_flush();
 
-// clear password, not to be exposed by accident
-$params['database']['password'] = "undefined";
-
 /********************************************************************
  * internal caching (currently only for version check
  *********************************************************************/
 if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + CACHE_TIMEOUT) > (time())) {
-    // cache still valid --> do not reload cache
+    // cache still valid --> do not reload cache but initialize some parameters from session
     if ($debugmode) error_log("cache hit --> ");
 } else {
     // reload cache
@@ -64,7 +61,21 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + CACHE_TIMEOUT) 
     }
     $_SESSION['new_version_label'] = $new_version_label;
     $_SESSION['lastupdate'] = time();
+
+    $startDate = getStartDate($con);
+    $_SESSION['STARTDATE'] = getStartDate($con);
+    $_SESSION['date_minimum'] = strtotime($startDate . " 00:00:00");
+    $_SESSION['date_maximum'] = strtotime('today midnight');
+    prepareFarm($params, $con);
 }
+
+// clear password, not to be exposed by accident
+// $params['database']['password'] = "undefined";
+
+if (!defined("STARTDATE")) {
+    define('STARTDATE', $_SESSION['STARTDATE']);
+}
+
 /********************************************************************
  * import data
  *********************************************************************/

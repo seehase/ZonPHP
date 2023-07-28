@@ -1,5 +1,5 @@
 <?php
-global $params, $colors;
+global $params, $colors, $con;
 include_once "inc/init.php";
 include_once "inc/connect.php";
 
@@ -15,7 +15,9 @@ include_once "inc/connect.php";
 // use parameter separator "-" in plants as filename separator
 // use parameter linestoskip "10" in plants for import file lines to skip
 
-
+if ($_SESSION['STARTDATE'] == NODATE) {
+    prepareFarm($params, $con);
+}
 $aoplopendkwdag[] = 0;
 include_once "inc/header.php";
 

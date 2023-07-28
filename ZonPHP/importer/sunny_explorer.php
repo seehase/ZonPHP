@@ -3,7 +3,7 @@ global $con, $params;
 
 // Loop over all plants and import each plant separately
 foreach ($params['PLANTS'] as $name => $plant) {
-    $lastImportDate = getLastImportDate($name, $con);
+    $lastImportDate = getLastImportDateForPlant($name, $con);
     $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix']);
 
     foreach ($files_to_import as $import_filename) {

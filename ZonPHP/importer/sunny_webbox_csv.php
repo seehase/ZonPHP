@@ -1,5 +1,11 @@
 <?php
 global $con, $params;
+
+// change coefficient if needed
+$coefficient = 1;
+$stringdelete = "";
+$string1 = "";
+
 $sql = "SELECT *
 	FROM " . TABLE_PREFIX . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
@@ -47,7 +53,7 @@ if (!empty($adag)) {
                     if ((strtotime($oDatumTijd) > strtotime($dateTime)) and ($oDatumTijd != "geen datumtijd")) {
                         //$Pac=$alist[21];
                         //$DaySum=$alist[8];
-                        $DaySum = ($DaySum - $begindagEtotaal) * $params['coefficient'];
+                        $DaySum = ($DaySum - $begindagEtotaal) * $coefficient;
                         if ($teller2 == 1) {
                             $string .= "('" . $oDatumTijd . $_SESSION['plant'] . "','" . $oDatumTijd . "'," . $Pac . "," . number_format($DaySum, 3) . ",'" . $_SESSION['plant'] . "')";
                             $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format($DaySum, 3) . ",'" . $_SESSION['plant'] . "')";

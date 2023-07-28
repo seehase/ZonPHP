@@ -161,7 +161,7 @@ foreach (PLANT_NAMES as $zz => $inverter_name) {
                     data: []
             		},";
 
-    $firstYear = date("Y", strtotime($params['installationDate']));
+    $firstYear = date("Y", strtotime(STARTDATE));
     foreach ($bdatum as $asx => $asy) {
 
         if ($asx <= $paramnw['jaar'] && $asx >= ($firstYear)) {

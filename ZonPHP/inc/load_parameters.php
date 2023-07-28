@@ -1,6 +1,6 @@
 <?php
 
-function loadParams(): array
+function loadParams($htmlpath): array
 {
     global $params;
 
@@ -10,7 +10,7 @@ function loadParams(): array
     vadidateParams($params);
     $_SESSION['params'] = $params;
     if ($params['check']['failed']) {
-        header('location:' . HTML_PATH . 'pages/validate.php');
+        header('location:$htmlpath' . $htmlpath . 'pages/validate.php');
     }
 
     return $params;
@@ -30,7 +30,6 @@ function vadidateParams(&$params): void
     vadidateWeewx($params);
     vadidateEMU($params);
     $params['farm']['importer'] = $params['importer'];
-    $params['farm']['installationDate'] = $params['installationDate'];
 
     $plantNames = preg_split('/\s*,\s*/', trim($params['plantNames']));
     $params['PLANT_NAMES'] = $plantNames;
@@ -72,7 +71,7 @@ function vadidateParams(&$params): void
 
     $params['userTheme'] = strtolower($params['userTheme']);
     $params['defaultLanguage'] = strtolower($params['defaultLanguage']);
-    if (!isActive($params['defaultLanguage'])) {
+    if (!isValidLanguage($params['defaultLanguage'])) {
         $params['defaultLanguage'] = "en";
     }
 }
@@ -80,15 +79,11 @@ function vadidateParams(&$params): void
 
 function vadidateParamsGeneral(&$params): void
 {
-    if (!isset($params['installationDate']) || !strtotime($params['installationDate'])) {
-        addCheckMessage("WARN", "No installationDate or invalid date set in parameter.php, set default to '1970-01-01'");
-        $params['installationDate'] = "1970-01-01";
-    }
     if (!isset($params['plantNames'])) {
         addCheckMessage("ERROR", "No plants set in parameter.php, please set plantNames, default set to 'Plant1'");
         $params['plantNames'] = "Plant1";
     }
-    if (!isset($params['defaultLanguage']) || !isActive($params['defaultLanguage'])) {
+    if (!isset($params['defaultLanguage']) || !isValidLanguage($params['defaultLanguage'])) {
         addCheckMessage("INFO", "No default language, or invalid laguage set in parameter.php, set default to 'en' valid values are 'en', 'de', 'fr', 'nl' ");
         $params['defaultLanguage'] = "en";
     }
@@ -111,14 +106,6 @@ function vadidateParamsGeneral(&$params): void
     if (!isset($params['autoReload']) || intval($params['autoReload']) < 0) {
         addCheckMessage("INFO", "No autoReload set in parameter.php set default to '300'");
         $params['autoReload'] = "300";
-    }
-    if (!isset($params['useWeewx'])) {
-        addCheckMessage("INFO", "No useWeewx set in parameter.php set default to 'false'");
-        $params['useWeewx'] = false;
-    }
-    if (!isset($params['useEMU'])) {
-        addCheckMessage("INFO", "useEMU not set in parameter.php set default to 'false'");
-        $params['useEMU'] = false;
     }
     if (!isset($params['checkVersion']) || boolval($params['checkVersion']) == 0) {
         addCheckMessage("INFO", "No checkVersion set in parameter.php set default to 'false'");
@@ -187,9 +174,13 @@ function vadidateDatabse(&$params): void
 
 function vadidateWeewx(&$params): void
 {
-    if ($params['useWeewx'] && !isset($params['weewx'])) {
-        addCheckMessage("ERROR", "No weewx section found and useWeewx = true, please check settings", true);
-    } elseif ($params['useWeewx']) {
+    if (isset($params['weewx']['enabled'])) {
+        $params['useWeewx'] = $params['weewx']['enabled'];
+    } else {
+        $params['useWeewx'] = false;
+    }
+
+    if ($params['useWeewx']) {
         if (!isset($params['weewx']['host'])) {
             addCheckMessage("ERROR", "['weewx']['host'] not set in parameter.php, please check settings", true);
         }
@@ -201,7 +192,6 @@ function vadidateWeewx(&$params): void
         }
         if (!isset($params['weewx']['database'])) {
             addCheckMessage("ERROR", "['weewx']['database'] not set in parameter.php, please check settings", true);
-
         }
         if (!isset($params['weewx']['tableName'])) {
             addCheckMessage("INFO", "['weewx']['tableName'] not set in parameter.php, default set to 'archive'");
@@ -224,20 +214,15 @@ function vadidateWeewx(&$params): void
 
 function vadidateEMU($params): void
 {
-    if ($params['useEMU'] && !isset($params['EMU'])) {
-        addCheckMessage("ERROR", "No EMU section found and useEMU = true, please check settings", true);
-    } elseif ($params['useEMU']) {
-        if (!isset($params['EMU']['path'])) {
-            addCheckMessage("ERROR", "['EMU']['path'] not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['offset'])) {
-            addCheckMessage("ERROR", "['EMU']['offset'] not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['webRoot'])) {
-            addCheckMessage("ERROR", "['EMU']['webRoot']  not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['webRoot'])) {
-            addCheckMessage("ERROR", "['EMU']['webRoot']  not set in parameter.php, please check settings", true);
+    if (isset($params['EMU']['enabled'])) {
+        $params['useEMU'] = $params['EMU']['enabled'];
+    } else {
+        $params['useEMU'] = false;
+    }
+
+    if ($params['useEMU']) {
+        if (!isset($params['EMU']['path_CSV_data'])) {
+            addCheckMessage("ERROR", "['EMU']['path_CSV_data'] not set in parameter.php, please check settings", true);
         }
         if (!isset($params['EMU']['PVO_API'])) {
             addCheckMessage("INFO", "['EMU']['PVO_API']  not set in parameter.php, please check settings", true);
@@ -258,7 +243,6 @@ function vadidateFarm(&$params): void
 
 function vadidatePlants(&$params): void
 {
-    $totalcapacity = 0;
     foreach ($params['PLANT_NAMES'] as $plant) {
         if (!isset($params[$plant])) {
             addCheckMessage("ERROR", "['" . $plant . "'] section not set in parameter.php, setting default values");
@@ -269,10 +253,6 @@ function vadidatePlants(&$params): void
 
 function vadidatePlant($name, &$plant): void
 {
-    if (!isset($plant['installationDate'])) {
-        addCheckMessage("INFO", "['" . $name . "']['installationDate'] not set in parameter.php, setting default '1970-01-01'");
-        $plant['installationDate'] = "1970-01-01";
-    }
     if (!isset($plant['capacity'])) {
         addCheckMessage("INFO", "['" . $name . "']['capacity'] not set in parameter.php, setting default '1'");
         $plant['capacity'] = 1;

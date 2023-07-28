@@ -4,7 +4,7 @@
 function loadLanguage($params): void
 {
     // if new language is set via URL parameter and exists, or no text in session --> RELOAD
-    if ((isset($_GET['language']) && isActive($_GET['language'])) || !isset($_SESSION['txt'])) {
+    if ((isset($_GET['language']) && isValidLanguage($_GET['language'])) || !isset($_SESSION['txt'])) {
         // user default language for this installation defined in parameters
         $default_user_language = $params['defaultLanguage'];
 
