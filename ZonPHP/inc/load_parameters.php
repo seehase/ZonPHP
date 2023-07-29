@@ -87,6 +87,10 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "No default language, or invalid laguage set in parameter.php, set default to 'en' valid values are 'en', 'de', 'fr', 'nl' ");
         $params['defaultLanguage'] = "en";
     }
+    if (!isset($params['timeZone']) || !isValidTimezoneId($params['timeZone'])) {
+        addCheckMessage("INFO", "No timezone , or invalid timezone set in parameter.php, set default to 'UTC'");
+        $params['timeZone'] = "UTC";
+    }
     if (!isset($params['userTheme']) || !file_exists(ROOT_DIR . "/themes/" . strtolower($params['userTheme']) . ".theme")) {
         addCheckMessage("INFO", "No userTheme set in parameter.php, or theme not found: set default to 'default'");
         $params['userTheme'] = "default";

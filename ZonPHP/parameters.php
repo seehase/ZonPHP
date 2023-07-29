@@ -20,6 +20,10 @@ plantNames = SOLAR1
 # Which should be your default language? possible values: en, de, fr, nl
 defaultLanguage = de
 
+# Define the timezone to use, e.g. "Europe/Berlin" or "UTC" default is "UTC",
+# list of valid timezones can be seen here https://www.php.net/manual/en/timezones.php
+timeZone = "UTC"
+
 # Default theme for your installation. Specify a name that corresponds to the *.theme files in folder /themes
 # available themes at this moment: blue, julia, darkgreyfire, fire
 # you can make your own theme by copy and rename an existing theme file in this folder. Theme files must be named 

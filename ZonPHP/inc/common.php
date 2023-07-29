@@ -156,6 +156,12 @@ function getLastImportDate(string $sql, $con): string
     return $firstImportDate;
 }
 
+function isValidTimezoneId($timezoneId): bool
+{
+    $zoneList = timezone_identifiers_list(); # list of (all) valid timezones
+    return in_array($timezoneId, $zoneList); # set result
+}
+
 function prepareFarm(&$params, $con): void
 {
     $params['farm']['installationDate'] = getStartDate($con);
