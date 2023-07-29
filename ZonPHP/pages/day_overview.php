@@ -3,7 +3,7 @@ global $locale, $params, $chartdate, $datum, $chartcurrentdate, $colors;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 include_once ROOT_DIR . "/inc/header.php";
-include_once "../charts/day_chart_UTC.php";
+include_once "../charts/day_chart.php";
 ?>
 
 <script>

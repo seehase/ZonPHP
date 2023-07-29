@@ -127,7 +127,7 @@ function load_charts() {
 
         const container = $('#' + id);
         $.ajax({
-            url: 'charts/day_chart_UTC.php',
+            url: 'charts/day_chart.php',
             type: 'post',
             data: {'action': 'indexpage'},
             cache: false,
