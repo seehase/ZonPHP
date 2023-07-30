@@ -174,6 +174,10 @@ function vadidateDatabse(&$params): void
         addCheckMessage("WARN", "['database']['tablePrefix'] not set in parameter.php, default set to 'tgeg'");
         $params['database']['tablePrefix'] = "tgeg";
     }
+    if (!isset($params['database']['useUTCDatetime'])) {
+        addCheckMessage("WARN", "['database']['useUTCDatetime'] not set in parameter.php, default set to 'false'");
+        $params['database']['useUTCDatetime'] = false;
+    }
 }
 
 function vadidateWeewx(&$params): void

@@ -100,6 +100,8 @@ database = solar
 
 tablePrefix = tgeg
 
+useUTCDatetime = false
+
 ###############################################################################
 #  This section defines parameters for a single plant, specified in parameter "plantNames" of general section
 # for each name specified in "plantNames" you need a separate section with the corresponding name

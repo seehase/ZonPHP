@@ -38,12 +38,13 @@ if ($tmpHTMLPath[strlen($tmpHTMLPath) - 1] != "/") {
 checkChangedConfigFiles();
 
 /*********************************************************************
- * init params, language, themes
+ * init params, language, themes, timezone
  *********************************************************************/
 if (!isset($_SESSION['params']) || isset($_GET['params'])) {
     include_once "load_parameters.php";
     loadParams($tmpHTMLPath);
 }
+
 // use default HTML Path if not overwritten
 if (!defined("HTML_PATH")) {
     define('HTML_PATH', $tmpHTMLPath);
@@ -62,6 +63,10 @@ if (!isset($_SESSION['txt']) || isset($_GET['language'])) {
     include_once "load_language.php";
     loadLanguage($params);
 }
+
+// set default timezone
+date_default_timezone_set($params['timeZone']);
+
 // theme
 if (!isset($_SESSION['colors']) || !isset($_SESSION['theme']) || isset($_GET['theme'])) {
     include_once "load_themes.php";

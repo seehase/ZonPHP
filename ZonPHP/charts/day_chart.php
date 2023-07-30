@@ -1,13 +1,10 @@
 <?php
-//ZonPHP8 Nieuw
-//converts from UTC to local time
-// Globally define the Timezone
+
+// work internally with UTC, converts values from DB if needed from localDateTime to UTC
 global $params, $con, $formatter, $colors, $chart_options, $chart_lang;
 
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
-
-date_default_timezone_set($params['timeZone']);
 
 $chartcurrentdate = time();
 $chartdate = $chartcurrentdate;
@@ -30,39 +27,31 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
 
-//query for the day-curve
+// query for the day-curve
 $valarray = array();
 $all_valarray = array();
 $inveter_list = array();
-$sql = "SELECT SUM( Geg_Dag ) AS gem, naam, Datum_Dag, Datum_Dag AS datumtijd " .
+$sql = "SELECT SUM( Geg_Dag ) AS gem, naam, Datum_Dag" .
     " FROM " . TABLE_PREFIX . "_dag " .
     " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' " .
-    " GROUP BY datumtijd, naam, Datum_Dag " .
-    " ORDER BY datumtijd ASC";
-//echo $sql,'<BR>';
+    " GROUP BY naam, Datum_Dag " .
+    " ORDER BY Datum_Dag ASC";
 
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
     $formatter->setPattern('d LLLL yyyy');
     $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
-
-    $geengevdag = 0;
-
 } else {
     $formatter->setPattern('d LLL yyyy');
     $datum = datefmt_format($formatter, $chartdate);
-    $geengevdag = 1;
 
     while ($row = mysqli_fetch_array($result)) {
-
-        $today_utc = $row['datumtijd'];//readable time
-        //$date = new DateTime($today_utc, new DateTimeZone('UTC'));
-        //$date->setTimezone(new DateTimeZone('Europe/Amsterdam'));
-        //$today_dst= $date->format('Y-m-d H:i:s');
+        $db_datetime_str = $row['Datum_Dag']; // date string from DB in UTC or local DateTime
         $inverter_name = $row['naam'];
+        $dateTimeUTC = convertLocalDateTime($db_datetime_str); // date converted in UCT
+        $unixTimeUTC = convertToUnixTimestamp($dateTimeUTC); // unix timestamp in UTC
 
-        $all_valarray[strtotime($today_utc)] [$inverter_name] = $row['gem'];
-
+        $all_valarray[$unixTimeUTC] [$inverter_name] = $row['gem'];
 
         if (!in_array($inverter_name, $inveter_list)) {
             if (in_array($inverter_name, PLANT_NAMES)) {
@@ -94,20 +83,21 @@ $nice_max_date = date("Y-m-d", strtotime($maxdag));
 //-----------------------------------------------------
 //query for the best day
 $all_valarraymax = array();
-$sqlmdinv = "SELECT Geg_Dag AS gem, Datum_Dag AS datumtijd, Naam AS Name FROM " . TABLE_PREFIX . "_dag WHERE Datum_Dag LIKE  '" .
-    date("Y-m-d", strtotime($maxdag)) . "%' ORDER BY Name, datumtijd ASC";
+$sqlmdinv = "SELECT Geg_Dag AS gem, Datum_Dag, Naam AS Name FROM " . TABLE_PREFIX . "_dag WHERE Datum_Dag LIKE  '" .
+    date("Y-m-d", strtotime($maxdag)) . "%' ORDER BY Name, Datum_Dag ASC";
 $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
 $maxdagpeak = 0;
 if (mysqli_num_rows($resultmd) != 0) {
     $maxdagpeak = 0;
     while ($row = mysqli_fetch_array($resultmd)) {
         $inverter_name = $row['Name'];
-        $time_only = substr($row['datumtijd'], -9);
-        $today_max_utc = $chartdatestring . $time_only;//readable time
-        //$date = new DateTime($today_max_utc, new DateTimeZone('UTC'));
-        //$date->setTimezone(new DateTimeZone('Europe/Amsterdam'));
-        //$today_max_dst= $date->format('Y-m-d H:i:s');
-        $all_valarraymax[strtotime($today_max_utc)] [$inverter_name] = $row['gem'];
+        $time_only = substr($row['Datum_Dag'], -9);
+
+        $today_max = $chartdatestring . $time_only; // current chart date string + max time
+        $today_max_utc = convertLocalDateTime($today_max); // date in UTC
+        $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
+
+        $all_valarraymax[$today_max_unix_utc] [$inverter_name] = $row['gem'];
         if ($row['gem'] > $maxdagpeak) {
             $maxdagpeak = $row['gem'];
         }
@@ -139,7 +129,7 @@ foreach ($inveter_list as $inverter_name) {
     foreach ($all_valarray as $time => $valarray) {
         if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
         $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'},';
-        $totalDay +=  $valarray[$inverter_name];
+        $totalDay += $valarray[$inverter_name];
         // remember first and last date
         if ($max_first_val > $time) {
             $max_first_val = $time;
@@ -252,9 +242,8 @@ if (strlen($temp_serie) > 0) {
                  * timestamps, used in the X axis labels and the tooltip header.
                  */
                 getTimezoneOffset: function (timestamp) {
-                    var zone = 'Europe/Amsterdam',
-                        timezoneOffset = -moment.tz(timestamp, zone).utcOffset();
-
+                    const zone = '<?= $params['timeZone'] ?>';
+                    const timezoneOffset = -moment.tz(timestamp, zone).utcOffset();
                     return timezoneOffset;
                 }
             }
@@ -304,8 +293,8 @@ if (strlen($temp_serie) > 0) {
                                 (Highcharts.numberFormat((dataMax / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>" +
                                 txt_max + ": </b>" + maxlink + " " + (Highcharts.numberFormat(MAX, 2, ",", "")) + " kWh"
                         }, false, false);
-						this.setTitle({
-                            text:  "<b>" +
+                        this.setTitle({
+                            text: "<b>" +
                                 txt_totaal + ":</b> " + (Highcharts.numberFormat(dataMax, 2, ",", "")) + "kWh = " +
                                 (Highcharts.numberFormat((dataMax / KWH) * 1000, 2, ",", "")) + "kWh/kWp"
                         }, false, false);

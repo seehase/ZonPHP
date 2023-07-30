@@ -138,6 +138,7 @@ function getFirstImportDateForPlant(string $plantName, $con): string
     $sql = "SELECT * FROM " . TABLE_PREFIX . "_dag WHERE Naam ='$plantName' ORDER BY Datum_Dag ASC LIMIT 1";
     return getLastImportDate($sql, $con);
 }
+
 function getStartDate($con): string
 {
     $sql = "SELECT Datum_Dag FROM " . TABLE_PREFIX . "_dag ORDER BY Datum_Dag ASC LIMIT 1";
@@ -343,3 +344,28 @@ function getHTMLPATH(string $path1, $path2): string
     return "/";
 }
 
+function convertDateTime(string $dateStr)
+{
+    $newDateTime = new DateTime($dateStr);
+    $newDateTime->setTimezone(new DateTimeZone("UTC"));
+    return $newDateTime->format("Y-m-d H:i:s");
+}
+
+function convertLocalDateTime(string $dateStr): string
+{
+    global $params;
+    if ($params['database']['useUTCDatetime']) {
+        // Date is already in UTC
+        return $dateStr;
+    } else {
+        $tz_from = $params['timeZone'];
+        $newDateTime = new DateTime($dateStr, new DateTimeZone($tz_from));
+        $newDateTime->setTimezone(new DateTimeZone("UTC"));
+        return $newDateTime->format("Y-m-d H:i:s");
+    }
+}
+
+function convertToUnixTimestamp($datetime)
+{
+    return strtotime($datetime . "");
+}
