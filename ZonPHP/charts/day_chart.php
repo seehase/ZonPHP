@@ -255,18 +255,21 @@ if (strlen($temp_serie) > 0) {
                         mychart = this;
                         series = this.series;
                         // construct subtitle
-                        sum = [];
-                        kWh = [];
-                        peak = [];
-                        max = [];
-                        current = 0;
+                        var sum = [];
+                        var kWh = [];
+                        var peak = [];
+                        var max = [];
+                        var current = 0;
                         tota = 0;
 
+                        var tota;
                         for (i = nmbr - 1; i >= 0; i--) {
                             if (series[i].visible) {
                                 for (j = 0; j < series[i].data.length; j++) {
                                     tota += (series[i].data[j].y) / 12000;//Total
-                                    sum[i] = (series[i].data[series[i].data.length - 1]).y; //sum
+                                    if ((series[i].data[j]).y != 0) {
+                                        sum[i] = (series[i].data[j]).y; //sum
+                                    }
                                     current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);//TIME
                                     kWh[i] = khhWp[i]; //KWH
                                     max[i] = maxmax[i]; //MAXday
@@ -279,7 +282,7 @@ if (strlen($temp_serie) > 0) {
                         KWH = kWh.reduce(add, 0);
                         MAX = max.reduce(add, 0);
                         var dataMax = mychart.yAxis[1].dataMax;
-                        console.log(dataMax, KWH, tota);
+                        console.log(dataMax, KWH, tota, SUM);
                         var AX = peak.filter(Boolean);
                         if (AX.length == 0) {
                             PEAK = 0;
