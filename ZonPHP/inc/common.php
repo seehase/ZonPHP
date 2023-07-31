@@ -195,7 +195,7 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
         $lastImportDate = $mindate . "";
     }
 
-    for ($i = 0; $i <= 100; $i++) {
+    for ($i = 0; $i <= 160; $i++) {
         $num = (date("Ymd", strtotime("+" . $i . " day", strtotime($lastImportDate))));
         if ($num > $num_today) {
             // skip if date is in future
@@ -354,14 +354,14 @@ function convertDateTime(string $dateStr)
 function convertLocalDateTime(string $dateStr, bool $force = false): string
 {
     global $params;
-    if ($params['database']['UTC_is_used']) {
-        // Date is already in UTC
-        return $dateStr;
-    } else {
+    if ($force || !$params['database']['UTC_is_used']) {
         $tz_from = $params['timeZone'];
         $newDateTime = new DateTime($dateStr, new DateTimeZone($tz_from));
         $newDateTime->setTimezone(new DateTimeZone("UTC"));
         return $newDateTime->format("Y-m-d H:i:s");
+    } else {
+        // Date is already in UTC
+        return $dateStr;
     }
 }
 

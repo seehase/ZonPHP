@@ -15,6 +15,7 @@ foreach ($params['PLANTS'] as $name => $plant) {
 
 function mapLinesToDBValues(array $lines, string $name, $lastImportDate): array
 {
+    global $params;
     $dbValues = array();
     $minkWhCounter = 0.0;
     if (count($lines) > 0) {
@@ -25,10 +26,11 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate): array
     foreach ($lines as $line) {
         $lineValues = explode(";", $line);
         if (count($lineValues) > 2) {
-            $localDate = $lineValues[0];
-            $utcDate = convertLocalDateTime($localDate);
-            $utcTimeStamp = convertToUnixTimestamp($utcDate);
-            $currentTimeStamp = date("Y-m-d H:i:s", $utcTimeStamp);
+            $dateFromDB = $lineValues[0];
+            // convert to UTC if parameter "importLocalDateAsUTC" is set to true otherwise it will remain localDate
+            $convertedDate = convertLocalDateTime($dateFromDB, $params['importLocalDateAsUTC']);
+            $convertedTimeStamp = convertToUnixTimestamp($convertedDate);
+            $currentTimeStamp = date("Y-m-d H:i:s", $convertedTimeStamp);
             $currentkWhCounter = str_replace(',', '.', $lineValues[1]);
             $cummulatedkWh = number_format($currentkWhCounter - $minkWhCounter, 3);
             $currentWatt = str_replace(',', '.', $lineValues[2]) * 1000;

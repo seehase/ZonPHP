@@ -41,6 +41,11 @@ location = Ingolstadt
 # default is "none" so no data will be imported
 importer = none
 
+# If the dates in import data (csv) is in local time you can convert the data into UTC during import
+# To convert dates into UTC set importLocalDateAsUTC = true
+# default = false
+importLocalDateAsUTC = false
+
 # Number in seconds to auto reload the website in your browser, if value is "0" auto reload is deactivated
 # default 300 = 5min
 autoReload = 300
@@ -83,6 +88,7 @@ cards = "day, month, year, allYears, cumulative, yearPerMonth, farm, images, top
 ###############################################################################
 #   This section database connections parameters and is mandatory.
 #   tablePrefix defaults to tgeg, only change with multiple ZonPHP instances
+#   if you store your timestamp fields in UTC then set UTC_is_used = true
 ###############################################################################
 [database]
 

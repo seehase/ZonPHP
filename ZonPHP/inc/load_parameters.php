@@ -116,6 +116,11 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "HTML_PATH overwritten and set to '" . $params['overwrite_HTML_PATH'] . "'");
         define('HTML_PATH', $params['overwrite_HTML_PATH']);
     }
+    if (!isset($params['importLocalDateAsUTC'])) {
+        addCheckMessage("INFO", "'importLocalDateAsUTC' not set in parameter.php, set to default = false");
+        $params['importLocalDateAsUTC'] = false;
+    }
+
 }
 
 function vadidateLayout(&$params): void
