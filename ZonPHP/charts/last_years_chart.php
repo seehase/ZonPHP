@@ -252,7 +252,7 @@ foreach (PLANT_NAMES as $zz => $inverter_name) {
 }
 
 $strxas = substr($strxas, 0, -1);
-$slinkdoorgeven = "/year_overviewt.php?jaar=";
+$slinkdoorgeven = "/year_overviewt.php?date=";
 
 $sub_title = "";
 $show_legende = "true";

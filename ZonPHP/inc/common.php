@@ -195,7 +195,7 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
         $lastImportDate = $mindate . "";
     }
 
-    for ($i = 0; $i <= 500; $i++) {
+    for ($i = 0; $i <= 100; $i++) {
         $num = (date("Ymd", strtotime("+" . $i . " day", strtotime($lastImportDate))));
         if ($num > $num_today) {
             // skip if date is in future
@@ -351,7 +351,7 @@ function convertDateTime(string $dateStr)
     return $newDateTime->format("Y-m-d H:i:s");
 }
 
-function convertLocalDateTime(string $dateStr): string
+function convertLocalDateTime(string $dateStr, bool $force = false): string
 {
     global $params;
     if ($params['database']['UTC_is_used']) {

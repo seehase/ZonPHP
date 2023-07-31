@@ -25,7 +25,10 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate): array
     foreach ($lines as $line) {
         $lineValues = explode(";", $line);
         if (count($lineValues) > 2) {
-            $currentTimeStamp = date("Y-m-d H:i:s", strtotime($lineValues[0]));
+            $localDate = $lineValues[0];
+            $utcDate = convertLocalDateTime($localDate);
+            $utcTimeStamp = convertToUnixTimestamp($utcDate);
+            $currentTimeStamp = date("Y-m-d H:i:s", $utcTimeStamp);
             $currentkWhCounter = str_replace(',', '.', $lineValues[1]);
             $cummulatedkWh = number_format($currentkWhCounter - $minkWhCounter, 3);
             $currentWatt = str_replace(',', '.', $lineValues[2]) * 1000;

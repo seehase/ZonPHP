@@ -23,7 +23,7 @@ include_once "../charts/year_chart.php";
         $('#datepicker').datepicker().on('changeYear', function (e) {
             var d = new Date(e.date.valueOf());
             var zonP = (d.getFullYear() + '-' + (d.getMonth() + 1));
-            var url = "year_overview.php?jaar=" + zonP;
+            var url = "year_overview.php?date=" + zonP;
             window.open(url, "_self");
             //alert(zonP);
         });
