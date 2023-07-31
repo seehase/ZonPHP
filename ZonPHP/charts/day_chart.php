@@ -71,7 +71,7 @@ $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
     TABLE_PREFIX . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . TABLE_PREFIX . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
 $maxdag = date("m-d", time());
-$maxkwh[] = array();
+$maxkwh = array();
 if (mysqli_num_rows($resultmaxdag) > 0) {
     while ($row = mysqli_fetch_array($resultmaxdag)) {
         $maxdag = $row['Datum_Maand'];

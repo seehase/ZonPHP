@@ -23,12 +23,12 @@ function vadidateParams(&$params): void
     $params['check']['INFO'] = array();
     $params['check']['failed'] = false;
 
+    vadidateEMU($params);
     vadidateParamsGeneral($params);
     vadidateLayout($params);
     vadidateDatabse($params);
     vadidateImages($params);
     vadidateWeewx($params);
-    vadidateEMU($params);
     $params['farm']['importer'] = $params['importer'];
 
     $plantNames = preg_split('/\s*,\s*/', trim($params['plantNames']));
@@ -94,14 +94,6 @@ function vadidateParamsGeneral(&$params): void
     if (!isset($params['userTheme']) || !file_exists(ROOT_DIR . "/themes/" . strtolower($params['userTheme']) . ".theme")) {
         addCheckMessage("INFO", "No userTheme set in parameter.php, or theme not found: set default to 'default'");
         $params['userTheme'] = "default";
-    }
-    if (!isset($params['displayInterval']) || intval($params['displayInterval']) == 0) {
-        addCheckMessage("INFO", "No displayInterval set in parameter.php set default to '5'");
-        $params['displayInterval'] = "5";
-    }
-    if (!isset($params['coefficient']) || intval($params['coefficient']) == 0) {
-        addCheckMessage("INFO", "No coefficient set in parameter.php set default to '1'");
-        $params['coefficient'] = "1";
     }
     if (!isset($params['importer']) || !file_exists(ROOT_DIR . "/importer/" . $params['importer'] . ".php")) {
         addCheckMessage("INFO", "No importer set in parameter.php set default to 'none'");
@@ -174,9 +166,9 @@ function vadidateDatabse(&$params): void
         addCheckMessage("WARN", "['database']['tablePrefix'] not set in parameter.php, default set to 'tgeg'");
         $params['database']['tablePrefix'] = "tgeg";
     }
-    if (!isset($params['database']['useUTCDatetime'])) {
-        addCheckMessage("WARN", "['database']['useUTCDatetime'] not set in parameter.php, default set to 'false'");
-        $params['database']['useUTCDatetime'] = false;
+    if (!isset($params['database']['UTC_is_used'])) {
+        addCheckMessage("WARN", "['database']['UTC_is_used'] not set in parameter.php, default set to 'false'");
+        $params['database']['UTC_is_used'] = false;
     }
 }
 
@@ -229,6 +221,9 @@ function vadidateEMU($params): void
     }
 
     if ($params['useEMU']) {
+        // no importer required set to none
+        $params['importer'] = "none";
+        // check other params
         if (!isset($params['EMU']['path_CSV_data'])) {
             addCheckMessage("ERROR", "['EMU']['path_CSV_data'] not set in parameter.php, please check settings", true);
         }

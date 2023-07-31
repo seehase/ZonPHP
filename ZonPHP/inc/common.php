@@ -354,7 +354,7 @@ function convertDateTime(string $dateStr)
 function convertLocalDateTime(string $dateStr): string
 {
     global $params;
-    if ($params['database']['useUTCDatetime']) {
+    if ($params['database']['UTC_is_used']) {
         // Date is already in UTC
         return $dateStr;
     } else {

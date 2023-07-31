@@ -4,11 +4,9 @@ include_once "inc/init.php";
 include_once "inc/connect.php";
 
 // fixme section ------------------------------------------------------------------------------------
-// fixme: documentation of parameters.php (in progress)
 // fixme: write migration documentation
 // fixme: write installation ducumentation
 // fixme: update images of project README.md
-// fixme: set importer = none when useEMU = true
 // fixme: make language flexible/dynamic instead of having a fixed list (load all /languagew/*.ini and show it in menu
 //
 

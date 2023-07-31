@@ -36,10 +36,6 @@ website = "https://solar.seehausen.org"
 # additional location shown in farm-card
 location = Ingolstadt
 
-# define display interval, default is 5 for solarlog
-# allowed:  1,2,3,4,5,6,10,12,15,20,30,60 sample  xls = 10, SolarLog = 5, SIC = 4
-displayInterval = 5
-
 # Choose importer for your data files. Name correspond to a php file in folder /importer
 # and is without ".php" extension and case sensitive
 # default is "none" so no data will be imported
@@ -100,7 +96,7 @@ database = solar
 
 tablePrefix = tgeg
 
-useUTCDatetime = false
+UTC_is_used = false
 
 ###############################################################################
 #  This section defines parameters for a single plant, specified in parameter "plantNames" of general section
