@@ -22,10 +22,13 @@ include_once "../charts/year_chart.php";
 
         $('#datepicker').datepicker().on('changeYear', function (e) {
             var d = new Date(e.date.valueOf());
-            var zonP = (d.getFullYear() + '-' + (d.getMonth() + 1));
+            var dates = new Date();
+			var today = new Date(dates.getFullYear(), dates.getMonth(), dates.getDate());
+            let day = today.getDate();
+            var zonP = (d.getFullYear() + '-' + (d.getMonth() + 1)+ '-' + day);
+            //alert(zonP); 
             var url = "year_overview.php?date=" + zonP;
             window.open(url, "_self");
-            //alert(zonP);
         });
     });
 </script>
