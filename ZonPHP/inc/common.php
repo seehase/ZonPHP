@@ -264,8 +264,6 @@ function prepareAndInsertData(array $dbValues, $con): void
         $dayValues = "";
         $name = "";
         $currentDate = date("Y-m-d", strtotime($dbValues[0]['timestamp']));
-        $minkWhCounter = $dbValues[0]['cummulatedkWh'];
-        $maxkWhCounter = end($dbValues)['cummulatedkWh'];
         foreach ($dbValues as $row) {
             $watt = $row['watt'];
             $cummulatedkWh = $row['cummulatedkWh'];
@@ -277,7 +275,7 @@ function prepareAndInsertData(array $dbValues, $con): void
         $dayValues = substr($dayValues, 0, -1);
         $sql_insert_day = "insert into " . TABLE_PREFIX . "_dag (IndexDag, Datum_Dag, Geg_Dag, kWh_Dag, Naam) values $dayValues";
         $del_month = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Naam ='$name' AND Datum_Maand='$currentDate'";
-        $sqL_insert_month = "insert into " . TABLE_PREFIX . "_maand (IndexMaand, Datum_Maand, Geg_Maand, Naam) values ('$currentDate$name', '$currentDate', $maxkWhCounter-$minkWhCounter, '$name')";
+        $sqL_insert_month = "insert into " . TABLE_PREFIX . "_maand (IndexMaand, Datum_Maand, Geg_Maand, Naam) values ('$currentDate$name', '$currentDate', $cummulatedkWh, '$name')";
 
         mysqli_query($con, $del_month) or die("Query failed. ERROR1: " . $del_month . mysqli_error($con));
         mysqli_query($con, $sql_insert_day) or die("Query failed. ERROR2: " . $sql_insert_day . mysqli_error($con));
