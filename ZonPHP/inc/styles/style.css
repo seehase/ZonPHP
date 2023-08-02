@@ -17,7 +17,7 @@
 }
 
 #footer_index #footer {
-    border-radius: 9.5px;
+    border-radius: 8px;
     border: 1px solid;
     color: black;
 }
@@ -404,7 +404,7 @@ body {
 }
 
 .navbar {
-    border-radius: 9.5px;
+    border-radius: 8px;
     height: 45px;
     width: 100%;
 
