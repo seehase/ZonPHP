@@ -18,6 +18,8 @@
 
 #footer_index #footer {
     border-radius: 9.5px;
+    border: 1px solid;
+    color: black;
 }
 
 .smallCharts {
@@ -43,8 +45,8 @@
 }
 
 .highcharts-container {
-    border-bottom-right-radius: 9.5px;
-    border-bottom-left-radius: 9.5px;
+    border-bottom-right-radius: 7.5px;
+    border-bottom-left-radius: 7.5px;
 }
 
 #resize {
@@ -58,8 +60,8 @@
 }
 
 .index_chart {
-    width: 433px;
-    height: 370px;
+    width: 435px;
+    height: 373px;
     margin-top: 0px;
     float: left;
 }
@@ -87,7 +89,9 @@ body {
     left: 0;
     right: 0;
     height: 55px;
-    background: #222
+    background: #222;
+	border: 1px solid;
+    color: black
 }
 
 
@@ -236,7 +240,7 @@ body {
     font-size: 14px;
     font-weight: 300;
     background-color: transparent;
-    border: 2px solid;
+    border: 1px solid;
     color: black;
     border-radius: 8px;
     transition: all 0.2s ease-out;
@@ -316,6 +320,7 @@ body {
     border-bottom-left-radius: 9.5px;
     border-bottom-right-radius: 9.5px;
     height: 55px;
+	
 }
 
 @media only screen and (max-width: 929px) and (min-width: 500px) {
@@ -389,6 +394,13 @@ body {
     border-bottom-right-radius: 0px;
     height: 45px;
     width: 100%;
+}
+
+#menu_header_index .navbar {
+    height: 45px;
+    width: 100%;
+    border: 1px solid;
+    color: black;
 }
 
 .navbar {
