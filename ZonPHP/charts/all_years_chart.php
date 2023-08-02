@@ -166,12 +166,7 @@ include_once "chart_styles.php";
 <script>
 
     $(function () {
-
-        var fieldNameElement = document.getElementById('chart_header_allYears');
-        if (fieldNameElement != null) {
-            fieldNameElement.innerHTML =  fieldNameElement.innerHTML + " - " + txt['totaal'] + ": " + <?= round($total_sum_for_all_years,2) ?> + "kW" ;
-        }
-
+        
         function add(accumulator, a) {
             return accumulator + a;
         }
