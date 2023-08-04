@@ -325,7 +325,7 @@ body {
 
 @media only screen and (max-width: 929px) and (min-width: 500px) {
     #footer_index, #menu_header_index {
-        width: 440px;
+        width: 437px;
     }
 
     #headerinverter {
@@ -339,7 +339,7 @@ body {
 
 @media only screen and (max-width: 1360px) and (min-width: 930px) {
     #footer_index, #menu_header_index {
-        width: 878px;
+        width: 879px;
     }
 }
 
@@ -351,19 +351,19 @@ body {
 
 @media only screen and (max-width: 2260px) and (min-width: 1809px) {
     #footer_index, #menu_header_index {
-        width: 1762px;
+        width: 1763px;
     }
 }
 
 @media only screen and (max-width: 2660px) and (min-width: 2250px) {
     #footer_index, #menu_header_index {
-        width: 2206px;
+        width: 2205px;
     }
 }
 
 @media only screen and (max-width: 3060px) and (min-width: 2318px) {
     #footer_index, #menu_header_index {
-        width: 2648px;
+        width: 2647px;
     }
 }
 
