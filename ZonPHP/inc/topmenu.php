@@ -1,5 +1,10 @@
 <?php
 global $params, $colors, $new_version_label;
+if ($params['showDebugMenu']) {
+    $showDebugMenu = "block";
+} else {
+    $showDebugMenu = "none";
+}
 ?>
 <nav class="navbar navbar-expand-sm" style="background-color: <?= $colors['color_menubackground'] ?>;">
     <div class="container-fluid">
@@ -88,7 +93,7 @@ global $params, $colors, $new_version_label;
                 </ul>
             </div>
             &nbsp;&nbsp;
-            <div class="nav-item dropdown">
+            <div class="nav-item dropdown" style="display: <?= $showDebugMenu?> ">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false">&nbsp;&nbsp;?&nbsp;
                 </a>

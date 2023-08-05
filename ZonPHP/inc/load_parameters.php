@@ -92,8 +92,8 @@ function vadidateParamsGeneral(&$params): void
         $params['timeZone'] = "UTC";
     }
     if (!isset($params['userTheme']) || !file_exists(ROOT_DIR . "/themes/" . strtolower($params['userTheme']) . ".theme")) {
-        addCheckMessage("INFO", "No userTheme set in parameter.php, or theme not found: set default to 'default'");
-        $params['userTheme'] = "default";
+        addCheckMessage("INFO", "No userTheme set in parameter.php, or theme not found: set default to 'zonphp'");
+        $params['userTheme'] = "zonphp";
     }
     if (!isset($params['importer']) || !file_exists(ROOT_DIR . "/importer/" . $params['importer'] . ".php")) {
         addCheckMessage("INFO", "Importer not found or not set in parameter.php set default to 'none'");
@@ -120,7 +120,10 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "'importLocalDateAsUTC' not set in parameter.php, set to default = false");
         $params['importLocalDateAsUTC'] = false;
     }
-
+    if (!isset($params['showDebugMenu'])) {
+        addCheckMessage("INFO", "'showDebugMenu' not set in parameter.php, set to default = true");
+        $params['showDebugMenu'] = true;
+    }
 }
 
 function vadidateLayout(&$params): void
@@ -303,21 +306,32 @@ function vadidateExpectedYield($name, $values)
 
 function vadidateImages(&$params): void
 {
-    if (isset($params['images'])) {
-        foreach ($params['images'] as $key => $image) {
-            if (!isset($image['title'])) {
-                addCheckMessage("INFO", "['images']['" . $key . "']['title'] not set in parameter.php, setting default ''");
+    if (isset($params['plantImages'])) {
+        $plantImages = preg_split('/\s*,\s*/', trim($params['plantImages']));
+        $images = array();
+        foreach ($plantImages as $key => $imageSection) {
+            $image = array();
+            if (!isset($params[$imageSection]['title'])) {
+                addCheckMessage("INFO", "['" . $imageSection . "']['title'] not set in parameter.php, setting default ''");
                 $image['title'] = "";
+            } else {
+                $image['title'] = $params[$imageSection]['title'];
             }
-            if (!isset($image['description'])) {
-                addCheckMessage("INFO", "['images']['" . $key . "']['description'] not set in parameter.php, setting default ''");
+            if (!isset($params[$imageSection]['description'])) {
+                addCheckMessage("INFO", "['" . $imageSection . "']['description'] not set in parameter.php, setting default ''");
                 $image['description'] = "";
+            } else {
+                $image['description'] = $params[$imageSection]['description'];
             }
-            if (!isset($image['uri'])) {
-                addCheckMessage("INFO", "['images']['" . $key . "']['uri'] not set in parameter.php, setting default ''");
+            if (!isset($params[$imageSection]['uri'])) {
+                addCheckMessage("INFO", "['" . $imageSection . "']['uri'] not set in parameter.php, setting default ''");
                 $image['uri'] = "";
+            } else {
+                $image['uri'] = $params[$imageSection]['uri'];
             }
+            $images[] = $image;
         }
+        $params['images'] = $images;
     } else {
         $params['images'] = array();
     }

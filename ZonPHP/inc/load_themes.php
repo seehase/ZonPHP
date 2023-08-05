@@ -13,7 +13,7 @@ function loadTheame($params): void
             $themes[$tempName] = validatedTheme($tempTheme);
         }
     }
-    $defaultTheme = $themes['default'];
+    $defaultTheme = $themes['zonphp'];
     $themeToLoad = $defaultTheme;
     $_SESSION['themes'] = $themes;
     $_SESSION['theme'] = $defaultTheme;
@@ -29,7 +29,7 @@ function loadTheame($params): void
         addCheckMessage("INFO", "Unknown userTheme: " . $params['userTheme']);
     }
     // change only if it is not default, which is already loaded
-    if ($themeToLoad != "default") {
+    if ($themeToLoad != "zonphp") {
         $customTheme = $themes[$themeToLoad];
         // override defaults with values from customTheme
         $_SESSION['theme'] = $themeToLoad;

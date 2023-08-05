@@ -60,6 +60,14 @@ checkVersion = true
 # default = "" (disabled)
 googleTrackingId =
 
+# Show "?" in top menu, it is used to show validation page and reset session if needed
+showDebugMenu = true
+
+# Define a comma separated list of images you want to show on the index page, for each name you specify here
+# you need to have a dedicated section defined below, name must be unique and not conflicting with other
+# sections.
+plantImages = "image1, image2, image3"
+
 # In some special cases zonPHP cannot determine the right HTML path, in this case you can overwrite the calculated
 # path and use the provided path. html-path has tail and leading slashes e.g. "/zonXYZ/"
 # uncomment if you want to overwrite
@@ -134,37 +142,38 @@ description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly
 #######################################################################################################################
 #   This section specifies optional images to be shown as cards on index page
 #######################################################################################################################
-# specify a list of images that are shown on the index page,
 # you can refere to internal images located in the folder /images or use
 # external images with a complete URL
 # each image is shown as a single card
-# all images need to have an indentifier and 3 parameters
-
-# imageID[title] = "name"
-# imageID[description] = "description"
-# imageID[uri] = "image.ext"
+# all images need to have an identifier and 3 parameters
+#
+# [imageID]
+# title = "name"
+# description = "description"
+# uri = "image.ext"
 
 # imageId must be different for each image you want to show
-
-[images]
+[image1]
 
 # Name that is show as card title
-image1[title] = "Inverter"
+title = "Inverter"
 
 # additional description shown below picture
-image1[description] = "Inverter + Powermeter"
+description = "Inverter + Powermeter"
 
 # the image itself, either the name of the file in folder /images (casesensitive incl. extension e.g. "image1.jpg"
 # or external URL e.g. "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
-image1[uri] = "image1.jpg"
+uri = "image1.jpg"
 
-image2[title] = "Roof"
-image2[description] =
-image2[uri] = "image2.jpg"
+[image2]
+title = "Roof"
+description =
+uri = "image2.jpg"
 
-image3[title] = "internet"
-image3[description] = "source: wikipedia"
-image3[uri] = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
+[image3]
+title = "internet"
+description = "source: wikipedia"
+uri = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
 
 #######################################################################################################################
 #   This section specifies parameters to configure use of WEEWX (https://weewx.com/)
