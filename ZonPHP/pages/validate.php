@@ -35,6 +35,7 @@ include_once "../inc/init.php";
                 <hr>
                 <?= $version ?>
                 <br>
+                <br>
             </div>
         </div>
     </div>
@@ -43,18 +44,17 @@ include_once "../inc/init.php";
 <div id="container">
     <div id="bodytext">
         <div class="inside" style="text-align: left">
-            <h1 class="notopgap" style="text-align: center"><?= getTxt("bestezonphp"); ?>,</h1>
-            Uw Taal:<a href='?language=nl' TARGET='_self'><img
+            <h1 style="text-align: center"><?= getTxt("bestezonphp"); ?>,</h1>
+            Uw Taal: <a href='?language=nl' TARGET='_self'><img
                         src="../inc/images/nl.svg" alt="nl" width="16" height="11"></a>&nbsp;&nbsp;
-            Your language:<a href='?language=en' TARGET='_self'><img
+            Your language: <a href='?language=en' TARGET='_self'><img
                         src="../inc/images/en.svg" alt="en" width="16" height="11"></a>&nbsp;&nbsp;
-            Votre langue:<a href='?language=fr' TARGET='_self'><img
+            Votre langue: <a href='?language=fr' TARGET='_self'><img
                         src="../inc/images/fr.svg" alt="fr" width="16" height="11"></a>&nbsp;&nbsp;
-            Ihre Sprache:<a href='?language=de' TARGET='_self'><img
+            Ihre Sprache: <a href='?language=de' TARGET='_self'><img
                         src="../inc/images/de.svg" alt="de" width="16" height="11"></a>
             <hr>
             <br>
-            <hr>
             <?php
             echo getTxt("paths") . ".<br><br>";
             echo "HTML_PATH: " . HTML_PATH . "<br>";
@@ -74,11 +74,10 @@ include_once "../inc/init.php";
             foreach ($_SESSION['params']['check']['INFO'] as $msg) {
                 echo "<p> $msg </p>";
             }
-
-            echo "<br><hr>";
             if (strlen($new_version_label) > 0) {
                 $newversion = getTxt("newversion") . " " . getTxt("available");
                 echo <<<EOT
+                       <br><hr><br>
                         <a  onclick="target='_blank'"
                            href="https://github.com/seehase/ZonPHP/releases">$newversion</a>    
                            <br>                    

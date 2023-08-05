@@ -96,7 +96,7 @@ function vadidateParamsGeneral(&$params): void
         $params['userTheme'] = "default";
     }
     if (!isset($params['importer']) || !file_exists(ROOT_DIR . "/importer/" . $params['importer'] . ".php")) {
-        addCheckMessage("INFO", "No importer set in parameter.php set default to 'none'");
+        addCheckMessage("INFO", "Importer not found or not set in parameter.php set default to 'none'");
         $params['importer'] = "none";
     }
     if (!isset($params['autoReload']) || intval($params['autoReload']) < 0) {

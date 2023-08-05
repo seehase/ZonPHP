@@ -1,20 +1,20 @@
 <?php
-###############################################################################
-# ZonPHP CONFIGURATION FILE
+#######################################################################################################################
+#   ZonPHP CONFIGURATION FILE
 #
-# See the file LICENSE for your rights.
-###############################################################################
+#   See the file LICENSE for your rights.
+#######################################################################################################################
 
-###############################################################################
-# This section is for general configuration information.
-###############################################################################
+#######################################################################################################################
+#   This section is for general configuration information.
+#######################################################################################################################
 
 # Name your farm, this name is shown in menu as title
 name = ZonPHP Solar
 
 # List all your plantnames comma separated. For all plants a separate configuration section is needed, the section name
-# is the same as given for plantNames, but within brackets e.g. [SOLAR1]. This name is used in the database and the charts. 
-# Keep it short and without spaces or special characters.
+# is the same as given for plantNames, but within brackets e.g. [SOLAR1].
+# This name is used in the database and the charts. Keep it short and without spaces or special characters.
 plantNames = SOLAR1
 
 # Which should be your default language? possible values: en, de, fr, nl
@@ -85,30 +85,24 @@ googleTrackingId =
 cards = "day, month, year, allYears, cumulative, yearPerMonth, farm, images, top, plants"
 
 
-###############################################################################
+#######################################################################################################################
 #   This section database connections parameters and is mandatory.
 #   tablePrefix defaults to tgeg, only change with multiple ZonPHP instances
 #   if you store your timestamp fields in UTC then set UTC_is_used = true
-###############################################################################
+#######################################################################################################################
 [database]
-
 host =  localhost
-
 username = admin
-
 password = "secret" ## Use quotes to guard against parsing errors ##
-
 database = solar
-
 tablePrefix = tgeg
-
 UTC_is_used = false
 
-###############################################################################
-#  This section defines parameters for a single plant, specified in parameter "plantNames" of general section
-# for each name specified in "plantNames" you need a separate section with the corresponding name
-# The section contains configuration and information used by ZonPHP
-###############################################################################
+#######################################################################################################################
+#   This section defines parameters for a single plant, specified in parameter "plantNames" of general section
+#   for each name specified in "plantNames" you need a separate section with the corresponding name
+#   The section contains configuration and information used by ZonPHP
+#######################################################################################################################
 
 [SOLAR1]
 
@@ -137,9 +131,9 @@ importPrefix = SOLAR1
 description = "seehase<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly<br>Inverter: SMA SB 5000TL20 ESS<br>Orientation: 180 Grad 30 Grad Neigung<br>My first solar plant build in 2011"
 
 
-###############################################################################
+#######################################################################################################################
 #   This section specifies optional images to be shown as cards on index page
-###############################################################################
+#######################################################################################################################
 # specify a list of images that are shown on the index page,
 # you can refere to internal images located in the folder /images or use
 # external images with a complete URL
@@ -172,12 +166,12 @@ image3[title] = "internet"
 image3[description] = "source: wikipedia"
 image3[uri] = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
 
-###############################################################################
-#  This section specifies parameters to configure use of WEEWX (https://weewx.com/)
-#  if you have a weatherstation running with WEEWX  you can use temperature data to be displayed
-#  in the day chart. To use weewx data, set option enabled to "true" and specify additional parameters in this section
-#  default = false
-###############################################################################
+#######################################################################################################################
+#   This section specifies parameters to configure use of WEEWX (https://weewx.com/)
+#   if you have a weatherstation running with WEEWX  you can use temperature data to be displayed
+#   in the day chart. To use weewx data, set option enabled to "true" and specify additional parameters in this section
+#   default = false
+#######################################################################################################################
 [weewx]
 enabled = false
 
@@ -193,7 +187,7 @@ password = weewx
 # The WEEWX database name
 database = weewx
 
-# Tablename which containd the weewx data
+# Tablename which contains the weewx data
 # default "archive"
 tableName = archive
 
@@ -207,11 +201,11 @@ timestampColumn = dateTime
 # default = true
 tempInFahrenheit = true
 
-###############################################################################
+#######################################################################################################################
 #   This section specifies parameters if you use EMU
-# only relevant if enabled is set to true
-# If you use EMU, set "importer" to "none"
-###############################################################################
+#   only relevant if enabled is set to true
+#   If you use EMU, set "importer" to "none"
+#######################################################################################################################
 [EMU]
 enabled = false
 
