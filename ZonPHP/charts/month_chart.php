@@ -122,11 +122,11 @@ foreach (PLANT_NAMES as $inverter_name) {
             }
             $var = round($all_valarray[$i][$inverter_name], 2);
             if ($var > $local_max) $local_max = $var;
-
+            $formattedHref = sprintf("%s%04d-%02d-%02d", $myurl, $current_year, $current_month, $i);
             $strdata .= "
                     {
                       y: $var, 
-                      url: \"$myurl$current_year_month-$i\",
+                      url: \"$formattedHref\",
                       color: {
                         linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
                         stops: [

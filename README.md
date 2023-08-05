@@ -15,6 +15,7 @@ If you have any feedback or questions, please contact me at https://github.com/s
 ### Day-View
 ![img|320x271](resources%2Fday_view.png)
 
+
 ### All years per month view
 ![all_years.png](resources%2Fall_years.png)
 

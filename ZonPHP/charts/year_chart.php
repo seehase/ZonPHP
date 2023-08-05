@@ -123,13 +123,11 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
     $max_bars .= "{name: '$inverter_name max', type: 'column', zIndex: -1,  linkedTo: '$inverter_name', stack: 'max', stacking: 'normal', color: \"" . $colors['color_chart_max_bar'] . "\" ,data: [";
 
     for ($i = 1; $i <= 12; $i++) {
-        //echo $i;echo ' ';    // max bars
-        //$val throws notice when database is missing months 
         @$val = round($nmaxmaand[$i][$inverter_name], 2);
-        //echo $val;echo "<BR>";
+        $formattedHref = sprintf("%s%04d-%02d-%02d", $href, $my_year, $i, 1);
         $max_bars .= "  { 
                           y:  $val, 
-                          url: \"$href$my_year-$i-01\",
+                          url: \"$formattedHref\",
                           color: \"" . $colors['color_chart_max_bar'] . "\"
                         },";
 
@@ -152,10 +150,11 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
                 $val = round($all_valarray[$i][$inverter_name], 2);
                 $totalYear += $val;
             }
+            $formattedHref = sprintf("%s%04d-%02d-%02d", $href, $my_year, $i, 1);
             $current_bars .= "
                         { x: $i-1, 
                           y: $val, 
-                          url: \"$href$my_year-$i-01\",
+                          url: \"$formattedHref\",
                           color: {
                             linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
                             stops: [
