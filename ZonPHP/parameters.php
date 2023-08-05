@@ -38,7 +38,7 @@ location = Ingolstadt
 
 # Choose importer for your data files. Name correspond to a php file in folder /importer
 # and is without ".php" extension and case sensitive
-# default is "none" so no data will be imported
+# default is "none" so no data will be imported, valid and tested importer: sunny_explorer
 importer = none
 
 # If the dates in import data (csv) is in local time you can convert the data into UTC during import
@@ -92,8 +92,8 @@ cards = "day, month, year, allYears, cumulative, yearPerMonth, farm, images, top
 #######################################################################################################################
 [database]
 host =  localhost
-username = admin
-password = "secret" ## Use quotes to guard against parsing errors ##
+username = root
+password = root
 database = solar
 tablePrefix = tgeg
 UTC_is_used = false
@@ -125,10 +125,10 @@ expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
 # format "prefix-yyyymmdd.csv"  e.g. "seehase-20140426.csv"
 # then define importPrefix = "seehase" without separator (used by importer)
 
-importPrefix = SOLAR1
+importPrefix = solar1
 
-# additional information shown on the card (information only)
-description = "seehase<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly<br>Inverter: SMA SB 5000TL20 ESS<br>Orientation: 180 Grad 30 Grad Neigung<br>My first solar plant build in 2011"
+# additional information shown on the card (information only), for linebreak use <br>
+description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly<br>Inverter: SMA SB 5000TL20 ESS<br>Orientation: 180 Grad 30 Grad Neigung<br>My first solar plant build in 2011"
 
 
 #######################################################################################################################
