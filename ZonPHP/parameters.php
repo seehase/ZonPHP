@@ -131,8 +131,8 @@ capacity = 5040
 expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
 
 # Prefix of your import files for this plant e.g. sunny-explorer exports file in this
-# format "prefix-yyyymmdd.csv"  e.g. "seehase-20140426.csv"
-# then define importPrefix = "seehase" without separator (used by importer)
+# format "prefix-yyyymmdd.csv"  e.g. "solar1-20140426.csv"
+# then define importPrefix = "solar1" without separator (used by importer)
 
 importPrefix = solar1
 
@@ -156,7 +156,7 @@ description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly
 # imageId must be different for each image you want to show
 [image1]
 
-# Name that is show as card title
+# Name that is shown as card title
 title = "Inverter"
 
 # additional description shown below picture
@@ -177,41 +177,6 @@ description = "source: wikipedia"
 uri = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
 
 #######################################################################################################################
-#   This section specifies parameters to configure use of WEEWX (https://weewx.com/)
-#   if you have a weatherstation running with WEEWX  you can use temperature data to be displayed
-#   in the day chart. To use weewx data, set option enabled to "true" and specify additional parameters in this section
-#   default = false
-#######################################################################################################################
-[weewx]
-enabled = false
-
-# Database host of your WEEWX database, can be different to the zonPHP database
-host = localhost
-
-# The user name for logging in to the WEEWX host database
-username = weewx
-
-# The password of the  WEEWX host database (use quotes to guard against parsing errors)
-password = weewx
-
-# The WEEWX database name
-database = weewx
-
-# Tablename which contains the weewx data
-# default "archive"
-tableName = archive
-
-# Name of the column that contains temperature data
-tempColumn = outTemp
-
-# Name of the column that contains timestamp
-timestampColumn = dateTime
-
-# Are temperature values stored in Fahrenheit
-# default = true
-tempInFahrenheit = true
-
-#######################################################################################################################
 #   This section specifies parameters if you use EMU
 #   only relevant if enabled is set to true
 #   If you use EMU, set "importer" to "none"
@@ -224,3 +189,30 @@ path_CSV_data =
 PVO_API =
 
 PVO_SYS_ID =
+
+#######################################################################################################################
+#   This section specifies parameters to configure use of WEEWX (https://weewx.com/)
+#   if you have a weatherstation running with WEEWX  you can use temperature data to be displayed
+#   in the day chart. To use weewx data, set option enabled to "true" and specify additional parameters in this section
+#   default = false
+#######################################################################################################################
+[weewx]
+enabled = false
+
+# Database connection host, username, password, database
+host = localhost
+username = weewx
+password = weewx
+database = weewx
+
+# Tablename which contains the weewx data default "archive"
+tableName = archive
+
+# Name of the column that contains temperature data
+tempColumn = outTemp
+
+# Name of the column that contains timestamp
+timestampColumn = dateTime
+
+# Are temperature values stored in Fahrenheit default = true
+tempInFahrenheit = true
