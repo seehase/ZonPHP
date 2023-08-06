@@ -67,8 +67,8 @@ showDebugMenu = always
 # Define a comma separated list of images you want to show on the index page, for each name you specify here
 # you need to have a dedicated section defined below, name must be unique and not conflicting with other
 # sections.
-plantImages = "image1, image2, image3"
-
+plantImages = "image1"
+!!!!!!! Are quotes needed around image1? !!!!!!!!!!!!!!!!!!
 # In some special cases zonPHP cannot determine the right HTML path, in this case you can overwrite the calculated
 # path and use the provided path. html-path has tail and leading slashes e.g. "/zonXYZ/"
 # uncomment if you want to overwrite
@@ -93,7 +93,6 @@ plantImages = "image1, image2, image3"
 # default = "day, month, year, allYears, cumulative, yearPerMonth, top, farm, plants, images";
 cards = "day, month, year, allYears, cumulative, yearPerMonth, farm, images, top, plants"
 
-
 #######################################################################################################################
 #   This section database connections parameters and is mandatory.
 #   tablePrefix defaults to tgeg, only change with multiple ZonPHP instances
@@ -109,7 +108,7 @@ UTC_is_used = false
 
 #######################################################################################################################
 #   This section defines parameters for a single plant, specified in parameter "plantNames" of general section
-#   for each name specified in "plantNames" you need a separate section with the corresponding name
+#   For each name specified in "plantNames" you need a separate section with the corresponding name
 #   The section contains configuration and information used by ZonPHP
 #######################################################################################################################
 
@@ -142,39 +141,23 @@ description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly
 
 #######################################################################################################################
 #   This section specifies optional images to be shown as cards on index page
-#######################################################################################################################
-# you can refere to internal images located in the folder /images or use
-# external images with a complete URL
-# each image is shown as a single card
+#   For each name specified in "imageNames" you need a separate section with the corresponding name  
+#   you can refer to internal images located in the folder /images or use
+#   external images with a complete URL
+#   each image is shown as a single card
 # all images need to have an identifier and 3 parameters
-#
-# [imageID]
-# title = "name"
-# description = "description"
-# uri = "image.ext"
-
 # imageId must be different for each image you want to show
+# [imageID]
+# title = "name" (Card title)
+# description = "description" (additional description shown below picture)
+# uri = "image.ext" (the image itself, either the name of the file in folder /images)
+#                   (or external URL e.g. "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png") 
+#######################################################################################################################
+
 [image1]
-
-# Name that is shown as card title
 title = "Inverter"
-
-# additional description shown below picture
 description = "Inverter + Powermeter"
-
-# the image itself, either the name of the file in folder /images (casesensitive incl. extension e.g. "image1.jpg"
-# or external URL e.g. "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
 uri = "image1.jpg"
-
-[image2]
-title = "Roof"
-description =
-uri = "image2.jpg"
-
-[image3]
-title = "internet"
-description = "source: wikipedia"
-uri = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
 
 #######################################################################################################################
 #   This section specifies parameters if you use EMU
