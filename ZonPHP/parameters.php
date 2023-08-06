@@ -67,8 +67,8 @@ showDebugMenu = always
 # Define a comma separated list of images you want to show on the index page, for each name you specify here
 # you need to have a dedicated section defined below, name must be unique and not conflicting with other
 # sections.
-plantImages = "image1"
-!!!!!!! Are quotes needed around image1? !!!!!!!!!!!!!!!!!!
+plantImages = image1, image2
+
 # In some special cases zonPHP cannot determine the right HTML path, in this case you can overwrite the calculated
 # path and use the provided path. html-path has tail and leading slashes e.g. "/zonXYZ/"
 # uncomment if you want to overwrite
@@ -158,6 +158,12 @@ description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly
 title = "Inverter"
 description = "Inverter + Powermeter"
 uri = "image1.jpg"
+
+[image2]
+title = "internet"
+description = "source: wikipedia"
+uri = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
+
 
 #######################################################################################################################
 #   This section specifies parameters if you use EMU
