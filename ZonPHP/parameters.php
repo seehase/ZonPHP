@@ -61,7 +61,8 @@ checkVersion = true
 googleTrackingId =
 
 # Show "?" in top menu, it is used to show validation page and reset session if needed
-showDebugMenu = true
+# possible values: always, onError, off
+showDebugMenu = always
 
 # Define a comma separated list of images you want to show on the index page, for each name you specify here
 # you need to have a dedicated section defined below, name must be unique and not conflicting with other

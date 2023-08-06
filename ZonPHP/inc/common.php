@@ -251,7 +251,7 @@ function isComment(string $input): bool
 {
     if (strlen($input) > 0) {
         $char = substr($input, 0, 1);
-        if ($char === ";" || $char === "#" || $char === "/" || $char === "*" || $char === "<" || $char === "-") {
+        if ($char === ";" || $char === "#" || $char === "/" || $char === "*" || $char === "<" || $char === "-" || $char === "⌃" || $char === "⌄") {
             return true;
         }
     }
@@ -366,4 +366,13 @@ function convertLocalDateTime(string $dateStr, bool $force = false): string
 function convertToUnixTimestamp($datetime)
 {
     return strtotime($datetime . "");
+}
+
+function hasErrorOrWarnings(): bool
+{
+    if (count($_SESSION['params']['check']['ERROR']) > 0 || count($_SESSION['params']['check']['WARN']) > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }

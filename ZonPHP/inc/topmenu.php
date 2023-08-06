@@ -1,10 +1,10 @@
 <?php
 global $params, $colors, $new_version_label;
-if ($params['showDebugMenu']) {
-    $showDebugMenu = "block";
-} else {
+$showDebugMenu = "block";
+if ($params['debugMenu'] == "off" || !hasErrorOrWarnings()) {
     $showDebugMenu = "none";
 }
+
 ?>
 <nav class="navbar navbar-expand-sm" style="background-color: <?= $colors['color_menubackground'] ?>;">
     <div class="container-fluid">

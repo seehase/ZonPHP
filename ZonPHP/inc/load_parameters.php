@@ -122,7 +122,15 @@ function vadidateParamsGeneral(&$params): void
     }
     if (!isset($params['showDebugMenu'])) {
         addCheckMessage("INFO", "'showDebugMenu' not set in parameter.php, set to default = true");
-        $params['showDebugMenu'] = true;
+        $params['debugMenu'] = "always";
+    } else {
+        $debugMenu = strtolower( $params['showDebugMenu']);
+        if ($debugMenu == "always" || $debugMenu = "onerror" || $debugMenu == "off") {
+            $params['debugMenu'] = "$debugMenu";
+        } else {
+            addCheckMessage("INFO", "'showDebugMenu' unknown value: $$debugMenu, set to default: 'always'");
+            $params['debugMenu'] = "always";
+        }
     }
 }
 
