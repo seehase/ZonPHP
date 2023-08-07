@@ -1,7 +1,9 @@
 <?php
 global $params, $colors, $new_version_label;
 $showDebugMenu = "block";
-if ($params['debugMenu'] == "off" || !hasErrorOrWarnings()) {
+if ($params['debugMenu'] == "never") {
+    $showDebugMenu = "none";
+} elseif ( $params['debugMenu'] == "onerror" && !hasErrorOrWarnings()) {
     $showDebugMenu = "none";
 }
 

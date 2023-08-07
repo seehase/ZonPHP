@@ -125,10 +125,10 @@ function vadidateParamsGeneral(&$params): void
         $params['debugMenu'] = "always";
     } else {
         $debugMenu = strtolower( $params['showDebugMenu']);
-        if ($debugMenu == "always" || $debugMenu = "onerror" || $debugMenu == "off") {
-            $params['debugMenu'] = "$debugMenu";
+        if ($debugMenu == "always" || $debugMenu == "onerror" || $debugMenu == "never") {
+            $params['debugMenu'] = $debugMenu;
         } else {
-            addCheckMessage("INFO", "'showDebugMenu' unknown value: $$debugMenu, set to default: 'always'");
+            addCheckMessage("INFO", "'showDebugMenu' unknown value: '$debugMenu', set to default: 'always'");
             $params['debugMenu'] = "always";
         }
     }
