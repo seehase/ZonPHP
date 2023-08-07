@@ -156,6 +156,13 @@ $categories = $shortmonthcategories;
                     },
                 },
             },
+            title: {
+    			style: {
+                    opacity: 0,
+      				fontWeight: 'normal',
+                    fontSize: '12px'
+   					 }
+  					},
 
             subtitle: {
                 text: <?= $subtitle ?>,
@@ -193,10 +200,10 @@ $categories = $shortmonthcategories;
 
                 }],
 
-            yAxis: [{ // Primary yAxis
+                yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
-                        return this.value / 1000 + ' MWh';
+                        return this.value / 1000
                     },
                     style: {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
@@ -204,7 +211,7 @@ $categories = $shortmonthcategories;
                 },
                 opposite: true,
                 title: {
-                    text: 'Total',
+                    text: 'Total (MWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },

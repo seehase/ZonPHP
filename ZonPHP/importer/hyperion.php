@@ -5,6 +5,12 @@ $FehlerUhrzeit = 0;
 $DC1 = 0;
 $TagesErtragPrufung = 0;
 $TagesErtrag = 0;
+// change coefficient if needed
+$coefficient = 1;
+$dat = "";
+$teller2 = 0;
+$odatum = array();
+$string1 = "";
 
 $sql = "SELECT *
 	FROM " . TABLE_PREFIX . "_dag
@@ -117,8 +123,8 @@ if (!empty($adag)) {
                             if ((strtotime($oDatumTijd) > strtotime($dateTime)) and ($oDatumTijd != "geen datumtijd")) {
                                 //$Pac=$alist[21];
                                 //$DaySum=$alist[8];
-                                $DaySum = ($DaySum - $begindagEtotaal) * $params['coefficient'];
-                                $TagesErtrag = $TagesErtrag * $params['coefficient'];
+                                $DaySum = ($DaySum - $begindagEtotaal) * $coefficient;
+                                $TagesErtrag = $TagesErtrag * $coefficient;
                                 /*	if ($TagesErtragPrufung>$TagesErtrag){//Prüfung ob TagesErtrag nicht null ist,wenn ja dann wird er auf den letzten Eintrag zurückgesetzt.
                                     echo "TagesErtragPrufung=$TagesErtragPrufung > TagesErtrag=$TagesErtrag"."<br />";
                                     echo "TagesErtrag wird auf TagesErtragPrufung gesetzt"."<br />";

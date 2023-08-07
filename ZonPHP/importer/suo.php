@@ -1,5 +1,9 @@
 <?php
 global $con, $params;
+
+// change coefficient if needed
+$coefficient = 1;
+
 $sql = "SELECT *
 	FROM " . TABLE_PREFIX . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
@@ -45,7 +49,7 @@ foreach ($adag as $v) {
                 //echo $oTimeStamp.'<br />';
                 if ((strtotime($oTimeStamp) > strtotime($dateTime)) and ($oTimeStamp != "geen datumtijd")) {
                     $odatum = explode(" ", $oTimeStamp);
-                    $MeteringDykWh = $MeteringDykWh * $params['coefficient'];
+                    $MeteringDykWh = $MeteringDykWh * $coefficient;
                     if ($GridMsTotW < 2 * $ieffectiefkwpiek) {
                         $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . $GridMsTotW . "," . $MeteringDykWh . ",'" . $_SESSION['plant'] . "'),";
                         $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . $MeteringDykWh . ",'" . $_SESSION['plant'] . "') ON DUPLICATE KEY UPDATE Geg_Maand=" . $MeteringDykWh;

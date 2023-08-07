@@ -43,6 +43,7 @@ $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error(
 $daycount = 0;
 $all_valarray = array();
 $inveter_list = array();
+$monthTotal = 0.0;
 if (mysqli_num_rows($result) == 0) {
     $formatter->setPattern('LLLL yyyy');
     $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
@@ -68,6 +69,7 @@ if (mysqli_num_rows($result) == 0) {
         $adatum[] = date("j", strtotime($row['Datum_Maand']));
         $agegevens[date("j", strtotime($row['Datum_Maand']))] += $row['Geg_Maand'];
         $all_valarray[date("j", strtotime($row['Datum_Maand']))] [$inverter_name] = $row['Geg_Maand'];
+        $monthTotal += $row['Geg_Maand'];
         $dmaandjaar[] = $row['Datum_Maand'];
 
     }
@@ -97,7 +99,7 @@ for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 // collect data array
-$myurl = HTML_PATH . "pages/day_overview.php?dag=";
+$myurl = HTML_PATH . "pages/day_overview.php?date=";
 $categories = "";
 $strdataseries = "";
 $maxval_yaxis = 0;
@@ -120,13 +122,13 @@ foreach (PLANT_NAMES as $inverter_name) {
             }
             $var = round($all_valarray[$i][$inverter_name], 2);
             if ($var > $local_max) $local_max = $var;
-
+            $formattedHref = sprintf("%s%04d-%02d-%02d", $myurl, $current_year, $current_month, $i);
             $strdata .= "
                     {
                       y: $var, 
-                      url: \"$myurl$current_year_month-$i\",
+                      url: \"$formattedHref\",
                       color: {
-                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                        linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
                         stops: [
                             [0, $myColor1],
                             [1, $myColor2]
@@ -158,7 +160,7 @@ if ($isIndexPage) {
     echo '<div class = "index_chart" id="month_chart"></div>';
     $show_legende = "false";
 }
-
+$monthTotal = round($monthTotal, 2);
 include_once "chart_styles.php";
 ?>
 <script>
@@ -174,7 +176,7 @@ include_once "chart_styles.php";
         var daycount2 = <?= $daycount ?>;
         var nref = <?= json_encode($nfrefmaand, JSON_NUMERIC_CHECK) ?>;
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?= getTxt("max") ?>';
         var txt_gem = '<?= getTxt("gem") ?>';
@@ -229,6 +231,9 @@ include_once "chart_styles.php";
                                 txt_max + ": </b>" + (Highcharts.numberFormat(PEAK, 2, ",", "")) + " kWh = " +
                                 (Highcharts.numberFormat((PEAK / KWH) * 1000, 2, ",", "")) + " kWh/kWp" + " <b>" +
                                 txt_gem + ": </b>" + (Highcharts.numberFormat(gem, 2, ",", "")) + " kWh" + " <b>" + txt_ref + ": </b>" + (Highcharts.numberFormat(REF, 2, ",", "")) + " kWh"
+                        }, false, false);
+                        this.setTitle({
+                            text: "<b>" + month + ": </b>" + (Highcharts.numberFormat(totamth, 2, ",", "")) + " kWh = " + (Highcharts.numberFormat((totamth / KWH) * 1000, 2, ",", "")) + " kWh/kWp"
                         }, false, false);
                         //average plotline
                         mychart.yAxis[0].addPlotLine({
@@ -315,6 +320,14 @@ include_once "chart_styles.php";
                     showInLegend: true
                 }
             },
+			title: {
+                style: {
+                    wordWrap: 'break-word',
+                    fontWeight: 'normal',
+                    fontSize: '12px',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>'
+                }
+            },
 
             subtitle: {
                 style: {
@@ -335,7 +348,7 @@ include_once "chart_styles.php";
             yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
-                        return this.value + ' kWh';
+                        return this.value
                     },
                     style: {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
@@ -343,7 +356,7 @@ include_once "chart_styles.php";
                 },
                 opposite: true,
                 title: {
-                    text: 'Total',
+                    text: 'Total (kWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },

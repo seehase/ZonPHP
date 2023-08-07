@@ -1,5 +1,12 @@
 <?php
 global $params, $colors, $new_version_label;
+$showDebugMenu = "block";
+if ($params['debugMenu'] == "never") {
+    $showDebugMenu = "none";
+} elseif ( $params['debugMenu'] == "onerror" && !hasErrorOrWarnings()) {
+    $showDebugMenu = "none";
+}
+
 ?>
 <nav class="navbar navbar-expand-sm" style="background-color: <?= $colors['color_menubackground'] ?>;">
     <div class="container-fluid">
@@ -60,12 +67,6 @@ global $params, $colors, $new_version_label;
                         echo "\t" . '<li><a class="dropdown-item" href="?theme=' . $key . '" onclick="target=\'_self\'">' . $theme['info']['name'] . '</a></li>' . "\r\n";
                     }
                     ?>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item"
-                           href="<?= HTML_PATH ?>inc/destroy.php"><?= getTxt("clearsession") ?> </a>
-                    </li>
                 </ul>
             </div>
             &nbsp;&nbsp;
@@ -94,7 +95,7 @@ global $params, $colors, $new_version_label;
                 </ul>
             </div>
             &nbsp;&nbsp;
-            <div class="nav-item dropdown">
+            <div class="nav-item dropdown" style="display: <?= $showDebugMenu?> ">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false">&nbsp;&nbsp;?&nbsp;
                 </a>

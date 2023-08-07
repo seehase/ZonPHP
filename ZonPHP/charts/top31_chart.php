@@ -10,11 +10,13 @@ $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-//echo $_GET['Max_Min'];
-$sql = 'SELECT db1.*
-FROM ' . TABLE_PREFIX . '_maand AS db1
-JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM tgeg_maand  Group by Datum_Maand ORDER BY mysum ' . $DESC_ASC . ' LIMIT 0,31) AS db2
-ON db1.Datum_Maand = db2.Datum_Maand order by mysum desc';
+
+$x = "'" . implode("', '", PLANT_NAMES) . "'";
+$whereInClause = " where naam in ($x)";
+$sql = "SELECT db1.*
+FROM " . TABLE_PREFIX . "_maand AS db1 
+JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM tgeg_maand $whereInClause Group by Datum_Maand ORDER BY mysum $DESC_ASC LIMIT 0,31) AS db2
+ON db1.Datum_Maand = db2.Datum_Maand $whereInClause order by mysum desc";
 
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
 $datum = "Geen data";
@@ -75,13 +77,8 @@ $meta = implode(', ', $myMetadata);
 $datafin = "";
 $dataseries = substr($dataseries, 0, -1);
 $datafin = '[' . $dataseries . ']';
-
-// echo "<pre>";
-// echo $datafin;
-// echo "</pre>";
-
 $id = $showTopFlop;
-//echo $id;
+
 $show_legende = "true";
 if ($isIndexPage) {
     echo '<div class = "index_chart" id="' . $id . '"></div>';
@@ -115,6 +112,13 @@ include_once "chart_styles.php";
                     color: '<?= $colors['color_chart_text_subtitle'] ?>',
                 },
             },
+            title: {
+    			style: {
+                    opacity: 0,
+      				fontWeight: 'normal',
+                    fontSize: '12px'
+   					 }
+  					},
             chart: {
                 type: 'column', stacking: 'normal'
             },
@@ -185,6 +189,7 @@ include_once "chart_styles.php";
                 },
             },
             yAxis: [{ // Primary yAxis
+                opposite: true,
                 labels: {
                     formatter: function () {
                         return this.value + 'kWh';

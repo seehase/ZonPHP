@@ -1,6 +1,12 @@
 <?php
 global $con, $params;
 
+// change coefficient if needed
+$coefficient = 1;
+$odatum = array();
+$startkw = "";
+$displayInterval = 5;
+
 $sql = "SELECT *
 	FROM " . TABLE_PREFIX . "_dag 
 	ORDER BY Datum_Dag DESC LIMIT 1";
@@ -76,17 +82,17 @@ if (!empty($adag)) {
                             if ($MeteringDykWh == $oploopkw) {//|| ($MeteringDykWh)==""
                                 $startend = 1;
                                 $odatum = explode(" ", $oTimeStamp);//echo '<pre>'.print_r($odatum,true).'<pre>';
-                                $GridMsTotW = ($MeteringDykWh - $startkw) * $params['coefficient'];
-                                $stringend .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . number_format(($MeteringDykWh - $oploopkw) * (60 / $params['displayInterval']) * 1000) . "," . number_format($MeteringDykWh - $oploopkw, 3) . ",'" . $_SESSION['plant'] . "'),";
+                                $GridMsTotW = ($MeteringDykWh - $startkw) * $coefficient;
+                                $stringend .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . number_format(($MeteringDykWh - $oploopkw) * (60 / $displayInterval) * 1000) . "," . number_format($MeteringDykWh - $oploopkw, 3) . ",'" . $_SESSION['plant'] . "'),";
                                 if ($MeteringDykWh != "")
                                     $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format($GridMsTotW, 3) . ",'" . $_SESSION['plant'] . "')";
                             } else {
                                 $odatum = explode(" ", $oTimeStamp);//echo '<pre>'.print_r($odatum,true).'<pre>';
-                                $GridMsTotW = ($MeteringDykWh - $startkw) * $params['coefficient'];
+                                $GridMsTotW = ($MeteringDykWh - $startkw) * $coefficient;
                                 if ($startend == 0)
-                                    $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . number_format(($MeteringDykWh - $oploopkw) * (60 / $params['displayInterval']) * 1000, 0, '.', '') . "," . number_format($MeteringDykWh - $oploopkw, 3) . ",'" . $_SESSION['plant'] . "'),";
+                                    $string .= "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . number_format(($MeteringDykWh - $oploopkw) * (60 / $displayInterval) * 1000, 0, '.', '') . "," . number_format($MeteringDykWh - $oploopkw, 3) . ",'" . $_SESSION['plant'] . "'),";
                                 else
-                                    $string .= $stringend . "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . number_format(($MeteringDykWh - $oploopkw) * (60 / $params['displayInterval']) * 1000, 0, '.', '') . "," . number_format($MeteringDykWh - $oploopkw, 3) . ",'" . $_SESSION['plant'] . "'),";
+                                    $string .= $stringend . "('" . $oTimeStamp . $_SESSION['plant'] . "','" . $oTimeStamp . "'," . number_format(($MeteringDykWh - $oploopkw) * (60 / $displayInterval) * 1000, 0, '.', '') . "," . number_format($MeteringDykWh - $oploopkw, 3) . ",'" . $_SESSION['plant'] . "'),";
                                 if ($MeteringDykWh != "")
                                     $string1 = "insert into " . TABLE_PREFIX . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . $_SESSION['plant'] . "','" . $odatum[0] . "'," . number_format($GridMsTotW, 3) . ",'" . $_SESSION['plant'] . "')";
                                 $stringend = "";

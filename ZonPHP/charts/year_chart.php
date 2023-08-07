@@ -99,13 +99,14 @@ for ($k = 0; $k < count(PLANT_NAMES); $k++) {
     $myColors[PLANT_NAMES[$k]]['max'] = $col1;
 }
 $my_year = date("Y", $chartdate);
-$href = HTML_PATH . "pages/month_overview.php?maand=";
+$href = HTML_PATH . "pages/month_overview.php?date=";
 $gridlines = "";
 $reflines = "";
 $max_bars = "";
 $expected_bars = "";
 $current_bars = "";
 $strdataseries = "";
+$totalYear = 0.0;
 foreach (PLANT_NAMES as $key => $inverter_name) {
     if ($key == 0) {
         $dash = '';
@@ -122,13 +123,11 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
     $max_bars .= "{name: '$inverter_name max', type: 'column', zIndex: -1,  linkedTo: '$inverter_name', stack: 'max', stacking: 'normal', color: \"" . $colors['color_chart_max_bar'] . "\" ,data: [";
 
     for ($i = 1; $i <= 12; $i++) {
-        //echo $i;echo ' ';    // max bars
-        //$val throws notice when database is missing months 
         @$val = round($nmaxmaand[$i][$inverter_name], 2);
-        //echo $val;echo "<BR>";
+        $formattedHref = sprintf("%s%04d-%02d-%02d", $href, $my_year, $i, 1);
         $max_bars .= "  { 
                           y:  $val, 
-                          url: \"$href$my_year-$i-01\",
+                          url: \"$formattedHref\",
                           color: \"" . $colors['color_chart_max_bar'] . "\"
                         },";
 
@@ -149,11 +148,13 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
             $val = 0.0;
             if (isset($all_valarray[$i][$inverter_name])) {
                 $val = round($all_valarray[$i][$inverter_name], 2);
+                $totalYear += $val;
             }
+            $formattedHref = sprintf("%s%04d-%02d-%02d", $href, $my_year, $i, 1);
             $current_bars .= "
                         { x: $i-1, 
                           y: $val, 
-                          url: \"$href$my_year-$i-01\",
+                          url: \"$formattedHref\",
                           color: {
                             linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
                             stops: [
@@ -198,15 +199,15 @@ $categories = $shortmonthcategories;
 
 <script>
     $(function () {
+
         function add(accumulator, a) {
             return accumulator + a;
         }
 
-
         var year = '<?= date("Y", $chartdate) ?>';
         var avrg = <?= round($fgemiddelde, 2) ?>;
         var myoptions = <?= $chart_options ?>;
-        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         var txt_max = '<?= getTxt("max") ?>';
         var totayr = 0;
@@ -260,6 +261,9 @@ $categories = $shortmonthcategories;
                                 (Highcharts.numberFormat((PEAK / KWH) * 1000, 0, ",", "")) + " kWh/kWp" + " <b>" +
                                 txt_gem + ": </b>" + (Highcharts.numberFormat(GEM, 0, ",", "")) + " kWh" //+ REF //" <b>" +txt_ref + ": </b>" + (Highcharts.numberFormat(REF, 2, ",", "")) + " kWh"
                         }, false, false);
+                        this.setTitle({
+                            text: "<b>" + year + ": </b>" + (Highcharts.numberFormat(totayr, 0, ",", "")) + " kWh = " + (Highcharts.numberFormat((totayr / KWH) * 1000, 0, ",", "")) + " kWh/kWp"
+                        }, false, false);
                         //average plotline
                         mychart.yAxis[0].addPlotLine({
                             id: 'Average',
@@ -290,6 +294,14 @@ $categories = $shortmonthcategories;
                         });
 
                     }
+                }
+            },
+			title: {
+                style: {
+                    wordWrap: 'break-word',
+                    fontWeight: 'normal',
+                    fontSize: '12px',
+                    color: '<?= $colors['color_chart_text_subtitle'] ?>'
                 }
             },
 
@@ -386,14 +398,14 @@ $categories = $shortmonthcategories;
             yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
-                        return this.value + 'kWh';
+                        return this.value
                     },
                     style: {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 title: {
-                    text: 'Total',
+                    text: 'Total (kWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },

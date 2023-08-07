@@ -1,8 +1,24 @@
 <?php
-global $params, $colors;
+global $params, $colors, $con;
 include_once "inc/init.php";
 include_once "inc/connect.php";
 
+// fixme section ------------------------------------------------------------------------------------
+
+
+
+// todo IMPROVEMENTS  ------------------------------------------------------------------------------------
+// todo: write migration documentation
+// todo: write installation documentation
+// todo: make language flexible/dynamic instead of having a fixed list (load all /languages/*.ini and show it in menu
+// todo: new [importer] section and/or generic importer --> next release
+// todo: use parameter path in plants for folder location in importer
+// todo: use parameter separator "-" in plants as filename separator
+// todo: use parameter linestoskip "10" in plants for import file lines to skip
+
+if ($_SESSION['STARTDATE'] == NODATE) {
+    prepareFarm($params, $con);
+}
 $aoplopendkwdag[] = 0;
 include_once "inc/header.php";
 

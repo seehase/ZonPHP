@@ -1,21 +1,20 @@
 <?php
 
-function loadParams(): array
+function loadParams($htmlpath): array
 {
     global $params;
-    $params = parse_ini_file(ROOT_DIR . "/parameters.php", true);
+
+    $iniString = readParameterFile();
+    $params = parse_ini_string("$iniString", true);
+
     vadidateParams($params);
     $_SESSION['params'] = $params;
     if ($params['check']['failed']) {
-        header('location:' . HTML_PATH . 'pages/validate.php');
+        header('location:$htmlpath' . $htmlpath . 'pages/validate.php');
     }
 
     return $params;
 }
-
-// FIXME: enhance validation
-//   farm info list all plants
-
 
 function vadidateParams(&$params): void
 {
@@ -24,15 +23,13 @@ function vadidateParams(&$params): void
     $params['check']['INFO'] = array();
     $params['check']['failed'] = false;
 
+    vadidateEMU($params);
     vadidateParamsGeneral($params);
     vadidateLayout($params);
     vadidateDatabse($params);
     vadidateImages($params);
     vadidateWeewx($params);
-    vadidateEMU($params);
     $params['farm']['importer'] = $params['importer'];
-    $params['farm']['installationDate'] = $params['installationDate'];
-    vadidateFarm($params);
 
     $plantNames = preg_split('/\s*,\s*/', trim($params['plantNames']));
     $params['PLANT_NAMES'] = $plantNames;
@@ -43,11 +40,13 @@ function vadidateParams(&$params): void
     $totalExpectedYield = 0.0;
     $expectedYield = array();
     $totalExpectedMonth = array();
+    $totalcapacity = 0;
     foreach ($plantNames as $plantName) {
         vadidatePlant($plantName, $params[$plantName]);
         $params['farm']['plants'][$plantName] = $params[$plantName];
         $params['PLANTS'][$plantName] = $params[$plantName];
-        $params['PLANTS_KWP'][] = $params[$plantName]['capacity'];
+        $params['PLANTS_KWP'][] = intval($params[$plantName]['capacity']);
+        $totalcapacity += intval($params[$plantName]['capacity']);
         $totalExpectedMonth[0][$plantName] = 0;
         $values = json_decode('[' . $params[$plantName]['expectedYield'] . ']', true);
         $validatedValues = vadidateExpectedYield($plantName, $values);
@@ -63,14 +62,16 @@ function vadidateParams(&$params): void
     $params['totalExpectedMonth'] = $totalExpectedMonth;
     $params['totalExpectedYield'] = $totalExpectedYield;
     $params['expectedYield'] = $expectedYield;
+    $params['totalCapacity'] = $totalcapacity;
 
+    vadidateFarm($params);
 
-    $cards = preg_split('/\s*,\s*/', trim($params['layout']['cards']));
+    $cards = preg_split('/\s*,\s*/', trim($params['cards']));
     $_SESSION['CARDS'] = $cards;
 
     $params['userTheme'] = strtolower($params['userTheme']);
     $params['defaultLanguage'] = strtolower($params['defaultLanguage']);
-    if (!isActive($params['defaultLanguage'])) {
+    if (!isValidLanguage($params['defaultLanguage'])) {
         $params['defaultLanguage'] = "en";
     }
 }
@@ -78,53 +79,29 @@ function vadidateParams(&$params): void
 
 function vadidateParamsGeneral(&$params): void
 {
-    if (!isset($params['installationDate']) || !strtotime($params['installationDate'])) {
-        addCheckMessage("WARN", "No installationDate or invalid date set in parameter.php, set default to '1970-01-01'");
-        $params['installationDate'] = "1970-01-01";
-    }
     if (!isset($params['plantNames'])) {
         addCheckMessage("ERROR", "No plants set in parameter.php, please set plantNames, default set to 'Plant1'");
         $params['plantNames'] = "Plant1";
     }
-    if (!isset($params['defaultLanguage']) || !isActive($params['defaultLanguage'])) {
+    if (!isset($params['defaultLanguage']) || !isValidLanguage($params['defaultLanguage'])) {
         addCheckMessage("INFO", "No default language, or invalid laguage set in parameter.php, set default to 'en' valid values are 'en', 'de', 'fr', 'nl' ");
         $params['defaultLanguage'] = "en";
     }
+    if (!isset($params['timeZone']) || !isValidTimezoneId($params['timeZone'])) {
+        addCheckMessage("INFO", "No timezone , or invalid timezone set in parameter.php, set default to 'UTC'");
+        $params['timeZone'] = "UTC";
+    }
     if (!isset($params['userTheme']) || !file_exists(ROOT_DIR . "/themes/" . strtolower($params['userTheme']) . ".theme")) {
-        addCheckMessage("INFO", "No userTheme set in parameter.php, or theme not found: set default to 'default'");
-        $params['userTheme'] = "default";
-    }
-    if (!isset($params['displayInterval']) || intval($params['displayInterval']) == 0) {
-        addCheckMessage("INFO", "No displayInterval set in parameter.php set default to '5'");
-        $params['displayInterval'] = "5";
-    }
-    if (!isset($params['coefficient']) || intval($params['coefficient']) == 0) {
-        addCheckMessage("INFO", "No coefficient set in parameter.php set default to '1'");
-        $params['coefficient'] = "1";
+        addCheckMessage("INFO", "No userTheme set in parameter.php, or theme not found: set default to 'zonphp'");
+        $params['userTheme'] = "zonphp";
     }
     if (!isset($params['importer']) || !file_exists(ROOT_DIR . "/importer/" . $params['importer'] . ".php")) {
-        addCheckMessage("INFO", "No importer set in parameter.php set default to 'none'");
+        addCheckMessage("INFO", "Importer not found or not set in parameter.php set default to 'none'");
         $params['importer'] = "none";
     }
     if (!isset($params['autoReload']) || intval($params['autoReload']) < 0) {
         addCheckMessage("INFO", "No autoReload set in parameter.php set default to '300'");
         $params['autoReload'] = "300";
-    }
-    if (!isset($params['useWeewx'])) {
-        addCheckMessage("INFO", "No useWeewx set in parameter.php set default to 'false'");
-        $params['useWeewx'] = false;
-    }
-    if (!isset($params['useEMU'])) {
-        addCheckMessage("INFO", "useEMU not set in parameter.php set default to 'false'");
-        $params['useEMU'] = false;
-    }
-    if (!isset($params['hideFooter'])) {
-        addCheckMessage("INFO", "No hideFooter set in parameter.php set default to 'false'");
-        $params['hideFooter'] = false;
-    }
-    if (!isset($params['hideMenu'])) {
-        addCheckMessage("INFO", "No hideMenu set in parameter.php set default to 'false'");
-        $params['hideMenu'] = false;
     }
     if (!isset($params['checkVersion']) || boolval($params['checkVersion']) == 0) {
         addCheckMessage("INFO", "No checkVersion set in parameter.php set default to 'false'");
@@ -134,15 +111,36 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "No googleTrackingId set in parameter.php set default to ''");
         $params['googleTrackingId'] = "";
     }
+    if (isset($params['overwrite_HTML_PATH']) && strlen($params['overwrite_HTML_PATH']) > 0) {
+        // overwrite HTML_PATH
+        addCheckMessage("INFO", "HTML_PATH overwritten and set to '" . $params['overwrite_HTML_PATH'] . "'");
+        define('HTML_PATH', $params['overwrite_HTML_PATH']);
+    }
+    if (!isset($params['importLocalDateAsUTC'])) {
+        addCheckMessage("INFO", "'importLocalDateAsUTC' not set in parameter.php, set to default = false");
+        $params['importLocalDateAsUTC'] = false;
+    }
+    if (!isset($params['showDebugMenu'])) {
+        addCheckMessage("INFO", "'showDebugMenu' not set in parameter.php, set to default = true");
+        $params['debugMenu'] = "always";
+    } else {
+        $debugMenu = strtolower( $params['showDebugMenu']);
+        if ($debugMenu == "always" || $debugMenu == "onerror" || $debugMenu == "never") {
+            $params['debugMenu'] = $debugMenu;
+        } else {
+            addCheckMessage("INFO", "'showDebugMenu' unknown value: '$debugMenu', set to default: 'always'");
+            $params['debugMenu'] = "always";
+        }
+    }
 }
 
 function vadidateLayout(&$params): void
 {
-    if (!isset($params['layout']) || !isset($params['layout']['cards'])) {
+    if (!isset($params['cards'])) {
         addCheckMessage("INFO", "No card layout defined in parameter.php set default to 'false'. Set to default values, to configure, set parameter accordingly");
-        $params['layout']['cards'] = "day, month, year, allYears, cumulative, yearPerMonth, top, farm, plants, images";
+        $params['cards'] = "day, month, year, allYears, cumulative, yearPerMonth, top, farm, plants, images";
     } else {
-        $cards = preg_split('/\s*,\s*/', strtolower(trim($params['layout']['cards'])));
+        $cards = preg_split('/\s*,\s*/', strtolower(trim($params['cards'])));
         foreach ($cards as $card) {
             switch ($card) {
                 case "day":
@@ -184,13 +182,21 @@ function vadidateDatabse(&$params): void
         addCheckMessage("WARN", "['database']['tablePrefix'] not set in parameter.php, default set to 'tgeg'");
         $params['database']['tablePrefix'] = "tgeg";
     }
+    if (!isset($params['database']['UTC_is_used'])) {
+        addCheckMessage("WARN", "['database']['UTC_is_used'] not set in parameter.php, default set to 'false'");
+        $params['database']['UTC_is_used'] = false;
+    }
 }
 
 function vadidateWeewx(&$params): void
 {
-    if ($params['useWeewx'] && !isset($params['weewx'])) {
-        addCheckMessage("ERROR", "No weewx section found and useWeewx = true, please check settings", true);
-    } elseif ($params['useWeewx']) {
+    if (isset($params['weewx']['enabled'])) {
+        $params['useWeewx'] = $params['weewx']['enabled'];
+    } else {
+        $params['useWeewx'] = false;
+    }
+
+    if ($params['useWeewx']) {
         if (!isset($params['weewx']['host'])) {
             addCheckMessage("ERROR", "['weewx']['host'] not set in parameter.php, please check settings", true);
         }
@@ -202,7 +208,6 @@ function vadidateWeewx(&$params): void
         }
         if (!isset($params['weewx']['database'])) {
             addCheckMessage("ERROR", "['weewx']['database'] not set in parameter.php, please check settings", true);
-
         }
         if (!isset($params['weewx']['tableName'])) {
             addCheckMessage("INFO", "['weewx']['tableName'] not set in parameter.php, default set to 'archive'");
@@ -225,20 +230,18 @@ function vadidateWeewx(&$params): void
 
 function vadidateEMU($params): void
 {
-    if ($params['useEMU'] && !isset($params['EMU'])) {
-        addCheckMessage("ERROR", "No EMU section found and useEMU = true, please check settings", true);
-    } elseif ($params['useEMU']) {
-        if (!isset($params['EMU']['path'])) {
-            addCheckMessage("ERROR", "['EMU']['path'] not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['offset'])) {
-            addCheckMessage("ERROR", "['EMU']['offset'] not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['webRoot'])) {
-            addCheckMessage("ERROR", "['EMU']['webRoot']  not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['webRoot'])) {
-            addCheckMessage("ERROR", "['EMU']['webRoot']  not set in parameter.php, please check settings", true);
+    if (isset($params['EMU']['enabled'])) {
+        $params['useEMU'] = $params['EMU']['enabled'];
+    } else {
+        $params['useEMU'] = false;
+    }
+
+    if ($params['useEMU']) {
+        // no importer required set to none
+        $params['importer'] = "none";
+        // check other params
+        if (!isset($params['EMU']['path_CSV_data'])) {
+            addCheckMessage("ERROR", "['EMU']['path_CSV_data'] not set in parameter.php, please check settings", true);
         }
         if (!isset($params['EMU']['PVO_API'])) {
             addCheckMessage("INFO", "['EMU']['PVO_API']  not set in parameter.php, please check settings", true);
@@ -251,29 +254,10 @@ function vadidateEMU($params): void
 
 function vadidateFarm(&$params): void
 {
-    if (!isset($params['farm'])) {
-        addCheckMessage("INFO", "['farm'] not set in parameter.php, using empty defaults");
-        $params['farm']['name'] = "ZonPHP";
-        $params['farm']['website'] = "";
-        $params['farm']['location'] = "";
-        $params['farm']['totalCapacity'] = "";
-    }
-    if (!isset($params['farm']['name'])) {
-        addCheckMessage("INFO", "['farm']['name'] not set in parameter.php, setting default 'ZonPHP'");
-        $params['farm']['name'] = "ZonPHP";
-    }
-    if (!isset($params['farm']['website'])) {
-        addCheckMessage("INFO", "['farm']['website'] not set in parameter.php, setting default ''");
-        $params['farm']['website'] = "";
-    }
-    if (!isset($params['farm']['location'])) {
-        addCheckMessage("INFO", "['farm']['location'] not set in parameter.php, setting default ''");
-        $params['farm']['location'] = "";
-    }
-    if (!isset($params['farm']['totalCapacity'])) {
-        addCheckMessage("INFO", "['farm']['totalCapacity'] not set in parameter.php, setting default ''");
-        $params['farm']['totalCapacity'] = "";
-    }
+    $params['farm']['name'] = $params['name'];
+    $params['farm']['website'] = $params['website'];
+    $params['farm']['location'] = $params['location'];
+    $params['farm']['totalCapacity'] = $params['totalCapacity'];
 }
 
 function vadidatePlants(&$params): void
@@ -288,14 +272,6 @@ function vadidatePlants(&$params): void
 
 function vadidatePlant($name, &$plant): void
 {
-    if (!isset($plant['name'])) {
-        addCheckMessage("INFO", "['" . $name . "']['name'] not set in parameter.php, setting default ''");
-        $plant['name'] = "";
-    }
-    if (!isset($plant['installationDate'])) {
-        addCheckMessage("INFO", "['" . $name . "']['installationDate'] not set in parameter.php, setting default '1970-01-01'");
-        $plant['installationDate'] = "1970-01-01";
-    }
     if (!isset($plant['capacity'])) {
         addCheckMessage("INFO", "['" . $name . "']['capacity'] not set in parameter.php, setting default '1'");
         $plant['capacity'] = 1;
@@ -304,33 +280,13 @@ function vadidatePlant($name, &$plant): void
         addCheckMessage("INFO", "['" . $name . "']['importPrefix'] not set in parameter.php, setting default ''");
         $plant['importPrefix'] = "";
     }
-    if (!isset($plant['image'])) {
-        addCheckMessage("INFO", "['" . $name . "']['image'] not set in parameter.php, setting default ''");
-        $plant['image'] = "";
-    }
-    if (!isset($plant['website'])) {
-        addCheckMessage("INFO", "['" . $name . "']['website'] not set in parameter.php, setting default ''");
-        $plant['website'] = "";
-    }
-    if (!isset($plant['panels'])) {
-        addCheckMessage("INFO", "['" . $name . "']['panels'] not set in parameter.php, setting default ''");
-        $plant['panels'] = "";
-    }
-    if (!isset($plant['inverter'])) {
-        addCheckMessage("INFO", "['" . $name . "']['inverter'] not set in parameter.php, setting default ''");
-        $plant['inverter'] = "";
-    }
-    if (!isset($plant['orientation'])) {
-        addCheckMessage("INFO", "['" . $name . "']['orientation'] not set in parameter.php, setting default ''");
-        $plant['orientation'] = "";
-    }
-    if (!isset($plant['location'])) {
-        addCheckMessage("INFO", "['" . $name . "']['location'] not set in parameter.php, setting default ''");
-        $plant['location'] = "";
-    }
     if (!isset($plant['expectedYield'])) {
         addCheckMessage("INFO", "['" . $name . "']['expectedYield'] not set in parameter.php, setting default values ''");
         $plant['expectedYield'] = "170,200,300,500,550,600,600,550,500,300,200,170";
+    }
+    if (!isset($plant['description'])) {
+        addCheckMessage("INFO", "['" . $name . "']['description'] not set in parameter.php, setting default ''");
+        $plant['description'] = "";
     }
 }
 
@@ -358,21 +314,32 @@ function vadidateExpectedYield($name, $values)
 
 function vadidateImages(&$params): void
 {
-    if (isset($params['images'])) {
-        foreach ($params['images'] as $key => $image) {
-            if (!isset($image['title'])) {
-                addCheckMessage("INFO", "['images']['" . $key . "']['title'] not set in parameter.php, setting default ''");
+    if (isset($params['plantImages'])) {
+        $plantImages = preg_split('/\s*,\s*/', trim($params['plantImages']));
+        $images = array();
+        foreach ($plantImages as $key => $imageSection) {
+            $image = array();
+            if (!isset($params[$imageSection]['title'])) {
+                addCheckMessage("INFO", "['" . $imageSection . "']['title'] not set in parameter.php, setting default ''");
                 $image['title'] = "";
+            } else {
+                $image['title'] = $params[$imageSection]['title'];
             }
-            if (!isset($image['description'])) {
-                addCheckMessage("INFO", "['images']['" . $key . "']['description'] not set in parameter.php, setting default ''");
+            if (!isset($params[$imageSection]['description'])) {
+                addCheckMessage("INFO", "['" . $imageSection . "']['description'] not set in parameter.php, setting default ''");
                 $image['description'] = "";
+            } else {
+                $image['description'] = $params[$imageSection]['description'];
             }
-            if (!isset($image['uri'])) {
-                addCheckMessage("INFO", "['images']['" . $key . "']['uri'] not set in parameter.php, setting default ''");
+            if (!isset($params[$imageSection]['uri'])) {
+                addCheckMessage("INFO", "['" . $imageSection . "']['uri'] not set in parameter.php, setting default ''");
                 $image['uri'] = "";
+            } else {
+                $image['uri'] = $params[$imageSection]['uri'];
             }
+            $images[] = $image;
         }
+        $params['images'] = $images;
     } else {
         $params['images'] = array();
     }

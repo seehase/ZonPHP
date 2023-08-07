@@ -92,7 +92,7 @@ if (mysqli_num_rows($resultmax) == 0) {
 // ----------------------------------------------------------------------------
 $strxas = "";
 $tellerkleuren = 0;
-$href = HTML_PATH . "pages/month_overview.php?maand=";
+$href = HTML_PATH . "pages/month_overview.php?date=";
 $sum_per_month = array();
 $cnt_per_month = array();
 
@@ -161,7 +161,7 @@ foreach (PLANT_NAMES as $zz => $inverter_name) {
                     data: []
             		},";
 
-    $firstYear = date("Y", strtotime($params['installationDate']));
+    $firstYear = date("Y", strtotime(STARTDATE));
     foreach ($bdatum as $asx => $asy) {
 
         if ($asx <= $paramnw['jaar'] && $asx >= ($firstYear)) {
@@ -187,10 +187,10 @@ foreach (PLANT_NAMES as $zz => $inverter_name) {
                 }
                 $val = round($nmaxmaand[$i][$inverter_name], 2);
                 //@$my_year= $nmaxmaand_jaar[$i][$inverter_name];
-
+                $formattedHref = sprintf("%s%04d-%02d-%02d", $href, $my_year, $i, 1);
                 $max_bars .= "  { 
                           y:  $val, 
-                          url: \"$href$my_year-$i-01\",
+                          url: \"$formattedHref\",
                           color: \"" . $colors['color_chart_max_bar'] . "\"
                         },";
                 $aclickxas[$tellerkleuren][] = $asx . '-' . $i . '-1';
@@ -212,11 +212,12 @@ foreach (PLANT_NAMES as $zz => $inverter_name) {
                     $z = $totalExpectedMonth[$i][$inverter_name];
                     $reflines .= "$z, $z, $z, null,";
                 }
+                $formattedHref = sprintf("%s%04d-%02d-%02d", $href, $asx, $i, 1);
                 $current_bars .= "
                     { x: $i-1,
                       y: $cur_year , 
                       
-                      url: \"$href$asx-$i-01\",
+                      url: \"$formattedHref\",
                       color: '" . $colors['color_palettes'][$colorcnt][$colorzz] . "', 
                     },";
                 $tellerkleuren++;
@@ -252,7 +253,7 @@ foreach (PLANT_NAMES as $zz => $inverter_name) {
 }
 
 $strxas = substr($strxas, 0, -1);
-$slinkdoorgeven = "/year_overviewt.php?jaar=";
+$slinkdoorgeven = "/year_overviewt.php?date=";
 
 $sub_title = "";
 $show_legende = "true";
@@ -315,7 +316,7 @@ $categories = $shortmonthcategories;
     })(Highcharts);
 
     $(function () {
-        var khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var first = <?= $firstYear ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         var sub_title = '<?= $sub_title ?>';
@@ -476,20 +477,28 @@ $categories = $shortmonthcategories;
             yAxis: [{ // Primary yAxis
                 labels: {
                     formatter: function () {
-                        return this.value + 'kWh';
+                        return this.value
                     },
                     style: {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
+                opposite: true,
                 title: {
-                    text: 'Total',
+                    text: 'Total (kWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>',
                     },
                 },
                 gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
             }],
+            title: {
+    			style: {
+                    opacity: 0,
+      				fontWeight: 'normal',
+                    fontSize: '12px'
+   					 }
+  					},
             tooltip: {
                 formatter: function () {
                     var chart = this.series.chart,

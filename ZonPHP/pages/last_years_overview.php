@@ -12,14 +12,9 @@ if (isset($_POST['inverter'])) {
 $nextyear = date("Y-m-d", strtotime("+1 year", $chartdate));
 $prevyear = date("Y-m-d", strtotime("-1 year", $chartdate));
 
-$footer_display_style = "clear:both; ";
-if ($params['hideFooter']) {
-    $padding = '- 35px';
-    $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
-} else {
-    $padding = '- 0px';
-    $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
-}
+$padding = '- 0px';
+$corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
+
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
@@ -32,9 +27,9 @@ if ($params['hideFooter']) {
         <div id="chart_header" class="<?= HEADER_CLASS ?>" style="display: grid; align-content: center; ">
             <h2>
                 <?php
-                //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $prevyear . '"> < </a>';
+                //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'date=' . $prevyear . '"> < </a>';
                 echo getTxt("chart_lastyearoverview");
-                //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'jaar=' . $nextyear . '"> > </a>';
+                //echo '<a class="btn btn-zonphp" href="last_years_overview.php' . $paramstr_day .'date=' . $nextyear . '"> > </a>';
                 ?>
             </h2>
         </div>

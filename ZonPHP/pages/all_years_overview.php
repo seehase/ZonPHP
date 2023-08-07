@@ -10,13 +10,9 @@ if (isset($_SESSION['lastupdate'])) {
 }
 
 $footer_display_style = "clear:both; ";
-if ($params['hideFooter']) {
-    $padding = '- 35px';
-    $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
-} else {
-    $padding = '- 0px';
-    $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
-}
+$padding = '- 0px';
+$corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
+
 $myKeys = array_keys($sum_per_year);
 ?>
 <div id="page-content">
@@ -26,7 +22,7 @@ $myKeys = array_keys($sum_per_year);
             <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
         </div>
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
-            <h2><?= getTxt("totaaloverzicht") . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
+            <h2><?= getTxt("chart_allyearoverview") . "&nbsp;" . min($myKeys) . " - " . max($myKeys); ?></h2>
         </div>
         <div id="total_chart"
              style="width:100%;background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
@@ -37,9 +33,8 @@ $myKeys = array_keys($sum_per_year);
 </div><!-- closing ".page-content" -->
 <script>
     $(document).ready(function () {
-        $("#resize ").height(<?= $big_chart_height ?>);
+        $("#resize ").height(<?= BIG_CHART_HIGHT ?>);
     });
 </script>
-
 </body>
 </html>

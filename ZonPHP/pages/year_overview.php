@@ -22,23 +22,22 @@ include_once "../charts/year_chart.php";
 
         $('#datepicker').datepicker().on('changeYear', function (e) {
             var d = new Date(e.date.valueOf());
-            var zonP = (d.getFullYear() + '-' + (d.getMonth() + 1));
-            var url = "year_overview.php?jaar=" + zonP;
+            var dates = new Date();
+			var today = new Date(dates.getFullYear(), dates.getMonth(), dates.getDate());
+            let day = today.getDate();
+            var zonP = (d.getFullYear() + '-' + (d.getMonth() + 1)+ '-' + day);
+            //alert(zonP); 
+            var url = "year_overview.php?date=" + zonP;
             window.open(url, "_self");
-            //alert(zonP);
         });
     });
 </script>
 
 <?php
-$footer_display_style = "clear:both; ";
-if ($params['hideFooter']) {
-    $padding = '- 35px';
-    $corners = 'border-bottom-left-radius: 9.5px; border-bottom-right-radius: 9.5px;';
-} else {
-    $padding = '- 0px';
-    $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
-}
+
+$padding = '- 0px';
+$corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
+
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
@@ -51,13 +50,15 @@ if ($params['hideFooter']) {
                 <button class="btn btn-zonphp "
                         onclick="window.location.href='<?php echo '?date=' . date('Y-m-d', strtotime("-1 year", $chartdate)) . '\'"';
                         if ($_SESSION['date_minimum'] >= $chartdate) echo " hidden"; ?> >
-                    <i class=" fa fa-angle-left fa-lg"></i>
+                                <i class=" fa fa-angle-left fa-lg
+                "></i>
                 </button>
                 <?= $datum ?>
                 <button class="btn btn-zonphp"
                         onclick="window.location.href='<?php echo '?date=' . date('Y-m-d', strtotime("+1 year", $chartdate)) . '\'"';
                         if ($_SESSION['date_maximum'] <= $chartdate) echo " hidden"; ?> >
-                    <i class=" fa fa-angle-right fa-lg"></i>
+                                <i class=" fa fa-angle-right fa-lg
+                "></i>
                 </button>
             </h2>
             <div class="block2">
