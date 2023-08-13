@@ -228,13 +228,8 @@ function readImportFile(string $filename, int $linesToSkip): array
     return $lines;
 }
 
-function readParameterFile(): string
+function readIniFile(string $filename): string
 {
-    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
-        $filename = ROOT_DIR . "/parameters_dev.php";
-    } else {
-        $filename = ROOT_DIR . "/parameters.php";
-    }
     $file = fopen($filename, "r") or die ("Cannot open " . $filename);
     $lines = array();
     while (!feof($file)) {
@@ -245,6 +240,24 @@ function readParameterFile(): string
     }
     fclose($file);
     return implode(PHP_EOL, $lines);
+}
+
+function readParameterFile(): string
+{
+    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
+        $filename = ROOT_DIR . "/parameters_dev.php";
+    } else {
+        $filename = ROOT_DIR . "/parameters.php";
+    }
+    return readIniFile($filename);
+}
+
+function readWeewxFile(): string
+{
+    $filename = ROOT_DIR . "/weewx.ini.php";
+    if (file_exists($filename)) {
+        return readIniFile($filename);
+    } else return "";
 }
 
 function isComment(string $input): bool

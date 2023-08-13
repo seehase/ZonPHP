@@ -5,7 +5,13 @@ function loadParams($htmlpath): array
     global $params;
 
     $iniString = readParameterFile();
-    $params = parse_ini_string("$iniString", true);
+    $params = parse_ini_string($iniString, true);
+
+    $weewxIniString = readWeewxFile();
+    if (strlen($weewxIniString) > 0 ) {
+        $weewxIni = parse_ini_string($weewxIniString, true);
+        $params['weewx'] = $weewxIni['weewx'];
+    }
 
     vadidateParams($params);
     $_SESSION['params'] = $params;
@@ -23,7 +29,6 @@ function vadidateParams(&$params): void
     $params['check']['INFO'] = array();
     $params['check']['failed'] = false;
 
-    vadidateEMU($params);
     vadidateParamsGeneral($params);
     vadidateLayout($params);
     vadidateDatabse($params);
@@ -224,30 +229,6 @@ function vadidateWeewx(&$params): void
         if (!isset($params['weewx']['tempInFahrenheit'])) {
             addCheckMessage("INFO", "['database']['tempInFahrenheit'] not set in parameter.php, default set to 'true'");
             $params['weewx']['tempInFahrenheit'] = true;
-        }
-    }
-}
-
-function vadidateEMU($params): void
-{
-    if (isset($params['EMU']['enabled'])) {
-        $params['useEMU'] = $params['EMU']['enabled'];
-    } else {
-        $params['useEMU'] = false;
-    }
-
-    if ($params['useEMU']) {
-        // no importer required set to none
-        $params['importer'] = "none";
-        // check other params
-        if (!isset($params['EMU']['path_CSV_data'])) {
-            addCheckMessage("ERROR", "['EMU']['path_CSV_data'] not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['PVO_API'])) {
-            addCheckMessage("INFO", "['EMU']['PVO_API']  not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['PVO_SYS_ID'])) {
-            addCheckMessage("INFO", "['EMU']['PVO_SYS_ID']  not set in parameter.php, please check settings", true);
         }
     }
 }
