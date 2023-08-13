@@ -10,7 +10,9 @@ function loadParams($htmlpath): array
     $weewxIniString = readWeewxFile();
     if (strlen($weewxIniString) > 0 ) {
         $weewxIni = parse_ini_string($weewxIniString, true);
-        $params['weewx'] = $weewxIni['weewx'];
+        if (isset($params['weewx'] )) {
+            $params['weewx'] = $weewxIni['weewx'];
+        }
     }
 
     vadidateParams($params);
@@ -298,7 +300,7 @@ function vadidateImages(&$params): void
     if (isset($params['plantImages'])) {
         $plantImages = preg_split('/\s*,\s*/', trim($params['plantImages']));
         $images = array();
-        foreach ($plantImages as $key => $imageSection) {
+        foreach ($plantImages as $imageSection) {
             $image = array();
             if (!isset($params[$imageSection]['title'])) {
                 addCheckMessage("INFO", "['" . $imageSection . "']['title'] not set in parameter.php, setting default ''");

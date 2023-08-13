@@ -1,5 +1,5 @@
 <?php
-global $locale, $params, $chartdate, $datum, $chartcurrentdate, $colors;
+global $locale, $params, $chartdate, $datum, $colors;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 include_once ROOT_DIR . "/inc/header.php";
@@ -44,24 +44,22 @@ $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radiu
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
                 <button class="btn btn-zonphp"
-                        onclick="window.location.href='<?php echo '?date=' . date('Y-m', strtotime("-1 months", $chartdate)) . '\'"';
-                        if (date('Y-m', $_SESSION['date_minimum']) >= date('Y-m', $chartdate)) echo " hidden"; ?> >
-                                <i class=" fa fa-angle-left fa-lg
-                "></i>
+                        onclick="window.location.href='?date=<?= date('Y-m', strtotime("-1 months", $chartdate)) ?>'"
+                    <?php if (date('Y-m', $_SESSION['date_minimum']) >= date('Y-m', $chartdate)) echo " hidden"; ?> >
+                    <i class="fa fa-angle-left fa-lg"></i>
                 </button>
                 <?= $datum ?>
                 <button class="btn btn-zonphp"
-                        onclick="window.location.href='<?php echo '?date=' . date('Y-m', strtotime("+1 months", $chartdate)) . '\'"';
-                        if (date('Y-m', $_SESSION['date_maximum']) <= date('Y-m', $chartdate)) echo " hidden"; ?> >
-                                <i class=" fa fa-angle-right fa-lg
-                "></i>
+                        onclick="window.location.href='?date=<?= date('Y-m', strtotime("+1 months", $chartdate)) ?>'"
+                    <?php if (date('Y-m', $_SESSION['date_maximum']) <= date('Y-m', $chartdate)) echo " hidden"; ?> >
+                    <i class="fa fa-angle-right fa-lg"></i>
                 </button>
             </h2>
 
             <div class="block2">
                 <div class="inner">
                     <button class="btn btn-zonphp"
-                            onclick="window.location.href='<?= '?date=' . date('Y-m', $chartcurrentdate); ?>'"><?= getTxt("back_to_today") ?>
+                            onclick="window.location.href='?date= <?= date('Y-m', time()) ?>'"><?= getTxt("back_to_today") ?>
                     </button>
                     <div class="inner">
                         <div class="input-group date" id="datepicker" data-date-format="yyyy-mm-dd">

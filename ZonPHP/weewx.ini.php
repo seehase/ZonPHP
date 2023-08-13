@@ -5,6 +5,7 @@
 #   in the day chart. To use weewx data, set option enabled to "true" and specify additional parameters in this section
 #   default = false
 #######################################################################################################################
+/*
 [weewx]
 enabled = false
 
