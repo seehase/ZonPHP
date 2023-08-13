@@ -29,9 +29,9 @@ $pvOutputURL = "http://pvoutput.org/service/r2/addstatus.jsp?"
                 . "&v1=" . $wattuur
 				//. "&v5=" . $PVtemp
                 . "&v2=" . $watt_act;
-echo $pvOutputURL;
-echo "\n";
-//file_get_contents(trim($pvOutputURL));
+//echo $pvOutputURL;
+//echo "\n";
+file_get_contents(trim($pvOutputURL));
 mysqli_query($mysqli,$sql)or die ('SQL Error fout:'. mysqli_error($mysqli));
 }
 ?>
