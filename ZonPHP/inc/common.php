@@ -228,13 +228,8 @@ function readImportFile(string $filename, int $linesToSkip): array
     return $lines;
 }
 
-function readParameterFile(): string
+function readIniFile(string $filename): string
 {
-    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
-        $filename = ROOT_DIR . "/parameters_dev.php";
-    } else {
-        $filename = ROOT_DIR . "/parameters.php";
-    }
     $file = fopen($filename, "r") or die ("Cannot open " . $filename);
     $lines = array();
     while (!feof($file)) {
@@ -245,6 +240,24 @@ function readParameterFile(): string
     }
     fclose($file);
     return implode(PHP_EOL, $lines);
+}
+
+function readParameterFile(): string
+{
+    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
+        $filename = ROOT_DIR . "/parameters_dev.php";
+    } else {
+        $filename = ROOT_DIR . "/parameters.php";
+    }
+    return readIniFile($filename);
+}
+
+function readWeewxFile(): string
+{
+    $filename = ROOT_DIR . "/weewx.ini.php";
+    if (file_exists($filename)) {
+        return readIniFile($filename);
+    } else return "";
 }
 
 function isComment(string $input): bool
@@ -262,6 +275,7 @@ function prepareAndInsertData(array $dbValues, $con): void
 {
     if (count($dbValues) > 0) {
         $dayValues = "";
+        $cummulatedkWh = 0;
         $name = "";
         $currentDate = date("Y-m-d", strtotime($dbValues[0]['timestamp']));
         foreach ($dbValues as $row) {
@@ -342,11 +356,16 @@ function getHTMLPATH(string $path1, $path2): string
     return "/";
 }
 
-function convertDateTime(string $dateStr)
+function convertDateTime(string $dateStr): string
 {
-    $newDateTime = new DateTime($dateStr);
-    $newDateTime->setTimezone(new DateTimeZone("UTC"));
-    return $newDateTime->format("Y-m-d H:i:s");
+    try {
+        $newDateTime = new DateTime($dateStr);
+        $newDateTime->setTimezone(new DateTimeZone("UTC"));
+        return $newDateTime->format("Y-m-d H:i:s");
+    } catch (Exception $e) {
+        error_log($e);
+        return "";
+    }
 }
 
 function convertLocalDateTime(string $dateStr, bool $force = false): string
@@ -354,16 +373,21 @@ function convertLocalDateTime(string $dateStr, bool $force = false): string
     global $params;
     if ($force || !$params['database']['UTC_is_used']) {
         $tz_from = $params['timeZone'];
-        $newDateTime = new DateTime($dateStr, new DateTimeZone($tz_from));
-        $newDateTime->setTimezone(new DateTimeZone("UTC"));
-        return $newDateTime->format("Y-m-d H:i:s");
+        try {
+            $newDateTime = new DateTime($dateStr, new DateTimeZone($tz_from));
+            $newDateTime->setTimezone(new DateTimeZone("UTC"));
+            return $newDateTime->format("Y-m-d H:i:s");
+        } catch (Exception $e) {
+            error_log($e);
+            return $dateStr;
+        }
     } else {
         // Date is already in UTC
         return $dateStr;
     }
 }
 
-function convertToUnixTimestamp($datetime)
+function convertToUnixTimestamp($datetime): string
 {
     return strtotime($datetime . "");
 }
@@ -375,4 +399,20 @@ function hasErrorOrWarnings(): bool
     } else {
         return false;
     }
+}
+
+// build colors per inverter array
+function colorsPerInverter() : array
+{
+    global $colors;
+    $myColors = array();
+    for ($k = 0; $k < count(PLANT_NAMES); $k++) {
+        $col1 = "color_inverter" . $k . "_chartbar_min";
+        $col1 = "'" . $colors[$col1] . "'";
+        $myColors[PLANT_NAMES[$k]]['min'] = $col1;
+        $col1 = "color_inverter" . $k . "_chartbar_max";
+        $col1 = "'" . $colors[$col1] . "'";
+        $myColors[PLANT_NAMES[$k]]['max'] = $col1;
+    }
+    return $myColors;
 }

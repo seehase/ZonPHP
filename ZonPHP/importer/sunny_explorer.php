@@ -28,7 +28,11 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate): array
         if (count($lineValues) > 2) {
             $dateFromDB = $lineValues[0];
             // convert to UTC if parameter "importLocalDateAsUTC" is set to true otherwise it will remain localDate
-            $convertedDate = convertLocalDateTime($dateFromDB, $params['importLocalDateAsUTC']);
+            if ($params['importLocalDateAsUTC']) {
+                $convertedDate = convertLocalDateTime($dateFromDB, true); // in UTC now
+            } else {
+                $convertedDate = $dateFromDB;  // keep local time
+            }
             $convertedTimeStamp = convertToUnixTimestamp($convertedDate);
             $currentTimeStamp = date("Y-m-d H:i:s", $convertedTimeStamp);
             $currentkWhCounter = str_replace(',', '.', $lineValues[1]);

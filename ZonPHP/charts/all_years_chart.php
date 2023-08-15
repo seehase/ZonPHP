@@ -89,16 +89,8 @@ $categories = "";
 $best_year = 0;
 $strdataseries = "";
 
-$myColors = array();
-for ($k = 0; $k < count(PLANT_NAMES); $k++) {
-    $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
-    $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
-}
-//print_r($myColors);
+$myColors = colorsPerInverter();
+
 foreach ($inveter_list as $inverter_name) {
 
     $current_bars = "";

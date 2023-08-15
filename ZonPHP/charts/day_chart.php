@@ -6,8 +6,7 @@ global $params, $con, $formatter, $colors, $chart_options, $chart_lang;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
-$chartcurrentdate = time();
-$chartdate = $chartcurrentdate;
+$chartdate = time();
 $inverter_name = "";
 $chartdatestring = date("Y-m-d", $chartdate);
 if (isset($_GET['date'])) {
@@ -94,7 +93,7 @@ if (mysqli_num_rows($resultmd) != 0) {
         $time_only = substr($row['Datum_Dag'], -9);
 
         $today_max = $chartdatestring . $time_only; // current chart date string + max time
-        $today_max_utc = convertLocalDateTime($today_max); // date in UTC
+        $today_max_utc = convertLocalDateTime($today_max,); // date in UTC
         $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
 
         $all_valarraymax[$today_max_unix_utc] [$inverter_name] = $row['gem'];
@@ -106,16 +105,7 @@ if (mysqli_num_rows($resultmd) != 0) {
 //--------------------------------------------------------------------------------------------------
 $strgegmax = "";
 $strsomkw = "";
-// build colors per inverter array
-$myColors = array();
-for ($k = 0; $k < count(PLANT_NAMES); $k++) {
-    $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
-    $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
-}
+$myColors = colorsPerInverter();
 $str_dataserie = "";
 $max_first_val = PHP_INT_MAX;
 $max_last_val = 0;
