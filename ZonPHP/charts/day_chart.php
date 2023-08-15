@@ -93,7 +93,7 @@ if (mysqli_num_rows($resultmd) != 0) {
         $time_only = substr($row['Datum_Dag'], -9);
 
         $today_max = $chartdatestring . $time_only; // current chart date string + max time
-        $today_max_utc = convertLocalDateTime($today_max); // date in UTC
+        $today_max_utc = convertLocalDateTime($today_max,); // date in UTC
         $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
 
         $all_valarraymax[$today_max_unix_utc] [$inverter_name] = $row['gem'];
