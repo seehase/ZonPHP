@@ -5,7 +5,15 @@ function loadParams($htmlpath): array
     global $params;
 
     $iniString = readParameterFile();
-    $params = parse_ini_string("$iniString", true);
+    $params = parse_ini_string($iniString, true);
+
+    $weewxIniString = readWeewxFile();
+    if (strlen($weewxIniString) > 0 ) {
+        $weewxIni = parse_ini_string($weewxIniString, true);
+        if (isset($params['weewx'] )) {
+            $params['weewx'] = $weewxIni['weewx'];
+        }
+    }
 
     vadidateParams($params);
     $_SESSION['params'] = $params;
@@ -23,7 +31,6 @@ function vadidateParams(&$params): void
     $params['check']['INFO'] = array();
     $params['check']['failed'] = false;
 
-    vadidateEMU($params);
     vadidateParamsGeneral($params);
     vadidateLayout($params);
     vadidateDatabse($params);
@@ -228,30 +235,6 @@ function vadidateWeewx(&$params): void
     }
 }
 
-function vadidateEMU($params): void
-{
-    if (isset($params['EMU']['enabled'])) {
-        $params['useEMU'] = $params['EMU']['enabled'];
-    } else {
-        $params['useEMU'] = false;
-    }
-
-    if ($params['useEMU']) {
-        // no importer required set to none
-        $params['importer'] = "none";
-        // check other params
-        if (!isset($params['EMU']['path_CSV_data'])) {
-            addCheckMessage("ERROR", "['EMU']['path_CSV_data'] not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['PVO_API'])) {
-            addCheckMessage("INFO", "['EMU']['PVO_API']  not set in parameter.php, please check settings", true);
-        }
-        if (!isset($params['EMU']['PVO_SYS_ID'])) {
-            addCheckMessage("INFO", "['EMU']['PVO_SYS_ID']  not set in parameter.php, please check settings", true);
-        }
-    }
-}
-
 function vadidateFarm(&$params): void
 {
     $params['farm']['name'] = $params['name'];
@@ -317,7 +300,7 @@ function vadidateImages(&$params): void
     if (isset($params['plantImages'])) {
         $plantImages = preg_split('/\s*,\s*/', trim($params['plantImages']));
         $images = array();
-        foreach ($plantImages as $key => $imageSection) {
+        foreach ($plantImages as $imageSection) {
             $image = array();
             if (!isset($params[$imageSection]['title'])) {
                 addCheckMessage("INFO", "['" . $imageSection . "']['title'] not set in parameter.php, setting default ''");

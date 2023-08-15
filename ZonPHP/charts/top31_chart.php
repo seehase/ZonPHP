@@ -38,17 +38,7 @@ $adatum = array_values(array_unique($adatum));
 //
 $myurl = 'day_overview.php?date=';
 $myMetadata = array();
-$myColors = array();
-
-for ($k = 0; $k < count(PLANT_NAMES); $k++) {
-    $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
-    $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
-}
-
+$myColors = colorsPerInverter();
 
 $dataseries = "";
 $maxval_yaxis = 0;
@@ -192,14 +182,14 @@ include_once "chart_styles.php";
                 opposite: true,
                 labels: {
                     formatter: function () {
-                        return this.value + 'kWh';
+                        return this.value
                     },
                     style: {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 title: {
-                    text: 'Total',
+                    text: 'Total (kWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
