@@ -1,6 +1,11 @@
 <?php
-global $version, $new_version_label;
+global $version, $new_version_label, $params;
 include_once "../inc/init.php";
+
+if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
+    $params['debugEnabled'] = "1";
+    $_SESSION['params'] = $params;
+}
 
 ?>
 
@@ -56,24 +61,55 @@ include_once "../inc/init.php";
             <hr>
             <br>
             <?php
-            echo getTxt("paths") . ".<br><br>";
-            echo "HTML_PATH: " . HTML_PATH . "<br>";
-            echo "ROOT_DIR: " . ROOT_DIR . "<br>";
-            echo "DOCUMENT_ROOT: " . $_SERVER['DOCUMENT_ROOT'] . "<br><br><hr><br>";
+            echo getTxt("paths") . ".<br>";
+            echo '<pre>';
+            echo "<p>HTML_PATH: " . HTML_PATH . "</p>";
+            echo "<p>ROOT_DIR: " . ROOT_DIR . "</p>";
+            echo "<p>DOCUMENT_ROOT: " . $_SERVER['DOCUMENT_ROOT'] . "</p>";
+            echo "</pre><hr><br>";
 
             echo getTxt("errors") . ".<br><br>";
             echo "<p> ERRORS </p>";
+            echo '<pre>';
             foreach ($_SESSION['params']['check']['ERROR'] as $msg) {
                 echo "<p> $msg </p>";
             }
+            echo '</pre>';
             echo "<p> WARNINGS </p>";
+            echo '<pre>';
             foreach ($_SESSION['params']['check']['WARN'] as $msg) {
                 echo "<p> $msg </p>";
             }
+            echo '</pre>';
             echo "<p> INFO </p>";
+            echo '<pre>';
             foreach ($_SESSION['params']['check']['INFO'] as $msg) {
                 echo "<p> $msg </p>";
             }
+            echo '</pre>';
+            if ($params['debugEnabled']) {
+                echo "<p> DEBUG </p>";
+
+                $copyOfParam = array_merge(array(), $params);
+                // clear password, not to be exposed by accident
+                $copyOfParam['database']['password'] = "***********";
+                if (isset($copyOfParam['weewx']['password'])) {
+                    $copyOfParam['weewx']['password'] = "***********";
+                }
+                echo 'Parameters:';
+                echo '<pre>';
+                print_r($copyOfParam);
+                echo '</pre>';
+                if (isset($_SESSION['params']['check']['DEBUG'])) {
+                    echo '<hr><pre>';
+                    foreach ($_SESSION['params']['check']['DEBUG'] as $msg) {
+                        echo "<p> $msg </p>";
+                    }
+                    echo '</pre>';
+                }
+            }
+
+
             if (strlen($new_version_label) > 0) {
                 $newversion = getTxt("newversion") . " " . getTxt("available");
                 echo <<<EOT

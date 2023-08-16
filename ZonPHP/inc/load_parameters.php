@@ -3,14 +3,12 @@
 function loadParams($htmlpath): array
 {
     global $params;
-
     $iniString = readParameterFile();
     $params = parse_ini_string($iniString, true);
-
-    $weewxIniString = readWeewxFile();
-    if (strlen($weewxIniString) > 0 ) {
-        $weewxIni = parse_ini_string($weewxIniString, true);
-        if (isset($params['weewx'] )) {
+    if ($params) {
+        $weewxIniString = readWeewxFile();
+        if (strlen($weewxIniString) > 0) {
+            $weewxIni = parse_ini_string($weewxIniString, true);
             $params['weewx'] = $weewxIni['weewx'];
         }
     }
@@ -20,7 +18,6 @@ function loadParams($htmlpath): array
     if ($params['check']['failed']) {
         header('location:$htmlpath' . $htmlpath . 'pages/validate.php');
     }
-
     return $params;
 }
 
@@ -131,13 +128,16 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "'showDebugMenu' not set in parameter.php, set to default = true");
         $params['debugMenu'] = "always";
     } else {
-        $debugMenu = strtolower( $params['showDebugMenu']);
+        $debugMenu = strtolower($params['showDebugMenu']);
         if ($debugMenu == "always" || $debugMenu == "onerror" || $debugMenu == "never") {
             $params['debugMenu'] = $debugMenu;
         } else {
             addCheckMessage("INFO", "'showDebugMenu' unknown value: '$debugMenu', set to default: 'always'");
             $params['debugMenu'] = "always";
         }
+    }
+    if (!isset($params['debugEnabled'])) {
+        $params['debugEnabled'] = false;
     }
 }
 
