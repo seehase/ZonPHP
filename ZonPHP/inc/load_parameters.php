@@ -54,7 +54,7 @@ function vadidateParams(&$params): void
         $totalExpectedMonth[0][$plantName] = 0;
         $values = json_decode('[' . $params[$plantName]['expectedYield'] . ']', true);
         $validatedValues = vadidateExpectedYield($plantName, $values);
-        $params[$plantName]['referenceYield'] = $validatedValues;
+        $params[$plantName]['expectedYield'] = $validatedValues;
         $totalSum = array_sum($validatedValues);
         foreach ($validatedValues as $id => $value) {
             $totalExpectedMonth[$id + 1][$plantName] = $value;
@@ -275,7 +275,7 @@ function vadidatePlant($name, &$plant): void
 
 function vadidateExpectedYield($name, $values)
 {
-    $default = array([170, 200, 300, 500, 550, 600, 600, 550, 500, 300, 200, 170]);
+    $default = array(170, 200, 300, 500, 550, 600, 600, 550, 500, 300, 200, 170);
     if (count($values) != 12) {
         addCheckMessage("WARN", "['" . $name . "']['expectedYield'] does not contain a value per month, setting default values");
         return $default;

@@ -26,7 +26,7 @@ $current_year_month = date('Y-m', $chartdate);
 // get reference values
 $nfrefmaand = array();
 foreach (PLANT_NAMES as $plant) {
-    $tmp = $params[$plant]['referenceYield'][$current_month - 1] / 30;
+    $tmp = $params[$plant]['expectedYield'][$current_month - 1] / 30;
     $nfrefmaand[] = $tmp;
 }
 
