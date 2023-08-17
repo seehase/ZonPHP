@@ -10,6 +10,22 @@ function docReady(fn) {
     }
 }
 
+function showModalImage(myid) {
+    // https://www.w3schools.com/howto/howto_css_modal_images.asp
+    var img = document.getElementById(myid);
+    var modalImg = document.getElementById("modal-image");
+    var captionText = document.getElementById("caption");
+    var modal = document.getElementById("myModal");
+
+    modal.style.display = "block";
+    modalImg.src = img.src;
+    captionText.innerHTML = img.alt;
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+}
+
 function load_charts() {
     grid = new Muuri('.grid', {
         dragEnabled: false,
@@ -295,15 +311,15 @@ function load_charts() {
         let plants = farm['plants'];
         let plantText = "";
         for (const key in plants) {
-            plantText +=  txt['name'] + ' : ' + key + '<br>';
-            plantText +=  txt['startdate'] + ' : ' + plants[key]['installationDate'] + '<br>';
-            plantText +=  txt['capacity'] + ' : ' + plants[key]['capacity'] + '<br><hr>'
+            plantText += txt['name'] + ' : ' + key + '<br>';
+            plantText += txt['startdate'] + ' : ' + plants[key]['installationDate'] + '<br>';
+            plantText += txt['capacity'] + ' : ' + plants[key]['capacity'] + '<br><hr>'
         }
 
         const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
-            '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt["card_farm_information"] + '</div></a>' +
+            '      <div id="chart_header" class="' + headerclass + '">' + txt["card_farm_information"] + '</div>' +
             '      <div class="index_chart" id="' + id + '" ">' +
             '          <div class="highcharts-container" >' +
             '             <br>' +
@@ -331,7 +347,7 @@ function load_charts() {
             const itemTemplate = '' +
                 '<div class="item h4 w4" data-id="' + id + '">' +
                 '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
-                '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + txt['plant'] + ' - ' + key + '</div></a>' +
+                '      <div id="chart_header" class="' + headerclass + '">' + txt['plant'] + ' - ' + key + '</div>' +
                 '      <div class="index_chart" id="' + id + '" ">' +
                 '          <div class="highcharts-container" >' +
                 '                 <br>' +
@@ -358,12 +374,12 @@ function load_charts() {
             const itemTemplate = '' +
                 '<div class="item h4 w4" data-id="' + id + '">' +
                 '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
-                '      <a href="./pages/show_plant.php"><div id="chart_header" class="' + headerclass + '">' + images[key]['title'] + '</div></a>' +
-                '      <div class="index_chart" id="' + id + '" ">' +
+                '      <div id="chart_header" class="' + headerclass + '">' + images[key]['title'] + '</div>' +
+                '      <div class="index_chart" id="' + "chart_" + id + '">' +
                 '         <div class="highcharts-container" >' +
                 '            <br><p>' + images[key]['description'] + '</p> ' +
                 '            <div>' +
-                '               <img src="' + uri + '" alt="' + images[key]['title'] + '" width="400" height="300"> ' +
+                '               <img class="index-image" id="' + id + '" onclick="showModalImage(\'' + id + '\')" src="' + uri + '" alt="' + images[key]['title'] + '" width="400" height="300"> ' +
                 '            </div>' +
                 '         </div>' +
                 '     </div>' +

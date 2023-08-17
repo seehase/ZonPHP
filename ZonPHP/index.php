@@ -6,7 +6,6 @@ include_once "inc/connect.php";
 // fixme section ------------------------------------------------------------------------------------
 
 
-
 // todo IMPROVEMENTS  ------------------------------------------------------------------------------------
 // todo: write migration documentation
 // todo: write installation documentation
@@ -60,6 +59,7 @@ if ($params['useWeewx']) {
         $(document).ready(function () {
             docReady(load_charts());
         });
+
     </script>
     <!-- here comes all the charts-->
 
@@ -67,11 +67,19 @@ if ($params['useWeewx']) {
         <?php include_once ROOT_DIR . "/inc/topmenu.php"; ?>
     </div>
     <div class="grid"><!-- The Modal --></div>
+
     <div id="footer_index">
         <?php include_once "inc/footer.php"; ?>
     </div>
     <br>
 </div><!-- closing ".page-content" -->
+
+<!-- The image popup modal -->
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modal-image">
+    <div id="caption"></div>
+</div>
 
 </body>
 </html>
