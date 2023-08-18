@@ -21,7 +21,7 @@ function showModalImage(myid) {
     modalImg.src = img.src;
     captionText.innerHTML = img.alt;
     var span = document.getElementsByClassName("close")[0];
-    span.onclick = function () {
+    modal.onclick = function () {
         modal.style.display = "none";
     }
 }
