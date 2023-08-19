@@ -5,8 +5,10 @@ global $con, $params;
 foreach ($params['PLANTS'] as $name => $plant) {
     $lastImportDate = getLastImportDateForPlant($name, $con);
     $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix']);
+    addDebugInfo("sunny_explorer: LastStartImportDate: $lastImportDate - ImportFilesCount: " . count($files_to_import));
 
     foreach ($files_to_import as $import_filename) {
+        addDebugInfo("sunny_explorer: importFile: $import_filename");
         $importData = readImportFile($import_filename, 10);
         $dbValues = mapLinesToDBValues($importData, $name, $lastImportDate);
         prepareAndInsertData($dbValues, $con);

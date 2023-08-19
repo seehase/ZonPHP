@@ -64,6 +64,10 @@ googleTrackingId =
 # possible values: always, onError, never
 showDebugMenu = always
 
+# Enable debug information default = false, use this only if you need detailed debug information
+# Debug messages will be stored until session is cleared or debug is disabled again
+debugEnabled = false
+
 # Define a comma separated list of images you want to show on the index page, for each name you specify here
 # you need to have a dedicated section defined below, name must be unique and not conflicting with other
 # sections.
