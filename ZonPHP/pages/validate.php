@@ -100,9 +100,9 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
                 echo '<pre>';
                 print_r($copyOfParam);
                 echo '</pre>';
-                if (isset($_SESSION['params']['check']['DEBUG'])) {
+                if (isset($_SESSION['debugMessages'])) {
                     echo '<hr><pre>';
-                    foreach ($_SESSION['params']['check']['DEBUG'] as $msg) {
+                    foreach ($_SESSION['debugMessages'] as $msg) {
                         echo "<p> $msg </p>";
                     }
                     echo '</pre>';

@@ -32,9 +32,11 @@ function addCheckMessage($level, $message, $isFatal = false): void
 function addDebugInfo(string $msg): void
 {
     global $params;
-    if (isset($params['debugEnabled']) && $params['debugEnabled']) {
-
-        addCheckMessage("DEBUG", date("Y-m-d H:i:s - ") . $msg, false);
+    if (!isset( $_SESSION['debugMessages'])) {
+        $_SESSION['debugMessages'] = array();
+    }
+    if (!isset($params) || (isset($params['debugEnabled']) && $params['debugEnabled'])) {
+        $_SESSION['debugMessages'][] = (date("Y-m-d H:i:s - ") . $msg);
     }
 }
 

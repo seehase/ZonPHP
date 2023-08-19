@@ -99,7 +99,7 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "No userTheme set in parameter.php, or theme not found: set default to 'zonphp'");
         $params['userTheme'] = "zonphp";
     }
-    if (!isset($params['importer']) || !file_exists(ROOT_DIR . "/importer/" . $params['importer'] . ".php")) {
+    if (!isset($params['importer']) || ($params['importer'] != "" && !file_exists(ROOT_DIR . "/importer/" . $params['importer'] . ".php"))) {
         addCheckMessage("INFO", "Importer not found or not set in parameter.php set default to 'none'");
         $params['importer'] = "none";
     }
