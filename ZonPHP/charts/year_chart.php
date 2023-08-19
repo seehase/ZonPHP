@@ -391,7 +391,8 @@ $categories = $shortmonthcategories;
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
-                title: {
+                opposite: true,
+		title: {
                     text: 'Total (kWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'

@@ -3,7 +3,6 @@
  * common functions and constants
  */
 
-
 function getTxt($key)
 {
     return $_SESSION["txt"][$key] ?? "undefined key: " . $key;
@@ -29,12 +28,25 @@ function addCheckMessage($level, $message, $isFatal = false): void
     $_SESSION['params'] = $params;
 }
 
+
+function addDebugInfo(string $msg): void
+{
+    global $params;
+    if (!isset( $_SESSION['debugMessages'])) {
+        $_SESSION['debugMessages'] = array();
+    }
+    if (!isset($params) || (isset($params['debugEnabled']) && $params['debugEnabled'])) {
+        $_SESSION['debugMessages'][] = (date("Y-m-d H:i:s - ") . $msg);
+    }
+}
+
 function checkChangedConfigFiles(): bool
 {
     // check parameter.php
     $paramsFileDate = filemtime(ROOT_DIR . "/parameters.php");
     if (!isset($_SESSION['paramsFileDate'])) {
         $_SESSION['paramsFileDate'] = $paramsFileDate;
+        addDebugInfo("checkChangedConfigFiles: paramsFileDate not found in session -> changed = true");
         return true;
     } else {
         if ($_SESSION['paramsFileDate'] < $paramsFileDate) {
@@ -42,6 +54,7 @@ function checkChangedConfigFiles(): bool
             unset($_SESSION['params']);
             unset($_SESSION['txt']);
             unset($_SESSION['colors']);
+            addDebugInfo("checkChangedConfigFiles: paramsFileDate has been changed -> changed = true");
             return true;
         }
     }
@@ -57,6 +70,7 @@ function checkChangedConfigFiles(): bool
                 unset($_SESSION['params']);
                 unset($_SESSION['txt']);
                 unset($_SESSION['colors']);
+                addDebugInfo("checkChangedConfigFiles: parameter_dev changed -> changed = true");
                 return true;
             }
         }
@@ -75,6 +89,7 @@ function checkChangedConfigFiles(): bool
         if ($_SESSION['languageFilesHash'] != $hash) {
             $_SESSION['languageFilesHash'] = $hash;
             unset($_SESSION['txt']);
+            addDebugInfo("checkChangedConfigFiles: language files changed -> changed = true");
             return true;
         }
     }
@@ -92,6 +107,7 @@ function checkChangedConfigFiles(): bool
         if ($_SESSION['themeFilesHash'] != $hash) {
             $_SESSION['themeFilesHash'] = $hash;
             unset($_SESSION['colors']);
+            addDebugInfo("checkChangedConfigFiles: themes files changed -> changed = true");
             return true;
         }
     }
@@ -154,6 +170,7 @@ function getLastImportDate(string $sql, $con): string
     if ($row != null) {
         $firstImportDate = $row['Datum_Dag'];
     }
+    addDebugInfo("getLastImportDate: $firstImportDate");
     return $firstImportDate;
 }
 
@@ -178,7 +195,7 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
     $directory = ROOT_DIR . "/" . $folderName . '/';
     $files_to_import = array();
     $num_today = date("Ymd", time());
-
+    addDebugInfo("getFilesToImport: directory: $directory");
     if ($lastImportDate == NODATE) {
         // initial load, no data found in database
         $files = scandir($directory);
@@ -193,9 +210,10 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
             }
         }
         $lastImportDate = $mindate . "";
+        addDebugInfo("getFilesToImport: start on empty DB oldest file in dir: $lastImportDate");
     }
 
-    for ($i = 0; $i <= 160; $i++) {
+    for ($i = 0; $i <= 365; $i++) {
         $num = (date("Ymd", strtotime("+" . $i . " day", strtotime($lastImportDate))));
         if ($num > $num_today) {
             // skip if date is in future
@@ -206,6 +224,7 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
             $files_to_import[] = $filename;
         }
     }
+    addDebugInfo("getFilesToImport: Files to import: " . count($files_to_import));
     return $files_to_import;
 }
 
@@ -225,6 +244,7 @@ function readImportFile(string $filename, int $linesToSkip): array
         $lineCounter++;
     }
     fclose($file);
+    addDebugInfo("readImportFile: filename: $filename - $linesToSkip lines skipped - " . count($lines) . " read");
     return $lines;
 }
 
@@ -239,6 +259,7 @@ function readIniFile(string $filename): string
         }
     }
     fclose($file);
+    addDebugInfo("readIniFile: filename: $filename - " . count($lines) . " lines read");
     return implode(PHP_EOL, $lines);
 }
 
@@ -294,6 +315,7 @@ function prepareAndInsertData(array $dbValues, $con): void
         mysqli_query($con, $del_month) or die("Query failed. ERROR1: " . $del_month . mysqli_error($con));
         mysqli_query($con, $sql_insert_day) or die("Query failed. ERROR2: " . $sql_insert_day . mysqli_error($con));
         mysqli_query($con, $sqL_insert_month) or die("Query failed. ERROR3: " . $sqL_insert_month . mysqli_error($con));
+        addDebugInfo("prepareAndInsertData: data to insert: " . count($dbValues));
     }
 }
 
@@ -402,7 +424,7 @@ function hasErrorOrWarnings(): bool
 }
 
 // build colors per inverter array
-function colorsPerInverter() : array
+function colorsPerInverter(): array
 {
     global $colors;
     $myColors = array();

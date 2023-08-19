@@ -20,7 +20,7 @@
 }
 
 #bodytext {
-    width: 700px;
+    width: 95%;
     background: #EFEFEF;
     margin-left: 10px;
     border-radius: 5px;
@@ -51,6 +51,17 @@
     display: block;
     padding: 0;
     margin: 0;
+}
+
+pre {
+    display: block;
+    font-family: monospace;
+    font-size: 8pt;
+    white-space: pre;
+    margin: .1em 0;
+}
+pre p {
+    margin: 0 10px;
 }
 
 body {

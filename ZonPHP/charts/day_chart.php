@@ -62,6 +62,22 @@ if (mysqli_num_rows($result) == 0) {
 }
 
 //--------------------------------------------------------------------------------------------------
+/*
+
+nur die aktiven Inverter in die IN clause
+
+  SELECT Datum_Maand, maxgeg, naam
+FROM tgeg_maand
+JOIN (
+        SELECT naam as maxnaam, month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg
+        FROM tgeg_maand
+        WHERE DATE_FORMAT(Datum_Maand,'%m')= "08" and naam in ("SEEHASE", "TILLY")
+        GROUP BY naam, maand ) AS maandelijks
+ ON  (maandelijks.maxgeg = tgeg_maand.Geg_Maand and maandelijks.maxnaam = tgeg_maand.naam) ORDER BY maandelijks.maand
+
+und dann Day values per Inverter
+
+ */
 // get best day and kWh for current month (max value over all years for current month)
 $sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
 	 FROM " . TABLE_PREFIX . "_maand

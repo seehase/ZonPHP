@@ -3,14 +3,12 @@
 function loadParams($htmlpath): array
 {
     global $params;
-
     $iniString = readParameterFile();
     $params = parse_ini_string($iniString, true);
-
-    $weewxIniString = readWeewxFile();
-    if (strlen($weewxIniString) > 0 ) {
-        $weewxIni = parse_ini_string($weewxIniString, true);
-        if (isset($params['weewx'] )) {
+    if ($params) {
+        $weewxIniString = readWeewxFile();
+        if (strlen($weewxIniString) > 0) {
+            $weewxIni = parse_ini_string($weewxIniString, true);
             $params['weewx'] = $weewxIni['weewx'];
         }
     }
@@ -20,7 +18,6 @@ function loadParams($htmlpath): array
     if ($params['check']['failed']) {
         header('location:$htmlpath' . $htmlpath . 'pages/validate.php');
     }
-
     return $params;
 }
 
@@ -57,7 +54,7 @@ function vadidateParams(&$params): void
         $totalExpectedMonth[0][$plantName] = 0;
         $values = json_decode('[' . $params[$plantName]['expectedYield'] . ']', true);
         $validatedValues = vadidateExpectedYield($plantName, $values);
-        $params[$plantName]['referenceYield'] = $validatedValues;
+        $params[$plantName]['expectedYield'] = $validatedValues;
         $totalSum = array_sum($validatedValues);
         foreach ($validatedValues as $id => $value) {
             $totalExpectedMonth[$id + 1][$plantName] = $value;
@@ -102,7 +99,7 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "No userTheme set in parameter.php, or theme not found: set default to 'zonphp'");
         $params['userTheme'] = "zonphp";
     }
-    if (!isset($params['importer']) || !file_exists(ROOT_DIR . "/importer/" . $params['importer'] . ".php")) {
+    if (!isset($params['importer']) || ($params['importer'] != "" && !file_exists(ROOT_DIR . "/importer/" . $params['importer'] . ".php"))) {
         addCheckMessage("INFO", "Importer not found or not set in parameter.php set default to 'none'");
         $params['importer'] = "none";
     }
@@ -131,13 +128,16 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "'showDebugMenu' not set in parameter.php, set to default = true");
         $params['debugMenu'] = "always";
     } else {
-        $debugMenu = strtolower( $params['showDebugMenu']);
+        $debugMenu = strtolower($params['showDebugMenu']);
         if ($debugMenu == "always" || $debugMenu == "onerror" || $debugMenu == "never") {
             $params['debugMenu'] = $debugMenu;
         } else {
             addCheckMessage("INFO", "'showDebugMenu' unknown value: '$debugMenu', set to default: 'always'");
             $params['debugMenu'] = "always";
         }
+    }
+    if (!isset($params['debugEnabled'])) {
+        $params['debugEnabled'] = false;
     }
 }
 
@@ -275,7 +275,7 @@ function vadidatePlant($name, &$plant): void
 
 function vadidateExpectedYield($name, $values)
 {
-    $default = array([170, 200, 300, 500, 550, 600, 600, 550, 500, 300, 200, 170]);
+    $default = array(170, 200, 300, 500, 550, 600, 600, 550, 500, 300, 200, 170);
     if (count($values) != 12) {
         addCheckMessage("WARN", "['" . $name . "']['expectedYield'] does not contain a value per month, setting default values");
         return $default;
