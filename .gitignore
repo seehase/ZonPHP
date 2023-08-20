@@ -1,10 +1,10 @@
 /.idea/
 /ZonPHP/.idea/
 /ZonPHP/SEEHASE/
-/ZonPHP/TILLY/
 /ZonPHP/SEE/
-/ZonPHP/TIL/
 /ZonPHP/SOLAR1/
+/ZonPHP/TILLY/
+/ZonPHP/TIL/
 /ZonPHP/.settings/
 /ZonPHP/readme.txt
 /ZonPHP/.project
@@ -12,3 +12,4 @@
 **/.DS_Store
 .DS_Store
 /ZonPHP/parameters_dev.php
+/.vscode/
