@@ -36,7 +36,7 @@ $adatum = array_values(array_unique($adatum));
 // -----------------------------  build data for chart -----------------------------------------------------------------
 // build colors per inverter array
 //
-$myurl = 'day_overview.php?date=';
+$myurl = HTML_PATH . "pages/day_overview.php?date=";
 $myMetadata = array();
 $myColors = colorsPerInverter();
 
