@@ -90,7 +90,7 @@ include_once "chart_styles.php";
         const categories = data[0].map(d => d[0]);
         const myurl = '<?= $myurl ?>';
         series = this.series;
-        const khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        const khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         const kwptot = khhWp.reduce(add, 0);
         var sub_title;
