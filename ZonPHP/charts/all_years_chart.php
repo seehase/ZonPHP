@@ -97,15 +97,18 @@ foreach ($inveter_list as $inverter_name) {
     $best_year_per_inverter = 0;
     foreach ($sum_per_year as $ijaar => $fkw) {
         $categories .= '"' . $ijaar . '",';
-
-        if ($first_year == 0) $first_year = $ijaar;
+        if ($first_year == 0) {
+            $first_year = $ijaar;
+        }
 
         $myColor1 = $myColors[$inverter_name]['min'];
         $myColor2 = $myColors[$inverter_name]['max'];
         if ($fkw >= max($sum_per_year)) {
             $myColor1 = "'" . $colors['color_chartbar_piek1'] . "'";
             $myColor2 = "'" . $colors['color_chartbar_piek2'] . "'";
-            $best_year_per_inverter = max($sum_per_year)[$inverter_name];
+            if (isset(max($sum_per_year)[$inverter_name])) {
+                $best_year_per_inverter = max($sum_per_year)[$inverter_name];
+            }
         }
 
         // normal chart, $val throws errors when missing inverter index
@@ -158,7 +161,7 @@ include_once "chart_styles.php";
 <script>
 
     $(function () {
-        
+
         function add(accumulator, a) {
             return accumulator + a;
         }
@@ -279,12 +282,12 @@ include_once "chart_styles.php";
                 }
             },
             title: {
-    			style: {
+                style: {
                     opacity: 0,
-      				fontWeight: 'normal',
+                    fontWeight: 'normal',
                     fontSize: '12px'
-   					 }
-  					},
+                }
+            },
             subtitle: {
                 //text: sub_title,
                 style: {

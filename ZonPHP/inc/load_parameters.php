@@ -107,7 +107,7 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "No autoReload set in parameter.php set default to '300'");
         $params['autoReload'] = "300";
     }
-    if (!isset($params['checkVersion']) || boolval($params['checkVersion']) == 0) {
+    if (!isset($params['checkVersion'])) {
         addCheckMessage("INFO", "No checkVersion set in parameter.php set default to 'false'");
         $params['checkVersion'] = false;
     }
