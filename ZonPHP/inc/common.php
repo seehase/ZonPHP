@@ -411,7 +411,8 @@ function convertLocalDateTime(string $dateStr, bool $force = false): string
 
 function convertToUnixTimestamp($datetime): string
 {
-    return strtotime($datetime . "");
+    $cleanDate = str_replace('/', '-', $datetime);
+    return strtotime($cleanDate . "");
 }
 
 function hasErrorOrWarnings(): bool
