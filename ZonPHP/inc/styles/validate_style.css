@@ -59,13 +59,16 @@ pre {
     font-size: 8pt;
     white-space: pre;
     margin: .1em 0;
+
 }
+
 pre p {
     margin: 0 10px;
+    line-height: 0px;
 }
 
 body {
-    font-family: Georgia, "Times New Roman", Times, serif;
+    font-family: sans-serif;
 }
 
 #container1 {
@@ -77,43 +80,71 @@ body {
     width: 160px;
 }
 
-TABLE {
+table {
     border-collapse: collapse;
-    font-family: Verdana, Arial, Helvetica, sans-serif, Trebuchet;
-    background-color: #F0F8FF;
-    text-align: center;
-    empty-cells: hide;
+    border: 0;
+    width: 934px;
+    box-shadow: 1px 2px 3px #ccc;
 }
 
-TABLE.count {
-    border-collapse: collapse;
-    font-family: Verdana, Arial, Helvetica, sans-serif, Trebuchet;
+.center {
+    text-align: center;
+}
+
+.center table {
+    margin: 1em auto;
     text-align: left;
-    background: transparent;
 }
 
-TD {
-    border: 1px solid #000000;
-    padding: 0;
+.center th {
+    text-align: center !important;
 }
 
-TH {
-    border: 1px solid #000000;
-    padding: 0;
+td, th {
+    border: 1px solid #666;
+    font-size: 9pt;
+    vertical-align: baseline;
+    padding: 4px 5px;
 }
 
-TD a {
-    color: #000000;
-    text-decoration: none;
-    display: block;
+th {
+    position: sticky;
+    top: 0;
+    background: inherit;
 }
 
-TD:hover a {
-    text-align: center;
+h1 {
+    font-size: 150%;
+}
+
+h2 {
+    font-size: 125%;
+}
+
+.p {
+    text-align: left;
+}
+
+.e {
+    background-color: #ccf;
+    width: 300px;
     font-weight: bold;
-    background-color: #F0F8FF;
-    width: auto;
+}
 
+.h {
+    background-color: #99c;
+    font-weight: bold;
+}
+
+.v {
+    background-color: #ddd;
+    max-width: 300px;
+    overflow-x: auto;
+    word-wrap: break-word;
+}
+
+.v i {
+    color: #999;
 }
 
 #nav, #nav ul {
@@ -172,4 +203,8 @@ TD:hover a {
 
 .flag.flag-de {
     background-position: -32px 0;
+}
+
+table {
+    font-size: 8pt;
 }

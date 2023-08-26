@@ -19,10 +19,12 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <title>ZonPHP Parameter Validation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <link type="text/css" rel="stylesheet" href="<?= HTML_PATH ?>inc/styles/validate_style.css">
 </head>
 <body>
-
+<br>
 <div id="menus">
     <div id="container1">
         <div id="area"></div>
@@ -33,7 +35,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
                     <li><a href="..">&raquo;&nbsp;Index</a></li>
                     <?php
                     echo '                    
-					<li><a href="' . HTML_PATH . '/inc/destroy.php">&raquo;&nbsp;' . getTxt("clearsession") . '</a></li>					
+					<li><a href="' . HTML_PATH . 'inc/destroy.php">&raquo;&nbsp;' . getTxt("clearsession") . '</a></li>					
 					';
                     ?>
                 </ul>
@@ -49,7 +51,8 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
 <div id="container">
     <div id="bodytext">
         <div class="inside" style="text-align: left">
-            <h1 style="text-align: center"><?= getTxt("bestezonphp"); ?>,</h1>
+            <br>
+            <h1 style="text-align: center"><?= getTxt("bestezonphp"); ?></h1>
             Uw Taal: <a href='?language=nl' TARGET='_self'><img
                         src="../inc/images/nl.svg" alt="nl" width="16" height="11"></a>&nbsp;&nbsp;
             Your language: <a href='?language=en' TARGET='_self'><img
@@ -60,55 +63,65 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
                         src="../inc/images/de.svg" alt="de" width="16" height="11"></a>
             <hr>
             <br>
+            <h2> <?= getTxt("paths") ?> </h2>
+            <pre>
+                <p> HTML_PATH: <?= HTML_PATH ?> </p><br><p> ROOT_DIR: <?= ROOT_DIR ?> </p><br><p> DOCUMENT_ROOT: <?= $_SERVER['DOCUMENT_ROOT'] ?></p>
+            </pre>
+            <hr>
+            <br>
+            <h2> ERRORS </h2>
+            <pre>
+                <?php
+                foreach ($_SESSION['params']['check']['ERROR'] as $msg) {
+                    echo "<p> $msg </p><br>";
+                }
+                ?>
+            </pre>
+            <h2> WARNINGS </h2>
+            <pre>
+                <?php
+                foreach ($_SESSION['params']['check']['WARN'] as $msg) {
+                    echo "<p> $msg </p><br>";
+                }
+                ?>
+            </pre>
+            <h2> INFO </h2>
+            <pre>
+            <?php foreach ($_SESSION['params']['check']['INFO'] as $msg) {
+                echo "<p> $msg </p><br>";
+            }
+            ?>
+            </pre>
             <?php
-            echo getTxt("paths") . ".<br>";
-            echo '<pre>';
-            echo "<p>HTML_PATH: " . HTML_PATH . "</p>";
-            echo "<p>ROOT_DIR: " . ROOT_DIR . "</p>";
-            echo "<p>DOCUMENT_ROOT: " . $_SERVER['DOCUMENT_ROOT'] . "</p>";
-            echo "</pre><hr><br>";
-
-            echo getTxt("errors") . ".<br><br>";
-            echo "<p> ERRORS </p>";
-            echo '<pre>';
-            foreach ($_SESSION['params']['check']['ERROR'] as $msg) {
-                echo "<p> $msg </p>";
-            }
-            echo '</pre>';
-            echo "<p> WARNINGS </p>";
-            echo '<pre>';
-            foreach ($_SESSION['params']['check']['WARN'] as $msg) {
-                echo "<p> $msg </p>";
-            }
-            echo '</pre>';
-            echo "<p> INFO </p>";
-            echo '<pre>';
-            foreach ($_SESSION['params']['check']['INFO'] as $msg) {
-                echo "<p> $msg </p>";
-            }
-            echo '</pre>';
             if ($params['debugEnabled']) {
-                echo "<p> DEBUG </p>";
-
                 $copyOfParam = array_merge(array(), $params);
                 // clear password, not to be exposed by accident
                 $copyOfParam['database']['password'] = "***********";
                 if (isset($copyOfParam['weewx']['password'])) {
                     $copyOfParam['weewx']['password'] = "***********";
                 }
-                echo 'Parameters:';
-                echo '<pre>';
-                print_r($copyOfParam);
-                echo '</pre>';
+                echo "<hr><h2> Debug messages </h2>";
                 if (isset($_SESSION['debugMessages'])) {
-                    echo '<hr><pre>';
+                    echo "<pre><br>";
                     foreach ($_SESSION['debugMessages'] as $msg) {
-                        echo "<p> $msg </p>";
+                        echo "<p> $msg </p><br>";
                     }
-                    echo '</pre>';
+                    echo "</pre>";
                 }
+                echo "<hr>";
+                echo '<a href="#parameters"  data-bs-toggle="collapse">Show Parameters</a>';
+                echo "&nbsp;&nbsp;&nbsp;";
+                echo '<a href="#phpInfo"  data-bs-toggle="collapse">Show phpInfo()</a>';
+                //echo '<button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#phpInfo">Show phpInfo</button>';
+                echo '<div id="parameters" class="collapse">';
+                echo "<pre>";
+                print_r($copyOfParam);
+                echo "</pre>";
+                echo "</div> ";
+                echo '<div id="phpInfo" class="collapse">';
+                echo getPhpInfo();
+                echo "</div> <br>";
             }
-
 
             if (strlen($new_version_label) > 0) {
                 $newversion = getTxt("newversion") . " " . getTxt("available");
@@ -123,6 +136,8 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
             <br>
         </div>
     </div>
+    <br>
+
 </div>
 </body>
 </html>

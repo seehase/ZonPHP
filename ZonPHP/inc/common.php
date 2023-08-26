@@ -411,7 +411,8 @@ function convertLocalDateTime(string $dateStr, bool $force = false): string
 
 function convertToUnixTimestamp($datetime): string
 {
-    return strtotime($datetime . "");
+    $cleanDate = str_replace('/', '-', $datetime);
+    return strtotime($cleanDate . "");
 }
 
 function hasErrorOrWarnings(): bool
@@ -437,4 +438,21 @@ function colorsPerInverter(): array
         $myColors[PLANT_NAMES[$k]]['max'] = $col1;
     }
     return $myColors;
+}
+
+function getPhpInfo() : string {
+    ob_start();
+    phpinfo();
+    $html = ob_get_contents();
+    ob_end_clean();
+
+    /// Delete styles from output
+    $html = preg_replace('#(\n?<style[^>]*?>.*?</style[^>]*?>)|(\n?<style[^>]*?/>)#is', '', $html);
+    $html = preg_replace('#(\n?<head[^>]*?>.*?</head[^>]*?>)|(\n?<head[^>]*?/>)#is', '', $html);
+    // Delete DOCTYPE from output
+    $html = preg_replace('/<!DOCTYPE html PUBLIC.*?>/is', '', $html);
+    // Delete body and html tags
+    $html = preg_replace('/<html.*?>.*?<body.*?>/is', '', $html);
+    $html = preg_replace('/<\/body><\/html>/is', '', $html);
+    return $html;
 }

@@ -10,7 +10,7 @@ $con = mysqli_connect($params['database']['host'], $params['database']['username
 
 if (!$con) {
     addCheckMessage("ERROR", "Cannot connect to database, check database section in parameter.php", true);
-    header('location:' . HTML_PATH . '/pages/validate.php');
+    header('location:' . HTML_PATH . 'pages/validate.php');
     die();
 } else {
     checkOrCreateTables($con);
@@ -24,7 +24,7 @@ if ($params['useWeewx']) {
         // continue without weewx
         $params['useWeewx'] = false;
         $_SESSION['params'] = $params;
-        //die(header('location:' . HTML_PATH . '/pages/validate.php'));
+        //die(header('location:' . HTML_PATH . 'pages/validate.php'));
     } else {
         checkWeewxTables($con_weewx);
     }
