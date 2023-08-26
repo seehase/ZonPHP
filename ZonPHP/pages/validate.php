@@ -35,7 +35,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
                     <li><a href="..">&raquo;&nbsp;Index</a></li>
                     <?php
                     echo '                    
-					<li><a href="' . HTML_PATH . '/inc/destroy.php">&raquo;&nbsp;' . getTxt("clearsession") . '</a></li>					
+					<li><a href="' . HTML_PATH . 'inc/destroy.php">&raquo;&nbsp;' . getTxt("clearsession") . '</a></li>					
 					';
                     ?>
                 </ul>
@@ -62,7 +62,8 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
             Ihre Sprache: <a href='?language=de' TARGET='_self'><img
                         src="../inc/images/de.svg" alt="de" width="16" height="11"></a>
             <hr>
-            <br><h2> <?= getTxt("paths") ?> </h2>
+            <br>
+            <h2> <?= getTxt("paths") ?> </h2>
             <pre>
                 <p> HTML_PATH: <?= HTML_PATH ?> </p><br><p> ROOT_DIR: <?= ROOT_DIR ?> </p><br><p> DOCUMENT_ROOT: <?= $_SERVER['DOCUMENT_ROOT'] ?></p>
             </pre>
@@ -72,7 +73,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
             <pre>
                 <?php
                 foreach ($_SESSION['params']['check']['ERROR'] as $msg) {
-                    echo "<p> $msg </p>";
+                    echo "<p> $msg </p><br>";
                 }
                 ?>
             </pre>
@@ -80,14 +81,14 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
             <pre>
                 <?php
                 foreach ($_SESSION['params']['check']['WARN'] as $msg) {
-                    echo "<p> $msg </p>";
+                    echo "<p> $msg </p><br>";
                 }
                 ?>
             </pre>
             <h2> INFO </h2>
             <pre>
             <?php foreach ($_SESSION['params']['check']['INFO'] as $msg) {
-                echo "<p> $msg </p>";
+                echo "<p> $msg </p><br>";
             }
             ?>
             </pre>
@@ -112,7 +113,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
                 echo "&nbsp;&nbsp;&nbsp;";
                 echo '<a href="#phpInfo"  data-bs-toggle="collapse">Show phpInfo()</a>';
                 //echo '<button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#phpInfo">Show phpInfo</button>';
-                 echo '<div id="parameters" class="collapse">';
+                echo '<div id="parameters" class="collapse">';
                 echo "<pre>";
                 print_r($copyOfParam);
                 echo "</pre>";
