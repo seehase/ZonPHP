@@ -92,7 +92,7 @@ function vadidateParamsGeneral(&$params): void
         $params['defaultLanguage'] = "en";
     }
     if (!isset($params['timeZone']) || !isValidTimezoneId($params['timeZone'])) {
-        addCheckMessage("INFO", "No timezone , or invalid timezone set in parameter.php, set default to 'UTC'");
+        addCheckMessage("INFO", "No timezone, or invalid timezone set in parameter.php, set default to 'UTC'");
         $params['timeZone'] = "UTC";
     }
     if (!isset($params['userTheme']) || !file_exists(ROOT_DIR . "/themes/" . strtolower($params['userTheme']) . ".theme")) {

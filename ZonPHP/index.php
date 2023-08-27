@@ -14,6 +14,7 @@ include_once "inc/connect.php";
 // todo: use parameter path in plants for folder location in importer
 // todo: use parameter separator "-" in plants as filename separator
 // todo: use parameter linestoskip "10" in plants for import file lines to skip
+// todo: importer preview
 
 if ($_SESSION['STARTDATE'] == NODATE) {
     prepareFarm($params, $con);

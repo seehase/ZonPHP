@@ -40,6 +40,17 @@ function addDebugInfo(string $msg): void
     }
 }
 
+function addDBInfo(string $msg): void
+{
+    global $params;
+    if (!isset( $_SESSION['dbMessages'])) {
+        $_SESSION['dbMessages'] = array();
+    }
+    if (!isset($params) || (isset($params['debugEnabled']) && $params['debugEnabled'])) {
+        $_SESSION['dbMessages'][] = (date("Y-m-d H:i:s - ") . $msg);
+    }
+}
+
 function checkChangedConfigFiles(): bool
 {
     // check parameter.php

@@ -32,7 +32,7 @@ if ($params['useWeewx']) {
 ob_end_flush();
 
 /********************************************************************
- * internal caching (currently only for version check
+ * internal caching (currently only for version check)
  *********************************************************************/
 if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + CACHE_TIMEOUT) > (time())) {
     // cache still valid --> do not reload cache but initialize some parameters from session
@@ -67,6 +67,16 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + CACHE_TIMEOUT) 
     $_SESSION['date_minimum'] = strtotime($startDate . " 00:00:00");
     $_SESSION['date_maximum'] = strtotime('today midnight');
     prepareFarm($params, $con);
+    dbValidationCheck($con, "dag");
+    dbValidationCheck($con, "maand");
+    addDBInfo("------------------------------ Check unused tables:  ------------------------------");
+    dbUnusedTables($con, "euro");
+    dbUnusedTables($con, "parameters");
+    dbUnusedTables($con, "refer");
+    dbUnusedTables($con, "verbruik");
+    addDBInfo("------------------------------ table statistics:  ------------------------------");
+    dbRowCount($con, "dag");
+    dbRowCount($con, "maand");
 }
 
 // clear password, not to be exposed by accident
@@ -135,12 +145,77 @@ function checkOrCreateTables($con): void
 function checkWeewxTables($con_weewx): void
 {
     global $params;
-
     $tablename = $params['weewx']['tableName'];
     $result = mysqli_query($con_weewx, "SHOW TABLES LIKE '$tablename'");
     if ($result->num_rows != 1) {
         addCheckMessage("WARN", "Weewx table '$tablename' not found, disabled weewx for now", true);
         $params['useWeewx'] = false;
         $_SESSION['params'] = $params;
+    }
+}
+
+function dbValidationCheck($con, $tablename): void
+{
+    global $params;
+    addDBInfo("------------------------------ Check table: $tablename ------------------------------");
+    $orderby = "Datum_Dag";
+    if ($tablename == "maand") {
+        $orderby = "Datum_Maand";
+    }
+    $tablename = TABLE_PREFIX . "_" . $tablename;
+    $result = mysqli_query($con, "select naam from $tablename group by naam");
+    if (mysqli_num_rows($result) == 0) {
+        addDBInfo("No data found in " . TABLE_PREFIX . "_dag");
+    } else {
+        while ($row = mysqli_fetch_array($result)) {
+            $namesInDB = array();
+            $inverter_name = $row['naam'];
+            $namesInDB[] = $inverter_name;
+            if (!in_array($inverter_name, PLANT_NAMES)) {
+                addDBInfo("Inverter $inverter_name found in $tablename but not configured in parameter plantNames=" . $params['plantNames']);
+            }
+            getFirstLastRow($con, $tablename, $orderby, $inverter_name);
+        }
+    }
+}
+
+function getFirstLastRow($con, $tablename, $orderby, $inverter_name): void
+{
+    $sql = "
+        (select * from $tablename where naam = '$inverter_name' order by $orderby asc limit 1)
+        union
+        (select * from $tablename where naam = '$inverter_name' order by $orderby desc limit 1)
+    ";
+    $out = "";
+    if ($result = mysqli_query($con, $sql)) {
+        while ($row = mysqli_fetch_array($result)) {
+            $last = $row[4] ?? "";
+            $out = $row[0] . " - " . $row[1] . " - " . $row[2] . " - " . $row[3] . " - " . $last;
+            addDBInfo("Inverter $inverter_name: $tablename records: $out");
+        }
+    }
+}
+
+function dbUnusedTables($con, $tablename): void
+{
+    $tablename = TABLE_PREFIX . "_" . $tablename;
+    $sql = "SHOW TABLES LIKE '$tablename'";
+    $result = mysqli_query($con, $sql);
+    if ($result->num_rows == 1) {
+        addDBInfo("Table '$tablename' exists but is not longer used, table can be dropped");
+    }
+}
+
+function dbRowCount($con, $tablename): void
+{
+    $tablename = TABLE_PREFIX . "_" . $tablename;
+    $sql = "select naam,  count() from $tablename";
+    $sql = "select naam, count(naam) from tgeg_dag group by naam";
+    if ($result = mysqli_query($con, $sql)) {
+        while ($row = mysqli_fetch_array($result)) {
+            $inverter_name = $row[0] ?? "";
+            $cnt = $row[1] ?? 0;
+            addDBInfo("Table $tablename: Inverter: $inverter_name: -> rowCount: $cnt");
+        }
     }
 }
