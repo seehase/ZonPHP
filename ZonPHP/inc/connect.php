@@ -209,8 +209,7 @@ function dbUnusedTables($con, $tablename): void
 function dbRowCount($con, $tablename): void
 {
     $tablename = TABLE_PREFIX . "_" . $tablename;
-    $sql = "select naam,  count() from $tablename";
-    $sql = "select naam, count(naam) from tgeg_dag group by naam";
+    $sql = "select naam,  count(naam) from $tablename group by naam";
     if ($result = mysqli_query($con, $sql)) {
         while ($row = mysqli_fetch_array($result)) {
             $inverter_name = $row[0] ?? "";
