@@ -158,9 +158,9 @@ function dbValidationCheck($con, $tablename): void
 {
     global $params;
     addDBInfo("------------------------------ Check table: $tablename ------------------------------");
-    $orderby = "Datum_Dag";
+    $orderField = "Datum_Dag";
     if ($tablename == "maand") {
-        $orderby = "Datum_Maand";
+        $orderField = "Datum_Maand";
     }
     $tablename = TABLE_PREFIX . "_" . $tablename;
     $result = mysqli_query($con, "select naam from $tablename group by naam");
@@ -174,24 +174,24 @@ function dbValidationCheck($con, $tablename): void
             if (!in_array($inverter_name, PLANT_NAMES)) {
                 addDBInfo("Inverter $inverter_name found in $tablename but not configured in parameter plantNames=" . $params['plantNames']);
             }
-            getFirstLastRow($con, $tablename, $orderby, $inverter_name);
+            getFirstLastRow($con, $tablename, $orderField, $inverter_name, "asc", 2);
+            getFirstLastRow($con, $tablename, $orderField, $inverter_name, "desc", 2);
         }
     }
 }
 
-function getFirstLastRow($con, $tablename, $orderby, $inverter_name): void
+function getFirstLastRow($con, $tablename, $orderField, $inverter_name, $sortOrder, $limit): void
 {
-    $sql = "
-        (select * from $tablename where naam = '$inverter_name' order by $orderby asc limit 1)
-        union
-        (select * from $tablename where naam = '$inverter_name' order by $orderby desc limit 1)
-    ";
-    $out = "";
+    $sql = "select * from $tablename where naam = '$inverter_name' order by $orderField $sortOrder limit $limit";
+    $label = "first rows: ";
+    if ($sortOrder == "desc") {
+        $label = "last rows : ";
+    }
     if ($result = mysqli_query($con, $sql)) {
         while ($row = mysqli_fetch_array($result)) {
             $last = $row[4] ?? "";
             $out = $row[0] . " - " . $row[1] . " - " . $row[2] . " - " . $row[3] . " - " . $last;
-            addDBInfo("Inverter $inverter_name: $tablename records: $out");
+            addDBInfo("$label $inverter_name: $tablename records: $out");
         }
     }
 }
