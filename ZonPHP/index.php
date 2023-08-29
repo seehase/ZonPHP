@@ -4,7 +4,8 @@ include_once "inc/init.php";
 include_once "inc/connect.php";
 
 // fixme section ------------------------------------------------------------------------------------
-
+// fixme: Add additional indecies on creating tables
+// fixme: check SQL EXPLAIN plan for more improvements
 
 // todo IMPROVEMENTS  ------------------------------------------------------------------------------------
 // todo: write migration documentation
@@ -15,6 +16,7 @@ include_once "inc/connect.php";
 // todo: use parameter separator "-" in plants as filename separator
 // todo: use parameter linestoskip "10" in plants for import file lines to skip
 // todo: importer preview
+// todo: database migration -> new table structure
 
 if ($_SESSION['STARTDATE'] == NODATE) {
     prepareFarm($params, $con);
