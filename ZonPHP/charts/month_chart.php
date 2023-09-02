@@ -3,20 +3,18 @@ global $con, $params, $formatter, $colors, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
+if (isset($_GET['date'])) {
+    $chartdatestring = html_entity_decode($_GET['date']);
+    $chartdate = strtotime($chartdatestring);
+} else {
+    $chartdate = $_SESSION['CHARTDATE'] ?? time();
+}
+$chartdatestring = date("Y-m-d", $chartdate);
+
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
-}
-
-$chartdate = time();
-
-$chartdatestring = date("Y-m-d", $chartdate);
-if (isset($_GET['date'])) {
-    $chartdatestring = html_entity_decode($_GET['date']);
-    $chartdate = strtotime($chartdatestring);
-    // reformat string
-    $chartdatestring = date("Y-m-d", $chartdate);
 }
 // -----------------------------  get data from DB -----------------------------------------------------------------
 $current_year = date('Y', $chartdate);

@@ -6,26 +6,20 @@ global $params, $con, $formatter, $colors, $chart_options, $chart_lang;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
-$chartdate = time();
 $inverter_name = "";
-$chartdatestring = date("Y-m-d", $chartdate);
 if (isset($_GET['date'])) {
     $chartdatestring = html_entity_decode($_GET['date']);
     $chartdate = strtotime($chartdatestring);
-    // reformat string
-    $chartdatestring = date("Y-m-d", $chartdate);
-}
-if (isset($_GET['Schaal'])) {
-    $aanpas = 1;
 } else {
-    $aanpas = 0;
+    $chartdate = $_SESSION['CHARTDATE'] ?? time();
 }
-$isIndexPage = false;
+$chartdatestring = date("Y-m-d", $chartdate);
 
+$isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-
+// -----------------------------  get data from DB -----------------------------------------------------------------
 // query for the day-curve
 $valarray = array();
 $all_valarray = array();

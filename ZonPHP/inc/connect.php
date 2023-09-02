@@ -183,15 +183,18 @@ function dbValidationCheck($con, $tablename): void
 function getFirstLastRow($con, $tablename, $orderField, $inverter_name, $sortOrder, $limit): void
 {
     $sql = "select * from $tablename where naam = '$inverter_name' order by $orderField $sortOrder limit $limit";
-    $label = "first rows: ";
+    $label = "first: ";
     if ($sortOrder == "desc") {
-        $label = "last rows : ";
+        $label = "last : ";
     }
     if ($result = mysqli_query($con, $sql)) {
+        $cnt = mysqli_field_count($con);
+        $out = "";
         while ($row = mysqli_fetch_array($result)) {
-            $last = $row[4] ?? "";
-            $out = $row[0] . " - " . $row[1] . " - " . $row[2] . " - " . $row[3] . " - " . $last;
-            addDBInfo("$label $inverter_name: $tablename records: $out");
+            for ($i = 0; $i < $cnt; ++$i) {
+                $out .= $row[$i] . " - ";
+            }
+            addDBInfo("$tablename $label $out");
         }
     }
 }

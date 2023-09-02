@@ -317,9 +317,11 @@ function prepareAndInsertData(array $dbValues, $con): void
             $timeStamp = $row['timestamp'];
             $id = $timeStamp . $name;
             $dayValues .= "('$id', '$timeStamp', $watt, $cummulatedkWh, '$name'),";
+            // $dayValues .= "('$timeStamp', $watt, '$name'),";
         }
         $dayValues = substr($dayValues, 0, -1);
         $sql_insert_day = "insert into " . TABLE_PREFIX . "_dag (IndexDag, Datum_Dag, Geg_Dag, kWh_Dag, Naam) values $dayValues";
+        // $sql_insert_day = "insert into " . TABLE_PREFIX . "_dag ( Datum_Dag, Geg_Dag, Naam) values $dayValues";
         $del_month = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Naam ='$name' AND Datum_Maand='$currentDate'";
         $sqL_insert_month = "insert into " . TABLE_PREFIX . "_maand (IndexMaand, Datum_Maand, Geg_Maand, Naam) values ('$currentDate$name', '$currentDate', $cummulatedkWh, '$name')";
 

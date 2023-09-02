@@ -132,7 +132,7 @@ function load_charts() {
         const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div  class="item-content card"> ' +
-            '       <a href="./pages/day_overview.php"><div id="chart_header_day" class="' + headerclass + '">' + daytext + '</div> </a> ' +
+            '       <a href="./pages/day_overview.php"><div id="chart_header_day" class="' + headerclass + '">' + daytext + " - " + chartdatestring + '</div> </a> ' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
@@ -158,7 +158,7 @@ function load_charts() {
         const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div  class="item-content card"> ' +
-            '       <a href="./pages/month_overview.php"><div id="chart_header_month" class="' + headerclass + '">' + txt["chart_monthoverview"] + '</div> </a> ' +
+            '       <a href="./pages/month_overview.php"><div id="chart_header_month" class="' + headerclass + '">' + txt["chart_monthoverview"] + " - " + chartmonthstring + " " + chartyearstring + '</div> </a> ' +
             '       <div id="' + id + '">' +
             '   </div>' +
             '</div>';
@@ -236,7 +236,7 @@ function load_charts() {
         const itemTemplate = '' +
             '<div class="item h4 w4" data-id="' + id + '">' +
             '   <div class="item-content card"> ' +
-            '       <a href="./pages/year_overview.php"><div id="chart_header_year" class="' + headerclass + '">' + txt["chart_yearoverview"] + '</div></a>' +
+            '       <a href="./pages/year_overview.php"><div id="chart_header_year" class="' + headerclass + '">' + txt["chart_yearoverview"] + " - " + chartyearstring + '</div></a>' +
             '       <div    id="' + id + '">' +
             '   </div>' +
             '</div>';
