@@ -403,13 +403,13 @@ function convertDateTime(string $dateStr): string
     }
 }
 
-function convertLocalDateTime(string $dateStr, bool $force = false): string
+function convertLocalDateTime(string $dateStr, string $importDateFormat = "Y-m-d H:i:s", bool $force = false): string
 {
     global $params;
     if ($force || !$params['database']['UTC_is_used']) {
         $tz_from = $params['timeZone'];
         try {
-            $newDateTime = new DateTime($dateStr, new DateTimeZone($tz_from));
+            $newDateTime = DateTime::createFromFormat($importDateFormat, $dateStr, new DateTimeZone($tz_from));
             $newDateTime->setTimezone(new DateTimeZone("UTC"));
             return $newDateTime->format("Y-m-d H:i:s");
         } catch (Exception $e) {

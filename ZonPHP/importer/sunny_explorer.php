@@ -5,17 +5,18 @@ global $con, $params;
 foreach ($params['PLANTS'] as $name => $plant) {
     $lastImportDate = getLastImportDateForPlant($name, $con);
     $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix']);
+    $importDateFormat = $plant['importDateFormat'];
     addDebugInfo("sunny_explorer: LastStartImportDate: $lastImportDate - ImportFilesCount: " . count($files_to_import));
 
     foreach ($files_to_import as $import_filename) {
         addDebugInfo("sunny_explorer: importFile: $import_filename");
         $importData = readImportFile($import_filename, 10);
-        $dbValues = mapLinesToDBValues($importData, $name, $lastImportDate);
+        $dbValues = mapLinesToDBValues($importData, $name, $lastImportDate, $importDateFormat);
         prepareAndInsertData($dbValues, $con);
     }
 }
 
-function mapLinesToDBValues(array $lines, string $name, $lastImportDate): array
+function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $importDateFormat): array
 {
     global $params;
     $dbValues = array();
@@ -31,7 +32,7 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate): array
             $dateFromDB = $lineValues[0];
             // convert to UTC if parameter "importLocalDateAsUTC" is set to true otherwise it will remain localDate
             if ($params['importLocalDateAsUTC']) {
-                $convertedDate = convertLocalDateTime($dateFromDB, true); // in UTC now
+                $convertedDate = convertLocalDateTime($dateFromDB, $importDateFormat, true); // in UTC now
             } else {
                 $convertedDate = $dateFromDB;  // keep local time
             }
