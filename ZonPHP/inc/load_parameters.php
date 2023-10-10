@@ -124,6 +124,10 @@ function vadidateParamsGeneral(&$params): void
         addCheckMessage("INFO", "'importLocalDateAsUTC' not set in parameter.php, set to default = false");
         $params['importLocalDateAsUTC'] = false;
     }
+    if (!isset($params['website'])) {
+        addCheckMessage("INFO", "'website' not set in parameter.php, set to default = ''");
+        $params['website'] = "";
+    }
     if (!isset($params['showDebugMenu'])) {
         addCheckMessage("INFO", "'showDebugMenu' not set in parameter.php, set to default = true");
         $params['debugMenu'] = "always";
