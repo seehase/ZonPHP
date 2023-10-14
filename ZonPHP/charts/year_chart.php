@@ -3,20 +3,17 @@ global $params, $con, $colors, $shortmonthcategories, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
-$isIndexPage = false;
-if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
-    $isIndexPage = true;
-}
-
-$chartdate = time();
-
-$chartdatestring = date("Y-m-d", $chartdate);
-
 if (isset($_GET['date'])) {
     $chartdatestring = html_entity_decode($_GET['date']);
     $chartdate = strtotime($chartdatestring);
-    // reformat string
-    $chartdatestring = date("Y-m-d", $chartdate);
+} else {
+    $chartdate = $_SESSION['CHARTDATE'] ?? time();
+}
+$chartdatestring = date("Y-m-d", $chartdate);
+
+$isIndexPage = false;
+if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
+    $isIndexPage = true;
 }
 // -------------------------------------------------------------------------------------------------------------
 $current_year = date('Y', $chartdate);

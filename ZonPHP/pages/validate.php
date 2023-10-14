@@ -1,10 +1,11 @@
 <?php
-global $version, $new_version_label, $params;
+global $version, $new_version_label, $params, $con;
 include_once "../inc/init.php";
 
 if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
     $params['debugEnabled'] = "1";
     $_SESSION['params'] = $params;
+    unset($_SESSION['lastupdate']);
 }
 
 ?>
@@ -109,18 +110,35 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
                     echo "</pre>";
                 }
                 echo "<hr>";
-                echo '<a href="#parameters"  data-bs-toggle="collapse">Show Parameters</a>';
+                echo '<a href="#parameters" data-bs-toggle="collapse">Show parameters</a>';
                 echo "&nbsp;&nbsp;&nbsp;";
-                echo '<a href="#phpInfo"  data-bs-toggle="collapse">Show phpInfo()</a>';
-                //echo '<button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#phpInfo">Show phpInfo</button>';
+                echo '<a href="#dbcheck" data-bs-toggle="collapse">Show DBcheck</a>';
+                echo "&nbsp;&nbsp;&nbsp;";
+                echo '<a href="#phpInfo" data-bs-toggle="collapse">Show phpInfo()</a>';
+
                 echo '<div id="parameters" class="collapse">';
                 echo "<pre>";
                 print_r($copyOfParam);
                 echo "</pre>";
-                echo "</div> ";
+                echo "</div> 
+                ";
+
+                echo '<div id="dbcheck" class="collapse">';
+                echo "<pre><br>";
+                
+                if (isset($_SESSION['dbMessages'])) {
+                    foreach ($_SESSION['dbMessages'] as $msg) {
+                        echo "<p> $msg </p><br>";
+                    }
+                }
+                echo "</pre>";
+                echo "</div>
+                    ";
+
                 echo '<div id="phpInfo" class="collapse">';
                 echo getPhpInfo();
                 echo "</div> <br>";
+
             }
 
             if (strlen($new_version_label) > 0) {

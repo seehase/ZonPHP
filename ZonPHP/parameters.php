@@ -22,16 +22,16 @@ defaultLanguage = de
 
 # Define the timezone to use, e.g. "Europe/Berlin" or "UTC" default is "UTC",
 # list of valid timezones can be seen here https://www.php.net/manual/en/timezones.php
-timeZone = "UTC"
+timeZone = Europe/Berlin
 
 # Default theme for your installation. Specify a name that corresponds to the *.theme files in folder /themes
-# available themes at this moment: blue, julia, darkgreyfire, fire
+# available themes at this moment: blue, julia, darkgreyfire, fire, zonphp
 # you can make your own theme by copy and rename an existing theme file in this folder. Theme files must be named 
 # in lower case
-userTheme = darkgreyfire
+userTheme = zonphp
 
 # additional website shown in farm-card (for display only)
-website = "https://solar.seehausen.org"
+website = https://solar.seehausen.org
 
 # additional location shown in farm-card
 location = Ingolstadt
@@ -95,17 +95,20 @@ plantImages = image1, image2
 
 # provide a list of cards and additional infos as a list (names are case insensitive)
 # default = "day, month, year, allYears, cumulative, yearPerMonth, top, farm, plants, images";
-cards = "day, month, year, allYears, cumulative, yearPerMonth, farm, images, top, plants"
+cards = day, month, year, allYears, cumulative, yearPerMonth, farm, images, top, plants
 
 #######################################################################################################################
 #   This section database connections parameters and is mandatory.
 #   tablePrefix defaults to tgeg, only change with multiple ZonPHP instances
 #   if you store your timestamp fields in UTC then set UTC_is_used = true
+#
+#   Put your password in quotes if it contains special characters e.g. "my_s3cret!"
+#
 #######################################################################################################################
 [database]
 host =  localhost
 username = root
-password = root
+password = "root"
 database = solar
 tablePrefix = tgeg
 UTC_is_used = false
@@ -131,13 +134,18 @@ capacity = 5040
 # default = "170,200,300,500,550,600,600,550,500,300,200,170" is used
 # This value is used for calculations in several charts! Wrong entries can give strange charts.
 
-expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
+expectedYield = 180, 245, 460, 640, 645, 645, 675, 635, 510, 375, 215, 185
 
 # Prefix of your import files for this plant e.g. sunny-explorer exports file in this
 # format "prefix-yyyymmdd.csv"  e.g. "solar1-20140426.csv"
 # then define importPrefix = "solar1" without separator (used by importer)
 
 importPrefix = solar1
+
+# Specify your date format of your import file
+# example: 09.08.2023 12:05:00 -> use "d-m-Y H:i:s" which is also the default
+# another example (1st October 2023)   01/10/2023 00:00 -> use "d/m/Y H:i"
+importDateFormat = "d-m-Y H:i:s"
 
 # additional information shown on the card (information only), for linebreak use <br>
 description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly<br>Inverter: SMA SB 5000TL20 ESS<br>Orientation: 180 Grad 30 Grad Neigung<br>My first solar plant build in 2011"
@@ -159,11 +167,11 @@ description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly
 #######################################################################################################################
 
 [image1]
-title = "Inverter"
+title = Inverter
 description = "Inverter + Powermeter"
-uri = "image1.jpg"
+uri = image1.jpg
 
 [image2]
-title = "internet"
+title = internet
 description = "source: wikipedia"
-uri = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
+uri = https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png

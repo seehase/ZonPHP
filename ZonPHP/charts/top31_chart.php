@@ -15,7 +15,7 @@ $x = "'" . implode("', '", PLANT_NAMES) . "'";
 $whereInClause = " where naam in ($x)";
 $sql = "SELECT db1.*
 FROM " . TABLE_PREFIX . "_maand AS db1 
-JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM tgeg_maand $whereInClause Group by Datum_Maand ORDER BY mysum $DESC_ASC LIMIT 0,31) AS db2
+JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM " . TABLE_PREFIX . "_maand $whereInClause Group by Datum_Maand ORDER BY mysum $DESC_ASC LIMIT 0,31) AS db2
 ON db1.Datum_Maand = db2.Datum_Maand $whereInClause order by mysum desc";
 
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
