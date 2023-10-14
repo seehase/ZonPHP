@@ -3,18 +3,6 @@ global $params, $colors, $con;
 include_once "inc/init.php";
 include_once "inc/connect.php";
 
-// fixme section ------------------------------------------------------------------------------------
-
-
-// todo IMPROVEMENTS  ------------------------------------------------------------------------------------
-// todo: write migration documentation
-// todo: write installation documentation
-// todo: make language flexible/dynamic instead of having a fixed list (load all /languages/*.ini and show it in menu
-// todo: new [importer] section and/or generic importer --> next release
-// todo: use parameter path in plants for folder location in importer
-// todo: use parameter separator "-" in plants as filename separator
-// todo: use parameter linestoskip "10" in plants for import file lines to skip
-
 if ($_SESSION['STARTDATE'] == NODATE) {
     prepareFarm($params, $con);
 }
@@ -25,6 +13,13 @@ $daytext = getTxt("chart_dayoverview");
 if ($params['useWeewx']) {
     $daytext = getTxt("chart_solar_temp");
 }
+if (isset($_GET['date'])) {
+    $chartdatestring = html_entity_decode($_GET['date']);
+    $chartdate = strtotime($chartdatestring);
+} else {
+    $chartdate = time();
+}
+$_SESSION['CHARTDATE'] = $chartdate;
 
 ?>
 <script src="https://jqwidgets.com/public/jqwidgets/jqxcore.js"></script>
@@ -44,6 +39,9 @@ if ($params['useWeewx']) {
             plants = <?= json_encode(PLANT_NAMES); ?>;
             farm = <?= json_encode($params['farm']); ?>;
             daytext = <?= '"' . $daytext . '"'; ?>;
+            chartdatestring = <?= '"' . date("Y-m-d", $chartdate) . '"' ?>;
+            chartmonthstring = <?= '"' . date("F", $chartdate) . '"'; ?>;
+            chartyearstring = <?= '"' . date("Y", $chartdate) . '"'; ?>;
             charts = <?= json_encode(array("chart_date_format" => "")); ?>;
             colors = <?= json_encode($colors); ?>;
             images = <?= json_encode($params['images']); ?>;

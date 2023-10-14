@@ -92,7 +92,7 @@ function vadidateParamsGeneral(&$params): void
         $params['defaultLanguage'] = "en";
     }
     if (!isset($params['timeZone']) || !isValidTimezoneId($params['timeZone'])) {
-        addCheckMessage("INFO", "No timezone , or invalid timezone set in parameter.php, set default to 'UTC'");
+        addCheckMessage("INFO", "No timezone, or invalid timezone set in parameter.php, set default to 'UTC'");
         $params['timeZone'] = "UTC";
     }
     if (!isset($params['userTheme']) || !file_exists(ROOT_DIR . "/themes/" . strtolower($params['userTheme']) . ".theme")) {
@@ -123,6 +123,10 @@ function vadidateParamsGeneral(&$params): void
     if (!isset($params['importLocalDateAsUTC'])) {
         addCheckMessage("INFO", "'importLocalDateAsUTC' not set in parameter.php, set to default = false");
         $params['importLocalDateAsUTC'] = false;
+    }
+    if (!isset($params['website'])) {
+        addCheckMessage("INFO", "'website' not set in parameter.php, set to default = ''");
+        $params['website'] = "";
     }
     if (!isset($params['showDebugMenu'])) {
         addCheckMessage("INFO", "'showDebugMenu' not set in parameter.php, set to default = true");
@@ -270,6 +274,10 @@ function vadidatePlant($name, &$plant): void
     if (!isset($plant['description'])) {
         addCheckMessage("INFO", "['" . $name . "']['description'] not set in parameter.php, setting default ''");
         $plant['description'] = "";
+    }
+    if (!isset($plant['importDateFormat'])) {
+        addCheckMessage("INFO", "['" . $name . "']['importDateFormat'] not set in parameter.php, setting default 'd-m-Y H:i:s'");
+        $plant['importDateFormat'] = "d-m-Y H:i:s";
     }
 }
 

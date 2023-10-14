@@ -40,6 +40,17 @@ function addDebugInfo(string $msg): void
     }
 }
 
+function addDBInfo(string $msg): void
+{
+    global $params;
+    if (!isset( $_SESSION['dbMessages'])) {
+        $_SESSION['dbMessages'] = array();
+    }
+    if (!isset($params) || (isset($params['debugEnabled']) && $params['debugEnabled'])) {
+        $_SESSION['dbMessages'][] = (date("Y-m-d H:i:s - ") . $msg);
+    }
+}
+
 function checkChangedConfigFiles(): bool
 {
     // check parameter.php
@@ -306,9 +317,11 @@ function prepareAndInsertData(array $dbValues, $con): void
             $timeStamp = $row['timestamp'];
             $id = $timeStamp . $name;
             $dayValues .= "('$id', '$timeStamp', $watt, $cummulatedkWh, '$name'),";
+            // $dayValues .= "('$timeStamp', $watt, '$name'),";
         }
         $dayValues = substr($dayValues, 0, -1);
         $sql_insert_day = "insert into " . TABLE_PREFIX . "_dag (IndexDag, Datum_Dag, Geg_Dag, kWh_Dag, Naam) values $dayValues";
+        // $sql_insert_day = "insert into " . TABLE_PREFIX . "_dag ( Datum_Dag, Geg_Dag, Naam) values $dayValues";
         $del_month = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Naam ='$name' AND Datum_Maand='$currentDate'";
         $sqL_insert_month = "insert into " . TABLE_PREFIX . "_maand (IndexMaand, Datum_Maand, Geg_Maand, Naam) values ('$currentDate$name', '$currentDate', $cummulatedkWh, '$name')";
 
@@ -390,13 +403,13 @@ function convertDateTime(string $dateStr): string
     }
 }
 
-function convertLocalDateTime(string $dateStr, bool $force = false): string
+function convertLocalDateTime(string $dateStr, string $importDateFormat = "Y-m-d H:i:s", bool $force = false): string
 {
     global $params;
     if ($force || !$params['database']['UTC_is_used']) {
         $tz_from = $params['timeZone'];
         try {
-            $newDateTime = new DateTime($dateStr, new DateTimeZone($tz_from));
+            $newDateTime = DateTime::createFromFormat($importDateFormat, $dateStr, new DateTimeZone($tz_from));
             $newDateTime->setTimezone(new DateTimeZone("UTC"));
             return $newDateTime->format("Y-m-d H:i:s");
         } catch (Exception $e) {
