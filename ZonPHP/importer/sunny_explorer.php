@@ -48,5 +48,6 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
             }
         }
     }
+    addDebugInfo("sunny_explorer: mapLinesToDBValues: ImportedLines: " . count($lines) ." - DataRows: " . count($dbValues));
     return $dbValues;
 }
