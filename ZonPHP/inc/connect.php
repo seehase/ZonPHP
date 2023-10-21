@@ -43,11 +43,7 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + CACHE_TIMEOUT) 
 
     // get latest Version from github can cause error on some provider e.g.bplaced do not allow file_get_content
     if ($params['checkVersion']) {
-        if (strpos($version, "(dev)") > 0) {
-            $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/development/ZonPHP/inc/version_info.php');
-        } else {
-            $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/master/ZonPHP/inc/version_info.php');
-        }
+        $homepage = file_get_contents('https://raw.githubusercontent.com/seehase/ZonPHP/master/ZonPHP/inc/version_info.php');
         $pos_start = strpos($homepage, '"v');
         $pos_end = strpos($homepage, '";', $pos_start + 2);
         if ($pos_start > 0) {
