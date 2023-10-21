@@ -31,13 +31,14 @@ function addCheckMessage($level, $message, $isFatal = false): void
 
 function addDebugInfo(string $msg): void
 {
-    global $params;
+    global $params, $debugmode;
     if (!isset( $_SESSION['debugMessages'])) {
         $_SESSION['debugMessages'] = array();
     }
     if (!isset($params) || (isset($params['debugEnabled']) && $params['debugEnabled'])) {
         $_SESSION['debugMessages'][] = (date("Y-m-d H:i:s - ") . $msg);
     }
+    if ($debugmode) error_log(date("Y-m-d H:i:s - ") . $msg);
 }
 
 function addDBInfo(string $msg): void
