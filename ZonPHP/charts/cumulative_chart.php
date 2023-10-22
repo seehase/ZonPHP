@@ -37,7 +37,7 @@ if (isset($stripped['Total'])) {
     $Grand_total = Round($stripped['Total']);//Total yield
 }
 $All_Days = 1;
-if (isset($stripped['Days'])) {
+if (isset($stripped['Days']) && $stripped['Days'] > 0 ) {
     $All_Days = $stripped['Days'];
 }
 
