@@ -142,10 +142,13 @@ expectedYield = 180, 245, 460, 640, 645, 645, 675, 635, 510, 375, 215, 185
 
 importPrefix = solar1
 
-# Specify your date format of your import file
-# example: 09.08.2023 12:05:00 -> use "d-m-Y H:i:s" which is also the default
+# optional
+#
+# by default import date format is read from input file in special case
+# it is needed to override the value tha specify "importDateFormat"
+# e.g. importDateFormat = "d-m-Y H:i:s"
 # another example (1st October 2023)   01/10/2023 00:00 -> use "d/m/Y H:i"
-importDateFormat = "d-m-Y H:i:s"
+# importDateFormat = "d-m-Y H:i:s"
 
 # additional information shown on the card (information only), for linebreak use <br>
 description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly<br>Inverter: SMA SB 5000TL20 ESS<br>Orientation: 180 Grad 30 Grad Neigung<br>My first solar plant build in 2011"
