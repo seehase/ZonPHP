@@ -20,7 +20,7 @@ else {
     }
 }
 
-$directory = ROOT_DIR . "/ZonPHP/WR1/";
+$directory = ROOT_DIR . "/WR1/";
 
 $aday = array();
 for ($tel = 0; $tel <= 500; $tel++) {

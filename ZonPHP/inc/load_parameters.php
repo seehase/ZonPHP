@@ -276,7 +276,7 @@ function vadidatePlant($name, &$plant): void
         $plant['description'] = "";
     }
     if (!isset($plant['importDateFormat'])) {
-        addCheckMessage("INFO", "['" . $name . "']['importDateFormat'] not set in parameter.php, setting default 'd-m-Y H:i:s'");
+        // optional: format is parsed from input file, but can be overwritten
         $plant['importDateFormat'] = "d-m-Y H:i:s";
     }
 }

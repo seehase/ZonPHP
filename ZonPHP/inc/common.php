@@ -32,7 +32,7 @@ function addCheckMessage($level, $message, $isFatal = false): void
 function addDebugInfo(string $msg): void
 {
     global $params, $debugmode;
-    if (!isset( $_SESSION['debugMessages'])) {
+    if (!isset($_SESSION['debugMessages'])) {
         $_SESSION['debugMessages'] = array();
     }
     if (!isset($params) || (isset($params['debugEnabled']) && $params['debugEnabled'])) {
@@ -44,7 +44,7 @@ function addDebugInfo(string $msg): void
 function addDBInfo(string $msg): void
 {
     global $params;
-    if (!isset( $_SESSION['dbMessages'])) {
+    if (!isset($_SESSION['dbMessages'])) {
         $_SESSION['dbMessages'] = array();
     }
     if (!isset($params) || (isset($params['debugEnabled']) && $params['debugEnabled'])) {
@@ -411,8 +411,12 @@ function convertLocalDateTime(string $dateStr, string $importDateFormat = "Y-m-d
         $tz_from = $params['timeZone'];
         try {
             $newDateTime = DateTime::createFromFormat($importDateFormat, $dateStr, new DateTimeZone($tz_from));
-            $newDateTime->setTimezone(new DateTimeZone("UTC"));
-            return $newDateTime->format("Y-m-d H:i:s");
+            if ($newDateTime) {
+                $newDateTime->setTimezone(new DateTimeZone("UTC"));
+                return $newDateTime->format("Y-m-d H:i:s");
+            } else {
+                return $dateStr;
+            }
         } catch (Exception $e) {
             error_log($e);
             return $dateStr;
@@ -454,7 +458,8 @@ function colorsPerInverter(): array
     return $myColors;
 }
 
-function getPhpInfo() : string {
+function getPhpInfo(): string
+{
     ob_start();
     phpinfo();
     $html = ob_get_contents();
