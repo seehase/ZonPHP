@@ -25,9 +25,8 @@ jobs:
                   MASTER_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php )
                   echo "MASTER_VERSION --> $MASTER_VERSION"
                   if [ "$HEAD_VERSION" \> "$MASTER_VERSION" ]; then
-                    echo "Great job, master version $MASTER_VERSION will become $HEAD_VERSION soon"
-                    exit 0
+                    echo "Great job, master version $MASTER_VERSION will become $HEAD_VERSION soon"                    
                   else
-                    echo "Version not updated before merging into master"
+                    echo "Head $HEAD_VERSION not updated before merging into master"
                     exit 1
                   fi
