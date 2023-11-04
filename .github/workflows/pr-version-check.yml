@@ -17,15 +17,17 @@ jobs:
 
             - name: Version diff
               run: |
-                  # read application version from pom.xml of head branch
+                  # read version from file: ZonPHP/inc/version_info.php of head branch
                   HEAD_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php )
-                  echo "HEAD_VERSION -> $HEAD_VERSION"
+                  echo "HEAD_VERSION --> $HEAD_VERSION"
                   git checkout master
+                  # read version from file: ZonPHP/inc/version_info.php of master branch
                   MASTER_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php )
-                  echo "MASTER_VERSION -> MASTER_VERSION"
-                  if [ "$HEAD_VERSION" = "$MASTER_VERSION" ]; then
+                  echo "MASTER_VERSION --> $MASTER_VERSION"
+                  if [ "$HEAD_VERSION" \> "$MASTER_VERSION" ]; then
+                    echo "Great job, master version $MASTER_VERSION will become $HEAD_VERSION soon"
+                    exit 0
+                  else
                     echo "Version not updated before merging into master"
                     exit 1
-                  else
-                    echo "Great job, master version $MASTER_VERSION will become $HEAD_VERSION soon"
                   fi
