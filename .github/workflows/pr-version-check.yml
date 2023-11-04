@@ -1,0 +1,31 @@
+name: version-check
+on:
+    pull_request:
+        branches:
+            - master
+        paths-ignore:
+            - '.github/**'
+jobs:
+    release:
+        name: Check Version
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Version diff
+              run: |
+                  # read application version from pom.xml of head branch
+                  HEAD_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php )
+                  echo "HEAD_VERSION -> $HEAD_VERSION"
+                  git checkout master
+                  MASTER_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php )
+                  echo "MASTER_VERSION -> MASTER_VERSION"
+                  if [ "$HEAD_VERSION" = "$MASTER_VERSION" ]; then
+                    echo "Version not updated before merging into master"
+                    exit 1
+                  else
+                    echo "Great job, master version $MASTER_VERSION will become $HEAD_VERSION soon"
+                  fi
