@@ -54,8 +54,11 @@ if (mysqli_num_rows($result) == 0) {
 }
 // get best day for current month (max value over all years for current month)
 // Highcharts will calculate the max kWh
+
+// todo: filter on active plants with e.g. naam in ("SEEHASE", "TILLY") for safety
 $sqlmaxdag = "
-SELECT Datum_Maand, sum(Geg_Maand) as sum FROM " . TABLE_PREFIX . "_maand WHERE MONTH(Datum_Maand)='" . date('m', $chartdate) . "' " . " GROUP BY Datum_maand ORDER BY `sum` DESC limit 1";
+SELECT Datum_Maand, sum(Geg_Maand) as sum FROM " . TABLE_PREFIX . "_maand WHERE MONTH(Datum_Maand)='" .
+    date('m', $chartdate) . "' " . " GROUP BY Datum_maand ORDER BY `sum` DESC limit 1";
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
 $maxdag = date("m-d", time());
 if (mysqli_num_rows($resultmaxdag) > 0) {
@@ -78,7 +81,7 @@ if (mysqli_num_rows($resultmd) != 0) {
         $time_only = substr($row['Datum_Dag'], -9);
 
         $today_max = $chartdatestring . $time_only; // current chart date string + max time
-        $today_max_utc = convertLocalDateTime($today_max,); // date in UTC
+        $today_max_utc = convertLocalDateTime($today_max); // date in UTC
         $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
 
         $all_valarraymax[$today_max_unix_utc] [$inverter_name] = $row['gem'];
