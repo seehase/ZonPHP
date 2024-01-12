@@ -1,8 +1,6 @@
 <?php
-
 // work internally with UTC, converts values from DB if needed from localDateTime to UTC
 global $params, $con, $formatter, $colors, $chart_options, $chart_lang;
-
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
@@ -54,42 +52,22 @@ if (mysqli_num_rows($result) == 0) {
         }
     }
 }
+// get best day for current month (max value over all years for current month)
+// Highcharts will calculate the max kWh
 
-//--------------------------------------------------------------------------------------------------
-/*
-
-nur die aktiven Inverter in die IN clause
-
-  SELECT Datum_Maand, maxgeg, naam
-FROM tgeg_maand
-JOIN (
-        SELECT naam as maxnaam, month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg
-        FROM tgeg_maand
-        WHERE DATE_FORMAT(Datum_Maand,'%m')= "08" and naam in ("SEEHASE", "TILLY")
-        GROUP BY naam, maand ) AS maandelijks
- ON  (maandelijks.maxgeg = tgeg_maand.Geg_Maand and maandelijks.maxnaam = tgeg_maand.naam) ORDER BY maandelijks.maand
-
-und dann Day values per Inverter
-
- */
-// get best day and kWh for current month (max value over all years for current month)
-$sqlmaxdag = "SELECT Datum_Maand, Geg_Maand
-	 FROM " . TABLE_PREFIX . "_maand
-	 JOIN (SELECT month(Datum_Maand) AS maand, max(Geg_Maand) AS maxgeg FROM " . TABLE_PREFIX . "_maand WHERE 
-     DATE_FORMAT(Datum_Maand,'%m')='" . date('m', $chartdate) . "' " . " GROUP BY naam, maand ) AS maandelijks ON (month(" .
-    TABLE_PREFIX . "_maand.Datum_Maand) = maandelijks.maand AND maandelijks.maxgeg = " . TABLE_PREFIX . "_maand.Geg_Maand) ORDER BY maandelijks.maand";
+// todo: filter on active plants with e.g. naam in ("SEEHASE", "TILLY") for safety
+$sqlmaxdag = "
+SELECT Datum_Maand, sum(Geg_Maand) as sum FROM " . TABLE_PREFIX . "_maand WHERE MONTH(Datum_Maand)='" .
+    date('m', $chartdate) . "' " . " GROUP BY Datum_maand ORDER BY `sum` DESC limit 1";
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
 $maxdag = date("m-d", time());
-$maxkwh = array();
 if (mysqli_num_rows($resultmaxdag) > 0) {
     while ($row = mysqli_fetch_array($resultmaxdag)) {
         $maxdag = $row['Datum_Maand'];
-        $maxkwh[] = round($row['Geg_Maand'], 2);
+
     }
 }
 $nice_max_date = date("Y-m-d", strtotime($maxdag));
-
-//-----------------------------------------------------
 //query for the best day
 $all_valarraymax = array();
 $sqlmdinv = "SELECT Geg_Dag AS gem, Datum_Dag, Naam AS Name FROM " . TABLE_PREFIX . "_dag WHERE Datum_Dag LIKE  '" .
@@ -103,7 +81,7 @@ if (mysqli_num_rows($resultmd) != 0) {
         $time_only = substr($row['Datum_Dag'], -9);
 
         $today_max = $chartdatestring . $time_only; // current chart date string + max time
-        $today_max_utc = convertLocalDateTime($today_max,); // date in UTC
+        $today_max_utc = convertLocalDateTime($today_max); // date in UTC
         $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
 
         $all_valarraymax[$today_max_unix_utc] [$inverter_name] = $row['gem'];
@@ -112,7 +90,6 @@ if (mysqli_num_rows($resultmd) != 0) {
         }
     }
 }
-//--------------------------------------------------------------------------------------------------
 $strgegmax = "";
 $strsomkw = "";
 $myColors = colorsPerInverter();
@@ -216,16 +193,12 @@ if (strlen($temp_serie) > 0) {
 ?>
 <script>
     $(function () {
-
         function add(accumulator, a) {
             return accumulator + a;
         }
-
         var myoptions = <?= $chart_options ?>;
         var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
-        var maxmax = <?= json_encode($maxkwh) ?>;
-
         var maxlink = '<?= $maxlink ?>';
         var temp_max = <?= $val_max ?>;
         var temp_min = <?= $val_min ?>;
@@ -233,7 +206,6 @@ if (strlen($temp_serie) > 0) {
         var txt_totaal = '<?= getTxt('totaal') ?>';
         var txt_max = '<?= getTxt('max') ?>';
         var txt_peak = '<?= getTxt('peak') ?>';
-
         Highcharts.setOptions({
             <?= $chart_lang ?>
             time: {
@@ -254,35 +226,27 @@ if (strlen($temp_serie) > 0) {
                     render() {
                         mychart = this;
                         series = this.series;
-                        // construct subtitle
                         var sum = [];
                         var kWh = [];
                         var peak = [];
-                        var max = [];
                         var current = 0;
-                        tota = 0;
-
-                        var tota;
+                        var maxkwhtotal = 0;
                         for (i = nmbr - 1; i >= 0; i--) {
                             if (series[i].visible) {
                                 for (j = 0; j < series[i].data.length; j++) {
-                                    tota += (series[i].data[j].y) / 12000;//Total
+                                    maxkwhtotal += (series[i].data[j].y) / 12000;//Total
                                     if ((series[i].data[j]).y != 0) {
                                         sum[i] = (series[i].data[j]).y; //sum
                                     }
-                                    current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);//TIME
+                                    current = Highcharts.dateFormat('%H:%M', (series[i+nmbr].data[series[i+nmbr].data.length - 1]).x);//TIME
                                     kWh[i] = khhWp[i]; //KWH
-                                    max[i] = maxmax[i]; //MAXday
                                     peak[i] = series[i].dataMax //PEAK
                                 }
                             }
                         }
-
                         SUM = sum.reduce(add, 0);
                         KWH = kWh.reduce(add, 0);
-                        MAX = max.reduce(add, 0);
                         var dataMax = mychart.yAxis[1].dataMax;
-                        console.log(dataMax, KWH, tota, SUM);
                         var AX = peak.filter(Boolean);
                         if (AX.length == 0) {
                             PEAK = 0;
@@ -294,7 +258,7 @@ if (strlen($temp_serie) > 0) {
                                 "W" + "=" + (Highcharts.numberFormat(100 * SUM / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + PEAK + "W <br/><b>" +
                                 txt_totaal + ":</b> " + (Highcharts.numberFormat(dataMax, 2, ",", "")) + "kWh = " +
                                 (Highcharts.numberFormat((dataMax / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>" +
-                                txt_max + ": </b>" + maxlink + " " + (Highcharts.numberFormat(MAX, 2, ",", "")) + " kWh"
+                                txt_max + ": </b>" + maxlink + " " + (Highcharts.numberFormat(maxkwhtotal, 2, ",", "")) + " kWh"
                         }, false, false);
                         this.setTitle({
                             text: "<b>" +
@@ -305,7 +269,7 @@ if (strlen($temp_serie) > 0) {
                         //construct chart
                         total = [];
                         value = 0;
-
+						no_series = 0;
                         indexOfVisibleSeries = [];
                         checkHideForSpline = 1;
                         if (mychart.forRender) {
@@ -319,22 +283,26 @@ if (strlen($temp_serie) > 0) {
                                 }
                                 if (s.type === 'area' && s.visible) {
                                     indexOfVisibleSeries.push(s.index);
+                                    no_series = nmbr;
                                 }
                             });
+                            console.log(no_series);
                             if (checkHideForSpline) {
-                                for (i = 0; i < mychart.series[0].data.length; i++) {
+                                for (i = 0; i < mychart.series[no_series].data.length; i++) {
                                     for (h of indexOfVisibleSeries) {
+									//throws javascript error when no data available
+                                       
                                         value += mychart.series[h].data[i].y / 12000;
                                         axis = mychart.series[h].data[i].x;
                                     }
                                     if (typeof axis !== 'undefined') {
                                         total.push([axis, value]);
+                                    
                                     }
                                 }
                                 mychart.addSeries({
                                     data: total,
                                     name: 'Cum',
-
                                     yAxis: 1,
                                     unit: 'kWh',
                                     type: "spline",
@@ -504,7 +472,7 @@ if (strlen($temp_serie) > 0) {
                 }
             ],
             series: [
-                <?= $str_dataserie . $str_max . $temp_serie?>
+                <?= $str_max . $str_dataserie . $temp_serie?>
             ]
         }), function (mychart) {
             mychart.forRender = true
