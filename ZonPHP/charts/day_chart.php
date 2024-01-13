@@ -54,11 +54,9 @@ if (mysqli_num_rows($result) == 0) {
 }
 // get best day for current month (max value over all years for current month)
 // Highcharts will calculate the max kWh
-
 // todo: filter on active plants with e.g. naam in ("SEEHASE", "TILLY") for safety
 $sqlmaxdag = "
-SELECT Datum_Maand, sum(Geg_Maand) as sum FROM " . TABLE_PREFIX . "_maand WHERE MONTH(Datum_Maand)='" .
-    date('m', $chartdate) . "' " . " GROUP BY Datum_maand ORDER BY `sum` DESC limit 1";
+SELECT Datum_Maand, sum(Geg_Maand) as sum FROM " . TABLE_PREFIX . "_maand WHERE MONTH(Datum_Maand)='" . date('m', $chartdate) . "' " . " GROUP BY Datum_maand ORDER BY `sum` DESC limit 1";
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
 $maxdag = date("m-d", time());
 if (mysqli_num_rows($resultmaxdag) > 0) {
@@ -81,7 +79,7 @@ if (mysqli_num_rows($resultmd) != 0) {
         $time_only = substr($row['Datum_Dag'], -9);
 
         $today_max = $chartdatestring . $time_only; // current chart date string + max time
-        $today_max_utc = convertLocalDateTime($today_max); // date in UTC
+        $today_max_utc = convertLocalDateTime($today_max,); // date in UTC
         $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
 
         $all_valarraymax[$today_max_unix_utc] [$inverter_name] = $row['gem'];
@@ -235,15 +233,19 @@ if (strlen($temp_serie) > 0) {
                             if (series[i].visible) {
                                 for (j = 0; j < series[i].data.length; j++) {
                                     maxkwhtotal += (series[i].data[j].y) / 12000;//Total
-                                    if ((series[i].data[j]).y != 0) {
+									kWh[i] = khhWp[i]; //KWH
+									}
+                            	}     
+ 							}
+ 						for (i = 2*nmbr - 1; i >= nmbr; i--) {
+ 							if (series.length >= 2*nmbr) {
+                                for (j = 0; j < series[i].data.length; j++) {      
                                         sum[i] = (series[i].data[j]).y; //sum
+                            			current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length-1]).x);
+                                    	peak[i] = series[i].dataMax //PEAK
                                     }
-                                    current = Highcharts.dateFormat('%H:%M', (series[i+nmbr].data[series[i+nmbr].data.length - 1]).x);//TIME
-                                    kWh[i] = khhWp[i]; //KWH
-                                    peak[i] = series[i].dataMax //PEAK
-                                }
+ 								}
                             }
-                        }
                         SUM = sum.reduce(add, 0);
                         KWH = kWh.reduce(add, 0);
                         var dataMax = mychart.yAxis[1].dataMax;
@@ -286,7 +288,7 @@ if (strlen($temp_serie) > 0) {
                                     no_series = nmbr;
                                 }
                             });
-                            console.log(no_series);
+                            //console.log(no_series);
                             if (checkHideForSpline) {
                                 for (i = 0; i < mychart.series[no_series].data.length; i++) {
                                     for (h of indexOfVisibleSeries) {
@@ -299,7 +301,11 @@ if (strlen($temp_serie) > 0) {
                                         total.push([axis, value]);
                                     
                                     }
+									
+
+
                                 }
+                                if (series.length >= 2*nmbr){
                                 mychart.addSeries({
                                     data: total,
                                     name: 'Cum',
@@ -307,7 +313,7 @@ if (strlen($temp_serie) > 0) {
                                     unit: 'kWh',
                                     type: "spline",
                                     color: '<?= $colors['color_chart_cum_line'] ?>',
-                                })
+                                })}
                             }
                         }
                         mychart.forRender = true
