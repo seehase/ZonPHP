@@ -238,7 +238,7 @@ if (strlen($temp_serie) > 0) {
                             	}     
  							}
  						for (i = 2*nmbr - 1; i >= nmbr; i--) {
- 							if (series.length >= 2*nmbr) {
+ 							if (series.length >= 2*nmbr && series[i].visible) {
                                 for (j = 0; j < series[i].data.length; j++) {      
                                         sum[i] = (series[i].data[j]).y; //sum
                             			current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length-1]).x);
