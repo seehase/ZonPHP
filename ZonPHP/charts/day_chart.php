@@ -79,7 +79,7 @@ if (mysqli_num_rows($resultmd) != 0) {
         $time_only = substr($row['Datum_Dag'], -9);
 
         $today_max = $chartdatestring . $time_only; // current chart date string + max time
-        $today_max_utc = convertLocalDateTime($today_max,); // date in UTC
+        $today_max_utc = convertLocalDateTime($today_max); // date in UTC
         $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
 
         $all_valarraymax[$today_max_unix_utc] [$inverter_name] = $row['gem'];
@@ -194,6 +194,7 @@ if (strlen($temp_serie) > 0) {
         function add(accumulator, a) {
             return accumulator + a;
         }
+
         var myoptions = <?= $chart_options ?>;
         var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
@@ -232,20 +233,20 @@ if (strlen($temp_serie) > 0) {
                         for (i = nmbr - 1; i >= 0; i--) {
                             if (series[i].visible) {
                                 for (j = 0; j < series[i].data.length; j++) {
-                                    maxkwhtotal += (series[i].data[j].y) / 12000;//Total
-									kWh[i] = khhWp[i]; //KWH
-									}
-                            	}     
- 							}
- 						for (i = 2*nmbr - 1; i >= nmbr; i--) {
- 							if (series.length >= 2*nmbr && series[i].visible) {
-                                for (j = 0; j < series[i].data.length; j++) {      
-                                        sum[i] = (series[i].data[j]).y; //sum
-                            			current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length-1]).x);
-                                    	peak[i] = series[i].dataMax //PEAK
-                                    }
- 								}
+                                    maxkwhtotal += (series[i].data[j].y) / 12000; // Total
+                                    kWh[i] = khhWp[i]; // KWH
+                                }
                             }
+                        }
+                        for (i = 2 * nmbr - 1; i >= nmbr; i--) {
+                            if (series.length >= 2 * nmbr && series[i].visible) {
+                                for (j = 0; j < series[i].data.length; j++) {
+                                    sum[i] = (series[i].data[j]).y; // sum
+                                    current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);
+                                    peak[i] = series[i].dataMax // PEAK
+                                }
+                            }
+                        }
                         SUM = sum.reduce(add, 0);
                         KWH = kWh.reduce(add, 0);
                         var dataMax = mychart.yAxis[1].dataMax;
@@ -268,15 +269,15 @@ if (strlen($temp_serie) > 0) {
                                 (Highcharts.numberFormat((dataMax / KWH) * 1000, 2, ",", "")) + "kWh/kWp"
                         }, false, false);
 
-                        //construct chart
+                        // construct chart
                         total = [];
                         value = 0;
-						no_series = 0;
+                        no_series = 0;
                         indexOfVisibleSeries = [];
                         checkHideForSpline = 1;
                         if (mychart.forRender) {
                             mychart.forRender = false;
-                            //function to check amount of visible series and to destroy old spline series
+                            // function to check amount of visible series and to destroy old spline series
                             mychart.series.forEach(s => {
                                 if (s.type === 'spline' && s.visible === true && s.name != 'Temp') {
                                     s.destroy()
@@ -288,32 +289,32 @@ if (strlen($temp_serie) > 0) {
                                     no_series = nmbr;
                                 }
                             });
-                            //console.log(no_series);
+                            // console.log(no_series);
                             if (checkHideForSpline) {
                                 for (i = 0; i < mychart.series[no_series].data.length; i++) {
                                     for (h of indexOfVisibleSeries) {
-									//throws javascript error when no data available
-                                       
+                                        // throws javascript error when no data available
+
                                         value += mychart.series[h].data[i].y / 12000;
                                         axis = mychart.series[h].data[i].x;
                                     }
                                     if (typeof axis !== 'undefined') {
                                         total.push([axis, value]);
-                                    
+
                                     }
-									
 
 
                                 }
-                                if (series.length >= 2*nmbr){
-                                mychart.addSeries({
-                                    data: total,
-                                    name: 'Cum',
-                                    yAxis: 1,
-                                    unit: 'kWh',
-                                    type: "spline",
-                                    color: '<?= $colors['color_chart_cum_line'] ?>',
-                                })}
+                                if (series.length >= 2 * nmbr) {
+                                    mychart.addSeries({
+                                        data: total,
+                                        name: 'Cum',
+                                        yAxis: 1,
+                                        unit: 'kWh',
+                                        type: "spline",
+                                        color: '<?= $colors['color_chart_cum_line'] ?>',
+                                    })
+                                }
                             }
                         }
                         mychart.forRender = true
@@ -326,7 +327,7 @@ if (strlen($temp_serie) > 0) {
                 pointFormatter: function () {
                     unit = this.unit;
                     value = this.y;
-                    //if unit is undefined (added series) set unit to 'kWh' and value to two decimals
+                    // if unit is undefined (added series) set unit to 'kWh' and value to two decimals
                     if (!unit) {
                         unit = 'kWh';
                         value = Highcharts.numberFormat(this.y, '2', ',');
