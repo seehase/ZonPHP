@@ -10,12 +10,31 @@ $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
+$years = array();
 
+$sql2 = "SELECT distinct(YEAR(Datum_Maand))as years FROM " . TABLE_PREFIX . "_maand";
+$result = $con->query($sql2);
+while ($row = $result->fetch_row()) {
+    $years[] = $row[0];
+}
+$whereInYear = implode(',', $years);
 $x = "'" . implode("', '", PLANT_NAMES) . "'";
 $whereInClause = " where naam in ($x)";
+$whereInMonth = '1,2,3,4,5,6,7,8,9,10,11,12';
+
+if (isset($_POST['allselected'])) {
+    $whereInMonth = $_POST['allselected'];
+}
+if (isset($_POST['allselectedtea'])) {
+    $whereInYear = $_POST['allselectedtea'];
+}
+
 $sql = "SELECT db1.*
 FROM " . TABLE_PREFIX . "_maand AS db1 
-JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM " . TABLE_PREFIX . "_maand $whereInClause Group by Datum_Maand ORDER BY mysum $DESC_ASC LIMIT 0,31) AS db2
+
+JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM " . TABLE_PREFIX .
+    "_maand $whereInClause  AND MONTH(Datum_Maand) IN ($whereInMonth) AND YEAR(Datum_Maand) IN ($whereInYear) Group by Datum_Maand ORDER BY mysum $DESC_ASC LIMIT 0,31) AS db2
+
 ON db1.Datum_Maand = db2.Datum_Maand $whereInClause order by mysum desc";
 
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
@@ -67,6 +86,7 @@ $meta = implode(', ', $myMetadata);
 $datafin = "";
 $dataseries = substr($dataseries, 0, -1);
 $datafin = '[' . $dataseries . ']';
+
 $id = $showTopFlop;
 
 $show_legende = "true";
@@ -103,12 +123,12 @@ include_once "chart_styles.php";
                 },
             },
             title: {
-    			style: {
+                style: {
                     opacity: 0,
-      				fontWeight: 'normal',
+                    fontWeight: 'normal',
                     fontSize: '12px'
-   					 }
-  					},
+                }
+            },
             chart: {
                 type: 'column', stacking: 'normal'
             },
