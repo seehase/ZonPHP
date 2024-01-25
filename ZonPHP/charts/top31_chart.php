@@ -11,13 +11,28 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
 
+$sql2 = "SELECT distinct(YEAR(Datum_Maand))as years FROM " . TABLE_PREFIX . "_maand";
+$result = $con->query($sql2);
+while($row = $result->fetch_row()) {
+  $years[]=$row[0];
+}
+$whereInYear=implode(',',$years);
 $x = "'" . implode("', '", PLANT_NAMES) . "'";
 $whereInClause = " where naam in ($x)";
+$whereInMonth = '1,2,3,4,5,6,7,8,9,10,11,12';
+
+if (isset($_POST['allselected']) ) {
+$whereInMonth = $_POST['allselected'];
+}
+if (isset($_POST['allselectedtea']) ) {
+$whereInYear = $_POST['allselectedtea'];
+}
+
 $sql = "SELECT db1.*
 FROM " . TABLE_PREFIX . "_maand AS db1 
-JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM tgeg_maand $whereInClause Group by Datum_Maand ORDER BY mysum $DESC_ASC LIMIT 0,31) AS db2
+JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM " . TABLE_PREFIX . "_maand $whereInClause  AND MONTH(Datum_Maand) IN ($whereInMonth) AND YEAR(Datum_Maand) IN ($whereInYear) Group by Datum_Maand ORDER BY mysum $DESC_ASC LIMIT 0,31) AS db2
 ON db1.Datum_Maand = db2.Datum_Maand $whereInClause order by mysum desc";
-
+//echo $sql;
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
 $datum = "Geen data";
 $adatum = array();
@@ -36,19 +51,9 @@ $adatum = array_values(array_unique($adatum));
 // -----------------------------  build data for chart -----------------------------------------------------------------
 // build colors per inverter array
 //
-$myurl = 'day_overview.php?date=';
+$myurl = HTML_PATH . "pages/day_overview.php?date=";
 $myMetadata = array();
-$myColors = array();
-
-for ($k = 0; $k < count(PLANT_NAMES); $k++) {
-    $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
-    $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
-}
-
+$myColors = colorsPerInverter();
 
 $dataseries = "";
 $maxval_yaxis = 0;
@@ -77,6 +82,7 @@ $meta = implode(', ', $myMetadata);
 $datafin = "";
 $dataseries = substr($dataseries, 0, -1);
 $datafin = '[' . $dataseries . ']';
+
 $id = $showTopFlop;
 
 $show_legende = "true";
@@ -100,7 +106,7 @@ include_once "chart_styles.php";
         const categories = data[0].map(d => d[0]);
         const myurl = '<?= $myurl ?>';
         series = this.series;
-        const khhWp = [<?= json_encode($params['PLANTS_KWP']) ?>];
+        const khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
         var nmbr = khhWp.length //misused to get the inverter count
         const kwptot = khhWp.reduce(add, 0);
         var sub_title;
@@ -192,14 +198,14 @@ include_once "chart_styles.php";
                 opposite: true,
                 labels: {
                     formatter: function () {
-                        return this.value + 'kWh';
+                        return this.value
                     },
                     style: {
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
                 title: {
-                    text: 'Total',
+                    text: 'Total (kWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'
                     },
