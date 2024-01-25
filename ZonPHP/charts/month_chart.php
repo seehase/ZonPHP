@@ -3,22 +3,18 @@ global $con, $params, $formatter, $colors, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
+if (isset($_GET['date'])) {
+    $chartdatestring = html_entity_decode($_GET['date']);
+    $chartdate = strtotime($chartdatestring);
+} else {
+    $chartdate = $_SESSION['CHARTDATE'] ?? time();
+}
+$chartdatestring = date("Y-m-d", $chartdate);
+
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
-}
-
-
-$chartcurrentdate = time();
-$chartdate = $chartcurrentdate;
-
-$chartdatestring = date("Y-m-d", $chartdate);
-if (isset($_GET['date'])) {
-    $chartdatestring = html_entity_decode($_GET['date']);
-    $chartdate = strtotime($chartdatestring);
-    // reformat string
-    $chartdatestring = date("Y-m-d", $chartdate);
 }
 // -----------------------------  get data from DB -----------------------------------------------------------------
 $current_year = date('Y', $chartdate);
@@ -28,7 +24,7 @@ $current_year_month = date('Y-m', $chartdate);
 // get reference values
 $nfrefmaand = array();
 foreach (PLANT_NAMES as $plant) {
-    $tmp = $params[$plant]['referenceYield'][$current_month - 1] / 30;
+    $tmp = $params[$plant]['expectedYield'][$current_month - 1] / 30;
     $nfrefmaand[] = $tmp;
 }
 
@@ -89,15 +85,7 @@ if (mysqli_num_rows($result) == 0) {
 <?php
 // -----------------------------  build data for chart -----------------------------------------------------------------
 // build colors per inverter array
-$myColors = array();
-for ($k = 0; $k < count(PLANT_NAMES); $k++) {
-    $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
-    $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
-}
+$myColors = colorsPerInverter();
 // collect data array
 $myurl = HTML_PATH . "pages/day_overview.php?date=";
 $categories = "";
@@ -112,10 +100,8 @@ foreach (PLANT_NAMES as $inverter_name) {
     for ($i = 1; $i <= $DaysPerMonth; $i++) {
         $categories .= '"' . $i . '",';
         if (array_key_exists($i, $agegevens)) {
-
             $myColor1 = $myColors[$inverter_name]['min'];
             $myColor2 = $myColors[$inverter_name]['max'];
-
             if ($agegevens[$i] == max($agegevens)) {
                 $myColor1 = "'" . $colors['color_chartbar_piek1'] . "'";
                 $myColor2 = "'" . $colors['color_chartbar_piek2'] . "'";
@@ -320,7 +306,7 @@ include_once "chart_styles.php";
                     showInLegend: true
                 }
             },
-			title: {
+            title: {
                 style: {
                     wordWrap: 'break-word',
                     fontWeight: 'normal',

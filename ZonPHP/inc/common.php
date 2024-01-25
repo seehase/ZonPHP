@@ -3,7 +3,6 @@
  * common functions and constants
  */
 
-
 function getTxt($key)
 {
     return $_SESSION["txt"][$key] ?? "undefined key: " . $key;
@@ -29,12 +28,37 @@ function addCheckMessage($level, $message, $isFatal = false): void
     $_SESSION['params'] = $params;
 }
 
+
+function addDebugInfo(string $msg): void
+{
+    global $params, $debugmode;
+    if (!isset($_SESSION['debugMessages'])) {
+        $_SESSION['debugMessages'] = array();
+    }
+    if (!isset($params) || (isset($params['debugEnabled']) && $params['debugEnabled'])) {
+        $_SESSION['debugMessages'][] = (date("Y-m-d H:i:s - ") . $msg);
+    }
+    if ($debugmode) error_log(date("Y-m-d H:i:s - ") . $msg);
+}
+
+function addDBInfo(string $msg): void
+{
+    global $params;
+    if (!isset($_SESSION['dbMessages'])) {
+        $_SESSION['dbMessages'] = array();
+    }
+    if (!isset($params) || (isset($params['debugEnabled']) && $params['debugEnabled'])) {
+        $_SESSION['dbMessages'][] = (date("Y-m-d H:i:s - ") . $msg);
+    }
+}
+
 function checkChangedConfigFiles(): bool
 {
     // check parameter.php
     $paramsFileDate = filemtime(ROOT_DIR . "/parameters.php");
     if (!isset($_SESSION['paramsFileDate'])) {
         $_SESSION['paramsFileDate'] = $paramsFileDate;
+        addDebugInfo("checkChangedConfigFiles: paramsFileDate not found in session -> changed = true");
         return true;
     } else {
         if ($_SESSION['paramsFileDate'] < $paramsFileDate) {
@@ -42,6 +66,7 @@ function checkChangedConfigFiles(): bool
             unset($_SESSION['params']);
             unset($_SESSION['txt']);
             unset($_SESSION['colors']);
+            addDebugInfo("checkChangedConfigFiles: paramsFileDate has been changed -> changed = true");
             return true;
         }
     }
@@ -57,6 +82,7 @@ function checkChangedConfigFiles(): bool
                 unset($_SESSION['params']);
                 unset($_SESSION['txt']);
                 unset($_SESSION['colors']);
+                addDebugInfo("checkChangedConfigFiles: parameter_dev changed -> changed = true");
                 return true;
             }
         }
@@ -75,6 +101,7 @@ function checkChangedConfigFiles(): bool
         if ($_SESSION['languageFilesHash'] != $hash) {
             $_SESSION['languageFilesHash'] = $hash;
             unset($_SESSION['txt']);
+            addDebugInfo("checkChangedConfigFiles: language files changed -> changed = true");
             return true;
         }
     }
@@ -92,6 +119,7 @@ function checkChangedConfigFiles(): bool
         if ($_SESSION['themeFilesHash'] != $hash) {
             $_SESSION['themeFilesHash'] = $hash;
             unset($_SESSION['colors']);
+            addDebugInfo("checkChangedConfigFiles: themes files changed -> changed = true");
             return true;
         }
     }
@@ -154,6 +182,7 @@ function getLastImportDate(string $sql, $con): string
     if ($row != null) {
         $firstImportDate = $row['Datum_Dag'];
     }
+    addDebugInfo("getLastImportDate: $firstImportDate");
     return $firstImportDate;
 }
 
@@ -178,7 +207,7 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
     $directory = ROOT_DIR . "/" . $folderName . '/';
     $files_to_import = array();
     $num_today = date("Ymd", time());
-
+    addDebugInfo("getFilesToImport: directory: $directory");
     if ($lastImportDate == NODATE) {
         // initial load, no data found in database
         $files = scandir($directory);
@@ -193,9 +222,10 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
             }
         }
         $lastImportDate = $mindate . "";
+        addDebugInfo("getFilesToImport: start on empty DB oldest file in dir: $lastImportDate");
     }
 
-    for ($i = 0; $i <= 160; $i++) {
+    for ($i = 0; $i <= 365; $i++) {
         $num = (date("Ymd", strtotime("+" . $i . " day", strtotime($lastImportDate))));
         if ($num > $num_today) {
             // skip if date is in future
@@ -206,6 +236,7 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
             $files_to_import[] = $filename;
         }
     }
+    addDebugInfo("getFilesToImport: Files to import: " . count($files_to_import));
     return $files_to_import;
 }
 
@@ -225,16 +256,12 @@ function readImportFile(string $filename, int $linesToSkip): array
         $lineCounter++;
     }
     fclose($file);
+    addDebugInfo("readImportFile: filename: $filename - $linesToSkip lines skipped - " . count($lines) . " read");
     return $lines;
 }
 
-function readParameterFile(): string
+function readIniFile(string $filename): string
 {
-    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
-        $filename = ROOT_DIR . "/parameters_dev.php";
-    } else {
-        $filename = ROOT_DIR . "/parameters.php";
-    }
     $file = fopen($filename, "r") or die ("Cannot open " . $filename);
     $lines = array();
     while (!feof($file)) {
@@ -244,7 +271,26 @@ function readParameterFile(): string
         }
     }
     fclose($file);
+    addDebugInfo("readIniFile: filename: $filename - " . count($lines) . " lines read");
     return implode(PHP_EOL, $lines);
+}
+
+function readParameterFile(): string
+{
+    if (file_exists(ROOT_DIR . "/parameters_dev.php")) {
+        $filename = ROOT_DIR . "/parameters_dev.php";
+    } else {
+        $filename = ROOT_DIR . "/parameters.php";
+    }
+    return readIniFile($filename);
+}
+
+function readWeewxFile(): string
+{
+    $filename = ROOT_DIR . "/weewx.ini.php";
+    if (file_exists($filename)) {
+        return readIniFile($filename);
+    } else return "";
 }
 
 function isComment(string $input): bool
@@ -262,6 +308,7 @@ function prepareAndInsertData(array $dbValues, $con): void
 {
     if (count($dbValues) > 0) {
         $dayValues = "";
+        $cummulatedkWh = 0;
         $name = "";
         $currentDate = date("Y-m-d", strtotime($dbValues[0]['timestamp']));
         foreach ($dbValues as $row) {
@@ -271,15 +318,18 @@ function prepareAndInsertData(array $dbValues, $con): void
             $timeStamp = $row['timestamp'];
             $id = $timeStamp . $name;
             $dayValues .= "('$id', '$timeStamp', $watt, $cummulatedkWh, '$name'),";
+            // $dayValues .= "('$timeStamp', $watt, '$name'),";
         }
         $dayValues = substr($dayValues, 0, -1);
         $sql_insert_day = "insert into " . TABLE_PREFIX . "_dag (IndexDag, Datum_Dag, Geg_Dag, kWh_Dag, Naam) values $dayValues";
+        // $sql_insert_day = "insert into " . TABLE_PREFIX . "_dag ( Datum_Dag, Geg_Dag, Naam) values $dayValues";
         $del_month = "DELETE FROM " . TABLE_PREFIX . "_maand WHERE Naam ='$name' AND Datum_Maand='$currentDate'";
         $sqL_insert_month = "insert into " . TABLE_PREFIX . "_maand (IndexMaand, Datum_Maand, Geg_Maand, Naam) values ('$currentDate$name', '$currentDate', $cummulatedkWh, '$name')";
 
         mysqli_query($con, $del_month) or die("Query failed. ERROR1: " . $del_month . mysqli_error($con));
         mysqli_query($con, $sql_insert_day) or die("Query failed. ERROR2: " . $sql_insert_day . mysqli_error($con));
         mysqli_query($con, $sqL_insert_month) or die("Query failed. ERROR3: " . $sqL_insert_month . mysqli_error($con));
+        addDebugInfo("prepareAndInsertData: data to insert: " . count($dbValues));
     }
 }
 
@@ -342,30 +392,45 @@ function getHTMLPATH(string $path1, $path2): string
     return "/";
 }
 
-function convertDateTime(string $dateStr)
+function convertDateTime(string $dateStr): string
 {
-    $newDateTime = new DateTime($dateStr);
-    $newDateTime->setTimezone(new DateTimeZone("UTC"));
-    return $newDateTime->format("Y-m-d H:i:s");
+    try {
+        $newDateTime = new DateTime($dateStr);
+        $newDateTime->setTimezone(new DateTimeZone("UTC"));
+        return $newDateTime->format("Y-m-d H:i:s");
+    } catch (Exception $e) {
+        error_log($e);
+        return "";
+    }
 }
 
-function convertLocalDateTime(string $dateStr, bool $force = false): string
+function convertLocalDateTime(string $dateStr, string $importDateFormat = "Y-m-d H:i:s", bool $force = false): string
 {
     global $params;
     if ($force || !$params['database']['UTC_is_used']) {
         $tz_from = $params['timeZone'];
-        $newDateTime = new DateTime($dateStr, new DateTimeZone($tz_from));
-        $newDateTime->setTimezone(new DateTimeZone("UTC"));
-        return $newDateTime->format("Y-m-d H:i:s");
+        try {
+            $newDateTime = DateTime::createFromFormat($importDateFormat, $dateStr, new DateTimeZone($tz_from));
+            if ($newDateTime) {
+                $newDateTime->setTimezone(new DateTimeZone("UTC"));
+                return $newDateTime->format("Y-m-d H:i:s");
+            } else {
+                return $dateStr;
+            }
+        } catch (Exception $e) {
+            error_log($e);
+            return $dateStr;
+        }
     } else {
         // Date is already in UTC
         return $dateStr;
     }
 }
 
-function convertToUnixTimestamp($datetime)
+function convertToUnixTimestamp($datetime): string
 {
-    return strtotime($datetime . "");
+    $cleanDate = str_replace('/', '-', $datetime);
+    return strtotime($cleanDate . "");
 }
 
 function hasErrorOrWarnings(): bool
@@ -375,4 +440,38 @@ function hasErrorOrWarnings(): bool
     } else {
         return false;
     }
+}
+
+// build colors per inverter array
+function colorsPerInverter(): array
+{
+    global $colors;
+    $myColors = array();
+    for ($k = 0; $k < count(PLANT_NAMES); $k++) {
+        $col1 = "color_inverter" . $k . "_chartbar_min";
+        $col1 = "'" . $colors[$col1] . "'";
+        $myColors[PLANT_NAMES[$k]]['min'] = $col1;
+        $col1 = "color_inverter" . $k . "_chartbar_max";
+        $col1 = "'" . $colors[$col1] . "'";
+        $myColors[PLANT_NAMES[$k]]['max'] = $col1;
+    }
+    return $myColors;
+}
+
+function getPhpInfo(): string
+{
+    ob_start();
+    phpinfo();
+    $html = ob_get_contents();
+    ob_end_clean();
+
+    /// Delete styles from output
+    $html = preg_replace('#(\n?<style[^>]*?>.*?</style[^>]*?>)|(\n?<style[^>]*?/>)#is', '', $html);
+    $html = preg_replace('#(\n?<head[^>]*?>.*?</head[^>]*?>)|(\n?<head[^>]*?/>)#is', '', $html);
+    // Delete DOCTYPE from output
+    $html = preg_replace('/<!DOCTYPE html PUBLIC.*?>/is', '', $html);
+    // Delete body and html tags
+    $html = preg_replace('/<html.*?>.*?<body.*?>/is', '', $html);
+    $html = preg_replace('/<\/body><\/html>/is', '', $html);
+    return $html;
 }

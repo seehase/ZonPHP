@@ -30,7 +30,9 @@ $whereInYear = $_POST['allselectedtea'];
 
 $sql = "SELECT db1.*
 FROM " . TABLE_PREFIX . "_maand AS db1 
+
 JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM " . TABLE_PREFIX . "_maand $whereInClause  AND MONTH(Datum_Maand) IN ($whereInMonth) AND YEAR(Datum_Maand) IN ($whereInYear) Group by Datum_Maand ORDER BY mysum $DESC_ASC LIMIT 0,31) AS db2
+
 ON db1.Datum_Maand = db2.Datum_Maand $whereInClause order by mysum desc";
 //echo $sql;
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));

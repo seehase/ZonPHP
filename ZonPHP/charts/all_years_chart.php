@@ -89,31 +89,26 @@ $categories = "";
 $best_year = 0;
 $strdataseries = "";
 
-$myColors = array();
-for ($k = 0; $k < count(PLANT_NAMES); $k++) {
-    $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
-    $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
-}
-//print_r($myColors);
+$myColors = colorsPerInverter();
+
 foreach ($inveter_list as $inverter_name) {
 
     $current_bars = "";
     $best_year_per_inverter = 0;
     foreach ($sum_per_year as $ijaar => $fkw) {
         $categories .= '"' . $ijaar . '",';
-
-        if ($first_year == 0) $first_year = $ijaar;
+        if ($first_year == 0) {
+            $first_year = $ijaar;
+        }
 
         $myColor1 = $myColors[$inverter_name]['min'];
         $myColor2 = $myColors[$inverter_name]['max'];
         if ($fkw >= max($sum_per_year)) {
             $myColor1 = "'" . $colors['color_chartbar_piek1'] . "'";
             $myColor2 = "'" . $colors['color_chartbar_piek2'] . "'";
-            $best_year_per_inverter = max($sum_per_year)[$inverter_name];
+            if (isset(max($sum_per_year)[$inverter_name])) {
+                $best_year_per_inverter = max($sum_per_year)[$inverter_name];
+            }
         }
 
         // normal chart, $val throws errors when missing inverter index
@@ -166,7 +161,7 @@ include_once "chart_styles.php";
 <script>
 
     $(function () {
-        
+
         function add(accumulator, a) {
             return accumulator + a;
         }
@@ -287,12 +282,12 @@ include_once "chart_styles.php";
                 }
             },
             title: {
-    			style: {
+                style: {
                     opacity: 0,
-      				fontWeight: 'normal',
+                    fontWeight: 'normal',
                     fontSize: '12px'
-   					 }
-  					},
+                }
+            },
             subtitle: {
                 //text: sub_title,
                 style: {

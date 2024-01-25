@@ -3,21 +3,17 @@ global $params, $con, $colors, $shortmonthcategories, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
-$isIndexPage = false;
-if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
-    $isIndexPage = true;
-}
-
-$chartcurrentdate = time();
-$chartdate = $chartcurrentdate;
-
-$chartdatestring = date("Y-m-d", $chartdate);
-
 if (isset($_GET['date'])) {
     $chartdatestring = html_entity_decode($_GET['date']);
     $chartdate = strtotime($chartdatestring);
-    // reformat string
-    $chartdatestring = date("Y-m-d", $chartdate);
+} else {
+    $chartdate = $_SESSION['CHARTDATE'] ?? time();
+}
+$chartdatestring = date("Y-m-d", $chartdate);
+
+$isIndexPage = false;
+if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
+    $isIndexPage = true;
 }
 // -------------------------------------------------------------------------------------------------------------
 $current_year = date('Y', $chartdate);
@@ -89,15 +85,7 @@ if (mysqli_num_rows($resultmax) >0) {
 
 ?>
 <?php
-$myColors = array();
-for ($k = 0; $k < count(PLANT_NAMES); $k++) {
-    $col1 = "color_inverter" . $k . "_chartbar_min";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['min'] = $col1;
-    $col1 = "color_inverter" . $k . "_chartbar_max";
-    $col1 = "'" . $colors[$col1] . "'";
-    $myColors[PLANT_NAMES[$k]]['max'] = $col1;
-}
+$myColors = colorsPerInverter();
 $my_year = date("Y", $chartdate);
 $href = HTML_PATH . "pages/month_overview.php?date=";
 $gridlines = "";
@@ -134,16 +122,12 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
         $expected = 0.0;
         // only month with values
         if (array_key_exists($i, $agegevens)) {
-            // expected bars char
-
-
             $myColor1 = $myColors[$inverter_name]['min'];
             $myColor2 = $myColors[$inverter_name]['max'];
             if ($agegevens[$i] == max($agegevens)) {
                 $myColor1 = "'" . $colors['color_chartbar_piek1'] . "'";
                 $myColor2 = "'" . $colors['color_chartbar_piek2'] . "'";
             }
-
             // normal actual  bar
             $val = 0.0;
             if (isset($all_valarray[$i][$inverter_name])) {
@@ -404,7 +388,8 @@ $categories = $shortmonthcategories;
                         color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
                     },
                 },
-                title: {
+                opposite: true,
+		title: {
                     text: 'Total (kWh)',
                     style: {
                         color: '<?= $colors['color_chart_title_yaxis1'] ?>'

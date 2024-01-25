@@ -2,5 +2,7 @@
 /********************************************************************
  * Version
  *********************************************************************/
-$zonPHPSessionID = "SOLAR6";    // Change SessionId if needed e.g. if you run multi instances
-$version = "v2023.08.07 (dev)";
+$version = "v3.2.7";
+
+// Change SessionId if needed e.g. if you run multi instances
+$zonPHPSessionID = "SOLAR_" . str_replace('.', '_', $version);

@@ -49,6 +49,7 @@ if (!isset($_SESSION['params']) || isset($_GET['params'])) {
 if (!defined("HTML_PATH")) {
     define('HTML_PATH', $tmpHTMLPath);
 }
+$_SESSION['HTML_PATH'] = HTML_PATH;
 
 $params = $_SESSION['params'];
 if (!defined("TABLE_PREFIX")) {

@@ -22,16 +22,16 @@ defaultLanguage = de
 
 # Define the timezone to use, e.g. "Europe/Berlin" or "UTC" default is "UTC",
 # list of valid timezones can be seen here https://www.php.net/manual/en/timezones.php
-timeZone = "UTC"
+timeZone = Europe/Berlin
 
 # Default theme for your installation. Specify a name that corresponds to the *.theme files in folder /themes
-# available themes at this moment: blue, julia, darkgreyfire, fire
+# available themes at this moment: blue, julia, darkgreyfire, fire, zonphp
 # you can make your own theme by copy and rename an existing theme file in this folder. Theme files must be named 
 # in lower case
-userTheme = darkgreyfire
+userTheme = zonphp
 
 # additional website shown in farm-card (for display only)
-website = "https://solar.seehausen.org"
+website = https://solar.seehausen.org
 
 # additional location shown in farm-card
 location = Ingolstadt
@@ -64,6 +64,10 @@ googleTrackingId =
 # possible values: always, onError, never
 showDebugMenu = always
 
+# Enable debug information default = false, use this only if you need detailed debug information
+# Debug messages will be stored until session is cleared or debug is disabled again
+debugEnabled = false
+
 # Define a comma separated list of images you want to show on the index page, for each name you specify here
 # you need to have a dedicated section defined below, name must be unique and not conflicting with other
 # sections.
@@ -91,17 +95,20 @@ plantImages = image1, image2
 
 # provide a list of cards and additional infos as a list (names are case insensitive)
 # default = "day, month, year, allYears, cumulative, yearPerMonth, top, farm, plants, images";
-cards = "day, month, year, allYears, cumulative, yearPerMonth, farm, images, top, plants"
+cards = day, month, year, allYears, cumulative, yearPerMonth, farm, images, top, plants
 
 #######################################################################################################################
 #   This section database connections parameters and is mandatory.
 #   tablePrefix defaults to tgeg, only change with multiple ZonPHP instances
 #   if you store your timestamp fields in UTC then set UTC_is_used = true
+#
+#   Put your password in quotes if it contains special characters e.g. "my_s3cret!"
+#
 #######################################################################################################################
 [database]
 host =  localhost
 username = root
-password = root
+password = "root"
 database = solar
 tablePrefix = tgeg
 UTC_is_used = false
@@ -127,13 +134,21 @@ capacity = 5040
 # default = "170,200,300,500,550,600,600,550,500,300,200,170" is used
 # This value is used for calculations in several charts! Wrong entries can give strange charts.
 
-expectedYield = 180, 245,460, 640,645,645,675,635,510,375,215,185
+expectedYield = 180, 245, 460, 640, 645, 645, 675, 635, 510, 375, 215, 185
 
 # Prefix of your import files for this plant e.g. sunny-explorer exports file in this
 # format "prefix-yyyymmdd.csv"  e.g. "solar1-20140426.csv"
 # then define importPrefix = "solar1" without separator (used by importer)
 
 importPrefix = solar1
+
+# optional
+#
+# by default import date format is read from input file in special case
+# it is needed to override the value tha specify "importDateFormat"
+# e.g. importDateFormat = "d-m-Y H:i:s"
+# another example (1st October 2023)   01/10/2023 00:00 -> use "d/m/Y H:i"
+# importDateFormat = "d-m-Y H:i:s"
 
 # additional information shown on the card (information only), for linebreak use <br>
 description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly<br>Inverter: SMA SB 5000TL20 ESS<br>Orientation: 180 Grad 30 Grad Neigung<br>My first solar plant build in 2011"
@@ -155,53 +170,11 @@ description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly
 #######################################################################################################################
 
 [image1]
-title = "Inverter"
+title = Inverter
 description = "Inverter + Powermeter"
-uri = "image1.jpg"
+uri = image1.jpg
 
 [image2]
-title = "internet"
+title = internet
 description = "source: wikipedia"
-uri = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
-
-
-#######################################################################################################################
-#   This section specifies parameters if you use EMU
-#   only relevant if enabled is set to true
-#   If you use EMU, set "importer" to "none"
-#######################################################################################################################
-[EMU]
-enabled = false
-
-path_CSV_data =
-
-PVO_API =
-
-PVO_SYS_ID =
-
-#######################################################################################################################
-#   This section specifies parameters to configure use of WEEWX (https://weewx.com/)
-#   if you have a weatherstation running with WEEWX  you can use temperature data to be displayed
-#   in the day chart. To use weewx data, set option enabled to "true" and specify additional parameters in this section
-#   default = false
-#######################################################################################################################
-[weewx]
-enabled = false
-
-# Database connection host, username, password, database
-host = localhost
-username = weewx
-password = weewx
-database = weewx
-
-# Tablename which contains the weewx data default "archive"
-tableName = archive
-
-# Name of the column that contains temperature data
-tempColumn = outTemp
-
-# Name of the column that contains timestamp
-timestampColumn = dateTime
-
-# Are temperature values stored in Fahrenheit default = true
-tempInFahrenheit = true
+uri = https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png
