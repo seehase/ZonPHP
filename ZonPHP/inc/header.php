@@ -29,9 +29,10 @@ global $params, $colors;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"
             integrity="sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<!-- bootstrap-select-->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/js/bootstrap-select.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/css/bootstrap-select.min.css">
+    <!-- bootstrap-select-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/css/bootstrap-select.min.css">
 
     <!-- Datepicker -->
     <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css'
@@ -63,18 +64,6 @@ global $params, $colors;
     <link type="text/css" rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css">
     <link type="text/css" rel="stylesheet" href="<?= HTML_PATH ?>inc/styles/jqx.zonphp.css">
 
-	<!-- jqwidgets combobox -->
-<!-- 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqwidgets/18.0.0/jqwidgets/jqx-all.js" ></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqwidgets/18.0.0/jqwidgets/jqxcore.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqwidgets/18.0.0/jqwidgets/jqxcolorpicker.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqwidgets/18.0.0/jqwidgets/jqxbuttons.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqwidgets/18.0.0/jqwidgets/jqxscrollbar.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqwidgets/18.0.0/jqwidgets/jqxlistbox.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqwidgets/18.0.0/jqwidgets/jqxcombobox.min.js"></script>
- -->
-	
-	
     <!-- read default styles (static) -->
     <link rel="stylesheet" type="text/css" href="<?= HTML_PATH ?>inc/styles/style.css">
 
@@ -123,26 +112,23 @@ global $params, $colors;
             background-color: <?= $colors['color_background_body'] ?>;
         }
 
-        #headerinverter, .dropdown-toggle  {
+        #headerinverter, .dropdown-toggle {
             color: <?= $colors['color_menufont'] ?>;
-            font-size: 18px; 
+            font-size: 18px;
 
         }
-		#chart_header .dropdown-toggle  {
+
+        #chart_header .dropdown-toggle {
             color: <?= $colors['color_menufont'] ?>;
             color: white !important;
-            font-size: 14px; 
-			position: static;
+            font-size: 14px;
+            position: static;
         }
-        
-        
+
         #chart_header {
             color: <?= $colors['color_windowfont'] ?>;
             background: <?= $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
-        
         }
-
-
     </style>
     <script>
         $(document).ready(function () {
