@@ -14,19 +14,14 @@ $padding = '- 0px';
 $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
 
 $month_local = array();
-for ($nn = 1; $nn <= 12; ++$nn) {
-    $date = '2024-' . $nn . '-01'; // date only used for loop
-    $ts = new DateTime($date);
-    $formatter = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG);
-    $parts = array('M', 'MMM', 'MMMM');
-    $month_local_inner = array();
-    foreach ($parts as $cd) {
-        $formatter->setPattern($cd);
-        $month_local_inner[] = $formatter->format($ts);
-    }
-    $month_local_inner = str_replace('.', '', $month_local_inner);//strips dot from abbreviation
-    $month_local[] = $month_local_inner;
-}
+$types = ['M', 'MMM', 'MMMM'];
+  foreach ($types as $tk => $tv) {
+    $df = new IntlDateFormatter($locale, IntlDateFormatter::NONE, IntlDateFormatter::NONE, NULL, NULL, $tv);
+    for ($i = 1; $i<=12; $i++)	{
+      	$month_local[$i][$tk] = $df->format(mktime(0, 0, 0, $i));
+      	$month_local[$i][$tk]=str_replace('.','',$month_local[$i][$tk]);
+    	}
+	}
 ?>
 <!-- Multiple Item Picker -->
 <div id="page-content">
@@ -45,7 +40,7 @@ for ($nn = 1; $nn <= 12; ++$nn) {
                             data-width="fit"
                             data-selected-text-format="count > 5"
                             data-count-selected-text="{0} <?= getTxt("maand_sel"); ?>">
-                        <?php for ($k = 0; $k < count($month_local); $k++) { ?>
+                        <?php for ($k = 1; $k < count($month_local); $k++) { ?>
                             <option title=<?= $month_local[$k][1] ?> value= '<?= $month_local[$k][0] ?>'><?= $month_local[$k][2] ?></option>
                         <?php } ?>
                     </select>
