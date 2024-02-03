@@ -5,250 +5,384 @@ include_once ROOT_DIR . "/inc/connect.php";
 
 $isIndexPage = false;
 $showAllInverters = true;
-if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
+if (isset($_POST['action']) && ($_POST['action'] == "indexpage"))
+{
     $isIndexPage = true;
 }
 
 $currentdate = date("Y-m-d");
-$sql = "SELECT YEAR(Datum_Maand) AS DYEAR, DATEDIFF(max(Datum_Maand),min(Datum_Maand)) AS Days, ((UNIX_TIMESTAMP(DATE_FORMAT(DATE_ADD(Datum_Maand,INTERVAL (YEAR('$currentdate') - YEAR(Datum_Maand)) YEAR), '%Y-%m-%d'))*1000)+86400000) AS timestamp, IFNULL( Datum_Maand, 'TOTAAL' ) AS Datum_Maand, 
-		ROUND(SUM( Geg_Maand ),2) Total, IFNULL( naam, 'ALL' ) AS naam, '0' AS 'STotal'
-        FROM " . TABLE_PREFIX . "_maand
-        GROUP BY Datum_Maand, naam
-		WITH ROLLUP";
-//echo $sql;
+$sql = "SELECT date(`Datum_Maand`) as Date,`Geg_Maand` as Yield, YEAR(`Datum_Maand`) as Year, `Naam` as Name FROM `" . TABLE_PREFIX . "_maand`   ORDER BY `Datum_Maand`,`Naam`";
+
+//WHERE YEAR(`Datum_Maand`) IN (2023, 2024)
+//make array with values from query
 $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
-$values = array();
+$querydata = array();
 $names = array();
 $years = array();
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $values[] = $row;
-        $names[] = $row["naam"];
-        $years[] = date("Y", strtotime($row["Datum_Maand"]));
+$array = array();
+if ($result->num_rows > 0)
+{
+    while ($row = $result->fetch_assoc())
+    {
+        //echo $row['Date'],' ',$row['Name'],'  ',$row['Yield'],' ',$row['Year'],' <BR>';
+        $querydata[$row['Date']][$row['Name']] = $row['Yield'];
+        $names[] = $row["Name"];
+        $years[] = date("Y", strtotime($row["Date"]));
     }
 }
+
 $names = array_values(array_unique($names));
 $years = array_values(array_unique($years));
-$strip = array_pop($years);//haalt laatste 'ROLLUP' record uit $years
-$stripped = array_pop($values);//haalt laatste 'ROLLUP' record uit $values
-$Grand_total = 0.0;
-if (isset($stripped['Total'])) {
-    $Grand_total = Round($stripped['Total']);//Total yield
+
+//make dummy array with all dates and inverter names from start to end
+//this will fill the gaps when no data available
+$startDate = $years[0] . '-01-01';
+$endDate = array_key_last($querydata);
+$period = new DatePeriod(new DateTime($startDate) , new DateInterval('P1D') , new DateTime($endDate));
+foreach ($period as $key => $value)
+{
+    foreach ($names as $name)
+    {
+        $read = $value->format('Y-m-d');
+        $year = $value->format('Y');
+        $dummydata[$read][$name] = 0;
+    }
 }
-$All_Days = 1;
-if (isset($stripped['Days']) && $stripped['Days'] > 0 ) {
-    $All_Days = $stripped['Days'];
+//merge the two arrays
+$totaldata = $querydata + $dummydata;
+
+//sort array on date
+ksort($totaldata);
+
+//flip array -> data ordered by inverter name
+$mistral = [];
+foreach ($totaldata as $outerkey => $outerArr)
+{
+    foreach ($outerArr as $key => $innerArr)
+    {
+        $mistral[$key][$outerkey] = $innerArr;
+    }
 }
 
-$All_Avg = Round($Grand_total / ($All_Days / 365));
-
-$subtitle = '"<b>Total yield all inverters:</b> ' . $Grand_total . ' kWh <br><b>Average yield per year:</b> ' . $All_Avg . '   kWh"';
-
-$value = array();
-$all = array();
-$peryear = array();
-$strdataseries = "";
-$add = (!isset($_POST['add']) ? 0 : $_POST['add']);
-//when 'ALL' isn't last key in $names adjust $maxkey to correct number
-//this happens when historical startdates are not the same
-$maxkey = 0;
-if (count($names) > 0) {
-    $maxkey = max(array_keys($names));
-}
-
-$_SESSION['capnum'] = ((isset($_SESSION['capnum'])) ? $_SESSION['capnum'] : $maxkey);//number reflects all
-if (isset($_POST['add'])) {
-    $_SESSION['capnum']++;
-}
-if (!isset($_SESSION['capnum'])) {
-    $_SESSION['capnum'] = 0;
-}
-$title = "";
-if ($_SESSION['capnum'] > (count($names) - 1)) {
-    $_SESSION['capnum'] = 0;
-}
-if (isset($names[$_SESSION['capnum']])) {
-    $title = $names[$_SESSION['capnum']];
-}
-
-
-foreach ($values as $value) {
-    if ($value['naam'] == $title)
-        $all[] = $value;
-}
-$strdata = "";
-for ($i = 0; $i < count($years); $i++) {
-    $sumtotal = 0;
-    $strdata = "";
-    foreach ($all as $allsum) {
-        if ($allsum['DYEAR'] == $years[($i)]) {
-            $sumtotal += $allsum['Total'];
-            $allsum['STotal'] = $sumtotal;
-            $peryear[] = $allsum;
-            $strdata .= "[ $allsum[timestamp], $allsum[STotal] ],";
+//$total = array();
+//running total per inverter array
+$runningSum = 0;
+for ($i = 0;$i < count($years);$i++)
+{
+    //$keys=0;
+    foreach ($mistral as $keys => $sums)
+    {
+        $runningSum = 0;
+        foreach ($sums as $key => $number)
+        {
+            $yearkey = substr($key, 0, 4);
+            if ($years[$i] == $yearkey)
+            {
+                //echo $yearkey,' nb ',$number,' rs ',$runningSum,' array ',$keys, '<BR>';
+                $runningSum += $number;
+                $total[$keys][$key] = $runningSum;
+            }
+            $cumulus = $total;
         }
     }
-    $strdataseries .= " { name: '" . $years[($i)] . "',
-							type: 'line',
-							marker: { enabled: false },
-							data: [" . $strdata . "]},
-						";
 }
-$hasdata = "true";
-if (strlen($strdataseries) == 0) {
-    $strdataseries = "{}";
-    $hasdata = "false";
+
+//reverse flip -> data ordered on date
+$foehn = [];
+foreach ($total as $outerkey1 => $outerArr1)
+{
+    foreach ($outerArr1 as $key1 => $innerArr1)
+    {
+        $foehn[$key1][$outerkey1] = $innerArr1;
+    }
 }
-?>
-<?php
+
+$value = array();
+$strdataseries = "";
+$strdata = "";
+for ($i = 0;$i < count($years);$i++)
+{
+    $strdata = "";
+    foreach ($foehn as $allsum => $value)
+    {
+        $yearkey = substr($allsum, 0, 4);
+        foreach ($names as $name => $val)
+        {
+            if ($yearkey == $years[($i) ])
+            {
+                $strdata .= "{  y: $value[$val], inverter: '$val' },";
+            }
+        }
+    }
+    $strdata = substr($strdata, 0, -1);
+    $strdataseries .= " year" . $years[($i) ] . ": [" . $strdata . "],";
+}
+$myColors = colorsPerInverter();
+$strdataseries = substr($strdataseries, 0, -1);
+$strseriestxt = "";
+$strnametxt = "";
+for ($i = 0;$i < count($years);$i++)
+{
+    $strseriestxt .= "{id: 'year" . $years[($i) ] . "', name: '" . $years[($i) ] . "', data:[]},";
+}
+
+$i = 0;
+foreach ($names as $name)
+{
+    $col1 = $myColors[$name]['min'];
+    $col2 = $myColors[$name]['max'];
+    $line = "";
+    if ($i == 0) $line = 'newLine: true,';
+    $i++;
+    $strnametxt .= "{" . $line . " name: '" . $name . "', legendSymbol: 'rectangle', color: { linearGradient: {x1: 0, x2: 0, y1: 1, y2: 0}, stops: [ [0, $col1], [1, $col2]] }, id: '" . $name . "'},";
+}
+
+$strtotaaltxt = $strseriestxt . $strnametxt;
+$strtotaaltxt = substr($strtotaaltxt, 0, -1);
 $show_legende = "true";
-if ($isIndexPage) {
+if ($isIndexPage)
+{
     echo '<div class = "index_chart" id="universal"></div>';
     $show_legende = "false";
 }
 include_once "chart_styles.php";
 $categories = $shortmonthcategories;
 ?>
+
 <script>
-    $(function () {
-        var myoptions = <?= $chart_options ?>;
+$(function () {
+var myoptions = <?= $chart_options ?>;
         Highcharts.setOptions({<?= $chart_lang ?>});
-        var mychart = new Highcharts.Chart('universal', Highcharts.merge(myoptions, {
-            chart: {
-                events: {
-                    load: function () {
-                        this.series.forEach(function (s) {
-                            s.update({
-                                showInLegend: s.points.length
-                            });
-                        });
-                    },
-                    render() {
-                        if (<?= $hasdata ?>) {
-                            var ticks = this.xAxis[0].ticks,
-                                ticksPositions = this.xAxis[0].tickPositions,
-                                tick0x,
-                                tick1x,
-                                getPosition = function (tick) {
-                                    var axis = tick.axis;
-                                    return Highcharts.Tick.prototype.getPosition.call(tick, axis.horiz, tick.pos, axis.tickmarkOffset);
-                                };
 
-                            tick0x = getPosition(ticks[ticksPositions[0]]).x;
-                            tick1x = getPosition(ticks[ticksPositions[1]]).x;
+//function converts Day of Year to readable date for tooltip
+function getDateFromDayOfYear (year, day) {
+  const locale = '<?= $locale ?>';
+  const options = {day: 'numeric' , month: 'long'};
+  return new Date(Date.UTC(year, 0, day)).toLocaleDateString(locale, options)
+}
 
-                            this.xAxis[0].labelGroup.translate((tick1x - tick0x) / 2)
-                        }
-                    }
-                }
-            },
-            plotOptions: {
-                series: {
-                    states: {
-                        hover: {
-                            enabled: true,
-                            lineWidth: 0,
-                        },
-                        inactive: {
-                            opacity: 1
-                        }
-                    },
-                },
-            },
-            title: {
-    			style: {
-                    opacity: 0,
-      				fontWeight: 'normal',
-                    fontSize: '12px'
-   					 }
-  					},
+//function(H) creates newLine option for legend
+(function(H) {
+  H.wrap(H.Legend.prototype, 'layoutItem', function(proceed, item) {
+    const options = this.options,
+      padding = this.padding,
+      horizontal = options.layout === 'horizontal',
+      itemHeight = item.itemHeight,
+      itemMarginBottom = this.itemMarginBottom,
+      itemMarginTop = this.itemMarginTop,
+      itemDistance = horizontal ? H.pick(options.itemDistance, 20) : 0,
+      maxLegendWidth = this.maxLegendWidth,
+      itemWidth = (options.alignColumns &&
+		this.totalItemWidth > maxLegendWidth) ?
+		this.maxItemWidth :
+      	item.itemWidth,
+      legendItem = item.legendItem || {};
 
-            subtitle: {
-                text: <?= $subtitle ?>,
-                style: {
-                    color: '<?= $colors['color_chart_text_subtitle'] ?>',
-                },
-            },
-            xAxis: [{
-                id: 0,
-                type: 'datetime',
-                lineWidth: 0,
-                minorGridLineWidth: 0,
-                lineColor: 'transparent',
-                labels: {
-                    enabled: false
-                },
+    if (
+	  horizontal &&
+      (
+	    this.itemX - padding + itemWidth > maxLegendWidth ||
+        item.userOptions.newLine
+	  )
+	) {
+      this.itemX = padding;
+      if (this.lastLineHeight) {
+        this.itemY += (itemMarginTop +
+          this.lastLineHeight +
+          itemMarginBottom);
+      }
+      this.lastLineHeight = 0;
+    }
+    this.lastItemY = itemMarginTop + this.itemY + itemMarginBottom;
+    this.lastLineHeight = Math.max(
+      itemHeight, this.lastLineHeight);
+	  legendItem.x = this.itemX;
+	  legendItem.y = this.itemY;
+    if (horizontal) {
+      this.itemX += itemWidth;
+    } else {
+      this.itemY +=
+        itemMarginTop + itemHeight + itemMarginBottom;
+      this.lastLineHeight = itemHeight;
+    }
+    this.offsetWidth = this.widthOption || Math.max((horizontal ? this.itemX - padding - (item.checkbox ?
+      0 :
+      itemDistance) : itemWidth) + padding, this.offsetWidth);
+  })
+})(Highcharts);
 
-                minorTickLength: 0,
-                tickLength: 0
-            },
-                {
-                    id: 1,
-                    type: 'categories',
-                    labels: {
-                        rotation: 0,
-                        align: 'left',
-                        step: 1,
-                        style: {
-                            color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
-                        },
-                    },
-                    min: -0.5,
-                    max: 11.5,
-                    categories: [<?= $categories ?>],
+const data = { <?= $strdataseries ?> }
 
-                }],
+const inverterFilters = []
 
-                yAxis: [{ // Primary yAxis
-                labels: {
-                    formatter: function () {
-                        return this.value / 1000
-                    },
-                    style: {
-                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
-                    },
-                },
-                opposite: true,
-                title: {
-                    text: 'Total (MWh)',
-                    style: {
-                        color: '<?= $colors['color_chart_title_yaxis1'] ?>'
-                    },
-                },
-                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
+const updatePoints = (chart, filters) => {
+  chart.series.forEach(s => {
+    if (s.points) {
+      const id = s.options.id,
+        seriesData = data[id];
+      let wasFiltered = false;
+      if (seriesData) {
+        const dataToUpdate = [];
+        seriesData.filter(singleData => {
+          if (!filters.includes(singleData.inverter)) {
+            dataToUpdate.push({...singleData, y: singleData.y || null})
+          } else {
+            wasFiltered = true
+          }
+        })
+        const updatedData = []
+		
+        if (!wasFiltered) {
+          let summedValues = null
+          dataToUpdate.forEach((data, index) => {
+            summedValues += data.y
 
-            }],
-            tooltip: {
-                crosshairs: [true],
+            if (index % 2 === 1) {
+              updatedData.push({
+                y: data.y === null ? null : summedValues,
+              })
 
-                formatter: function () {
-                    var chart = this.series.chart,
-                        x = this.x,
-                        stackName = this.series.userOptions.stack,
-                        contribuants = '';
-                    chart.series.forEach(function (series) {
-                        series.points.forEach(function (point) {
-                            if (point.category === x && stackName === point.series.userOptions.stack) {
-                                contribuants += '<span style="color:' + point.series.color + '">\u25CF</span>' + point.series.name + ': ' + point.y + ' kWh<br/>'
-                            }
-                        })
-                    })
-                    if (stackName === undefined) {
-                        stackName = '';
-                    }
-                    return '<b>' + Highcharts.dateFormat('%B %e', x) + ' ' + stackName + '<br/>' + '<br/>' + contribuants;
-                }
-            },
+              summedValues = null
+            }
+			
+          })
+        }
+        s.update({
+          data: wasFiltered ? dataToUpdate : updatedData
+        }, false)
+      }
 
-            series: [
-                <?= $strdataseries ?>
+    }
+  })
 
-            ],
-        }));
+  chart.redraw();
+	
+}
 
-        setInterval(function () {
-            $("#universal").highcharts().reflow();
-        }, 500);
-    });
+Highcharts.setOptions(<?= $chart_options ?>)
+
+const chart = Highcharts.chart('universal', {
+	accessibility: {
+     	  enabled: false
+  	 },
+  
+ yAxis: [{ // Primary yAxis
+	labels: {
+	formatter: function () {
+	return this.value / 1000
+	},
+	style: {
+        color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
+		},
+	},
+	opposite: true,
+	title: {
+		text: 'Total (MWh)',
+			style: {
+			color: '<?= $colors['color_chart_title_yaxis1'] ?>'
+			},
+	},
+	gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
+	}],    
+
+  xAxis: [{
+      id: "0",
+      type: 'linear',
+      lineWidth: 0,
+      minorGridLineWidth: 0,
+      lineColor: 'transparent',
+      labels: {
+        enabled: false
+      },
+      min: 0,
+      max: 365,
+      minorTickLength: 0,
+      tickLength: 0
+    },
+    {
+      id: '1',
+      type: 'categories',
+      labels: {
+        rotation: 0,
+        align: 'left',
+        step: 1,
+        style: {
+        color: '<?= $colors['color_chart_labels_xaxis1'] ?>',
+        },
+      },
+      min: -0.5,
+      max: 11.5,
+      categories: [<?= $categories ?> ],
+
+    }
+  ],
+
+  legend: {
+    enabled: true,
+    itemWidth: 100,
+    width: 600,
+    align: 'center'
+  },
+
+  tooltip: {
+    
+    valueSuffix: ' kWh',
+    valueDecimals: 0,
+    
+    split: false,
+    shared: true,
+    formatter: function(tooltip) {
+      const points = []
+      
+      this.points.forEach(point => {
+        if (point.y !== 0) {
+        	point.point.y = point.point.y
+        	if (this.x > 364){
+        	point.key = getDateFromDayOfYear(2019, (this.x))
+        	}
+        	else {
+        	point.key = getDateFromDayOfYear(2019, (this.x +1))
+        	}
+          points.push(point)
+        }
+      })
+      this.points = points;
+     // this.key = 'test';
+      return tooltip.defaultFormatter.call(this, tooltip);
+    }
+  },
+
+  plotOptions: {
+    series: {
+      cumulative: true,
+      markers: {
+        enabled: false
+      },
+
+      events: {
+        legendItemClick: function() {
+          const series = this,
+            inverterId = series.options.id;
+
+          if (!series.visible) {
+            const index = inverterFilters.indexOf(inverterId)
+
+            inverterFilters.splice(index, 1);
+          } else {
+            inverterFilters.push(inverterId)
+          }
+
+          updatePoints(series.chart, inverterFilters)
+        }
+      }
+    }
+  },
+
+  series: [  <?= $strtotaaltxt ?>  ]
+
+})
+
+updatePoints(chart, [])
+})        
+    
 </script>
