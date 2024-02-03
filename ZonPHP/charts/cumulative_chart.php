@@ -284,7 +284,20 @@ const chart = Highcharts.chart('universal', {
 	},
 	gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
 	}],    
+	title: {
+    	style: {
+            opacity: 0,
+      		fontWeight: 'normal',
+            fontSize: '12px'
+   				}
+  	},
 
+    subtitle: {
+                
+        style: {
+            color: '<?= $colors['color_chart_text_subtitle'] ?>',
+                },
+    },
   xAxis: [{
       id: "0",
       type: 'linear',
@@ -316,14 +329,6 @@ const chart = Highcharts.chart('universal', {
 
     }
   ],
-
-  legend: {
-    enabled: true,
-    itemWidth: 100,
-    width: 600,
-    align: 'center'
-  },
-
   tooltip: {
     
     valueSuffix: ' kWh',
