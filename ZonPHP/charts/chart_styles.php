@@ -80,6 +80,8 @@ $chart_options =
      accessibility: {
      	  enabled: false
   	 },
+     
+     
      exporting: {
         enabled: $export
      },
@@ -95,10 +97,13 @@ $chart_options =
          }
      },            
      chart: {
+                animation: false,
+                ignoreHiddenSeries: false, 
                 zoomType: 'xy',
                 backgroundColor: '" . $colors['color_chartbackground'] . "',
                 alignThresholds: false,
             },
+            
      legend: {
                 layout: 'horizontal',
                 align: 'center',

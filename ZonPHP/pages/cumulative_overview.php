@@ -7,7 +7,6 @@ include_once ROOT_DIR . "/charts/cumulative_chart.php";
 
 $padding = '- 0px';
 $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
-
 ?>
 <div id="page-content">
     <div id='resize' class="bigCharts"
@@ -17,15 +16,8 @@ $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radiu
         </div>
         <div id="chart_header" class="<?= HEADER_CLASS ?>">
             <h2>
-                <?= getTxt("inverter") . " " . $title; ?>
+                <?= getTxt("chart_cumulativeoverview") ?>
             </h2>
-
-            <div class="backtoday" style="float:none;">
-                <form method="POST">
-                    <button class="btn btn-zonphp" name='add' type="submit" value='+'>+</button>
-                </form>
-            </div>
-
         </div>
         <div id="universal"
              style="width:100%; background-color: <?= $colors['color_chartbackground'] ?>;height:100%; <?= $corners; ?>">
@@ -39,6 +31,5 @@ $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radiu
         $("#resize ").height(<?= BIG_CHART_HIGHT ?>);
     });
 </script>
-
 </body>
 </html>
