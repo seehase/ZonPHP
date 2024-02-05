@@ -21,6 +21,7 @@ $sql = "SELECT date(`Datum_Maand`) as Date,`Geg_Maand` as Yield, YEAR(`Datum_Maa
 //make array with values from query
 $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
 $querydata = array();
+$totaldata = array();
 $names = array();
 $years = array();
 $array = array();
@@ -49,11 +50,13 @@ foreach ($period as $key => $value)
     {
         $read = $value->format('Y-m-d');
         $year = $value->format('Y');
-        $dummydata[$read][$name] = 0;
+        $yield = 0;
+        if (isset($querydata[$read][$name])) {
+            $yield = $querydata[$read][$name];
+        }
+        $totaldata[$read][$name] = $yield;
     }
 }
-//merge the two arrays
-$totaldata = $querydata + $dummydata;
 
 //sort array on date
 ksort($totaldata);
