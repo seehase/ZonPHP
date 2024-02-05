@@ -40,7 +40,7 @@ $types = ['M', 'MMM', 'MMMM'];
                             data-width="fit"
                             data-selected-text-format="count > 5"
                             data-count-selected-text="{0} <?= getTxt("maand_sel"); ?>">
-                        <?php for ($k = 1; $k < count($month_local); $k++) { ?>
+                        <?php for ($k = 1; $k <= count($month_local); $k++) { ?>
                             <option title=<?= $month_local[$k][1] ?> value= '<?= $month_local[$k][0] ?>'><?= $month_local[$k][2] ?></option>
                         <?php } ?>
                     </select>
