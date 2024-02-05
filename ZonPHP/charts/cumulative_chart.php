@@ -11,7 +11,11 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage"))
 }
 
 $currentdate = date("Y-m-d");
-$sql = "SELECT date(`Datum_Maand`) as Date,`Geg_Maand` as Yield, YEAR(`Datum_Maand`) as Year, `Naam` as Name FROM `" . TABLE_PREFIX . "_maand`   ORDER BY `Datum_Maand`,`Naam`";
+$inClause = "'" . implode("', '", PLANT_NAMES) . "'";
+$sql = "SELECT date(`Datum_Maand`) as Date,`Geg_Maand` as Yield, YEAR(`Datum_Maand`) as Year, `Naam` as Name 
+        FROM `". TABLE_PREFIX . "_maand`  
+        WHERE naam in ($inClause) 
+        ORDER BY `Datum_Maand`,`Naam`";
 
 //WHERE YEAR(`Datum_Maand`) IN (2023, 2024)
 //make array with values from query
@@ -110,7 +114,9 @@ for ($i = 0;$i < count($years);$i++)
         {
             if ($yearkey == $years[($i) ])
             {
-                $strdata .= "{  y: $value[$val], inverter: '$val' },";
+                if (isset($value[$val])) {
+                    $strdata .= "{  y: $value[$val], inverter: '$val' },";
+                }
             }
         }
     }
