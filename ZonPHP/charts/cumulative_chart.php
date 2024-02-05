@@ -11,12 +11,17 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage"))
 }
 
 $currentdate = date("Y-m-d");
-$sql = "SELECT date(`Datum_Maand`) as Date,`Geg_Maand` as Yield, YEAR(`Datum_Maand`) as Year, `Naam` as Name FROM `" . TABLE_PREFIX . "_maand`   ORDER BY `Datum_Maand`,`Naam`";
+$inClause = "'" . implode("', '", PLANT_NAMES) . "'";
+$sql = "SELECT date(`Datum_Maand`) as Date,`Geg_Maand` as Yield, YEAR(`Datum_Maand`) as Year, `Naam` as Name 
+        FROM `". TABLE_PREFIX . "_maand`  
+        WHERE naam in ($inClause) 
+        ORDER BY `Datum_Maand`,`Naam`";
 
 //WHERE YEAR(`Datum_Maand`) IN (2023, 2024)
 //make array with values from query
 $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
 $querydata = array();
+$totaldata = array();
 $names = array();
 $years = array();
 $array = array();
@@ -45,11 +50,13 @@ foreach ($period as $key => $value)
     {
         $read = $value->format('Y-m-d');
         $year = $value->format('Y');
-        $dummydata[$read][$name] = 0;
+        $yield = 0;
+        if (isset($querydata[$read][$name])) {
+            $yield = $querydata[$read][$name];
+        }
+        $totaldata[$read][$name] = $yield;
     }
 }
-//merge the two arrays
-$totaldata = $querydata + $dummydata;
 
 //sort array on date
 ksort($totaldata);
@@ -110,7 +117,9 @@ for ($i = 0;$i < count($years);$i++)
         {
             if ($yearkey == $years[($i) ])
             {
-                $strdata .= "{  y: $value[$val], inverter: '$val' },";
+                if (isset($value[$val])) {
+                    $strdata .= "{  y: $value[$val], inverter: '$val' },";
+                }
             }
         }
     }
@@ -284,7 +293,20 @@ const chart = Highcharts.chart('universal', {
 	},
 	gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
 	}],    
+	title: {
+    	style: {
+            opacity: 0,
+      		fontWeight: 'normal',
+            fontSize: '12px'
+   				}
+  	},
 
+    subtitle: {
+                
+        style: {
+            color: '<?= $colors['color_chart_text_subtitle'] ?>',
+                },
+    },
   xAxis: [{
       id: "0",
       type: 'linear',
@@ -316,14 +338,6 @@ const chart = Highcharts.chart('universal', {
 
     }
   ],
-
-  legend: {
-    enabled: true,
-    itemWidth: 100,
-    width: 600,
-    align: 'center'
-  },
-
   tooltip: {
     
     valueSuffix: ' kWh',
