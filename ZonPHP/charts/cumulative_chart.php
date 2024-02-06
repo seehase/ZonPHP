@@ -39,7 +39,7 @@ if ($result->num_rows > 0)
 $names = array_values(array_unique($names));
 $years = array_values(array_unique($years));
 
-//make dummy array with all dates and inverter names from start to end
+//make array with all dates and inverter names from start to end
 //this will fill the gaps when no data available
 $startDate = $years[0] . '-01-01';
 $endDate = array_key_last($querydata);
@@ -107,6 +107,7 @@ foreach ($total as $outerkey1 => $outerArr1)
 $value = array();
 $strdataseries = "";
 $strdata = "";
+$mouseover = "";
 for ($i = 0;$i < count($years);$i++)
 {
     $strdata = "";
@@ -144,10 +145,12 @@ foreach ($names as $name)
     if ($i == 0) $line = 'newLine: true,';
     $i++;
     $strnametxt .= "{" . $line . " name: '" . $name . "', legendSymbol: 'rectangle', color: { linearGradient: {x1: 0, x2: 0, y1: 1, y2: 0}, stops: [ [0, $col1], [1, $col2]] }, id: '" . $name . "'},";
+    $mouseover  .= "item.name==='" . $name . "'||";
 }
 
 $strtotaaltxt = $strseriestxt . $strnametxt;
 $strtotaaltxt = substr($strtotaaltxt, 0, -1);
+$mouseover = substr($mouseover,0,-2);
 $show_legende = "true";
 if ($isIndexPage)
 {
@@ -394,7 +397,15 @@ const chart = Highcharts.chart('universal', {
 
   series: [  <?= $strtotaaltxt ?>  ]
 
-})
+});
+
+  chart.legend.allItems.forEach(item=>{
+    if(<?= $mouseover ?>){
+      const group = item.legendItem.group;
+        group.on('mouseover', function (){})
+        .on('mouseout', function (){})
+    }
+  })
 
 updatePoints(chart, [])
 })        
