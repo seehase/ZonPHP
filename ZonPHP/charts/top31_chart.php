@@ -3,40 +3,40 @@ global $con, $colors, $params, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 
-$DESC_ASC = "DESC";
 $showTopFlop = "top31_chart";
 $isIndexPage = false;
 
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
-$years = array();
 
 $sql2 = "SELECT distinct(YEAR(Datum_Maand))as years FROM " . TABLE_PREFIX . "_maand";
 $result = $con->query($sql2);
-while ($row = $result->fetch_row()) {
-    $years[] = $row[0];
+while($row = $result->fetch_row()) {
+  $years[]=$row[0];
 }
-$whereInYear = implode(',', $years);
+$whereInYear=implode(',',$years);
 $x = "'" . implode("', '", PLANT_NAMES) . "'";
 $whereInClause = " where naam in ($x)";
 $whereInMonth = '1,2,3,4,5,6,7,8,9,10,11,12';
 
-if (isset($_POST['allselected'])) {
-    $whereInMonth = $_POST['allselected'];
+
+if (isset($_POST['allselected']) ) {
+$whereInMonth = $_POST['allselected'];
 }
-if (isset($_POST['allselectedtea'])) {
-    $whereInYear = $_POST['allselectedtea'];
+if (isset($_POST['allselectedtea']) ) {
+$whereInYear = $_POST['allselectedtea'];
 }
+if (isset($_POST['sort']) ) {
+$sort = $_POST['sort'];
+}
+else {$sort = 'desc';}
 
 $sql = "SELECT db1.*
 FROM " . TABLE_PREFIX . "_maand AS db1 
-
-JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM " . TABLE_PREFIX .
-    "_maand $whereInClause  AND MONTH(Datum_Maand) IN ($whereInMonth) AND YEAR(Datum_Maand) IN ($whereInYear) Group by Datum_Maand ORDER BY mysum $DESC_ASC LIMIT 0,31) AS db2
-
-ON db1.Datum_Maand = db2.Datum_Maand $whereInClause order by mysum desc";
-
+JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM " . TABLE_PREFIX . "_maand $whereInClause  AND MONTH(Datum_Maand) IN ($whereInMonth) AND YEAR(Datum_Maand) IN ($whereInYear) Group by Datum_Maand ORDER BY mysum $sort LIMIT 0,31) AS db2
+ON db1.Datum_Maand = db2.Datum_Maand $whereInClause order by mysum $sort";
+//echo $sql;
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
 $datum = "Geen data";
 $adatum = array();
@@ -96,16 +96,12 @@ if ($isIndexPage) {
 
 }
 include_once "chart_styles.php";
-
 ?>
-
 <script>
-
     $(function () {
         function add(accumulator, a) {
             return accumulator + a;
         }
-
         const data = <?= $datafin ?>;
         const categories = data[0].map(d => d[0]);
         const myurl = '<?= $myurl ?>';
@@ -123,12 +119,12 @@ include_once "chart_styles.php";
                 },
             },
             title: {
-                style: {
+    			style: {
                     opacity: 0,
-                    fontWeight: 'normal',
+      				fontWeight: 'normal',
                     fontSize: '12px'
-                }
-            },
+   					 }
+  					},
             chart: {
                 type: 'column', stacking: 'normal'
             },
@@ -148,16 +144,13 @@ include_once "chart_styles.php";
                         }
                     },
                     events: {
-
                         legendItemClick: function () {
                             const chart = this.chart,
-
                                 currentSeries = this,
                                 secondSeries = currentSeries === chart.series[0] ? chart.series[1] : chart.series[0],
                                 sortFunction = function (a, b) {
                                     return b[1] - a[1]
                                 };
-
                             if (!(
                                 (currentSeries.visible && !secondSeries.visible)
                                 || (!currentSeries.visible && secondSeries.visible)
@@ -166,7 +159,6 @@ include_once "chart_styles.php";
                                     // sorting by this series
                                     let sortedData = data[currentSeries.index].sort(sortFunction),
                                         seriesCategories = sortedData.map(d => d[0]);
-
                                     chart.xAxis[0].update({
                                         categories: seriesCategories
                                     });
@@ -174,7 +166,6 @@ include_once "chart_styles.php";
                                     // sorting by second one series
                                     let sortedData = data[secondSeries.index].sort(sortFunction),
                                         seriesCategories = sortedData.map(d => d[0]);
-
                                     chart.xAxis[0].update({
                                         categories: seriesCategories
                                     });
@@ -189,7 +180,6 @@ include_once "chart_styles.php";
                     }
                 }
             },
-
             xAxis: {
                 type: 'category',
                 categories: categories,
@@ -216,7 +206,6 @@ include_once "chart_styles.php";
                 },
                 gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>',
             }],
-
             tooltip: {
                 formatter: function () {
                     var chart = this.series.chart,
