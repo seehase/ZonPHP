@@ -5,6 +5,8 @@ author = Julia
 [colors]
 color_background = #824523
 color_background_body = #aaaaaa
+color_button_background = #73480A
+color_button_text = #FFF
 color_footerbackground = #E7A75B
 color_menubackground = #B8895F
 color_menufont = #53402f

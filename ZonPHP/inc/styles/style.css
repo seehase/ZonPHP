@@ -286,8 +286,8 @@ body {
 }
 
 .btn-zonphp:hover {
-    background-color: #286090 !important;
-    color: #ffffff !important;
+    background-color: #286090;
+    color: #ffffff;
 }
 
 .buttonbox {
@@ -427,6 +427,26 @@ body {
 .dropdown-toggle::after {
     content: none;
 }
+
+.bootstrap-select .dropdown-toggle .filter-option{
+  font-size: 13px;    
+  color: white;
+}
+
+.dropdown-toggle.caret-off::after {
+    display: none;
+}
+
+.p-1 {
+    padding-top: 0.155rem !important;
+    padding-right: 0.7rem !important;
+    padding-bottom: 0.2rem !important;
+    padding-left: 0.7rem !important;
+}
+
+span.bs-caret {
+    display: none !important;
+  }
 
 /* ---- modal image ---- */
 .index-image {
