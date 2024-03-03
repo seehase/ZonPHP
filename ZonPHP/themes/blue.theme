@@ -5,6 +5,8 @@ author = unknown
 [colors]
 color_background = #ffffff
 color_background_body = #eeeeee
+color_button_background = #155ea0
+color_button_text = #E6E6FA
 color_footerbackground = #d6d6d6
 color_menubackground = #d6d6d6
 color_menufont = #000000

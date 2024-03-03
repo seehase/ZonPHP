@@ -5,6 +5,8 @@ author = Seehase
 [colors]
 color_background = #888888
 color_background_body = #888888
+color_button_background = #333192
+color_button_text = #FFF
 color_footerbackground = #C00000
 color_menubackground = #ffffff
 color_menufont = #000000

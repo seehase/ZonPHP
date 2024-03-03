@@ -5,6 +5,8 @@ author = Michael
 [colors]
 color_background = #ffffff
 color_background_body = #aaaaaa
+color_button_background = #FFF
+color_button_text = #000
 color_footerbackground = #ffffff
 color_menubackground = #ffffff
 color_menufont = #000000

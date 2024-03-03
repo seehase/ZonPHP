@@ -5,6 +5,8 @@ author = Holger
 [colors]
 color_background = #000000
 color_background_body = #000000
+color_button_background = #8C0410
+color_button_text = #FFF
 color_footerbackground = #b0b0b0
 color_menubackground = #d5d5d5
 color_menufont = #000000

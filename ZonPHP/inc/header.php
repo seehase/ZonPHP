@@ -129,6 +129,13 @@ global $params, $colors;
             color: <?= $colors['color_windowfont'] ?>;
             background: <?= $colors['color_windowcolor'] ?> url(<?= HTML_PATH . $colors['color_image_windowtitle'] ?>) left center scroll repeat-x
         }
+
+        .btn-zonphp, .btn-zonphp:hover, .bootstrap-select .dropdown-toggle .filter-option {
+            background-color: <?= $colors['color_button_background'] ?>;
+        color:<?= $colors['color_button_text'] ?>;
+        }
+
+
     </style>
     <script>
         $(document).ready(function () {
