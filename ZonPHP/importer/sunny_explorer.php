@@ -44,7 +44,7 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
                 $convertedTimeStamp = convertToUnixTimestamp($convertedDate);
                 $currentTimeStamp = date("Y-m-d H:i:s", $convertedTimeStamp);
                 $currentkWhCounter = str_replace(',', '.', $lineValues[1]);
-                $cummulatedkWh = number_format($currentkWhCounter - $minkWhCounter, 3);
+                $cummulatedkWh = round($currentkWhCounter - $minkWhCounter, 3);
                 $currentWatt = 0;
                 $currentWattStr = trim(str_replace(',', '.', $lineValues[2]));
                 if (strlen($currentWattStr) > 0 && is_numeric($currentWattStr)) {
@@ -52,7 +52,7 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
                 }
                 // insert only new data and value > 0
                 if ($currentWatt > 0 && ($currentTimeStamp != "") && (strtotime($currentTimeStamp) > strtotime($lastImportDate))) {
-                    $dbValues[] = array('name' => $name, 'timestamp' => $currentTimeStamp, 'watt' => $currentWatt, 'cummulatedkWh' => number_format($cummulatedkWh, 3));
+                    $dbValues[] = array('name' => $name, 'timestamp' => $currentTimeStamp, 'watt' => $currentWatt, 'cummulatedkWh' => round($cummulatedkWh, 3));
                 }
             }
         }
