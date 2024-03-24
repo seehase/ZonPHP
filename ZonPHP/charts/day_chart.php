@@ -1,8 +1,9 @@
 <?php
 // work internally with UTC, converts values from DB if needed from localDateTime to UTC
-global $params, $con, $formatter, $colors, $chart_options, $chart_lang;
+global $params, $con, $formatter, $colors, $chart_options, $chart_lang, $plantNames;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
+include_once "chart_support.php";
 
 $inverter_name = "";
 if (isset($_GET['date'])) {
@@ -12,6 +13,7 @@ if (isset($_GET['date'])) {
     $chartdate = $_SESSION['CHARTDATE'] ?? time();
 }
 $chartdatestring = date("Y-m-d", $chartdate);
+$dateTimeUTC = date("Y-m-d 00:00:00", $chartdate);
 
 $isIndexPage = false;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
@@ -19,14 +21,16 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
 }
 // -----------------------------  get data from DB -----------------------------------------------------------------
 // query for the day-curve
-$valarray = array();
-$all_valarray = array();
-$inveter_list = array();
+$utcDateArray = array();
+$allValuesPerInverter = array();
+$dataZonPHP = array();
+
 $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, Datum_Dag" .
     " FROM " . TABLE_PREFIX . "_dag " .
     " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' " .
-    " GROUP BY naam, Datum_Dag " .
+    " GROUP BY Datum_Dag, naam " .
     " ORDER BY Datum_Dag ASC";
+// todo: filter on active plants with e.g. naam in ("SEEHASE", "TILLY") for safety
 
 $result = mysqli_query($con, $sql) or die("Query failed. dag " . mysqli_error($con));
 if (mysqli_num_rows($result) == 0) {
@@ -41,20 +45,13 @@ if (mysqli_num_rows($result) == 0) {
         $inverter_name = $row['naam'];
         $dateTimeUTC = convertLocalDateTime($db_datetime_str); // date converted in UCT
         $unixTimeUTC = convertToUnixTimestamp($dateTimeUTC); // unix timestamp in UTC
-
-        $all_valarray[$unixTimeUTC] [$inverter_name] = $row['gem'];
-
-        if (!in_array($inverter_name, $inveter_list)) {
-            if (in_array($inverter_name, PLANT_NAMES)) {
-                // add to list only if it configured (ignore db entries)
-                $inveter_list[] = $inverter_name;
-            }
-        }
+        $utcDateArray[] = $unixTimeUTC;
+        $allValuesPerInverter[$inverter_name][$unixTimeUTC] = $row['gem'];
     }
 }
+
 // get best day for current month (max value over all years for current month)
-// Highcharts will calculate the max kWh
-// todo: filter on active plants with e.g. naam in ("SEEHASE", "TILLY") for safety
+// Charts will calculate the max kWh
 $sqlmaxdag = "
 SELECT Datum_Maand, sum(Geg_Maand) as sum FROM " . TABLE_PREFIX . "_maand WHERE MONTH(Datum_Maand)='" . date('m', $chartdate) . "' " . " GROUP BY Datum_maand ORDER BY `sum` DESC limit 1";
 $resultmaxdag = mysqli_query($con, $sqlmaxdag) or die("Query failed. dag-max " . mysqli_error($con));
@@ -65,95 +62,160 @@ if (mysqli_num_rows($resultmaxdag) > 0) {
 
     }
 }
-$nice_max_date = date("Y-m-d", strtotime($maxdag));
 //query for the best day
-$all_valarraymax = array();
-$sqlmdinv = "SELECT Geg_Dag AS gem, Datum_Dag, Naam AS Name FROM " . TABLE_PREFIX . "_dag WHERE Datum_Dag LIKE  '" .
-    date("Y-m-d", strtotime($maxdag)) . "%' ORDER BY Name, Datum_Dag ASC";
+$nice_max_date = date("Y-m-d", strtotime($maxdag));
+$allValuesMaxDay = array();
+$sqlmdinv = "SELECT Geg_Dag AS gem, Datum_Dag, Naam FROM " . TABLE_PREFIX . "_dag WHERE Datum_Dag LIKE  '" .
+    date("Y-m-d", strtotime($maxdag)) . "%' ORDER BY Datum_Dag, Naam ASC";
 $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
-$maxdagpeak = 0;
-if (mysqli_num_rows($resultmd) != 0) {
-    $maxdagpeak = 0;
-    while ($row = mysqli_fetch_array($resultmd)) {
-        $inverter_name = $row['Name'];
-        $time_only = substr($row['Datum_Dag'], -9);
 
+if (mysqli_num_rows($resultmd) != 0) {
+
+    while ($row = mysqli_fetch_array($resultmd)) {
+        $inverter_name = $row['Naam'];
+        $time_only = substr($row['Datum_Dag'], -9);
         $today_max = $chartdatestring . $time_only; // current chart date string + max time
         $today_max_utc = convertLocalDateTime($today_max); // date in UTC
         $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
-
-        $all_valarraymax[$today_max_unix_utc] [$inverter_name] = $row['gem'];
-        if ($row['gem'] > $maxdagpeak) {
-            $maxdagpeak = $row['gem'];
-        }
+        $allValuesMaxDay[$inverter_name][$today_max_unix_utc] = intval($row['gem']);
     }
 }
-$strgegmax = "";
-$strsomkw = "";
+
+// -----------------------------  build data for chart -----------------------------------------------------------------
 $myColors = colorsPerInverter();
-$str_dataserie = "";
-$max_first_val = PHP_INT_MAX;
-$max_last_val = 0;
-$cnt = 0;
-$totalDay = 0.0;
-foreach ($inveter_list as $inverter_name) {
-    $col1 = $myColors[$inverter_name]['min'];
-    $col2 = $myColors[$inverter_name]['max'];
-    $str_dataserie .= "{ name: '$inverter_name', id: '$inverter_name', type: 'area', marker: { enabled: false },  color: { linearGradient: {x1: 0, x2: 0, y1: 1, y2: 0}, stops: [ [0, $col1], [1, $col2]] },                        
-    data:[";
-    foreach ($all_valarray as $time => $valarray) {
-        if (!isset($valarray[$inverter_name])) $valarray[$inverter_name] = 0;
-        $str_dataserie .= '{x:' . ($time * 1000) . ', y:' . $valarray[$inverter_name] . ', unit: \'W\'},';
-        $totalDay += $valarray[$inverter_name];
-        // remember first and last date
-        if ($max_first_val > $time) {
-            $max_first_val = $time;
-        }
-        if ($max_last_val < $time) {
-            $max_last_val = $time;
-        }
-    }
-    $str_dataserie = substr($str_dataserie, 0, -1);
-    $str_dataserie .= "]}, 
-                    ";
-    $cnt++;
-}
+$utcDateArray = array_unique($utcDateArray);
+$labels = convertValueArrayToDataString($utcDateArray);
+
 // day max line per inverter --------------------------------------------------------------
-$str_max = "";
-$cnt = 0;
-
+$inverterCount = 0;
+$totalsumCumArray = array();
+$allDataSeriesString = "";
+$plantNames = "";
 foreach (PLANT_NAMES as $key => $inverter_name) {
-    if ($key == 0) {
-        $dash = '';
-    } else {
-        $dash = "dashStyle: 'dash',";
-    }
-    $str_max .= "{ name: '$inverter_name max',  color : '#15ff24', linkedTo: '$inverter_name', lineWidth: 1,  $dash  type: 'line',  stacking: 'normal', marker: { enabled: false },                           
-    data:[";
+    $plantNames .= "'$inverter_name',";
+    $myColor1 = $myColors[$inverter_name]['min'];
+    $myColor2 = $myColors[$inverter_name]['max'];
+    $dataSeriesString = "";
+    $cumDataString = "";
+    $cumSum = 0;
+    $inverterCount++;
 
-    foreach ($all_valarraymax as $time => $valarraymax) {
-        $cnt++;
-        if ($cnt == 1) {
-            // remember first date
-            $max_first_val = $time;
+    // all values for current inverter if set
+    if (isset($allValuesPerInverter[$inverter_name])) {
+        $inverterValues = $allValuesPerInverter[$inverter_name];
+
+        // loop over all times from all inverters
+        foreach ($utcDateArray as $time) {
+            $currentInverterVal = 0;
+            $timeInMillis = $time * 1000;
+            if (isset($inverterValues[$time])) {
+                $currentInverterVal = $inverterValues[$time];
+            }
+            $dataSeriesString .= '{x:' . $timeInMillis . ', y:' . $currentInverterVal . '},';
+            $cumSum += ($currentInverterVal / 12);
+            $cumDataString .= "{x: $timeInMillis, y: $cumSum},";
+            if (!isset($totalsumCumArray[$timeInMillis])) {
+                $totalsumCumArray[$timeInMillis] = 0;
+            }
+            $totalsumCumArray[$timeInMillis] += $cumSum;
         }
-        if (!isset($valarraymax[$inverter_name])) $valarraymax[$inverter_name] = 0;
-        $str_max .= '{x:' . ($time * 1000) . ', y:' . $valarraymax[$inverter_name] . ', unit: \'W\'},';
-    }
-    if (count($all_valarraymax) > 0) {
-        $str_max = substr($str_max, 0, -1);
-        $str_max .= "]}, 
-                    ";
-    } else {
-        $str_max .= "]},";
-    }
-    $cnt++;
-}
-// remember last date
-$str_max = substr($str_max, 0, -1);
-$strgegmax = substr($strgegmax, 0, -1);
 
-$temp_serie = "";
+        $dataZonPHP[$inverter_name]['totalValue'] = $cumSum;
+        $dataZonPHP[$inverter_name]['peak'] = $params[$inverter_name]["capacity"];
+        $dataZonPHP[$inverter_name]['lastDate'] = convertDateTimeToLocalDateTime(array_key_last($inverterValues), "H:i");
+        $dataZonPHP[$inverter_name]['lastValue'] = end($inverterValues);
+        $dataZonPHP[$inverter_name]['todayMax'] = max($inverterValues);
+    }
+
+    // Day line
+    $allDataSeriesString .= " {
+                    datasetId: '" . $inverter_name . "', 
+                    label: '" . $inverter_name . "', 
+                    inverter: '" . $inverter_name . "', 
+                    type: 'line',                               
+                    stack: 'Stack-DATA',
+                    borderWidth: 1,
+                    data: [" . $dataSeriesString . "],                    
+                    dataCUM: [" . "$cumDataString" . "],
+                    dataMAX: [], 
+                    dataREF: [],
+                    averageValue: 0,
+                    expectedValue: 0,
+                    maxIndex: 0,
+                    fill: true,
+                    pointStyle: false,                                         
+                    backgroundColor: function(context) {                         
+                       var gradientFill = ctx.createLinearGradient(0, 0, 0, 500);                                   
+                       gradientFill.addColorStop(0, " . $myColor1 . ");
+                       gradientFill.addColorStop(1, " . $myColor2 . ");
+                       return gradientFill;
+                    },
+                    yAxisID: 'y',
+                    xAxisID: 'x',
+                    isData: true,
+                    order: 10,
+                    legendOrder: " . $inverterCount . ",
+                },
+        ";
+
+
+    // max line per inverter
+    $dataSeriesMaxString = "";
+    $inverterMaxDayCumSum = 0;
+    if (isset($allValuesMaxDay[$inverter_name])) {
+
+        $inverterMaxValues = $allValuesMaxDay[$inverter_name];
+        foreach ($inverterMaxValues as $time => $currentVal) {
+            $dataSeriesMaxString .= '{x:' . ($time * 1000) . ', y:' . $currentVal . '},';
+            $inverterMaxDayCumSum += $currentVal / 12;
+        }
+    }
+    $dataZonPHP[$inverter_name]['maxDay'] = $nice_max_date;
+    $dataZonPHP[$inverter_name]['maxDayValue'] = $inverterMaxDayCumSum;
+    $allDataSeriesString .= " {
+                    datasetId: 'max-" . $inverter_name . "', 
+                    label: 'max-" . $inverter_name . "', 
+                    type: 'line',                               
+                    stack: 'Stack-MAX',
+                    borderWidth: 1,
+                    data: [" . $dataSeriesMaxString . "],                    
+                    averageValue: 0,
+                    expectedValue: 0,
+                    maxIndex: 0,
+                    fill: false,
+                    pointStyle: false, 
+                    borderColor: '" . $colors['color_chart_max_line'] . "',    
+                    yAxisID: 'y',
+                    xAxisID: 'x',
+                    isData: false,
+                    order: 1,
+                    legendOrder: " . $inverterCount + 100 . ",
+                },
+        ";
+}
+
+// cumulative
+$allDataSeriesString .= " {
+                    order: 10,  
+                    datasetId: 'cum', 
+                    label: '" . getTxt("cum") . "', 
+                    type: 'line',      
+                    stack: 'Stack 1',                                                                 
+                    data: [" . convertKeyValueArrayToDataString($totalsumCumArray) . "],
+                    fill: false,                    
+                    borderColor: '" . $colors['color_chart_cum_line'] . "',                
+                    borderWidth: 1,
+                    pointStyle: false,   
+                    yAxisID: 'y-axis-cum',      
+                    xAxisID: 'x',                 
+                    showLine: true,
+                    isData: false,       
+                    order: 2,        
+                    legendOrder: " . $inverterCount + 200 . ",
+                },
+    ";
+
+$str_temp_vals = "";
 $temp_unit = "°C";
 $val_max = 0;
 $val_min = 0;
@@ -161,9 +223,33 @@ if ($params['useWeewx']) {
     include ROOT_DIR . "/charts/temp_sensor_inc.php";
 }
 
+// Temperature line if available
+if (strlen($str_temp_vals) > 0) {
+    $allDataSeriesString .= " {
+                    datasetId: 'temperature', 
+                    label: '" . getTxt("temperature") . "', 
+                    type: 'line',                                                   
+                    borderWidth: 1,
+                    data: [" . $str_temp_vals . "],                    
+                    averageValue: 0,
+                    expectedValue: 0,
+                    maxIndex: 0,
+                    fill: false,
+                    pointStyle: false, 
+                    borderColor: '" . $colors['color_chart_temp_line'] . "',    
+                    yAxisID: 'y-temperature',
+                    xAxisID: 'x',
+                    isData: false,
+                    order: 1,
+                },
+    ";
+}
+
 $show_legende = "true";
 if ($isIndexPage) {
-    echo '<div class = "index_chart" id="mycontainer"></div>';
+    echo '  <div class = "index_chart" id="mycontainer">
+                <canvas id="day_chart_canvas"></canvas>
+            </div>';
     $show_legende = "false";
 }
 // get query parameters
@@ -178,314 +264,245 @@ if (sizeof($_GET) > 0) {
 if (strpos($paramstr_day, "?") == 0) {
     $paramstr_day = '?' . $paramstr_day;
 }
-$maxlink = '<a href= ' . HTML_PATH . 'pages/day_overview.php' . $paramstr_day . 'date=' . $nice_max_date . '><span style="font-family:Arial,Verdana;font-size:12px;font-weight:12px;color:' . $colors['color_chart_text_subtitle'] . ' ;">' . $nice_max_date . '</span></a>';
-//print_r($maxlink);
-include_once "chart_styles.php";
+$maxlink = '<a href= ' . HTML_PATH . 'pages/day.php' . $paramstr_day . 'date=' . $nice_max_date .
+    '><span style="font-family:Arial,Verdana;font-size:12px;color:' . $colors['color_chart_text_subtitle'] .
+    ' ;">' . $nice_max_date . '</span></a>';
+
 $show_temp_axis = "false";
 $show_cum_axis = "true";
-if (strlen($temp_serie) > 0) {
+if (strlen($str_temp_vals) > 0) {
     $show_temp_axis = "true";
     $show_cum_axis = "false";
 }
-
 ?>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="<?= HTML_PATH ?>inc/js/chart_support.js"></script>
 <script>
+
     $(function () {
-        function add(accumulator, a) {
-            return accumulator + a;
-        }
-
-        var myoptions = <?= $chart_options ?>;
-        var khhWp = <?= json_encode($params['PLANTS_KWP']) ?>;
-        var nmbr = khhWp.length //misused to get the inverter count
-        var maxlink = '<?= $maxlink ?>';
-        var temp_max = <?= $val_max ?>;
-        var temp_min = <?= $val_min ?>;
-        var txt_today = '<?= getTxt("today") ?>';
-        var txt_totaal = '<?= getTxt('totaal') ?>';
-        var txt_max = '<?= getTxt('max') ?>';
-        var txt_peak = '<?= getTxt('peak') ?>';
-        Highcharts.setOptions({
-            <?= $chart_lang ?>
-            time: {
-                /**
-                 * Use moment-timezone.js to return the timezone offset for individual
-                 * timestamps, used in the X axis labels and the tooltip header.
-                 */
-                getTimezoneOffset: function (timestamp) {
-                    const zone = '<?= $params['timeZone'] ?>';
-                    const timezoneOffset = -moment.tz(timestamp, zone).utcOffset();
-                    return timezoneOffset;
+            function buildSubtitle(ctx) {
+                let chart = ctx.chart;
+                let data = ctx.chart.data;
+                let dataZonPHP = data.dataZonPHP;
+                let txt = data.txt;
+                let totalValue = 0;
+                let lastDate = Date.now();
+                let lastValue = 0;
+                let todayMax = 0;
+                let maxDay = Date.now();
+                let maxDayValue = 0;
+                let peak = 0;
+                for (let i in data.datasets) {
+                    let meta = chart.getDatasetMeta(i);
+                    let dataset = chart.data.datasets[i];
+                    let inverter = dataset.inverter;
+                    let isHidden = meta.hidden === null ? false : meta.hidden;
+                    if (dataset.isData && !isHidden) {
+                        totalValue += parseInt(dataZonPHP[inverter].totalValue);
+                        peak += parseInt(dataZonPHP[inverter].peak);
+                        lastDate = dataZonPHP[inverter].lastDate;
+                        lastValue += parseInt(dataZonPHP[inverter].lastValue);
+                        todayMax += parseInt(dataZonPHP[inverter].todayMax);
+                        maxDay = dataZonPHP[inverter].maxDay;
+                        maxDayValue += parseInt(dataZonPHP[inverter].maxDayValue);
+                    }
                 }
+                let kWp;
+                if (peak === 0) {
+                    kWp = totalValue;
+                } else {
+                    kWp = (totalValue / peak).toFixed(2);
+                }
+
+                return [txt["today"] + " " + lastDate + " - " + lastValue + "W - " + txt["peak"] + ": " + todayMax + "W",
+                    txt["sum"] + " " + (totalValue / 1000).toFixed(2) + "kWh = " + kWp + "kWh/kWp  - MAX: " + maxDay + " - " + (maxDayValue / 1000).toFixed(2) + "kWh"];
             }
-        });
-        var mychart = new Highcharts.Chart('mycontainer', Highcharts.merge(myoptions, {
-            chart: {
-                events: {
-                    render() {
-                        mychart = this;
-                        series = this.series;
-                        var sum = [];
-                        var kWh = [];
-                        var peak = [];
-                        var current = 0;
-                        var maxkwhtotal = 0;
-                        for (i = nmbr - 1; i >= 0; i--) {
-                            if (series[i].visible) {
-                                for (j = 0; j < series[i].data.length; j++) {
-                                    maxkwhtotal += (series[i].data[j].y) / 12000; // Total
-                                    kWh[i] = khhWp[i]; // KWH
+
+            function customDayLegendClick(e, legendItem, legend) {
+                // myTest();
+                let chart = legend.chart;
+                Chart.defaults.plugins.legend.onClick(e, legendItem, legend);
+                let data = chart.data;
+                let cumSum = []
+                for (let i in data.datasets) {
+                    let meta = chart.getDatasetMeta(i);
+                    let dataset = data.datasets[i];
+                    let inverter = dataset.inverter;
+                    let isHidden = meta.hidden === null ? false : meta.hidden;
+                    if (dataset.isData) {
+                        if (!isHidden) {
+                            if (cumSum.length === 0) {
+                                cumSum = cloneAndResetY(dataset.dataCUM)
+                            }
+                            for (let ii in dataset.data) {
+
+                                // cum
+                                if (dataset.dataCUM[ii].y != null) {
+                                    cumSum[ii].y = cumSum[ii].y + dataset.dataCUM[ii].y;
                                 }
                             }
-                        }
-                        for (i = 2 * nmbr - 1; i >= nmbr; i--) {
-                            if (series.length >= 2 * nmbr && series[i].visible) {
-                                for (j = 0; j < series[i].data.length; j++) {
-                                    sum[i] = (series[i].data[j]).y; // sum
-                                    current = Highcharts.dateFormat('%H:%M', (series[i].data[series[i].data.length - 1]).x);
-                                    peak[i] = series[i].dataMax // PEAK
-                                }
+                            let maxIDX = findDatasetById(data.datasets, "max-" + inverter);
+                            if (maxIDX >= 0) {
+                                chart.setDatasetVisibility(maxIDX, true);
                             }
-                        }
-                        SUM = sum.reduce(add, 0);
-                        KWH = kWh.reduce(add, 0);
-                        var dataMax = mychart.yAxis[1].dataMax;
-                        var AX = peak.filter(Boolean);
-                        if (AX.length == 0) {
-                            PEAK = 0;
                         } else {
-                            PEAK = AX[0];
-                        }
-                        this.setSubtitle({
-                            text: "<b>" + txt_today + ": </b>" + current + " -  " + Highcharts.numberFormat(SUM, 0, ",", "") +
-                                "W" + "=" + (Highcharts.numberFormat(100 * SUM / KWH, 0, ",", "")) + "%" + " - " + txt_peak + ": " + PEAK + "W <br/><b>" +
-                                txt_totaal + ":</b> " + (Highcharts.numberFormat(dataMax, 2, ",", "")) + "kWh = " +
-                                (Highcharts.numberFormat((dataMax / KWH) * 1000, 2, ",", "")) + "kWh/kWp" + " <b>" +
-                                txt_max + ": </b>" + maxlink + " " + (Highcharts.numberFormat(maxkwhtotal, 2, ",", "")) + " kWh"
-                        }, false, false);
-                        this.setTitle({
-                            text: "<b>" +
-                                txt_totaal + ":</b> " + (Highcharts.numberFormat(dataMax, 2, ",", "")) + "kWh = " +
-                                (Highcharts.numberFormat((dataMax / KWH) * 1000, 2, ",", "")) + "kWh/kWp"
-                        }, false, false);
-
-                        // construct chart
-                        total = [];
-                        value = 0;
-                        no_series = 0;
-                        indexOfVisibleSeries = [];
-                        checkHideForSpline = 1;
-                        if (mychart.forRender) {
-                            mychart.forRender = false;
-                            // function to check amount of visible series and to destroy old spline series
-                            mychart.series.forEach(s => {
-                                if (s.type === 'spline' && s.visible === true && s.name != 'Temp') {
-                                    s.destroy()
-                                } else if (s.type === 'spline' && s.visible === false) {
-                                    checkHideForSpline = 0
-                                }
-                                if (s.type === 'area' && s.visible) {
-                                    indexOfVisibleSeries.push(s.index);
-                                    no_series = nmbr;
-                                }
-                            });
-                            // console.log(no_series);
-                            if (checkHideForSpline) {
-                                for (i = 0; i < mychart.series[no_series].data.length; i++) {
-                                    for (h of indexOfVisibleSeries) {
-                                        // throws javascript error when no data available
-
-                                        value += mychart.series[h].data[i].y / 12000;
-                                        axis = mychart.series[h].data[i].x;
-                                    }
-                                    if (typeof axis !== 'undefined') {
-                                        total.push([axis, value]);
-
-                                    }
-
-
-                                }
-                                if (series.length >= 2 * nmbr) {
-                                    mychart.addSeries({
-                                        data: total,
-                                        name: 'Cum',
-                                        yAxis: 1,
-                                        unit: 'kWh',
-                                        type: "spline",
-                                        color: '<?= $colors['color_chart_cum_line'] ?>',
-                                    })
-                                }
+                            // hide maxBar for invisible inverters
+                            let maxIDX = findDatasetById(data.datasets, "max-" + inverter);
+                            if (maxIDX >= 0) {
+                                chart.setDatasetVisibility(maxIDX, false);
                             }
                         }
-                        mychart.forRender = true
                     }
                 }
-            },
-            tooltip: {
-                crosshairs: [true],
-                shared: true,
-                pointFormatter: function () {
-                    unit = this.unit;
-                    value = this.y;
-                    // if unit is undefined (added series) set unit to 'kWh' and value to two decimals
-                    if (!unit) {
-                        unit = 'kWh';
-                        value = Highcharts.numberFormat(this.y, '2', ',');
-                    }
-                    return `<span style="color:${this.color}">\u25CF<\/span> ${this.series.name}: <b>${value} ${unit}<\/b><br/>`;
+
+                let cumIDX = findDatasetById(data.datasets, "cum");
+                if (cumIDX > 0) {
+                    data.datasets[cumIDX].data = cumSum;
                 }
-            },
-            plotOptions: {
-                series: {
-                    states: {
-                        hover: {
-                            lineWidth: 0,
-                        },
-                        inactive: {
-                            opacity: 1
-                        }
-                    },
+
+                chart.options.plugins.subtitle = {
+                    text: buildSubtitle(legend),
+                    display: true,
+                };
+                chart.update();
+            }
+
+
+            const ctx = document.getElementById('day_chart_canvas').getContext("2d");
+
+            Chart.defaults.color = '<?= $colors['color_chart_text_title'] ?>';
+            new Chart(ctx, {
+                data: {
+                    labels: [],
+                    datasets: [<?= $allDataSeriesString  ?>],
+                    dataZonPHP: <?= json_encode($dataZonPHP)  ?>,
+                    inverters: [<?= $plantNames ?>],
+                    myColors: <?= json_encode(colorsPerInverterJS()) ?>,
+                    txt: <?= json_encode($_SESSION['txt']); ?>
                 },
-                area: {
-                    events: {
-                        legendItemClick: function () {
-                            var clickedSeries = this,
-                                lineSeries = clickedSeries.chart.series.filter(series => series.type === 'line'),
-                                visibleLineSeries = [];
-                            lineSeries.forEach(function (series) {
-                                // Set all series to "dot"
-                                if (series.options.dashStyle === 'solid') {
-                                    series.update({
-                                        dashStyle: 'dash'
-                                    })
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            type: "time",
+                            time: {
+                                unit: 'hour',
+                                tooltipFormat: 'yyyy-MM-dd HH:mm',
+                                displayFormats: {
+                                    hour: 'HH:mm'
                                 }
-                                // Push all visible series to an array except the one that was clicked
-                                if (series.visible && series.index !== clickedSeries.index + nmbr) {
-                                    visibleLineSeries.push(series)
-                                }
-                                if (!series.visible && series.index === clickedSeries.index + nmbr) {
-                                    visibleLineSeries.push(series)
-                                }
-                            })
-                            // Set first visible series to "solid"
-                            if (visibleLineSeries.length) {
-                                visibleLineSeries[0].update({
-                                    dashStyle: 'solid'
-                                })
+                            },
+                            ticks: {
+                                stepSize: 1,
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Power (kW)'
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return (value / 1000).toFixed(1)
+                                },
+                                count: 5,
+                            },
+                            grid: {
+                                drawOnChartArea: true,
+                                offset: true
+                            },
+                        },
+                        'y-temperature': {
+                            stacked: false,
+                            position: 'right',
+                            display: <?= $show_temp_axis ?>,
+                            title: {
+                                display: true,
+                                text: '<?= getTxt("temperature") ?> (°C)'
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toFixed(1) + '°C';
+                                },
+                                major: {
+                                    enabled: true,
+                                },
+                                count: 5,
+                            }
+                        },
+                        x1: {
+                            offset: false,
+                            display: false,
+                        },
+                        'y-axis-cum': {
+                            type: 'linear',
+                            min: 0,
+                            display: <?= $show_cum_axis ?>,
+                            position: 'right',
+                            // grid line settings
+                            grid: {
+                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                            },
+                            title: {
+                                display: true,
+                                text: '<?= getTxt("total") ?> kWh'
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return (value / 1000).toFixed(2);
+                                },
+                                count: 5,
+                            },
+                            stacked: true,
+
+                        },
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    plugins: {
+                        customCanvasBackgroundColor: {
+                            color: '<?= $colors['color_chartbackground'] ?>',
+                        },
+                        legend: {
+                            display: <?= $show_legende ?>,
+                            position: 'bottom',
+                            labels: {
+                                filter: item => !item.text.includes('max-'),
+                                sort: function (li0, li1, chartData) {
+                                    let chart = chartData;
+                                    return (chart.datasets[li0.datasetIndex].legendOrder - chart.datasets[li1.datasetIndex].legendOrder)
+                                },
+                            },
+                            onClick: customDayLegendClick,
+                        },
+                        subtitle: {
+                            display: true,
+                            text: function (ctx) {
+                                return buildSubtitle(ctx)
+                            },
+                            padding: {top: 5, left: 0, right: 0, bottom: 3},
+                        },
+
+                    },
+                    onClick: (event, elements, chart) => {
+                        if (elements[0]) {
+                            const i = elements[0].index;
+                            const url = chart.data.datasets[0].data[i].url;
+                            if (url.length > 0) {
+                                location.href = url;
                             }
                         }
-                    },
-                    marker: {
-                        radius: 2,
-                        enabled: false
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 0
-                        },
-                        inactive: {
-                            opacity: 1
-                        }
-                    },
-                    threshold: 0,
-                    stacking: 'normal'
-                },
-            },
-            subtitle: {
-                style: {
-                    wordWrap: 'break-word',
-                    color: '<?= $colors['color_chart_text_subtitle'] ?>'
-                }
-            },
-            title: {
-                style: {
-                    wordWrap: 'break-word',
-                    fontWeight: 'normal',
-                    fontSize: '12px',
-                    color: '<?= $colors['color_chart_text_subtitle'] ?>'
-                }
-            },
-            xAxis: {
-                type: 'datetime',
-                labels: {
-                    style: {
-                        color: '<?= $colors['color_chart_labels_xaxis1'] ?>'
-                    }
-                }
-            },
-            yAxis: [{ // Watt
-                title: {
-                    text: 'Power (kW)',
-                    style: {
-                        color: '<?= $colors['color_chart_title_yaxis1'] ?>'
-                    },
-                    visible: false
-                },
-                // min: 0,
-                labels: {
-                    format: '{value} kW',
-                    style: {
-                        color: '<?= $colors['color_chart_labels_yaxis1'] ?>'
-                    },
-                    formatter: function () {
-                        return Highcharts.numberFormat(this.value / 1000, 1, ',', '.')
                     }
                 },
-                gridLineColor: '<?= $colors['color_chart_gridline_yaxis1'] ?>'
-            },
-                { // cum kWh
-                    title: {
-                        text: 'Total (kWh)',
-                        style: {
-                            color: '<?= $colors['color_chart_title_yaxis2'] ?>'
-                        }
-                    },
-                    labels: {
-                        format: '{value} kWh',
-                        style: {
-                            color: '<?= $colors['color_chart_labels_yaxis2'] ?>'
-                        },
-                        formatter: function () {
-                            return Highcharts.numberFormat(this.value, 1, ',', '.')
-                        }
-                    },
-                    gridLineColor: '<?= $colors['color_chart_gridline_yaxis2'] ?>',
-                    opposite: true,
-                    visible: <?= $show_cum_axis ?>
-                },
-                { // temperature
-                    title: {
-                        text: 'Temperature',
-                        style: {
-                            color: '<?= $colors['color_chart_title_yaxis3'] ?>',
-                        },
-                    },
-                    labels: {
-                        format: '{value}<?= $temp_unit ?>',
-                        style: {
-                            color: '<?= $colors['color_chart_labels_yaxis1'] ?>',
-                        },
-                        formatter: function () {
-                            return this.value + "<?= $temp_unit ?>";
-                        },
-                    },
-                    gridLineColor: '<?= $colors['color_chart_gridline_yaxis3'] ?>',
-                    opposite: true,
-                    visible: <?= $show_temp_axis ?>,
-                    steps: 5,
-                    min: temp_min,
-                    max: temp_max,
-                }
-            ],
-            series: [
-                <?= $str_max . $str_dataserie . $temp_serie?>
-            ]
-        }), function (mychart) {
-            mychart.forRender = true
-        });
-        setInterval(function () {
-            $("#mycontainer").highcharts().reflow();
-        }, 500);
-    });
+                plugins: [getPlugin()],
+            });
+        }
+    )
+
 </script>

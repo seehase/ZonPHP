@@ -6,12 +6,14 @@
 global $con, $params;
 $wr = "WR1";
 $table_prefix = TABLE_PREFIX;
-
+$currentWattValue = 0;
+$totalValuekWh = 0;
+$odatum = array();
 $sql = "SELECT * FROM " . $table_prefix . "_dag ORDER BY Datum_Dag DESC LIMIT 1";
 
 // get latest import date from db
 $result = mysqli_query($con, $sql) or die("invullen gegevens solar ERROR: " . mysqli_error($con));
-
+$dateTime = "";
 if (mysqli_num_rows($result) == 0)
     $dateTime = "2012-01-03";
 else {
@@ -96,7 +98,7 @@ if (!empty($adag)) {
                                 if ($currentWattValue != 0) {
                                     $insertStringValues .= "('" . $oTimeStamp . $wrname . "','" . $oTimeStamp . "'," . ($currentWattValue * 1000) . "," . number_format($totalValuekWh - $startkw[$i - 1], 3) . ",'" . $wrname . "'),";
 
-                                    $latestDayTotal[$i - 1] = ($totalValuekWh - $startkw[$i - 1]) ;
+                                    $latestDayTotal[$i - 1] = ($totalValuekWh - $startkw[$i - 1]);
 
                                     $insertStringDayTotalValue = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] .
                                         $wrname . "','" . $odatum[0] . "'," . number_format(($totalValuekWh - $startkw[$i - 1]), 3) . ",'" . $wrname . "')";
@@ -121,8 +123,7 @@ if (!empty($adag)) {
         }
         fclose($file);
         if ($insertStringValues != "") {
-            if ($odatum[0] != "geen")
-            {
+            if ($odatum[0] != "geen") {
                 $sql = "DELETE FROM " . $table_prefix . "_maand WHERE Datum_Maand='" . $odatum[0] . "'";
                 mysqli_query($con, $sql) or die("Query failed. ERROR: " . mysqli_error($con) . $sql);
                 $insertStringDayTotalValue = "insert into " . $table_prefix . "_maand (IndexMaand,Datum_Maand,Geg_Maand,Naam)values('" . $odatum[0] . "WR1','" . $odatum[0] . "'," . number_format($latestDayTotal[0], 3) . ",'WR1')";
@@ -192,7 +193,7 @@ if (mysqli_num_rows($result) == 0) {
 ?>
 
 <?php
-function omzetdatum($date)
+function omzetdatum($date): string
 {
     if (mb_check_encoding($date, "UCS-2")) {
         $date = ucs2toutf8_x($date);
@@ -206,7 +207,6 @@ function omzetdatum($date)
     if (!isset($d_m_j_t[3])) return "geen datumtijd";
     if (!isset($d_m_j_t[4])) return "geen datumtijd";
     $d_m_j_t[5] = "00";
-    if (!isset($d_m_j_t[5])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[0])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[1])) return "geen datumtijd";
     if (!is_numeric($d_m_j_t[2])) return "geen datumtijd";
@@ -225,9 +225,9 @@ function omzetdatum($date)
 
 ?>
 <?php
-function controledatum_x($idag, $imaand, $ijaar)
+function controledatum_x($idag, $imaand, $ijaar): bool
 {
-    If (!checkdate($imaand, $idag, $ijaar)) {
+    if (!checkdate($imaand, $idag, $ijaar)) {
         return false;
     } else {
         return true;
@@ -236,11 +236,12 @@ function controledatum_x($idag, $imaand, $ijaar)
 
 ?>
 <?php
-function checktime_x($hour, $minute, $second)
+function checktime_x($hour, $minute, $second): bool
 {
     if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60 && $second > -1 && $second < 60) {
         return true;
     }
+    return false;
 }
 
 function ucs2toutf8_x($str)

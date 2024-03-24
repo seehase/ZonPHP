@@ -1,6 +1,7 @@
 <?php
 
 // forced to load or change theme
+/** @noinspection PhpUnused */
 function loadTheame($params): void
 {
     // load available themes
