@@ -21,6 +21,7 @@ color_chartbar_piek2 = #FF7E38
 color_chart_average_line = #B88686
 color_chart_reference_line = #4B3636
 color_chart_cum_line = #212121
+color_chart_cum_fill = #F5B7B1 
 color_chart_max_line = #805E5E
 color_chart_temp_line = #0E669E
 color_chart_max_bar = #B88686

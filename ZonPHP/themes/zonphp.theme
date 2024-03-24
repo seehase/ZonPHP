@@ -1,4 +1,4 @@
-[info]
+, info]
 name = "ZonPHP Theme"
 author = Seehase
 
@@ -16,10 +16,10 @@ color_image_windowtitle = "inc/images/bg_default.png"
 color_chartbackground = #888888
 color_chartbar1 = #003399
 color_chartbar2 = #3366AA
-color_inverter0_chartbar_min = #003399
-color_inverter0_chartbar_max = #3366AA
-color_inverter1_chartbar_min = #158EFF
-color_inverter1_chartbar_max = #715AAA
+color_inverter0_chartbar_min = #158EFF
+color_inverter0_chartbar_max = #715AAA
+color_inverter1_chartbar_min = #003399
+color_inverter1_chartbar_max = #3366AA
 color_inverter2_chartbar_min = #1A8A99
 color_inverter2_chartbar_max = #3829AA
 color_inverter3_chartbar_min = #0F9949
@@ -41,6 +41,7 @@ color_chartbar_piek2 = #FF00FF
 color_chart_average_line = #0AF02F
 color_chart_reference_line = #FF0055
 color_chart_cum_line = #212121
+color_chart_cum_fill = #777777
 color_chart_max_line = #777777
 color_chart_temp_line = #0E669E
 color_chart_max_bar = #777777
@@ -64,9 +65,9 @@ color_yearchart3 = #89C4F4
 color_yearchart4 = #5C97BF
 color_text_link1 = #ffffff
 color_text_link2 = #000000
-color_pal[] = #9ccc65, #8bc34a, #7cb342
-color_pal[] = #aed6f1, #85c1e9, #5dade2
-color_pal[] = #f9e79f, #f7dc6f, #f4d03f
-color_pal[] = #a3e4d7, #76d7c4, #48c9b0
-color_pal[] = #d7bde2, #c39bd3, #af7ac5
-color_pal[] = #ef5350, #e53935, #c62828
+color_pal[] = #9ccc65, #8bc34a, #7cb342, #9ccc65, #8bc34a, #7cb342
+color_pal[] = #aed6f1, #85c1e9, #5dade2, #aed6f1, #85c1e9, #5dade2
+color_pal[] = #f9e79f, #f7dc6f, #f4d03f, #f9e79f, #f7dc6f, #f4d03f
+color_pal[] = #a3e4d7, #76d7c4, #48c9b0, #a3e4d7, #76d7c4, #48c9b0
+color_pal[] = #d7bde2, #c39bd3, #af7ac5, #d7bde2, #c39bd3, #af7ac5
+color_pal[] = #ef5350, #e53935, #c62828, #ef5350, #e53935, #c62828

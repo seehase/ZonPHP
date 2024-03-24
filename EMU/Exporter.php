@@ -34,4 +34,4 @@ $pvOutputURL = "http://pvoutput.org/service/r2/addstatus.jsp?"
 file_get_contents(trim($pvOutputURL));
 mysqli_query($mysqli,$sql)or die ('SQL Error fout:'. mysqli_error($mysqli));
 }
-?>
+

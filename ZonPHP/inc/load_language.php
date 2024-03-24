@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 // force to load missing or changed language
 function loadLanguage($params): void
