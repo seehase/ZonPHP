@@ -84,7 +84,9 @@ $temp_serie = "";
 if ($sensor_success) {
     foreach ($temp_vals as $time => $val) {
         if (($time > $max_first_val) && ($time < $max_last_val)) {
-            $str_temp_vals .= "{x:" . $time * 1000 . ", y:" . number_format($val, 1, '.', '') . ", unit: '" . $temp_unit . "' },";
+            $str_temp_vals .= "{x:" . $time * 1000 .
+                ", y:" . number_format($val, 1, '.', '') .
+                " },";
         }
     }
     if (strlen($str_temp_vals) > 0) {
