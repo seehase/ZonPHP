@@ -3,7 +3,7 @@ global $params, $colors, $new_version_label;
 $showDebugMenu = "block";
 if ($params['debugMenu'] == "never") {
     $showDebugMenu = "none";
-} elseif ( $params['debugMenu'] == "onerror" && !hasErrorOrWarnings()) {
+} elseif ($params['debugMenu'] == "onerror" && !hasErrorOrWarnings()) {
     $showDebugMenu = "none";
 }
 
@@ -23,30 +23,30 @@ if ($params['debugMenu'] == "never") {
                     </li>
                     <li>
                         <a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/day_overview.php"><?= getTxt("chart_dayoverview") ?></a>
+                           href="<?= HTML_PATH ?>pages/day.php"><?= getTxt("chart_day_view") ?></a>
                     </li>
                     <li>
                         <a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/month_overview.php"><?= getTxt("chart_monthoverview") ?></a>
+                           href="<?= HTML_PATH ?>pages/month.php"><?= getTxt("chart_month_view") ?></a>
                     </li>
                     <li>
                         <a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/year_overview.php"><?= getTxt("chart_yearoverview") ?></a>
+                           href="<?= HTML_PATH ?>pages/year.php"><?= getTxt("chart_year_view") ?></a>
                     </li>
                     <li>
                         <a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/all_years_overview.php"><?= getTxt("chart_allyearoverview") ?></a>
+                           href="<?= HTML_PATH ?>pages/years.php"><?= getTxt("chart_years_view") ?></a>
                     </li>
                     <li>
                         <a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/last_years_overview.php"><?= getTxt("chart_lastyearoverview") ?></a>
+                           href="<?= HTML_PATH ?>pages/months.php"><?= getTxt("chart_months_view") ?></a>
                     </li>
                     <li>
                         <a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/cumulative_overview.php"><?= getTxt("chart_cumulativeoverview") ?></a>
+                           href="<?= HTML_PATH ?>pages/years_cumulative.php"><?= getTxt("chart_years_cumulative_view") ?></a>
                     </li>
                     <li><a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/top31.php"><?= getTxt("chart_31days") ?></a>
+                           href="<?= HTML_PATH ?>pages/ranking.php"><?= getTxt("ranking") ?></a>
                     </li>
                 </ul>
 
@@ -95,7 +95,7 @@ if ($params['debugMenu'] == "never") {
                 </ul>
             </div>
             &nbsp;&nbsp;
-            <div class="nav-item dropdown" style="display: <?= $showDebugMenu?> ">
+            <div class="nav-item dropdown" style="display: <?= $showDebugMenu ?> ">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false">&nbsp;&nbsp;?&nbsp;
                 </a>
@@ -104,7 +104,7 @@ if ($params['debugMenu'] == "never") {
                            href="<?= HTML_PATH ?>inc/destroy.php"><?= getTxt("clearsession") ?> </a>
                     </li>
                     <li><a class="dropdown-item"
-                           href="<?= HTML_PATH ?>pages/validate.php"><?= getTxt("validateparams") ?> </a>
+                           href="<?= HTML_PATH ?>validate.php"><?= getTxt("validateparams") ?> </a>
                     </li>
                     <?php
                     if (strlen($new_version_label) > 0) {

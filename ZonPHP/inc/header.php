@@ -50,13 +50,7 @@ global $params, $colors;
           integrity="sha512-ajhUYg8JAATDFejqbeN7KbF2zyPbbqz04dgOLyGcYEk/MJD3V+HJhJLKvJ2VVlqrr4PwHeGTTWxbI+8teA7snw=="
           crossorigin="anonymous" referrerpolicy="no-referrer">
 
-    <!-- Highcharts -->
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
-
-    <!-- moment (used by Highcharts for UTC to local time) -->
+    <!-- moment (used by charts for UTC to local time) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data-1970-2030.js"></script>
 
@@ -119,7 +113,6 @@ global $params, $colors;
         }
 
         #chart_header .dropdown-toggle {
-            color: <?= $colors['color_menufont'] ?>;
             color: white !important;
             font-size: 14px;
             position: static;
@@ -132,7 +125,7 @@ global $params, $colors;
 
         .btn-zonphp, .btn-zonphp:hover, .bootstrap-select .dropdown-toggle .filter-option {
             background-color: <?= $colors['color_button_background'] ?>;
-        color:<?= $colors['color_button_text'] ?>;
+            color: <?= $colors['color_button_text'] ?>;
         }
 
 

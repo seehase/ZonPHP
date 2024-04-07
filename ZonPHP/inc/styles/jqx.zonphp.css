@@ -1,8 +1,10 @@
-﻿.jqx-widget-zonphp {
+﻿/*noinspection CssUnusedSymbol*/
+.jqx-widget-zonphp {
     border-color: #222
 }
 
 /*.jqx-widget-content-zonphp{color:#222; border-color:#262626; background-color: #888; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px}*/
+/*noinspection CssUnusedSymbol*/
 .jqx-widget-content-zonphp {
     color: #222;
     border-color: #262626;
@@ -10,21 +12,21 @@
     border-bottom-right-radius: 7px
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-window-header-zonphp {
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    padding: 5px;
-    padding-top: 6px;
-    padding-bottom: 4px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 6px 5px 4px;
     height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-window-header-menu {
-    border-top-left-radius: 8.9px;
-    border-top-right-radius: 8.9px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
     padding: 5px;
     height: 45px;
     display: flex;
@@ -32,12 +34,10 @@
     justify-content: center;
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-window-header-index-menu {
-    border-top-left-radius: 9.5px;
-    border-top-right-radius: 9.5px;
-    border-bottom: 0px;
-    border-bottom-left-radius: 9.5px;
-    border-bottom-right-radius: 9.5px;
+    border-bottom: 0;
+    border-radius: 10px;
     padding-top: 5px;
     padding-bottom: 7px;
     height: 45px;
@@ -46,6 +46,7 @@
     justify-content: center;
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-window-header-index-zonphp {
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
@@ -54,203 +55,243 @@
 }
 
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-fill-state-normal-zonphp, .jqx-widget-header-zonphp {
     color: #ffe2ea;
     border-color: #000;
     background: #000 url(images/bg_black.png) left center scroll repeat-x
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-fill-state-normal-zonphp, .jqx-widget-header-menu {
     color: #ffe2ea;
     border-color: #000;
     background: #000 url(images/bg_darkblue.png) left center scroll repeat-x
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-fill-state-hover-zonphp {
     background: transparent url(images/bg_blackhover.png) left center scroll repeat-x;
     border-color: #262626;
     color: #fff
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-fill-state-pressed-zonphp, .jqx-menu-item-top-hover-zonphp {
     background: transparent url(images/bg_blackpressed.png) left center scroll repeat-x;
     border-color: #262626;
     color: #fff
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-checkbox-check-checked-zonphp {
     background: transparent url(images/check_white.png) left top no-repeat
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-checkbox-check-indeterminate-zonphp {
     background: transparent url(images/check_indeterminate_white.png) left top no-repeat
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-grid-zonphp, .jqx-grid-header-zonphp, .jqx-grid-cell-zonphp {
     border-color: #262626
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-widget-zonphp .jqx-grid-cell-zonphp, .jqx-widget-zonphp .jqx-grid-group-cell-zonphp {
     border-color: #262626
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-widget-zonphp .jqx-grid-column-menubutton-zonphp, .jqx-widget-zonphp .jqx-grid-column-sortascbutton-zonphp, .jqx-widget-zonphp .jqx-grid-column-sortdescbutton-zonphp, .jqx-widget-zonphp .jqx-grid-column-filterbutton-zonphp {
     border-color: #262626
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-widget-zonphp .jqx-grid-column-header-zonphp {
     border-color: #262626
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-grid-bottomright-zonphp, .jqx-panel-bottomright-zonphp, .jqx-listbox-bottomright-zonphp {
     background-color: #262626
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-widget-zonphp .jqx-grid-column-menubutton-zonphp, .jqx-menu-vertical-zonphp {
     background-color: #262626;
     border-color: #262626
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-grid-selectionarea-zonphp {
     background-color: #262626;
     border: 1px solid #262626;
     opacity: 0.5
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-grid-group-cell-zonphp {
     border-color: #262626;
     background-color: #fff
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-grid-cell-sort-zonphp, .jqx-grid-cell-filter-zonphp, .jqx-grid-cell-pinned-zonphp {
     background-color: #eaf8ff
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-grid-cell-alt-zonphp, .jqx-grid-cell-sort-alt-zonphp, .jqx-grid-cell-filter-alt-zonphp {
     background-color: #deedf5
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-grid-cell-selected-zonphp {
     background: #262626;
     color: #fff
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-grid-cell-hover-zonphp {
     background: #646464;
     color: #fff
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-menu-vertical-zonphp {
     background: #222;
     color: #fff;
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-scrollbar-state-normal-zonphp {
     background: #555;
     border: 1px solid #555
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-scrollbar-button-state-normal-zonphp {
     border: 1px solid #555;
     background: #555
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-scrollbar-button-state-hover-zonphp {
     background: #555 url(images/bg_blackhover.png) left top scroll repeat-x;
     border: 1px solid #000
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-scrollbar-button-state-pressed-zonphp {
     background: #555 url(images/bg_blackpressed.png) left top scroll repeat-x;
     border: 1px solid #000
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-scrollbar-thumb-state-normal-horizontal-zonphp {
     background: #555 url(images/bg_black.png) left top scroll repeat-x;
     border: 1px solid #000
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-scrollbar-thumb-state-hover-horizontal-zonphp {
     background: #555 url(images/bg_blackhover.png) left top scroll repeat-x;
     border: 1px solid #000
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-scrollbar-thumb-state-pressed-horizontal-zonphp {
     background: #555 url(images/bg_blackpressed.png) left top scroll repeat-x;
     border: 1px solid #000
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-scrollbar-thumb-state-normal-zonphp {
     background: #555 url(images/bg_black_horizontal.png) left top scroll repeat-x;
     border: 1px solid #000
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-scrollbar-thumb-state-hover-zonphp {
     background: #555 url(images/bg_blackhover_horizontal.png) left top scroll repeat-x;
     border: 1px solid #000
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-scrollbar-thumb-state-pressed-zonphp {
     background: #555 url(images/bg_blackpressed_horizontal.png) left top scroll repeat-x;
     border: 1px solid #000
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-splitter-splitbar-horizontal-zonphp, .jqx-splitter-splitbar-vertical-zonphp, .jqx-splitter-splitbar-hover-zonphp, .jqx-splitter-splitbar-hover-horizontal-zonphp {
     background: #555;
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-splitter-collapse-button-horizontal-zonphp, .jqx-splitter-collapse-button-vertical-zonphp {
     background: #7f7f7f;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-column-sortascbutton-zonphp, .jqx-expander-arrow-bottom-zonphp, .jqx-window-collapse-button-zonphp, .jqx-menu-item-arrow-up-zonphp, .jqx-menu-item-arrow-up-selected-zonphp, .jqx-menu-item-arrow-top-up-zonphp, .jqx-icon-arrow-up-zonphp, .jqx-icon-arrow-up-hover-zonphp, .jqx-icon-arrow-up-selected-zonphp {
     background-image: url('images/icon-up-white.png');
     background-repeat: no-repeat;
     background-position: center
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-column-menubutton-zonphp, .jqx-grid-column-sortdescbutton-zonphp, .jqx-expander-arrow-top-zonphp, .jqx-window-collapse-button-collapsed-zonphp, .jqx-menu-item-arrow-down-zonphp, .jqx-menu-item-arrow-down-selected-zonphp, .jqx-menu-item-arrow-down-zonphp, .jqx-icon-arrow-down-zonphp, .jqx-icon-arrow-down-hover-zonphp, .jqx-icon-arrow-down-selected-zonphp {
     background-image: url('images/icon-down-white.png');
     background-repeat: no-repeat;
     background-position: center
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-arrow-left-zonphp {
     background-image: url('images/icon-left-white.png');
     background-repeat: no-repeat;
     background-position: center
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-arrow-right-zonphp {
     background-image: url('images/icon-right-white.png');
     background-repeat: no-repeat;
     background-position: center
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-menu-item-arrow-left-zonphp {
     background-image: url('images/icon-left.png');
     background-repeat: no-repeat;
     background-position: center
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-menu-item-arrow-right-zonphp {
     background-image: url('images/icon-right.png');
     background-repeat: no-repeat;
     background-position: center
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-tabs-arrow-left-zonphp, .jqx-menu-item-arrow-left-selected-zonphp, .jqx-menu-item-arrow-top-left, .jqx-icon-arrow-down-left-zonphp, .jqx-icon-arrow-left-selected-zonphp {
     background-image: url('images/icon-left-white.png');
     background-repeat: no-repeat;
     background-position: center
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-tabs-arrow-right-zonphp, .jqx-menu-item-arrow-right-selected-zonphp, .jqx-menu-item-arrow-top-right-zonphp, .jqx-icon-arrow-right-hover-zonphp, .jqx-icon-arrow-right-selected-zonphp {
     background-image: url('images/icon-right-white.png');
     background-repeat: no-repeat;
     background-position: center
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-window-close-button-zonphp, .jqx-icon-close-zonphp, .jqx-tabs-close-button-zonphp, .jqx-tabs-close-button-hover-zonphp, .jqx-tabs-close-button-selected-zonphp {
     background-image: url(images/close_white.png);
     background-repeat: no-repeat;
@@ -258,62 +299,73 @@
 }
 
 /*applied to the progressbar's value element*/
+/*noinspection CssUnusedSymbol*/
 .jqx-progressbar-value-zonphp {
     background: #555;
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-progressbar-value-vertical-zonphp {
     background: #555;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-arrow-first-zonphp {
     background-image: url('images/icon-first-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-arrow-last-zonphp {
     background-image: url('images/icon-last-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-group-expand-zonphp, .jqx-grid-cell-zonphp > .jqx-grid-group-expand-zonphp, .jqx-tree-item-arrow-expand-zonphp {
     background-image: url('images/icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-group-collapse-zonphp, .jqx-grid-cell-zonphp > .jqx-grid-group-collapse-zonphp, .jqx-tree-item-arrow-collapse-zonphp {
     background-image: url('images/icon-right.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-group-collapse-rtl-zonphp, .jqx-grid-cell-zonphp > .jqx-grid-group-collapse-rtl-zonphp, .jqx-tree-item-arrow-collapse-rtl-zonphp {
     background-image: url('images/icon-left.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-group-expand-rtl-zonphp, .jqx-grid-cell-zonphp > .jqx-grid-group-expand-rtl-zonphp {
     background-image: url('images/icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-date-time-input-popup-zonphp .jqx-icon-arrow-down-zonphp {
     background-image: url('images/icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-date-time-input-popup-zonphp .jqx-icon-arrow-up-zonphp {
     background-image: url('images/icon-up.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-cell-zonphp.jqx-grid-cell-selected-zonphp > .jqx-grid-group-expand-zonphp,
 .jqx-grid-cell-zonphp.jqx-grid-cell-hover-zonphp > .jqx-grid-group-expand-zonphp {
     background-image: url('images/icon-down-white.png');
@@ -321,6 +373,7 @@
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-cell-zonphp.jqx-grid-cell-selected-zonphp > .jqx-grid-group-collapse-zonphp,
 .jqx-grid-cell-zonphp.jqx-grid-cell-hover-zonphp > .jqx-grid-group-collapse-zonphp {
     background-image: url('images/icon-right-white.png');
@@ -328,6 +381,7 @@
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-cell-zonphp.jqx-grid-cell-selected-zonphp > .jqx-grid-group-collapse-rtl-zonphp,
 .jqx-grid-cell-zonphp.jqx-grid-cell-hover-zonphp > .jqx-grid-group-collapse-rtl-zonphp {
     background-image: url('images/icon-left-white.png');
@@ -335,6 +389,7 @@
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-grid-cell-zonphp.jqx-grid-cell-selected-zonphp > .jqx-grid-group-expand-rtl-zonphp,
 .jqx-grid-cell-zonphp.jqx-grid-cell-hover-zonphp > .jqx-grid-group-expand-rtl-zonphp {
     background-image: url('images/icon-down-white.png');
@@ -342,73 +397,90 @@
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-search-zonphp {
     background-image: url(images/search_white.png);
     background-repeat: no-repeat;
     background-position: center;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-calendar-zonphp, .jqx-icon-calendar-hover-zonphp, .jqx-icon-calendar-pressed-zonphp {
     background-image: url('images/icon-calendar-white.png');
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-time-zonphp, .jqx-icon-time-hover-zonphp, .jqx-icon-time-pressed-zonphp {
     background-image: url('images/icon-time-white.png');
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-delete-zonphp {
     background-image: url('images/icon-delete-white.png');
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-edit-zonphp {
     background-image: url('images/icon-edit-white.png');
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-save-zonphp {
     background-image: url('images/icon-save-white.png');
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-cancel-zonphp {
     background-image: url('images/icon-cancel-white.png');
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-search-zonphp {
     background-image: url(images/search_white.png);
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-icon-plus-zonphp {
     background-image: url(images/plus_white.png);
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-menu-minimized-button-zonphp {
     background-image: url('images/icon-menu-minimized-white.png');
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-editor-toolbar-icon-zonphp {
     background: url('images/html_editor_white.png') no-repeat;
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-layout-zonphp {
     background-color: #000;
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-layout-pseudo-window-pin-icon-zonphp {
     background-image: url("images/pin-white.png");
 }
 
+/*noinspection CssUnknownTarget,CssUnusedSymbol*/
 .jqx-layout-pseudo-window-pinned-icon-zonphp {
     background-image: url("images/pinned-white.png");
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-scheduler-month-cell-zonphp, .jqx-scheduler-time-column-zonphp, .jqx-scheduler-toolbar-zonphp {
     background: #35353A !important;
     color: #fff !important;
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-widget-zonphp .jqx-scheduler-middle-cell-zonphp, .jqx-scheduler-middle-cell-zonphp {
     border-bottom-color: #35353A !important;
 }
 
+/*noinspection CssUnusedSymbol*/
 .jqx-kanban-item-zonphp {
     box-shadow: none;
 }

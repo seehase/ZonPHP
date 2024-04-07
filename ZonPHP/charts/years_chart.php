@@ -1,18 +1,9 @@
 <?php
-global $con, $params, $formatter, $colors, $chart_options;
+global $con, $colors, $params, $chart_options;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 include_once "chart_support.php";
 
-if (isset($_GET['date'])) {
-    $chartdatestring = html_entity_decode($_GET['date']);
-    $chartdate = strtotime($chartdatestring);
-} else {
-    $chartdate = $_SESSION['CHARTDATE'] ?? time();
-}
-$chartdatestring = date("Y-m-d", $chartdate);
-
-$maxMonthDay = 0;
 $isIndexPage = false;
 $showAllInverters = true;
 if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
@@ -20,110 +11,100 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
 }
 
 // -----------------------------  get data from DB -----------------------------------------------------------------
-$current_year = date('Y', $chartdate);
-$current_month = intval(date('m', $chartdate));
-$current_year_month = date('Y-m', $chartdate);
+$datum = "";
+$inClause = "'" . implode("', '", PLANT_NAMES) . "'";
+// load sum per month for all years --------------------------------------------------------------------------------
+$sql = "SELECT SUM( Geg_Maand ) AS sum_month, year( Datum_Maand ) AS year, month( Datum_Maand ) AS month, naam, 
+            count( Datum_Maand ) AS tdag_maand
+        FROM " . TABLE_PREFIX . "_maand     
+        WHERE naam in ($inClause) 
+        GROUP BY year, month, naam";
 
-// get reference values
-$refValuePerMonth = array();
-foreach (PLANT_NAMES as $plant) {
-    $refValuePerMonth[$plant] = $params[$plant]['expectedYield'][$current_month - 1] / 30;
-}
+$result = mysqli_query($con, $sql) or die("Query failed. totaal " . mysqli_error($con));
+$sum_per_year = array();
+$total_sum_for_all_years = 0;
 
-$DaysPerMonth = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
-
-$sql = "SELECT Datum_Maand, Geg_Maand, naam
-        FROM " . TABLE_PREFIX . "_maand
-        where Datum_Maand like '" . $current_year_month . "%'
-        GROUP BY Naam, Datum_Maand, Geg_Maand
-        ORDER BY Naam, Datum_Maand ASC";
-$result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
-
-$allValuesPerInverter = array();
-$monthTotal = 0.0;
-$formatter->setPattern('LLLL yyyy');
 if (mysqli_num_rows($result) == 0) {
-    $datum = getTxt("nodata") . datefmt_format($formatter, $chartdate);
+    $sum_per_year[date('Y-m-d', time())] = 0;
 } else {
-    $datum = datefmt_format($formatter, $chartdate);
-
-    for ($k = 0; $k < count(PLANT_NAMES); $k++) {
-        for ($i = 1; $i <= $DaysPerMonth; $i++) {
-            $allValuesPerInverter[PLANT_NAMES[$k]][$i] = 0;
-        }
-    }
     while ($row = mysqli_fetch_array($result)) {
         $inverter_name = $row['naam'];
-        $allValuesPerInverter[$inverter_name][date("j", strtotime($row['Datum_Maand']))] = $row['Geg_Maand'];
-        $monthTotal += $row['Geg_Maand'];
+        if (!isset($sum_per_year[$row['year']])) {
+            $sum_per_year[$row['year']][$inverter_name] = 0;
+        }
+        if (!isset($sum_per_year[$row['year']][$inverter_name])) {
+            $sum_per_year[$row['year']][$inverter_name] = 0;
+        }
+        $sum_per_year[$row['year']][$inverter_name] += $row['sum_month'];
+
+        $days_per_month = cal_days_in_month(CAL_GREGORIAN, $row['month'], $row['year']);
+    }
+
+    foreach ($sum_per_year as $inverter_name => $val) {
+        $total_sum_for_all_years += array_sum($val);
     }
 }
 
 ?>
-
 <?php
-// -----------------------------  build data for chart -----------------------------------------------------------------
-$myColors = colorsPerInverter();
-$myurl = HTML_PATH . "pages/day.php?date=";
+// ----------------------------- build data for chart -----------------------------------------------------------------
+$myurl = HTML_PATH . "pages/year.php?date=";
+$my_year = date("Y", time());
+
+$yearcount = count($sum_per_year);
 $allDataSeriesString = "";
 $labels = "";
-$totalsumCumArray = array();
-$dataZonPHP = array();
+$cumData = "";
+$cumSum = 0.0;
 $sumAverage = 0.0;
 $sumExpected = 0.0;
-for ($i = 1; $i <= $DaysPerMonth; $i++) {
-    $labels .= '"' . $i . '",';
-    $totalsumCumArray[$i] = 0.0;
+$myColors = colorsPerInverter();
+$maxIndex = 0;
+$inverterCounter = 0;
+$totalsumCumArray = array();
+$dataZonPHP = array();
+foreach ($sum_per_year as $year => $yearSum) {
+    $labels .= '"' . $year . '",';
+    $totalsumCumArray[$year] = 0.0;
 }
 
 foreach (PLANT_NAMES as $inverter_name) {
+    $inverterCounter++;
+    $inverterExpected = $params[$inverter_name]['totalExpectedYield'];
     $dataSeriesString = "";
-    $cumData = "";
-    $cumSum = 0;
-    $maxMonthValue = 0;
-    $maxMonthDay = 0;
-    $inverterExpected = $refValuePerMonth[$inverter_name];
+    $maxIndex = 0;
     $sumExpected += $inverterExpected;
-    $lastDayWithValues = 1;
-    $inverterAverage = 0;
-
-    if (isset($allValuesPerInverter[$inverter_name])) {
-        $valuesPerMonth = $allValuesPerInverter[$inverter_name];
-        $maxMonthValue = round(max($valuesPerMonth), 2);
-        for ($i = 1; $i <= $DaysPerMonth; $i++) {
-            if (isset($valuesPerMonth[$i])) {
-                $val = round($valuesPerMonth[$i], 2);
-            } else {
-                $val = 0;
-            }
-            $formattedHref = sprintf("%s%04d-%02d-%02d", $myurl, $current_year, $current_month, $i);
-            $dataSeriesString .= " { x: $i, y: $val, url: \"$formattedHref\"},";
-            $cumSum += $val;
-            $cumData .= " { x: $i, y: $cumSum},";
-            $totalsumCumArray[$i] = $totalsumCumArray[$i] + $cumSum;
-            if ($val == $maxMonthValue) {
-                $maxMonthDay = $i;
-            }
-            if ($val > 0) {
-                $lastDayWithValues = $i;
-            }
+    $cumSum = 0;
+    $idx = 0;
+    $sumMaxYear = max($sum_per_year);
+    foreach ($sum_per_year as $year => $yearSum) {
+        if ($yearSum >= $sumMaxYear) {
+            $maxIndex = $idx + 1;
         }
-        $inverterAverage = array_sum($valuesPerMonth) / $lastDayWithValues;
-        $sumAverage += $inverterAverage;
+        $val = 0.0;
+        if (isset($yearSum[$inverter_name])) {
+            $val = round($yearSum[$inverter_name], 2);
+        }
+        $formattedHref = sprintf("%s%02d-%02d-%04d", $myurl, 1, 1, $year);
+        $dataSeriesString .= " { x: $year, y: $val, url: \"$formattedHref\"},";
+        $cumSum += $val;
+        $cumData .= " { x: $year, y: $cumSum},";
+        $totalsumCumArray[$year] = $totalsumCumArray[$year] + $cumSum;
+        $idx++;
     }
+    $inverterAverage = $cumSum / count($sum_per_year);
+    $sumAverage += $inverterAverage;
 
-    $dataZonPHP["date"] = $datum;
     $dataZonPHP[$inverter_name]['totalValue'] = $cumSum;
-    $dataZonPHP[$inverter_name]['peak'] = intval($params[$inverter_name]["capacity"]);
-    $dataZonPHP[$inverter_name]['max'] = $maxMonthValue;
+    $dataZonPHP[$inverter_name]['peak'] = $params[$inverter_name]["capacity"];
+    $dataZonPHP[$inverter_name]['max'] = $sumMaxYear[$inverter_name];
     $dataZonPHP[$inverter_name]['avg'] = $inverterAverage;
-    $dataZonPHP[$inverter_name]['ref'] = $refValuePerMonth[$inverter_name];
+    $dataZonPHP[$inverter_name]['ref'] = $sumExpected;
 
-    $dataSeriesString = substr($dataSeriesString, 0, -1);
     $allDataSeriesString .= " {
                     datasetId: '" . $inverter_name . "', 
                     label: '" . $inverter_name . "', 
-                    inverter: '" . $inverter_name . "',
+                    inverter: '" . $inverter_name . "', 
                     type: 'bar',                               
                     stack: 'Stack 0',
                     borderWidth: 1,
@@ -132,15 +113,16 @@ foreach (PLANT_NAMES as $inverter_name) {
                     dataMAX: [], 
                     dataREF: [],
                     averageValue: " . $inverterAverage . ",
-                    expectedValue: " . $refValuePerMonth[$inverter_name] . ",
-                    maxIndex: " . $maxMonthDay . ",
+                    expectedValue: " . $inverterExpected . ",
+                    maxIndex: " . $maxIndex . ",
                     fill: true,
                     backgroundColor: customGradientBackground,
                     yAxisID: 'y',
-                    xAxisID: 'x',
                     isData: true,
+                    legendOrder: " . $inverterCounter . ", 
                 },
     ";
+    $cumData = "";
 }
 
 // average
@@ -149,16 +131,16 @@ $allDataSeriesString .= " {
                     label: '" . getTxt("average") . "', 
                     type: 'line',      
                     stack: 'Stack 1',                                                                 
-                    data: [" . buildConstantDataString($sumAverage, $DaysPerMonth) . "],
+                    data: [" . buildConstantDataString($sumAverage, count($sum_per_year)) . "],
                     fill: false,
                     borderColor: '" . $colors['color_chart_average_line'] . "',
                     borderWidth: 1,
                     pointStyle: false,   
                     yAxisID: 'y',
-                    xAxisID: 'x1',
                     fill: false,   
                     showLine: true,
                     isData: false,               
+                    legendOrder: 100, 
                 },
     ";
 
@@ -168,20 +150,20 @@ $allDataSeriesString .= " {
                     label: '" . getTxt("ref") . "', 
                     type: 'line',      
                     stack: 'Stack 2',                                                                 
-                    data: [" . buildConstantDataString($sumExpected, $DaysPerMonth) . "],
+                    data: [" . buildConstantDataString($sumExpected, count($sum_per_year)) . "],
                     fill: false,
                     borderColor: '" . $colors['color_chart_reference_line'] . "',
                     borderWidth: 1,
                     pointStyle: false,   
                     yAxisID: 'y',
-                    xAxisID: 'x1',
                     fill: false,   
                     showLine: true,
-                    isData: false,               
+                    isData: false,   
+                    legendOrder: 200,            
                 },
     ";
 
-// cumulative
+//cumulative
 $allDataSeriesString .= " {
                     datasetId: 'cum', 
                     label: '" . getTxt("cum") . "', 
@@ -192,27 +174,27 @@ $allDataSeriesString .= " {
                     backgroundColor: '" . $colors['color_chart_cum_fill'] . "',                
                     borderWidth: 1,
                     pointStyle: false,   
-                    yAxisID: 'y1',      
-                    xAxisID: 'x1',                 
+                    yAxisID: 'y1',                       
                     showLine: false,
-                    isData: false,               
+                    isData: false,   
+                    legendOrder: 300,            
                 },
     ";
 
 $show_legende = "true";
 if ($isIndexPage) {
-    echo '<div class = "index_chart" id="month_chart" style="background-color: ' . $colors['color_chartbackground'] . '">
-              <canvas id="month_chart_canvas"></canvas>
-          </div>';
+    echo ' <div class = "index_chart" id="total_chart">
+              <canvas id="total_chart_canvas"></canvas>
+           </div>';
     $show_legende = "false";
 }
-$monthTotal = round($monthTotal, 2);
 
 ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4/dist/chart.umd.min.js"></script>
 <script src="<?= HTML_PATH ?>inc/js/chart_support.js"></script>
 <script>
     $(function () {
+
             function buildSubtitle(ctx) {
                 let chart = ctx.chart;
                 let data = ctx.chart.data;
@@ -223,7 +205,6 @@ $monthTotal = round($monthTotal, 2);
                 let max = 0;
                 let avg = 0;
                 let ref = 0;
-                let datetxt = dataZonPHP['date'];
                 for (let i in data.datasets) {
                     let meta = chart.getDatasetMeta(i);
                     let dataset = chart.data.datasets[i];
@@ -244,14 +225,14 @@ $monthTotal = round($monthTotal, 2);
                     max_kWp = max;
                 } else {
                     total_kWp = (totalValue / peak).toFixed(2);
-                    max_kWp = (max * 1000 / peak).toFixed(2);
+                    max_kWp = (max / peak).toFixed(2);
                 }
 
-                return [datetxt + ": " + txt["sum"] + " " + totalValue + "kWh = " + total_kWp + "kWh/kWp",
-                    txt["max"] + ":" + max.toFixed(2) + "kWh = " + max_kWp + "kWh/kWp - " + txt["avg"] + " " + avg.toFixed(2) + "kWh " + txt["ref"] + ": " + ref.toFixed(2) + "kWh"];
+                return [txt["sum"] + " " + (totalValue / 1000).toFixed(0) + "MWh = " + total_kWp + "kWh/kWp",
+                    txt["max"] + ":" + (max / 1000).toFixed(2) + "MWh = " + max_kWp + "kWh/kWp - " + txt["avg"] + " " + (avg / 1000).toFixed(2) + "MWh " + txt["ref"] + ": " + (ref / 1000).toFixed(2) + "MWh"];
             }
 
-            const ctx = document.getElementById('month_chart_canvas').getContext("2d");
+            const ctx = document.getElementById('total_chart_canvas').getContext("2d");
 
             Chart.defaults.color = '<?= $colors['color_chart_text_title'] ?>';
             new Chart(ctx, {
@@ -260,7 +241,7 @@ $monthTotal = round($monthTotal, 2);
                     datasets: [<?= $allDataSeriesString  ?>],
                     dataZonPHP: <?= json_encode($dataZonPHP)  ?>,
                     myColors: <?= json_encode(colorsPerInverterJS()) ?>,
-                    maxIndex: <?= $maxMonthDay ?>,
+                    maxIndex: <?= $maxIndex ?>,
                     txt: <?= json_encode($_SESSION['txt']); ?>
                 },
                 options: {
@@ -273,17 +254,13 @@ $monthTotal = round($monthTotal, 2);
                             stacked: true,
                             title: {
                                 display: true,
-                                text: '<?= getTxt("day") ?> (kWh)'
+                                text: '<?= getTxt("year") ?> (MWh)'
                             },
                             ticks: {
                                 callback: function (value) {
-                                    return value
+                                    return (value / 1000).toFixed(0)
                                 }
-                            }
-                        },
-                        x1: {
-                            offset: false,
-                            display: false,
+                            },
                         },
                         y1: {
                             type: 'linear',
@@ -294,16 +271,16 @@ $monthTotal = round($monthTotal, 2);
                             grid: {
                                 drawOnChartArea: false, // only want the grid lines for one axis to show up
                             },
+                            stacked: true,
                             title: {
                                 display: true,
-                                text: '<?= getTxt("total") ?> (kWh)'
+                                text: '<?= getTxt("total") ?> (MWh)'
                             },
                             ticks: {
                                 callback: function (value) {
-                                    return value
+                                    return (value / 1000).toFixed(0)
                                 }
                             },
-                            stacked: true,
                         },
                     },
                     interaction: {
@@ -318,7 +295,11 @@ $monthTotal = round($monthTotal, 2);
                             display: <?= $show_legende ?>,
                             position: 'bottom',
                             labels: {
-                                filter: item => !item.text.includes('line')
+                                filter: item => !item.text.includes('line'),
+                                sort: function (li0, li1, chartData) {
+                                    let chart = chartData;
+                                    return (chart.datasets[li0.datasetIndex].legendOrder - chart.datasets[li1.datasetIndex].legendOrder)
+                                },
                             },
                             onClick: getCustomLegendClickHandler()
                         },

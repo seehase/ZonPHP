@@ -19,3 +19,12 @@
 ### 2023.06
 * PHP8 compliant
 * cleanup and refactoring
+
+### v3.x.x
+* changed versioning
+* new configuration options
+* enhanced top chart
+
+### v4.0.x
+* Replaced highchart with chart.js
+* rework and refactored all charts 
