@@ -9,7 +9,7 @@ if ($_SESSION['STARTDATE'] == NODATE) {
 $aoplopendkwdag[] = 0;
 include_once "inc/header.php";
 
-$daytext = getTxt("chart_dayoverview");
+$daytext = getTxt("chart_day_view");
 if ($params['useWeewx']) {
     $daytext = getTxt("chart_solar_temp");
 }
@@ -22,12 +22,17 @@ if (isset($_GET['date'])) {
 $_SESSION['CHARTDATE'] = $chartdate;
 
 ?>
+
 <script src="https://jqwidgets.com/public/jqwidgets/jqxcore.js"></script>
 <script src="https://jqwidgets.com/public/jqwidgets/jqxscrollbar.js"></script>
 <script src="https://jqwidgets.com/public/jqwidgets/jqxbuttons.js"></script>
 <script src="https://jqwidgets.com/public/jqwidgets/jqxpanel.js"></script>
 <script src="https://jqwidgets.com/public/jqwidgets/jqxchart.js"></script>
 <script src="https://jqwidgets.com/public/jqwidgets/jqxgauge.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="<?= HTML_PATH ?>inc/js/chart_support.js"></script>
 
 <div id="page-content">
     <script>
@@ -55,7 +60,7 @@ $_SESSION['CHARTDATE'] = $chartdate;
 
     <script>
         $(document).ready(function () {
-            docReady(load_charts());
+            docReady(load_charts);
         });
 
     </script>
@@ -75,7 +80,7 @@ $_SESSION['CHARTDATE'] = $chartdate;
 <!-- The image popup modal -->
 <div id="myModal" class="modal">
     <span class="close">&times;</span>
-    <img class="modal-content" id="modal-image">
+    <img class="modal-content" alt="" src="" id="modal-image">
     <div id="caption"></div>
 </div>
 

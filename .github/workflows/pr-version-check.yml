@@ -24,7 +24,8 @@ jobs:
           # read version from file: ZonPHP/inc/version_info.php of master branch
           MASTER_VERSION=$( grep '$version = ' ZonPHP/inc/version_info.php | cut -d '"' -f 2 )
           echo "MASTER_VERSION --> $MASTER_VERSION"
-          if [ "$HEAD_VERSION" \> "$MASTER_VERSION" ]; then
+          #if [ "$HEAD_VERSION" \> "$MASTER_VERSION" ]; then
+          if [ "$(printf '%s\n' "$HEAD_VERSION" "$MASTER_VERSION" | sort -V | head -n 1)" != "$HEAD_VERSION" ]; then
             echo "Great job, master version $MASTER_VERSION will become $HEAD_VERSION soon"                    
           else
             echo "Head $HEAD_VERSION not updated before merging into master"

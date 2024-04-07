@@ -1,6 +1,6 @@
 <?php
 global $version, $new_version_label, $params, $con;
-include_once "../inc/init.php";
+include_once "inc/init.php";
 
 if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
     $params['debugEnabled'] = "1";
@@ -33,11 +33,9 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
             <div class="inside">
                 <br>
                 <ul id="nav">
-                    <li><a href="..">&raquo;&nbsp;Index</a></li>
+                    <li><a href="index.php">&raquo;&nbsp;Index</a></li>
                     <?php
-                    echo '                    
-					<li><a href="' . HTML_PATH . 'inc/destroy.php">&raquo;&nbsp;' . getTxt("clearsession") . '</a></li>					
-					';
+                    echo '<li><a href="' . HTML_PATH . 'inc/destroy.php">&raquo;&nbsp;' . getTxt("clearsession") . '</a></li>';
                     ?>
                 </ul>
                 <hr>
@@ -55,18 +53,18 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
             <br>
             <h1 style="text-align: center"><?= getTxt("bestezonphp"); ?></h1>
             Uw Taal: <a href='?language=nl' TARGET='_self'><img
-                        src="../inc/images/nl.svg" alt="nl" width="16" height="11"></a>&nbsp;&nbsp;
+                        src="inc/images/nl.svg" alt="nl" width="16" height="11"></a>&nbsp;&nbsp;
             Your language: <a href='?language=en' TARGET='_self'><img
-                        src="../inc/images/en.svg" alt="en" width="16" height="11"></a>&nbsp;&nbsp;
+                        src="inc/images/en.svg" alt="en" width="16" height="11"></a>&nbsp;&nbsp;
             Votre langue: <a href='?language=fr' TARGET='_self'><img
-                        src="../inc/images/fr.svg" alt="fr" width="16" height="11"></a>&nbsp;&nbsp;
+                        src="inc/images/fr.svg" alt="fr" width="16" height="11"></a>&nbsp;&nbsp;
             Ihre Sprache: <a href='?language=de' TARGET='_self'><img
-                        src="../inc/images/de.svg" alt="de" width="16" height="11"></a>
+                        src="inc/images/de.svg" alt="de" width="16" height="11"></a>
             <hr>
             <br>
             <h2> <?= getTxt("paths") ?> </h2>
             <pre>
-                <p> HTML_PATH: <?= HTML_PATH ?> </p><br><p> ROOT_DIR: <?= ROOT_DIR ?> </p><br><p> DOCUMENT_ROOT: <?= $_SERVER['DOCUMENT_ROOT'] ?></p>
+ HTML_PATH: <?= HTML_PATH ?> <br> ROOT_DIR: <?= ROOT_DIR ?> <br> DOCUMENT_ROOT: <?= $_SERVER['DOCUMENT_ROOT'] ?>
             </pre>
             <hr>
             <br>
@@ -125,7 +123,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
 
                 echo '<div id="dbcheck" class="collapse">';
                 echo "<pre><br>";
-                
+
                 if (isset($_SESSION['dbMessages'])) {
                     foreach ($_SESSION['dbMessages'] as $msg) {
                         echo "<p> $msg </p><br>";

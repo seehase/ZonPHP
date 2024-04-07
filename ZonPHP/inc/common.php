@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 /**
  * common functions and constants
  */
@@ -404,6 +404,36 @@ function convertDateTime(string $dateStr): string
     }
 }
 
+function convertToLocalDateTime(string $dateStr, string $dateFormat = "Y-m-d H:i:s"): string
+{
+    global $params;
+    try {
+        $tz_to = $params['timeZone'];
+        $importDateFormat = "Y-m-d H:i:s";
+        $newDateTime = DateTime::createFromFormat($importDateFormat, $dateStr, new DateTimeZone("UTC"));
+        $newDateTime->setTimezone(new DateTimeZone($tz_to));
+        return $newDateTime->format($dateFormat);
+    } catch (Exception $e) {
+        error_log($e);
+        return "";
+    }
+}
+
+function convertDateTimeToLocalDateTime(int $dateTime, string $dateFormat = "Y-m-d H:i:s"): string
+{
+    global $params;
+    try {
+        $tz_to = $params['timeZone'];
+        $newDateTime = new DateTime();
+        $newDateTime->setTimestamp($dateTime);
+        $newDateTime->setTimezone(new DateTimeZone($tz_to));
+        return $newDateTime->format($dateFormat);
+    } catch (Exception $e) {
+        error_log($e);
+        return "";
+    }
+}
+
 function convertLocalDateTime(string $dateStr, string $importDateFormat = "Y-m-d H:i:s", bool $force = false): string
 {
     global $params;
@@ -458,6 +488,22 @@ function colorsPerInverter(): array
     return $myColors;
 }
 
+// build colors per inverter array
+function colorsPerInverterJS(): array
+{
+    global $colors;
+    $myColors = array();
+    for ($k = 0; $k < count(PLANT_NAMES); $k++) {
+        $col1 = "color_inverter" . $k . "_chartbar_min";
+        $col1 = $colors[$col1];
+        $myColors[PLANT_NAMES[$k]]['min'] = $col1;
+        $col1 = "color_inverter" . $k . "_chartbar_max";
+        $col1 = $colors[$col1];
+        $myColors[PLANT_NAMES[$k]]['max'] = $col1;
+    }
+    return $myColors;
+}
+
 function getPhpInfo(): string
 {
     ob_start();
@@ -472,6 +518,5 @@ function getPhpInfo(): string
     $html = preg_replace('/<!DOCTYPE html PUBLIC.*?>/is', '', $html);
     // Delete body and html tags
     $html = preg_replace('/<html.*?>.*?<body.*?>/is', '', $html);
-    $html = preg_replace('/<\/body><\/html>/is', '', $html);
-    return $html;
+    return preg_replace('/<\/body><\/html>/i', '', $html);
 }

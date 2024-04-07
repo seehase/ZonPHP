@@ -4,7 +4,7 @@ $importer = clean($params['importer']); // remove all special chars allow only A
 if ($debugmode) error_log("Call Importer --> ");
 $now = time();
 if (!isset($_SESSION['LastImportRun'])) {
-    $_SESSION['LastImportRun'] = $now-10;
+    $_SESSION['LastImportRun'] = $now - 10;
 }
 $lastImportRun = $_SESSION['LastImportRun'];
 if ($lastImportRun < $now - 5) {
@@ -20,6 +20,6 @@ if ($lastImportRun < $now - 5) {
         $_SESSION['LastImportRun'] = time();
     }
 } else {
-    if ($debugmode) error_log("importer skipped --> ". ($lastImportRun < $now-5) ." -> ". $lastImportRun  ." < ". $now ." - 5") ;
+    if ($debugmode) error_log("importer skipped --> " . ($lastImportRun < $now - 5) . " -> " . $lastImportRun . " < " . $now . " - 5");
 }
 

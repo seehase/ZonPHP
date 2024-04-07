@@ -10,7 +10,7 @@ $con = mysqli_connect($params['database']['host'], $params['database']['username
 
 if (!$con) {
     addCheckMessage("ERROR", "Cannot connect to database, check database section in parameter.php", true);
-    header('location:' . HTML_PATH . 'pages/validate.php');
+    header('location:' . HTML_PATH . 'validate.php');
     die();
 } else {
     checkOrCreateTables($con);
@@ -24,7 +24,6 @@ if ($params['useWeewx']) {
         // continue without weewx
         $params['useWeewx'] = false;
         $_SESSION['params'] = $params;
-        //die(header('location:' . HTML_PATH . 'pages/validate.php'));
     } else {
         checkWeewxTables($con_weewx);
     }
@@ -123,7 +122,7 @@ function checkOrCreateTables($con): void
     if ($result->num_rows != 1) {
         if (!mysqli_query($con, $sql_createDayTable)) {
             addCheckMessage("ERROR", "Unable to create table'$tablename_dag'", true);
-            header('location:' . ROOT_DIR . '/pages/validate.php' . mysqli_error($con));
+            header('location:' . ROOT_DIR . '/validate.php' . mysqli_error($con));
             die();
         }
     }
@@ -132,7 +131,7 @@ function checkOrCreateTables($con): void
     if ($result->num_rows != 1) {
         if (!mysqli_query($con, $sql_createMonthTable)) {
             addCheckMessage("ERROR", "Unable to create table'$tablename_maand'", true);
-            header('location:' . ROOT_DIR . '/pages/validate.php' . mysqli_error($con));
+            header('location:' . ROOT_DIR . '/validate.php' . mysqli_error($con));
             die();
         }
     }
@@ -164,9 +163,7 @@ function dbValidationCheck($con, $tablename): void
         addDBInfo("No data found in " . TABLE_PREFIX . "_dag");
     } else {
         while ($row = mysqli_fetch_array($result)) {
-            $namesInDB = array();
             $inverter_name = $row['naam'];
-            $namesInDB[] = $inverter_name;
             if (!in_array($inverter_name, PLANT_NAMES)) {
                 addDBInfo("Inverter $inverter_name found in $tablename but not configured in parameter plantNames=" . $params['plantNames']);
             }
