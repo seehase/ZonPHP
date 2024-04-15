@@ -20,6 +20,8 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
 // -----------------------------  get data from DB -----------------------------------------------------------------
+$max_first_val = PHP_INT_MAX;
+$max_last_val = 0;
 // query for the day-curve
 $utcDateArray = array();
 $allValuesPerInverter = array();
@@ -47,6 +49,13 @@ if (mysqli_num_rows($result) == 0) {
         $unixTimeUTC = convertToUnixTimestamp($dateTimeUTC); // unix timestamp in UTC
         $utcDateArray[] = $unixTimeUTC;
         $allValuesPerInverter[$inverter_name][$unixTimeUTC] = $row['gem'];
+        // remember first and last date
+        if ($max_first_val > $unixTimeUTC) {
+            $max_first_val = $unixTimeUTC;
+        }
+        if ($max_last_val < $unixTimeUTC) {
+            $max_last_val = $unixTimeUTC;
+        }
     }
 }
 
@@ -59,7 +68,6 @@ $maxdag = date("m-d", time());
 if (mysqli_num_rows($resultmaxdag) > 0) {
     while ($row = mysqli_fetch_array($resultmaxdag)) {
         $maxdag = $row['Datum_Maand'];
-
     }
 }
 //query for the best day
@@ -70,7 +78,6 @@ $sqlmdinv = "SELECT Geg_Dag AS gem, Datum_Dag, Naam FROM " . TABLE_PREFIX . "_da
 $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
 
 if (mysqli_num_rows($resultmd) != 0) {
-
     while ($row = mysqli_fetch_array($resultmd)) {
         $inverter_name = $row['Naam'];
         $time_only = substr($row['Datum_Dag'], -9);
@@ -78,6 +85,13 @@ if (mysqli_num_rows($resultmd) != 0) {
         $today_max_utc = convertLocalDateTime($today_max); // date in UTC
         $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
         $allValuesMaxDay[$inverter_name][$today_max_unix_utc] = intval($row['gem']);
+        // remember first and last date
+        if ($max_first_val > $today_max_unix_utc) {
+            $max_first_val = $today_max_unix_utc;
+        }
+        if ($max_last_val < $today_max_unix_utc) {
+            $max_last_val = $today_max_unix_utc;
+        }
     }
 }
 
@@ -86,7 +100,7 @@ $myColors = colorsPerInverter();
 $utcDateArray = array_unique($utcDateArray);
 $labels = convertValueArrayToDataString($utcDateArray);
 
-// day max line per inverter --------------------------------------------------------------
+// day line per inverter --------------------------------------------------------------
 $inverterCount = 0;
 $totalsumCumArray = array();
 $allDataSeriesString = "";
@@ -104,16 +118,16 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
     if (isset($allValuesPerInverter[$inverter_name])) {
         $inverterValues = $allValuesPerInverter[$inverter_name];
 
-        // loop over all times from all inverters
-        foreach ($utcDateArray as $time) {
-            $currentInverterVal = 0;
+        // loop over all times from all inverters from min to max
+       for ($time = $max_first_val; $time <= $max_last_val; $time += 300) {
+            $currentInverterVal = "NaN";
             $timeInMillis = $time * 1000;
             if (isset($inverterValues[$time])) {
                 $currentInverterVal = $inverterValues[$time];
+                $cumSum += ($currentInverterVal / 12);
+                $cumDataString .= "{x: $timeInMillis, y: $cumSum},";
             }
-            $dataSeriesString .= '{x:' . $timeInMillis . ', y:' . $currentInverterVal . '},';
-            $cumSum += ($currentInverterVal / 12);
-            $cumDataString .= "{x: $timeInMillis, y: $cumSum},";
+            $dataSeriesString .= '{x:' . $timeInMillis . ', y: ' . $currentInverterVal . '},';
             if (!isset($totalsumCumArray[$timeInMillis])) {
                 $totalsumCumArray[$timeInMillis] = 0;
             }
@@ -163,7 +177,6 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
     $dataSeriesMaxString = "";
     $inverterMaxDayCumSum = 0;
     if (isset($allValuesMaxDay[$inverter_name])) {
-
         $inverterMaxValues = $allValuesMaxDay[$inverter_name];
         foreach ($inverterMaxValues as $time => $currentVal) {
             $dataSeriesMaxString .= '{x:' . ($time * 1000) . ', y:' . $currentVal . '},';
@@ -217,8 +230,6 @@ $allDataSeriesString .= " {
 
 $str_temp_vals = "";
 $temp_unit = "°C";
-$val_max = 0;
-$val_min = 0;
 if ($params['useWeewx']) {
     include ROOT_DIR . "/charts/temp_sensor_inc.php";
 }
@@ -387,6 +398,7 @@ if (strlen($str_temp_vals) > 0) {
                     scales: {
                         x: {
                             stacked: true,
+                            offset: false,
                             type: "time",
                             time: {
                                 unit: 'hour',
@@ -464,6 +476,7 @@ if (strlen($str_temp_vals) > 0) {
                     interaction: {
                         intersect: false,
                         mode: 'index',
+                        axis: 'x'
                     },
                     plugins: {
                         customCanvasBackgroundColor: {
