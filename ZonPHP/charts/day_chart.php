@@ -257,12 +257,15 @@ if (strlen($str_temp_vals) > 0) {
 }
 
 $show_legende = "true";
+$zoomEnabled = "true";
 if ($isIndexPage) {
     echo '  <div class = "index_chart" id="mycontainer">
                 <canvas id="day_chart_canvas"></canvas>
             </div>';
     $show_legende = "false";
+    $zoomEnabled = "false";
 }
+
 // get query parameters
 $paramstr_day = "";
 if (sizeof($_GET) > 0) {
@@ -288,11 +291,16 @@ if (strlen($str_temp_vals) > 0) {
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script src="<?= HTML_PATH ?>inc/js/chart_support.js"></script>
 <script>
 
+
     $(function () {
+
             function buildSubtitle(ctx) {
                 let chart = ctx.chart;
                 let data = ctx.chart.data;
@@ -380,11 +388,11 @@ if (strlen($str_temp_vals) > 0) {
                 chart.update();
             }
 
-
+            const zoomEnabled = <?= $zoomEnabled ?>;
             const ctx = document.getElementById('day_chart_canvas').getContext("2d");
 
             Chart.defaults.color = '<?= $colors['color_chart_text_title'] ?>';
-            new Chart(ctx, {
+            window.myChart = new Chart(ctx, {
                 data: {
                     labels: [],
                     datasets: [<?= $allDataSeriesString  ?>],
@@ -502,6 +510,38 @@ if (strlen($str_temp_vals) > 0) {
                             padding: {top: 5, left: 0, right: 0, bottom: 3},
                         },
 
+                        zoom: {
+                            enabled: zoomEnabled,
+                            pan: {
+                                enabled: zoomEnabled,
+                                modifierKey: 'shift',
+                                mode: 'xy',
+                            },
+                            zoom: {
+                                wheel: {
+                                    enabled: false,
+                                },
+                                pinch: {
+                                    enabled: zoomEnabled
+                                },
+                                mode: 'xy',
+                                drag: {
+                                    enabled: zoomEnabled,
+                                    borderColor: 'rgb(54, 162, 235)',
+                                    borderWidth: 1,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.3)'
+                                }
+                            }
+                        },
+                        crosshair: {
+                            line: {
+                                color: '#F66',  // crosshair line color
+                                width: 1        // crosshair line width
+                            },
+                            zoom: {
+                                enabled: false,  // disable crosshair zooming
+                            },
+                        },
                     },
                     onClick: (event, elements, chart) => {
                         if (elements[0]) {

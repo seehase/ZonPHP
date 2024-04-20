@@ -267,6 +267,7 @@ $subtitle = getTxt("total") . ": $totalYear kWh";
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@2"></script>
 <script src="<?= HTML_PATH ?>inc/js/chart_support.js"></script>
 <script>
 
@@ -397,6 +398,15 @@ $subtitle = getTxt("total") . ": $totalYear kWh";
                                 return buildSubtitle(ctx)
                             },
                             padding: {top: 5, left: 0, right: 0, bottom: 3},
+                        },
+                        crosshair: {
+                            line: {
+                                color: '#F66',  // crosshair line color
+                                width: 1        // crosshair line width
+                            },
+                            zoom: {
+                                enabled: false, // disable zooming
+                            },
                         },
                     },
                     onClick: (event, elements, chart) => {
