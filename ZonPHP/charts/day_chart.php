@@ -20,8 +20,11 @@ if (isset($_POST['action']) && ($_POST['action'] == "indexpage")) {
     $isIndexPage = true;
 }
 // -----------------------------  get data from DB -----------------------------------------------------------------
-$max_first_val = PHP_INT_MAX;
-$max_last_val = 0;
+$max_first_val = getMaxUnixTimestamp($chartdatestring);
+$max_last_val = getMinUnixTimestamp($chartdatestring);
+$minTemperature = 50;
+$maxTemperature = -20;
+
 // query for the day-curve
 $utcDateArray = array();
 $allValuesPerInverter = array();
@@ -298,7 +301,6 @@ if (strlen($str_temp_vals) > 0) {
 <script src="<?= HTML_PATH ?>inc/js/chart_support.js"></script>
 <script>
 
-
     $(function () {
 
             function buildSubtitle(ctx) {
@@ -439,6 +441,8 @@ if (strlen($str_temp_vals) > 0) {
                         'y-temperature': {
                             stacked: false,
                             position: 'right',
+                            min: <?= $minTemperature ?>,
+                            max: <?= $maxTemperature ?>,
                             display: <?= $show_temp_axis ?>,
                             title: {
                                 display: true,

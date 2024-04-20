@@ -22,11 +22,8 @@ if ($sensor_available) {
     $result_sensor = 0;
 
     // get start and end of chartDateString in UnixTimeStamp
-    $newDateTime = DateTime::createFromFormat("Y-m-d", $chartdatestring, new DateTimeZone("UTC"));
-    $newDateTime->setTime(0, 0, 0);
-    $startUnixTimestamp = $newDateTime->getTimestamp();
-    $newDateTime->setTime(23, 59, 0);
-    $endUnixTimestamp = $newDateTime->getTimestamp();
+    $startUnixTimestamp = getMinUnixTimestamp($chartdatestring);
+    $endUnixTimestamp = getMaxUnixTimestamp($chartdatestring);
 
     // init array for the hole day
     for ($i = $startUnixTimestamp; $i <= $endUnixTimestamp; $i += 300) {
@@ -67,7 +64,7 @@ if ($sensor_available) {
     }
 }
 // ---SENSOR -----------------------------------------------------------------------------------------------------------
-// temp line --------------------------------------------------------------
+// Temperature line --------------------------------------------------------------
 $str_temp_vals = "";
 $temp_serie = "";
 if ($sensor_success) {
@@ -76,13 +73,18 @@ if ($sensor_success) {
             $formatedVal = "NaN";
             if (is_numeric($val)) {
                 $formatedVal = number_format($val, 1, '.', '');
+                if($val < $minTemperature ){
+                    $minTemperature = $val;
+                }
+                if($val > $maxTemperature){
+                    $maxTemperature = $val;
+                }
             }
             $str_temp_vals .= "{x:" . $time * 1000 . ", y: " . $formatedVal . " },";
         }
     }
-    if (strlen($str_temp_vals) > 0) {
-        $str_temp_vals = substr($str_temp_vals, 0, -1);
-        $temp_serie = "    {  name: 'Temp', id: 'Temp', type: 'spline', yAxis: 2, color: '" . $colors['color_chart_temp_line'] . "',                       
-                        data: [" . $str_temp_vals . "] } ";
+    if ($maxTemperature-$minTemperature < 6 ) {
+        $minTemperature = $minTemperature - 3;
+        $maxTemperature = $maxTemperature + 3;
     }
 }
