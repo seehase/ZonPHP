@@ -463,6 +463,22 @@ function convertToUnixTimestamp($datetime): string
     return strtotime($cleanDate . "");
 }
 
+// get min UnixTimeStamp from given date
+function getMinUnixTimestamp(string $dateStr): int
+{
+    $newDateTime = DateTime::createFromFormat("Y-m-d", $dateStr, new DateTimeZone("UTC"));
+    $newDateTime->setTime(0, 0, 0);
+    return $newDateTime->getTimestamp();
+}
+
+// get max UnixTimeStamp from given date
+function getMaxUnixTimestamp(string $dateStr): int
+{
+    $newDateTime = DateTime::createFromFormat("Y-m-d", $dateStr, new DateTimeZone("UTC"));
+    $newDateTime->setTime(23, 59, 59);
+    return $newDateTime->getTimestamp();
+}
+
 function hasErrorOrWarnings(): bool
 {
     if (count($_SESSION['params']['check']['ERROR']) > 0 || count($_SESSION['params']['check']['WARN']) > 0) {
