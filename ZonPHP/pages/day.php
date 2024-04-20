@@ -30,6 +30,7 @@ include_once "../charts/day_chart.php";
 $padding = '- 0px';
 $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px;';
 ?>
+
 <div id="page-content">
     <div id='resize' class="bigCharts"
          style="<?= WINDOW_STYLE_CHART ?>; padding-bottom: calc(136px <?= $padding; ?>); ">
@@ -63,6 +64,9 @@ $corners = 'border-bottom-left-radius: 0px !important; border-bottom-right-radiu
                     </div>
                     <button class="btn btn-zonphp"
                             onclick="window.location.href='?date=<?= $nice_max_date ?>'"><?= getTxt("max") ?>
+                    </button>
+                    <button class="btn btn-zonphp"
+                            onclick="window.myChart.resetZoom()"><?= getTxt("reset_zoom") ?>
                     </button>
                 </div>
             </div>

@@ -7,6 +7,10 @@ function findDatasetById(datasets, name) {
     }
     return -1; // not found
 }
+function resetZoom() {
+    let ctxx = document.getElementById('day_chart_canvas').getContext("2d");
+    ctxx.resetZoom();
+}
 
 // copy array and set y-value to 0
 function cloneAndResetY(originalArray) {

@@ -150,6 +150,7 @@ $labels = "";
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script src="<?= HTML_PATH ?>inc/js/chart_support.js"></script>
 <script>
@@ -229,6 +230,15 @@ $labels = "";
                                 return buildSubtitle(ctx)
                             },
                             padding: {top: 5, left: 0, right: 0, bottom: 3},
+                        },
+                        crosshair: {
+                            line: {
+                                color: '#F66',  // crosshair line color
+                                width: 1        // crosshair line width
+                            },
+                            zoom: {
+                                enabled: false, // disable zooming
+                            },
                         },
                     },
                 },
