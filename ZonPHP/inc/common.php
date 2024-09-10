@@ -208,6 +208,11 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
     $files_to_import = array();
     $num_today = date("Ymd", time());
     addDebugInfo("getFilesToImport: directory: $directory");
+    if (!is_dir($directory)) {
+        addDebugInfo("getFilesToImport: directory: $directory does not exist");
+        // return empty array
+        return array();
+    }
     if ($lastImportDate == NODATE) {
         // initial load, no data found in database
         $files = scandir($directory);
