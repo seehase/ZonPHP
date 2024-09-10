@@ -47,6 +47,12 @@ $sqlmax = "SELECT maand,jaar,som, Name FROM (SELECT naam as Name, month(Datum_Ma
 $resultmax = mysqli_query($con, $sqlmax) or die("Query failed. jaar-max " . mysqli_error($con));
 
 $maxPerMonth = array();
+
+foreach ($params['PLANTS'] as $name => $plant) {
+    for ($k = 1; $k <= 12; $k++) {
+        $maxPerMonth[$k][$name] = 0.0;
+    }
+}
 if (mysqli_num_rows($resultmax) > 0) {
     while ($row = mysqli_fetch_array($resultmax)) {
         $maxPerMonth[$row['maand']][$row['Name']] = $row['som'];
