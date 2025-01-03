@@ -50,6 +50,7 @@ if (mysqli_num_rows($result) == 0) {
         $inverter_name = $row['naam'];
         $dateTimeUTC = convertLocalDateTime($db_datetime_str); // date converted in UCT
         $unixTimeUTC = convertToUnixTimestamp($dateTimeUTC); // unix timestamp in UTC
+        $unixTimeUTC = $unixTimeUTC - ($unixTimeUTC % 60);  // round to nearest minute (skip seconds)
         $utcDateArray[] = $unixTimeUTC;
         $allValuesPerInverter[$inverter_name][$unixTimeUTC] = $row['gem'];
         // remember first and last date
