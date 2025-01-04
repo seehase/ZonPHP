@@ -81,13 +81,14 @@ $sqlmdinv = "SELECT Geg_Dag AS gem, Datum_Dag, Naam FROM " . TABLE_PREFIX . "_da
     date("Y-m-d", strtotime($maxdag)) . "%' ORDER BY Datum_Dag, Naam ASC";
 $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
 
-if (mysqli_num_rows($resultmd) != 0) {
+if (mysqli_num_rows($resultmd) > 0) {
     while ($row = mysqli_fetch_array($resultmd)) {
         $inverter_name = $row['Naam'];
         $time_only = substr($row['Datum_Dag'], -9);
         $today_max = $chartdatestring . $time_only; // current chart date string + max time
         $today_max_utc = convertLocalDateTime($today_max); // date in UTC
         $today_max_unix_utc = convertToUnixTimestamp($today_max_utc); // unix timestamp in UTC
+        $today_max_unix_utc = $today_max_unix_utc - ($today_max_unix_utc % 60); // round to nearest minute (skip seconds)
         $allValuesMaxDay[$inverter_name][$today_max_unix_utc] = intval($row['gem']);
         // remember first and last date
         if ($max_first_val > $today_max_unix_utc) {
@@ -123,14 +124,14 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
         $inverterValues = $allValuesPerInverter[$inverter_name];
 
         // loop over all times from all inverters from min to max
-       for ($time = $max_first_val; $time <= $max_last_val; $time += 300) {
+        for ($time = $max_first_val; $time <= $max_last_val; $time += 300) {
             $currentInverterVal = "NaN";
             $timeInMillis = $time * 1000;
             if (isset($inverterValues[$time])) {
                 $currentInverterVal = $inverterValues[$time];
                 $cumSum += ($currentInverterVal / 12);
-                $cumDataString .= "{x: $timeInMillis, y: $cumSum},";
             }
+            $cumDataString .= "{x: $timeInMillis, y: $cumSum},";
             $dataSeriesString .= '{x:' . $timeInMillis . ', y: ' . $currentInverterVal . '},';
             if (!isset($totalsumCumArray[$timeInMillis])) {
                 $totalsumCumArray[$timeInMillis] = 0;
@@ -310,7 +311,8 @@ if (strlen($str_temp_vals) > 0) {
                 let dataZonPHP = data.dataZonPHP;
                 let txt = data.txt;
                 let totalValue = 0;
-                let lastDate = Date.now();
+                let lastDate = new Date();
+                lastDate = `${lastDate.getHours()}:${lastDate.getMinutes()}`;
                 let lastValue = 0;
                 let todayMax = 0;
                 let maxDay = Date.now();
@@ -359,9 +361,8 @@ if (strlen($str_temp_vals) > 0) {
                                 cumSum = cloneAndResetY(dataset.dataCUM)
                             }
                             for (let ii in dataset.data) {
-
                                 // cum
-                                if (dataset.dataCUM[ii].y != null) {
+                                if (dataset.dataCUM[ii] != null && dataset.dataCUM[ii].y != null) {
                                     cumSum[ii].y = cumSum[ii].y + dataset.dataCUM[ii].y;
                                 }
                             }
@@ -387,6 +388,7 @@ if (strlen($str_temp_vals) > 0) {
                 chart.options.plugins.subtitle = {
                     text: buildSubtitle(legend),
                     display: true,
+                    padding: {top: 5, left: 0, right: 0, bottom: 3},
                 };
                 chart.update();
             }

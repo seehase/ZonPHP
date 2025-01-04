@@ -8,7 +8,7 @@ global $params, $colors;
     <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
     <meta name="description" content="PV Anlagen Monitoring">
     <meta name="author" content="seehase">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
 
     <?php
     if ($params['autoReload'] > 0) {
