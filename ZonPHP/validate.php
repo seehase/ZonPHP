@@ -17,7 +17,7 @@ if (isset($_POST['action']) && ($_POST['action'] == "debugEnabled")) {
     <meta name="keywords" content="ZonPHP,Sonne,Zon,sun PV, Photovoltaik, Datenlogger, SMA, Solar, Analyse">
     <meta name="description" content="PV Anlagen Monitoring">
     <meta name="author" content="seehase">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
 
     <title>ZonPHP Parameter Validation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
