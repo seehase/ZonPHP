@@ -525,6 +525,27 @@ function colorsPerInverterJS(): array
     return $myColors;
 }
 
+// Check for empty fields during importing CSV files
+function hasValidValues(array $values, int $index): bool
+{
+    if (count($values) >= (($index + 1) * 2 + 1)) {
+        $date = $values[0];
+        $fieldkWh = $values[($index * 2) + 1];
+        $fieldWatt = $values[($index * 2) + 2];
+        return strlen($date) > 0 && strlen($fieldkWh) > 0 && strlen($fieldWatt) > 0;
+    }
+    return false;
+}
+
+function hasAllValidValues(array $values, int $inverterCount): bool
+{
+    $result = true;
+    for ($i = 0; $i < $inverterCount; $i++) {
+        $result = ($result && hasValidValues($values, $i));
+    }
+    return $result;
+}
+
 function getPhpInfo(): string
 {
     ob_start();

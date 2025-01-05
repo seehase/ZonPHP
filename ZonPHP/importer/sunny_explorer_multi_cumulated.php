@@ -6,10 +6,9 @@ foreach ($params['PLANTS'] as $name => $plant) {
     $lastImportDate = getLastImportDateForPlant($name, $con);
     $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix']);
     $importDateFormat = $plant['importDateFormat'];
-    addDebugInfo("sunny_explorer: LastStartImportDate: $lastImportDate - ImportFilesCount: " . count($files_to_import));
-
+    addDebugInfo("sunny_explorer_multi_cumulated: LastStartImportDate: $lastImportDate - ImportFilesCount: " . count($files_to_import));
     foreach ($files_to_import as $import_filename) {
-        addDebugInfo("sunny_explorer: importFile: $import_filename");
+        addDebugInfo("sunny_explorer_multi_cumulated: importFile: $import_filename");
         $importData = readImportFile($import_filename, 0);
         $dbValues = mapLinesToDBValues($importData, $name, $lastImportDate, $importDateFormat);
         prepareAndInsertData($dbValues, $con);
@@ -22,19 +21,23 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
     $dbValues = array();
     $sumMinkWhCounter = 0.0;
     $lineCounter = 0;
+    $isFirstValueLine = true;
+    $converterCounter = 1;
     foreach ($lines as $line) {
         $lineCounter++;
         if ($lineCounter == 8) {
             $importDateFormat = parseImportDateTimeFormat($line, $importDateFormat);
-        }
-        if ($lineCounter > 8) {
             $lineValues = explode(";", $line);
             // determine how many converters are available
             $valueCount = count($lineValues) -1;
             $converterCounter = intdiv($valueCount , 2);
-            if (count($lineValues) > 2) {
+        }
+        if ($lineCounter > 8) {
+            $lineValues = explode(";", $line);
+            if (hasAllValidValues($lineValues, $converterCounter)) {
                 // first data row get initial $minkWhCounter value from first line
-                if ($lineCounter == 9) {
+                if ( $isFirstValueLine ) {
+                    $isFirstValueLine = false;
                     for ($i = 0; $i < $converterCounter; $i++) {
                         $minkWhCounter = str_replace(',', '.', $lineValues[($i * 2) + 1]);
                         $sumMinkWhCounter += round($minkWhCounter, 3);
@@ -74,7 +77,7 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
             }
         }
     }
-    addDebugInfo("sunny_explorer: mapLinesToDBValues: ImportedLines: " . count($lines) . " - DataRows: " . count($dbValues));
+    addDebugInfo("sunny_explorer_multi_cumulated: mapLinesToDBValues: ImportedLines: " . count($lines) . " - DataRows: " . count($dbValues));
     return $dbValues;
 }
 

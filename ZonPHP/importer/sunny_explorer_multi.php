@@ -14,6 +14,7 @@ foreach ($params['PLANTS'] as $name => $plant) {
         $index = 0;
         foreach ($params['PLANTS'] as $importName => $plant) {
             addDebugInfo("sunny_explorer_multi: importFile: $import_filename -> plant: $importName");
+            $lastImportDate = getLastImportDateForPlant($importName, $con);
             $dbValues = mapLinesToDBValues($importData, $importName, $lastImportDate, $importDateFormat, $index);
             prepareAndInsertData($dbValues, $con);
             $index++;
@@ -27,6 +28,7 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
     $dbValues = array();
     $minkWhCounter = 0.0;
     $lineCounter = 0;
+    $isFirstValueLine = true;
     foreach ($lines as $line) {
         $lineCounter++;
         if ($lineCounter == 8) {
@@ -34,12 +36,15 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
         }
         if ($lineCounter > 8) {
             $lineValues = explode(";", $line);
-            if (count($lineValues) > 4) {
+            // all values are available and not null
+            if (hasValidValues($lineValues, $index)) {
                 // first data row get initial $minkWhCounter value from first line
-                if ($lineCounter == 9) {
+                if ($isFirstValueLine) {
+                    $isFirstValueLine = false;
                     $minkWhCounter = str_replace(',', '.', $lineValues[($index * 2) + 1]);
                 }
                 $dateFromDB = $lineValues[0];
+
                 // convert to UTC if parameter "importLocalDateAsUTC" is set to true otherwise it will remain localDate
                 if ($params['importLocalDateAsUTC']) {
                     $convertedDate = convertLocalDateTime($dateFromDB, $importDateFormat, true); // in UTC now
