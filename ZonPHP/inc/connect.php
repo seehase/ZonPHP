@@ -72,6 +72,9 @@ if (isset($_SESSION['lastupdate']) && ($_SESSION['lastupdate'] + CACHE_TIMEOUT) 
     addDBInfo("------------------------------ table statistics:  ------------------------------");
     dbRowCount($con, "dag");
     dbRowCount($con, "maand");
+    addDBInfo("------------------------------ table index:  ------------------------------");
+    dbCheckIndex($con, "dag");
+    dbCheckIndex($con, "maand");
 }
 
 // clear password, not to be exposed by accident
@@ -102,8 +105,11 @@ function checkOrCreateTables($con): void
 				  Geg_Dag float NOT NULL,
 				  kWh_Dag float NOT NULL,
 				  Naam varchar(21) NOT NULL,
-				  UNIQUE KEY IndexDag (IndexDag)
+				  UNIQUE KEY IndexDag (IndexDag),
+                  INDEX IndexDay_2 (Datum_Dag, Naam)
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+
+    $sql_createIndexDayTable = "ALTER TABLE $tablename_dag ADD UNIQUE IndexDay_2 (Datum_Dag, Naam)";
 
     /****************************************************************************
      * Create table _maand to store aggregated monthly values per inverter
@@ -114,10 +120,13 @@ function checkOrCreateTables($con): void
 				  Datum_Maand datetime NOT NULL,
 				  Geg_Maand float NOT NULL,
 				  Naam varchar(21) NOT NULL,
-				  UNIQUE KEY IndexMaand (IndexMaand)
+				  UNIQUE KEY IndexMaand (IndexMaand),
+                  INDEX IndexMonth_2 (Datum_Maand, Geg_Maand, Naam)
 				) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
+    $sql_createIndexMonthTable = "ALTER TABLE $tablename_maand ADD UNIQUE IndexMonth_2 (Datum_Maand, Geg_Maand, Naam)";
 
+    // Search for day table
     $result = mysqli_query($con, "SHOW TABLES LIKE '$tablename_dag'");
     if ($result->num_rows != 1) {
         if (!mysqli_query($con, $sql_createDayTable)) {
@@ -127,6 +136,7 @@ function checkOrCreateTables($con): void
         }
     }
 
+    // Search for month table
     $result = mysqli_query($con, "SHOW TABLES LIKE '$tablename_maand'");
     if ($result->num_rows != 1) {
         if (!mysqli_query($con, $sql_createMonthTable)) {
@@ -135,6 +145,27 @@ function checkOrCreateTables($con): void
             die();
         }
     }
+
+    // Check index day table
+    $result = mysqli_query($con, "SHOW INDEX FROM $tablename_dag WHERE Key_name = 'IndexDay_2'");
+    if ($result->num_rows != 2) {
+        if (!mysqli_query($con, $sql_createIndexDayTable)) {
+            addCheckMessage("ERROR", "Unable to create index 'IndexDay_2' on table'$tablename_dag'", true);
+            header('location:' . ROOT_DIR . '/validate.php' . mysqli_error($con));
+            die();
+        }
+    }
+
+    // Check index month table
+    $result = mysqli_query($con, "SHOW INDEX FROM $tablename_maand WHERE Key_name = 'IndexMonth_2'");
+    if ($result->num_rows != 3) {
+        if (!mysqli_query($con, $sql_createIndexMonthTable)) {
+            addCheckMessage("ERROR", "Unable to create index 'IndexMonth_2' on table'$tablename_maand'", true);
+            header('location:' . ROOT_DIR . '/validate.php' . mysqli_error($con));
+            die();
+        }
+    }
+
 }
 
 function checkWeewxTables($con_weewx): void
@@ -199,6 +230,19 @@ function dbUnusedTables($con, $tablename): void
     $result = mysqli_query($con, $sql);
     if ($result->num_rows == 1) {
         addDBInfo("Table '$tablename' exists but is not longer used, table can be dropped");
+    }
+}
+
+function dbCheckIndex($con, $tablename): void
+{
+    $tablename = TABLE_PREFIX . "_" . $tablename;
+    $sql = "SHOW INDEX FROM $tablename";
+    if ($result = mysqli_query($con, $sql)) {
+        while ($row = mysqli_fetch_array($result)) {
+            $key_name = $row[2] ?? "";
+            $column_name = $row[4] ?? "";
+            addDBInfo("Table $tablename: Index: $key_name: -> column: $column_name");
+        }
     }
 }
 

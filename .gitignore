@@ -14,3 +14,4 @@
 .DS_Store
 /ZonPHP/parameters_dev.php
 /.vscode/
+/ZonPHP/WR**/

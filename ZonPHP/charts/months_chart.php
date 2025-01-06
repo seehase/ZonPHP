@@ -119,7 +119,7 @@ foreach (PLANT_NAMES as $idxPlants => $inverter_name) {
 
     // collect data for max bars
     for ($i = 1; $i <= 12; $i++) {
-        $cnt_per_month[$i] = 0;
+        $cnt_per_month[$i] = 1;
         if (!isset($maxPerMonth[$i][$inverter_name])) {
             $maxPerMonth[$i][$inverter_name] = 0;
         }
