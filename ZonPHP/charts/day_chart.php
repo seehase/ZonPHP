@@ -32,7 +32,8 @@ $dataZonPHP = array();
 
 $sql = "SELECT SUM( Geg_Dag ) AS gem, naam, Datum_Dag" .
     " FROM " . TABLE_PREFIX . "_dag " .
-    " WHERE Datum_Dag LIKE '" . date("Y-m-d", $chartdate) . "%' " .
+    " WHERE Datum_Dag >= '" . date("Y-m-d", $chartdate) . " 00:00:00' " .
+    " AND Datum_Dag < '" . date("Y-m-d", $chartdate) . " 23:59:00' " .
     " GROUP BY Datum_Dag, naam " .
     " ORDER BY Datum_Dag ASC";
 // todo: filter on active plants with e.g. naam in ("SEEHASE", "TILLY") for safety
@@ -77,8 +78,11 @@ if (mysqli_num_rows($resultmaxdag) > 0) {
 //query for the best day
 $nice_max_date = date("Y-m-d", strtotime($maxdag));
 $allValuesMaxDay = array();
-$sqlmdinv = "SELECT Geg_Dag AS gem, Datum_Dag, Naam FROM " . TABLE_PREFIX . "_dag WHERE Datum_Dag LIKE  '" .
-    date("Y-m-d", strtotime($maxdag)) . "%' ORDER BY Datum_Dag, Naam ASC";
+$sqlmdinv =
+    "SELECT Geg_Dag AS gem, Datum_Dag, Naam FROM " . TABLE_PREFIX . "_dag " .
+    "WHERE Datum_Dag >=  '" . date("Y-m-d", strtotime($maxdag)) . " 00:00:00' " .
+    "AND Datum_Dag <  '" . date("Y-m-d", strtotime($maxdag)) . " 23:59:00' " .
+    "ORDER BY Datum_Dag, Naam ASC";
 $resultmd = mysqli_query($con, $sqlmdinv) or die("Query failed. dag-max-dag " . mysqli_error($con));
 
 if (mysqli_num_rows($resultmd) > 0) {

@@ -34,7 +34,8 @@ $DaysPerMonth = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
 
 $sql = "SELECT Datum_Maand, Geg_Maand, naam
         FROM " . TABLE_PREFIX . "_maand
-        where Datum_Maand like '" . $current_year_month . "%'
+        WHERE Datum_Maand >= '" . $current_year_month . "-01 00:00:00'
+        AND Datum_Maand <= '" . $current_year_month . "-31 23:59:00'
         GROUP BY Naam, Datum_Maand, Geg_Maand
         ORDER BY Naam, Datum_Maand ASC";
 $result = mysqli_query($con, $sql) or die("Query failed. maand " . mysqli_error($con));
