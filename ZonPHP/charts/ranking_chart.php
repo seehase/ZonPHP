@@ -20,7 +20,7 @@ foreach ($types as $tk => $tv) {
     }
 }
 $years = array();
-$sql2 = "SELECT distinct(YEAR(Datum_Maand))as years FROM " . TABLE_PREFIX . "_maand";
+$sql2 = "SELECT distinct(YEAR(Datum_Maand)) as years FROM " . TABLE_PREFIX . "_maand";
 $result = $con->query($sql2);
 while ($row = $result->fetch_row()) {
     $years[] = $row[0];
@@ -65,7 +65,7 @@ $sql = "SELECT db1.*
 FROM " . TABLE_PREFIX . "_maand AS db1
 JOIN (SELECT Datum_Maand, sum(Geg_Maand) as mysum FROM " . TABLE_PREFIX . "_maand $whereInClause  AND MONTH(Datum_Maand) IN ($selectedMonthsString) AND YEAR(Datum_Maand) IN ($selectedYearsString) Group by Datum_Maand ORDER BY mysum $sort LIMIT 0,31) AS db2
 ON db1.Datum_Maand = db2.Datum_Maand $whereInClause order by mysum $sort";
-//echo $sql;
+
 $result = mysqli_query($con, $sql) or die("Query failed. de_top_31_dagen " . mysqli_error($con));
 $datum = "Geen data";
 $adatum = array();
