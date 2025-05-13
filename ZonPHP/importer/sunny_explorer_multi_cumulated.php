@@ -4,7 +4,7 @@ global $con, $params;
 // Loop over all plants and import each plant separately
 foreach ($params['PLANTS'] as $name => $plant) {
     $lastImportDate = getLastImportDateForPlant($name, $con);
-    $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix']);
+    $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix'] . "-");
     $importDateFormat = $plant['importDateFormat'];
     addDebugInfo("sunny_explorer_multi_cumulated: LastStartImportDate: $lastImportDate - ImportFilesCount: " . count($files_to_import));
     foreach ($files_to_import as $import_filename) {

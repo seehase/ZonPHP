@@ -202,11 +202,13 @@ function prepareFarm(&$params, $con): void
 }
 
 
-function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): array
+function getFilesToImport(string $folderName, $lastImportDate, $importPrefix, $datePattern = "Ymd", $fileExtentsion = ".csv"): array
 {
     $directory = ROOT_DIR . "/" . $folderName . '/';
     $files_to_import = array();
-    $num_today = date("Ymd", time());
+    $dateStringLength = strlen(date($datePattern, time()));
+    $filenameStringLength = strlen($importPrefix) + $dateStringLength + strlen($fileExtentsion);
+
     addDebugInfo("getFilesToImport: directory: $directory");
     if (!is_dir($directory)) {
         addDebugInfo("getFilesToImport: directory: $directory does not exist");
@@ -216,27 +218,31 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix): a
     if ($lastImportDate == NODATE) {
         // initial load, no data found in database
         $files = scandir($directory);
-        $mindate = intval($num_today);
+        $oldestImportDate = time();
         foreach ($files as $filename) {
             // find oldest import file
-            if (strlen($filename) == strlen($importPrefix) + 13) {
-                $filedate = intval(substr($filename, strlen($importPrefix) + 1, 8));
-                if ($filedate < $mindate) {
-                    $mindate = $filedate;
+            if (strlen($filename) == $filenameStringLength) {
+                $filenameDateString = substr($filename, strlen($importPrefix), $dateStringLength);
+                $filenameTimeStamp =  DateTime::createFromFormat($datePattern, $filenameDateString) ->getTimestamp();
+
+                if ($filenameTimeStamp < $oldestImportDate) {
+                    $oldestImportDate = $filenameTimeStamp;
                 }
             }
         }
-        $lastImportDate = $mindate . "";
+        $lastImportDate =  date("Y-m-d H:i:s", $oldestImportDate);
         addDebugInfo("getFilesToImport: start on empty DB oldest file in dir: $lastImportDate");
     }
 
     for ($i = 0; $i <= 365; $i++) {
-        $num = (date("Ymd", strtotime("+" . $i . " day", strtotime($lastImportDate))));
-        if ($num > $num_today) {
+        $nextDate =  strtotime("+" . $i . " day", strtotime($lastImportDate));
+        $nextDateString = (date($datePattern, strtotime("+" . $i . " day", strtotime($lastImportDate))));
+
+        if ($nextDate > time()+500) {
             // skip if date is in future
             break;
         }
-        $filename = $directory . $importPrefix . "-" . $num . '.csv';
+        $filename = $directory . $importPrefix . $nextDateString . $fileExtentsion;
         if (file_exists($filename)) {
             $files_to_import[] = $filename;
         }
@@ -312,6 +318,11 @@ function isComment(string $input): bool
 function prepareAndInsertData(array $dbValues, $con): void
 {
     if (count($dbValues) > 0) {
+        // Sort array desc based on timestamp
+        usort($dbValues, function ($first, $second) {
+            return strnatcmp($first['timestamp'], $second['timestamp']);
+        });
+
         $dayValues = "";
         $cummulatedkWh = 0;
         $name = "";
