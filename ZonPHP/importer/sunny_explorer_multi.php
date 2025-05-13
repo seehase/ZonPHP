@@ -4,7 +4,7 @@ global $con, $params;
 // Loop over all plants only one folder should contain the CSV files with values for all converters
 foreach ($params['PLANTS'] as $name => $plant) {
     $lastImportDate = getLastImportDateForPlant($name, $con);
-    $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix']);
+    $files_to_import = getFilesToImport($name, $lastImportDate, $plant['importPrefix'] . "-");
     $importDateFormat = $plant['importDateFormat'];
     addDebugInfo("sunny_explorer_multi: LastStartImportDate: $lastImportDate - ImportFilesCount: " . count($files_to_import));
 
