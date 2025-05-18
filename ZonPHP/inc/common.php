@@ -223,26 +223,31 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix, $d
             // find oldest import file
             if (strlen($filename) == $filenameStringLength) {
                 $filenameDateString = substr($filename, strlen($importPrefix), $dateStringLength);
-                $filenameTimeStamp =  DateTime::createFromFormat($datePattern, $filenameDateString) ->getTimestamp();
+                $filenameTimeStamp = DateTime::createFromFormat($datePattern, $filenameDateString)->getTimestamp();
 
                 if ($filenameTimeStamp < $oldestImportDate) {
                     $oldestImportDate = $filenameTimeStamp;
                 }
             }
         }
-        $lastImportDate =  date("Y-m-d H:i:s", $oldestImportDate);
+        $lastImportDate = date("Y-m-d H:i:s", $oldestImportDate);
         addDebugInfo("getFilesToImport: start on empty DB oldest file in dir: $lastImportDate");
     }
 
-    for ($i = 0; $i <= 365; $i++) {
-        $nextDate =  strtotime("+" . $i . " day", strtotime($lastImportDate));
-        $nextDateString = (date($datePattern, strtotime("+" . $i . " day", strtotime($lastImportDate))));
+    // last import DateTime at midnight
+    $lastDateTimeAtMidnight = new DateTime($lastImportDate);
+    $lastDateTimeAtMidnight->setTime(0, 0, 0);
+    $tomorrow = new DateTime('tomorrow');
 
-        if ($nextDate > time()+500) {
+    for ($i = 0; $i <= 365; $i++) {
+        $nextDayToImport = $lastDateTimeAtMidnight->modify("+" . $i . " day");
+        if ($nextDayToImport > $tomorrow) {
             // skip if date is in future
             break;
         }
-        $filename = $directory . $importPrefix . $nextDateString . $fileExtentsion;
+
+        $nextDayToImportString = date($datePattern, $nextDayToImport->getTimestamp());
+        $filename = $directory . $importPrefix . $nextDayToImportString . $fileExtentsion;
         if (file_exists($filename)) {
             $files_to_import[] = $filename;
         }
