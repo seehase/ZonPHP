@@ -367,6 +367,19 @@ function load_charts() {
                 uri = './images/' + images[key]['uri'];
             }
             let id = "id_image_" + key;
+            let link = '';
+            let newtab = images[key]['newtab'] || false;
+            let haslink = images[key]['link'] && images[key]['link'].length > 0;
+            let showModal = "";
+            if (haslink) {
+                if (images[key]['newtab']) {
+                    newtab = ' target="_blank" rel="noopener noreferrer"';
+                }
+                link = '<a href="' + images[key]['link'] + '"' + newtab + '>';
+            } else {
+                showModal = ' onclick="showModalImage(\'' + id + '\')" ';
+            }
+
             const itemTemplate = '' +
                 '<div class="item h4 w4" data-id="' + id + '">' +
                 '   <div class="item-content card" style="background-color: ' + theme['color_chartbackground'] + ';"> ' +
@@ -374,8 +387,8 @@ function load_charts() {
                 '      <div class="index_chart" id="' + "chart_" + id + '">' +
                 '         <div class="chart-container" >' +
                 '            <br><p>' + images[key]['description'] + '</p> ' +
-                '            <div>' +
-                '               <img class="index-image" id="' + id + '" onclick="showModalImage(\'' + id + '\')" src="' + uri + '" alt="' + images[key]['title'] + '" width="400" height="300"> ' +
+                '            <div>' + link +
+                '               <img class="index-image" id="' + id + '" ' + showModal + ' src="' + uri + '" alt="' + images[key]['title'] + '" width="400" height="300"> ' +
                 '            </div>' +
                 '         </div>' +
                 '     </div>' +
