@@ -331,6 +331,18 @@ function vadidateImages(&$params): void
             } else {
                 $image['uri'] = $params[$imageSection]['uri'];
             }
+            if (!isset($params[$imageSection]['link'])) {
+                addCheckMessage("INFO", "['" . $imageSection . "']['link'] not set in parameter.php, setting default ''");
+                $image['link'] = "";
+            } else {
+                $image['link'] = $params[$imageSection]['link'];
+            }
+            if (!isset($params[$imageSection]['newtab'])) {
+                addCheckMessage("INFO", "['" . $imageSection . "']['newtab'] not set in parameter.php, setting default false");
+                $image['newtab'] = false;
+            } else {
+                $image['newtab'] = $params[$imageSection]['newtab'];
+            }
             $images[] = $image;
         }
         $params['images'] = $images;

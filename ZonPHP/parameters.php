@@ -165,16 +165,25 @@ description = "Sample description<br>Panels: 5040Wq = 21*Trina TSM-240 PC05 Poly
 # [imageID]
 # title = "name" (Card title)
 # description = "description" (additional description shown below picture)
+#   it can contain HTML tags like <br> for linebreaks or hyperlinks e.g.
+#      description = "<a href='https://weewx.seehausen.org'>weewx.seehausen.org</a>"
 # uri = "image.ext" (the image itself, either the name of the file in folder /images)
-#                   (or external URL e.g. "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png") 
+#      or external URL e.g. "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
+# link = "https://..." (optional link to open link when clicking on the image)
+# newtab = true|false (optional, if true the link is opened in a new tab, default is false)
+#
 #######################################################################################################################
 
 [image1]
 title = Inverter
 description = "Inverter + Powermeter"
 uri = image1.jpg
+link =
+newtab =
 
 [image2]
 title = internet
 description = "source: wikipedia"
-uri = https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png
+uri = "https://upload.wikimedia.org/wikipedia/commons/7/71/Sun_Earth_Comparison.png"
+link =
+newtab =
