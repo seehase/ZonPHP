@@ -578,3 +578,27 @@ function getPhpInfo(): string
     $html = preg_replace('/<html.*?>.*?<body.*?>/is', '', $html);
     return preg_replace('/<\/body><\/html>/i', '', $html);
 }
+
+/**
+ * Try to parse dateformat from CSV which is normally written in line 9
+ * dd.MM.yyyy HH:mm:ss;kWh;kW
+ * -->  "d.m.Y H:i:s"
+ */
+function parseImportDateTimeFormat(string $line, string $default): string
+{
+    $parts = explode(";", $line);
+    if (count($parts) > 0) {
+        $format = $parts[0];
+        $format = str_replace("dd", "d", $format);
+        $format = str_replace("MM", "m", $format);
+        $format = str_replace("yyyy", "Y", $format);
+        $format = str_replace("HH", "H", $format);
+        $format = str_replace("mm", "i", $format);
+        $format = str_replace("ss", "s", $format);
+        addDebugInfo("parseImportDateTimeFormat: parsed import format from CSV: $line -> $format");
+        return $format;
+    } else {
+        addDebugInfo("parseImportDateTimeFormat: cannot parse import format from CSV: $line using default: $default override in [plant][importDateFormat] if needed");
+        return $default;
+    }
+}
