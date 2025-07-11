@@ -481,7 +481,13 @@ function convertLocalDateTime(string $dateStr, string $importDateFormat = "Y-m-d
 function convertToUnixTimestamp($datetime): string
 {
     $cleanDate = str_replace('/', '-', $datetime);
-    return strtotime($cleanDate . "");
+    $cleanDate = strtotime($cleanDate . "");
+    if ($cleanDate === false) {
+        addDebugInfo("convertToUnixTimestamp: cannot convert date: $datetime");
+        return "0";
+    } else {
+        return $cleanDate;
+    }
 }
 
 // get min UnixTimeStamp from given date
