@@ -49,14 +49,21 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
                     $totalkWhColumn = 1;
                 }
 
+                if (count($lineValues) < $CurrentWattColumn) {
+                    continue;
+                }
+                $totalkWhCounterFromLine = $lineValues[$totalkWhColumn];
+
+                if ($totalkWhCounterFromLine == null && strlen($totalkWhCounterFromLine) == 0) {
+                    continue;
+                }
+                $currentkWhCounter = str_replace(',', '.', $totalkWhCounterFromLine);
+                if (!is_numeric($currentkWhCounter)) {
+                    continue;
+                }
                 // first data row get initial $minkWhCounter value from first line
-                $currentkWhCounter = str_replace(',', '.', $lineValues[$totalkWhColumn]);
-                if (strlen($currentkWhCounter) > 0 && is_numeric($currentkWhCounter)) {
-                    if ($currentkWhCounter < $minkWhCounter) {
-                        $minkWhCounter = $currentkWhCounter; // set initial minimum kWh counter
-                    }
-                } else {
-                    continue; // skip this line if kWh value is invalid
+                if ($currentkWhCounter < $minkWhCounter) {
+                    $minkWhCounter = $currentkWhCounter; // set initial minimum kWh counter
                 }
 
                 $cummulatedkWh = round($currentkWhCounter - $minkWhCounter, 3);

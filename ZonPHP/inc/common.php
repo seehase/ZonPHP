@@ -240,7 +240,7 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix, $d
     $tomorrow = new DateTime('tomorrow');
 
     for ($i = 0; $i <= 365; $i++) {
-        $nextDayToImport = $lastDateTimeAtMidnight->modify("+" . $i . " day");
+        $nextDayToImport = $lastDateTimeAtMidnight->modify("+1 day");
         if ($nextDayToImport > $tomorrow) {
             // skip if date is in future
             break;
