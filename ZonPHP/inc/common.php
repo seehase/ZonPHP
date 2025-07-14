@@ -238,9 +238,8 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix, $d
     $lastDateTimeAtMidnight = new DateTime($lastImportDate);
     $lastDateTimeAtMidnight->setTime(0, 0, 0);
     $tomorrow = new DateTime('tomorrow');
-
+    $nextDayToImport = $lastDateTimeAtMidnight;
     for ($i = 0; $i <= 365; $i++) {
-        $nextDayToImport = $lastDateTimeAtMidnight->modify("+1 day");
         if ($nextDayToImport > $tomorrow) {
             // skip if date is in future
             break;
@@ -251,6 +250,7 @@ function getFilesToImport(string $folderName, $lastImportDate, $importPrefix, $d
         if (file_exists($filename)) {
             $files_to_import[] = $filename;
         }
+        $nextDayToImport->modify("+1 day");
     }
     addDebugInfo("getFilesToImport: Files to import: " . count($files_to_import));
     return $files_to_import;
