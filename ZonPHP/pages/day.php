@@ -3,6 +3,7 @@ global $locale, $params, $chartdate, $datum, $colors, $nice_max_date;
 include_once "../inc/init.php";
 include_once ROOT_DIR . "/inc/connect.php";
 include_once ROOT_DIR . "/inc/header.php";
+$isIframe = false;
 include_once "../charts/day_chart.php";
 ?>
 

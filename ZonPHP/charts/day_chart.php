@@ -274,6 +274,10 @@ if ($isIndexPage) {
     $show_legende = "false";
     $zoomEnabled = "false";
 }
+if ($isIframe) {
+    $zoomEnabled = "false";
+}
+
 
 // get query parameters
 $paramstr_day = "";
