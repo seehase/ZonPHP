@@ -6,7 +6,9 @@ include_once ROOT_DIR . "/inc/connect.php";
 include_once "chart_support.php";
 
 $inverter_name = "";
-if (isset($_GET['date'])) {
+if ($isIframe) {
+    $chartdate = time();
+} else if (isset($_GET['date'])) {
     $chartdatestring = html_entity_decode($_GET['date']);
     $chartdate = strtotime($chartdatestring);
 } else {
