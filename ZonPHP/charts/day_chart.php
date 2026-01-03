@@ -6,7 +6,7 @@ include_once ROOT_DIR . "/inc/connect.php";
 include_once "chart_support.php";
 
 $inverter_name = "";
-if ($isIframe) {
+if (isset($isIframe) && $isIframe) {
     $chartdate = time();
 } else if (isset($_GET['date'])) {
     $chartdatestring = html_entity_decode($_GET['date']);
@@ -276,7 +276,7 @@ if ($isIndexPage) {
     $show_legende = "false";
     $zoomEnabled = "false";
 }
-if ($isIframe) {
+if (isset($isIframe) && $isIframe) {
     $zoomEnabled = "false";
 }
 
