@@ -20,43 +20,84 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
 {
     global $params;
     $dbValues = array();
-    $minkWhCounter = 0.0;
+    $minkWhCounter = null;
     $lineCounter = 0;
     foreach ($lines as $line) {
         $lineCounter++;
         if ($lineCounter == 8) {
             $importDateFormat = parseImportDateTimeFormat($line, $importDateFormat);
         }
-        if ($lineCounter > 8) {
-            $lineValues = explode(";", $line);
-            if (count($lineValues) > 2) {
-                // first data row get initial $minkWhCounter value from first line
-                if ($lineCounter == 9) {
-                    $minkWhCounter = str_replace(',', '.', $lineValues[1]);
-                }
-                $dateFromDB = $lineValues[0];
-                // convert to UTC if parameter "importLocalDateAsUTC" is set to true otherwise it will remain localDate
-                if ($params['importLocalDateAsUTC']) {
-                    $convertedDate = convertLocalDateTime($dateFromDB, $importDateFormat, true); // in UTC now
-                } else {
-                    $convertedDate = $dateFromDB;  // keep local time
-                }
-                $convertedTimeStamp = convertToUnixTimestamp($convertedDate);
-                $currentTimeStamp = date("Y-m-d H:i:s", $convertedTimeStamp);
-                $currentkWhCounter = str_replace(',', '.', $lineValues[1]);
-                $cummulatedkWh = round($currentkWhCounter - $minkWhCounter, 3);
-                $currentWatt = 0;
-                $currentWattStr = trim(str_replace(',', '.', $lineValues[2]));
-                if (strlen($currentWattStr) > 0 && is_numeric($currentWattStr)) {
-                    $currentWatt = $currentWattStr * 1000;
-                }
-                // insert only new data and value > 0
-                if ($currentWatt > 0 && ($currentTimeStamp != "") && (strtotime($currentTimeStamp) > strtotime($lastImportDate))) {
-                    $dbValues[] = array('name' => $name, 'timestamp' => $currentTimeStamp, 'watt' => $currentWatt, 'cummulatedkWh' => round($cummulatedkWh, 3));
-                }
-            }
+        if ($lineCounter <= 8) {
+            continue;
         }
+
+        $lineValues = explode(";", $line);
+        if (count($lineValues) < 3) {
+            addDebugInfo("sunny_explorer: mapLinesToDBValues: skip line $lineCounter, not enough columns: " . trim($line));
+            continue;
+        }
+
+        $dateFromDB = trim($lineValues[0]);
+        $kWhField = trim(str_replace(',', '.', $lineValues[1]));
+        $wattField = trim(str_replace(',', '.', $lineValues[2]));
+
+        if ($dateFromDB === "" || $kWhField === "" || $wattField === "") {
+            addDebugInfo("sunny_explorer: mapLinesToDBValues: skip line $lineCounter, empty required column");
+            continue;
+        }
+
+        if (!is_numeric($kWhField)) {
+            addDebugInfo("sunny_explorer: mapLinesToDBValues: skip line $lineCounter, invalid kWh value: $kWhField");
+            continue;
+        }
+        if (!is_numeric($wattField)) {
+            addDebugInfo("sunny_explorer: mapLinesToDBValues: skip line $lineCounter, invalid kW value: $wattField");
+            continue;
+        }
+
+        $currentkWhCounter = (float) $kWhField;
+        $currentWatt = (float) $wattField * 1000;
+        if ($minkWhCounter === null) {
+            $minkWhCounter = $currentkWhCounter;
+        }
+
+        if ($params['importLocalDateAsUTC']) {
+            $convertedDate = convertLocalDateTime($dateFromDB, $importDateFormat, true); // in UTC now
+        } else {
+            $convertedDate = $dateFromDB;  // keep local time
+        }
+
+        $convertedTimeStamp = convertToUnixTimestamp($convertedDate);
+        if ($convertedTimeStamp === false || $convertedTimeStamp === null) {
+            addDebugInfo("sunny_explorer: mapLinesToDBValues: skip line $lineCounter, invalid date: $dateFromDB");
+            continue;
+        }
+
+        $currentTimeStamp = date("Y-m-d H:i:s", $convertedTimeStamp);
+        $cummulatedkWh = round($currentkWhCounter - $minkWhCounter, 3);
+
+        if ($currentWatt <= 0) {
+            continue;
+        }
+
+        if ($currentTimeStamp === "") {
+            addDebugInfo("sunny_explorer: mapLinesToDBValues: skip line $lineCounter, timestamp conversion failed");
+            continue;
+        }
+
+        if ($lastImportDate && strtotime($currentTimeStamp) <= strtotime($lastImportDate)) {
+            continue;
+        }
+
+        $dbValues[] = array(
+            'name' => $name,
+            'timestamp' => $currentTimeStamp,
+            'watt' => $currentWatt,
+            'cummulatedkWh' => $cummulatedkWh,
+        );
     }
-    addDebugInfo("sunny_explorer: mapLinesToDBValues: ImportedLines: " . count($lines) . " - DataRows: " . count($dbValues));
+
+    addDebugInfo("sunny_explorer: mapLinesToDBValues: Lines read: " . count($lines) . " - imported DataRows: " . count($dbValues));
+    
     return $dbValues;
 }
