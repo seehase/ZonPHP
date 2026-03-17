@@ -77,7 +77,6 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
         $cummulatedkWh = round($currentkWhCounter - $minkWhCounter, 3);
 
         if ($currentWatt <= 0) {
-            addDebugInfo("sunny_explorer: mapLinesToDBValues: skip line $lineCounter, non-positive watt: $currentWatt");
             continue;
         }
 
@@ -98,6 +97,7 @@ function mapLinesToDBValues(array $lines, string $name, $lastImportDate, $import
         );
     }
 
-    addDebugInfo("sunny_explorer: mapLinesToDBValues: ImportedLines: " . count($lines) . " - DataRows: " . count($dbValues));
+    addDebugInfo("sunny_explorer: mapLinesToDBValues: Lines read: " . count($lines) . " - imported DataRows: " . count($dbValues));
+    
     return $dbValues;
 }
