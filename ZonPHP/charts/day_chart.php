@@ -137,10 +137,13 @@ foreach (PLANT_NAMES as $key => $inverter_name) {
             }
             $cumDataString .= "{x: $timeInMillis, y: $cumSum},";
             $dataSeriesString .= '{x:' . $timeInMillis . ', y: ' . $currentInverterVal . '},';
-            if (!isset($totalsumCumArray[$timeInMillis])) {
-                $totalsumCumArray[$timeInMillis] = 0;
+            // Cast the large number to a string to support 32-bit and 64-bit systems
+            $timeKey = (string)$timeInMillis;
+
+            if (!isset($totalsumCumArray[$timeKey])) {
+                $totalsumCumArray[$timeKey] = 0;
             }
-            $totalsumCumArray[$timeInMillis] += $cumSum;
+            $totalsumCumArray[$timeKey] += $cumSum;
         }
 
         $dataZonPHP[$inverter_name]['totalValue'] = $cumSum;
